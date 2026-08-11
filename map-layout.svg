@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1160" viewBox="0 0 1600 1160" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Ash Harbor — Authoritative Physical Layout</title>
+  <desc id="svg-desc">Strict orthographic top-down technical map of a fictional coastal military-industrial region. North is up, east is right, and one SVG map unit equals ten meters.</desc>
+  <metadata>
+    Source of truth: map-spec.yaml. Map frame: x -7000 to 7000 meters, z -5000 to 5000 meters. Projection: svg_x = 100 + (x + 7000) / 10; svg_y = 80 + (5000 - z) / 10.
+  </metadata>
+  <defs>
+    <clipPath id="map-clip">
+      <rect x="100" y="80" width="1400" height="1000"/>
+    </clipPath>
+    <style>
+      svg { background: #f7f5ef; color: #202529; }
+      text { font-family: Inter, "Arial Narrow", Arial, sans-serif; fill: #202529; }
+      .technical { vector-effect: non-scaling-stroke; }
+      .grid { stroke: #51616a; stroke-width: 1; opacity: 0.16; }
+      .coast { fill: none; stroke: #263c42; stroke-width: 3.2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+      .engineered-coast { fill: none; stroke: #17272b; stroke-width: 5; stroke-linecap: square; vector-effect: non-scaling-stroke; }
+      .region { stroke-width: 2; stroke-dasharray: 9 7; vector-effect: non-scaling-stroke; }
+      .contour { fill: none; stroke: #765f43; stroke-width: 1.4; stroke-dasharray: 5 4; opacity: 0.72; vector-effect: non-scaling-stroke; }
+      .road-casing { fill: none; stroke: #45433e; stroke-width: 7; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+      .road-fill { fill: none; stroke: #f0ede5; stroke-width: 3.6; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+      .road-secondary-casing { fill: none; stroke: #555249; stroke-width: 5.2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+      .road-secondary-fill { fill: none; stroke: #ece8dc; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+      .road-track { fill: none; stroke: #675f4f; stroke-width: 3; stroke-dasharray: 7 5; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+      .facility { fill: #dad8ce; stroke: #333a3d; stroke-width: 1.7; vector-effect: non-scaling-stroke; }
+      .facility-dark { fill: #7a8585; stroke: #263235; stroke-width: 1.7; vector-effect: non-scaling-stroke; }
+      .facility-outline { fill: none; stroke: #5c5450; stroke-width: 1.4; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
+      .facility-water { fill: #bdd7dc; stroke: #31545d; stroke-width: 1.7; vector-effect: non-scaling-stroke; }
+      .region-label { font-size: 17px; font-weight: 700; letter-spacing: 0.3px; paint-order: stroke; stroke: #f7f5ef; stroke-width: 4px; stroke-linejoin: round; }
+      .region-code { font-size: 18px; font-weight: 800; fill: #f7f5ef; text-anchor: middle; dominant-baseline: central; }
+      .sub-label { font-size: 13px; font-weight: 700; paint-order: stroke; stroke: #f7f5ef; stroke-width: 3px; }
+      .feature-label { font-size: 11px; font-weight: 600; paint-order: stroke; stroke: #f7f5ef; stroke-width: 3px; }
+      .micro-label { font-size: 10px; font-weight: 500; paint-order: stroke; stroke: #f7f5ef; stroke-width: 2.5px; }
+      .axis-label { font-size: 10px; fill: #51616a; }
+    </style>
+  </defs>
+
+  <text x="100" y="38" font-size="25" font-weight="800" letter-spacing="0.4">ASH HARBOR</text>
+  <text x="100" y="61" font-size="13" fill="#4d595e">Authoritative physical layout · local Cartesian coordinates · meters</text>
+  <text x="1500" y="38" text-anchor="end" font-size="12" font-weight="700">NORTH UP · EAST RIGHT · 1 SVG UNIT = 10 m</text>
+  <text x="1500" y="60" text-anchor="end" font-size="11" fill="#4d595e">X −7000…+7000 · Z −5000…+5000</text>
+
+  <g id="coordinate-grid" clip-path="url(#map-clip)">
+    <rect x="100" y="80" width="1400" height="1000" fill="#dcebed"/>
+    <path class="grid" d="M300 80V1080 M500 80V1080 M700 80V1080 M900 80V1080 M1100 80V1080 M1300 80V1080"/>
+    <path class="grid" d="M100 280H1500 M100 480H1500 M100 680H1500 M100 880H1500"/>
+  </g>
+
+  <g id="map-content" clip-path="url(#map-clip)">
+    <g id="world-geometry" transform="translate(800 580) scale(0.1 -0.1)">
+      <g id="terrain_mainland">
+        <polygon points="-4400,5000 7000,5000 7000,-3600 6400,-3300 5500,-2900 4300,-3100 3000,-3000 1800,-2800 700,-2500 -500,-2200 -1500,-1800 -2500,-1400 -3500,-700 -4200,0 -4800,800 -5000,1700 -4700,2600 -4200,3000 -3200,2900 -2700,3500 -3000,4200 -3700,4050 -4350,3900 -4800,4150 -4700,4650" fill="#e6deca" stroke="none"/>
+      </g>
+      <g id="terrain_industrial_plateau">
+        <polygon points="-1900,3400 2900,3300 3100,850 -1700,850" fill="#d4cdbd" opacity="0.72" stroke="#9b927f" stroke-width="1.2" class="technical"/>
+      </g>
+      <g id="terrain_radar_ridge">
+        <polygon points="1900,4850 5350,4850 5550,2800 4350,2200 2150,2600" fill="#d9c7a9" opacity="0.78" stroke="#8b704c" stroke-width="1.4" class="technical"/>
+      </g>
+      <g id="surface_beach_sand">
+        <polygon points="3000,-3000 4300,-3100 5500,-2900 6400,-3300 6150,-2870 5450,-2520 4300,-2700 3200,-2600" fill="#ead59e" stroke="#ad8c57" stroke-width="1.2" class="technical"/>
+      </g>
+      <g id="surface_beach_shallows">
+        <polygon points="3000,-3000 4300,-3100 5500,-2900 6400,-3300 7000,-3600 7000,-4300 6350,-4050 5500,-3650 4300,-3800 3000,-3700" fill="#b7dbe0" stroke="#5f969f" stroke-width="1.3" class="technical"/>
+      </g>
+      <g id="terrain_ridge_contours">
+        <polyline id="contour_radar_80m" class="contour" points="2250,4500 3000,4800 4300,4700 5100,4100 5000,3000 4100,2550 2850,2800 2200,3500 2250,4500"/>
+        <polyline id="contour_radar_140m" class="contour" points="2800,4300 3400,4600 4300,4450 4750,3850 4500,3150 3500,2950 2800,3450 2800,4300"/>
+        <polyline id="contour_radar_200m" class="contour" points="3350,4250 3850,4475 4300,4200 4250,3650 3700,3450 3300,3750 3350,4250"/>
+      </g>
+      <g id="surface_dry_wash">
+        <polyline points="2350,750 2700,200 3100,-300 3450,-850 3900,-1350" fill="none" stroke="#9a7550" stroke-width="4" stroke-dasharray="9 7" opacity="0.8" class="technical"/>
+      </g>
+
+      <g id="region-extents">
+        <g id="region_a_harbor_district">
+          <polygon class="region" points="-5800,4550 -2750,4550 -2250,3500 -2850,2450 -4750,2600 -5800,3200" fill="#477f92" fill-opacity="0.10" stroke="#35697c"/>
+        </g>
+        <g id="region_b_storage_district">
+          <polygon class="region" points="-1750,3250 2850,3150 3000,950 -1600,950" fill="#a35d3f" fill-opacity="0.09" stroke="#88462f"/>
+        </g>
+        <g id="subregion_b1_fuel_storage">
+          <polygon class="region" points="-1450,3000 450,3000 600,1250 -1400,1250" fill="#c48a45" fill-opacity="0.10" stroke="#9b672b"/>
+        </g>
+        <g id="subregion_b2_ammunition_storage">
+          <polygon class="region" points="900,2850 2700,2750 2700,1250 900,1250" fill="#a26b5b" fill-opacity="0.10" stroke="#7e4b3e"/>
+        </g>
+        <g id="region_c_radar_hill">
+          <polygon class="region" points="2150,4900 5250,4850 5450,2950 4300,2350 2200,2750" fill="#796b9d" fill-opacity="0.08" stroke="#655689"/>
+        </g>
+        <g id="region_d_convoy_corridor">
+          <polygon class="region" points="1450,1500 3250,900 6600,950 6750,-2500 5450,-2750 3500,-1550 1750,-250" fill="#738154" fill-opacity="0.08" stroke="#5c6a3c"/>
+        </g>
+        <g id="region_e_remote_beachhead">
+          <polygon class="region" points="2750,-2450 4250,-2650 5600,-2450 6750,-3100 6750,-4300 3000,-3950" fill="#bd9148" fill-opacity="0.10" stroke="#936c2c"/>
+        </g>
+        <g id="region_f_blue_offshore_group">
+          <ellipse class="region" cx="-4700" cy="-2900" rx="1500" ry="950" fill="#3a7894" fill-opacity="0.08" stroke="#2c647f"/>
+        </g>
+      </g>
+
+      <g id="facility_harbor_basin">
+        <polygon points="-4550,3820 -3650,3975 -3050,4050 -2800,3500 -3250,3050 -4200,3100" fill="#b9d6da" stroke="#426b73" stroke-width="1.4" class="technical"/>
+      </g>
+      <g id="facility_harbor_exit_channel">
+        <polyline points="-5550,3350 -4800,3425 -4100,3475 -3450,3525" fill="none" stroke="#91c2ca" stroke-width="34" opacity="0.74" class="technical"/>
+        <polyline points="-5550,3350 -4800,3425 -4100,3475 -3450,3525" fill="none" stroke="#315b65" stroke-width="1.5" stroke-dasharray="8 6" class="technical"/>
+      </g>
+
+      <g id="roads">
+        <g id="road_harbor_industrial_link">
+          <polyline class="road-casing" points="-3400,2800 -3000,2850 -2200,2500 -1500,2350 -850,2200"/>
+          <polyline class="road-fill" points="-3400,2800 -3000,2850 -2200,2500 -1500,2350 -850,2200"/>
+        </g>
+        <g id="road_harbor_local_loop">
+          <polyline class="road-secondary-casing" points="-4300,4250 -3650,4400 -3000,4350 -2550,3900 -2500,3200 -2850,2750 -3400,2800 -4000,2700 -4200,2700"/>
+          <polyline class="road-secondary-fill" points="-4300,4250 -3650,4400 -3000,4350 -2550,3900 -2500,3200 -2850,2750 -3400,2800 -4000,2700 -4200,2700"/>
+        </g>
+        <g id="road_fuel_service_loop">
+          <polyline class="road-secondary-casing" points="-1300,2850 300,2850 400,1400 -1250,1400 -1300,2850"/>
+          <polyline class="road-secondary-fill" points="-1300,2850 300,2850 400,1400 -1250,1400 -1300,2850"/>
+        </g>
+        <g id="road_ammunition_access">
+          <polyline class="road-secondary-casing" points="350,1800 900,1950 1500,2100 2250,1950"/>
+          <polyline class="road-secondary-fill" points="350,1800 900,1950 1500,2100 2250,1950"/>
+        </g>
+        <g id="road_ridge_access">
+          <polyline class="road-track" points="500,2750 1300,3150 2100,3500 2850,3700 3600,3800 4200,4050"/>
+        </g>
+        <g id="road_radar_ring">
+          <polyline class="road-track" points="3150,4300 3900,4550 4550,4100 4700,3350 3900,3000 3150,3300 2900,3850 3150,4300"/>
+        </g>
+        <g id="road_eastern_trunk">
+          <polyline class="road-casing" points="350,1450 1300,1000 2200,400 3100,-300 4000,-1100 5000,-1900 6050,-1600"/>
+          <polyline class="road-fill" points="350,1450 1300,1000 2200,400 3100,-300 4000,-1100 5000,-1900 6050,-1600"/>
+        </g>
+        <g id="road_rescue_branch">
+          <polyline class="road-secondary-casing" points="3100,-300 4050,100 5050,450 6300,400"/>
+          <polyline class="road-secondary-fill" points="3100,-300 4050,100 5050,450 6300,400"/>
+        </g>
+        <g id="road_beach_exit">
+          <polyline class="road-track" points="5000,-2820 4800,-2350 4500,-1900 4000,-1100"/>
+        </g>
+      </g>
+
+      <g id="harbor-facilities">
+        <g id="pier_harbor_01">
+          <polygon points="-4140,3900 -3420,4030 -3390,3960 -4110,3830" class="facility-dark"/>
+        </g>
+        <g id="pier_harbor_02">
+          <polygon points="-3100,4030 -2860,3540 -2800,3570 -3040,4060" class="facility-dark"/>
+        </g>
+        <g id="pier_harbor_03">
+          <polygon points="-3360,3000 -3520,3560 -3440,3585 -3280,3020" class="facility-dark"/>
+        </g>
+        <g id="berth_large_01">
+          <line x1="-4140" y1="3860" x2="-3420" y2="3990" stroke="#3e4b4e" stroke-width="9" class="technical"/>
+          <line x1="-4140" y1="3860" x2="-3420" y2="3990" stroke="#d5d4c9" stroke-width="4" class="technical"/>
+        </g>
+        <g id="berth_large_02">
+          <line x1="-3040" y1="4020" x2="-2830" y2="3540" stroke="#3e4b4e" stroke-width="9" class="technical"/>
+          <line x1="-3040" y1="4020" x2="-2830" y2="3540" stroke="#d5d4c9" stroke-width="4" class="technical"/>
+        </g>
+        <g id="berth_large_03">
+          <line x1="-3300" y1="3010" x2="-3460" y2="3560" stroke="#3e4b4e" stroke-width="9" class="technical"/>
+          <line x1="-3300" y1="3010" x2="-3460" y2="3560" stroke="#d5d4c9" stroke-width="4" class="technical"/>
+        </g>
+        <g id="berth_support_01">
+          <line x1="-4080" y1="3070" x2="-3950" y2="3430" stroke="#485659" stroke-width="6" class="technical"/>
+        </g>
+        <g id="berth_support_02">
+          <line x1="-3740" y1="3020" x2="-3650" y2="3370" stroke="#485659" stroke-width="6" class="technical"/>
+        </g>
+        <g id="warehouse_harbor_01" transform="rotate(-8 -3650 4330)">
+          <rect x="-3960" y="4220" width="620" height="220" class="facility"/>
+        </g>
+        <g id="warehouse_harbor_02" transform="rotate(4 -2850 2790)">
+          <rect x="-3110" y="2685" width="520" height="210" class="facility"/>
+        </g>
+        <g id="crane_cluster_harbor" fill="#4b5b5f" stroke="#263235" stroke-width="1.3" class="technical">
+          <path d="M-3950 4150h100M-3900 4100v100 M-3550 4200h100M-3500 4150v100 M-2600 3850h100M-2550 3800v100 M-3450 2800h100M-3400 2750v100"/>
+        </g>
+        <g id="harbor_defense_emplacement">
+          <circle cx="-4200" cy="2700" r="95" class="facility-dark"/>
+          <path d="M-4265 2700h130M-4200 2635v130" fill="none" stroke="#f2efe7" stroke-width="2" class="technical"/>
+        </g>
+      </g>
+
+      <g id="fuel-storage-facilities">
+        <g id="fuel_containment_yard">
+          <polygon points="-1350,2920 350,2920 450,1350 -1300,1350" fill="#c9b793" fill-opacity="0.48" stroke="#74644d" stroke-width="1.6" class="technical"/>
+        </g>
+        <g id="fuel_tank_cluster" fill="#d9d4c6" stroke="#5c5448" stroke-width="1.5" class="technical">
+          <circle id="fuel_tank_01" cx="-1050" cy="2550" r="120"/>
+          <circle id="fuel_tank_02" cx="-550" cy="2550" r="110"/>
+          <circle id="fuel_tank_03" cx="-50" cy="2550" r="125"/>
+          <circle id="fuel_tank_04" cx="-1050" cy="2050" r="105"/>
+          <circle id="fuel_tank_05" cx="-550" cy="2050" r="120"/>
+          <circle id="fuel_tank_06" cx="-50" cy="2050" r="105"/>
+          <circle id="fuel_tank_07" cx="-850" cy="1575" r="95"/>
+          <circle id="fuel_tank_08" cx="-250" cy="1575" r="95"/>
+        </g>
+        <g id="fuel_pipe_grid" fill="none" stroke="#935f35" stroke-width="1.8" class="technical">
+          <polyline points="-1200,2300 100,2300 300,1800"/>
+          <line x1="-800" y1="2700" x2="-800" y2="1450"/>
+          <line x1="-300" y1="2700" x2="-300" y2="1450"/>
+        </g>
+        <g id="fuel_pump_transfer_yard">
+          <rect x="100" y="1625" width="260" height="190" class="facility-dark"/>
+        </g>
+        <g id="fuel_utility_cluster" fill="#707a79" stroke="#344143" stroke-width="1.3" class="technical">
+          <rect x="-1300" y="1600" width="100" height="100"/>
+          <rect x="-1230" y="2750" width="100" height="100"/>
+          <rect x="200" y="2750" width="100" height="100"/>
+        </g>
+      </g>
+
+      <g id="ammunition-storage-facilities">
+        <g id="ammunition_compound">
+          <polygon points="1050,2700 2550,2650 2580,1380 1080,1380" fill="#bda99d" fill-opacity="0.4" stroke="#6d554c" stroke-width="1.7" stroke-dasharray="6 4" class="technical"/>
+        </g>
+        <g id="ammunition_bunker_cluster">
+          <g id="ammo_bunker_01"><rect x="1120" y="2250" width="360" height="200" rx="55" class="facility-outline"/><rect x="1175" y="2302" width="250" height="95" class="facility-dark"/></g>
+          <g id="ammo_bunker_02"><rect x="1620" y="2250" width="360" height="200" rx="55" class="facility-outline"/><rect x="1675" y="2302" width="250" height="95" class="facility-dark"/></g>
+          <g id="ammo_bunker_03"><rect x="2120" y="2250" width="360" height="200" rx="55" class="facility-outline"/><rect x="2175" y="2302" width="250" height="95" class="facility-dark"/></g>
+          <g id="ammo_bunker_04"><rect x="1120" y="1700" width="360" height="200" rx="55" class="facility-outline"/><rect x="1175" y="1752" width="250" height="95" class="facility-dark"/></g>
+          <g id="ammo_bunker_05"><rect x="1620" y="1700" width="360" height="200" rx="55" class="facility-outline"/><rect x="1675" y="1752" width="250" height="95" class="facility-dark"/></g>
+          <g id="ammo_bunker_06"><rect x="2120" y="1700" width="360" height="200" rx="55" class="facility-outline"/><rect x="2175" y="1752" width="250" height="95" class="facility-dark"/></g>
+        </g>
+        <g id="ammunition_loading_yard">
+          <rect x="1420" y="1335" width="760" height="230" class="facility"/>
+        </g>
+      </g>
+
+      <g id="radar-and-air-defense-facilities">
+        <g id="radar_search_site">
+          <circle cx="3550" cy="4150" r="220" fill="#d8d1bd" stroke="#40365a" stroke-width="2.2" class="technical"/>
+          <circle cx="3550" cy="4150" r="70" class="facility-dark"/>
+          <path d="M3550 4080V4220M3480 4150H3620" stroke="#f4f0e7" stroke-width="2" class="technical"/>
+        </g>
+        <g id="radar_tracking_site">
+          <circle cx="4325" cy="4000" r="150" fill="#d8d1bd" stroke="#40365a" stroke-width="2" class="technical"/>
+          <circle cx="4325" cy="4000" r="48" class="facility-dark"/>
+        </g>
+        <g id="sam_battery_area">
+          <polygon points="2850,3500 3500,3650 3825,3150 3350,2850 2800,3050" fill="#8d83a8" fill-opacity="0.18" stroke="#51456c" stroke-width="1.7" stroke-dasharray="6 4" class="technical"/>
+          <circle cx="3050" cy="3375" r="70" class="facility-outline"/>
+          <circle cx="3425" cy="3450" r="70" class="facility-outline"/>
+          <circle cx="3550" cy="3150" r="70" class="facility-outline"/>
+          <circle cx="3200" cy="3025" r="70" class="facility-outline"/>
+        </g>
+        <g id="aaa_defense_area">
+          <circle cx="4625" cy="3300" r="130" fill="#8d83a8" fill-opacity="0.22" stroke="#51456c" stroke-width="1.8" class="technical"/>
+          <path d="M4555 3300h140M4625 3230v140" stroke="#51456c" stroke-width="1.6" class="technical"/>
+        </g>
+        <g id="radar_support_bunkers" fill="#6f7470" stroke="#333b3b" stroke-width="1.4" class="technical">
+          <rect x="3865" y="3490" width="170" height="120"/>
+          <rect x="4115" y="3440" width="170" height="120"/>
+          <rect x="3740" y="3265" width="170" height="120"/>
+        </g>
+        <g id="communications_mast" fill="none" stroke="#343741" stroke-width="2" class="technical">
+          <path d="M3850 4470V4630M3790 4470L3850 4630L3910 4470Z"/>
+          <circle cx="3850" cy="4550" r="22" fill="#343741"/>
+        </g>
+      </g>
+
+      <g id="corridor-facilities">
+        <g id="dry_wash_bridge" transform="rotate(-38 3100 -300)">
+          <rect x="3027.5" y="-317" width="145" height="34" fill="#f0ede5" stroke="#343633" stroke-width="2.2" class="technical"/>
+        </g>
+        <g id="corridor_inland_junction">
+          <circle cx="4000" cy="-1100" r="70" fill="#f0ede5" stroke="#3f433f" stroke-width="2" class="technical"/>
+        </g>
+        <g id="corridor_pull_off_west" transform="rotate(-40 4450 -1420)">
+          <rect x="4235" y="-1495" width="430" height="150" class="facility"/>
+        </g>
+        <g id="corridor_pull_off_east" transform="rotate(15 5450 -1750)">
+          <rect x="5200" y="-1835" width="500" height="170" class="facility"/>
+        </g>
+        <g id="corridor_service_yard">
+          <rect x="5425" y="70" width="650" height="360" class="facility"/>
+        </g>
+      </g>
+
+      <g id="beachhead-facilities">
+        <g id="beach_landing_strand">
+          <polygon points="3400,-2990 4300,-3070 5400,-2910 5900,-3100 5650,-2700 4450,-2780 3550,-2700" fill="#f0dca7" fill-opacity="0.68" stroke="#9d7b43" stroke-width="1.5" class="technical"/>
+        </g>
+        <g id="beach_dune_belts" fill="none" stroke="#aa8953" stroke-width="2" stroke-dasharray="10 5" class="technical">
+          <polyline points="3300,-2520 4200,-2620 5150,-2450 5950,-2780"/>
+          <polyline points="3550,-2350 4400,-2450 5250,-2300 5750,-2520"/>
+        </g>
+        <g id="beach_exit_apron" transform="rotate(10 5000 -2780)">
+          <rect x="4675" y="-2940" width="650" height="320" fill="#d1bd90" stroke="#7f6846" stroke-width="1.7" stroke-dasharray="6 4" class="technical"/>
+        </g>
+        <g id="beach_defensive_remains" fill="#6d6d66" stroke="#343837" stroke-width="1.4" class="technical">
+          <rect x="3495" y="-2720" width="110" height="80"/>
+          <rect x="5945" y="-2960" width="110" height="80"/>
+        </g>
+      </g>
+
+      <g id="naval_blue_offshore_reserve">
+        <ellipse cx="-4700" cy="-2900" rx="1500" ry="950" fill="none" stroke="#2f6a84" stroke-width="2.1" stroke-dasharray="10 7" class="technical"/>
+        <g id="naval-reference-anchors" fill="none" stroke="#477f94" stroke-width="1.6" class="technical">
+          <ellipse id="naval_anchor_large_hull" cx="-4900" cy="-2850" rx="420" ry="160"/>
+          <ellipse id="naval_anchor_escort_west" cx="-5550" cy="-3250" rx="260" ry="95"/>
+          <ellipse id="naval_anchor_escort_east" cx="-3900" cy="-2500" rx="260" ry="95"/>
+        </g>
+      </g>
+
+      <g id="shorelines">
+        <polyline id="shoreline_mainland" class="coast" points="-4400,5000 -4700,4650 -4800,4150 -4350,3900 -3700,4050 -3000,4200 -2700,3500 -3200,2900 -4200,3000 -4700,2600 -5000,1700 -4800,800 -4200,0 -3500,-700 -2500,-1400 -1500,-1800 -500,-2200 700,-2500 1800,-2800 3000,-3000 4300,-3100 5500,-2900 6400,-3300 7000,-3600"/>
+        <polyline id="shoreline_harbor_engineered_north" class="engineered-coast" points="-4350,3900 -3700,4050 -3000,4200"/>
+        <polyline id="shoreline_harbor_engineered_south" class="engineered-coast" points="-2700,3500 -3200,2900 -4200,3000"/>
+        <polyline id="shoreline_remote_beach" fill="none" stroke="#9d7b43" stroke-width="4.5" stroke-linecap="round" class="technical" points="3000,-3000 4300,-3100 5500,-2900 6400,-3300"/>
+      </g>
+    </g>
+
+    <g id="map-labels">
+      <g transform="translate(300 143)"><circle r="15" fill="#35697c"/><text class="region-code" y="1">A</text></g>
+      <text class="region-label" x="322" y="149">Harbor District</text>
+      <text class="feature-label" x="325" y="218">3 large berths · 2 support berths</text>
+      <text class="micro-label" x="249" y="255">Navigable exit channel</text>
+
+      <g transform="translate(630 300)"><circle r="15" fill="#88462f"/><text class="region-code" y="1">B</text></g>
+      <text class="region-label" x="652" y="306">Fuel + Ammunition Storage</text>
+      <text class="sub-label" x="660" y="342">B1 · FUEL</text>
+      <text class="sub-label" x="940" y="342">B2 · AMMUNITION</text>
+      <text class="micro-label" x="783" y="475">Firebreak / service separation</text>
+
+      <g transform="translate(1070 107)"><circle r="15" fill="#655689"/><text class="region-code" y="1">C</text></g>
+      <text class="region-label" x="1092" y="113">Radar Hill / Air Defense</text>
+      <text class="feature-label" x="1110" y="155">Elevated ridge · 90–220 m</text>
+      <text class="micro-label" x="1113" y="193">Search radar</text>
+      <text class="micro-label" x="1195" y="211">Tracking radar</text>
+      <text class="micro-label" x="1265" y="270">AAA</text>
+      <text class="micro-label" x="1080" y="278">SAM area</text>
+      <text class="micro-label" x="1040" y="150">200 m</text>
+      <text class="micro-label" x="1000" y="195">140 m</text>
+      <text class="micro-label" x="975" y="245">80 m</text>
+
+      <g transform="translate(1200 515)"><circle r="15" fill="#5c6a3c"/><text class="region-code" y="1">D</text></g>
+      <text class="region-label" x="1222" y="521">Convoy + Rescue Corridor</text>
+      <text class="feature-label" x="1190" y="584">Principal road · branch · pull-offs</text>
+      <text class="micro-label" x="1095" y="608">Dry-wash bridge</text>
+
+      <g transform="translate(1240 842)"><circle r="15" fill="#936c2c"/><text class="region-code" y="1">E</text></g>
+      <text class="region-label" x="1262" y="848">Remote Beachhead</text>
+      <text class="feature-label" x="1190" y="884">Broad strand · dunes · shallows</text>
+      <text class="micro-label" x="1220" y="950">Beach exit apron</text>
+
+      <g transform="translate(250 810)"><circle r="15" fill="#2c647f"/><text class="region-code" y="1">F</text></g>
+      <text class="region-label" x="272" y="816">Blue Offshore Naval Group</text>
+      <text class="feature-label" x="285" y="850">Reserved open-water formation area</text>
+    </g>
+  </g>
+
+  <g id="axis-annotations">
+    <text class="axis-label" x="100" y="75" text-anchor="middle">−7 km</text>
+    <text class="axis-label" x="300" y="75" text-anchor="middle">−5</text>
+    <text class="axis-label" x="500" y="75" text-anchor="middle">−3</text>
+    <text class="axis-label" x="700" y="75" text-anchor="middle">−1</text>
+    <text class="axis-label" x="900" y="75" text-anchor="middle">+1</text>
+    <text class="axis-label" x="1100" y="75" text-anchor="middle">+3</text>
+    <text class="axis-label" x="1300" y="75" text-anchor="middle">+5</text>
+    <text class="axis-label" x="1500" y="75" text-anchor="middle">+7 km X</text>
+    <text class="axis-label" x="94" y="84" text-anchor="end">+5 km Z</text>
+    <text class="axis-label" x="94" y="284" text-anchor="end">+3</text>
+    <text class="axis-label" x="94" y="484" text-anchor="end">+1</text>
+    <text class="axis-label" x="94" y="684" text-anchor="end">−1</text>
+    <text class="axis-label" x="94" y="884" text-anchor="end">−3</text>
+    <text class="axis-label" x="94" y="1080" text-anchor="end">−5 km</text>
+  </g>
+
+  <rect id="map_boundary" x="100" y="80" width="1400" height="1000" fill="none" stroke="#202529" stroke-width="2.5"/>
+
+  <g id="north-arrow" transform="translate(142 128)">
+    <text x="0" y="-20" text-anchor="middle" font-size="15" font-weight="800">N</text>
+    <path d="M0 -12L-9 12L0 7L9 12Z" fill="#202529"/>
+    <line x1="0" y1="7" x2="0" y2="34" stroke="#202529" stroke-width="2"/>
+  </g>
+
+  <g id="legend" transform="translate(100 1104)">
+    <text x="0" y="0" font-size="11" font-weight="800">SURFACES</text>
+    <rect x="75" y="-11" width="20" height="12" fill="#dcebed" stroke="#60757c"/>
+    <text x="101" y="0" font-size="10">open water</text>
+    <rect x="178" y="-11" width="20" height="12" fill="#e6deca" stroke="#8b826f"/>
+    <text x="204" y="0" font-size="10">dry land</text>
+    <rect x="270" y="-11" width="20" height="12" fill="#d9c7a9" stroke="#8b704c"/>
+    <text x="296" y="0" font-size="10">high ground</text>
+    <rect x="385" y="-11" width="20" height="12" fill="#ead59e" stroke="#ad8c57"/>
+    <text x="411" y="0" font-size="10">sand</text>
+    <rect x="459" y="-11" width="20" height="12" fill="#b7dbe0" stroke="#5f969f"/>
+    <text x="485" y="0" font-size="10">shallows</text>
+    <line x1="558" y1="-5" x2="600" y2="-5" stroke="#45433e" stroke-width="7"/>
+    <line x1="558" y1="-5" x2="600" y2="-5" stroke="#f0ede5" stroke-width="3.5"/>
+    <text x="608" y="0" font-size="10">principal road</text>
+    <rect x="0" y="16" width="14" height="10" fill="#dad8ce" stroke="#333a3d"/>
+    <text x="20" y="25" font-size="10">facility footprint</text>
+    <line x1="128" y1="21" x2="170" y2="21" stroke="#765f43" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="178" y="25" font-size="10">elevation contour</text>
+    <line x1="292" y1="21" x2="334" y2="21" stroke="#35697c" stroke-width="2" stroke-dasharray="9 7"/>
+    <text x="342" y="25" font-size="10">region extent</text>
+    <text x="477" y="25" font-size="10" fill="#59656a">Region fills are diagrammatic; YAML geometry is authoritative.</text>
+  </g>
+
+  <g id="scale-bar" transform="translate(1180 1115)">
+    <text x="100" y="-16" text-anchor="middle" font-size="11" font-weight="800">SCALE</text>
+    <rect x="0" y="0" width="100" height="14" fill="#202529"/>
+    <rect x="100" y="0" width="100" height="14" fill="#f7f5ef" stroke="#202529"/>
+    <line x1="0" y1="0" x2="0" y2="20" stroke="#202529"/>
+    <line x1="100" y1="0" x2="100" y2="20" stroke="#202529"/>
+    <line x1="200" y1="0" x2="200" y2="20" stroke="#202529"/>
+    <text x="0" y="33" text-anchor="middle" font-size="10">0</text>
+    <text x="100" y="33" text-anchor="middle" font-size="10">1</text>
+    <text x="200" y="33" text-anchor="middle" font-size="10">2 km</text>
+  </g>
+</svg>

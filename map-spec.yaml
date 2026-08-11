@@ -1,0 +1,962 @@
+schema_version: '1.0.0'
+
+metadata:
+  map_id: ash_harbor
+  display_name: Ash Harbor
+  subtitle: Coastal military-industrial region layout
+  purpose: Authoritative physical-world specification for a future 3D battlefield diorama
+  scope: Terrain, shoreline, roads, facilities, and reserved naval water only
+  visual_reference_period: Late Cold War to early 1990s
+  fictional_location: true
+  visible_human_characters_required: false
+  description: >-
+    A dry mainland coast wrapped around a compact northwestern naval basin, with
+    a separated industrial plateau, a fortified northeastern ridge, an eastern
+    road corridor, a remote southeastern landing beach, and open southwestern sea.
+
+coordinate_system:
+  type: local_cartesian
+  units: meters
+  origin: [0, 0, 0]
+  axes:
+    x_positive: east
+    y_positive: up
+    z_positive: north
+  diagram_orientation:
+    north: up
+    east: right
+    projection: strict_orthographic_top_down
+    equal_scale: true
+  svg_mapping:
+    map_frame_origin_svg: [100, 80]
+    map_frame_size_svg: [1400, 1000]
+    meters_per_svg_unit: 10
+    world_to_svg_x: '100 + (x + 7000) / 10'
+    world_to_svg_y: '80 + (5000 - z) / 10'
+
+map_bounds:
+  id: map_boundary
+  x_min: -7000
+  x_max: 7000
+  y_reference: 0
+  z_min: -5000
+  z_max: 5000
+  size_m: [14000, 10000]
+  boundary_polygon_xz:
+    - [-7000, 5000]
+    - [7000, 5000]
+    - [7000, -5000]
+    - [-7000, -5000]
+
+environment:
+  geography: coastal_mainland_with_peninsula
+  climate: dry_semi_arid
+  water_character: exposed_coastal_sea_with_sheltered_harbor_basin
+  terrain_palette:
+    - dry_soil
+    - rocky_scrub
+    - industrial_pavement
+    - compacted_gravel
+    - beach_sand
+    - shallow_coastal_water
+    - open_water
+  vegetation:
+    density: sparse
+    dominant_cover: low_scrub_and_dry_grass
+    dense_forest_allowed: false
+    tropical_character_allowed: false
+  built_character:
+    harbor: dense_military_port
+    industrial: dispersed_hardened_storage
+    inland: sparse_service_infrastructure
+    beach: minimally_developed
+
+terrain:
+  surface_precedence:
+    - terrain_open_water_base
+    - terrain_mainland
+    - land_overlays_clipped_to_terrain_mainland
+    - water_overlays_clipped_to_terrain_open_water_base
+  overlap_policy: >-
+    Elevation and land-surface zones are descriptive overlays and must be clipped
+    to terrain_mainland. Water overlays must be clipped to the open-water portion
+    remaining outside terrain_mainland.
+  base_surface:
+    id: terrain_open_water_base
+    type: open_water
+    elevation_m: 0
+  landmasses:
+    - id: terrain_mainland
+      type: mainland_and_coastal_peninsula
+      elevation_range_m: [2, 220]
+      polygon_xz:
+        - [-4400, 5000]
+        - [7000, 5000]
+        - [7000, -3600]
+        - [6400, -3300]
+        - [5500, -2900]
+        - [4300, -3100]
+        - [3000, -3000]
+        - [1800, -2800]
+        - [700, -2500]
+        - [-500, -2200]
+        - [-1500, -1800]
+        - [-2500, -1400]
+        - [-3500, -700]
+        - [-4200, 0]
+        - [-4800, 800]
+        - [-5000, 1700]
+        - [-4700, 2600]
+        - [-4200, 3000]
+        - [-3200, 2900]
+        - [-2700, 3500]
+        - [-3000, 4200]
+        - [-3700, 4050]
+        - [-4350, 3900]
+        - [-4800, 4150]
+        - [-4700, 4650]
+  elevation_zones:
+    - id: terrain_harbor_lowland
+      name: Harbor lowland
+      elevation_range_m: [3, 18]
+      surface: pavement_gravel_and_rock_fill
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [-4700, 4550]
+        - [-2600, 4550]
+        - [-2100, 2500]
+        - [-4700, 2500]
+    - id: terrain_industrial_plateau
+      name: Industrial plateau
+      elevation_range_m: [22, 46]
+      surface: compacted_soil_and_pavement
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [-1900, 3400]
+        - [2900, 3300]
+        - [3100, 850]
+        - [-1700, 850]
+    - id: terrain_radar_ridge
+      name: Radar ridge
+      elevation_range_m: [90, 220]
+      surface: exposed_rock_and_sparse_scrub
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [1900, 4850]
+        - [5350, 4850]
+        - [5550, 2800]
+        - [4350, 2200]
+        - [2150, 2600]
+    - id: terrain_eastern_plain
+      name: Eastern dry plain
+      elevation_range_m: [28, 82]
+      surface: dry_soil_gravel_and_scrub
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [800, 2700]
+        - [7000, 2750]
+        - [7000, -2500]
+        - [5400, -2600]
+        - [2500, -1500]
+        - [900, 0]
+    - id: terrain_beach_dunes
+      name: Beach and low dunes
+      elevation_range_m: [2, 24]
+      surface: sand_and_sparse_coastal_scrub
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [2900, -3000]
+        - [4300, -3100]
+        - [5500, -2900]
+        - [6500, -3350]
+        - [6200, -2750]
+        - [5450, -2450]
+        - [4250, -2600]
+        - [3200, -2500]
+  surface_zones:
+    - id: surface_harbor_pavement
+      type: industrial_pavement
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [-4450, 4450]
+        - [-2850, 4450]
+        - [-2350, 2550]
+        - [-4550, 2550]
+    - id: surface_storage_hardstand
+      type: pavement_and_compacted_gravel
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [-1550, 3150]
+        - [2750, 3000]
+        - [2800, 1050]
+        - [-1450, 1050]
+    - id: surface_beach_sand
+      type: broad_dry_sand
+      clip_to_landmass_id: terrain_mainland
+      polygon_xz:
+        - [3000, -3000]
+        - [4300, -3100]
+        - [5500, -2900]
+        - [6400, -3300]
+        - [6150, -2870]
+        - [5450, -2520]
+        - [4300, -2700]
+        - [3200, -2600]
+    - id: surface_beach_shallows
+      type: shallow_nearshore_water
+      depth_range_m: [0, 4]
+      clip_to_water_surface_id: terrain_open_water_base
+      subtract_landmass_id: terrain_mainland
+      polygon_xz:
+        - [3000, -3000]
+        - [4300, -3100]
+        - [5500, -2900]
+        - [6400, -3300]
+        - [7000, -3600]
+        - [7000, -4300]
+        - [6350, -4050]
+        - [5500, -3650]
+        - [4300, -3800]
+        - [3000, -3700]
+    - id: surface_dry_wash
+      type: shallow_rocky_drainage
+      nominal_width_m: 120
+      centerline_xz:
+        - [2350, 750]
+        - [2700, 200]
+        - [3100, -300]
+        - [3450, -850]
+        - [3900, -1350]
+  contour_references:
+    - id: contour_radar_80m
+      elevation_m: 80
+      closed_polyline_xz:
+        - [2250, 4500]
+        - [3000, 4800]
+        - [4300, 4700]
+        - [5100, 4100]
+        - [5000, 3000]
+        - [4100, 2550]
+        - [2850, 2800]
+        - [2200, 3500]
+        - [2250, 4500]
+    - id: contour_radar_140m
+      elevation_m: 140
+      closed_polyline_xz:
+        - [2800, 4300]
+        - [3400, 4600]
+        - [4300, 4450]
+        - [4750, 3850]
+        - [4500, 3150]
+        - [3500, 2950]
+        - [2800, 3450]
+        - [2800, 4300]
+    - id: contour_radar_200m
+      elevation_m: 200
+      closed_polyline_xz:
+        - [3350, 4250]
+        - [3850, 4475]
+        - [4300, 4200]
+        - [4250, 3650]
+        - [3700, 3450]
+        - [3300, 3750]
+        - [3350, 4250]
+
+regions:
+  - id: region_a_harbor_district
+    diagram_label: A
+    name: Harbor District
+    centroid_xz: [-4050, 3500]
+    elevation_range_m: [0, 18]
+    description: Compact military harbor occupying an inward-curving northwestern bay.
+    boundary_polygon_xz:
+      - [-5800, 4550]
+      - [-2750, 4550]
+      - [-2250, 3500]
+      - [-2850, 2450]
+      - [-4750, 2600]
+      - [-5800, 3200]
+    physical_anchors:
+      - harbor_basin
+      - three_large_ship_berths
+      - two_support_berths
+      - three_explicit_pier_structures
+      - port_warehouses_and_cranes
+      - local_port_road_loop
+      - harbor_defense_emplacement
+      - open_water_exit_channel
+  - id: region_b_storage_district
+    diagram_label: B
+    name: Fuel and Ammunition Storage District
+    centroid_xz: [550, 2150]
+    elevation_range_m: [22, 46]
+    description: Two adjacent but visibly separated hardened storage compounds on the central plateau.
+    boundary_polygon_xz:
+      - [-1750, 3250]
+      - [2850, 3150]
+      - [3000, 950]
+      - [-1600, 950]
+    subregions:
+      - id: subregion_b1_fuel_storage
+        diagram_label: B1
+        name: Fuel Storage Area
+        centroid_xz: [-550, 2200]
+        boundary_polygon_xz:
+          - [-1450, 3000]
+          - [450, 3000]
+          - [600, 1250]
+          - [-1400, 1250]
+        separation_character: open_firebreak_and_service_road
+      - id: subregion_b2_ammunition_storage
+        diagram_label: B2
+        name: Ammunition Storage Area
+        centroid_xz: [1850, 2050]
+        boundary_polygon_xz:
+          - [900, 2850]
+          - [2700, 2750]
+          - [2700, 1250]
+          - [900, 1250]
+        separation_character: bermed_compound_with_protective_spacing
+    physical_anchors:
+      - tank_farm_and_pipe_grid
+      - pump_and_transfer_yard
+      - separated_bermed_bunker_compound
+      - loading_and_logistics_hardstand
+  - id: region_c_radar_hill
+    diagram_label: C
+    name: Radar Hill / Air Defense High Ground
+    centroid_xz: [3800, 3800]
+    elevation_range_m: [90, 220]
+    description: Rocky northeastern ridgeline with search, tracking, and layered air-defense sites.
+    boundary_polygon_xz:
+      - [2150, 4900]
+      - [5250, 4850]
+      - [5450, 2950]
+      - [4300, 2350]
+      - [2200, 2750]
+    physical_anchors:
+      - major_search_radar
+      - tracking_radar
+      - sam_battery_area
+      - aaa_emplacement
+      - support_bunkers
+      - communications_mast
+      - ridge_access_road
+  - id: region_d_convoy_corridor
+    diagram_label: D
+    name: Convoy and Rescue Corridor
+    centroid_xz: [4300, -500]
+    elevation_range_m: [18, 72]
+    description: Broad eastern road corridor with branches, a dry-wash bridge, junction, and pull-offs.
+    boundary_polygon_xz:
+      - [1450, 1500]
+      - [3250, 900]
+      - [6600, 950]
+      - [6750, -2500]
+      - [5450, -2750]
+      - [3500, -1550]
+      - [1750, -250]
+    physical_anchors:
+      - eastern_trunk_road
+      - rescue_branch_route
+      - dry_wash_bridge_chokepoint
+      - inland_junction
+      - roadside_pull_offs
+  - id: region_e_remote_beachhead
+    diagram_label: E
+    name: Remote Beachhead
+    centroid_xz: [4900, -3250]
+    elevation_range_m: [-4, 24]
+    description: Broad, minimally developed southeastern beach with shallows, dunes, and an inland exit.
+    boundary_polygon_xz:
+      - [2750, -2450]
+      - [4250, -2650]
+      - [5600, -2450]
+      - [6750, -3100]
+      - [6750, -4300]
+      - [3000, -3950]
+    physical_anchors:
+      - broad_landing_strand
+      - shallow_nearshore_water
+      - low_dune_belts
+      - beach_exit_route
+      - sparse_abandoned_defensive_remains
+  - id: region_f_blue_offshore_group
+    diagram_label: F
+    name: Blue Offshore Naval Group
+    centroid_xz: [-4700, -2900]
+    elevation_range_m: [-60, 0]
+    description: Reserved southwestern open-water area for a compact naval formation.
+    boundary_ellipse_xz:
+      center: [-4700, -2900]
+      radius_x_m: 1500
+      radius_z_m: 950
+    physical_anchors:
+      - open_water_formation_envelope
+      - deep_water_clearance
+
+shorelines:
+  - id: shoreline_mainland
+    type: natural_and_engineered_coastline
+    polyline_xz:
+      - [-4400, 5000]
+      - [-4700, 4650]
+      - [-4800, 4150]
+      - [-4350, 3900]
+      - [-3700, 4050]
+      - [-3000, 4200]
+      - [-2700, 3500]
+      - [-3200, 2900]
+      - [-4200, 3000]
+      - [-4700, 2600]
+      - [-5000, 1700]
+      - [-4800, 800]
+      - [-4200, 0]
+      - [-3500, -700]
+      - [-2500, -1400]
+      - [-1500, -1800]
+      - [-500, -2200]
+      - [700, -2500]
+      - [1800, -2800]
+      - [3000, -3000]
+      - [4300, -3100]
+      - [5500, -2900]
+      - [6400, -3300]
+      - [7000, -3600]
+  - id: shoreline_harbor_engineered_north
+    type: quay_and_revetment
+    polyline_xz:
+      - [-4350, 3900]
+      - [-3700, 4050]
+      - [-3000, 4200]
+  - id: shoreline_harbor_engineered_south
+    type: quay_and_pier_frontage
+    polyline_xz:
+      - [-2700, 3500]
+      - [-3200, 2900]
+      - [-4200, 3000]
+  - id: shoreline_remote_beach
+    type: broad_sand_landing_shore
+    polyline_xz:
+      - [3000, -3000]
+      - [4300, -3100]
+      - [5500, -2900]
+      - [6400, -3300]
+
+roads:
+  - id: road_harbor_industrial_link
+    name: Harbor–industrial link
+    class: two_lane_port_road
+    surface: pavement
+    nominal_width_m: 12
+    polyline_xz:
+      - [-3400, 2800]
+      - [-3000, 2850]
+      - [-2200, 2500]
+      - [-1500, 2350]
+      - [-850, 2200]
+  - id: road_harbor_local_loop
+    name: Harbor local port road
+    class: local_quay_and_warehouse_road
+    surface: pavement
+    nominal_width_m: 10
+    polyline_xz:
+      - [-4300, 4250]
+      - [-3650, 4400]
+      - [-3000, 4350]
+      - [-2550, 3900]
+      - [-2500, 3200]
+      - [-2850, 2750]
+      - [-3400, 2800]
+      - [-4000, 2700]
+      - [-4200, 2700]
+  - id: road_fuel_service_loop
+    name: Fuel service loop
+    class: industrial_service_road
+    surface: pavement_and_gravel
+    nominal_width_m: 9
+    closed: true
+    polyline_xz:
+      - [-1300, 2850]
+      - [300, 2850]
+      - [400, 1400]
+      - [-1250, 1400]
+      - [-1300, 2850]
+  - id: road_ammunition_access
+    name: Ammunition compound access
+    class: controlled_logistics_road
+    surface: pavement
+    nominal_width_m: 10
+    polyline_xz:
+      - [350, 1800]
+      - [900, 1950]
+      - [1500, 2100]
+      - [2250, 1950]
+  - id: road_ridge_access
+    name: Radar ridge access
+    class: switchback_service_road
+    surface: graded_gravel
+    nominal_width_m: 8
+    polyline_xz:
+      - [500, 2750]
+      - [1300, 3150]
+      - [2100, 3500]
+      - [2850, 3700]
+      - [3600, 3800]
+      - [4200, 4050]
+  - id: road_eastern_trunk
+    name: Eastern convoy trunk
+    class: principal_two_lane_corridor
+    surface: pavement
+    nominal_width_m: 14
+    polyline_xz:
+      - [350, 1450]
+      - [1300, 1000]
+      - [2200, 400]
+      - [3100, -300]
+      - [4000, -1100]
+      - [5000, -1900]
+      - [6050, -1600]
+  - id: road_rescue_branch
+    name: Rescue and service branch
+    class: secondary_two_lane_road
+    surface: pavement
+    nominal_width_m: 11
+    polyline_xz:
+      - [3100, -300]
+      - [4050, 100]
+      - [5050, 450]
+      - [6300, 400]
+  - id: road_beach_exit
+    name: Beach exit route
+    class: reinforced_sand_to_gravel_track
+    surface: sand_matting_gravel_and_pavement
+    nominal_width_m: 16
+    polyline_xz:
+      - [5000, -2820]
+      - [4800, -2350]
+      - [4500, -1900]
+      - [4000, -1100]
+  - id: road_radar_ring
+    name: Hilltop defense ring
+    class: military_service_track
+    surface: graded_gravel
+    nominal_width_m: 7
+    closed: true
+    polyline_xz:
+      - [3150, 4300]
+      - [3900, 4550]
+      - [4550, 4100]
+      - [4700, 3350]
+      - [3900, 3000]
+      - [3150, 3300]
+      - [2900, 3850]
+      - [3150, 4300]
+
+facilities:
+  harbor:
+    - id: facility_harbor_basin
+      type: navigable_harbor_basin
+      region_id: region_a_harbor_district
+      nominal_depth_m: 14
+      polygon_xz:
+        - [-4550, 3820]
+        - [-3650, 3975]
+        - [-3050, 4050]
+        - [-2800, 3500]
+        - [-3250, 3050]
+        - [-4200, 3100]
+    - id: facility_harbor_exit_channel
+      type: navigable_channel
+      region_id: region_a_harbor_district
+      nominal_width_m: 340
+      nominal_depth_m: 16
+      centerline_xz:
+        - [-5550, 3350]
+        - [-4800, 3425]
+        - [-4100, 3475]
+        - [-3450, 3525]
+    - id: pier_harbor_01
+      type: reinforced_north_quay_pier
+      region_id: region_a_harbor_district
+      polygon_xz:
+        - [-4140, 3900]
+        - [-3420, 4030]
+        - [-3390, 3960]
+        - [-4110, 3830]
+    - id: pier_harbor_02
+      type: reinforced_inner_pier
+      region_id: region_a_harbor_district
+      polygon_xz:
+        - [-3100, 4030]
+        - [-2860, 3540]
+        - [-2800, 3570]
+        - [-3040, 4060]
+    - id: pier_harbor_03
+      type: reinforced_south_pier
+      region_id: region_a_harbor_district
+      polygon_xz:
+        - [-3360, 3000]
+        - [-3520, 3560]
+        - [-3440, 3585]
+        - [-3280, 3020]
+    - id: berth_large_01
+      type: large_military_ship_berth
+      region_id: region_a_harbor_district
+      centerline_xz: [[-4140, 3860], [-3420, 3990]]
+      usable_length_m: 720
+    - id: berth_large_02
+      type: large_military_ship_berth
+      region_id: region_a_harbor_district
+      centerline_xz: [[-3040, 4020], [-2830, 3540]]
+      usable_length_m: 520
+    - id: berth_large_03
+      type: large_military_ship_berth
+      region_id: region_a_harbor_district
+      centerline_xz: [[-3300, 3010], [-3460, 3560]]
+      usable_length_m: 570
+    - id: berth_support_01
+      type: support_ship_berth
+      region_id: region_a_harbor_district
+      centerline_xz: [[-4080, 3070], [-3950, 3430]]
+      usable_length_m: 380
+    - id: berth_support_02
+      type: support_ship_berth
+      region_id: region_a_harbor_district
+      centerline_xz: [[-3740, 3020], [-3650, 3370]]
+      usable_length_m: 360
+    - id: warehouse_harbor_01
+      type: port_warehouse
+      region_id: region_a_harbor_district
+      footprint:
+        center_xz: [-3650, 4330]
+        size_m: [620, 220]
+        rotation_deg: -8
+    - id: warehouse_harbor_02
+      type: port_warehouse
+      region_id: region_a_harbor_district
+      footprint:
+        center_xz: [-2850, 2790]
+        size_m: [520, 210]
+        rotation_deg: 4
+    - id: crane_cluster_harbor
+      type: dockside_crane_cluster
+      region_id: region_a_harbor_district
+      placement_points_xz:
+        - [-3900, 4150]
+        - [-3500, 4200]
+        - [-2550, 3850]
+        - [-3400, 2800]
+    - id: harbor_defense_emplacement
+      type: coastal_gun_emplacement
+      region_id: region_a_harbor_district
+      footprint:
+        center_xz: [-4200, 2700]
+        radius_m: 95
+  fuel_storage:
+    - id: fuel_containment_yard
+      type: bunded_tank_farm
+      region_id: region_b_storage_district
+      subregion_id: subregion_b1_fuel_storage
+      polygon_xz:
+        - [-1350, 2920]
+        - [350, 2920]
+        - [450, 1350]
+        - [-1300, 1350]
+    - id: fuel_tank_cluster
+      type: cylindrical_fuel_tanks
+      region_id: region_b_storage_district
+      subregion_id: subregion_b1_fuel_storage
+      tanks:
+        - { id: fuel_tank_01, center_xz: [-1050, 2550], radius_m: 120, height_m: 22 }
+        - { id: fuel_tank_02, center_xz: [-550, 2550], radius_m: 110, height_m: 20 }
+        - { id: fuel_tank_03, center_xz: [-50, 2550], radius_m: 125, height_m: 24 }
+        - { id: fuel_tank_04, center_xz: [-1050, 2050], radius_m: 105, height_m: 18 }
+        - { id: fuel_tank_05, center_xz: [-550, 2050], radius_m: 120, height_m: 22 }
+        - { id: fuel_tank_06, center_xz: [-50, 2050], radius_m: 105, height_m: 18 }
+        - { id: fuel_tank_07, center_xz: [-850, 1575], radius_m: 95, height_m: 16 }
+        - { id: fuel_tank_08, center_xz: [-250, 1575], radius_m: 95, height_m: 16 }
+    - id: fuel_pipe_grid
+      type: above_ground_pipe_runs
+      region_id: region_b_storage_district
+      subregion_id: subregion_b1_fuel_storage
+      polylines_xz:
+        - [[-1200, 2300], [100, 2300], [300, 1800]]
+        - [[-800, 2700], [-800, 1450]]
+        - [[-300, 2700], [-300, 1450]]
+    - id: fuel_pump_transfer_yard
+      type: pump_house_and_transfer_racks
+      region_id: region_b_storage_district
+      subregion_id: subregion_b1_fuel_storage
+      footprint:
+        center_xz: [230, 1720]
+        size_m: [260, 190]
+        rotation_deg: 0
+    - id: fuel_utility_cluster
+      type: utility_and_firewater_structures
+      region_id: region_b_storage_district
+      subregion_id: subregion_b1_fuel_storage
+      placement_points_xz:
+        - [-1250, 1650]
+        - [-1180, 2800]
+        - [250, 2800]
+  ammunition_storage:
+    - id: ammunition_compound
+      type: bermed_secure_compound
+      region_id: region_b_storage_district
+      subregion_id: subregion_b2_ammunition_storage
+      polygon_xz:
+        - [1050, 2700]
+        - [2550, 2650]
+        - [2580, 1380]
+        - [1080, 1380]
+    - id: ammunition_bunker_cluster
+      type: earth_covered_storage_bunkers
+      region_id: region_b_storage_district
+      subregion_id: subregion_b2_ammunition_storage
+      bunkers:
+        - { id: ammo_bunker_01, center_xz: [1300, 2350], size_m: [250, 95], rotation_deg: 0, berm_envelope_m: [360, 200] }
+        - { id: ammo_bunker_02, center_xz: [1800, 2350], size_m: [250, 95], rotation_deg: 0, berm_envelope_m: [360, 200] }
+        - { id: ammo_bunker_03, center_xz: [2300, 2350], size_m: [250, 95], rotation_deg: 0, berm_envelope_m: [360, 200] }
+        - { id: ammo_bunker_04, center_xz: [1300, 1800], size_m: [250, 95], rotation_deg: 0, berm_envelope_m: [360, 200] }
+        - { id: ammo_bunker_05, center_xz: [1800, 1800], size_m: [250, 95], rotation_deg: 0, berm_envelope_m: [360, 200] }
+        - { id: ammo_bunker_06, center_xz: [2300, 1800], size_m: [250, 95], rotation_deg: 0, berm_envelope_m: [360, 200] }
+    - id: ammunition_loading_yard
+      type: loading_and_logistics_hardstand
+      region_id: region_b_storage_district
+      subregion_id: subregion_b2_ammunition_storage
+      footprint:
+        center_xz: [1800, 1450]
+        size_m: [760, 230]
+        rotation_deg: 0
+  radar_and_air_defense:
+    - id: radar_search_site
+      type: major_search_radar_pad
+      region_id: region_c_radar_hill
+      footprint:
+        center_xz: [3550, 4150]
+        radius_m: 220
+      platform_elevation_m: 210
+    - id: radar_tracking_site
+      type: tracking_radar_pad
+      region_id: region_c_radar_hill
+      footprint:
+        center_xz: [4325, 4000]
+        radius_m: 150
+      platform_elevation_m: 195
+    - id: sam_battery_area
+      type: dispersed_sam_revetments
+      region_id: region_c_radar_hill
+      polygon_xz:
+        - [2850, 3500]
+        - [3500, 3650]
+        - [3825, 3150]
+        - [3350, 2850]
+        - [2800, 3050]
+      launcher_pads_xz:
+        - [3050, 3375]
+        - [3425, 3450]
+        - [3550, 3150]
+        - [3200, 3025]
+    - id: aaa_defense_area
+      type: gun_defense_emplacement
+      region_id: region_c_radar_hill
+      footprint:
+        center_xz: [4625, 3300]
+        radius_m: 130
+    - id: radar_support_bunkers
+      type: hardened_support_buildings
+      region_id: region_c_radar_hill
+      placement_points_xz:
+        - [3950, 3550]
+        - [4200, 3500]
+        - [3825, 3325]
+    - id: communications_mast
+      type: communications_tower
+      region_id: region_c_radar_hill
+      point_xz: [3850, 4550]
+      height_m: 65
+  corridor:
+    - id: dry_wash_bridge
+      type: short_road_bridge_chokepoint
+      region_id: region_d_convoy_corridor
+      footprint:
+        center_xz: [3100, -300]
+        size_m: [145, 34]
+        rotation_deg: -38
+    - id: corridor_inland_junction
+      type: three_way_road_junction
+      region_id: region_d_convoy_corridor
+      point_xz: [4000, -1100]
+    - id: corridor_pull_off_west
+      type: roadside_vehicle_pull_off
+      region_id: region_d_convoy_corridor
+      footprint:
+        center_xz: [4450, -1420]
+        size_m: [430, 150]
+        rotation_deg: -40
+    - id: corridor_pull_off_east
+      type: roadside_vehicle_pull_off
+      region_id: region_d_convoy_corridor
+      footprint:
+        center_xz: [5450, -1750]
+        size_m: [500, 170]
+        rotation_deg: 15
+    - id: corridor_service_yard
+      type: sparse_rescue_and_engineering_hardstand
+      region_id: region_d_convoy_corridor
+      footprint:
+        center_xz: [5750, 250]
+        size_m: [650, 360]
+        rotation_deg: 0
+  beachhead:
+    - id: beach_landing_strand
+      type: broad_landing_shore
+      region_id: region_e_remote_beachhead
+      polygon_xz:
+        - [3400, -2990]
+        - [4300, -3070]
+        - [5400, -2910]
+        - [5900, -3100]
+        - [5650, -2700]
+        - [4450, -2780]
+        - [3550, -2700]
+    - id: beach_dune_belts
+      type: low_discontinuous_dunes
+      region_id: region_e_remote_beachhead
+      polylines_xz:
+        - [[3300, -2520], [4200, -2620], [5150, -2450], [5950, -2780]]
+        - [[3550, -2350], [4400, -2450], [5250, -2300], [5750, -2520]]
+    - id: beach_exit_apron
+      type: compacted_sand_vehicle_apron
+      region_id: region_e_remote_beachhead
+      footprint:
+        center_xz: [5000, -2780]
+        size_m: [650, 320]
+        rotation_deg: 10
+    - id: beach_defensive_remains
+      type: abandoned_low_coastal_emplacements
+      region_id: region_e_remote_beachhead
+      placement_points_xz:
+        - [3550, -2680]
+        - [6000, -2920]
+
+naval_reference_areas:
+  - id: naval_harbor_maneuver_area
+    name: Harbor maneuver basin
+    region_id: region_a_harbor_district
+    status: physical_water_clearance
+    polygon_xz:
+      - [-4500, 3750]
+      - [-3650, 3900]
+      - [-3000, 3950]
+      - [-2900, 3450]
+      - [-3350, 3150]
+      - [-4150, 3200]
+  - id: naval_harbor_channel_clearance
+    name: Harbor exit channel clearance
+    region_id: region_a_harbor_district
+    status: physical_water_clearance
+    nominal_width_m: 340
+    centerline_xz:
+      - [-5550, 3350]
+      - [-4800, 3425]
+      - [-4100, 3475]
+      - [-3450, 3525]
+  - id: naval_blue_offshore_reserve
+    name: Blue offshore formation reserve
+    region_id: region_f_blue_offshore_group
+    status: reserved_open_water_layout_area
+    boundary_ellipse_xz:
+      center: [-4700, -2900]
+      radius_x_m: 1500
+      radius_z_m: 950
+    nominal_water_depth_range_m: [35, 60]
+    reference_anchors_xz:
+      - { id: naval_anchor_large_hull, point_xz: [-4900, -2850], clearance_radius_m: 420 }
+      - { id: naval_anchor_escort_west, point_xz: [-5550, -3250], clearance_radius_m: 260 }
+      - { id: naval_anchor_escort_east, point_xz: [-3900, -2500], clearance_radius_m: 260 }
+    note: Reference anchors describe physical occupancy only and do not imply routes, timing, or behavior.
+
+diagram_requirements:
+  file: map-layout.svg
+  title: Ash Harbor — Authoritative Physical Layout
+  canvas_viewbox: [0, 0, 1600, 1160]
+  map_frame_svg: [100, 80, 1400, 1000]
+  map_scale:
+    meters_per_svg_unit: 10
+    representative_fraction_at_native_svg_unit: technical_reference_only
+  required_layers_in_order:
+    - water_and_coordinate_grid
+    - mainland_and_surface_zones
+    - elevation_and_shallows
+    - region_extents
+    - roads
+    - facilities
+    - naval_reference_areas
+    - shorelines
+    - labels_and_legend
+    - map_boundary_north_arrow_and_scale_bar
+  required_region_labels:
+    - A — Harbor District
+    - B — Fuel and Ammunition Storage District
+    - C — Radar Hill / Air Defense High Ground
+    - D — Convoy and Rescue Corridor
+    - E — Remote Beachhead
+    - F — Blue Offshore Naval Group
+  visual_priority:
+    - coastline_and_landform
+    - region_identity
+    - roads_and_major_facilities
+    - labels_and_scale_information
+  prohibited_overlays:
+    - aircraft_routes
+    - missile_routes
+    - landing_arrows
+    - battle_phases
+    - time_markers
+    - explosions
+    - attack_waves
+    - mission_logic
+
+validation_rules:
+  coordinate_bounds:
+    x_min: -7000
+    x_max: 7000
+    z_min: -5000
+    z_max: 5000
+    boundary_policy: inclusive
+    require_all_geometry_inside: true
+  identifiers:
+    require_unique_ids_globally: true
+    format: lower_snake_case
+  geometry:
+    polygon_closure: implicit_last_to_first
+    require_valid_polygon_rings: true
+    require_non_self_intersecting_major_polygons: true
+    require_equal_svg_axis_scale: true
+    require_north_up: true
+  spatial_separation:
+    harbor_to_beachhead_centroid_min_m: 8000
+    harbor_to_storage_centroid_min_m: 2500
+    storage_subarea_clear_gap_min_m: 250
+    offshore_group_to_main_harbor_centroid_min_m: 5000
+  physical_content:
+    minimum_large_harbor_berths: 3
+    minimum_support_harbor_berths: 1
+    minimum_fuel_tanks: 6
+    minimum_ammunition_bunkers: 4
+    require_search_radar: true
+    require_tracking_radar: true
+    require_sam_area: true
+    require_aaa_area: true
+    require_corridor_branch: true
+    require_corridor_chokepoint: true
+    require_beach_shallows: true
+    require_beach_exit: true
+  content_exclusions:
+    prohibit_gameplay_logic: true
+    prohibit_event_timing: true
+    prohibit_attack_routes: true
+    prohibit_visible_people_requirement: true
+    prohibit_visible_human_objects: true
