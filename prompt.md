@@ -1,29 +1,12 @@
-Perform a controlled v1.1 refinement of the existing Ash Harbor map.
+Perform a controlled setting-and-language correction pass on the existing Ash Harbor map package.
 
-The current macro layout is approved.
+The physical map layout is already approved.
 
-Do NOT redesign the battlefield from scratch.
+Do NOT redesign the map.
 
-Preserve:
+Do NOT change the macro geography, coastlines, region positions, road network, facility layout, radar hill placement, remote beachhead placement, or offshore reference-area placement.
 
-- the 14 km × 10 km map bounds;
-- the overall coastline orientation;
-- the six major regions A–F;
-- the Harbor District in the northwest;
-- the Fuel and Ammunition Storage District in the central-north area;
-- Radar Hill in the northeast;
-- the Convoy and Rescue Corridor in the east/southeast;
-- the Remote Beachhead in the southeast;
-- the Blue Offshore Naval Group in the southwest;
-- the existing overall visual composition.
-
-The purpose of this revision is to increase the physical and geometric specificity of the map for a downstream Codex workflow that will build a detailed React/Three.js 3D battlefield environment.
-
-Do not increase detail merely by adding prose or labels.
-
-Increase useful machine-readable geometry.
-
-Update:
+Keep these files and update them only where needed:
 
 1. `map-spec.yaml`
 2. `map-layout.svg`
@@ -31,350 +14,137 @@ Update:
 
 Do not create additional files.
 
-## Primary goal
+## Purpose of this correction
 
-The YAML should become detailed enough that a downstream 3D implementation can construct the major terrain, roads, harbor geometry, industrial infrastructure, radar high ground, beach terrain, and offshore staging area without inventing large portions of the world.
+The current battlefield map should **NOT** be framed as specifically late Cold War or early-1990s only.
 
-The SVG should remain visually clean and technical.
+That earlier phrasing was too narrow and risks forcing the downstream project into a Gulf War–style historical setting.
 
-Do not make the SVG cluttered simply because the YAML becomes more detailed.
+This is not the intent.
 
-## Harbor District refinement
+The map must instead support a fictional near-modern / contemporary regional conflict in which equipment from different generations can coexist.
 
-Preserve the current Harbor District position and general harbor shape.
+The downstream 3D project may use aircraft and military systems such as:
 
-Add or refine:
+- F-35 family aircraft;
+- Su-30MKK or similar Flanker-family aircraft;
+- imported or license-produced / locally copied air-defense systems;
+- imported or mixed-origin armored vehicles;
+- mixed naval equipment.
 
-- outer breakwaters;
-- harbor entrance geometry;
-- navigable channel;
-- harbor basin;
-- shallow-water zones;
-- deep-water zones where appropriate;
-- exact major berth polygons;
-- exact pier and jetty geometry;
-- berth length and orientation;
-- support berths;
-- warehouse footprints;
-- maintenance / service apron;
-- crane reference footprints or rails;
-- harbor internal roads;
-- one utility or electrical-service facility;
-- one local defensive emplacement area.
+This is acceptable.
 
-Use stable object IDs.
+## Correct setting to use
 
-Do not populate detailed ships yet unless an existing physical reference anchor is already present.
+Revise the framing so the world is understood as:
 
-## Fuel Storage Area refinement
+- a fictional contemporary or near-modern coastal conflict;
+- visually grounded and militarized, but not tied to one exact historical year;
+- compatible with mixed-generation equipment;
+- compatible with a smaller island or coastal state using imported, license-produced, copied, or mixed equipment;
+- compatible with an offshore attacking force that may field newer systems.
 
-Preserve the current fuel-storage location.
+A useful framing is:
 
-Add:
+“A fictional contemporary coastal military-industrial battlespace with mixed-generation imported and locally supported equipment.”
 
-- individual major fuel-tank footprints;
-- tank containment / fire berm polygons;
-- internal service roads;
-- pump station footprint;
-- pipe-rack or pipeline polylines;
-- transfer area;
-- connection toward the Harbor District;
-- utility structures;
-- clear firebreak / spacing areas.
+Use wording of that kind.
 
-The fuel area should read as an industrial system, not merely a collection of circles.
+## Important side / faction guidance
 
-## Ammunition Storage Area refinement
+Do not strongly frame the map around “Red force” and “Blue force” language.
 
-Preserve its current location and separation from the fuel area.
+Avoid color-coded faction assumptions unless absolutely necessary for neutral map readability.
 
-Add:
+Prefer neutral wording such as:
 
-- individual bunker or magazine footprints;
-- protective berm polygons;
-- internal access roads;
-- loading / transfer apron;
-- rail or truck logistics access where appropriate;
-- safety spacing between storage groups.
+- defending coastal state
+- local island garrison
+- offshore attacking force
+- offshore naval group
+- remote beachhead
+- harbor district
+- air-defense high ground
+- convoy corridor
 
-Do not merge the fuel and ammunition areas.
+Keep side naming minimal and non-stylized.
 
-## Harbor-to-industrial connections
+Do not imply that all facilities must be recolored or visually themed as a rigid red-vs-blue game abstraction.
 
-Add physical infrastructure connecting the harbor and industrial district:
+## What to change
 
-- at least one pipeline / pipe-rack connection from the harbor toward the fuel area;
-- one freight rail or industrial transport spur if spatially reasonable;
-- service-road continuity.
+Review all three files and correct any wording, metadata, labels, notes, or validation prose that currently implies one or more of the following:
 
-These are static physical infrastructure only.
+- specifically late Cold War only;
+- specifically early 1990s only;
+- Gulf War framing;
+- historically narrow force composition;
+- a requirement that both sides use same-era equipment;
+- unnecessarily rigid red/blue faction framing.
 
-Do not add attack or logistics-event scripting.
+Where such wording exists, revise it.
 
-## Radar Hill refinement
+Examples of acceptable revised wording:
 
-Preserve the current Radar Hill position.
+- fictional contemporary conflict
+- near-modern coastal battlespace
+- mixed-generation equipment environment
+- imported / license-produced / mixed-origin equipment
+- smaller defending coastal state
+- offshore attacking naval force
 
-Improve its terrain representation.
+## What must remain unchanged
 
-Add:
+Preserve:
 
-- explicit elevation-control points;
-- ridge-line polyline;
-- multiple elevation or terrain polygons;
-- radar platform footprints;
-- SAM platform footprints;
-- AAA platform footprint;
-- communications-mast footprint;
-- support-building footprints;
-- access road up the hill;
-- slope-character metadata.
+- all geometry;
+- all coordinates;
+- all IDs unless a textual display label truly needs correction;
+- all polygons and polylines;
+- all region boundaries;
+- all physical infrastructure;
+- all reference anchors;
+- the approved overall SVG composition.
 
-Avoid generating a simple cone-shaped hill.
+This is not a layout revision.
 
-The terrain should read as a natural elevated ridge or plateau.
+It is a semantic / descriptive correction only.
 
-## Convoy Corridor refinement
+## Additional clarification for downstream use
 
-Keep the corridor in the east / southeast.
+The defending side may plausibly use:
 
-Add modest physical detail so the region is not empty:
+- imported Soviet/Russian-style systems;
+- Chinese-style systems;
+- local copies or hybrids;
+- older but still operational coastal-defense and air-defense equipment;
+- mixed vehicle fleets.
 
-- principal road with explicit width;
-- branch road with explicit width;
-- lay-bys or vehicle pull-off areas;
-- maintenance or service yard;
-- a small electrical substation or utility compound;
-- one road chokepoint;
-- a dry-wash / culvert / bridge feature;
-- optional old industrial or quarry area if spatially appropriate.
+The offshore attacking side may plausibly use:
 
-Do not turn this region into a dense city.
+- newer multirole aircraft;
+- modern amphibious or escort vessels;
+- newer stand-off strike capability.
 
-## Separate Region D and Region E more strongly
+Such asymmetry is allowed.
 
-The Convoy Corridor and Remote Beachhead currently read as somewhat spatially connected.
+Do not attempt to “balance” the setting.
 
-Introduce a natural physical separator between them.
+Do not attempt to enforce strict procurement realism.
 
-Use one or a combination of:
+The map should remain usable for a visually expressive fictional war scenario.
 
-- dry riverbed / wadi;
-- low rocky ridge;
-- shallow ravine;
-- barren scrubland;
-- low bluff system.
+## Deliverable expectations
 
-The separator should make the regions visually and physically distinct without radically changing their existing positions.
+Update the existing files in place.
 
-The main convoy road should remain north or inland of this separator.
+`map-validation.md` should mention that:
 
-The beach exit should not immediately merge into the main convoy corridor.
+- the physical layout was preserved;
+- the revision was a setting-language correction only;
+- the map now supports a fictional contemporary mixed-generation conflict;
+- the revised framing is compatible with assets such as F-35-family aircraft and Su-30MKK-type aircraft.
 
-## Remote Beachhead refinement
+Do not add gameplay logic, timeline logic, or implementation details.
 
-Preserve the existing remote southeastern beach.
-
-Add explicit physical coastal geometry:
-
-- beach polygon;
-- intertidal polygon;
-- shallow-water polygon;
-- deeper-water transition;
-- dune polygons;
-- low bluff or coastal terrain where appropriate;
-- firm beach-exit area;
-- inland hardstand / open-ground area;
-- two plausible inland vehicle-access paths.
-
-Do not call them LCAC routes or LAV routes.
-
-They are physical access paths only.
-
-Do not add landing arrows or future-event markers.
-
-## Offshore Naval Reference Area refinement
-
-Preserve Region F.
-
-Keep the main region as open water, but add a small set of neutral physical reference anchors for future 3D placement.
-
-For example:
-
-- amphibious assault ship reference anchor;
-- northern escort reference anchor;
-- southern escort reference anchor;
-- optional distant support-ship reference anchor.
-
-For every anchor provide:
-
-- stable ID;
-- X/Z position;
-- heading;
-- concise physical role;
-- sufficient spacing from other anchors and shorelines.
-
-These anchors are static layout references, not movement routes or mission instructions.
-
-The SVG may show them as subtle small reference markers, but should not make them visually dominant.
-
-## Coastline refinement
-
-The current coastline may be refined with additional vertices where useful.
-
-Preserve its overall topology and macro shape.
-
-Avoid excessively long artificial straight coastline segments.
-
-Add moderate local irregularity especially around:
-
-- Harbor District;
-- open coastal stretches;
-- Remote Beachhead transitions.
-
-Do not generate noisy fractal coastlines.
-
-The geometry must remain practical for procedural 3D terrain construction.
-
-## Additional physical infrastructure
-
-Where appropriate, add:
-
-- freight rail polylines;
-- pipeline polylines;
-- utility / power-line polylines;
-- fences or major security boundaries;
-- drainage channels;
-- service roads;
-- retaining or blast berms.
-
-Only add infrastructure that improves the physical coherence of the environment.
-
-Do not fill empty land merely for visual density.
-
-## YAML geometry requirements
-
-Where meaningful, physical objects should use explicit geometry rather than vague descriptions.
-
-Prefer:
-
-- polygons for facility footprints;
-- polygons for terrain regions;
-- polylines for roads;
-- polylines for rail;
-- polylines for pipelines;
-- polylines for power lines;
-- explicit X/Z points for anchors and terrain controls.
-
-Roads must include declared physical width.
-
-Piers and jetties must include usable width.
-
-Important compounds should have boundary polygons.
-
-Every object should include:
-
-- stable ID;
-- region ownership;
-- concise physical type;
-- geometry;
-- relevant dimensions;
-- optional diagram visibility metadata.
-
-Use a consistent field such as:
-
-`diagram_visibility`
-
-or an equivalent structure to distinguish:
-
-- geometry that should appear prominently in the technical SVG;
-- geometry that should appear subtly;
-- geometry that may remain YAML-only.
-
-## SVG detail policy
-
-The SVG is a technical reference map, not a dump of every YAML feature.
-
-Keep the current overall style.
-
-Show:
-
-- coastline;
-- major terrain;
-- elevation structure;
-- harbor geometry;
-- major piers;
-- major roads;
-- railway where useful;
-- main pipelines where useful;
-- fuel tanks;
-- ammunition compounds;
-- radar / air-defense platforms;
-- Remote Beachhead physical structure;
-- Region F reference anchors;
-- major utility infrastructure;
-- region labels;
-- north arrow;
-- coordinate frame;
-- scale.
-
-Do not label every individual object.
-
-Use a side legend or restrained index if needed.
-
-Do not make important geometry unreadable through excessive annotation.
-
-## Validation
-
-After updating the YAML and SVG, validate:
-
-- YAML syntax;
-- all IDs are unique;
-- all geometry remains within map bounds;
-- polygons do not self-intersect;
-- coastline remains valid;
-- water and land classification remain coherent;
-- harbor berths lie in sensible shoreline / harbor positions;
-- road geometry is physically continuous where intended;
-- pipelines and rail infrastructure do not make impossible jumps;
-- Radar Hill terrain and platforms are internally contained;
-- Region D and Region E remain clearly separated;
-- Remote Beachhead shallow-water and beach geometry are coherent;
-- offshore reference anchors remain in open water;
-- SVG geometry matches the YAML;
-- the SVG remains readable at native size.
-
-Also report approximate counts for:
-
-- polygons;
-- polylines;
-- point anchors;
-- facilities;
-- road segments;
-- terrain regions;
-- utility infrastructure objects.
-
-## Scope restrictions
-
-Do not add:
-
-- attack routes;
-- aircraft routes;
-- missile routes;
-- scripted explosions;
-- mission phases;
-- battle timing;
-- objective markers;
-- damage states;
-- AI behavior;
-- player controls;
-- gameplay logic;
-- future implementation architecture.
-
-This remains the authoritative physical-world map.
-
-The downstream 3D Codex will receive both `map-spec.yaml` and `map-layout.svg`.
-
-The YAML should carry the detailed machine-readable physical truth.
-
-The SVG should carry a clean human-readable technical overview.
+Do not create new narrative lore beyond what is necessary to correct the setting.

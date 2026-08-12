@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1160" viewBox="0 0 1600 1160" role="img" aria-labelledby="svg-title svg-desc">
-  <title id="svg-title">Ash Harbor — Authoritative Physical Layout v1.1</title>
-  <desc id="svg-desc">Strict orthographic top-down technical map of a fictional coastal military-industrial region. North is up, east is right, and one SVG map unit equals ten meters.</desc>
+  <title id="svg-title">Ash Harbor — Authoritative Physical Layout v1.2</title>
+  <desc id="svg-desc">Strict orthographic top-down technical map of a fictional contemporary coastal military-industrial battlespace with mixed-generation imported and locally supported equipment. North is up, east is right, and one SVG map unit equals ten meters.</desc>
   <metadata>
-    Source of truth: map-spec.yaml schema 1.1.0. Map frame: x -7000 to 7000 meters, z -5000 to 5000 meters. Projection: svg_x = 100 + (x + 7000) / 10; svg_y = 80 + (5000 - z) / 10.
+    Source of truth: map-spec.yaml schema 1.2.0. Map frame: x -7000 to 7000 meters, z -5000 to 5000 meters. Projection: svg_x = 100 + (x + 7000) / 10; svg_y = 80 + (5000 - z) / 10.
   </metadata>
   <defs>
     <clipPath id="map-clip">
@@ -44,7 +44,7 @@
   </defs>
 
   <text x="100" y="38" font-size="25" font-weight="800" letter-spacing="0.4">ASH HARBOR</text>
-  <text x="100" y="61" font-size="13" fill="#4d595e">Authoritative physical layout · controlled refinement v1.1 · local Cartesian meters</text>
+  <text x="100" y="61" font-size="13" fill="#4d595e">Authoritative physical layout · fictional contemporary mixed-generation setting · local Cartesian meters</text>
   <text x="1500" y="38" text-anchor="end" font-size="12" font-weight="700">NORTH UP · EAST RIGHT · 1 SVG UNIT = 10 m</text>
   <text x="1500" y="60" text-anchor="end" font-size="11" fill="#4d595e">X −7000…+7000 · Z −5000…+5000</text>
 
@@ -416,7 +416,7 @@
       <text class="micro-label" x="1220" y="950">Beach exit apron</text>
 
       <g transform="translate(250 755)"><circle r="15" fill="#2c647f"/><text class="region-code" y="1">F</text></g>
-      <text class="region-label" x="272" y="761">Blue Offshore Naval Group</text>
+      <text class="region-label" x="272" y="761">Offshore Naval Group</text>
       <text class="feature-label" x="285" y="788">Four static open-water reference anchors</text>
     </g>
   </g>

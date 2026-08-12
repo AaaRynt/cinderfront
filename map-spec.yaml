@@ -1,13 +1,19 @@
-schema_version: '1.1.0'
+schema_version: '1.2.0'
 
 metadata:
   map_id: ash_harbor
   display_name: Ash Harbor
-  revision: controlled_refinement_v1_1
+  revision: setting_language_correction_v1_2
   subtitle: Coastal military-industrial region layout
   purpose: Authoritative physical-world specification for a future 3D battlefield diorama
   scope: Terrain, shoreline, roads, facilities, and reserved naval water only
-  visual_reference_period: Late Cold War to early 1990s
+  setting_reference_period: Fictional contemporary / near-modern; not tied to a single historical year
+  setting_frame: Fictional contemporary coastal military-industrial battlespace with mixed-generation imported and locally supported equipment
+  equipment_context: >-
+    Imported, license-produced, locally copied, hybrid, and older operational
+    systems may coexist; the offshore force may field newer systems.
+  force_naming_policy: Use neutral functional and geographic labels without rigid red-versus-blue visual framing.
+  force_asymmetry: Allowed; same-era matching, gameplay balance, and strict procurement realism are not required.
   fictional_location: true
   visible_human_characters_required: false
   description: >-
@@ -728,7 +734,7 @@ regions:
     type: physical_world_region
     diagram_label: F
     diagram_visibility: prominent
-    name: Blue Offshore Naval Group
+    name: Offshore Naval Group
     centroid_xz: [-4700, -2900]
     elevation_range_m: [-60, 0]
     description: Reserved southwestern open-water area for a compact naval formation.
@@ -1901,7 +1907,7 @@ naval_reference_areas:
       - [-3600, 3520]
   - id: naval_blue_offshore_reserve
     type: offshore_open_water_reference_area
-    name: Blue offshore formation reserve
+    name: Offshore naval formation reserve
     region_id: region_f_blue_offshore_group
     status: reserved_open_water_layout_area
     diagram_visibility: prominent
@@ -1975,7 +1981,7 @@ diagram_requirements:
     - C — Radar Hill / Air Defense High Ground
     - D — Convoy and Rescue Corridor
     - E — Remote Beachhead
-    - F — Blue Offshore Naval Group
+    - F — Offshore Naval Group
   visual_priority:
     - coastline_and_landform
     - region_identity
