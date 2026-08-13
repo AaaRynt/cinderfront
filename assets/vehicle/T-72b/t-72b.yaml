@@ -1,0 +1,95 @@
+vehicle_id: t-72b
+display_name: T-72B
+vehicle_type: ground_vehicle
+shape_profile: low_profile_main_battle_tank
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 6.86
+  width: 3.59
+  height: 2.23
+  overall_length_gun_forward: 9.53
+  length_measurement: hull_length
+  width_measurement: overall_vehicle_width
+  height_measurement: turret_roof_height
+  length_note: 'Use hull length as the primary scale reference; the forward main gun extends the total model length to approximately 9.53 meters.'
+
+normalized_proportions:
+  basis: 'hull length = 1.000'
+  length: 1.000
+  width: 0.523
+  height: 0.325
+  overall_length_gun_forward: 1.389
+
+overall_shape: >-
+  Very low and wide main battle tank with a compact rectangular tracked hull, a
+  sharply sloped upper front plate, a low rounded central turret, and a long main
+  gun projecting far ahead of the hull.
+
+top_view_silhouette: >-
+  Broad rectangular hull with nearly parallel track runs and a slightly tapered
+  front. A low circular-to-oval turret occupies the center, with a narrow gun barrel
+  extending straight forward. Box-like armor blocks create a faceted ring around the
+  turret front and sides, while the rear engine deck remains broad and flat.
+
+side_view_silhouette: >-
+  Low hull carried by six large road wheels on each side, with a raised front idler
+  and rear drive sprocket enclosed by continuous tracks. The turret is shallow and
+  rounded rather than tall, and the long nearly horizontal gun includes a thicker
+  bore-evacuator section near its middle.
+
+front_view_silhouette: >-
+  Wide tracks flank a low wedge-shaped hull with a sharply sloped glacis. The rounded
+  turret sits close to the hull roof, and the main gun remains centered. Keep the
+  vehicle broad, compact, and substantially lower than most wheeled armored vehicles.
+
+major_recognizable_components:
+  - low rectangular tracked hull
+  - sharply sloped front glacis
+  - two continuous track assemblies
+  - six large road wheels on each side
+  - low rounded central turret
+  - faceted armor blocks around the turret front and sides
+  - long centered main gun barrel
+  - thicker bore-evacuator section on the gun barrel
+  - broad flat rear engine deck
+  - simple side skirts above the tracks
+
+simplified_modeling_guidance:
+  - 'Use a 6.86-unit hull length, 3.59-unit overall width, and 2.23-unit turret-roof height.'
+  - 'Extend the forward-facing gun so the complete model is approximately 9.53 units long.'
+  - 'Build the hull from a low beveled box with a strong wedge-shaped front plate.'
+  - 'Use a flattened low-sided dome or faceted oval for the turret rather than a tall box.'
+  - 'Represent the turret armor blocks with a limited number of angular wedges or shallow boxes.'
+  - 'Use six identical large road wheels per side and simple continuous track bands.'
+  - 'Keep the gun barrel narrow, straight, centered, and much longer than the turret diameter.'
+
+details_that_may_be_omitted:
+  - exact track links, teeth, and suspension mechanics
+  - exact armor-block count and attachment hardware
+  - hatches, hinges, periscopes, and vision devices
+  - machine guns, smoke launchers, lights, and antennas
+  - tow cables and external fittings
+  - internal systems and crew spaces
+  - exact panel lines, welds, bolts, and small engine-deck grilles
+  - markings and surface patterns
+
+visual_mistakes_to_avoid:
+  - 'Do not make the hull or turret tall and box-like.'
+  - 'Do not use fewer or more than six large road wheels on each side.'
+  - 'Do not give the turret a sharp rectangular western-tank silhouette.'
+  - 'Do not make the main gun short, thick throughout, or offset from the centerline.'
+  - 'Do not use the gun-forward length as the hull length.'
+  - 'Do not omit the strongly sloped front glacis or the low rounded turret.'
+  - 'Do not expose large gaps between the tops of the road wheels and the side skirts.'
+
+reference_images:
+  - T-72b.jpeg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true

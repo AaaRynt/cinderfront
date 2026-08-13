@@ -1,0 +1,90 @@
+vehicle_id: wasp-class
+display_name: Wasp-class
+vehicle_type: naval_vessel
+shape_profile: flat_top_amphibious_assault_ship
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 253.2
+  width: 31.8
+  height: 56.4
+  draft: 8.2
+  length_measurement: overall_hull_length
+  width_measurement: main_hull_and_flight_deck_beam
+  height_measurement: approximate_keel_to_mast_top
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.126
+  height: 0.223
+
+overall_shape: >-
+  Very large, long amphibious assault ship with a continuous flat flight deck, a broad box-like hull, a slightly pointed bow, a wide stern, and a tall island positioned on the starboard side.
+
+top_view_silhouette: >-
+  Long, mostly rectangular flight deck with a gently narrowed bow and a broad squared stern. The island occupies the forward half of the starboard side, leaving most of the deck open. Large aircraft elevators project slightly from the deck edges.
+
+side_view_silhouette: >-
+  Long high-sided hull with a nearly level flight deck from bow to stern. The bow rises slightly above the waterline, while the stern remains broad and vertical. A compact but tall island and mast rise above the forward starboard section.
+
+front_view_silhouette: >-
+  Wide upper flight deck over a narrower lower hull, with sloped hull sides meeting near the waterline. The island rises asymmetrically on the starboard side rather than being centered over the ship.
+
+major_recognizable_components:
+  - long continuous flight deck
+  - high-sided rectangular hull
+  - slightly pointed bow
+  - broad squared stern
+  - starboard-side island
+  - bridge structure
+  - simplified mast
+  - two side aircraft elevators
+  - open aft flight deck
+  - rear well-deck opening
+
+simplified_modeling_guidance:
+  - 'Use the real dimensions directly: 253.2 units long and approximately 31.8 units wide.'
+  - 'Treat the flight deck and hull silhouette as more important than small equipment details.'
+  - 'Build the main hull from a long beveled box or a simple custom tapered geometry.'
+  - 'Use a thin flat geometry for the flight deck above the main hull.'
+  - 'Build the island from a few stacked box-like and angled volumes on the starboard side.'
+  - 'Keep the bow narrower than the middle and keep the stern broad and nearly square.'
+  - 'Place the waterline approximately 8.2 units above the bottom of the hull.'
+  - 'Keep the mast visually light so the total height does not make the ship appear top-heavy.'
+
+details_that_may_be_omitted:
+  - exact radar and antenna shapes
+  - defensive weapons and launchers
+  - railings, ladders, cables, and safety nets
+  - deck markings and hull numbers
+  - windows and individual bridge panels
+  - lifeboats and small auxiliary craft
+  - aircraft and deck vehicles
+  - internal hangar and well-deck structures
+  - exact elevator machinery
+  - small vents, doors, and maintenance equipment
+
+visual_mistakes_to_avoid:
+  - 'Do not give the ship an angled aircraft-carrier flight deck.'
+  - 'Do not place the island in the center or on the port side.'
+  - 'Do not make the bow extremely sharp like a destroyer.'
+  - 'Do not make the hull narrow, low-sided, or shaped like a conventional warship.'
+  - 'Do not make the island occupy most of the flight deck width.'
+  - 'Do not make the stern narrow or strongly tapered.'
+  - 'Do not interpret the full height as the height of the hull alone.'
+  - 'Do not add a ski-jump ramp to the bow.'
+
+reference_images:
+  - Wasp_class.png
+  - Wasp_top_side.jpeg
+
+orientation:
+  orward_axis: negative_z
+  p_axis: positive_y
+  enter_origin: true
+  tarboard_side: positive_x
+  ort_side: negative_x

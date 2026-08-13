@@ -1,0 +1,93 @@
+vehicle_id: btr-80
+display_name: BTR-80
+vehicle_type: ground_vehicle
+shape_profile: eight_wheeled_amphibious_armored_carrier
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 7.65
+  width: 2.89
+  height: 2.35
+  length_measurement: overall_hull_length
+  width_measurement: overall_vehicle_width
+  height_measurement: top_of_searchlight
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.378
+  height: 0.307
+
+overall_shape: >-
+  Long low eight-wheeled armored carrier with a boat-like hull, a pointed and strongly
+  sloped front, angled upper side plates, a small central turret, and a broad raised
+  rear engine compartment.
+
+top_view_silhouette: >-
+  Long narrow hull with a tapered wedge-shaped nose, chamfered corners, and mostly
+  parallel sides through the middle and rear. A small circular-to-polygonal turret
+  sits on the centerline just behind the forward crew area. Four wheel positions
+  project along each side, with a larger gap between the second and third axles.
+
+side_view_silhouette: >-
+  Pointed rising bow leading to a long nearly level roof, with four large wheels on
+  each side and minimal visible wheel arches. The first two axles form a forward pair,
+  the last two form a rear pair, and a small low turret rises slightly ahead of the
+  vehicle midpoint with a short narrow weapon projecting forward.
+
+front_view_silhouette: >-
+  Wide lower hull with inward-sloping upper sides and two angled front plates forming
+  a shallow boat-like wedge. The two front wheels sit outside the hull, while the low
+  crew roof and small centered turret keep the overall silhouette compact.
+
+major_recognizable_components:
+  - long boat-shaped armored hull
+  - pointed and strongly sloped front hull
+  - angled upper side plates
+  - four large wheels on each side
+  - paired front and rear axle spacing
+  - low forward crew compartment
+  - small central polygonal turret
+  - short narrow forward heavy-machine-gun barrel
+  - raised rear engine deck
+  - flat rear face with a central waterjet opening
+
+simplified_modeling_guidance:
+  - 'Use the real dimensions directly: 7.65 units long, 2.89 units wide, and 2.35 units high.'
+  - 'Build the hull from a long beveled box with a tapered bow and distinctly sloped upper sides.'
+  - 'Use eight identical large wheels as four mirrored pairs, leaving the largest axle gap near the hull center.'
+  - 'Keep the wheels visually prominent and partially outside the lower hull width.'
+  - 'Model the turret as a small low-sided cone or faceted polygon, not as a full-size cannon turret.'
+  - 'Represent the forward weapon with one short thin barrel and minimal supporting geometry.'
+  - 'Keep the rear roof slightly bulkier than the forward crew area to suggest the engine compartment.'
+
+details_that_may_be_omitted:
+  - tire tread and suspension mechanics
+  - exact hatches, hinges, handles, and firing ports
+  - windows, periscopes, lights, mirrors, and antennas
+  - side doors and their opening mechanisms
+  - smoke launchers and secondary weapon details
+  - external fittings and tow hardware
+  - internal systems and troop compartment
+  - exact panel lines, welds, bolts, vents, and grilles
+  - markings and surface patterns
+
+visual_mistakes_to_avoid:
+  - 'Do not use tracks or fewer than four wheels on each side.'
+  - 'Do not space all four axles evenly; preserve the larger center gap.'
+  - 'Do not make the front vertical, blunt, or shaped like a flat truck cab.'
+  - 'Do not make the turret large or equip it with a long autocannon like a BTR-80A.'
+  - 'Do not place the turret near the rear of the hull.'
+  - 'Do not make the hull excessively tall, narrow, or rectangular in cross-section.'
+  - 'Do not confuse the silhouette with a LAV-25; the BTR-80 has a smaller turret and a more boat-like hull.'
+
+reference_images:
+  - BTR-80.jpeg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true

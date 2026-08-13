@@ -1,0 +1,81 @@
+vehicle_id: lav-25
+display_name: LAV-25
+vehicle_type: ground_vehicle
+shape_profile: eight_wheeled_light_armored_vehicle
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 6.39
+  width: 2.50
+  height: 2.69
+  width_measurement: hull_width
+  length_note: 'Use the main vehicle body as the primary scale reference; do not use cannon length to define overall vehicle length.'
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.391
+  height: 0.421
+
+overall_shape: >-
+  Long, low eight-wheeled armored vehicle with a sharply sloped front hull, a long
+  boxy main body, and a compact central turret carrying a narrow forward cannon.
+
+top_view_silhouette: >-
+  Long narrow hull with a pointed sloped front, mostly straight sides, and a compact
+  turret near the center. A thin cannon projects forward along the centerline. Four
+  wheel positions are arranged along each side.
+
+side_view_silhouette: >-
+  Sloped front hull leading into a long, mostly level upper body, with four large
+  evenly spaced wheels on each side and a low central turret. The cannon projects
+  forward beyond the turret and remains thin relative to the hull.
+
+front_view_silhouette: >-
+  Broad lower hull with sloped upper front surfaces and a flatter roofline. Wheels
+  extend outward on both sides of the hull, while the compact turret and narrow cannon
+  remain centered above the vehicle body.
+
+major_recognizable_components:
+  - long armored hull
+  - sharply sloped front hull
+  - four wheels on each side
+  - simple wheel arches or side cutouts
+  - long boxy main body
+  - compact central turret
+  - narrow forward cannon barrel
+  - flat rear hull face
+
+simplified_modeling_guidance:
+  - 'Use the real dimensions directly: 6.39 units long, 2.50 units wide, and 2.69 units high.'
+  - 'Treat the main hull as the primary scale anchor and keep the vehicle clearly longer than it is wide.'
+  - 'Build the hull and turret from beveled boxes or low-sided polygonal prisms.'
+  - 'Use eight identical simple wheels as four mirrored pairs along the hull.'
+  - 'Model the cannon as a thin straight cylinder or low-sided prism with minimal supporting detail.'
+
+details_that_may_be_omitted:
+  - tire tread and suspension mechanics
+  - hatches, hinges, handles, and vision blocks
+  - external storage and attached tools
+  - antennas, lights, mirrors, and tow fittings
+  - internal systems and crew spaces
+  - exact panel lines, rivets, and complex gun-mount mechanics
+
+visual_mistakes_to_avoid:
+  - 'Do not use tracks or fewer than four wheels on each side.'
+  - 'Do not make the hull short, square, or vertically slab-fronted.'
+  - 'Do not make the turret oversized or place it near either end of the hull.'
+  - 'Do not make the cannon thick, short, or clearly offset from the centerline.'
+  - 'Do not use the cannon barrel as the main basis for overall vehicle length.'
+
+reference_images:
+  - LAV-25.jpg
+  - LAV-25.png
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true

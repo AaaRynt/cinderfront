@@ -1,0 +1,82 @@
+vehicle_id: f-35b
+display_name: F-35B
+vehicle_type: aircraft
+shape_profile: compact_stealth_fighter
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 15.6
+  width: 10.7
+  height: 4.36
+  width_measurement: wingspan
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.686
+  height: 0.279
+
+overall_shape: >-
+  Compact, broad-shouldered stealth fighter with a short pointed nose, deep angular
+  fuselage, blended wing roots, and a single-engine rear body.
+
+top_view_silhouette: >-
+  Sharp nose widening into a broad center fuselage; medium-span trapezoidal wings
+  with swept leading edges and clipped tips; tapered rear body with two outward-canted vertical tails mounted on the upper aft fuselage
+  tail fins and two angular horizontal stabilizers.
+
+side_view_silhouette: >-
+  Slightly drooped pointed nose, raised single-seat canopy, deep center fuselage,
+  moderately swept wing, one rear exhaust, and outward-canted twin tail fins rising above the aft fuselage
+  aft body. Keep the aircraft compact rather than long and slender.
+
+front_view_silhouette: >-
+  Wide, low wing plane around a thick faceted fuselage; angular side intakes below and behind the canopy; two vertical tails canted outward. The center body should look
+  heavier than that of a conventional lightweight fighter.
+
+major_recognizable_components:
+  - pointed faceted nose
+  - compact canopy
+  - two angular side intakes
+  - broad blended center fuselage
+  - two trapezoidal wings
+  - two angular horizontal stabilizers
+  - two outward-canted vertical tails
+  - single rear engine exhaust
+
+simplified_modeling_guidance:
+  - 'Use the real dimensions directly: 15.6 units long, 10.7 units wide, and 4.36 units high.'
+  - 'Build the fuselage from a small number of angular tapered volumes rather than a smooth tube.'
+  - 'Keep both wings, intakes, stabilizers, and tail fins mirrored around the centerline.'
+  - 'Use hard planar transitions to suggest stealth shaping, with a clean low-poly silhouette.'
+  - 'Represent the canopy, intake openings, and exhaust as simple contrasting inset shapes.'
+
+details_that_may_be_omitted:
+  - landing gear and wheel wells
+  - weapons and weapon-bay interiors
+  - cockpit interior
+  - exact panel lines and access doors
+  - antennas, sensors, lights, and probes
+  - rivets and complex nozzle mechanics
+
+visual_mistakes_to_avoid:
+  - 'Do not make the fuselage thin, tubular, or unusually long.'
+  - 'Do not use delta wings, rounded wing tips, or straight vertical tails.'
+  - 'Do not add two engine exhausts or a centerline intake.'
+  - 'Do not make the tail fins vertical; they must cant outward.'
+
+reference_images:
+  - F-35B_three-view.png
+  - F-35B_Top.jpg
+  - F-35B_Side.jpg
+  - F-35B_Front.jpg
+  - F-35B_Joint_Strike_Fighter_(thrust_vectoring_nozzle_and_lift_fan).png
+  - HA4617-list-1-01.jpg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true

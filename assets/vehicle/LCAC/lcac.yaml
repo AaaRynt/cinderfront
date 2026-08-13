@@ -1,0 +1,96 @@
+vehicle_id: lcac
+display_name: LCAC
+vehicle_type: amphibious_hovercraft
+shape_profile: wide_air_cushion_landing_craft
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 26.4
+  width: 14.3
+  height: 7.2
+  length_measurement: overall_length_on_cushion
+  width_measurement: overall_beam_on_cushion
+  height_measurement: overall_height_on_cushion
+  cargo_deck_length: 20.4
+  cargo_deck_width: 8.2
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.542
+  height: 0.273
+
+overall_shape: >-
+  Broad rectangular air-cushion landing craft with a low continuous perimeter skirt,
+  a large open cargo deck through the center, equipment structures along both sides,
+  and two very large ducted propulsion fans mounted high at the stern.
+
+top_view_silhouette: >-
+  Wide rounded rectangle with a long clear cargo lane running from the broad bow ramp
+  toward the stern. Narrow equipment decks line both sides, while two large circular
+  fan housings occupy the aft port and starboard corners. The craft is much wider than
+  a conventional landing boat but remains noticeably longer than it is wide.
+
+side_view_silhouette: >-
+  Long low skirt and buoyancy platform supporting a mostly level cargo deck. Box-like
+  machinery and control modules rise along the deck edge, and one of the two enormous
+  stern fan ducts dominates the rear profile. Keep the bow low and gently rounded.
+
+front_view_silhouette: >-
+  Very wide and low base formed by the inflated skirt, with a broad central bow ramp
+  and low side structures. The upper mass should remain sparse so the craft reads as
+  an open transport platform rather than a closed ship hull.
+
+major_recognizable_components:
+  - wide rectangular buoyancy platform
+  - continuous flexible air-cushion skirt around the perimeter
+  - broad central cargo deck
+  - wide bow loading ramp
+  - narrower stern loading ramp
+  - equipment and machinery housings along both sides
+  - raised control cabin near the forward starboard side
+  - two large circular ducted propulsion fans at the stern
+  - simple fan support frames and rudders
+
+simplified_modeling_guidance:
+  - 'Use the real dimensions directly: 26.4 units long, 14.3 units wide, and 7.2 units high while on cushion.'
+  - 'Build the skirt as a thick rounded rectangular ring with a dark flexible appearance.'
+  - 'Place a thin flat buoyancy platform above the skirt and preserve a wide unobstructed central cargo deck.'
+  - 'Use low box-like volumes for the side machinery housings and a slightly taller angular box for the control cabin.'
+  - 'Make the two stern fan ducts large and visually dominant, using low-sided rings with simplified fan blades inside.'
+  - 'Keep the main layout nearly symmetrical, while allowing the forward control cabin to sit on the starboard side.'
+  - 'Model both loading ramps as broad flat panels aligned with the central cargo deck.'
+
+details_that_may_be_omitted:
+  - exact fan blade count and engine mechanics
+  - railings, ladders, cables, and safety nets
+  - antennas, lights, windows, and navigation equipment
+  - deck tie-down points and surface panel lines
+  - small vents, grilles, pipes, doors, and maintenance fittings
+  - weapons and weapon mounts
+  - internal machinery and crew stations
+  - cargo, vehicles, and personnel
+  - lettering, numbers, and deck markings
+
+visual_mistakes_to_avoid:
+  - 'Do not model the craft as a narrow conventional boat with a deep V-shaped hull.'
+  - 'Do not close the central cargo deck with a full-width superstructure.'
+  - 'Do not omit the dark perimeter skirt or make it a thin decorative strip.'
+  - 'Do not place the propulsion fans at the bow or merge them into one central fan.'
+  - 'Do not make the stern fans small; they are primary silhouette features.'
+  - 'Do not fill the central deck with permanent geometry that blocks the loading path.'
+  - 'Do not interpret the full height as the height of the skirt or hull alone.'
+  - 'Do not make the craft taller than it is wide.'
+
+reference_images:
+  - LCAC.jpeg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true
+  starboard_side: positive_x
+  port_side: negative_x

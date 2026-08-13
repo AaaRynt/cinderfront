@@ -1,0 +1,86 @@
+vehicle_id: su-30mkk
+display_name: Su-30MKK
+vehicle_type: aircraft
+shape_profile: long_twin_engine_fighter
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 21.94
+  width: 14.7
+  height: 6.36
+  width_measurement: wingspan
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.670
+  height: 0.290
+
+overall_shape: >-
+  Large, long-bodied fighter with a pointed nose, broad centerbody, swept wings,
+  two widely spaced engine nacelles, twin vertical tails, and a long central tail
+  boom extending between and behind the engine exhausts.
+
+top_view_silhouette: >-
+  Long narrow nose expanding into a broad centerbody and large swept trapezoidal
+  wings; two widely separated engine nacelles create a visible central channel;
+  broad horizontal stabilizers and twin vertical tails frame a central tail boom
+  that extends behind the engine exhausts.
+
+side_view_silhouette: >-
+  Long pointed nose, elongated raised two-seat canopy, shallow forward fuselage,
+  deep engine area under the wings, tall vertical tail, and a rear section extending
+  well behind the wing before ending at two exhausts.
+
+front_view_silhouette: >-
+  Broad wing plane around a wide blended centerbody, with two boxy intake openings
+  beneath the wing-root shoulders and two clearly separated engine nacelles. Two
+  tall vertical tails rise above the engine area and remain much closer to vertical
+  than the F-35B tails.
+
+major_recognizable_components:
+  - long pointed nose
+  - elongated two-seat canopy
+  - broad blended centerbody and wing roots
+  - two swept trapezoidal wings
+  - two boxy underslung air intakes
+  - two widely spaced engine nacelles
+  - two rear engine exhausts
+  - central tail boom extending behind the exhausts
+  - two near-vertical tail fins
+  - two broad horizontal stabilizers
+
+simplified_modeling_guidance:
+  - 'Use the real dimensions directly: 21.94 units long, 14.7 units wide, and 6.36 units high.'
+  - 'Make the long fuselage and separated twin-engine rear body the primary silhouette features.'
+  - 'Use simple tapered prisms or low-sided forms for the nose, fuselage, nacelles, and exhausts.'
+  - 'Keep wings, intakes, engines, stabilizers, and tail fins mirrored around the centerline.'
+  - 'Represent the two-seat canopy as one long raised transparent or dark shape with a simple divider.'
+
+details_that_may_be_omitted:
+  - landing gear and wheel wells
+  - weapons, pylons, and launch rails
+  - cockpit interior
+  - exact panel lines and access doors
+  - antennas, sensors, lights, and probes
+  - rivets and complex intake or engine mechanics
+
+visual_mistakes_to_avoid:
+  - 'Do not shorten the nose, canopy, or rear tail section into a compact fighter shape.'
+  - 'Do not merge the engines into one centerline nacelle or one exhaust.'
+  - 'Do not place the engine nacelles directly against each other; preserve the central gap.'
+  - 'Do not use one vertical tail or strongly outward-canted stealth-fighter tails.'
+  - 'Do not add canards ahead of the main wings; the Su-30MKK configuration has no canards.'
+  - 'Do not end the aircraft at the engine exhausts; preserve the central tail boom extending behind them.'
+
+reference_images:
+  - Sukhoi_Su-30_3-view_line_drawing.svg
+  - HA9554-list-1-01.jpg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true
