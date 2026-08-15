@@ -1,6 +1,7 @@
 vehicle_id: lcac
 display_name: LCAC
 vehicle_type: amphibious_hovercraft
+game_role: attacker
 shape_profile: wide_air_cushion_landing_craft
 
 scale:

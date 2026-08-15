@@ -1,0 +1,20 @@
+schema_version: '1.0.0'
+
+belligerents:
+  attacker:
+    display_name: 'Attacker'
+    vehicle_ids:
+      - 'lav-25'
+      - 'f-35b'
+      - 'lcac'
+      - 'wasp-class'
+
+  defender:
+    display_name: 'Defender'
+    vehicle_ids:
+      - 'btr-80'
+      - 't-72b'
+      - 'pantsir-s1'
+      - 'su-30mkk'
+      - 'project-12418-molniya'
+      - 'talwar-class'

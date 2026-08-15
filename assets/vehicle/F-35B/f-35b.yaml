@@ -1,6 +1,7 @@
 vehicle_id: f-35b
 display_name: F-35B
 vehicle_type: aircraft
+game_role: attacker
 shape_profile: compact_stealth_fighter
 
 scale:

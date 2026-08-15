@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1160" viewBox="0 0 1600 1160" role="img" aria-labelledby="svg-title svg-desc">
-  <title id="svg-title">Ash Harbor — Authoritative Physical Layout v1.2</title>
-  <desc id="svg-desc">Strict orthographic top-down technical map of a fictional contemporary coastal military-industrial battlespace with mixed-generation imported and locally supported equipment. North is up, east is right, and one SVG map unit equals ten meters.</desc>
+  <title id="svg-title">Ash Harbor — Authoritative Physical Layout v1.3</title>
+  <desc id="svg-desc">Strict orthographic top-down technical map of a fictional contemporary coastal military-industrial battlespace. The coastal force is the Defender and the offshore force is the Attacker. North is up, east is right, and one SVG map unit equals ten meters.</desc>
   <metadata>
-    Source of truth: map-spec.yaml schema 1.2.0. Map frame: x -7000 to 7000 meters, z -5000 to 5000 meters. Projection: svg_x = 100 + (x + 7000) / 10; svg_y = 80 + (5000 - z) / 10.
+    Source of truth: map-spec.yaml schema 1.3.0. Map frame: x -7000 to 7000 meters, z -5000 to 5000 meters. Projection: svg_x = 100 + (x + 7000) / 10; svg_y = 80 + (5000 - z) / 10.
   </metadata>
   <defs>
     <clipPath id="map-clip">
@@ -44,7 +44,7 @@
   </defs>
 
   <text x="100" y="38" font-size="25" font-weight="800" letter-spacing="0.4">ASH HARBOR</text>
-  <text x="100" y="61" font-size="13" fill="#4d595e">Authoritative physical layout · fictional contemporary mixed-generation setting · local Cartesian meters</text>
+  <text x="100" y="61" font-size="13" fill="#4d595e">Defender: Regions A–E · Attacker: Region F · local Cartesian meters</text>
   <text x="1500" y="38" text-anchor="end" font-size="12" font-weight="700">NORTH UP · EAST RIGHT · 1 SVG UNIT = 10 m</text>
   <text x="1500" y="60" text-anchor="end" font-size="11" fill="#4d595e">X −7000…+7000 · Z −5000…+5000</text>
 
@@ -127,7 +127,7 @@
         <g id="region_e_remote_beachhead">
           <polygon class="region" points="2500,-1900 4000,-1950 4100,-2080 4400,-2050 5450,-2100 6000,-2050 6600,-2300 7000,-3600 7000,-4300 6900,-4700 2800,-4500" fill="#bd9148" fill-opacity="0.10" stroke="#936c2c"/>
         </g>
-        <g id="region_f_blue_offshore_group">
+        <g id="region_f_attacker_offshore_group">
           <ellipse class="region" cx="-4700" cy="-2900" rx="1500" ry="950" fill="#3a7894" fill-opacity="0.08" stroke="#2c647f"/>
         </g>
       </g>
@@ -364,7 +364,7 @@
         </g>
       </g>
 
-      <g id="naval_blue_offshore_reserve">
+      <g id="naval_attacker_offshore_reserve">
         <ellipse cx="-4700" cy="-2900" rx="1500" ry="950" fill="none" stroke="#2f6a84" stroke-width="2.1" stroke-dasharray="10 7" class="technical"/>
         <g id="naval-reference-anchors" fill="none" stroke="#477f94" stroke-width="1.6" class="technical">
           <g id="naval_anchor_large_hull"><circle class="anchor-mark" cx="-4800" cy="-2700" r="45"/><line x1="-4863" y1="-2790" x2="-4737" y2="-2610"/></g>
@@ -416,7 +416,7 @@
       <text class="micro-label" x="1220" y="950">Beach exit apron</text>
 
       <g transform="translate(250 755)"><circle r="15" fill="#2c647f"/><text class="region-code" y="1">F</text></g>
-      <text class="region-label" x="272" y="761">Offshore Naval Group</text>
+      <text class="region-label" x="272" y="761">Attacker Offshore Naval Group</text>
       <text class="feature-label" x="285" y="788">Four static open-water reference anchors</text>
     </g>
   </g>

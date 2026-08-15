@@ -1,9 +1,9 @@
-schema_version: '1.2.0'
+schema_version: '1.3.0'
 
 metadata:
   map_id: ash_harbor
   display_name: Ash Harbor
-  revision: setting_language_correction_v1_2
+  revision: attacker_defender_terminology_v1_3
   subtitle: Coastal military-industrial region layout
   purpose: Authoritative physical-world specification for a future 3D battlefield diorama
   scope: Terrain, shoreline, roads, facilities, and reserved naval water only
@@ -11,8 +11,11 @@ metadata:
   setting_frame: Fictional contemporary coastal military-industrial battlespace with mixed-generation imported and locally supported equipment
   equipment_context: >-
     Imported, license-produced, locally copied, hybrid, and older operational
-    systems may coexist; the offshore force may field newer systems.
-  force_naming_policy: Use neutral functional and geographic labels without rigid red-versus-blue visual framing.
+    systems may coexist; the Attacker may field newer systems.
+  force_naming_policy: Use only Attacker and Defender for belligerent terminology; do not use color-coded faction names.
+  force_assignments:
+    attacker: Offshore attacking force associated with Region F.
+    defender: Coastal defending force associated with Regions A through E.
   force_asymmetry: Allowed; same-era matching, gameplay balance, and strict procurement realism are not required.
   fictional_location: true
   visible_human_characters_required: false
@@ -730,11 +733,11 @@ regions:
       - inland_hardstand_and_open_ground
       - low_rocky_bluff_separator
       - sparse_abandoned_defensive_remains
-  - id: region_f_blue_offshore_group
+  - id: region_f_attacker_offshore_group
     type: physical_world_region
     diagram_label: F
     diagram_visibility: prominent
-    name: Offshore Naval Group
+    name: Attacker Offshore Naval Group
     centroid_xz: [-4700, -2900]
     elevation_range_m: [-60, 0]
     description: Reserved southwestern open-water area for a compact naval formation.
@@ -1905,10 +1908,10 @@ naval_reference_areas:
       - [-4750, 3440]
       - [-4300, 3470]
       - [-3600, 3520]
-  - id: naval_blue_offshore_reserve
+  - id: naval_attacker_offshore_reserve
     type: offshore_open_water_reference_area
-    name: Offshore naval formation reserve
-    region_id: region_f_blue_offshore_group
+    name: Attacker offshore naval formation reserve
+    region_id: region_f_attacker_offshore_group
     status: reserved_open_water_layout_area
     diagram_visibility: prominent
     boundary_ellipse_xz:
@@ -1919,7 +1922,7 @@ naval_reference_areas:
     reference_anchors_xz:
       - id: naval_anchor_large_hull
         type: static_vessel_reference_anchor
-        region_id: region_f_blue_offshore_group
+        region_id: region_f_attacker_offshore_group
         point_xz: [-4800, -2700]
         heading_deg: 35
         physical_role: amphibious_assault_ship_reference
@@ -1928,7 +1931,7 @@ naval_reference_areas:
         diagram_representation: symbolic
       - id: naval_anchor_escort_west
         type: static_vessel_reference_anchor
-        region_id: region_f_blue_offshore_group
+        region_id: region_f_attacker_offshore_group
         point_xz: [-5550, -3250]
         heading_deg: 25
         physical_role: southern_escort_reference
@@ -1937,7 +1940,7 @@ naval_reference_areas:
         diagram_representation: symbolic
       - id: naval_anchor_escort_east
         type: static_vessel_reference_anchor
-        region_id: region_f_blue_offshore_group
+        region_id: region_f_attacker_offshore_group
         point_xz: [-3900, -2500]
         heading_deg: 30
         physical_role: northern_escort_reference
@@ -1946,7 +1949,7 @@ naval_reference_areas:
         diagram_representation: symbolic
       - id: naval_anchor_support_distant
         type: static_vessel_reference_anchor
-        region_id: region_f_blue_offshore_group
+        region_id: region_f_attacker_offshore_group
         point_xz: [-4200, -3400]
         heading_deg: 40
         physical_role: distant_support_ship_reference
@@ -1981,7 +1984,7 @@ diagram_requirements:
     - C — Radar Hill / Air Defense High Ground
     - D — Convoy and Rescue Corridor
     - E — Remote Beachhead
-    - F — Offshore Naval Group
+    - F — Attacker Offshore Naval Group
   visual_priority:
     - coastline_and_landform
     - region_identity

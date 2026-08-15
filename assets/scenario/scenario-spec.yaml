@@ -1,0 +1,1416 @@
+schema_version: '1.1.0'
+
+metadata:
+  scenario_id: 'ash_harbor_0527'
+  title: 'Ash Harbor'
+  scenario_type: 'deterministic_3d_battlefield_diorama'
+  start_local_time: '05:27:00'
+  scripted_duration_seconds: 180
+  aftermath_mode: 'indefinite'
+  visible_humans: false
+  audio_enabled: false
+  setting:
+    period: 'fictional contemporary / near-modern conflict'
+    equipment_policy: 'mixed-generation imported, copied, license-produced, and locally supported equipment is valid'
+    historical_reenactment: false
+
+belligerents:
+  attacker:
+    display_name: 'Attacker'
+    operational_role: 'offshore strike and amphibious landing force'
+    map_region_ids:
+      - 'region_f_attacker_offshore_group'
+  defender:
+    display_name: 'Defender'
+    operational_role: 'coastal and island defending force'
+    map_region_ids:
+      - 'region_a_harbor_district'
+      - 'region_b_storage_district'
+      - 'region_c_radar_hill'
+      - 'region_d_convoy_corridor'
+      - 'region_e_remote_beachhead'
+
+source_of_truth:
+  map_spec: '../map/map-spec.yaml'
+  map_layout_reference: '../map/map-layout.svg'
+  belligerents: '../vehicle/Belligerents.yaml'
+  authoritative_scenario: 'scenario-spec.yaml'
+  derived_human_view: 'scenario-timeline.md'
+  authority_rules:
+    geometry_and_map_ids: 'map_spec'
+    vehicle_dimensions_and_roles: 'referenced vehicle YAML files'
+    side_rosters: 'belligerents'
+    event_timing_and_state: 'authoritative_scenario'
+    visual_diagram_only: 'map_layout_reference'
+
+streaming_generation_contract:
+  transport_record_format: 'ndjson'
+  partial_yaml_is_authoritative: false
+  required_envelope_fields:
+    - 'generation_id'
+    - 'sequence'
+    - 'operation'
+    - 'record_id'
+    - 'payload'
+  sequence_starts_at: 1
+  resume_from_last_acknowledged_sequence: true
+  operations:
+    - 'metadata.upsert'
+    - 'entity.upsert'
+    - 'path.upsert'
+    - 'timeline_event.upsert'
+    - 'aftermath.upsert'
+    - 'generation.complete'
+  idempotency_key: '[generation_id, sequence]'
+  finalization:
+    require_generation_complete_record: true
+    require_yaml_parse: true
+    require_reference_validation: true
+    require_timeline_validation: true
+    write_final_yaml_atomically: true
+    regenerate_markdown_from_final_yaml: true
+
+reference_conventions:
+  belligerent_id_values: ['attacker', 'defender']
+  vehicle_ref_field: 'vehicle_id'
+  entity_ref_field: 'entities[].id'
+  map_region_ref_field: 'map_region_id'
+  map_feature_ref_field: 'map_feature_id'
+  timeline_authoritative_time_field: 'at_s'
+  local_time_is_derived_from: '[metadata.start_local_time, at_s]'
+  timeline_event_code_field: 'event'
+
+vehicle_references:
+  attacker:
+    - '../vehicle/F-35B/f-35b.yaml'
+    - '../vehicle/LCAC/lcac.yaml'
+    - '../vehicle/LAV-25/lav-25.yaml'
+    - '../vehicle/Wasp/wasp-class.yaml'
+
+  defender:
+    - '../vehicle/Su-30MKK/su-30mkk.yaml'
+    - '../vehicle/Pantsir-S1/pantsir-s1.yaml'
+    - '../vehicle/T-72b/t-72b.yaml'
+    - '../vehicle/BTR-80/btr-80.yaml'
+    - '../vehicle/Project 12418 Molniya missile boat/project-12418-molniya.yaml'
+    - '../vehicle/Talwar/talwar.yaml'
+
+design_intent:
+  primary_experience: >
+    A three-minute deterministic battlefield sequence showing a coastal military-industrial
+    system being progressively disrupted by a coordinated attack while surviving units attempt
+    to respond, support one another, relocate, withdraw, and continue operating.
+
+  combat_character:
+    - 'The battle is intentionally asymmetric.'
+    - 'The defender reacts actively instead of remaining static.'
+    - 'Not every defender asset is destroyed.'
+    - 'Some vehicles provide support and survive.'
+    - 'Some vehicles retreat after local positions become untenable.'
+    - 'Some vehicles are disabled or destroyed during movement.'
+    - 'The attacker also performs visible repositioning and egress instead of remaining stationary.'
+    - 'The final image should show a damaged but still active battlefield rather than a completely lifeless scene.'
+
+  scene_density:
+    principle: 'layered'
+    rules:
+      - 'Prefer one dominant event at a time.'
+      - 'Allow two or three medium-scale supporting actions.'
+      - 'Keep low-intensity background movement active.'
+      - 'Do not trigger every weapon, explosion, vehicle, and environmental effect simultaneously.'
+
+  implementation_philosophy:
+    - 'Use scripted cinematic approximation instead of attempting a complete physical simulation.'
+    - 'Important destruction effects should be layered and persistent.'
+    - 'Vehicle motion should use deterministic paths and state transitions.'
+    - 'Large effects may use procedural particles, instancing, decals, shaders, and authored response animations.'
+    - 'The simulation must remain deterministic when paused, replayed, or seeked.'
+
+simulation:
+  deterministic: true
+  fixed_seed: 52730
+
+  time:
+    origin_label: 'T+00:00'
+    timeline_resolution_seconds: 0.1
+    scripted_end_seconds: 180
+    aftermath_continues_world_motion: true
+
+  pause_behavior:
+    world_simulation_pauses: true
+    spectator_camera_remains_active: true
+    timeline_remains_seekable: true
+
+  seek_behavior:
+    reconstruct_state_from_timeline: true
+    clear_transient_particles_before_reconstruction: true
+    reconstruct_persistent_damage: true
+    reconstruct_fires: true
+    reconstruct_smoke_sources: true
+    reconstruct_vehicle_states: true
+
+  reset_behavior:
+    restore_initial_entity_states: true
+    remove_generated_debris: true
+    remove_ground_fire: true
+    remove_smoke: true
+    remove_damage_decals: true
+    restore_environmental_objects: true
+
+environment:
+  time_of_day:
+    description: 'early dawn'
+    lighting_character:
+      - 'cold ambient sky'
+      - 'low warm horizon light'
+      - 'industrial lights remain visible'
+      - 'fire and explosions strongly influence local illumination'
+
+  weather:
+    precipitation: 'none'
+    visibility: 'high with light coastal haze'
+    cloud_cover: 'sparse broken clouds'
+
+  wind:
+    speed_mps: 4.0
+    direction_description: 'toward the northeast'
+    xz_direction_normalized: [0.70, 0.71]
+    affects:
+      - 'smoke columns'
+      - 'small embers'
+      - 'light dust'
+      - 'surface fire visual drift'
+
+  terrain_state:
+    initial:
+      dry_ground: true
+      sparse_combustible_grass: true
+      sparse_scrub: true
+      industrial_surface_dry: true
+
+    persistent_damage_allowed:
+      - 'scorch marks'
+      - 'craters'
+      - 'localized grass fires'
+      - 'soot-darkened terrain'
+      - 'burned scrub'
+      - 'damaged light structures'
+
+  water_state:
+    initial: 'calm coastal water with moderate surface movement'
+    persistent_damage_allowed:
+      - 'fuel sheen'
+      - 'floating burning fuel'
+      - 'localized dark contamination'
+      - 'ship debris'
+
+human_visibility_policy:
+  visible_people: false
+  infantry: false
+  pilots: false
+  sailors: false
+  ground_crews: false
+  civilians: false
+  casualties: false
+  ejections: false
+  parachutes: false
+
+  activity_representation:
+    - 'vehicle motion'
+    - 'turret and radar motion'
+    - 'lights'
+    - 'doors and ramps'
+    - 'weapon systems'
+    - 'fires'
+    - 'smoke'
+    - 'machinery'
+    - 'rescue vehicles'
+
+theaters:
+  harbor:
+    map_region_id: 'region_a_harbor_district'
+    map_region_label: 'Harbor District'
+    priority: 'primary'
+    role: 'naval damage, withdrawal attempt, progressive ship loss, harbor fire'
+
+  industrial:
+    map_region_id: 'region_b_storage_district'
+    map_region_label: 'Fuel and Ammunition Storage District'
+    priority: 'primary'
+    role: 'largest environmental destruction sequence'
+
+  radar_hill:
+    map_region_id: 'region_c_radar_hill'
+    map_region_label: 'Radar Hill / Air Defense High Ground'
+    priority: 'primary'
+    role: 'initial detection, engagement, suppression, partial continued operation'
+
+  convoy_corridor:
+    map_region_id: 'region_d_convoy_corridor'
+    map_region_label: 'Convoy and Rescue Corridor'
+    priority: 'secondary'
+    role: 'support movement, rescue attempt, armored reaction, retreat, traffic disruption'
+
+  remote_beach:
+    map_region_id: 'region_e_remote_beachhead'
+    map_region_label: 'Remote Beachhead'
+    priority: 'secondary'
+    role: 'LCAC arrival and LAV-25 deployment'
+
+  offshore:
+    map_region_id: 'region_f_attacker_offshore_group'
+    map_region_label: 'Attacker Offshore Naval Group'
+    priority: 'secondary'
+    role: 'launch, support, staging, and continuing offshore presence'
+
+entities:
+  - id: 'attacker_wasp_01'
+    side: 'attacker'
+    vehicle_id: 'wasp-class'
+    type: 'Wasp-class'
+    count: 1
+    initial_location: 'Offshore naval reference area'
+    initial_location_ref:
+      map_region_id: 'region_f_attacker_offshore_group'
+      map_feature_id: 'naval_anchor_large_hull'
+    initial_state: 'underway'
+    primary_roles:
+      - 'aircraft launch platform'
+      - 'amphibious staging platform'
+      - 'persistent offshore visual anchor'
+    destruction_planned: false
+
+  - id: 'attacker_f35_01'
+    side: 'attacker'
+    vehicle_id: 'f-35b'
+    type: 'F-35B'
+    count: 1
+    initial_location: 'Wasp flight deck'
+    initial_location_ref:
+      carrier_entity_id: 'attacker_wasp_01'
+      carrier_station_id: 'flight_deck_spot_01'
+    initial_state: 'launch-ready'
+    primary_roles:
+      - 'air-defense suppression'
+      - 'late ground-support strike'
+      - 'cover during withdrawal from the strike area'
+    destruction_planned: false
+
+  - id: 'attacker_f35_02'
+    side: 'attacker'
+    vehicle_id: 'f-35b'
+    type: 'F-35B'
+    count: 1
+    initial_location: 'Wasp flight deck'
+    initial_location_ref:
+      carrier_entity_id: 'attacker_wasp_01'
+      carrier_station_id: 'flight_deck_spot_02'
+    initial_state: 'launch-ready'
+    primary_roles:
+      - 'harbor strike'
+      - 'industrial strike'
+      - 'supporting attack'
+    destruction_planned: false
+
+  - id: 'attacker_lcac_01'
+    side: 'attacker'
+    vehicle_id: 'lcac'
+    type: 'LCAC'
+    count: 1
+    initial_location: 'Offshore staging area near Wasp'
+    initial_location_ref:
+      map_region_id: 'region_f_attacker_offshore_group'
+      relative_to_entity_id: 'attacker_wasp_01'
+      formation_slot_id: 'amphibious_staging_west'
+    initial_state: 'holding'
+    payload:
+      vehicle_id: 'lav-25'
+      type: 'LAV-25'
+      count: 4
+      entity_group_id: 'attacker_lav_group_01'
+    destruction_planned: false
+
+  - id: 'attacker_lcac_02'
+    side: 'attacker'
+    vehicle_id: 'lcac'
+    type: 'LCAC'
+    count: 1
+    initial_location: 'Offshore staging area near Wasp'
+    initial_location_ref:
+      map_region_id: 'region_f_attacker_offshore_group'
+      relative_to_entity_id: 'attacker_wasp_01'
+      formation_slot_id: 'amphibious_staging_east'
+    initial_state: 'holding'
+    payload:
+      vehicle_id: 'lav-25'
+      type: 'LAV-25'
+      count: 4
+      entity_group_id: 'attacker_lav_group_02'
+    destruction_planned: false
+
+  - id: 'attacker_lav_group_01'
+    side: 'attacker'
+    vehicle_id: 'lav-25'
+    type: 'LAV-25'
+    count: 4
+    initial_location: 'aboard attacker_lcac_01'
+    initial_location_ref:
+      carrier_entity_id: 'attacker_lcac_01'
+    initial_state: 'embarked'
+    destruction_planned: false
+
+  - id: 'attacker_lav_group_02'
+    side: 'attacker'
+    vehicle_id: 'lav-25'
+    type: 'LAV-25'
+    count: 4
+    initial_location: 'aboard attacker_lcac_02'
+    initial_location_ref:
+      carrier_entity_id: 'attacker_lcac_02'
+    initial_state: 'embarked'
+    destruction_planned: false
+
+  - id: 'defender_talwar_01'
+    side: 'defender'
+    vehicle_id: 'talwar-class'
+    type: 'Talwar-class Frigate'
+    count: 1
+    initial_location: 'major berth in Harbor District'
+    initial_location_ref:
+      map_region_id: 'region_a_harbor_district'
+      map_feature_id: 'berth_large_01'
+    initial_state: 'moored and operational'
+    primary_roles:
+      - 'harbor defensive presence'
+      - 'principal ship damage sequence'
+    planned_final_state: 'mission-killed, heavily listed, partially flooded, still burning'
+
+  - id: 'defender_molniya_01'
+    side: 'defender'
+    vehicle_id: 'project-12418-molniya'
+    type: 'Project 12418 Molniya Missile Boat'
+    count: 1
+    initial_location: 'secondary harbor berth'
+    initial_location_ref:
+      map_region_id: 'region_a_harbor_district'
+      map_feature_id: 'berth_support_01'
+    initial_state: 'moored and operational'
+    primary_roles:
+      - 'emergency departure'
+      - 'surviving withdrawal'
+    planned_final_state: 'damaged but escaping into open water'
+
+  - id: 'defender_pantsir_01'
+    side: 'defender'
+    vehicle_id: 'pantsir-s1'
+    type: 'Pantsir-S1'
+    count: 1
+    initial_location: 'Radar Hill primary air-defense position'
+    initial_location_ref:
+      map_region_id: 'region_c_radar_hill'
+      map_feature_id: 'sam_platform_01'
+    initial_state: 'operational'
+    planned_final_state: 'destroyed'
+
+  - id: 'defender_pantsir_02'
+    side: 'defender'
+    vehicle_id: 'pantsir-s1'
+    type: 'Pantsir-S1'
+    count: 1
+    initial_location: 'industrial / convoy reserve position'
+    initial_location_ref:
+      map_region_id: 'region_d_convoy_corridor'
+      map_feature_id: 'corridor_pull_off_east'
+    initial_state: 'operational and mobile'
+    primary_roles:
+      - 'relocation'
+      - 'secondary air-defense support'
+    planned_final_state: 'destroyed after relocating'
+
+  - id: 'defender_su30_01'
+    side: 'defender'
+    vehicle_id: 'su-30mkk'
+    type: 'Su-30MKK'
+    count: 1
+    initial_location: 'off-map defending airspace'
+    initial_location_ref:
+      off_map_zone_id: 'offmap_defender_air_northeast'
+    initial_state: 'airborne reinforcement'
+    primary_roles:
+      - 'late defensive support'
+      - 'brief interception attempt'
+      - 'withdrawal'
+    planned_final_state: 'damaged, exits the map'
+
+  - id: 'defender_su30_02'
+    side: 'defender'
+    vehicle_id: 'su-30mkk'
+    type: 'Su-30MKK'
+    count: 1
+    initial_location: 'off-map defending airspace'
+    initial_location_ref:
+      off_map_zone_id: 'offmap_defender_air_northeast'
+    initial_state: 'airborne reinforcement'
+    primary_roles:
+      - 'covering defender_su30_01 withdrawal'
+      - 'brief defensive pass'
+    planned_final_state: 'withdraws intact'
+
+  - id: 'defender_t72_group_01'
+    side: 'defender'
+    vehicle_id: 't-72b'
+    type: 'T-72B'
+    count: 3
+    initial_location: 'Convoy Corridor reserve area'
+    initial_location_ref:
+      map_region_id: 'region_d_convoy_corridor'
+      map_feature_id: 'corridor_service_yard'
+    initial_state: 'stationary reserve'
+    primary_roles:
+      - 'ground reinforcement'
+      - 'movement toward inland beach approaches'
+      - 'withdrawal after air attack'
+    planned_losses:
+      destroyed: 1
+      surviving: 2
+
+  - id: 'defender_btr_group_01'
+    side: 'defender'
+    vehicle_id: 'btr-80'
+    type: 'BTR-80'
+    count: 4
+    initial_location: 'Convoy Corridor'
+    initial_location_ref:
+      map_region_id: 'region_d_convoy_corridor'
+      map_feature_id: 'road_eastern_trunk'
+    initial_state: 'escort and security movement'
+    primary_roles:
+      - 'convoy escort'
+      - 'industrial perimeter support'
+      - 'retreat'
+    planned_losses:
+      destroyed_or_disabled: 1
+      surviving: 3
+
+  - id: 'defender_support_convoy_01'
+    side: 'defender'
+    archetype_id: 'generic_support_convoy'
+    type: 'generic_support_convoy'
+    count: 6
+    modeling_priority: 'simple procedural vehicles'
+    composition:
+      - '2 fire engines'
+      - '1 engineering truck'
+      - '1 recovery vehicle'
+      - '2 logistics trucks'
+    initial_location: 'Convoy Corridor'
+    initial_location_ref:
+      map_region_id: 'region_d_convoy_corridor'
+      map_feature_id: 'corridor_service_yard'
+    initial_state: 'moving'
+    primary_roles:
+      - 'industrial fire response'
+      - 'road clearance attempt'
+      - 'withdrawal after route failure'
+
+spatial_references:
+  off_map_zones:
+    - id: 'offmap_defender_air_northeast'
+      type: 'air_entry_exit_zone'
+      boundary_ref: 'map_boundary'
+      entry_point_xz_m: [7000, 4200]
+      inbound_heading_deg: 225
+
+    - id: 'offmap_air_egress_southwest'
+      type: 'air_exit_zone'
+      boundary_ref: 'map_boundary'
+      exit_point_xz_m: [-7000, -4200]
+      outbound_heading_deg: 225
+
+  movement_paths:
+    - id: 'path_wasp_offshore_patrol'
+      type: 'naval_reference_path'
+      map_feature_ids:
+        - 'naval_attacker_offshore_reserve'
+        - 'naval_anchor_large_hull'
+      waypoints_xz_m:
+        - [-4800, -2700]
+        - [-4400, -2900]
+        - [-4750, -3300]
+        - [-5200, -3000]
+        - [-4800, -2700]
+
+    - id: 'path_defender_air_entry'
+      type: 'air_path'
+      reference_ids:
+        - 'offmap_defender_air_northeast'
+        - 'region_c_radar_hill'
+      waypoints_xz_m:
+        - [7000, 4200]
+        - [5500, 3500]
+        - [3500, 3000]
+        - [2000, 2500]
+
+    - id: 'path_air_egress_southwest'
+      type: 'air_path'
+      reference_ids:
+        - 'region_c_radar_hill'
+        - 'offmap_air_egress_southwest'
+      waypoints_xz_m:
+        - [2000, 2000]
+        - [0, 0]
+        - [-3000, -2000]
+        - [-7000, -4200]
+
+    - id: 'path_molniya_harbor_exit'
+      type: 'naval_withdrawal_path'
+      map_feature_ids:
+        - 'berth_support_01'
+        - 'facility_harbor_basin'
+        - 'facility_harbor_exit_channel'
+        - 'naval_harbor_channel_clearance'
+      waypoints_xz_m:
+        - [-4015, 3250]
+        - [-4300, 3470]
+        - [-4750, 3440]
+        - [-5150, 3390]
+        - [-5550, 3350]
+
+    - id: 'path_support_convoy_industrial'
+      type: 'ground_vehicle_path'
+      map_feature_ids:
+        - 'corridor_service_yard'
+        - 'road_rescue_branch'
+        - 'road_eastern_trunk'
+      connector_waypoints_xz_m:
+        - [5750, 250]
+        - [6075, 250]
+        - [6300, 400]
+
+    - id: 'path_pantsir_relocation'
+      type: 'ground_vehicle_path'
+      map_feature_ids:
+        - 'corridor_pull_off_east'
+        - 'road_eastern_trunk'
+        - 'corridor_inland_junction'
+
+    - id: 'path_defender_armored_reinforcement'
+      type: 'ground_vehicle_path'
+      map_feature_ids:
+        - 'corridor_service_yard'
+        - 'road_eastern_trunk'
+        - 'road_beach_inland_connector'
+
+    - id: 'path_defender_armored_fallback'
+      type: 'ground_vehicle_path'
+      reverse_of_path_id: 'path_defender_armored_reinforcement'
+
+    - id: 'path_defender_convoy_fallback'
+      type: 'ground_vehicle_path'
+      map_feature_ids:
+        - 'road_eastern_trunk'
+        - 'road_rescue_branch'
+        - 'corridor_service_yard'
+
+    - id: 'path_lcac_beach_approach_west'
+      type: 'amphibious_approach_path'
+      map_feature_ids:
+        - 'naval_attacker_offshore_reserve'
+        - 'surface_beach_deep_transition'
+        - 'surface_beach_shallows'
+        - 'surface_beach_intertidal'
+        - 'beach_landing_strand'
+      waypoints_xz_m:
+        - [-4200, -3400]
+        - [-2000, -3600]
+        - [500, -3800]
+        - [2500, -3500]
+        - [3600, -3200]
+        - [4300, -2920]
+
+    - id: 'path_lcac_beach_approach_east'
+      type: 'amphibious_approach_path'
+      map_feature_ids:
+        - 'naval_attacker_offshore_reserve'
+        - 'surface_beach_deep_transition'
+        - 'surface_beach_shallows'
+        - 'surface_beach_intertidal'
+        - 'beach_landing_strand'
+      waypoints_xz_m:
+        - [-3900, -2500]
+        - [-1500, -3000]
+        - [1000, -3500]
+        - [3200, -3600]
+        - [5000, -3300]
+        - [5450, -2860]
+
+    - id: 'path_lav_inland_west'
+      type: 'ground_vehicle_path'
+      map_feature_ids:
+        - 'beach_exit_apron'
+        - 'road_beach_exit'
+      connector_waypoints_xz_m:
+        - [4675, -2940]
+        - [4475, -2930]
+        - [4300, -2920]
+
+    - id: 'path_lav_inland_east'
+      type: 'ground_vehicle_path'
+      map_feature_ids:
+        - 'beach_exit_apron'
+        - 'road_beach_access_east'
+      connector_waypoints_xz_m:
+        - [5280, -2910]
+        - [5360, -2890]
+        - [5450, -2860]
+
+effect_profiles:
+  radar_position_hit:
+    category: 'medium'
+    requirements:
+      ignition_flash: true
+      sparks: true
+      debris_count_range: [4, 10]
+      dust_burst: true
+      persistent_fire_sources: [1, 2]
+      persistent_smoke: true
+      structural_damage_visible: true
+
+  vehicle_kill_medium:
+    category: 'medium'
+    requirements:
+      ignition_flash: true
+      fireball_radius_m_range: [7, 14]
+      sparks: true
+      debris_count_range: [5, 12]
+      flaming_debris_fraction_range: [0.15, 0.35]
+      ground_scorch: true
+      persistent_engine_fire: true
+      persistent_smoke: true
+      vehicle_wreck_remains: true
+
+  ship_hit_heavy:
+    category: 'hero'
+    requirements:
+      local_flash: true
+      local_fireball_radius_m_range: [12, 25]
+      sparks: true
+      metal_fragment_visuals: true
+      deck_fire_persistence: true
+      progressive_smoke_darkening: true
+      progressive_list: true
+      flooding_visuals: true
+      fuel_leak_possible: true
+      water_fire_possible: true
+      hull_remains_visible: true
+
+  fuel_storage_cascade:
+    category: 'hero'
+    cinematic_approximation_allowed: true
+
+    ignition_flash:
+      enabled: true
+      duration_seconds: 0.08
+
+    fireball:
+      enabled: true
+      max_radius_m_range: [55, 80]
+      rapid_growth_seconds: 1.4
+      visible_linger_seconds: 3.5
+
+    shock_front:
+      enabled: true
+      max_visible_radius_m_range: [500, 700]
+      travel_duration_seconds: 1.8
+      dust_ring: true
+      environmental_response_radius_m: 320
+
+    debris:
+      total_count_range: [10, 18]
+      flaming_fraction_range: [0.45, 0.70]
+      lifetime_seconds_range: [3.0, 8.0]
+      ballistic_arc_visuals: true
+      ember_trails: true
+      flame_trails_on_selected_fragments: true
+
+    nearby_environment_response:
+      enabled: true
+      affected_types:
+        - 'small trees'
+        - 'scrub'
+        - 'grass clusters'
+        - 'light poles'
+        - 'signs'
+        - 'small antennas'
+        - 'light fences'
+
+      bend_away_from_blast: true
+      bend_angle_deg_range: [10, 32]
+      initial_response_seconds_range: [0.15, 0.45]
+      spring_return_seconds_range: [1.0, 3.0]
+      slight_overshoot: true
+
+    ground_fire:
+      new_fire_patch_count_range: [6, 14]
+      maximum_initial_radius_m: 180
+      scripted_spread_only: true
+      persistent_after_event: true
+
+    smoke:
+      dense_black_column: true
+      initial_fast_growth: true
+      minimum_persistence_seconds: 90
+      wind_drift: true
+      layered_density: true
+
+    persistent_environment:
+      scorched_ground: true
+      soot_deposition_visual: true
+      burned_scrub: true
+      localized_surface_fire: true
+
+  ammunition_storage_cookoff:
+    category: 'hero'
+    cinematic_approximation_allowed: true
+
+    prelude:
+      small_explosion_count_range: [5, 9]
+      interval_seconds_range: [0.4, 1.8]
+      intermittent_flashes: true
+      smoke_accumulation: true
+
+    primary_detonation:
+      fireball_radius_m_range: [40, 65]
+      shock_front_radius_m_range: [400, 550]
+      sharp_flash: true
+      dust_ring: true
+
+    debris:
+      count_range: [18, 34]
+      high_arc_fragments: true
+      flaming_fraction_range: [0.30, 0.55]
+      ember_trails: true
+      fragment_lifetime_seconds_range: [3.0, 9.0]
+
+    persistent_environment:
+      multiple_small_fires: true
+      crater_or_destroyed_compound_visual: true
+      heavy_smoke: true
+      intermittent_secondary_detonations: true
+
+  harbor_fuel_fire:
+    category: 'persistent'
+    requirements:
+      expanding_fuel_sheen: true
+      irregular_surface_fire: true
+      dark_surface_contamination: true
+      drifting_smoke: true
+      floating_debris: true
+      slow_visual_spread: true
+
+environmental_response_rules:
+  shock_response:
+    physical_simulation_required: false
+    authored_response_allowed: true
+    shader_response_allowed: true
+    instanced_object_response_allowed: true
+
+  vegetation:
+    full_map_simulation: false
+    only_near_hero_explosions: true
+    bend_and_rebound_required: true
+    local_ground_ignition_allowed: true
+
+  structures:
+    complete_destructibility_required: false
+    selected_breakable_components_allowed:
+      - 'light poles'
+      - 'small antennas'
+      - 'fence sections'
+      - 'small roof panels'
+      - 'selected industrial props'
+
+  contamination_visuals:
+    enabled: true
+    types:
+      - 'oil sheen on harbor water'
+      - 'black smoke'
+      - 'soot-darkened ground'
+      - 'burned vegetation'
+      - 'localized ground fire'
+      - 'industrial haze'
+
+timeline_event_contract:
+  required_fields:
+    - 'id'
+    - 'at_s'
+    - 'local_time'
+    - 'track'
+    - 'event'
+  participant_fields:
+    singular: 'entity'
+    plural: 'entities'
+  optional_reference_fields:
+    - 'source_entity_id'
+    - 'target_entity_id'
+    - 'target_map_region_id'
+    - 'target_map_feature_id'
+    - 'path_id'
+    - 'path_ids'
+    - 'path_direction'
+    - 'effect_profile'
+    - 'resulting_state'
+  ordering: 'ascending_at_s_then_document_order'
+  duplicate_event_ids_allowed: false
+  same_timestamp_events_allowed: true
+  at_s_range_inclusive: [0, 180]
+  local_time_validation: 'metadata.start_local_time + at_s'
+  unknown_entity_or_path_refs_allowed: false
+
+timeline_tracks:
+  - id: 'track_environment'
+    theater: 'global'
+
+  - id: 'track_offshore'
+    theater: 'offshore'
+
+  - id: 'track_radar_hill'
+    theater: 'radar_hill'
+
+  - id: 'track_harbor'
+    theater: 'harbor'
+
+  - id: 'track_industrial'
+    theater: 'industrial'
+
+  - id: 'track_convoy'
+    theater: 'convoy_corridor'
+
+  - id: 'track_air_defense_reinforcement'
+    theater: 'global'
+
+  - id: 'track_remote_beach'
+    theater: 'remote_beach'
+
+timeline:
+  - at_s: 0
+    local_time: '05:27:00'
+    id: 'scenario_begin'
+    track: 'track_environment'
+    event: 'begin_scripted_phase'
+
+  - at_s: 1
+    local_time: '05:27:01'
+    id: 'wasp_offshore_underway'
+    track: 'track_offshore'
+    entity: 'attacker_wasp_01'
+    event: 'maintain_offshore_patrol_course'
+    path_id: 'path_wasp_offshore_patrol'
+    resulting_state: 'underway_and_supporting_launch_operations'
+
+  - at_s: 5
+    local_time: '05:27:05'
+    id: 'f35_01_launch'
+    track: 'track_offshore'
+    entity: 'attacker_f35_01'
+    event: 'launch_from_wasp'
+
+  - at_s: 13
+    local_time: '05:27:13'
+    id: 'f35_02_launch'
+    track: 'track_offshore'
+    entity: 'attacker_f35_02'
+    event: 'launch_from_wasp'
+
+  - at_s: 14
+    local_time: '05:27:14'
+    id: 'radar_alert'
+    track: 'track_radar_hill'
+    event: 'search_radar_changes_tracking_behavior'
+
+  - at_s: 20
+    local_time: '05:27:20'
+    id: 'air_defense_tracking'
+    track: 'track_radar_hill'
+    event: 'tracking_radar_and_pantsir_acquire_incoming_aircraft'
+
+  - at_s: 24
+    local_time: '05:27:24'
+    id: 'pantsir_01_engage'
+    track: 'track_radar_hill'
+    entity: 'defender_pantsir_01'
+    event: 'engage_attacker_f35_01'
+    target_entity_id: 'attacker_f35_01'
+
+  - at_s: 29
+    local_time: '05:27:29'
+    id: 'fixed_air_defense_engage'
+    track: 'track_radar_hill'
+    event: 'fixed_air_defense_guns_fire'
+
+  - at_s: 36
+    local_time: '05:27:36'
+    id: 'radar_hill_near_hit'
+    track: 'track_radar_hill'
+    source_entity_id: 'attacker_f35_01'
+    event: 'first_strike_impacts_radar_hill'
+    target_map_feature_id: 'sam_battery_area'
+    effect_profile: 'radar_position_hit'
+
+  - at_s: 42
+    local_time: '05:27:42'
+    id: 'pantsir_01_destroyed'
+    track: 'track_radar_hill'
+    entity: 'defender_pantsir_01'
+    source_entity_id: 'attacker_f35_01'
+    event: 'destroy'
+    effect_profile: 'vehicle_kill_medium'
+
+  - at_s: 45
+    local_time: '05:27:45'
+    id: 'primary_radar_disabled'
+    track: 'track_radar_hill'
+    source_entity_id: 'attacker_f35_01'
+    event: 'primary_search_radar_destroyed'
+    target_map_feature_id: 'radar_search_site'
+    effect_profile: 'radar_position_hit'
+
+  - at_s: 48
+    local_time: '05:27:48'
+    id: 'harbor_first_hit'
+    track: 'track_harbor'
+    source_entity_id: 'attacker_f35_02'
+    event: 'warehouse_or_pier_hit'
+    target_map_feature_id: 'warehouse_harbor_01'
+
+  - at_s: 52
+    local_time: '05:27:52'
+    id: 'f35_02_harbor_ingress'
+    track: 'track_harbor'
+    entity: 'attacker_f35_02'
+    event: 'high_speed_harbor_attack_pass'
+    target_map_region_id: 'region_a_harbor_district'
+
+  - at_s: 62
+    local_time: '05:28:02'
+    id: 'molniya_departure'
+    track: 'track_harbor'
+    entity: 'defender_molniya_01'
+    event: 'emergency_departure_from_berth'
+    path_id: 'path_molniya_harbor_exit'
+    resulting_state: 'withdrawing_through_harbor_channel'
+
+  - at_s: 72
+    local_time: '05:28:12'
+    id: 'talwar_first_hit'
+    track: 'track_harbor'
+    entity: 'defender_talwar_01'
+    source_entity_id: 'attacker_f35_02'
+    event: 'heavy_ship_hit'
+    effect_profile: 'ship_hit_heavy'
+
+  - at_s: 75
+    local_time: '05:28:15'
+    id: 'rescue_convoy_redirect'
+    track: 'track_convoy'
+    entity: 'defender_support_convoy_01'
+    event: 'redirect_toward_industrial_district'
+    path_id: 'path_support_convoy_industrial'
+    resulting_state: 'responding_to_industrial_emergency'
+
+  - at_s: 78
+    local_time: '05:28:18'
+    id: 'industrial_pipeline_hit'
+    track: 'track_industrial'
+    source_entity_id: 'attacker_f35_02'
+    event: 'pipeline_and_transfer_area_ignition'
+    target_map_feature_id: 'pipeline_harbor_fuel_trunk'
+
+  - at_s: 86
+    local_time: '05:28:26'
+    id: 'fuel_tank_initial_hit'
+    track: 'track_industrial'
+    source_entity_id: 'attacker_f35_02'
+    event: 'major_fuel_tank_hit'
+    target_map_feature_id: 'fuel_tank_05'
+
+  - at_s: 92
+    local_time: '05:28:32'
+    id: 'fuel_storage_cascade'
+    track: 'track_industrial'
+    event: 'hero_fuel_storage_explosion'
+    target_map_feature_id: 'fuel_bund_cell_central'
+    effect_profile: 'fuel_storage_cascade'
+
+  - at_s: 94
+    local_time: '05:28:34'
+    id: 'fuel_shock_environment_response'
+    track: 'track_environment'
+    event: 'nearby_environment_bends_rebounds_and_ignites'
+
+  - at_s: 98
+    local_time: '05:28:38'
+    id: 'industrial_blackout'
+    track: 'track_industrial'
+    event: 'partial_power_failure'
+    target_map_feature_id: 'powerline_industrial_feeder'
+
+  - at_s: 100
+    local_time: '05:28:40'
+    id: 'talwar_fuel_leak'
+    track: 'track_harbor'
+    entity: 'defender_talwar_01'
+    event: 'fuel_leak_reaches_harbor_water'
+    target_map_feature_id: 'facility_harbor_basin'
+    effect_profile: 'harbor_fuel_fire'
+
+  - at_s: 104
+    local_time: '05:28:44'
+    id: 'su30_reinforcement_entry'
+    track: 'track_air_defense_reinforcement'
+    entities:
+      - 'defender_su30_01'
+      - 'defender_su30_02'
+    event: 'enter_map_from_defending_airspace'
+    path_id: 'path_defender_air_entry'
+
+  - at_s: 108
+    local_time: '05:28:48'
+    id: 'rescue_convoy_chokepoint'
+    track: 'track_convoy'
+    entity: 'defender_support_convoy_01'
+    event: 'encounter_reduced_visibility_and_route_obstruction'
+
+  - at_s: 110
+    local_time: '05:28:50'
+    id: 'lcac_departure'
+    track: 'track_remote_beach'
+    entities:
+      - 'attacker_lcac_01'
+      - 'attacker_lcac_02'
+    event: 'depart_offshore_staging_area'
+    path_ids:
+      - 'path_lcac_beach_approach_west'
+      - 'path_lcac_beach_approach_east'
+
+  - at_s: 112
+    local_time: '05:28:52'
+    id: 'pantsir_02_relocate'
+    track: 'track_convoy'
+    entity: 'defender_pantsir_02'
+    event: 'relocate_to_secondary_firing_position'
+    path_id: 'path_pantsir_relocation'
+
+  - at_s: 115
+    local_time: '05:28:55'
+    id: 'talwar_second_hit'
+    track: 'track_harbor'
+    entity: 'defender_talwar_01'
+    source_entity_id: 'attacker_f35_02'
+    event: 'second_heavy_hit'
+    effect_profile: 'ship_hit_heavy'
+
+  - at_s: 116
+    local_time: '05:28:56'
+    id: 'ammunition_cookoff_begin'
+    track: 'track_industrial'
+    event: 'ammunition_storage_secondary_detonations_begin'
+    target_map_feature_id: 'ammunition_compound'
+
+  - at_s: 121
+    local_time: '05:29:01'
+    id: 'pantsir_02_destroyed'
+    track: 'track_convoy'
+    entity: 'defender_pantsir_02'
+    source_entity_id: 'attacker_f35_01'
+    event: 'destroy_after_secondary_engagement'
+    effect_profile: 'vehicle_kill_medium'
+
+  - at_s: 125
+    local_time: '05:29:05'
+    id: 'rescue_route_secondary_hit'
+    track: 'track_convoy'
+    event: 'roadside_secondary_explosion_blocks_route'
+    target_map_feature_id: 'dry_wash_bridge'
+
+  - at_s: 128
+    local_time: '05:29:08'
+    id: 'molniya_fragment_damage'
+    track: 'track_harbor'
+    entity: 'defender_molniya_01'
+    event: 'damaged_during_withdrawal_but_continues_moving'
+    path_id: 'path_molniya_harbor_exit'
+    resulting_state: 'damaged_mobile_with_smoke'
+
+  - at_s: 132
+    local_time: '05:29:12'
+    id: 'ammunition_storage_primary_detonation'
+    track: 'track_industrial'
+    event: 'hero_ammunition_storage_detonation'
+    target_map_feature_id: 'ammo_bunker_04'
+    effect_profile: 'ammunition_storage_cookoff'
+
+  - at_s: 133
+    local_time: '05:29:13'
+    id: 'btr_01_disabled'
+    track: 'track_convoy'
+    entity: 'defender_btr_group_01'
+    event: 'one_vehicle_disabled_by_secondary_blast_and_debris'
+    effect_profile: 'vehicle_kill_medium'
+
+  - at_s: 136
+    local_time: '05:29:16'
+    id: 'btr_survivors_fallback'
+    track: 'track_convoy'
+    entity: 'defender_btr_group_01'
+    event: 'three_surviving_vehicles_fall_back_along_branch_route'
+    path_id: 'path_defender_convoy_fallback'
+    resulting_state: 'three_mobile_one_disabled'
+
+  - at_s: 137
+    local_time: '05:29:17'
+    id: 'su30_01_damaged'
+    track: 'track_air_defense_reinforcement'
+    entity: 'defender_su30_01'
+    event: 'take_damage_and_begin_withdrawal'
+    path_id: 'path_air_egress_southwest'
+    resulting_state: 'damaged_and_egressing'
+
+  - at_s: 140
+    local_time: '05:29:20'
+    id: 'lcac_01_shallow_water'
+    track: 'track_remote_beach'
+    entity: 'attacker_lcac_01'
+    event: 'enter_shallow_water_approach'
+    path_id: 'path_lcac_beach_approach_west'
+
+  - at_s: 142
+    local_time: '05:29:22'
+    id: 'su30_02_cover_withdrawal'
+    track: 'track_air_defense_reinforcement'
+    entity: 'defender_su30_02'
+    event: 'brief_covering_pass_for_defender_su30_01'
+    target_entity_id: 'defender_su30_01'
+    path_id: 'path_air_egress_southwest'
+
+  - at_s: 148
+    local_time: '05:29:28'
+    id: 'lcac_02_shallow_water'
+    track: 'track_remote_beach'
+    entity: 'attacker_lcac_02'
+    event: 'enter_shallow_water_approach'
+    path_id: 'path_lcac_beach_approach_east'
+
+  - at_s: 150
+    local_time: '05:29:30'
+    id: 'defender_armored_reinforcement_move'
+    track: 'track_convoy'
+    entity: 'defender_t72_group_01'
+    event: 'move_toward_inland_beach_approach'
+    path_id: 'path_defender_armored_reinforcement'
+
+  - at_s: 155
+    local_time: '05:29:35'
+    id: 'lcac_01_beach'
+    track: 'track_remote_beach'
+    entity: 'attacker_lcac_01'
+    event: 'beach_and_lower_ramp'
+    path_id: 'path_lcac_beach_approach_west'
+    resulting_state: 'beached_ramp_lowered'
+
+  - at_s: 158
+    local_time: '05:29:38'
+    id: 't72_lead_destroyed'
+    track: 'track_convoy'
+    entity: 'defender_t72_group_01'
+    source_entity_id: 'attacker_f35_01'
+    event: 'lead_vehicle_destroyed_by_supporting_air_strike'
+    target_entity_id: 'defender_t72_group_01'
+    effect_profile: 'vehicle_kill_medium'
+
+  - at_s: 160
+    local_time: '05:29:40'
+    id: 'lav_group_01_disembark'
+    track: 'track_remote_beach'
+    entity: 'attacker_lav_group_01'
+    event: 'begin_disembarkation'
+    path_id: 'path_lav_inland_west'
+
+  - at_s: 162
+    local_time: '05:29:42'
+    id: 'lcac_02_beach'
+    track: 'track_remote_beach'
+    entity: 'attacker_lcac_02'
+    event: 'beach_and_lower_ramp'
+    path_id: 'path_lcac_beach_approach_east'
+    resulting_state: 'beached_ramp_lowered'
+
+  - at_s: 163
+    local_time: '05:29:43'
+    id: 't72_survivors_withdraw'
+    track: 'track_convoy'
+    entity: 'defender_t72_group_01'
+    event: 'two_surviving_vehicles_reverse_and_withdraw_behind_terrain'
+    path_id: 'path_defender_armored_fallback'
+    resulting_state: 'one_destroyed_two_withdrawing'
+
+  - at_s: 165
+    local_time: '05:29:45'
+    id: 'talwar_severe_list'
+    track: 'track_harbor'
+    entity: 'defender_talwar_01'
+    event: 'progress_to_severe_list_and_partial_flooding'
+
+  - at_s: 166
+    local_time: '05:29:46'
+    id: 'lav_group_02_disembark'
+    track: 'track_remote_beach'
+    entity: 'attacker_lav_group_02'
+    event: 'begin_disembarkation'
+    path_id: 'path_lav_inland_east'
+
+  - at_s: 170
+    local_time: '05:29:50'
+    id: 'aircraft_egress'
+    track: 'track_air_defense_reinforcement'
+    entities:
+      - 'attacker_f35_01'
+      - 'attacker_f35_02'
+      - 'defender_su30_01'
+      - 'defender_su30_02'
+    event: 'main_air_combat_activity_exits_scene'
+    path_id: 'path_air_egress_southwest'
+
+  - at_s: 172
+    local_time: '05:29:52'
+    id: 'molniya_open_water'
+    track: 'track_harbor'
+    entity: 'defender_molniya_01'
+    event: 'reach_open_water_while_damaged_and_smoking'
+    path_id: 'path_molniya_harbor_exit'
+    resulting_state: 'escaped_into_open_water'
+
+  - at_s: 174
+    local_time: '05:29:54'
+    id: 'rescue_convoy_abandon_approach'
+    track: 'track_convoy'
+    entity: 'defender_support_convoy_01'
+    event: 'stop_advance_and_begin_partial_withdrawal'
+    path_id: 'path_support_convoy_industrial'
+    path_direction: 'reverse'
+    resulting_state: 'withdrawal_in_progress'
+
+  - at_s: 176
+    local_time: '05:29:56'
+    id: 'lav_inland_spread'
+    track: 'track_remote_beach'
+    entities:
+      - 'attacker_lav_group_01'
+      - 'attacker_lav_group_02'
+    event: 'first_lav_vehicles_spread_into_two_inland_access_paths'
+    path_ids:
+      - 'path_lav_inland_west'
+      - 'path_lav_inland_east'
+
+  - at_s: 180
+    local_time: '05:30:00'
+    id: 'scripted_phase_complete'
+    track: 'track_environment'
+    event: 'enter_aftermath_observation'
+
+aftermath:
+  label: 'AFTERMATH OBSERVATION'
+
+  global:
+    new_major_strikes: false
+    world_motion_continues: true
+
+  harbor:
+    talwar:
+      state: 'heavily listed, partially flooded, burning'
+    molniya:
+      state: 'damaged withdrawal continues'
+    water:
+      state:
+        - 'fuel sheen'
+        - 'localized burning fuel'
+        - 'floating debris'
+
+  industrial:
+    state:
+      - 'large smoke column'
+      - 'multiple ground fires'
+      - 'occasional minor secondary detonation'
+      - 'scorched terrain'
+      - 'damaged storage infrastructure'
+
+  radar_hill:
+    state:
+      - 'primary radar disabled'
+      - 'some secondary equipment remains active'
+      - 'smoke and local fires continue'
+
+  convoy_corridor:
+    state:
+      - 'one Pantsir-S1 wreck'
+      - 'one BTR-80 wreck or disabled hull'
+      - 'one T-72B wreck'
+      - 'surviving armored vehicles withdrawing'
+      - 'rescue vehicles halted or reversing'
+
+  remote_beach:
+    state:
+      - 'both LCAC remain at or near the shoreline'
+      - 'LAV-25 vehicles continue disembarking and moving inland'
+      - 'dust and hovercraft spray gradually settle'
+
+  offshore:
+    state:
+      - 'Wasp remains underway'
+      - 'main aircraft strike has exited the immediate battlespace'
+
+acceptance_requirements:
+  data_integrity:
+    - 'Only attacker and defender are valid side IDs.'
+    - 'Every vehicle_id resolves to exactly one referenced vehicle YAML file and matches its game_role.'
+    - 'Every map_region_id and map_feature_id resolves in map-spec.yaml.'
+    - 'Every entity, path, track, and effect reference resolves.'
+    - 'Timeline event IDs are unique and events are ordered by at_s.'
+    - 'Every local_time equals metadata.start_local_time plus at_s.'
+    - 'Payload counts and planned loss totals match their owning entity counts.'
+    - 'A streamed generation is publishable only after generation.complete and full validation.'
+    - 'scenario-timeline.md is regenerated from the validated scenario-spec.yaml snapshot.'
+
+  scenario:
+    - 'The full scripted phase lasts exactly 180 seconds.'
+    - 'All major events use deterministic timing.'
+    - 'The scene remains visually active after T+03:00.'
+    - 'No visible human figures are required.'
+    - 'No sound system is required in this stage.'
+
+  vehicle_behavior:
+    - 'Vehicles must not behave as static props.'
+    - 'At least one defender naval asset attempts withdrawal.'
+    - 'At least one defender aircraft performs reinforcement and withdrawal.'
+    - 'At least one defender armored group attempts reinforcement.'
+    - 'Surviving armored vehicles react to losses by falling back.'
+    - 'Support and rescue vehicles attempt to reach damaged infrastructure.'
+    - 'The support attempt must visibly fail because of battlefield conditions.'
+    - 'Both LCAC craft perform visible approach, beaching, and unloading.'
+    - 'LAV-25 vehicles continue moving after disembarkation.'
+    - 'F-35B aircraft visibly leave the main combat area after completing their tasks.'
+
+  destruction:
+    - 'Destroyed vehicles remain as persistent wrecks.'
+    - 'Major ship damage progresses over time instead of occurring as a single state change.'
+    - 'Hero explosions include multiple visual layers rather than a single particle burst.'
+    - 'Hero explosion shock fronts cause visible local environmental response.'
+    - 'Selected burning debris must leave short visible ember or flame trails.'
+    - 'Important fire and smoke sources persist into the aftermath.'
+    - 'Industrial and harbor contamination remains visible after the initial explosions.'
+
+  performance:
+    - 'Use simplified procedural geometry and instancing where detailed modeling is not visually important.'
+    - 'Reserve the highest effect density for hero events.'
+    - 'Use pooled particles and reusable transient objects.'
+    - 'Do not require global real-time destruction physics.'

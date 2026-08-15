@@ -1,6 +1,7 @@
 vehicle_id: btr-80
 display_name: BTR-80
 vehicle_type: ground_vehicle
+game_role: defender
 shape_profile: eight_wheeled_amphibious_armored_carrier
 
 scale:

@@ -1,0 +1,97 @@
+vehicle_id: pantsir-s1
+display_name: Pantsir-S1
+vehicle_type: ground_vehicle
+game_role: defender
+shape_profile: eight_wheeled_missile_gun_air_defense_vehicle
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 10.30
+  width: 3.30
+  height: 5.65
+  transport_height: 4.37
+  length_measurement: overall_truck_length
+  width_measurement: approximate_weapon_module_width
+  height_measurement: approximate_ground_to_top_of_deployed_search_radar
+  height_note: 'Use 5.65 meters for the default deployed combat configuration and approximately 4.37 meters when folded for travel.'
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.320
+  height: 0.549
+  transport_height: 0.424
+
+overall_shape: >-
+  Long four-axle heavy truck with a forward cab, a large rear equipment platform,
+  and a tall rotating air-defense module carrying paired missile banks, twin gun
+  mounts, and prominent radar panels.
+
+top_view_silhouette: >-
+  Narrow truck cab at the front followed by a long rectangular equipment body. The
+  central rotating module spreads beyond the body on both sides through two symmetrical
+  six-tube missile banks and two narrow gun mounts. Radar panels remain centered on
+  the module rather than attached to the truck cab.
+
+side_view_silhouette: >-
+  Four large wheels arranged as two forward axles and two rear axles beneath a long
+  truck chassis. A boxy cab occupies the front, while the rear combat module rises
+  much higher, with inclined missile tubes, long thin gun barrels, and a rectangular
+  search radar elevated above the assembly in combat configuration.
+
+front_view_silhouette: >-
+  Tall flat-faced truck cab over a wide front axle. Behind it, the weapon module is
+  broader and taller than the cab, with matching launcher banks and gun mounts on
+  both sides and radar equipment aligned near the centerline.
+
+major_recognizable_components:
+  - four-axle eight-wheel heavy truck chassis
+  - forward flat-faced cab
+  - long rear equipment body
+  - central rotating combat module
+  - six missile tubes on each side
+  - two paired autocannon mounts with long thin barrels
+  - circular tracking radar on the front of the combat module
+  - rectangular search radar raised above the module
+  - small central electro-optical sensor housing
+  - four simple stabilizer legs for the deployed configuration
+
+simplified_modeling_guidance:
+  - 'Use a 10.30-unit vehicle length, approximately 3.30-unit deployed width, and 5.65-unit deployed height.'
+  - 'Build the truck from a boxy cab, a long low chassis, four mirrored wheel pairs, and a rectangular rear body.'
+  - 'Model each missile bank as six parallel capped tubes grouped into one rigid launcher frame.'
+  - 'Keep the left and right missile banks and gun mounts strongly symmetrical around the rotating module.'
+  - 'Use thin cylinders or low-sided prisms for the four visible gun barrels.'
+  - 'Represent both radars as simple flat panels on sturdy central supports, with the search radar above the weapons.'
+  - 'Use a moderate upward launcher angle and deployed stabilizer legs for the default combat pose.'
+
+details_that_may_be_omitted:
+  - tire tread and suspension mechanics
+  - exact missile tube clamps, caps, and seams
+  - exact gun mechanisms and ammunition feeds
+  - radar surface mesh and electronic details
+  - cab interior, mirrors, handles, steps, and lights
+  - cables, hoses, grilles, vents, and small access panels
+  - antennas and minor sensor housings
+  - markings and surface patterns
+
+visual_mistakes_to_avoid:
+  - 'Do not use fewer or more than four wheels on each side.'
+  - 'Do not place the cab behind the weapon module.'
+  - 'Do not merge the two missile banks into one centerline launcher.'
+  - 'Do not omit the paired guns or make their barrels as thick as the missile tubes.'
+  - 'Do not make the weapon module permanently face sideways relative to the truck.'
+  - 'Do not make the deployed radar and launchers lower than the cab roof.'
+  - 'Do not model the system as a simple missile truck without the circular and rectangular radar panels.'
+
+reference_images:
+  - Pantsir-S1.jpeg
+  - Pantsir-S1.jpg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true

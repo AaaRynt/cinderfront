@@ -1,6 +1,7 @@
 vehicle_id: lav-25
 display_name: LAV-25
 vehicle_type: ground_vehicle
+game_role: attacker
 shape_profile: eight_wheeled_light_armored_vehicle
 
 scale:

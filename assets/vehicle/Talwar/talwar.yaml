@@ -1,0 +1,107 @@
+vehicle_id: talwar-class
+display_name: Talwar-class Frigate
+vehicle_type: naval_vessel
+game_role: defender
+shape_profile: long_stealth_influenced_guided_missile_frigate
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 124.8
+  width: 15.2
+  height: 33.0
+  draft: 4.5
+  length_measurement: overall_hull_length
+  width_measurement: maximum_beam
+  height_measurement: approximate_keel_to_mast_top
+  height_note: 'The 33-meter height is an approximate modeling envelope; preserve the exact hull length and beam as the primary scale anchors.'
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.122
+  height: 0.264
+  draft: 0.036
+
+overall_shape: >-
+  Long narrow guided-missile frigate with a sharply flared bow, a continuous angular
+  hull and superstructure transition, a forward gun, a tall central mast and bridge,
+  one main funnel, and a helicopter hangar leading to a broad stern flight deck.
+
+top_view_silhouette: >-
+  Sharp pointed bow widening smoothly to a long nearly parallel-sided midsection and
+  a squared helicopter-deck stern. A centered gun and compact launcher area occupy the
+  foredeck. The bridge, mast, funnel, and hangar form a narrow central spine, leaving
+  clear deck edges and an open rectangular flight deck at the rear.
+
+side_view_silhouette: >-
+  Long moderately high hull with a rising flared bow and a broad vertical stern. The
+  forward gun sits low ahead of a stepped angular bridge. A tall mast dominates the
+  forward-middle profile, followed by one funnel, a lower aft superstructure and
+  hangar, and a level helicopter flight deck extending to the stern.
+
+front_view_silhouette: >-
+  Narrow V-shaped lower bow widening into flared upper hull sides. The forward gun,
+  bridge, and mast are centered, while the superstructure sides slope inward to create
+  a clean faceted profile without making the vessel excessively broad.
+
+major_recognizable_components:
+  - long narrow frigate hull
+  - sharply pointed flared bow
+  - centered forward naval gun turret
+  - compact forward vertical-launch area
+  - angular bridge and forward superstructure
+  - tall central mast with simplified radar panels
+  - single main funnel
+  - low amidships defensive weapon mounts
+  - aft helicopter hangar
+  - broad squared stern flight deck
+  - simple twin-shaft stern arrangement
+
+simplified_modeling_guidance:
+  - 'Use the real hull dimensions directly: 124.8 units long, 15.2 units wide, and 4.5 units of draft.'
+  - 'Use approximately 33.0 units from keel to mast top, treating this height as secondary to the exact length and beam.'
+  - 'Build the hull from a long tapered prism with a fine bow, mild side flare, and a broad transom stern.'
+  - 'Build the bridge, mast base, funnel, and hangar from a small number of stacked faceted volumes along the centerline.'
+  - 'Keep the forward gun compact and preserve clear separation between the foredeck, bridge, funnel, hangar, and flight deck.'
+  - 'Use a thin flat rectangle for the stern helicopter deck above the aft hull.'
+  - 'Keep the mast visually light and the superstructure narrower than the main deck.'
+
+details_that_may_be_omitted:
+  - exact radar, antenna, and sensor shapes
+  - individual missile cells and launcher mechanics
+  - exact defensive weapon and decoy-launcher geometry
+  - railings, ladders, cables, and safety nets
+  - windows, doors, vents, and bridge panels
+  - boats, davits, anchors, bollards, and deck fittings
+  - helicopter and flight-deck equipment
+  - exact propeller, shaft, and rudder mechanics
+  - internal hangar, compartments, and machinery
+  - markings and surface patterns
+
+visual_mistakes_to_avoid:
+  - 'Do not make the hull short, broad, or shaped like a missile boat.'
+  - 'Do not use a flat blunt bow or a strongly tapered stern.'
+  - 'Do not place the main gun behind the bridge.'
+  - 'Do not omit the aft helicopter hangar and open stern flight deck.'
+  - 'Do not use two large funnels or an aircraft-carrier-style island.'
+  - 'Do not make the superstructure vertical-sided, excessively bulky, or full-width.'
+  - 'Do not copy the exact superstructure, weapon layout, markings, or colors from Talwar(colorful).jpeg; it depicts a different frigate configuration.'
+  - 'Do not use the approximate mast height to distort the exact hull length and beam.'
+
+reference_images:
+  - Talwar.jpeg
+  - Talwar(colorful).jpeg
+
+reference_image_guidance:
+  primary_geometry_reference: Talwar.jpeg
+  secondary_reference_note: 'Use Talwar(colorful).jpeg only for general ship scale and deck-level cues; do not copy its class-specific layout.'
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true
+  starboard_side: positive_x
+  port_side: negative_x

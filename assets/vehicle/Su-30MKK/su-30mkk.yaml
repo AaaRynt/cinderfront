@@ -1,6 +1,7 @@
 vehicle_id: su-30mkk
 display_name: Su-30MKK
 vehicle_type: aircraft
+game_role: defender
 shape_profile: long_twin_engine_fighter
 
 scale:

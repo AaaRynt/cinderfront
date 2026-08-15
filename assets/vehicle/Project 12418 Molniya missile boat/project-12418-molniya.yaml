@@ -1,0 +1,99 @@
+vehicle_id: project-12418-molniya
+display_name: Project 12418 Molniya Missile Boat
+vehicle_type: naval_vessel
+game_role: defender
+shape_profile: compact_high_speed_guided_missile_boat
+
+scale:
+  threejs_units_per_meter: 1.0
+  note: 'Model dimensions in Three.js units should equal the dimensions in meters.'
+
+dimensions_m:
+  length: 56.9
+  width: 10.2
+  height: 17.5
+  draft: 2.4
+  length_measurement: overall_hull_length
+  width_measurement: maximum_beam
+  height_measurement: approximate_keel_to_mast_top
+  height_note: 'The 17.5-meter height is an approximate modeling envelope inferred from the reference profile; preserve the length and beam as the primary scale anchors.'
+
+normalized_proportions:
+  basis: 'length = 1.000'
+  length: 1.000
+  width: 0.179
+  height: 0.308
+  draft: 0.042
+
+overall_shape: >-
+  Compact fast missile boat with a long narrow hull, a sharply raked bow, a low open
+  foredeck, a tall angular bridge near the middle, and a dense aft weapons area with
+  inclined missile canisters and a small stern gun mount.
+
+top_view_silhouette: >-
+  Strongly pointed bow widening into a narrow parallel-sided middle hull and a nearly
+  square stern. A centered gun turret sits on the foredeck, followed by a compact
+  bridge and mast. Two mirrored banks of four missile canisters occupy the aft half,
+  leaving narrow passageways along the deck edges.
+
+side_view_silhouette: >-
+  Low sleek hull with a long rising bow and limited freeboard at the stern. A small
+  forward gun turret is separated from the tall faceted bridge. The mast forms the
+  highest point near midships, while inclined missile tubes and a smaller close-in
+  gun create a busy but low aft silhouette.
+
+front_view_silhouette: >-
+  Narrow V-shaped lower hull with flared upper bow sides and a centered foredeck gun.
+  The bridge and mast remain narrow relative to the beam, preserving a fast-boat
+  appearance rather than the broad mass of a frigate.
+
+major_recognizable_components:
+  - long narrow planing hull
+  - sharply raked pointed bow
+  - broad nearly square stern
+  - centered forward gun turret
+  - low foredeck weapon or sensor mount
+  - tall angular central bridge
+  - narrow mast with simplified radar shapes
+  - two mirrored four-canister missile banks aft of the bridge
+  - small stern close-in gun mount
+  - simple twin propeller and rudder arrangement
+
+simplified_modeling_guidance:
+  - 'Use the real hull dimensions directly: 56.9 units long, 10.2 units wide, and 2.4 units of draft.'
+  - 'Use approximately 17.5 units from keel to mast top, treating this height as secondary to the exact length and beam.'
+  - 'Build the hull as a long tapered custom prism with a sharp bow and a broad transom stern.'
+  - 'Construct the bridge from a few stacked angular boxes and keep it concentrated near midships.'
+  - 'Represent the missile armament as two mirrored banks of four simple inclined cylinders or rectangular canisters.'
+  - 'Use one compact forward gun turret and one much smaller aft gun mount.'
+  - 'Keep the mast light and narrow so the boat does not appear top-heavy.'
+
+details_that_may_be_omitted:
+  - exact radar and antenna shapes
+  - railings, ladders, cables, and safety nets
+  - exact missile tube caps and mounting hardware
+  - gun barrels beyond simple silhouette geometry
+  - windows, doors, vents, and bridge panels
+  - deck fittings, bollards, anchors, and life-saving equipment
+  - exact propeller, shaft, and rudder mechanics
+  - internal compartments and machinery
+  - markings and surface patterns
+
+visual_mistakes_to_avoid:
+  - 'Do not make the hull broad, deep, or shaped like a full-size frigate.'
+  - 'Do not round off the sharply pointed bow or strongly taper the stern.'
+  - 'Do not place the main gun behind the bridge.'
+  - 'Do not omit the two mirrored aft missile-canister banks.'
+  - 'Do not make the bridge extend across most of the hull length.'
+  - 'Do not turn the mast into a massive solid tower.'
+  - 'Do not use the approximate mast height to distort the exact hull length and beam.'
+
+reference_images:
+  - Project 12418 Molniya missile boat.jpeg
+
+orientation:
+  forward_axis: negative_z
+  up_axis: positive_y
+  center_origin: true
+  starboard_side: positive_x
+  port_side: negative_x

@@ -1,6 +1,7 @@
 vehicle_id: t-72b
 display_name: T-72B
 vehicle_type: ground_vehicle
+game_role: defender
 shape_profile: low_profile_main_battle_tank
 
 scale:

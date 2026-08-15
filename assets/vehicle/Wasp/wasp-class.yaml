@@ -1,6 +1,7 @@
 vehicle_id: wasp-class
 display_name: Wasp-class
 vehicle_type: naval_vessel
+game_role: attacker
 shape_profile: flat_top_amphibious_assault_ship
 
 scale:
