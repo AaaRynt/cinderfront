@@ -1,807 +1,935 @@
-# Cinderfront — Stage 1: Core Runtime and Opening Vertical Slice
+# Cinderfront — Stage 2: Full Ash Harbor World Construction
 
-You are implementing the first production stage of an existing React/TypeScript 3D battlefield project.
+Work directly in the existing Cinderfront repository.
 
-Work directly in the current repository.
+Stage 1 is complete.
 
-Do not stop after planning or describing an approach. Inspect the existing project, implement the stage, run validation, fix problems you discover, and leave the repository in a working state.
+This task implements **Stage 2 only**.
 
-# 1. Current Authoritative State
+Do not stop after producing a plan. Inspect the repository, implement the stage, validate the result under the repository rules, visually inspect the running application, fix issues you discover, and leave the project in a coherent working state.
 
-The project is named **Cinderfront**.
+# 1. Read the Repository Rules First
 
-It is a deterministic, scripted 3D battlefield diorama / simulation.
-
-It is **not** a player-controlled vehicle combat game.
-
-The user controls observation and simulation time, not combat units.
-
-Before implementation, read and treat the following files as authoritative project input:
+Before changing code, read:
 
 - `AGENTS.md`
+- `ITERATION_PLAN.md`
+
+`AGENTS.md` is authoritative for repository-level constraints and working rules.
+
+Do not weaken, bypass, reinterpret, or overwrite its restrictions.
+
+If `AGENTS.md` prohibits a command such as formatting or production build, do not run that command.
+
+Run every relevant project validation that is permitted by `AGENTS.md`.
+
+Do not invent additional restrictions that are not actually present in the repository.
+
+# 2. Authoritative Project Inputs
+
+Read and use:
+
 - `assets/map/map-spec.yaml`
 - `assets/map/map-layout.svg`
 - `assets/scenario/scenario-spec.yaml`
 - `assets/scenario/scenario-timeline.md`
 - `assets/vehicle/Belligerents.yaml`
 
-For vehicle geometry and visual references used in this stage, inspect:
+Also inspect the vehicle reference files required by this stage:
 
 - `assets/vehicle/Wasp/`
-- `assets/vehicle/F-35B/`
-- `assets/vehicle/Pantsir-S1/`
+- `assets/vehicle/Talwar/`
+- `assets/vehicle/Project 12418 Molniya missile boat/`
 
-Use both the YAML descriptions and the supplied reference images.
+The YAML map specification is the authoritative spatial source.
 
-Do not rewrite the project setting, battlefield layout, faction definitions, or scenario.
+The SVG is a human-readable technical reference and should be used to visually cross-check the interpretation of the YAML.
 
-Do not invent a replacement timeline.
+Do not redesign Ash Harbor.
 
-The scenario files are authoritative.
+Do not rewrite the authoritative scenario.
 
-Use the exact faction identifiers:
+Use the faction identifiers already defined by the project.
 
-- `landings_attacker`
-- `island_defender`
+Do not introduce alternative color-based faction terminology.
 
-Do not introduce `blue`, `red`, `blue force`, or `red force` terminology.
+# 3. Existing Stage 1 Baseline
 
-# 2. AGENTS.md Is Mandatory
+Stage 1 already provides:
 
-Read and obey `AGENTS.md`.
-
-Its human-visibility restriction is a hard project constraint.
-
-Do not modify or weaken it.
-
-Do not create visible human figures for environmental decoration, scale reference, cockpit occupancy, deck activity, rescue activity, or any other purpose.
-
-Cockpit glazing must prevent visible occupants from being required.
-
-All scene activity must be communicated through vehicles, machinery, lights, doors, ramps, weapons, radar systems, ships, aircraft, infrastructure, and environmental effects.
-
-# 3. Overall Iteration Plan
-
-This project will be developed in multiple major stages.
-
-This task implements **Stage 1 only**.
-
-Future stages will separately add:
-
-1. the complete Ash Harbor static environment;
-2. the Harbor and Industrial destruction sequences;
-3. island_defender reinforcement, support, withdrawal, and vehicle-loss behavior;
-4. the LCAC / LAV-25 amphibious landing theater;
-5. full 180-second integration;
-6. aftermath, camera expansion, visual polish, and performance optimization.
-
-Do not preemptively implement those stages now.
-
-Architect Stage 1 so they can be added cleanly later.
-
-# 4. Scope of This Stage
-
-Implement:
-
-## Stage 1 — Core Runtime + Opening Vertical Slice
-
-The implemented scenario range for this task is:
-
-**T+00:00 through T+00:48**
-
-Use the exact authoritative events from `scenario-spec.yaml` and `scenario-timeline.md` that occur inside this time range.
-
-Do not independently redesign their timing.
-
-The stage must create a complete vertical slice from:
-
-- offshore staging;
-- F-35B launch;
-- transition into flight;
-- Radar Hill detection;
-- Pantsir-S1 response;
-- fixed air-defense response;
-- first strike;
-- Pantsir-S1 destruction;
-- primary search radar destruction;
-- persistent post-impact state.
-
-# 5. Required Technology Direction
-
-Inspect the current `package.json` first.
-
-Keep the existing React / TypeScript / Vite project.
-
-If the required 3D dependencies are not installed, add the smallest justified set needed for this project.
-
-The intended stack is:
-
-- React
-- TypeScript
-- Vite
-- Three.js
-- `@react-three/fiber`
-- `@react-three/drei`
-- `@react-three/postprocessing` only if genuinely useful
-
-Do not add a large general UI framework.
-
-Do not add a heavyweight physics engine for this stage.
-
-Do not introduce a large game engine abstraction.
-
-Prefer deterministic authored motion and lightweight mathematical simulation.
-
-Keep the code modular enough for later stages but do not over-engineer a generic game engine.
-
-# 6. Core Simulation Architecture
-
-This requirement is more important than visual polish.
-
-Implement a deterministic simulation-time architecture.
-
-The visual state of important entities must be derivable from simulation time.
-
-Avoid designing the scenario as a chain of irreversible `setTimeout()` calls.
-
-A user must be able to seek directly from:
-
-`T+00:05`
-
-to:
-
-`T+00:43.2`
-
-and obtain a visually coherent world state.
-
-At T+00:43.2, for example:
-
-- the first F-35B must already be at the correct point on its authored flight path;
-- the second F-35B must be at its own correct state;
-- the first Pantsir-S1 must already be destroyed;
-- its wreck must exist;
-- its persistent fire and smoke state must exist;
-- the primary radar must still reflect the correct pre-destruction or destruction transition state according to the authoritative timeline;
-- all other active machinery must be in an appropriate deterministic state.
-
-Seek correctness does not require reconstructing every historical particle trajectory.
-
-Transient effects may be approximated or regenerated.
-
-Persistent scenario state must be correct.
-
-# 7. Simulation Controls
-
-Implement a compact functional control interface.
-
-Required:
-
-- play;
+- deterministic T+00:00–00:48 runtime;
+- direct timeline seeking;
+- restart;
 - pause;
-- restart from T+00:00;
-- seek timeline;
-- `0.5×`;
-- `1×`;
-- `2×`.
-
-Display:
-
-- relative simulation time, such as `T+00:23`;
-- corresponding local time, such as `05:27:23 LOCAL`.
-
-When paused:
-
-- battlefield simulation time must stop;
-- the spectator camera must remain fully usable.
-
-When restarted:
-
-- transient debris must clear;
-- smoke and fires must reset appropriately;
-- destroyed entities must return to their initial states;
-- aircraft must return to launch state;
-- radar systems must return to initial operation;
-- no duplicate transient effects may survive the reset.
-
-# 8. Spectator Camera
-
-Implement a robust spectator / god-view camera.
-
-The user does not pilot any unit.
-
-Required camera capabilities:
-
-- rotate;
-- pan;
-- zoom;
-- free spatial observation appropriate for a large battlefield;
-- camera remains active while simulation is paused.
-
-Provide at least these presets:
-
-- `Overview`
-- `Wasp`
-- `Radar Hill`
-- `F-35B 01`
-
-The aircraft preset may follow or track the first F-35B.
-
-Do not create a mandatory automatic cinematic camera.
-
-The observer must retain control.
-
-# 9. World Shell
-
-Use `map-spec.yaml` as the coordinate authority.
-
-For Stage 1, do not build the entire final Ash Harbor environment.
-
-Create a low-detail world shell sufficient to establish:
-
-- total battlefield scale;
-- coastline;
-- ocean;
-- basic terrain mass;
+- playback speeds;
+- spectator camera;
+- camera presets;
+- low-detail Ash Harbor world shell;
+- Wasp-class ship;
+- two F-35B aircraft;
+- deterministic F-35B STOVL launch;
 - Radar Hill;
-- offshore area containing Wasp.
+- Pantsir-S1;
+- fixed air-defense activity;
+- opening combat sequence;
+- persistent Pantsir and radar destruction;
+- HUD;
+- automated simulation tests.
 
-Other approved map regions should remain spatially recognizable at low detail where useful, but do not spend Stage 1 building their final industrial or harbor assets.
+Treat these as regression-critical functionality.
 
-The final map specification must remain compatible with future stages.
+Stage 2 must preserve them.
 
-Do not redesign the coastline.
+Do not replace the deterministic runtime merely because a different architecture would be convenient for world construction.
 
-Do not change the approved region layout.
+Do not rewrite Stage 1 combat timing.
 
-# 10. Dawn Environment
+# 4. Stage 2 Goal
 
-Match the scenario environment:
+Turn the current low-detail Ash Harbor world shell into the complete physical battlefield defined by `map-spec.yaml`.
 
-- early dawn;
-- cold ambient sky;
-- low warm horizon illumination;
-- light coastal haze;
-- clear enough visibility for long-distance observation;
-- no precipitation.
+At T+00:00, before most destruction occurs, a spectator should already be able to travel throughout the entire 14 km × 10 km battlefield and see a coherent, visually differentiated, convincing coastal military-industrial environment.
 
-Fire and explosion illumination should be visually meaningful against the dawn environment.
+Stage 2 is primarily about:
 
-Keep lighting efficient enough for a browser application.
+- terrain;
+- coastline;
+- water;
+- harbor infrastructure;
+- industrial infrastructure;
+- roads and utilities;
+- Radar Hill visual integration;
+- Convoy Corridor physical environment;
+- Remote Beachhead;
+- environmental detail vocabulary;
+- Talwar-class frigate;
+- Project 12418 Molniya missile boat.
 
-# 11. Wasp-Class Amphibious Assault Ship
+Do not advance the later battle storyline.
 
-Create a recognizable procedural / authored 3D approximation of the Wasp-class ship using the supplied YAML and reference images.
+# 5. Preserve the Approved Map
 
-Prioritize:
+Use the physical geometry from `assets/map/map-spec.yaml`.
 
-- silhouette;
-- overall proportions;
-- long flight deck;
-- island superstructure;
-- deck edges;
-- hull proportions;
-- major deck markings or structural hints;
-- coherent materials.
+Preserve:
 
-Do not attempt CAD-level accuracy.
+- map bounds;
+- coordinate system;
+- coastline topology;
+- Harbor District position;
+- Fuel Storage position;
+- Ammunition Storage position;
+- Radar Hill position;
+- Convoy Corridor;
+- Remote Beachhead;
+- offshore naval staging area;
+- approved roads;
+- rail;
+- pipelines;
+- major utilities;
+- region separation.
 
-The ship should be convincing at normal spectator-camera distances.
+Do not casually move major facilities because another arrangement looks more convenient in 3D.
 
-The Wasp remains underway throughout this vertical slice.
+Minor implementation-level adjustments are acceptable only when required to prevent obvious geometry intersections or rendering defects.
 
-Provide subtle ship motion and wake.
+If such an adjustment is required, keep it minimal and report it.
 
-Do not place visible crew on the deck.
+# 6. Terrain Upgrade
 
-# 12. F-35B Modeling
+The Stage 1 terrain is intentionally simplified.
 
-Create two recognizable F-35B aircraft from the supplied reference material.
+Replace the obvious low-detail / terraced test appearance with a more convincing continuous landscape while retaining authoritative elevations and world layout.
 
-Prioritize:
+The terrain should support:
 
-- correct overall silhouette;
-- nose and fuselage proportions;
-- wing planform;
-- twin vertical stabilizers;
-- intake placement;
-- canopy volume;
-- landing gear;
-- F-35B-specific lift-fan area;
-- rear exhaust nozzle.
+- industrial flatlands;
+- harbor shoreline;
+- Radar Hill ridge;
+- natural slopes;
+- dry inland terrain;
+- drainage / dry wash geometry;
+- coastal bluff transitions;
+- dunes;
+- remote beach terrain.
 
-The aircraft do not need DCS-level geometry.
+Do not make Radar Hill a simple cone.
 
-They must be recognizable and visually convincing at the expected viewing distance.
+Do not flatten the entire map into a nearly uniform plane.
 
-Use dark or reflective cockpit glazing.
+The topography should remain readable from both:
 
-No occupant must be visible.
+- high overview;
+- low spectator-camera viewpoints.
 
-# 13. F-35B STOVL Launch
+Use efficient procedural or authored geometry.
 
-The user specifically supplied F-35B vertical-takeoff reference material.
+Do not create unnecessary microscopic terrain tessellation across the full 14 × 10 km world.
 
-Use it.
+# 7. Ground Surface Language
 
-Do not fake the launch by translating a completely static aircraft vertically.
+Different physical areas should visually read as different surfaces.
 
-The STOVL sequence should visibly communicate the F-35B lift system.
+Create a restrained but convincing material vocabulary for:
 
-At minimum model and animate:
+- dry soil;
+- rock;
+- sparse dry grass;
+- scrubland;
+- sand;
+- compacted beach ground;
+- industrial pavement;
+- road asphalt;
+- gravel or service areas;
+- shallow-water transition.
 
-- lift-fan door opening;
-- rear exhaust nozzle rotating downward;
-- aircraft vertical lift;
-- transition into forward motion;
-- rear nozzle gradually returning toward forward-flight orientation;
-- landing-gear retraction;
-- lift-fan door closing during transition.
+Procedural materials, vertex colors, lightweight noise, or reusable textures are acceptable.
 
-Simplification is acceptable.
+Do not require large high-resolution texture sets merely to create variation.
 
-Mechanical plausibility and readable motion are more important than reproducing every internal component.
+Avoid making the entire landmass one uniform brown or green material.
 
-Do not spend excessive time building invisible internal engine machinery.
+# 8. Coastline and Water
 
-The visible external sequence matters most.
+Upgrade the coast using the authoritative shoreline geometry.
 
-# 14. STOVL Environmental Response
+Support:
 
-The launch should affect its immediate environment.
+- open coastal water;
+- harbor water;
+- shallow-water transitions;
+- Remote Beachhead nearshore water;
+- visually appropriate depth / color changes;
+- shoreline blending.
 
-Use cinematic approximation rather than CFD.
+The water should be credible at both:
 
-Possible visible effects include:
+- overview distance;
+- moderate low-altitude spectator distance.
 
-- downward exhaust / hot-flow visualization;
-- heat distortion;
-- deck-adjacent haze;
-- light vapor;
-- subtle local deck dust or salt-particle response;
-- localized ocean-surface disturbance near the ship if visually appropriate.
+Preserve the existing Stage 1 Wasp water interaction.
 
-Keep these effects restrained.
+Improve it where necessary without breaking Stage 1.
 
-The aircraft launch should feel powerful without covering the entire deck in opaque particles.
+Do not implement harbor fuel contamination yet.
 
-# 15. F-35B Flight Paths
+That belongs to Stage 3.
 
-Use authored deterministic paths.
+# 9. Harbor District
 
-Do not implement player flight controls.
+Build the Harbor District as a complete physical environment.
 
-Aircraft should:
+Use the map specification for geometry and placement.
 
-- depart Wasp;
-- transition to forward flight;
-- accelerate;
-- move toward Radar Hill;
-- perform the scenario events defined inside T+00:00–00:48.
+Include where defined or spatially justified by the specification:
 
-The two aircraft should not occupy identical trajectories.
+- breakwaters;
+- harbor entrance;
+- navigation channel;
+- harbor basin;
+- major piers;
+- jetties;
+- military berths;
+- support berths;
+- warehouses;
+- maintenance areas;
+- crane structures;
+- harbor service roads;
+- industrial hardstands;
+- pipe infrastructure;
+- utility compounds;
+- power distribution infrastructure;
+- fences;
+- lighting infrastructure;
+- small defensive structures.
 
-Small differences in:
+Prioritize silhouette, spatial coherence, and industrial density.
 
-- launch timing;
-- turn direction;
-- altitude;
-- path curvature;
+Do not model every bolt.
 
-are desirable as long as the authoritative scenario remains respected.
+Repeated structures should reuse geometry and materials.
 
-Do not create a prolonged dogfight.
+The Harbor District must feel capable of supporting the later Talwar damage, Molniya withdrawal, surface fires, and harbor destruction sequence.
 
-# 16. Radar Hill
+Do not implement those destruction events during Stage 2.
 
-Build enough of Radar Hill to support the opening engagement.
+# 10. Fuel Storage District
 
-Use the relevant map geometry from `map-spec.yaml`.
+Construct the Fuel Storage Area in full enough detail to support Stage 3 hero destruction.
+
+It must not look like several isolated cylinders placed on empty terrain.
 
 Include:
 
-- terrain elevation;
-- primary search radar;
-- tracking radar or secondary radar equipment;
-- primary Pantsir-S1;
-- simplified fixed AAA emplacement;
-- minimal support structures;
-- access-road hints where appropriate.
+- multiple fuel tanks;
+- size variation where supported;
+- tank containment berms;
+- firebreak spacing;
+- pipe racks;
+- pipelines;
+- pump / transfer structures;
+- valve or junction structures where useful;
+- service roads;
+- maintenance areas;
+- utility structures;
+- lighting;
+- connection toward the harbor;
+- freight or transfer infrastructure defined in the map specification.
 
-The hill should read as an elevated military installation rather than a cone with objects placed on top.
+The geometry does not need engineering-level precision.
 
-# 17. Radar Animation
+It must read as a connected industrial system.
 
-Before engagement:
+Prepare large structures so future Stage 3 effects can attach:
 
-- primary radar rotates continuously;
-- secondary / tracking equipment has its own lower-intensity motion.
+- fire sources;
+- smoke sources;
+- damage marks;
+- debris origins.
 
-When incoming aircraft are detected:
+Do not implement the actual fuel-storage cascade yet.
 
-- radar behavior changes according to the authoritative scenario;
-- tracking systems visibly orient toward the threat.
+# 11. Ammunition Storage District
 
-After primary radar destruction:
+Construct a visually distinct Ammunition Storage Area.
 
-- the primary radar stops functioning;
-- secondary equipment must not automatically become completely dead;
-- some surviving activity remains.
+Include:
 
-# 18. Pantsir-S1
+- individual magazines or bunkers;
+- protective earth berms;
+- meaningful spacing;
+- loading / transfer areas;
+- internal access roads;
+- logistics access;
+- fences or security boundaries;
+- support structures where appropriate.
 
-Create a recognizable Pantsir-S1 from its supplied YAML and images.
+Do not make it visually identical to the fuel district.
 
-Prioritize:
+A viewer should be able to understand from the geometry alone that these are different industrial / military functions.
 
-- truck chassis;
-- turret;
-- radar;
-- missile-launcher blocks;
-- gun barrels;
-- recognizable proportions.
+Prepare the compound for later:
 
-Use moving mechanical parts.
+- local cook-off points;
+- primary detonation area;
+- persistent wreckage;
+- local fire attachment points.
 
-Before firing:
+Do not implement the Stage 3 detonation sequence yet.
 
-- turret / radar tracks appropriately.
+# 12. Harbor-to-Industrial Connections
 
-During engagement:
+Implement major static connections defined by the map:
 
-- the system visibly fires;
-- launcher state changes;
-- smoke / exhaust appears;
-- missile leaves the vehicle;
-- missile trail is visible.
+- pipelines;
+- pipe racks;
+- service roads;
+- freight rail;
+- utility connections.
 
-The weapon system should feel mechanical rather than being represented by arbitrary lines emitted from a static truck.
+These connections are important environmental storytelling.
 
-# 19. Fixed AAA
+The harbor and industrial districts should feel physically related without collapsing into one dense visual cluster.
 
-Add a simplified fixed air-defense gun position.
+Use proper ground clearance and support structures where appropriate.
 
-It does not need a dedicated high-detail real-world model in this stage.
+Avoid impossible pipeline jumps or rail segments passing visibly through buildings.
 
-Required visual behavior:
+# 13. Radar Hill Upgrade
 
-- tracking or aiming;
-- short controlled firing sequences;
-- restrained tracer density.
+Preserve all Stage 1 functional behavior.
 
-Do not fill the sky with continuous laser-like tracer lines.
+Improve the visual world around Radar Hill.
 
-Tracer fire must support the scene rather than dominate it.
+Add or refine:
 
-# 20. Air-Defense Missiles
+- natural ridge / plateau shape;
+- slope transitions;
+- access road;
+- cut slopes or retaining treatment where useful;
+- radar platforms;
+- SAM / Pantsir platform;
+- fixed AAA platform;
+- communications infrastructure;
+- support buildings;
+- generators or utility infrastructure;
+- fencing;
+- sparse hill vegetation;
+- rock and dirt variation.
 
-Implement visually readable authored missile motion.
+Do not break:
 
-Missiles should include:
+- radar tracking;
+- Pantsir tracking;
+- missile launch;
+- fixed AAA;
+- T+00:42 Pantsir destruction;
+- T+00:45 radar destruction;
+- persistent damage reconstruction;
+- seeking.
 
-- launch impulse;
-- initial exhaust;
-- smoke trail;
-- curved interception path;
-- finite lifetime.
+After the upgrade, Stage 1 should look better without behaving differently.
 
-Do not implement a complete aerodynamic missile simulation.
+# 14. Convoy Corridor
 
-A deterministic authored interception path is acceptable.
+Build the physical environment needed for the later Stage 4 vehicle behavior.
 
-No requirement exists for a successful aircraft kill in Stage 1.
+Include:
 
-# 21. Initial Strike Effects
+- principal road corridor;
+- branch roads;
+- road width variation where appropriate;
+- intersections;
+- lay-bys / pull-off areas;
+- service or maintenance yard;
+- utility compound;
+- road chokepoint;
+- culvert or bridge;
+- dry wash / drainage;
+- guardrails or barriers where useful;
+- sparse roadside infrastructure;
+- optional quarry / abandoned industrial area if already supported by the map specification.
 
-Implement a reusable effect foundation suitable for later stages.
+The region should remain relatively open.
 
-Stage 1 needs at least these conceptual capabilities:
+Do not turn it into a city.
 
-- impact flash;
-- explosion fireball;
-- debris emission;
-- selected fragment motion;
-- dust burst;
-- smoke source;
-- persistent fire;
-- persistent wreck;
-- ground scorch / damage mark;
-- simple shockwave visual.
+The roads should provide believable future paths for:
 
-Names and component structure are up to you.
+- BTR-80;
+- T-72B;
+- Pantsir-S1;
+- rescue vehicles;
+- logistics vehicles.
 
-The important requirement is that the implementation can later be extended into much larger industrial hero effects.
+Do not implement those later vehicle sequences yet.
 
-Avoid building each explosion as unrelated one-off code.
+# 15. D / E Separation
 
-# 22. Pantsir-S1 Destruction
+Preserve and visually strengthen the approved separation between:
 
-At the authoritative destruction time inside the Stage 1 window, the primary Pantsir-S1 is destroyed.
+- Convoy Corridor;
+- Remote Beachhead.
 
-It must not:
+Use the map-defined:
 
-- disappear;
-- instantly swap into an unrelated generic cube;
-- vanish beneath particles.
+- dry wash;
+- low ridge;
+- bluff;
+- barren terrain;
+- other separator geometry.
 
-Its destruction should include multiple layers:
+The Remote Beachhead must remain a distinct secondary theater.
 
-1. ignition flash;
-2. compact fireball;
-3. sparks;
-4. several debris fragments;
-5. visible chassis response;
-6. persistent fire;
-7. dark smoke;
-8. surviving wreck.
+A spectator should not perceive the beach exit as immediately merging into the principal defender convoy route.
 
-The wreck must remain visible after transient particles fade.
+# 16. Remote Beachhead
 
-Seeking to a time after the destruction must reconstruct the wrecked state.
+Construct the full physical landing environment.
 
-# 23. Primary Radar Destruction
+Include:
 
-The primary search radar is subsequently disabled / destroyed according to the authoritative timeline.
+- deeper coastal water;
+- shallow-water transition;
+- intertidal area;
+- broad beach;
+- dunes;
+- sparse vegetation;
+- coastal scrub;
+- low bluff or rocky transition where defined;
+- firm beach exit;
+- inland hardstand / open ground;
+- two distinct inland access paths;
+- minimal shoreline military remnants where appropriate.
+
+The environment should clearly be capable of supporting future LCAC beaching and LAV-25 deployment.
+
+Do not create:
+
+- LCAC landing;
+- ramps;
+- LAV-25 movement;
+- landing arrows;
+- future event markers.
+
+Those belong to Stage 5.
+
+# 17. Vegetation System
+
+Create an efficient sparse vegetation system appropriate for the dry coastal environment.
+
+Possible categories include:
+
+- dry grass patches;
+- scrub;
+- bushes;
+- occasional small trees;
+- coastal vegetation.
+
+Avoid dense forests.
+
+Repeated vegetation should use efficient rendering techniques such as instancing where practical.
+
+Most importantly, structure selected nearby environmental objects so a later Stage 3 local shock-response system can address them.
+
+Future Stage 3 effects will need selected vegetation to support:
+
+- bend away from blast;
+- rebound;
+- slight overshoot;
+- local ignition.
+
+Do not implement the explosion response in Stage 2.
+
+Do not build every grass blade as an individually addressable React component.
+
+Use a practical response-group or instance-data strategy.
+
+# 18. Lightweight Environmental Props
+
+Create reusable project-specific primitives for environmental detail.
+
+Useful examples include:
+
+- fences;
+- utility poles;
+- light poles;
+- road signs;
+- pipe supports;
+- industrial barriers;
+- storage sheds;
+- generators;
+- transformers;
+- rock clusters;
+- drainage structures;
+- maintenance props.
+
+Prefer reusable primitives with shared geometry and materials.
+
+Do not create a giant generic framework.
+
+The goal is a rich world, not an architecture exercise.
+
+# 19. Talwar-Class Frigate
 
 Use:
 
-- bright impact flash;
-- medium explosion;
-- structural debris;
-- dust;
-- persistent smoke;
-- visible physical damage.
+- `assets/vehicle/Talwar/talwar.yaml`
+- supplied Talwar reference images
 
-The radar should stop rotating.
+Create a recognizable procedural / authored Talwar-class frigate.
 
-Secondary equipment should continue appropriate residual operation.
+Prioritize:
 
-Do not destroy the entire installation with one explosion.
+- hull proportions;
+- bow shape;
+- deck silhouette;
+- superstructure;
+- mast and radar silhouette;
+- main gun;
+- missile-area shapes;
+- helicopter deck;
+- major sensor and antenna structures;
+- believable waterline.
 
-# 24. Persistent Damage
+Do not attempt CAD-level detail.
 
-At the end of T+00:48, the world should preserve evidence of what happened.
+It should remain recognizable at normal Harbor spectator distances.
 
-Required persistent state:
+Prepare its internal scene structure for future Stage 3 behavior.
 
-- destroyed Pantsir-S1 wreck;
-- Pantsir fire and smoke;
-- damaged / destroyed primary radar;
-- persistent radar-site smoke or small fire;
-- ground scorch;
-- appropriate local debris.
+The implementation should make future support practical for:
 
-Stage 1 must not visually reset itself after each explosion.
+- progressive list;
+- progressive flooding / sinking;
+- multiple localized hit points;
+- deck fire attachment points;
+- smoke attachment points;
+- fuel leakage origin;
+- reduced defensive activity.
 
-# 25. Effect Performance
+At Stage 2:
 
-This is a browser 3D project.
+- keep it moored;
+- keep it intact;
+- allow only subtle idle motion if appropriate.
 
-Use sensible techniques such as:
+Do not implement its combat damage sequence yet.
 
-- object pooling;
+# 20. Project 12418 Molniya Missile Boat
+
+Use:
+
+- `assets/vehicle/Project 12418 Molniya missile boat/project-12418-molniya.yaml`
+- supplied reference image
+
+Create a recognizable procedural / authored Project 12418 Molniya missile boat.
+
+Prioritize:
+
+- compact fast-attack-craft hull;
+- superstructure;
+- large anti-ship missile launcher shapes;
+- main gun;
+- radar;
+- mast;
+- recognizable silhouette;
+- believable waterline.
+
+Prepare it for future:
+
+- departure from berth;
+- turning;
+- acceleration;
+- wake changes;
+- damaged movement;
+- smoke attachment.
+
+At Stage 2 it remains in its initial scenario state.
+
+Do not implement its emergency departure or damage sequence yet.
+
+# 21. Wasp Preservation
+
+Do not unnecessarily rebuild the Stage 1 Wasp.
+
+Improve its environmental integration if needed.
+
+Preserve:
+
+- scale;
+- placement;
+- F-35B STOVL compatibility;
+- Stage 1 launch behavior.
+
+If ocean / wake improvements require touching the Wasp integration, regression-test both F-35B launches afterward.
+
+# 22. Stage 1 Vehicle Preservation
+
+Do not use Stage 2 as an excuse to rewrite:
+
+- F-35B;
+- Pantsir-S1;
+- existing missile logic;
+- existing destruction architecture;
+
+unless a concrete visual or compatibility problem requires a focused change.
+
+Any change to these systems must preserve deterministic Stage 1 behavior.
+
+# 23. Environmental Motion
+
+The world should not feel perfectly frozen at T+00:00.
+
+Subtle acceptable motion includes:
+
+- ocean movement;
+- ship motion;
+- radar rotation;
+- distant machinery;
+- light wind response;
+- restrained vegetation motion;
+- haze.
+
+Do not add new combat events merely to create activity.
+
+# 24. Performance Architecture
+
+Remember that later stages will add:
+
+- large black smoke columns;
+- multiple persistent fires;
+- hero explosions;
+- flaming debris;
+- multiple moving armored vehicles;
+- aircraft;
+- LCAC wakes and spray.
+
+Stage 2 must therefore leave meaningful rendering headroom.
+
+Use where useful:
+
 - instancing;
-- shared geometry;
 - shared materials;
-- limited shadow casters;
-- efficient transient-particle management.
+- shared geometry;
+- batched repeated props;
+- distance simplification;
+- LOD;
+- restrained shadow casting;
+- bounded shadow distance.
 
-Do not create hundreds of individual React components for tiny particles.
+Avoid:
 
-Do not add full-map real-time rigid-body destruction.
+- one React component per grass blade;
+- unique materials for hundreds of identical props;
+- unnecessary high-segment geometry;
+- excessive transparent layers;
+- tens of thousands of independent scene objects without justification.
 
-Keep the implementation extendable for later hero explosions.
+Do not optimize blindly.
+
+Use browser inspection and available profiling information to identify obvious problems.
+
+# 25. Architecture
+
+Keep world-building code modular.
+
+Suitable domain-oriented organization may include concepts such as:
+
+- terrain;
+- water;
+- harbor;
+- industrial;
+- radar hill;
+- roads;
+- beach;
+- vegetation;
+- utilities;
+- environment primitives;
+- naval vehicles.
+
+Exact filenames and component names are your choice.
+
+Avoid turning `BattlefieldScene.tsx` into a monolithic file containing every structure in Ash Harbor.
+
+Also avoid creating an unnecessarily abstract general-purpose world engine.
+
+Build for Cinderfront.
 
 # 26. Explicit Non-Goals
 
-Do NOT implement during this stage:
+Do NOT implement during Stage 2:
 
-- the final detailed Harbor District;
-- Talwar destruction;
-- Molniya withdrawal;
-- fuel-storage destruction;
-- ammunition-storage destruction;
-- full industrial district;
-- full Convoy Corridor behavior;
-- BTR-80 combat sequence;
-- T-72B reinforcement sequence;
-- second Pantsir-S1 sequence;
-- Su-30MKK sequence;
+- Talwar combat damage;
+- Talwar sinking;
+- harbor fuel fire;
+- Molniya emergency departure;
+- Molniya combat damage;
+- fuel-storage explosion;
+- ammunition-storage cook-off;
+- hero industrial explosions;
+- blast-driven vegetation bending;
+- vegetation ignition;
+- rescue convoy behavior;
+- generic support vehicles;
+- BTR-80 Stage 4 behavior;
+- T-72B Stage 4 behavior;
+- second Pantsir Stage 4 behavior;
+- Su-30MKK Stage 4 behavior;
 - LCAC landing;
 - LAV-25 deployment;
-- complete 180-second timeline;
-- aftermath mode beyond what is minimally necessary for the Stage 1 slice;
+- full 180-second timeline;
+- aftermath integration;
 - audio;
-- visible humans;
-- infantry;
-- cockpit occupants;
-- deck crews;
-- rescue personnel;
-- humanoid silhouettes;
-- complex multiplayer or player combat systems;
-- full rigid-body destruction physics;
-- full aerodynamic aircraft simulation;
-- historical lore expansion.
+- automatic cinematic direction;
+- player vehicle controls;
+- new scenario lore;
+- new map geometry replacing the authoritative map.
 
-Do not implement these merely because their reference assets exist.
+Do not implement future-stage features simply because their references exist.
 
-# 27. Asset Policy
+# 27. Validation Strategy
 
-Prefer the supplied project references.
+Respect `AGENTS.md`.
 
-Do not replace the provided vehicle references with unrelated downloaded models.
+Run all relevant validation commands permitted by the repository rules.
 
-The point of this project is for the generated 3D implementation to interpret the supplied reference material.
+At minimum, where permitted, validate:
 
-Procedural geometry is acceptable.
+- TypeScript;
+- lint;
+- existing Vitest suite;
+- any new deterministic / geometry logic tests that are practical.
 
-Simplified modeling is acceptable.
+If formatting or build commands are prohibited by `AGENTS.md`, do not run them.
 
-Recognizable silhouettes and mechanical behavior are more important than microscopic detail.
+If they are permitted, follow the repository's actual scripts rather than inventing new commands.
 
-# 28. Code Quality Expectations
+Do not claim that a prohibited validation was performed.
 
-Use TypeScript intentionally.
+# 28. Stage 1 Regression Validation
 
-Separate concerns between:
+After Stage 2 world construction, explicitly verify the Stage 1 sequence still works.
 
-- authoritative scenario data;
-- simulation time;
-- derived entity state;
-- rendering;
-- transient effects;
-- persistent damage;
-- camera controls;
-- UI controls.
-
-Avoid a giant `App.tsx`.
-
-Avoid placing the entire simulation into one component.
-
-Do not over-engineer an abstract ECS unless it clearly helps this project.
-
-Prefer understandable project-specific architecture.
-
-# 29. Testing
-
-At minimum add automated tests for deterministic simulation logic where practical.
-
-Important logic to test includes:
-
-- simulation time conversion;
-- local-time display;
-- event-boundary state;
-- destroyed / intact transitions;
-- restart state;
-- seek state.
-
-Tests do not need to test Three.js rendering pixels.
-
-They should protect the timeline logic that the visual layer depends on.
-
-Run:
-
-- type checking;
-- linting;
-- unit tests;
-- production build.
-
-Fix failures caused by your changes.
-
-Do not report completion while these checks are failing unless the failure is demonstrably unrelated and already existed.
-
-# 30. Browser / Visual Validation
-
-Run the application and inspect it visually.
-
-Do not treat a successful TypeScript build as visual validation.
-
-Inspect several important moments, including approximately:
+Inspect at least:
 
 - T+00:00;
-- first F-35B STOVL launch;
+- first F-35B launch;
+- second F-35B launch;
 - Radar Hill engagement;
-- immediately after primary Pantsir-S1 destruction;
-- near T+00:48.
+- T+00:36;
+- T+00:42;
+- T+00:45;
+- T+00:48.
 
-Specifically verify:
+Verify:
 
-- Wasp scale is believable;
-- F-35B aircraft are recognizable;
-- STOVL motion is not simply static vertical translation;
-- lift-fan door movement is visible;
-- rear-nozzle movement is visible;
-- aircraft do not intersect Wasp during launch;
-- radar tracking is readable;
-- missile and tracer density is restrained;
-- explosion effects do not completely hide the affected entity;
-- Pantsir wreck persists;
-- Radar Hill remains readable;
-- camera controls remain usable;
-- paused camera movement works;
-- seeking backward and forward does not duplicate wrecks, particles, smoke sources, or aircraft.
+- both F-35B launches remain correct;
+- aircraft do not intersect the changed world;
+- Pantsir tracks and fires;
+- radar tracks;
+- Pantsir destruction reconstructs after seek;
+- radar destruction reconstructs after seek;
+- persistent fire and smoke remain correct;
+- restart does not duplicate state;
+- camera remains usable while paused.
 
-If you find a visual problem, fix it before finishing.
+# 29. Full-World Browser Inspection
 
-# 31. Acceptance Criteria
+Do not validate Stage 2 only from the original Stage 1 camera location.
 
-Stage 1 is complete only when all of the following are true.
+At T+00:00, pause the scenario and inspect the full battlefield.
 
-## Runtime
+Perform visual inspection from at least these areas:
 
-- The application loads into the 3D battlefield.
-- Timeline starts at T+00:00.
-- Play works.
-- Pause works.
-- Restart works.
-- 0.5×, 1×, and 2× work.
-- Timeline seek works.
-- Spectator camera continues moving while simulation is paused.
+## Overview
 
-## Determinism
+Confirm the six physical theaters are spatially readable:
 
-- Seeking directly to an arbitrary time produces coherent state.
-- Restart produces the same initial world every time.
-- Replaying does not accumulate duplicate effects.
-- Persistent destruction reconstructs correctly after seek.
+- Harbor District;
+- Fuel / Ammunition District;
+- Radar Hill;
+- Convoy Corridor;
+- Remote Beachhead;
+- Offshore area.
+
+## Harbor
+
+Verify:
+
+- harbor scale;
+- navigable water;
+- pier proportions;
+- infrastructure density;
+- Talwar scale;
+- Molniya scale;
+- believable ship-to-berth relationships.
+
+## Industrial
+
+Verify:
+
+- fuel and ammunition areas are visually distinct;
+- pipe / rail / service connections make physical sense;
+- industrial density is convincing without becoming cluttered;
+- future destruction attachment areas remain accessible.
+
+## Radar Hill
+
+Verify:
+
+- terrain no longer reads as a crude test terrace;
+- the installation fits the topography;
+- Stage 1 effects remain readable.
+
+## Convoy Corridor
+
+Verify:
+
+- road network is coherent;
+- chokepoint is visually understandable;
+- future armored / rescue movement has adequate space.
+
+## Remote Beachhead
+
+Inspect from:
+
+- inland;
+- beach level;
+- offshore looking toward land.
+
+Verify that the geometry visibly supports future LCAC approach and vehicle unloading.
+
+## Offshore
+
+Verify:
+
+- Wasp scale relative to map and coast;
+- adequate open-water staging space;
+- horizon and coastal haze are convincing.
+
+Fix significant visual problems found during inspection before finishing.
+
+# 30. Acceptance Criteria
+
+Stage 2 is complete only when:
 
 ## World
 
-- Ash Harbor scale is established.
-- Wasp exists offshore.
-- Radar Hill is visibly elevated.
-- Other map regions remain compatible with the authoritative specification.
+- the complete Ash Harbor physical layout is represented;
+- all six major regions are visually distinguishable;
+- the full map no longer reads as a temporary world shell;
+- terrain transitions are coherent;
+- coastline and water are convincing;
+- the approved map layout is preserved.
 
-## F-35B
+## Harbor
 
-- Two recognizable F-35B aircraft exist.
-- STOVL launch visibly uses the F-35B-specific lift system.
-- Lift-fan door moves.
-- Rear nozzle rotates.
-- Vertical lift transitions into forward flight.
-- Landing gear retracts.
-- No visible occupant exists.
+- major harbor infrastructure exists;
+- Talwar is recognizable and correctly scaled;
+- Molniya is recognizable and correctly scaled;
+- both fit their berths;
+- harbor infrastructure supports future Stage 3 damage scenes.
 
-## Combat
+## Industrial
 
-- Radar Hill reacts to incoming aircraft.
-- Pantsir-S1 tracks and engages.
-- Fixed AAA engages.
-- Air-defense missiles and tracers are visually readable.
-- First strike occurs.
-- Primary Pantsir-S1 is destroyed.
-- Primary search radar is subsequently disabled / destroyed.
-- Surviving secondary Radar Hill activity remains visible.
+- fuel storage is a coherent connected industrial system;
+- ammunition storage is distinct;
+- pipelines / roads / rail / utilities provide environmental structure;
+- the district is ready for future hero destruction.
 
-## Effects
+## Radar Hill
 
-- Explosions contain multiple effect layers.
-- Debris is visible.
-- Persistent smoke exists.
-- Persistent fire exists.
-- Destroyed Pantsir remains as a wreck.
-- Ground damage remains visible.
-- The effect architecture is reusable for later larger destruction sequences.
+- Stage 1 functionality remains intact;
+- terrain and infrastructure are substantially improved;
+- the hill feels physically integrated into the landscape.
 
-## Quality
+## Convoy Corridor
 
-- No visible human is created anywhere.
-- No audio is required.
-- Typecheck passes.
-- Lint passes.
-- Tests pass.
-- Production build passes.
-- Visual browser inspection has been performed.
+- the road system and chokepoint exist;
+- later support and armored movement can be staged without rebuilding the region.
 
-# 32. Final Response
+## Remote Beachhead
 
-When implementation is complete, summarize:
+- water-to-beach terrain transition is complete;
+- beach exits and two inland access paths are visible;
+- later LCAC / LAV-25 staging can use the completed environment.
 
-1. architecture created;
-2. files added or substantially changed;
-3. how deterministic seek / reset works;
-4. how the F-35B STOVL sequence was implemented;
-5. how destruction persistence works;
-6. tests and validation performed;
-7. any remaining Stage 1 visual limitations that should be addressed before Stage 2.
+## Environment
 
-Do not claim features from future stages as completed.
+- sparse vegetation exists;
+- repeated vegetation is efficiently rendered;
+- selected environmental objects can later support localized blast response;
+- world detail uses reusable primitives.
+
+## Regression
+
+- deterministic seek still works;
+- restart still works;
+- Stage 1 destruction reconstructs correctly;
+- spectator camera remains functional;
+- no Stage 1 timeline behavior is broken.
+
+## Repository constraints
+
+- `AGENTS.md` has been obeyed;
+- no future-stage scenario features were unnecessarily implemented.
+
+# 31. Final Response
+
+When Stage 2 is complete, report:
+
+1. world architecture added or changed;
+2. major map regions implemented;
+3. terrain and material improvements;
+4. Harbor and Industrial construction;
+5. Talwar implementation;
+6. Molniya implementation;
+7. vegetation / reusable world-detail architecture;
+8. rendering / performance decisions;
+9. Stage 1 regression validation performed;
+10. browser viewpoints inspected;
+11. repository checks performed under `AGENTS.md`;
+12. remaining visual or technical limitations that should be addressed before Stage 3.
+
+Do not claim Stage 3 destruction features are implemented unless they were strictly necessary for Stage 2 infrastructure.

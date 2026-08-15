@@ -20,3 +20,4 @@ export {
   WORLD_SIZE_METERS,
 } from './worldData.ts'
 export type { ElevationRange, WorldPosition, XZPoint } from './worldData.ts'
+export { HarborNavalAssets, getTerrainHeight } from './stage2/index.ts'

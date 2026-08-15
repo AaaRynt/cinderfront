@@ -1,6 +1,8 @@
-import { Canvas, useFrame } from '@react-three/fiber'
+import type { Mesh } from 'three'
+
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
-import { ACESFilmicToneMapping, BackSide } from 'three'
+import { ACESFilmicToneMapping, BackSide, DoubleSide, RingGeometry } from 'three'
 
 import type { AircraftState, Stage1WorldState } from '@/simulation'
 
@@ -12,7 +14,7 @@ import { CameraRig } from './camera/CameraRig'
 import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effects/BattleEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
 import { F35BModel, PantsirModel, WaspModel } from './vehicles'
-import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, SAM_PAD_POSITIONS, WorldShell } from './world'
+import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
 
 const NEAR_HIT_POSITION: Vec3 = [3_115, 174, 3_330]
 const PANTSIR_IMPACT_POSITION: Vec3 = [3_050, 174, 3_375]
@@ -26,6 +28,8 @@ const AIR_DEFENSE_LAUNCHES = [
 ] as const
 
 const AAA_BURST_STARTS = [29, 32.2, 35.4, 38.6, 41.8, 45] as const
+const SIMULATION_STEP_SECONDS = 1 / 30
+const DOWNWASH_RING_GEOMETRY = new RingGeometry(0.9, 1, 32)
 
 const STRIKE_PATHS = [
   {
@@ -94,21 +98,31 @@ function SimulationDriver() {
     }
 
     accumulatedDelta.current += Math.min(deltaSeconds, 0.1)
-    if (accumulatedDelta.current < 1 / 30) return
-
-    const elapsed = accumulatedDelta.current
-    accumulatedDelta.current = 0
-    state.tick(elapsed)
+    while (accumulatedDelta.current >= SIMULATION_STEP_SECONDS) {
+      state.tick(SIMULATION_STEP_SECONDS)
+      accumulatedDelta.current -= SIMULATION_STEP_SECONDS
+      if (!simulationStore.getState().isPlaying) {
+        accumulatedDelta.current = 0
+        break
+      }
+    }
   })
   return null
 }
 
 function DawnEnvironment() {
+  const camera = useThree((state) => state.camera)
+  const sky = useRef<Mesh>(null)
+
+  useFrame(() => {
+    sky.current?.position.copy(camera.position)
+  })
+
   return (
     <>
       <color attach="background" args={['#0b1820']} />
       <fog attach="fog" args={['#17272e', 4_200, 17_500]} />
-      <mesh frustumCulled={false} scale={19_000}>
+      <mesh ref={sky} frustumCulled={false} scale={19_000}>
         <sphereGeometry args={[1, 48, 24]} />
         <shaderMaterial
           depthWrite={false}
@@ -135,8 +149,8 @@ function DawnEnvironment() {
           `}
         />
       </mesh>
-      <hemisphereLight color="#a7bdc6" groundColor="#47382a" intensity={1.05} />
-      <ambientLight color="#829ba5" intensity={0.62} />
+      <hemisphereLight color="#a7bdc6" groundColor="#4e4030" intensity={1.22} />
+      <ambientLight color="#8ba2aa" intensity={0.76} />
       <directionalLight color="#ffc27e" intensity={3.1} position={[-6_800, 1_100, -5_900]} />
       <directionalLight color="#789aaa" intensity={0.72} position={[4_000, 6_000, 2_000]} />
     </>
@@ -153,9 +167,8 @@ function DownwashDisturbance({ aircraft, time, waspDeckY }: { aircraft: Aircraft
         const progress = (time * 0.58 + index / 3) % 1
         const radius = 3 + progress * 18 * strength
         return (
-          <mesh key={index}>
-            <ringGeometry args={[radius * 0.9, radius, 32]} />
-            <meshBasicMaterial color="#d6e4df" depthWrite={false} opacity={(1 - progress) * 0.09 * strength} side={2} transparent />
+          <mesh key={index} geometry={DOWNWASH_RING_GEOMETRY} scale={[radius, radius, 1]}>
+            <meshBasicMaterial color="#d6e4df" depthWrite={false} opacity={(1 - progress) * 0.09 * strength} side={DoubleSide} transparent />
           </mesh>
         )
       })}
@@ -271,12 +284,13 @@ export function BattlefieldScene() {
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => {
           gl.toneMapping = ACESFilmicToneMapping
-          gl.toneMappingExposure = 1.05
+          gl.toneMappingExposure = 1.12
         }}
       >
         <SimulationDriver />
         <DawnEnvironment />
         <WorldShell />
+        <HarborNavalAssets />
         <DynamicBattlefield />
       </Canvas>
     </div>

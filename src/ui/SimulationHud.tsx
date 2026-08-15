@@ -1,4 +1,4 @@
-import { Camera, Map, Pause, Plane, Play, Radar, RotateCcw, Ship, Warehouse } from 'lucide-react'
+import { Camera, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship, Warehouse, Waves } from 'lucide-react'
 
 import type { CameraPreset } from '@/scene/camera/cameraStore'
 import type { SimulationSpeed, Stage1EventId } from '@/simulation'
@@ -44,8 +44,12 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Map, id: 'overview', label: 'Overview' },
   { icon: Ship, id: 'wasp', label: 'Wasp' },
   { icon: Warehouse, id: 'harbor', label: 'Harbor' },
+  { icon: Factory, id: 'industrial', label: 'Industrial' },
   { icon: Camera, id: 'radar-hill', label: 'Radar Hill' },
   { icon: Radar, id: 'search-radar', label: 'Search radar' },
+  { icon: Route, id: 'corridor', label: 'Convoy corridor' },
+  { icon: Waves, id: 'beachhead', label: 'Beach inland' },
+  { icon: Waves, id: 'beach-offshore', label: 'Beach offshore' },
   { icon: Plane, id: 'f35-01', label: 'F-35B 01' },
 ]
 
@@ -56,6 +60,12 @@ function StatusRow({ label, value }: { label: string; value: string }) {
       <strong>{value}</strong>
     </div>
   )
+}
+
+function formatTimelineBound(timeSeconds: number) {
+  const minutes = Math.floor(timeSeconds / 60)
+  const seconds = Math.floor(timeSeconds % 60)
+  return `T+${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }
 
 export function SimulationHud({ battlefieldStatus, duration, latestEvent, localTime, onRestart, onSeek, onSpeedChange, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
@@ -70,7 +80,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="eyebrow">Cinderfront / Stage 01</p>
+            <p className="eyebrow">Cinderfront / Stage 02</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -108,7 +118,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       </nav>
 
       <section className="timeline-panel hud-panel" aria-label="Simulation timeline">
-        <div className="event-readout">
+        <div aria-atomic="true" aria-live="polite" className="event-readout">
           <div>
             <p className="eyebrow">Event {latestEvent.code}</p>
             <strong>{latestEvent.label}</strong>
@@ -125,7 +135,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           </div>
           <div className="timeline-bounds">
             <span>T+00:00</span>
-            <span>T+00:48</span>
+            <span>{formatTimelineBound(duration)}</span>
           </div>
         </div>
 
@@ -151,7 +161,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="stage-notice">Opening vertical slice · T+00:00—00:48</div>
+      <div className="stage-notice">Opening vertical slice · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
     </div>
   )
 }

@@ -73,7 +73,7 @@ export function createRoadRibbonGeometry(points: readonly WorldPosition[], width
       const right = left + 1
       const nextLeft = left + 2
       const nextRight = left + 3
-      indices.push(left, right, nextLeft, right, nextRight, nextLeft)
+      indices.push(left, nextLeft, right, right, nextLeft, nextRight)
     }
   }
 
