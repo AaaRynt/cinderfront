@@ -36,7 +36,7 @@ export function RoadRibbon({ material, name, points, widthM }: { material: Mater
   return <mesh frustumCulled geometry={geometry} material={material} name={name} receiveShadow />
 }
 
-export function TerrainRoad({ material, name, points, spacingM = 75, widthM, yOffset = 1.5 }: { material: Material; name?: string; points: readonly XZPoint[]; spacingM?: number; widthM: number; yOffset?: number }) {
+export function TerrainRoad({ material, name, points, spacingM = 75, widthM, yOffset = 0.3 }: { material: Material; name?: string; points: readonly XZPoint[]; spacingM?: number; widthM: number; yOffset?: number }) {
   const terrainPoints = useMemo(() => sampleTerrainPolyline(points, spacingM, yOffset), [points, spacingM, yOffset])
   return <RoadRibbon material={material} name={name} points={terrainPoints} widthM={widthM} />
 }

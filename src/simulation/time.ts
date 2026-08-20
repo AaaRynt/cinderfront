@@ -1,16 +1,21 @@
-import { STAGE1_DURATION_SECONDS, STAGE1_START_LOCAL_SECONDS, STAGE1_TIMELINE_RESOLUTION_SECONDS } from './constants'
+import { SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_START_LOCAL_SECONDS, STAGE1_TIMELINE_RESOLUTION_SECONDS } from './constants'
 import { clamp } from './math'
 
 const SECONDS_PER_DAY = 24 * 60 * 60
 
-function normalizeInput(value: number): number {
+function normalizeInput(value: number, maximumSeconds: number): number {
   if (Number.isNaN(value) || value === Number.NEGATIVE_INFINITY) return 0
-  if (value === Number.POSITIVE_INFINITY) return STAGE1_DURATION_SECONDS
+  if (value === Number.POSITIVE_INFINITY) return maximumSeconds
   return value
 }
 
 export function clampSimulationTime(timeSeconds: number): number {
-  return clamp(normalizeInput(timeSeconds), 0, STAGE1_DURATION_SECONDS)
+  return clamp(normalizeInput(timeSeconds, SIMULATION_DURATION_SECONDS), 0, SIMULATION_DURATION_SECONDS)
+}
+
+/** Keeps the completed Stage 1 derivation API frozen at its original endpoint. */
+export function clampStage1Time(timeSeconds: number): number {
+  return clamp(normalizeInput(timeSeconds, STAGE1_DURATION_SECONDS), 0, STAGE1_DURATION_SECONDS)
 }
 
 export function quantizeSimulationTime(timeSeconds: number): number {

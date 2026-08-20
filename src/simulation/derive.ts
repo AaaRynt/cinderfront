@@ -1,9 +1,11 @@
-import type { AircraftId, AircraftMechanicalState, AircraftPhase, AircraftState, FixedAaaState, PantsirState, PersistentStage1State, Pose3, RadarState, Stage1WorldState, TransientEffectState, Vector3, WaspState } from './types'
+import type { AircraftId, AircraftMechanicalState, AircraftPhase, AircraftState, AirGroundStrikeId, AirGroundWeaponState, FixedAaaState, PantsirState, PersistentStage1State, Pose3, RadarState, SimulationWorldState, Stage1WorldState, Stage3WorldState, TransientEffectState, Vector3, WaspState } from './types'
 
-import { STAGE1_DURATION_SECONDS, STAGE1_FIXED_SEED } from './constants'
+import { SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_FIXED_SEED } from './constants'
 import { headingBetween, inverseLerp, lerp, lerpVector3, samplePolyline, smoothstep, transformLocalOffset } from './math'
-import { formatLocalTime, formatSimulationTime, clampSimulationTime } from './time'
-import { getReachedEvents, hasReachedEvent } from './timeline'
+import { deriveHarborStage3State, deriveIndustrialStage3State, deriveMolniyaState, deriveStage3ReachedEvents, deriveTalwarState } from './stage3'
+import { formatLocalTime, formatSimulationTime, clampSimulationTime, clampStage1Time } from './time'
+import { getReachedEvents, getReachedSimulationEvents, hasReachedEvent } from './timeline'
+import { AIR_GROUND_STRIKES, deriveAirGroundWeaponState } from './weapons'
 
 const WASP_PATROL_SECONDS = 180
 const WASP_PATROL_POINTS: readonly Vector3[] = [
@@ -52,7 +54,7 @@ function sampleTimedPositions(keyframes: readonly TimedPosition[], timeSeconds: 
   return { ...keyframes[keyframes.length - 1].position }
 }
 
-export function deriveWaspState(timeSeconds: number): WaspState {
+function deriveWaspStateForSimulation(timeSeconds: number): WaspState {
   const time = clampSimulationTime(timeSeconds)
   const pathProgress = time / WASP_PATROL_SECONDS
   const flatPosition = samplePolyline(WASP_PATROL_POINTS, pathProgress)
@@ -79,8 +81,13 @@ export function deriveWaspState(timeSeconds: number): WaspState {
   }
 }
 
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function deriveWaspState(timeSeconds: number): WaspState {
+  return deriveWaspStateForSimulation(clampStage1Time(timeSeconds))
+}
+
 function deckPosition(aircraftId: AircraftId, timeSeconds: number): Vector3 {
-  const wasp = deriveWaspState(timeSeconds)
+  const wasp = deriveWaspStateForSimulation(timeSeconds)
   return transformLocalOffset(wasp.pose.position, wasp.pose.rotation.y, AIRCRAFT_DECK_OFFSETS[aircraftId])
 }
 
@@ -99,6 +106,11 @@ function authoredFlightPath(aircraftId: AircraftId): readonly TimedPosition[] {
       { atSeconds: 42, position: { x: 3400, y: 360, z: 3700 } },
       { atSeconds: 45, position: { x: 4200, y: 430, z: 4350 } },
       { atSeconds: 48, position: { x: 5200, y: 650, z: 4800 } },
+      { atSeconds: 60, position: { x: 6000, y: 800, z: 3500 } },
+      { atSeconds: 90, position: { x: 3000, y: 1000, z: 1000 } },
+      { atSeconds: 120, position: { x: 0, y: 1100, z: -500 } },
+      { atSeconds: 150, position: { x: -3000, y: 1200, z: -2500 } },
+      { atSeconds: 172, position: { x: -5200, y: 1300, z: -3800 } },
     ]
   }
 
@@ -109,6 +121,22 @@ function authoredFlightPath(aircraftId: AircraftId): readonly TimedPosition[] {
     { atSeconds: 40, position: { x: -3850, y: 430, z: 2400 } },
     { atSeconds: 46, position: { x: -3750, y: 380, z: 3700 } },
     { atSeconds: 48, position: { x: -3650, y: 330, z: 4330 } },
+    { atSeconds: 52, position: { x: -4500, y: 360, z: 3800 } },
+    { atSeconds: 58, position: { x: -5200, y: 520, z: 2900 } },
+    { atSeconds: 64, position: { x: -5000, y: 650, z: 3000 } },
+    { atSeconds: 68, position: { x: -4800, y: 620, z: 3300 } },
+    { atSeconds: 72, position: { x: -3600, y: 450, z: 3900 } },
+    { atSeconds: 74, position: { x: -2700, y: 520, z: 3200 } },
+    { atSeconds: 78, position: { x: -1500, y: 390, z: 2500 } },
+    { atSeconds: 82, position: { x: -1400, y: 520, z: 2550 } },
+    { atSeconds: 86, position: { x: -350, y: 390, z: 1950 } },
+    { atSeconds: 94, position: { x: 2100, y: 700, z: 800 } },
+    { atSeconds: 102, position: { x: 1500, y: 760, z: 2600 } },
+    { atSeconds: 110.5, position: { x: -2400, y: 650, z: 3500 } },
+    { atSeconds: 115, position: { x: -4200, y: 440, z: 4100 } },
+    { atSeconds: 128, position: { x: -2500, y: 700, z: 2200 } },
+    { atSeconds: 150, position: { x: -4500, y: 950, z: -1200 } },
+    { atSeconds: 172, position: { x: -6500, y: 1100, z: -3800 } },
   ]
 }
 
@@ -193,7 +221,7 @@ function aircraftPose(aircraftId: AircraftId, timeSeconds: number): Pose3 {
   const position = aircraftPosition(aircraftId, timeSeconds)
 
   if (elapsedSeconds < 5) {
-    const waspRotation = deriveWaspState(timeSeconds).pose.rotation
+    const waspRotation = deriveWaspStateForSimulation(timeSeconds).pose.rotation
     return {
       position,
       rotation: {
@@ -205,7 +233,8 @@ function aircraftPose(aircraftId: AircraftId, timeSeconds: number): Pose3 {
   }
 
   const before = aircraftPosition(aircraftId, Math.max(launchAtSeconds + 5, timeSeconds - 0.05))
-  const after = aircraftPosition(aircraftId, Math.min(STAGE1_DURATION_SECONDS, timeSeconds + 0.05))
+  const poseSampleMaximum = timeSeconds <= STAGE1_DURATION_SECONDS ? STAGE1_DURATION_SECONDS : SIMULATION_DURATION_SECONDS
+  const after = aircraftPosition(aircraftId, Math.min(poseSampleMaximum, timeSeconds + 0.05))
   const horizontalDistance = Math.hypot(after.x - before.x, after.z - before.z)
   const seededPhase = ((STAGE1_FIXED_SEED + (aircraftId === 'attacker_f35_01' ? 1 : 2)) % 360) * (Math.PI / 180)
 
@@ -219,7 +248,7 @@ function aircraftPose(aircraftId: AircraftId, timeSeconds: number): Pose3 {
   }
 }
 
-export function deriveAircraftState(aircraftId: AircraftId, timeSeconds: number): AircraftState {
+function deriveAircraftStateForSimulation(aircraftId: AircraftId, timeSeconds: number): AircraftState {
   const time = clampSimulationTime(timeSeconds)
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const elapsedSeconds = time - launchAtSeconds
@@ -235,13 +264,18 @@ export function deriveAircraftState(aircraftId: AircraftId, timeSeconds: number)
   }
 }
 
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function deriveAircraftState(aircraftId: AircraftId, timeSeconds: number): AircraftState {
+  return deriveAircraftStateForSimulation(aircraftId, clampStage1Time(timeSeconds))
+}
+
 function aimYaw(origin: Vector3, target: Vector3): number {
   return headingBetween(origin, target)
 }
 
-export function deriveRadarState(timeSeconds: number): RadarState {
+function deriveRadarStateForSimulation(timeSeconds: number): RadarState {
   const time = clampSimulationTime(timeSeconds)
-  const targetAtTime = deriveAircraftState('attacker_f35_01', Math.min(time, 45)).pose.position
+  const targetAtTime = deriveAircraftStateForSimulation('attacker_f35_01', Math.min(time, 45)).pose.position
   const trackingYaw = aimYaw(PRIMARY_RADAR_POSITION, targetAtTime)
   let primaryPhase: RadarState['primaryPhase']
 
@@ -252,7 +286,7 @@ export function deriveRadarState(timeSeconds: number): RadarState {
 
   const scanRotation = time * 0.72
   const alertBlend = smoothstep(14, 20, time)
-  const primaryDishRotationRadians = eventReached(time, 45) ? aimYaw(PRIMARY_RADAR_POSITION, deriveAircraftState('attacker_f35_01', 45).pose.position) : lerp(scanRotation, trackingYaw, alertBlend)
+  const primaryDishRotationRadians = eventReached(time, 45) ? aimYaw(PRIMARY_RADAR_POSITION, deriveAircraftStateForSimulation('attacker_f35_01', 45).pose.position) : lerp(scanRotation, trackingYaw, alertBlend)
 
   return {
     primaryPhase,
@@ -264,9 +298,14 @@ export function deriveRadarState(timeSeconds: number): RadarState {
   }
 }
 
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function deriveRadarState(timeSeconds: number): RadarState {
+  return deriveRadarStateForSimulation(clampStage1Time(timeSeconds))
+}
+
 function pantsirAimAt(timeSeconds: number): number {
   const targetTime = Math.min(timeSeconds, 42)
-  return aimYaw(PANTSIR_POSITION, deriveAircraftState('attacker_f35_01', targetTime).pose.position)
+  return aimYaw(PANTSIR_POSITION, deriveAircraftStateForSimulation('attacker_f35_01', targetTime).pose.position)
 }
 
 function pulseActivity(timeSeconds: number, startSeconds: number, durationSeconds: number): number {
@@ -274,7 +313,7 @@ function pulseActivity(timeSeconds: number, startSeconds: number, durationSecond
   return 1 - inverseLerp(startSeconds, startSeconds + durationSeconds, timeSeconds)
 }
 
-export function derivePantsirState(timeSeconds: number): PantsirState {
+function derivePantsirStateForSimulation(timeSeconds: number): PantsirState {
   const time = clampSimulationTime(timeSeconds)
   let phase: PantsirState['phase']
   if (!eventReached(time, 20)) phase = 'operational'
@@ -296,30 +335,41 @@ export function derivePantsirState(timeSeconds: number): PantsirState {
   }
 }
 
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function derivePantsirState(timeSeconds: number): PantsirState {
+  return derivePantsirStateForSimulation(clampStage1Time(timeSeconds))
+}
+
 function aaaBurstActivity(timeSeconds: number): number {
-  if (!eventReached(timeSeconds, 29)) return 0
+  if (!eventReached(timeSeconds, 29) || timeSeconds > STAGE1_DURATION_SECONDS) return 0
   const cycleSeconds = (timeSeconds - 29) % 3.2
   if (cycleSeconds >= 0.72) return 0
   return 1 - cycleSeconds / 0.72
 }
 
-export function deriveFixedAaaState(timeSeconds: number): FixedAaaState {
+function deriveFixedAaaStateForSimulation(timeSeconds: number): FixedAaaState {
   const time = clampSimulationTime(timeSeconds)
   const targetTime = Math.min(time, 48)
-  const target = deriveAircraftState('attacker_f35_01', targetTime).pose.position
+  const target = deriveAircraftStateForSimulation('attacker_f35_01', targetTime).pose.position
   const isTracking = eventReached(time, 20)
   const tracerActivity = aaaBurstActivity(time)
+  const ceased = time > STAGE1_DURATION_SECONDS
 
   return {
     factionId: 'island_defender',
-    phase: !isTracking ? 'idle' : eventReached(time, 29) ? 'firing' : 'tracking',
+    phase: ceased ? 'ceased' : !isTracking ? 'idle' : eventReached(time, 29) ? 'firing' : 'tracking',
     turretYawRadians: isTracking ? aimYaw(FIXED_AAA_POSITION, target) : Math.sin(time * 0.16) * 0.35,
-    isFiring: tracerActivity > 0,
+    isFiring: !ceased && tracerActivity > 0,
     tracerActivity,
   }
 }
 
-export function derivePersistentState(timeSeconds: number): PersistentStage1State {
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function deriveFixedAaaState(timeSeconds: number): FixedAaaState {
+  return deriveFixedAaaStateForSimulation(clampStage1Time(timeSeconds))
+}
+
+function derivePersistentStateForSimulation(timeSeconds: number): PersistentStage1State {
   const time = clampSimulationTime(timeSeconds)
   const firstImpact = eventReached(time, 36)
   const pantsirDestroyed = eventReached(time, 42)
@@ -340,12 +390,17 @@ export function derivePersistentState(timeSeconds: number): PersistentStage1Stat
   }
 }
 
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function derivePersistentState(timeSeconds: number): PersistentStage1State {
+  return derivePersistentStateForSimulation(clampStage1Time(timeSeconds))
+}
+
 function impactEnvelope(timeSeconds: number, startSeconds: number, durationSeconds: number): number {
   if (timeSeconds < startSeconds || timeSeconds >= startSeconds + durationSeconds) return 0
   return 1 - smoothstep(startSeconds, startSeconds + durationSeconds, timeSeconds)
 }
 
-export function deriveTransientEffects(timeSeconds: number): TransientEffectState {
+function deriveTransientEffectsForSimulation(timeSeconds: number): TransientEffectState {
   const time = clampSimulationTime(timeSeconds)
   return {
     radarHillImpact: impactEnvelope(time, 36, 2.2),
@@ -355,8 +410,13 @@ export function deriveTransientEffects(timeSeconds: number): TransientEffectStat
   }
 }
 
+/** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
+export function deriveTransientEffects(timeSeconds: number): TransientEffectState {
+  return deriveTransientEffectsForSimulation(clampStage1Time(timeSeconds))
+}
+
 export function deriveStage1WorldState(timeSeconds: number): Stage1WorldState {
-  const time = clampSimulationTime(timeSeconds)
+  const time = clampStage1Time(timeSeconds)
   return {
     seed: STAGE1_FIXED_SEED,
     timeSeconds: time,
@@ -373,5 +433,50 @@ export function deriveStage1WorldState(timeSeconds: number): Stage1WorldState {
     fixedAaa: deriveFixedAaaState(time),
     persistent: derivePersistentState(time),
     transientEffects: deriveTransientEffects(time),
+  }
+}
+
+function deriveAirGroundWeapons(timeSeconds: number): Readonly<Record<AirGroundStrikeId, AirGroundWeaponState>> {
+  return Object.fromEntries(
+    AIR_GROUND_STRIKES.map((definition) => {
+      const sourcePoseAtRelease = deriveAircraftStateForSimulation(definition.sourceAircraftId, definition.releaseAtSeconds).pose
+      return [definition.id, deriveAirGroundWeaponState(definition, timeSeconds, sourcePoseAtRelease)]
+    }),
+  ) as Readonly<Record<AirGroundStrikeId, AirGroundWeaponState>>
+}
+
+export function deriveStage3WorldState(timeSeconds: number): Stage3WorldState {
+  const time = clampSimulationTime(timeSeconds)
+  const talwar = deriveTalwarState(time)
+  return {
+    reachedEvents: deriveStage3ReachedEvents(time),
+    weapons: deriveAirGroundWeapons(time),
+    talwar,
+    molniya: deriveMolniyaState(time),
+    harbor: deriveHarborStage3State(time, talwar),
+    industrial: deriveIndustrialStage3State(time),
+  }
+}
+
+export function deriveSimulationWorldState(timeSeconds: number): SimulationWorldState {
+  const time = clampSimulationTime(timeSeconds)
+  const opening = deriveStage1WorldState(Math.min(time, STAGE1_DURATION_SECONDS))
+  return {
+    ...opening,
+    timeSeconds: time,
+    relativeTimeLabel: formatSimulationTime(time),
+    localTimeLabel: formatLocalTime(time),
+    reachedEvents: getReachedSimulationEvents(time),
+    wasp: deriveWaspStateForSimulation(time),
+    aircraft: {
+      attacker_f35_01: deriveAircraftStateForSimulation('attacker_f35_01', time),
+      attacker_f35_02: deriveAircraftStateForSimulation('attacker_f35_02', time),
+    },
+    radar: deriveRadarStateForSimulation(time),
+    pantsir: derivePantsirStateForSimulation(time),
+    fixedAaa: deriveFixedAaaStateForSimulation(time),
+    persistent: derivePersistentStateForSimulation(time),
+    transientEffects: deriveTransientEffectsForSimulation(time),
+    stage3: deriveStage3WorldState(time),
   }
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { adaptScenarioFaction, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED } from '.'
-import { clampSimulationTime, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
+import { adaptScenarioFaction, SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED, STAGE3_EVENTS } from '.'
+import { clampSimulationTime, clampStage1Time, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
 
 describe('Stage 1 timeline authority', () => {
   it('contains the exact authoritative event boundaries through 48 seconds', () => {
@@ -29,9 +29,19 @@ describe('simulation time formatting', () => {
 
   it('clamps and quantizes input safely', () => {
     expect(clampSimulationTime(-10)).toBe(0)
-    expect(clampSimulationTime(99)).toBe(48)
-    expect(clampSimulationTime(Number.POSITIVE_INFINITY)).toBe(48)
+    expect(clampSimulationTime(99)).toBe(99)
+    expect(clampSimulationTime(999)).toBe(SIMULATION_DURATION_SECONDS)
+    expect(clampSimulationTime(Number.POSITIVE_INFINITY)).toBe(SIMULATION_DURATION_SECONDS)
     expect(clampSimulationTime(Number.NaN)).toBe(0)
+    expect(clampStage1Time(99)).toBe(STAGE1_DURATION_SECONDS)
     expect(quantizeSimulationTime(12.26)).toBeCloseTo(12.3)
+  })
+})
+
+describe('Stage 3 timeline authority', () => {
+  it('uses the exact in-scope event boundaries through Molniya open water', () => {
+    expect(SIMULATION_DURATION_SECONDS).toBe(172)
+    expect(STAGE3_EVENTS.map((event) => event.atSeconds)).toEqual([52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 165, 172])
+    expect(STAGE3_EVENTS.map((event) => event.localTime)).toEqual(['05:27:52', '05:28:02', '05:28:12', '05:28:18', '05:28:26', '05:28:32', '05:28:34', '05:28:38', '05:28:40', '05:28:55', '05:28:56', '05:29:08', '05:29:12', '05:29:45', '05:29:52'])
   })
 })

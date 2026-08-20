@@ -1,6 +1,8 @@
 import type { FactionId, RawScenarioFaction, SimulationSpeed } from './types'
 
 export const STAGE1_DURATION_SECONDS = 48
+export const STAGE3_DURATION_SECONDS = 172
+export const SIMULATION_DURATION_SECONDS = STAGE3_DURATION_SECONDS
 export const STAGE1_FIXED_SEED = 52730
 export const STAGE1_START_LOCAL_SECONDS = 5 * 60 * 60 + 27 * 60
 export const STAGE1_TIMELINE_RESOLUTION_SECONDS = 0.1

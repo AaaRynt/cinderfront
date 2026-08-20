@@ -38,7 +38,7 @@ export function ConvoyCorridor({ materials }: { materials: Stage2Materials }) {
 
   return (
     <group name="region-d-convoy-corridor">
-      <TerrainRoad material={materials.gravel} name="convoy-corridor-dry-wash" points={CORRIDOR_FEATURES.dryWash} spacingM={55} widthM={112} yOffset={1} />
+      <TerrainRoad material={materials.gravel} name="convoy-corridor-dry-wash" points={CORRIDOR_FEATURES.dryWash} spacingM={55} widthM={112} yOffset={0.24} />
       <PolygonPrism bottomY={bridgeY - 3.2} castShadow material={materials.weatheredConcrete} name="eastern-trunk-wash-bridge" points={CORRIDOR_FEATURES.bridge} topY={bridgeY} />
       <TerrainPolygonSurface material={materials.gravel} name="convoy-pull-off-west" points={CORRIDOR_FEATURES.pullOffWest} yOffset={0.4} />
       <TerrainPolygonSurface material={materials.gravel} name="convoy-pull-off-east" points={CORRIDOR_FEATURES.pullOffEast} yOffset={0.4} />

@@ -168,15 +168,6 @@ export function createContinuousMainlandGeometry() {
   geometry.setAttribute('color', new Float32BufferAttribute(colors, 3))
   geometry.setIndex(orientTrianglesUp(vertices, triangles))
   geometry.computeVertexNormals()
-  const normals = geometry.getAttribute('normal')
-  for (let index = 0; index < normals.count; index += 1) {
-    const x = normals.getX(index) * 0.28
-    const y = Math.max(0, normals.getY(index)) * 0.28 + 0.72
-    const z = normals.getZ(index) * 0.28
-    const length = Math.hypot(x, y, z) || 1
-    normals.setXYZ(index, x / length, y / length, z / length)
-  }
-  normals.needsUpdate = true
   geometry.computeBoundingBox()
   geometry.computeBoundingSphere()
   return geometry

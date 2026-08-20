@@ -2,8 +2,8 @@ import { Color, MathUtils } from 'three'
 
 import type { WorldPosition, XZPoint } from '../worldData.ts'
 
-import { AAA_SITE, COMMUNICATIONS_MAST_SITE, MAINLAND_POLYGON_XZ, RADAR_PAD_POLYGONS, RADAR_SEARCH_SITE, RADAR_SUPPORT_BUILDINGS, RADAR_TRACKING_SITE, SAM_PAD_POSITIONS } from '../worldData.ts'
-import { BEACH_FEATURES, CORRIDOR_FEATURES, RADAR_TERRAIN_POLYGONS, ROAD_DEFINITIONS, TERRAIN_STAGE2_POLYGONS } from './stage2Data.ts'
+import { AAA_SITE, COMMUNICATIONS_MAST_SITE, MAINLAND_POLYGON_XZ, RADAR_PAD_POLYGONS, RADAR_SEARCH_SITE, RADAR_SUPPORT_BUILDINGS, RADAR_SUPPORT_POLYGONS, RADAR_TRACKING_SITE, SAM_PAD_POSITIONS } from '../worldData.ts'
+import { BEACH_FEATURES, CORRIDOR_FEATURES, HARBOR_FEATURES, INDUSTRIAL_FEATURES, RADAR_TERRAIN_POLYGONS, ROAD_DEFINITIONS, TERRAIN_STAGE2_POLYGONS } from './stage2Data.ts'
 
 const TERRAIN_COLORS = {
   beach: new Color('#9b865c'),
@@ -65,65 +65,110 @@ function polygonInfluence(x: number, z: number, polygon: readonly XZPoint[], fea
   return smoothstep(0, featherM, distanceToPolygonEdge(x, z, polygon))
 }
 
-function blendPolygonHeight(current: number, x: number, z: number, polygon: readonly XZPoint[], featherM: number, target: number) {
-  return MathUtils.lerp(current, target, polygonInfluence(x, z, polygon, featherM))
+/**
+ * Terrain bands own their complete authored footprint. Their transition is a
+ * shoulder outside the polygon, rather than an inward fade which erased the
+ * elevation at every mapped boundary.
+ */
+function terrainBandInfluence(x: number, z: number, polygon: readonly XZPoint[], outsideFeatherM: number) {
+  if (pointInPolygon(x, z, polygon)) return 1
+  return 1 - smoothstep(0, outsideFeatherM, distanceToPolygonEdge(x, z, polygon))
 }
 
-function flattenCircle(current: number, x: number, z: number, centerX: number, centerZ: number, radiusM: number, target: number) {
+function blendTerrainBand(current: number, x: number, z: number, polygon: readonly XZPoint[], outsideFeatherM: number, target: number) {
+  return MathUtils.lerp(current, target, terrainBandInfluence(x, z, polygon, outsideFeatherM))
+}
+
+function gradePolygon(current: number, x: number, z: number, polygon: readonly XZPoint[], shoulderM: number, target: number) {
+  const influence = pointInPolygon(x, z, polygon) ? 1 : 1 - smoothstep(0, shoulderM, distanceToPolygonEdge(x, z, polygon))
+  return MathUtils.lerp(current, target, influence)
+}
+
+function gradeCircle(current: number, x: number, z: number, centerX: number, centerZ: number, radiusM: number, shoulderM: number, target: number) {
   const distance = Math.hypot(x - centerX, z - centerZ)
-  const influence = 1 - smoothstep(radiusM * 0.72, radiusM * 1.32, distance)
+  const influence = 1 - smoothstep(radiusM, radiusM + shoulderM, distance)
+  return MathUtils.lerp(current, target, influence)
+}
+
+function blendHeightControl(current: number, x: number, z: number, centerX: number, centerZ: number, target: number) {
+  const distance = Math.hypot(x - centerX, z - centerZ)
+  const influence = 1 - smoothstep(18, 145, distance)
   return MathUtils.lerp(current, target, influence)
 }
 
 /**
  * Deterministic continuous mainland height in authoritative world meters.
- * Broad landforms feather into one another; exact Stage 1 installation sites
- * are locally flattened so authored platforms retain their original heights.
+ * Broad landforms feather into one another outside their exact XZ boundaries.
+ * Deterministic sub-grid relief remains visible away from deliberately graded
+ * installation footprints.
  */
 function getAnalyticTerrainHeight(x: number, z: number) {
-  const broadNoise = hashNoise(x * 0.16, z * 0.16) * 1.35 + hashNoise(x * 0.035, z * 0.035) * 2.1
-  let height = 5.5 + broadNoise
+  const broadRelief = hashNoise(x * 0.15, z * 0.15) * 1.8 + hashNoise(x * 0.035, z * 0.035) * 2.4
+  // Keep the shortest relief wavelength comfortably above the 75 m mesh
+  // spacing; near-Nyquist ripples read as artificial washboard terraces under
+  // the low dawn sun.
+  const microRelief = Math.sin(x * 0.011 + z * 0.009 + 0.4) * 0.64 + Math.sin(x * 0.018 - z * 0.014 + 1.8) * 0.4 + Math.cos(x * 0.027 + z * 0.021 + 2.5) * 0.2
+  let height = 5.5 + broadRelief + microRelief
 
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.harborLowland, 460, 8 + broadNoise * 0.28)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.industrialPlateau, 520, 31 + broadNoise * 0.55)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.easternPlain, 650, 38 + broadNoise * 0.9)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.beachDunes, 340, 10 + broadNoise * 0.7)
-  height = blendPolygonHeight(height, x, z, BEACH_FEATURES.landingStrand, 170, 4.2 + broadNoise * 0.22)
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.harborLowland, 240, MathUtils.clamp(8 + broadRelief * 0.34 + microRelief * 0.28, 3, 18))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.industrialPlateau, 300, MathUtils.clamp(31 + broadRelief * 0.58 + microRelief * 0.5, 22, 46))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.easternPlain, 360, MathUtils.clamp(40 + broadRelief * 0.88 + microRelief * 0.85, 28, 82))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.beachDunes, 180, MathUtils.clamp(10 + broadRelief * 0.55 + microRelief * 0.7, 2, 24))
+  height = blendTerrainBand(height, x, z, BEACH_FEATURES.landingStrand, 80, MathUtils.clamp(4.2 + broadRelief * 0.16 + microRelief * 0.2, 2, 8))
 
-  height = blendPolygonHeight(height, x, z, RADAR_TERRAIN_POLYGONS.ridge, 470, 88 + broadNoise * 1.1)
-  height = blendPolygonHeight(height, x, z, RADAR_TERRAIN_POLYGONS.lower, 330, 122 + broadNoise * 0.9)
-  height = blendPolygonHeight(height, x, z, RADAR_TERRAIN_POLYGONS.middle, 280, 169 + broadNoise * 0.75)
-  height = blendPolygonHeight(height, x, z, RADAR_TERRAIN_POLYGONS.upper, 220, 194 + broadNoise * 0.5)
-  height = blendPolygonHeight(height, x, z, RADAR_TERRAIN_POLYGONS.summit, 150, 216 + broadNoise * 0.3)
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.ridge, 260, MathUtils.clamp(88 + broadRelief * 0.68 + microRelief * 0.8, 80, 220))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.lower, 210, MathUtils.clamp(121.5 + broadRelief * 0.42 + microRelief * 0.5, 80, 125))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.middle, 175, MathUtils.clamp(169 + broadRelief * 0.38 + microRelief * 0.42, 125, 175))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.upper, 145, MathUtils.clamp(194 + broadRelief * 0.25 + microRelief * 0.3, 175, 210))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.summit, 110, MathUtils.clamp(215 + broadRelief * 0.14 + microRelief * 0.18, 205, 220))
 
-  height = flattenCircle(height, x, z, 2450, 3650, 360, 108)
-  height = flattenCircle(height, x, z, 3300, 4480, 300, 184)
-  height = flattenCircle(height, x, z, 3700, 4180, 280, 220)
-  height = flattenCircle(height, x, z, 4325, 4000, 280, 195)
-  height = flattenCircle(height, x, z, 4050, 2850, 300, 126)
-  height = flattenCircle(height, x, z, 5050, 3200, 320, 96)
+  height = blendHeightControl(height, x, z, 2450, 3650, 108)
+  height = blendHeightControl(height, x, z, 3300, 4480, 184)
+  height = blendHeightControl(height, x, z, 3700, 4180, 220)
+  height = blendHeightControl(height, x, z, 4325, 4000, 195)
+  height = blendHeightControl(height, x, z, 4050, 2850, 126)
+  height = blendHeightControl(height, x, z, 5050, 3200, 96)
 
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffWest, 100, 48 + broadNoise * 0.6)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffCenter, 100, 44 + broadNoise * 0.6)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffEast, 90, 40 + broadNoise * 0.5)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassWest, 80, 19 + broadNoise * 0.35)
-  height = blendPolygonHeight(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassEast, 80, 18 + broadNoise * 0.35)
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffWest, 65, MathUtils.clamp(50 + broadRelief * 0.4 + microRelief * 0.55, 28, 62))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffCenter, 65, MathUtils.clamp(47 + broadRelief * 0.4 + microRelief * 0.55, 32, 58))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffEast, 60, MathUtils.clamp(43 + broadRelief * 0.35 + microRelief * 0.5, 26, 54))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassWest, 45, MathUtils.clamp(24 + broadRelief * 0.22 + microRelief * 0.25, 20, 32))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassEast, 45, MathUtils.clamp(23 + broadRelief * 0.22 + microRelief * 0.25, 18, 30))
 
   const washDistance = distanceToPolyline(x, z, CORRIDOR_FEATURES.dryWash)
-  height -= (1 - smoothstep(28, 165, washDistance)) * 4.5
+  const channelCut = (1 - smoothstep(0, 64, washDistance)) * 5
+  const washBank = (smoothstep(42, 76, washDistance) - smoothstep(76, 125, washDistance)) * 1.35
+  height += washBank - channelCut
 
-  height = flattenCircle(height, x, z, RADAR_SEARCH_SITE.position[0], RADAR_SEARCH_SITE.position[2], RADAR_SEARCH_SITE.radiusM, 209.35)
-  height = flattenCircle(height, x, z, RADAR_TRACKING_SITE.position[0], RADAR_TRACKING_SITE.position[2], RADAR_TRACKING_SITE.radiusM, 194.35)
-  for (const site of SAM_PAD_POSITIONS) {
-    height = flattenCircle(height, x, z, site.position[0], site.position[2], site.radiusM, site.terrainY - 0.35)
+  height = blendTerrainBand(height, x, z, BEACH_FEATURES.duneWest, 48, MathUtils.clamp(11.5 + broadRelief * 0.22 + microRelief * 0.72, 4, 14))
+  height = blendTerrainBand(height, x, z, BEACH_FEATURES.duneCentral, 48, MathUtils.clamp(15 + broadRelief * 0.22 + microRelief * 0.9, 5, 18))
+  height = blendTerrainBand(height, x, z, BEACH_FEATURES.duneEast, 52, MathUtils.clamp(13.5 + broadRelief * 0.22 + microRelief * 0.82, 4, 16))
+
+  // Only engineered footprints are level. The shoulders are deliberately
+  // narrow so the surrounding ridge, harbor, and industrial relief remains.
+  height = gradePolygon(height, x, z, HARBOR_FEATURES.warehouses[0].points, 30, 8)
+  height = gradePolygon(height, x, z, HARBOR_FEATURES.warehouses[1].points, 30, 8)
+  height = gradePolygon(height, x, z, HARBOR_FEATURES.electricalServiceFacility.points, 24, 8)
+  height = gradePolygon(height, x, z, HARBOR_FEATURES.defenseEmplacement.points, 24, 8)
+  height = gradePolygon(height, x, z, INDUSTRIAL_FEATURES.pumpYard, 24, 31)
+  height = gradePolygon(height, x, z, INDUSTRIAL_FEATURES.transferRack.points, 24, 31)
+  height = gradePolygon(height, x, z, INDUSTRIAL_FEATURES.ammunitionLoadingYard, 32, 38)
+  height = gradePolygon(height, x, z, INDUSTRIAL_FEATURES.ammunitionRailPlatform, 24, 38)
+  for (const utility of INDUSTRIAL_FEATURES.utilities) height = gradePolygon(height, x, z, utility.points, 18, 31)
+
+  height = gradePolygon(height, x, z, RADAR_PAD_POLYGONS.search, 26, 209.35)
+  height = gradePolygon(height, x, z, RADAR_PAD_POLYGONS.tracking, 24, 194.35)
+  for (const [index, site] of SAM_PAD_POSITIONS.entries()) {
+    const polygon = [RADAR_PAD_POLYGONS.sam01, RADAR_PAD_POLYGONS.sam02, RADAR_PAD_POLYGONS.sam03, RADAR_PAD_POLYGONS.sam04][index]!
+    height = gradePolygon(height, x, z, polygon, 18, site.terrainY - 0.35)
   }
-  height = flattenCircle(height, x, z, AAA_SITE.position[0], AAA_SITE.position[2], AAA_SITE.radiusM, AAA_SITE.terrainY - 0.35)
-  height = flattenCircle(height, x, z, COMMUNICATIONS_MAST_SITE.position[0], COMMUNICATIONS_MAST_SITE.position[2], 55, COMMUNICATIONS_MAST_SITE.position[1])
-  for (const building of RADAR_SUPPORT_BUILDINGS) {
-    height = flattenCircle(height, x, z, building.centerXZ[0], building.centerXZ[1], 105, building.terrainY)
+  height = gradePolygon(height, x, z, RADAR_PAD_POLYGONS.aaa, 22, AAA_SITE.terrainY - 0.35)
+  height = gradeCircle(height, x, z, COMMUNICATIONS_MAST_SITE.position[0], COMMUNICATIONS_MAST_SITE.position[2], 24, 18, COMMUNICATIONS_MAST_SITE.position[1])
+  for (const [index, building] of RADAR_SUPPORT_BUILDINGS.entries()) {
+    height = gradePolygon(height, x, z, RADAR_SUPPORT_POLYGONS[index]!, 18, building.terrainY)
   }
 
-  return Math.max(2, height)
+  return MathUtils.clamp(height, 2, 220)
 }
 
 const TERRAIN_GRID_SPACING_METERS = 75
@@ -140,6 +185,23 @@ function terrainGridConstraintPoints() {
   const points: XZPoint[] = [...MAINLAND_POLYGON_XZ, ...RADAR_HEIGHT_CONTROLS]
   for (const polygon of Object.values(RADAR_PAD_POLYGONS)) points.push(...polygon)
   for (const polygon of Object.values(RADAR_TERRAIN_POLYGONS)) points.push(...polygon)
+  for (const polygon of Object.values(TERRAIN_STAGE2_POLYGONS)) points.push(...polygon)
+  for (const polygon of [
+    BEACH_FEATURES.landingStrand,
+    BEACH_FEATURES.duneWest,
+    BEACH_FEATURES.duneCentral,
+    BEACH_FEATURES.duneEast,
+    ...HARBOR_FEATURES.warehouses.map((warehouse) => warehouse.points),
+    HARBOR_FEATURES.electricalServiceFacility.points,
+    HARBOR_FEATURES.defenseEmplacement.points,
+    INDUSTRIAL_FEATURES.pumpYard,
+    INDUSTRIAL_FEATURES.transferRack.points,
+    INDUSTRIAL_FEATURES.ammunitionLoadingYard,
+    INDUSTRIAL_FEATURES.ammunitionRailPlatform,
+    ...INDUSTRIAL_FEATURES.utilities.map((utility) => utility.points),
+  ])
+    points.push(...polygon)
+  for (const polygon of RADAR_SUPPORT_POLYGONS) points.push(...polygon)
   for (const building of RADAR_SUPPORT_BUILDINGS) points.push(building.centerXZ)
   for (const road of ROAD_DEFINITIONS) points.push(...road.points)
   points.push(...CORRIDOR_FEATURES.dryWash, ...BEACH_FEATURES.exitApron, ...BEACH_FEATURES.inlandHardstand, [COMMUNICATIONS_MAST_SITE.position[0], COMMUNICATIONS_MAST_SITE.position[2]])

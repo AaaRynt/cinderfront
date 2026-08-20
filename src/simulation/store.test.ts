@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { deriveStage1WorldState } from './derive'
+import { deriveSimulationWorldState } from './derive'
 import { createSimulationStore, getSimulationWorldState } from './store'
 
 describe('simulation store', () => {
-  it('plays, pauses, changes speed, and clamps at the Stage 1 endpoint', () => {
+  it('plays, pauses, changes speed, and clamps at the active Stage 3 endpoint', () => {
     const store = createSimulationStore()
     const actions = store.getState()
 
@@ -22,7 +22,7 @@ describe('simulation store', () => {
 
     store.getState().play()
     store.getState().tick(100)
-    expect(store.getState().timeSeconds).toBe(48)
+    expect(store.getState().timeSeconds).toBe(172)
     expect(store.getState().isPlaying).toBe(false)
   })
 
@@ -32,7 +32,7 @@ describe('simulation store', () => {
     store.getState().seek(43.2)
     const firstSeek = getSimulationWorldState(store)
     const firstResetVersion = store.getState().transientResetVersion
-    expect(firstSeek).toEqual(deriveStage1WorldState(43.2))
+    expect(firstSeek).toEqual(deriveSimulationWorldState(43.2))
     expect(firstSeek.reachedEvents).toHaveLength(10)
 
     store.getState().seek(43.2)
@@ -50,6 +50,9 @@ describe('simulation store', () => {
     expect(restarted.persistent.primaryRadarDestroyed).toBe(false)
     expect(restarted.aircraft.attacker_f35_01.phase).toBe('launch-ready')
     expect(restarted.aircraft.attacker_f35_02.phase).toBe('launch-ready')
+    expect(restarted.stage3.talwar.hitCount).toBe(0)
+    expect(restarted.stage3.molniya.phase).toBe('moored-operational')
+    expect(restarted.stage3.industrial.fuelCascade.reached).toBe(false)
   })
 
   it('preserves playback state on an in-range seek and pauses at the endpoint', () => {
@@ -59,6 +62,9 @@ describe('simulation store', () => {
     expect(store.getState().speed).toBe(0.5)
 
     store.getState().seek(48)
+    expect(store.getState().isPlaying).toBe(true)
+
+    store.getState().seek(172)
     expect(store.getState().isPlaying).toBe(false)
   })
 })

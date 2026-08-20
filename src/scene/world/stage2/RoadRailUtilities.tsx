@@ -30,7 +30,7 @@ export function RoadRailUtilities({ materials }: { materials: Stage2Materials })
       ))}
 
       {RAIL_DEFINITIONS.map((rail) => {
-        const centerline = sampleTerrainPolyline(rail.points, 62, 1.6)
+        const centerline = sampleTerrainPolyline(rail.points, 62, 0.34)
         return (
           <group key={rail.id} name={rail.id}>
             <RoadRibbon material={materials.gravel} points={centerline} widthM={7} />

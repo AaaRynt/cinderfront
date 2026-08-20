@@ -1,3 +1,5 @@
+import { Quaternion, Vector3 } from 'three'
+
 import type { WorldPosition, XZPoint } from '../worldData.ts'
 import type { Stage2Materials } from './stage2Materials.ts'
 
@@ -35,35 +37,97 @@ const STORAGE_LIGHTS = [
   id: `storage-light-${index + 1}`,
   position: [x!, getTerrainHeight(x!, z!), z!] as WorldPosition,
 })) satisfies readonly DistrictLightPoleInstance[]
+const Z_AXIS = new Vector3(0, 0, 1)
 
 function terrainVertices(points: readonly XZPoint[], yOffset = 0): WorldPosition[] {
   return points.map(([x, z]) => [x, getTerrainHeight(x, z) + yOffset, z])
 }
 
+function TerrainBundSegment({ end, heightM, materials, start }: { end: XZPoint; heightM: number; materials: Stage2Materials; start: XZPoint }) {
+  const startVector = new Vector3(start[0], getTerrainHeight(start[0], start[1]) + heightM / 2, start[1])
+  const endVector = new Vector3(end[0], getTerrainHeight(end[0], end[1]) + heightM / 2, end[1])
+  const direction = endVector.clone().sub(startVector)
+  const length = direction.length()
+  const position = startVector.clone().add(endVector).multiplyScalar(0.5)
+  const quaternion = new Quaternion().setFromUnitVectors(Z_AXIS, direction.normalize())
+
+  return (
+    <mesh castShadow material={materials.berm} position={position} quaternion={quaternion} receiveShadow>
+      <boxGeometry args={[20, heightM, length + 2]} />
+    </mesh>
+  )
+}
+
 function BundRing({ points, heightM, materials }: { heightM: number; materials: Stage2Materials; points: readonly XZPoint[] }) {
-  const xs = points.map((point) => point[0])
-  const zs = points.map((point) => point[1])
-  const minimumX = Math.min(...xs)
-  const maximumX = Math.max(...xs)
-  const minimumZ = Math.min(...zs)
-  const maximumZ = Math.max(...zs)
-  const centerX = (minimumX + maximumX) / 2
-  const centerZ = (minimumZ + maximumZ) / 2
-  const baseY = getTerrainHeight(centerX, centerZ)
-  const wallWidth = 12
+  const segments = points.flatMap((start, edgeIndex) => {
+    const end = points[(edgeIndex + 1) % points.length]!
+    const length = Math.hypot(end[0] - start[0], end[1] - start[1])
+    const segmentCount = Math.max(1, Math.ceil(length / 120))
+    return Array.from({ length: segmentCount }, (_, segmentIndex) => {
+      const startProgress = segmentIndex / segmentCount
+      const endProgress = (segmentIndex + 1) / segmentCount
+      return {
+        end: [start[0] + (end[0] - start[0]) * endProgress, start[1] + (end[1] - start[1]) * endProgress] as XZPoint,
+        key: `${edgeIndex}:${segmentIndex}`,
+        start: [start[0] + (end[0] - start[0]) * startProgress, start[1] + (end[1] - start[1]) * startProgress] as XZPoint,
+      }
+    })
+  })
+
   return (
     <group>
-      <mesh material={materials.berm} position={[centerX, baseY + heightM / 2, minimumZ]} receiveShadow>
-        <boxGeometry args={[maximumX - minimumX, heightM, wallWidth]} />
-      </mesh>
-      <mesh material={materials.berm} position={[centerX, baseY + heightM / 2, maximumZ]} receiveShadow>
-        <boxGeometry args={[maximumX - minimumX, heightM, wallWidth]} />
-      </mesh>
-      <mesh material={materials.berm} position={[minimumX, baseY + heightM / 2, centerZ]} receiveShadow>
-        <boxGeometry args={[wallWidth, heightM, maximumZ - minimumZ]} />
-      </mesh>
-      <mesh material={materials.berm} position={[maximumX, baseY + heightM / 2, centerZ]} receiveShadow>
-        <boxGeometry args={[wallWidth, heightM, maximumZ - minimumZ]} />
+      <TerrainPolygonSurface material={materials.hardstand} points={points} yOffset={0.16} />
+      {segments.map((segment) => (
+        <TerrainBundSegment key={segment.key} end={segment.end} heightM={heightM} materials={materials} start={segment.start} />
+      ))}
+    </group>
+  )
+}
+
+function FuelPumpYard({ materials }: { materials: Stage2Materials }) {
+  const baseY = getTerrainHeight(410, 1645) + 0.26
+  return (
+    <group name="fuel-pump-yard">
+      <TerrainPolygonSurface material={materials.hardstand} points={INDUSTRIAL_FEATURES.pumpYard} yOffset={0.26} />
+      {[350, 410, 470].map((x) => (
+        <group key={x} position={[x, baseY, 1645]}>
+          <mesh castShadow material={materials.concrete} position={[0, 0.45, 0]} receiveShadow>
+            <boxGeometry args={[38, 0.9, 25]} />
+          </mesh>
+          <mesh castShadow material={materials.darkSteel} position={[0, 3.2, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[5.2, 5.2, 18, 12]} />
+          </mesh>
+          <mesh castShadow material={materials.paintedSteel} position={[0, 7.3, 0]}>
+            <boxGeometry args={[14, 7, 12]} />
+          </mesh>
+        </group>
+      ))}
+      {[-60, 60].map((offsetZ) => (
+        <mesh key={offsetZ} castShadow material={materials.pipeline} position={[410, baseY + 8.6, 1645 + offsetZ]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[1.25, 1.25, 160, 10]} />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+function AmmunitionTransferPlatform({ materials }: { materials: Stage2Materials }) {
+  const baseY = getTerrainHeight(2360, 1480) + 0.24
+  const supportXs = [2235, 2360, 2485] as const
+  const supportZs = [1410, 1550] as const
+  return (
+    <group name="ammunition-rail-transfer-platform">
+      <PolygonPrism bottomY={baseY} castShadow material={materials.concrete} points={INDUSTRIAL_FEATURES.ammunitionRailPlatform} topY={baseY + 0.8} />
+      {supportXs.flatMap((x) =>
+        supportZs.map((z) => (
+          <mesh key={`${x}:${z}`} castShadow material={materials.steel} position={[x, baseY + 4.1, z]}>
+            <boxGeometry args={[2.8, 7.4, 2.8]} />
+          </mesh>
+        )),
+      )}
+      <PolygonPrism bottomY={baseY + 7.35} castShadow material={materials.warehouseRoof} points={INDUSTRIAL_FEATURES.ammunitionRailPlatform} topY={baseY + 8} />
+      <mesh castShadow material={materials.darkSteel} position={[2360, baseY + 4.4, 1390]}>
+        <boxGeometry args={[74, 6.5, 1.4]} />
       </mesh>
     </group>
   )
@@ -77,7 +141,7 @@ function FuelTransferRack({ materials }: { materials: Stage2Materials }) {
 
   return (
     <group name={transferRack.id}>
-      <PolygonSurface material={materials.hardstand} points={transferRack.points} y={baseY} />
+      <TerrainPolygonSurface material={materials.hardstand} points={transferRack.points} yOffset={0.24} />
       {canopyXs.map((x) => (
         <group key={x} name={`fuel-transfer-bay-${x}`}>
           <mesh castShadow material={materials.paintedSteel} position={[x, baseY + 9.6, 2025]}>
@@ -132,7 +196,7 @@ export function IndustrialDistrict({ materials }: { materials: Stage2Materials }
       })}
       <FuelTank center={[-1220, getTerrainHeight(-1220, 1570), 1570]} heightM={INDUSTRIAL_FEATURES.firewaterTank.heightM} id="fuel-firewater-tank" materials={materials} radiusM={INDUSTRIAL_FEATURES.firewaterTank.radiusM} />
 
-      <PolygonSurface material={materials.hardstand} name="fuel-pump-yard" points={INDUSTRIAL_FEATURES.pumpYard} y={31.05} />
+      <FuelPumpYard materials={materials} />
       <FuelTransferRack materials={materials} />
       {INDUSTRIAL_FEATURES.utilities.map((feature) => (
         <FuelUtilityBuilding key={feature.id} feature={feature} materials={materials} />
@@ -156,8 +220,8 @@ export function IndustrialDistrict({ materials }: { materials: Stage2Materials }
           </group>
         )
       })}
-      <PolygonSurface material={materials.hardstand} name="ammunition-loading-yard" points={INDUSTRIAL_FEATURES.ammunitionLoadingYard} y={31.2} />
-      <PolygonPrism bottomY={30.9} material={materials.concrete} name="ammunition-rail-transfer-platform" points={INDUSTRIAL_FEATURES.ammunitionRailPlatform} topY={32.4} />
+      <TerrainPolygonSurface material={materials.hardstand} name="ammunition-loading-yard" points={INDUSTRIAL_FEATURES.ammunitionLoadingYard} yOffset={0.24} />
+      <AmmunitionTransferPlatform materials={materials} />
       <SecurityFence id="fuel-compound-security" points={terrainVertices(SECURITY_FENCES[0], 0.3)} responseGroup={STORAGE_FENCE} rows={1} />
       <SecurityFence id="ammunition-compound-security" points={terrainVertices(SECURITY_FENCES[1], 0.3)} responseGroup={STORAGE_FENCE} rowSeparationM={8} rows={2} />
 

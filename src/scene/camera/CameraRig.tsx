@@ -7,50 +7,70 @@ import { Vector3 } from 'three'
 
 import type { Vec3 } from '@/scene/effects/BattleEffects'
 
+import type { CameraPreset } from './cameraStore'
+
 import { useCameraStore } from './cameraStore'
 
 interface CameraRigProps {
   f35Position: Vec3
+  f35SecondaryPosition: Vec3
+  molniyaPosition: Vec3
 }
 
 const CAMERA_PRESETS = {
   overview: {
-    position: [900, 6_900, -7_900] as Vec3,
-    target: [650, 60, 650] as Vec3,
+    position: [700, 5_000, -7_800] as Vec3,
+    target: [500, 80, 650] as Vec3,
   },
   wasp: {
     position: [-4_550, 145, -3_030] as Vec3,
     target: [-4_800, 18, -2_700] as Vec3,
   },
   harbor: {
-    position: [-4_650, 180, 2_900] as Vec3,
-    target: [-3_800, 8, 3_550] as Vec3,
+    position: [-4_780, 125, 2_920] as Vec3,
+    target: [-3_760, 10, 3_580] as Vec3,
+  },
+  talwar: {
+    position: [-4_020, 66, 3_670] as Vec3,
+    target: [-3_766, 8, 3_847] as Vec3,
   },
   industrial: {
-    position: [550, 780, 500] as Vec3,
-    target: [550, 30, 2_100] as Vec3,
+    position: [260, 365, 760] as Vec3,
+    target: [240, 34, 2_120] as Vec3,
+  },
+  'fuel-storage': {
+    position: [-1_250, 135, 1_350] as Vec3,
+    target: [-545, 38, 2_050] as Vec3,
+  },
+  ammunition: {
+    position: [950, 145, 1_350] as Vec3,
+    target: [1_800, 42, 2_080] as Vec3,
   },
   'radar-hill': {
-    position: [2_500, 450, 2_600] as Vec3,
-    target: [3_800, 160, 3_800] as Vec3,
+    position: [2_470, 335, 2_520] as Vec3,
+    target: [3_820, 166, 3_830] as Vec3,
   },
   'search-radar': {
     position: [3_440, 270, 3_980] as Vec3,
     target: [3_550, 212, 4_150] as Vec3,
   },
   corridor: {
-    position: [2_500, 360, -900] as Vec3,
+    position: [2_520, 255, -980] as Vec3,
     target: [3_300, 28, -250] as Vec3,
   },
   beachhead: {
-    position: [4_200, 480, -1_900] as Vec3,
-    target: [4_900, 6, -3_050] as Vec3,
+    position: [4_160, 300, -1_950] as Vec3,
+    target: [4_920, 9, -3_020] as Vec3,
   },
   'beach-offshore': {
-    position: [4_900, 100, -4_050] as Vec3,
+    position: [4_900, 82, -4_020] as Vec3,
     target: [4_900, 10, -2_750] as Vec3,
   },
 } as const
+
+function isFollowPreset(preset: CameraPreset): preset is 'f35-01' | 'f35-02' | 'molniya' {
+  return preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya'
+}
 
 function setVector(target: Vector3, source: Vec3) {
   target.set(source[0], source[1], source[2])
@@ -62,24 +82,30 @@ function useStableVector3() {
   return vector.current
 }
 
-export function CameraRig({ f35Position }: CameraRigProps) {
+export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }: CameraRigProps) {
   const camera = useThree((state) => state.camera)
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
   const preset = useCameraStore((state) => state.preset)
   const requestId = useCameraStore((state) => state.requestId)
   const f35PositionRef = useRef(f35Position)
+  const f35SecondaryPositionRef = useRef(f35SecondaryPosition)
+  const molniyaPositionRef = useRef(molniyaPosition)
   const lastFollowPosition = useStableVector3()
   const followPositionScratch = useStableVector3()
   const followDeltaScratch = useStableVector3()
   f35PositionRef.current = f35Position
+  f35SecondaryPositionRef.current = f35SecondaryPosition
+  molniyaPositionRef.current = molniyaPosition
 
   useEffect(() => {
     const orbitControls = controls.current
     if (!orbitControls) return
 
-    if (preset === 'f35-01') {
-      const target = followPositionScratch.set(...f35PositionRef.current)
-      camera.position.set(target.x + 58, target.y + 28, target.z + 82)
+    if (isFollowPreset(preset)) {
+      const targetPosition = preset === 'f35-01' ? f35PositionRef.current : preset === 'f35-02' ? f35SecondaryPositionRef.current : molniyaPositionRef.current
+      const target = followPositionScratch.set(...targetPosition)
+      const distance = preset === 'molniya' ? 105 : 58
+      camera.position.set(target.x + distance, target.y + (preset === 'molniya' ? 38 : 28), target.z + distance * 1.4)
       orbitControls.target.copy(target)
       lastFollowPosition.copy(target)
     } else {
@@ -92,8 +118,9 @@ export function CameraRig({ f35Position }: CameraRigProps) {
   }, [camera, followPositionScratch, lastFollowPosition, preset, requestId])
 
   useFrame(() => {
-    if (preset !== 'f35-01' || !controls.current) return
-    const current = followPositionScratch.set(...f35Position)
+    if (!isFollowPreset(preset) || !controls.current) return
+    const targetPosition = preset === 'f35-01' ? f35Position : preset === 'f35-02' ? f35SecondaryPosition : molniyaPosition
+    const current = followPositionScratch.set(...targetPosition)
     const delta = followDeltaScratch.copy(current).sub(lastFollowPosition)
     camera.position.add(delta)
     controls.current.target.add(delta)

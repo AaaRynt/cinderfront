@@ -1,13 +1,13 @@
 import { Camera, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship, Warehouse, Waves } from 'lucide-react'
 
 import type { CameraPreset } from '@/scene/camera/cameraStore'
-import type { SimulationSpeed, Stage1EventId } from '@/simulation'
+import type { SimulationEvent, SimulationSpeed } from '@/simulation'
 
 import { useCameraStore } from '@/scene/camera/cameraStore'
-import { STAGE1_EVENTS } from '@/simulation'
+import { SIMULATION_EVENTS } from '@/simulation'
 
 interface TimelineEventView {
-  code: Stage1EventId
+  code: SimulationEvent['id']
   label: string
   time: number
 }
@@ -17,6 +17,9 @@ interface BattlefieldStatus {
   aircraft02: string
   pantsir: string
   primaryRadar: string
+  talwar: string
+  molniya: string
+  industrial: string
 }
 
 interface SimulationHudProps {
@@ -34,7 +37,7 @@ interface SimulationHudProps {
   time: number
 }
 
-const EVENT_TIMES = STAGE1_EVENTS.map((event) => event.atSeconds)
+const EVENT_TIMES = SIMULATION_EVENTS.map((event) => event.atSeconds)
 
 const CAMERA_PRESETS: ReadonlyArray<{
   icon: typeof Map
@@ -44,13 +47,18 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Map, id: 'overview', label: 'Overview' },
   { icon: Ship, id: 'wasp', label: 'Wasp' },
   { icon: Warehouse, id: 'harbor', label: 'Harbor' },
+  { icon: Ship, id: 'talwar', label: 'Talwar' },
+  { icon: Ship, id: 'molniya', label: 'Molniya' },
   { icon: Factory, id: 'industrial', label: 'Industrial' },
+  { icon: Factory, id: 'fuel-storage', label: 'Fuel storage' },
+  { icon: Warehouse, id: 'ammunition', label: 'Ammunition' },
   { icon: Camera, id: 'radar-hill', label: 'Radar Hill' },
   { icon: Radar, id: 'search-radar', label: 'Search radar' },
   { icon: Route, id: 'corridor', label: 'Convoy corridor' },
   { icon: Waves, id: 'beachhead', label: 'Beach inland' },
   { icon: Waves, id: 'beach-offshore', label: 'Beach offshore' },
   { icon: Plane, id: 'f35-01', label: 'F-35B 01' },
+  { icon: Plane, id: 'f35-02', label: 'F-35B 02' },
 ]
 
 function StatusRow({ label, value }: { label: string; value: string }) {
@@ -80,7 +88,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="eyebrow">Cinderfront / Stage 02</p>
+            <p className="eyebrow">Cinderfront / Stage 03</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -101,6 +109,9 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           <p className="eyebrow">island_defender</p>
           <StatusRow label="Pantsir-S1" value={battlefieldStatus.pantsir} />
           <StatusRow label="Search radar" value={battlefieldStatus.primaryRadar} />
+          <StatusRow label="Talwar" value={battlefieldStatus.talwar} />
+          <StatusRow label="Molniya" value={battlefieldStatus.molniya} />
+          <StatusRow label="Industrial" value={battlefieldStatus.industrial} />
         </div>
       </aside>
 
@@ -123,7 +134,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             <p className="eyebrow">Event {latestEvent.code}</p>
             <strong>{latestEvent.label}</strong>
           </div>
-          <span>T+{String(latestEvent.time).padStart(2, '0')}</span>
+          <span>{formatTimelineBound(latestEvent.time)}</span>
         </div>
 
         <div className="timeline-control">
@@ -161,7 +172,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="stage-notice">Opening vertical slice · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
+      <div className="stage-notice">Escalation phase · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
     </div>
   )
 }

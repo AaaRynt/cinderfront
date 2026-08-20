@@ -80,8 +80,11 @@ export const SAM_PAD_POSITIONS = [
   },
   {
     id: 'sam_platform_02',
-    position: [3425, 171, 3450] as WorldPosition,
-    terrainY: 170,
+    // The map specifies this candidate pad's XZ footprint, not an elevation.
+    // Seat it into the adjacent middle-slope transition instead of cutting a
+    // visually implausible 20 m pit into the restored hill.
+    position: [3425, 187, 3450] as WorldPosition,
+    terrainY: 186,
     radiusM: 70,
   },
   {
@@ -92,8 +95,11 @@ export const SAM_PAD_POSITIONS = [
   },
   {
     id: 'sam_platform_04',
-    position: [3200, 124, 3025] as WorldPosition,
-    terrainY: 122,
+    // This footprint straddles the lower-bench/mid-slope shoulder. The source
+    // does not mandate Y, so use a modest cut/fill grade rather than a 47 m
+    // circular excavation.
+    position: [3200, 154, 3025] as WorldPosition,
+    terrainY: 153,
     radiusM: 70,
   },
 ] as const

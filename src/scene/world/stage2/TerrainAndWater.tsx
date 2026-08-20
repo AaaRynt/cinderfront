@@ -26,7 +26,7 @@ export function TerrainAndWater({ materials }: { materials: Stage2Materials }) {
       <mesh material={materials.ocean} position={[0, -0.12, 0]} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[oceanWidth, oceanDepth, 1, 1]} />
       </mesh>
-      <mesh geometry={terrainGeometry} material={materials.terrain} name="continuous-mainland-terrain" receiveShadow />
+      <mesh castShadow geometry={terrainGeometry} material={materials.terrain} name="continuous-mainland-terrain" receiveShadow />
       <mesh geometry={coastGeometry} material={materials.coastRock} name="exact-mainland-coastline" receiveShadow />
 
       <PolygonSurface material={materials.harborWater} name="harbor-basin-water" points={WATER_POLYGONS.harborBasin} receiveShadow={false} y={0.16} />

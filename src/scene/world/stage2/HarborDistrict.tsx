@@ -2,13 +2,13 @@ import type { Stage2Materials } from './stage2Materials.ts'
 
 import { DistrictEquipmentBatch, createEnvironmentResponseGroup, type DistrictGeneratorInstance, type DistrictTransformerBankInstance } from './environment/index.ts'
 import { HARBOR_FEATURES } from './stage2Data.ts'
-import { PolygonPrism, PolygonSurface, RoadRibbon } from './Stage2Meshes.tsx'
+import { PolygonPrism, PolygonSurface, RoadRibbon, TerrainPolygonSurface } from './Stage2Meshes.tsx'
 import { GantryCrane, Warehouse } from './Stage2Structures.tsx'
-import { getTerrainHeight } from './terrainModel.ts'
+import { getTerrainHeight, sampleTerrainPolyline } from './terrainModel.ts'
 
 const HARBOR_FIXTURES = createEnvironmentResponseGroup('harbor-maintenance-fixtures', 'region_a_harbor_district', 'industrial_fixture')
-const HARBOR_GENERATORS = [{ headingDeg: 84, id: 'harbor-maintenance-generator', position: [-3190, 8.3, 4190] }] satisfies readonly DistrictGeneratorInstance[]
-const HARBOR_TRANSFORMERS = [{ headingDeg: 84, id: 'harbor-maintenance-transformers', position: [-3070, 8.3, 4185], unitCount: 2 }] satisfies readonly DistrictTransformerBankInstance[]
+const HARBOR_GENERATORS = [{ headingDeg: 84, id: 'harbor-maintenance-generator', position: [-3190, getTerrainHeight(-3190, 4190) + 0.28, 4190] }] satisfies readonly DistrictGeneratorInstance[]
+const HARBOR_TRANSFORMERS = [{ headingDeg: 84, id: 'harbor-maintenance-transformers', position: [-3070, getTerrainHeight(-3070, 4185) + 0.28, 4185], unitCount: 2 }] satisfies readonly DistrictTransformerBankInstance[]
 
 function CargoStack({ materials, position, yaw = 0 }: { materials: Stage2Materials; position: readonly [number, number, number]; yaw?: number }) {
   return (
@@ -81,24 +81,26 @@ export function HarborDistrict({ materials }: { materials: Stage2Materials }) {
         <PolygonPrism key={feature.id} bottomY={-1} castShadow material={materials.darkSteel} name={feature.id} points={feature.points} topY={2.5} />
       ))}
       {HARBOR_FEATURES.aprons.map((feature) => (
-        <PolygonSurface key={feature.id} material={materials.hardstand} name={feature.id} points={feature.points} y={8.18} />
+        <TerrainPolygonSurface key={feature.id} material={materials.hardstand} name={feature.id} points={feature.points} yOffset={0.24} />
       ))}
 
-      {HARBOR_FEATURES.warehouses.map((warehouse) => (
-        <Warehouse key={warehouse.id} baseY={8} heightM={warehouse.heightM} id={warehouse.id} materials={materials} points={warehouse.points} />
-      ))}
+      {HARBOR_FEATURES.warehouses.map((warehouse) => {
+        const centerX = warehouse.points.reduce((total, point) => total + point[0], 0) / warehouse.points.length
+        const centerZ = warehouse.points.reduce((total, point) => total + point[1], 0) / warehouse.points.length
+        return <Warehouse key={warehouse.id} baseY={getTerrainHeight(centerX, centerZ) + 0.18} heightM={warehouse.heightM} id={warehouse.id} materials={materials} points={warehouse.points} />
+      })}
       <HarborElectricalServiceFacility materials={materials} />
       <HarborDefenseEmplacement materials={materials} />
 
       {[
-        [-4210, 8.25, 4380, 0.08],
-        [-4140, 8.25, 4310, 0.08],
-        [-3240, 8.25, 4420, 0.04],
-        [-3180, 8.25, 4335, 0.04],
-        [-3000, 8.25, 2770, -0.03],
-        [-2850, 8.25, 2820, -0.03],
-      ].map(([x, y, z, yaw], index) => (
-        <CargoStack key={`harbor-cargo-${index}`} materials={materials} position={[x!, y!, z!]} yaw={yaw} />
+        [-4210, 4380, 0.08],
+        [-4140, 4310, 0.08],
+        [-3240, 4420, 0.04],
+        [-3180, 4335, 0.04],
+        [-3000, 2770, -0.03],
+        [-2850, 2820, -0.03],
+      ].map(([x, z, yaw], index) => (
+        <CargoStack key={`harbor-cargo-${index}`} materials={materials} position={[x!, getTerrainHeight(x!, z!) + 0.24, z!]} yaw={yaw} />
       ))}
       <DistrictEquipmentBatch generators={HARBOR_GENERATORS} id="harbor-maintenance-equipment" responseGroup={HARBOR_FIXTURES} transformerBanks={HARBOR_TRANSFORMERS} />
 
@@ -108,14 +110,7 @@ export function HarborDistrict({ materials }: { materials: Stage2Materials }) {
         const heading = headingBetween(start, end)
         return (
           <group key={rail.id} name={rail.id}>
-            <RoadRibbon
-              material={materials.rail}
-              points={[
-                [start[0], 8.2, start[1]],
-                [end[0], 8.2, end[1]],
-              ]}
-              widthM={4}
-            />
+            <RoadRibbon material={materials.rail} points={sampleTerrainPolyline(rail.points, 45, 0.28)} widthM={4} />
             {rail.cranes.map(([x, z], index) => (
               <GantryCrane key={`${rail.id}:${index}`} headingRadians={heading} id={`${rail.id}:gantry-${index + 1}`} materials={materials} position={[x, getTerrainHeight(x, z) + 0.2, z]} scale={rail.id === 'crane_rail_inner_quay' ? 0.82 : 1} />
             ))}

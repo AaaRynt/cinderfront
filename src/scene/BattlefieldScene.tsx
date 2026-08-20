@@ -4,14 +4,15 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { ACESFilmicToneMapping, BackSide, DoubleSide, RingGeometry } from 'three'
 
-import type { AircraftState, Stage1WorldState } from '@/simulation'
+import type { AircraftState, SimulationWorldState } from '@/simulation'
 
-import { deriveAircraftState, deriveStage1WorldState, simulationStore, useSimulationStore } from '@/simulation'
+import { deriveAircraftState, deriveSimulationWorldState, simulationStore, useSimulationStore } from '@/simulation'
 
 import type { Vec3 } from './effects/BattleEffects'
 
 import { CameraRig } from './camera/CameraRig'
 import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effects/BattleEffects'
+import { Stage3BattleEffects } from './effects/Stage3BattleEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
 import { F35BModel, PantsirModel, WaspModel } from './vehicles'
 import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
@@ -31,33 +32,6 @@ const AAA_BURST_STARTS = [29, 32.2, 35.4, 38.6, 41.8, 45] as const
 const SIMULATION_STEP_SECONDS = 1 / 30
 const DOWNWASH_RING_GEOMETRY = new RingGeometry(0.9, 1, 32)
 
-const STRIKE_PATHS = [
-  {
-    duration: 1.8,
-    impact: NEAR_HIT_POSITION,
-    release: 34.2,
-    source: 'attacker_f35_01',
-  },
-  {
-    duration: 1.6,
-    impact: PANTSIR_IMPACT_POSITION,
-    release: 40.4,
-    source: 'attacker_f35_01',
-  },
-  {
-    duration: 1.7,
-    impact: RADAR_IMPACT_POSITION,
-    release: 43.3,
-    source: 'attacker_f35_01',
-  },
-  {
-    duration: 1.3,
-    impact: HARBOR_IMPACT_POSITION,
-    release: 46.7,
-    source: 'attacker_f35_02',
-  },
-] as const
-
 const PANTSIR_MISSILE_SOURCE: Vec3 = [SAM_PAD_POSITIONS[0].position[0], SAM_PAD_POSITIONS[0].position[1] + 5.4, SAM_PAD_POSITIONS[0].position[2]]
 
 const AIR_DEFENSE_PATHS = AIR_DEFENSE_LAUNCHES.map((launch, index) => {
@@ -74,13 +48,6 @@ const FIXED_AAA_PATHS = AAA_BURST_STARTS.map((start) => {
   const target = deriveAircraftState('attacker_f35_01', Math.min(48, start + 1.15)).pose.position
   const end: Vec3 = [target.x, target.y, target.z]
   return { end, shotTimes: [start, start + 0.2, start + 0.4] as const, start }
-})
-
-const STRIKE_FLIGHTS = STRIKE_PATHS.map((strike) => {
-  const aircraft = deriveAircraftState(strike.source, strike.release)
-  const origin = vectorTuple(aircraft.pose.position)
-  const control: Vec3 = [(origin[0] + strike.impact[0]) / 2, Math.max(origin[1], strike.impact[1]) + 95, (origin[2] + strike.impact[2]) / 2]
-  return { ...strike, control, origin }
 })
 
 function vectorTuple(vector: { readonly x: number; readonly y: number; readonly z: number }): Vec3 {
@@ -121,7 +88,7 @@ function DawnEnvironment() {
   return (
     <>
       <color attach="background" args={['#0b1820']} />
-      <fog attach="fog" args={['#17272e', 4_200, 17_500]} />
+      <fog attach="fog" args={['#17272e', 7_000, 20_500]} />
       <mesh ref={sky} frustumCulled={false} scale={19_000}>
         <sphereGeometry args={[1, 48, 24]} />
         <shaderMaterial
@@ -149,10 +116,12 @@ function DawnEnvironment() {
           `}
         />
       </mesh>
-      <hemisphereLight color="#a7bdc6" groundColor="#4e4030" intensity={1.22} />
-      <ambientLight color="#8ba2aa" intensity={0.76} />
-      <directionalLight color="#ffc27e" intensity={3.1} position={[-6_800, 1_100, -5_900]} />
-      <directionalLight color="#789aaa" intensity={0.72} position={[4_000, 6_000, 2_000]} />
+      <hemisphereLight color="#a7bdc6" groundColor="#453a2e" intensity={0.88} />
+      <ambientLight color="#8ba2aa" intensity={0.38} />
+      <directionalLight castShadow color="#ffc27e" intensity={3.35} position={[-6_800, 3_900, -5_900]} shadow-bias={-0.00018} shadow-mapSize-height={1_024} shadow-mapSize-width={1_024} shadow-normalBias={18}>
+        <orthographicCamera attach="shadow-camera" args={[-7_500, 7_500, 6_000, -6_000, 50, 22_000]} />
+      </directionalLight>
+      <directionalLight color="#789aaa" intensity={0.48} position={[4_000, 6_000, 2_000]} />
     </>
   )
 }
@@ -167,7 +136,8 @@ function DownwashDisturbance({ aircraft, time, waspDeckY }: { aircraft: Aircraft
         const progress = (time * 0.58 + index / 3) % 1
         const radius = 3 + progress * 18 * strength
         return (
-          <mesh key={index} geometry={DOWNWASH_RING_GEOMETRY} scale={[radius, radius, 1]}>
+          <mesh key={index} scale={[radius, radius, 1]}>
+            <primitive attach="geometry" object={DOWNWASH_RING_GEOMETRY} />
             <meshBasicMaterial color="#d6e4df" depthWrite={false} opacity={(1 - progress) * 0.09 * strength} side={DoubleSide} transparent />
           </mesh>
         )
@@ -192,7 +162,7 @@ function AircraftEntity({ aircraft, time, waspDeckY }: { aircraft: AircraftState
   )
 }
 
-function WaspEntity({ world }: { world: Stage1WorldState }) {
+function WaspEntity({ world }: { world: SimulationWorldState }) {
   const { pose, wakeStrength } = world.wasp
   return (
     <group name="attacker_wasp_01" position={[pose.position.x, pose.position.y, pose.position.z]} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z]}>
@@ -221,17 +191,7 @@ function FixedAaaTracers({ time }: { time: number }) {
   )
 }
 
-function StrikeMunitions({ time }: { time: number }) {
-  return (
-    <group name="authored-strike-munitions">
-      {STRIKE_FLIGHTS.map((strike) => (
-        <MissileFlight key={strike.release} control={strike.control} duration={strike.duration} end={strike.impact} launchTime={strike.release} origin={strike.origin} time={time} tone="strike" />
-      ))}
-    </group>
-  )
-}
-
-function RadarHillEngagement({ world }: { world: Stage1WorldState }) {
+function RadarHillEngagement({ world }: { world: SimulationWorldState }) {
   const time = world.timeSeconds
   const destroyed = world.pantsir.phase === 'destroyed'
   const launcherElevation = world.pantsir.phase === 'engaging' ? 0.46 : world.pantsir.phase === 'acquiring' ? 0.34 : 0.28
@@ -247,8 +207,6 @@ function RadarHillEngagement({ world }: { world: Stage1WorldState }) {
 
       <AirDefenseMissiles time={time} />
       <FixedAaaTracers time={time} />
-      <StrikeMunitions time={time} />
-
       <ImpactEffect impactTime={36} position={NEAR_HIT_POSITION} time={time} variant="near-hit" />
       <ImpactEffect impactTime={42} position={PANTSIR_IMPACT_POSITION} time={time} variant="vehicle-kill" />
       <ImpactEffect impactTime={45} position={RADAR_IMPACT_POSITION} time={time} variant="radar-hit" />
@@ -259,7 +217,7 @@ function RadarHillEngagement({ world }: { world: Stage1WorldState }) {
 
 function DynamicBattlefield() {
   const time = useSimulationStore((state) => state.timeSeconds)
-  const world = useMemo(() => deriveStage1WorldState(time), [time])
+  const world = useMemo(() => deriveSimulationWorldState(time), [time])
   const f35Primary = world.aircraft.attacker_f35_01
   const f35Secondary = world.aircraft.attacker_f35_02
   const deckY = world.wasp.pose.position.y + 13.2
@@ -270,7 +228,8 @@ function DynamicBattlefield() {
       <AircraftEntity aircraft={f35Primary} time={time} waspDeckY={deckY} />
       <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
       <RadarHillEngagement world={world} />
-      <CameraRig f35Position={vectorTuple(f35Primary.pose.position)} />
+      <Stage3BattleEffects world={world} />
+      <CameraRig f35Position={vectorTuple(f35Primary.pose.position)} f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)} molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)} />
     </>
   )
 }
@@ -279,13 +238,14 @@ export function BattlefieldScene() {
   return (
     <div className="battlefield-canvas" data-testid="battlefield-canvas">
       <Canvas
-        camera={{ far: 25_000, fov: 43, near: 1, position: [900, 6_900, -7_900] }}
+        camera={{ far: 25_000, fov: 43, near: 1, position: [700, 5_000, -7_800] }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => {
           gl.toneMapping = ACESFilmicToneMapping
           gl.toneMappingExposure = 1.12
         }}
+        shadows="percentage"
       >
         <SimulationDriver />
         <DawnEnvironment />
