@@ -1,7 +1,7 @@
-import type { AircraftId, AircraftMechanicalState, AircraftPhase, AircraftState, AirGroundStrikeId, AirGroundWeaponState, FixedAaaState, PantsirState, PersistentStage1State, Pose3, RadarState, SimulationWorldState, Stage1WorldState, Stage3WorldState, TransientEffectState, Vector3, WaspState } from './types'
+import type { AircraftId, AircraftMechanicalState, AircraftPhase, AircraftState, AirGroundStrikeId, AirGroundWeaponState, FixedAaaState, PantsirState, PersistentStage1State, RadarState, SimulationWorldState, Stage1WorldState, Stage3WorldState, TransientEffectState, Vector3, WaspState } from './types'
 
 import { SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_FIXED_SEED } from './constants'
-import { headingBetween, inverseLerp, lerp, lerpVector3, samplePolyline, smoothstep, transformLocalOffset } from './math'
+import { clamp, distanceVector3, headingBetween, inverseLerp, lerp, lerpAngleRadians, normalizeVector3, samplePolyline, scaleVector3, smoothstep, subtractVector3, transformLocalOffset, yawForDirection } from './math'
 import { deriveHarborStage3State, deriveIndustrialStage3State, deriveMolniyaState, deriveStage3ReachedEvents, deriveTalwarState } from './stage3'
 import { formatLocalTime, formatSimulationTime, clampSimulationTime, clampStage1Time } from './time'
 import { getReachedEvents, getReachedSimulationEvents, hasReachedEvent } from './timeline'
@@ -35,23 +35,26 @@ interface TimedPosition {
   readonly position: Vector3
 }
 
-function eventReached(timeSeconds: number, atSeconds: number): boolean {
-  return hasReachedEvent(timeSeconds, atSeconds)
+interface TimedFlightKeyframe extends TimedPosition {
+  readonly velocity: Vector3
 }
 
-function sampleTimedPositions(keyframes: readonly TimedPosition[], timeSeconds: number): Vector3 {
-  if (keyframes.length === 0) return { x: 0, y: 0, z: 0 }
-  if (timeSeconds <= keyframes[0].atSeconds) return { ...keyframes[0].position }
+interface AircraftMotionSample {
+  readonly position: Vector3
+  readonly velocity: Vector3
+}
 
-  for (let index = 1; index < keyframes.length; index += 1) {
-    const previous = keyframes[index - 1]
-    const next = keyframes[index]
-    if (timeSeconds <= next.atSeconds) {
-      return lerpVector3(previous.position, next.position, smoothstep(previous.atSeconds, next.atSeconds, timeSeconds))
-    }
-  }
+const AIRCRAFT_MAX_KEYFRAME_SPEED_METERS_PER_SECOND = 390
+const AIRCRAFT_HEADING_SAMPLE_SECONDS = 3.2
+const AIRCRAFT_BANK_SAMPLE_SECONDS = 1.1
+const AIRCRAFT_MAX_BANK_RADIANS = (34 * Math.PI) / 180
+const AIRCRAFT_MAX_CINEMATIC_TURN_RATE_RADIANS_PER_SECOND = (12 * Math.PI) / 180
+const STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED = 9.81
 
-  return { ...keyframes[keyframes.length - 1].position }
+const AIRCRAFT_FLIGHT_PATH_CACHE = new Map<AircraftId, readonly TimedFlightKeyframe[]>()
+
+function eventReached(timeSeconds: number, atSeconds: number): boolean {
+  return hasReachedEvent(timeSeconds, atSeconds)
 }
 
 function deriveWaspStateForSimulation(timeSeconds: number): WaspState {
@@ -91,7 +94,14 @@ function deckPosition(aircraftId: AircraftId, timeSeconds: number): Vector3 {
   return transformLocalOffset(wasp.pose.position, wasp.pose.rotation.y, AIRCRAFT_DECK_OFFSETS[aircraftId])
 }
 
-function authoredFlightPath(aircraftId: AircraftId): readonly TimedPosition[] {
+function deckVelocity(aircraftId: AircraftId, timeSeconds: number): Vector3 {
+  const sampleRadiusSeconds = 0.05
+  const before = deckPosition(aircraftId, Math.max(0, timeSeconds - sampleRadiusSeconds))
+  const after = deckPosition(aircraftId, Math.min(SIMULATION_DURATION_SECONDS, timeSeconds + sampleRadiusSeconds))
+  return scaleVector3(subtractVector3(after, before), 1 / (sampleRadiusSeconds * 2))
+}
+
+function authoredFlightPositions(aircraftId: AircraftId): readonly TimedPosition[] {
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const transitionStart = deckPosition(aircraftId, launchAtSeconds + 5)
   const liftedStart = { ...transitionStart, y: transitionStart.y + 42 }
@@ -99,45 +109,153 @@ function authoredFlightPath(aircraftId: AircraftId): readonly TimedPosition[] {
   if (aircraftId === 'attacker_f35_01') {
     return [
       { atSeconds: 10, position: liftedStart },
-      { atSeconds: 16, position: { x: -3400, y: 180, z: -1700 } },
+      { atSeconds: 16.25, position: { x: -3400, y: 180, z: -1700 } },
       { atSeconds: 24, position: { x: -800, y: 420, z: 200 } },
       { atSeconds: 30, position: { x: 1200, y: 500, z: 1600 } },
       { atSeconds: 36, position: { x: 2700, y: 420, z: 2900 } },
       { atSeconds: 42, position: { x: 3400, y: 360, z: 3700 } },
-      { atSeconds: 45, position: { x: 4200, y: 430, z: 4350 } },
-      { atSeconds: 48, position: { x: 5200, y: 650, z: 4800 } },
-      { atSeconds: 60, position: { x: 6000, y: 800, z: 3500 } },
+      { atSeconds: 45, position: { x: 4000, y: 430, z: 4200 } },
+      { atSeconds: 48, position: { x: 4700, y: 610, z: 4600 } },
+      { atSeconds: 52, position: { x: 5600, y: 700, z: 4700 } },
+      { atSeconds: 56, position: { x: 6000, y: 760, z: 4400 } },
+      { atSeconds: 60, position: { x: 6100, y: 800, z: 3800 } },
+      { atSeconds: 68, position: { x: 5600, y: 860, z: 2800 } },
       { atSeconds: 90, position: { x: 3000, y: 1000, z: 1000 } },
       { atSeconds: 120, position: { x: 0, y: 1100, z: -500 } },
       { atSeconds: 150, position: { x: -3000, y: 1200, z: -2500 } },
-      { atSeconds: 172, position: { x: -5200, y: 1300, z: -3800 } },
+      { atSeconds: 172, position: { x: -7000, y: 1300, z: -4200 } },
     ]
   }
 
   return [
     { atSeconds: 18, position: liftedStart },
-    { atSeconds: 24, position: { x: -4300, y: 180, z: -1200 } },
+    { atSeconds: 24.75, position: { x: -4300, y: 180, z: -1200 } },
     { atSeconds: 32, position: { x: -4050, y: 400, z: 500 } },
     { atSeconds: 40, position: { x: -3850, y: 430, z: 2400 } },
-    { atSeconds: 46, position: { x: -3750, y: 380, z: 3700 } },
-    { atSeconds: 48, position: { x: -3650, y: 330, z: 4330 } },
-    { atSeconds: 52, position: { x: -4500, y: 360, z: 3800 } },
-    { atSeconds: 58, position: { x: -5200, y: 520, z: 2900 } },
-    { atSeconds: 64, position: { x: -5000, y: 650, z: 3000 } },
-    { atSeconds: 68, position: { x: -4800, y: 620, z: 3300 } },
-    { atSeconds: 72, position: { x: -3600, y: 450, z: 3900 } },
-    { atSeconds: 74, position: { x: -2700, y: 520, z: 3200 } },
-    { atSeconds: 78, position: { x: -1500, y: 390, z: 2500 } },
-    { atSeconds: 82, position: { x: -1400, y: 520, z: 2550 } },
-    { atSeconds: 86, position: { x: -350, y: 390, z: 1950 } },
-    { atSeconds: 94, position: { x: 2100, y: 700, z: 800 } },
-    { atSeconds: 102, position: { x: 1500, y: 760, z: 2600 } },
-    { atSeconds: 110.5, position: { x: -2400, y: 650, z: 3500 } },
-    { atSeconds: 115, position: { x: -4200, y: 440, z: 4100 } },
-    { atSeconds: 128, position: { x: -2500, y: 700, z: 2200 } },
-    { atSeconds: 150, position: { x: -4500, y: 950, z: -1200 } },
-    { atSeconds: 172, position: { x: -6500, y: 1100, z: -3800 } },
+    { atSeconds: 45.2, position: { x: -3760, y: 390, z: 3500 } },
+    { atSeconds: 48, position: { x: -3700, y: 380, z: 4100 } },
+    { atSeconds: 50, position: { x: -3825, y: 410, z: 4400 } },
+    { atSeconds: 52, position: { x: -4075, y: 450, z: 4550 } },
+    { atSeconds: 55, position: { x: -4525, y: 510, z: 4525 } },
+    { atSeconds: 58, position: { x: -5000, y: 570, z: 4100 } },
+    { atSeconds: 61, position: { x: -5100, y: 620, z: 3500 } },
+    { atSeconds: 64, position: { x: -4900, y: 650, z: 3000 } },
+    { atSeconds: 66, position: { x: -4500, y: 660, z: 2750 } },
+    { atSeconds: 68, position: { x: -3950, y: 650, z: 2750 } },
+    { atSeconds: 72, position: { x: -3000, y: 620, z: 3000 } },
+    { atSeconds: 74, position: { x: -2550, y: 590, z: 2925 } },
+    { atSeconds: 78, position: { x: -1800, y: 560, z: 2575 } },
+    { atSeconds: 82, position: { x: -1525, y: 540, z: 2525 } },
+    { atSeconds: 86, position: { x: -800, y: 560, z: 2200 } },
+    { atSeconds: 90, position: { x: 200, y: 680, z: 1400 } },
+    { atSeconds: 94, position: { x: 1050, y: 740, z: 1100 } },
+    { atSeconds: 97, position: { x: 1500, y: 780, z: 1400 } },
+    { atSeconds: 100, position: { x: 1500, y: 810, z: 2150 } },
+    { atSeconds: 103, position: { x: 800, y: 810, z: 2850 } },
+    { atSeconds: 106, position: { x: -300, y: 790, z: 3150 } },
+    { atSeconds: 108.5, position: { x: -1250, y: 750, z: 3300 } },
+    { atSeconds: 110.5, position: { x: -2000, y: 700, z: 3500 } },
+    { atSeconds: 116, position: { x: -3900, y: 650, z: 3950 } },
+    { atSeconds: 120, position: { x: -5000, y: 720, z: 3500 } },
+    { atSeconds: 125, position: { x: -5400, y: 820, z: 2600 } },
+    { atSeconds: 140, position: { x: -5500, y: 980, z: 500 } },
+    { atSeconds: 155, position: { x: -6000, y: 1080, z: -1800 } },
+    { atSeconds: 172, position: { x: -7000, y: 1200, z: -4200 } },
   ]
+}
+
+function cappedVelocity(direction: Vector3, speedMetersPerSecond: number): Vector3 {
+  return scaleVector3(normalizeVector3(direction), Math.min(speedMetersPerSecond, AIRCRAFT_MAX_KEYFRAME_SPEED_METERS_PER_SECOND))
+}
+
+function buildAuthoredFlightPath(aircraftId: AircraftId): readonly TimedFlightKeyframe[] {
+  const cached = AIRCRAFT_FLIGHT_PATH_CACHE.get(aircraftId)
+  if (cached) return cached
+
+  const positions = authoredFlightPositions(aircraftId)
+  const path = positions.map((keyframe, index): TimedFlightKeyframe => {
+    if (index === 0) {
+      return {
+        ...keyframe,
+        velocity: deckVelocity(aircraftId, keyframe.atSeconds),
+      }
+    }
+
+    if (index === positions.length - 1) {
+      const previous = positions[index - 1]
+      const seconds = keyframe.atSeconds - previous.atSeconds
+      return {
+        ...keyframe,
+        velocity: cappedVelocity(subtractVector3(keyframe.position, previous.position), distanceVector3(previous.position, keyframe.position) / seconds),
+      }
+    }
+
+    const previous = positions[index - 1]
+    const next = positions[index + 1]
+    const seconds = next.atSeconds - previous.atSeconds
+    const centeredDirection = subtractVector3(next.position, previous.position)
+    const incomingSpeed = distanceVector3(previous.position, keyframe.position) / (keyframe.atSeconds - previous.atSeconds)
+    const outgoingSpeed = distanceVector3(keyframe.position, next.position) / (next.atSeconds - keyframe.atSeconds)
+    const harmonicSpeed = (2 * incomingSpeed * outgoingSpeed) / Math.max(incomingSpeed + outgoingSpeed, 0.001)
+    const centeredSpeed = distanceVector3(previous.position, next.position) / seconds
+
+    return {
+      ...keyframe,
+      velocity: cappedVelocity(centeredDirection, Math.min(harmonicSpeed, centeredSpeed * 1.18)),
+    }
+  })
+
+  AIRCRAFT_FLIGHT_PATH_CACHE.set(aircraftId, path)
+  return path
+}
+
+function sampleCubicFlightSegment(previous: TimedFlightKeyframe, next: TimedFlightKeyframe, timeSeconds: number): AircraftMotionSample {
+  const duration = next.atSeconds - previous.atSeconds
+  const amount = inverseLerp(previous.atSeconds, next.atSeconds, timeSeconds)
+  const amount2 = amount * amount
+  const amount3 = amount2 * amount
+  const positionForAxis = (start: number, end: number, startVelocity: number, endVelocity: number) => {
+    const startWeight = 2 * amount3 - 3 * amount2 + 1
+    const startVelocityWeight = amount3 - 2 * amount2 + amount
+    const endWeight = -2 * amount3 + 3 * amount2
+    const endVelocityWeight = amount3 - amount2
+    return startWeight * start + startVelocityWeight * duration * startVelocity + endWeight * end + endVelocityWeight * duration * endVelocity
+  }
+
+  const velocityForAxis = (start: number, end: number, startVelocity: number, endVelocity: number) => {
+    const startWeightDerivative = 6 * amount2 - 6 * amount
+    const startVelocityWeightDerivative = 3 * amount2 - 4 * amount + 1
+    const endWeightDerivative = -6 * amount2 + 6 * amount
+    const endVelocityWeightDerivative = 3 * amount2 - 2 * amount
+    return (startWeightDerivative * start + startVelocityWeightDerivative * duration * startVelocity + endWeightDerivative * end + endVelocityWeightDerivative * duration * endVelocity) / duration
+  }
+
+  return {
+    position: {
+      x: positionForAxis(previous.position.x, next.position.x, previous.velocity.x, next.velocity.x),
+      y: positionForAxis(previous.position.y, next.position.y, previous.velocity.y, next.velocity.y),
+      z: positionForAxis(previous.position.z, next.position.z, previous.velocity.z, next.velocity.z),
+    },
+    velocity: {
+      x: velocityForAxis(previous.position.x, next.position.x, previous.velocity.x, next.velocity.x),
+      y: velocityForAxis(previous.position.y, next.position.y, previous.velocity.y, next.velocity.y),
+      z: velocityForAxis(previous.position.z, next.position.z, previous.velocity.z, next.velocity.z),
+    },
+  }
+}
+
+function sampleAuthoredFlightPath(aircraftId: AircraftId, timeSeconds: number): AircraftMotionSample {
+  const keyframes = buildAuthoredFlightPath(aircraftId)
+  if (timeSeconds <= keyframes[0].atSeconds) return { position: { ...keyframes[0].position }, velocity: { ...keyframes[0].velocity } }
+
+  for (let index = 1; index < keyframes.length; index += 1) {
+    const previous = keyframes[index - 1]
+    const next = keyframes[index]
+    if (timeSeconds <= next.atSeconds) return sampleCubicFlightSegment(previous, next, timeSeconds)
+  }
+
+  const last = keyframes[keyframes.length - 1]
+  return { position: { ...last.position }, velocity: { ...last.velocity } }
 }
 
 function aircraftPhase(elapsedSeconds: number): AircraftPhase {
@@ -199,52 +317,111 @@ function aircraftMechanicalState(elapsedSeconds: number): AircraftMechanicalStat
   }
 }
 
-function aircraftPosition(aircraftId: AircraftId, timeSeconds: number): Vector3 {
+function sampleAircraftMotion(aircraftId: AircraftId, timeSeconds: number): AircraftMotionSample {
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const elapsedSeconds = timeSeconds - launchAtSeconds
 
-  if (elapsedSeconds < 2) return deckPosition(aircraftId, timeSeconds)
-  if (elapsedSeconds < 5) {
-    const deck = deckPosition(aircraftId, timeSeconds)
+  if (elapsedSeconds < 2) {
+    const position = deckPosition(aircraftId, timeSeconds)
     return {
-      ...deck,
-      y: deck.y + smoothstep(2, 5, elapsedSeconds) * 42,
+      position,
+      velocity: deckVelocity(aircraftId, timeSeconds),
     }
   }
 
-  return sampleTimedPositions(authoredFlightPath(aircraftId), timeSeconds)
-}
-
-function aircraftPose(aircraftId: AircraftId, timeSeconds: number): Pose3 {
-  const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
-  const elapsedSeconds = timeSeconds - launchAtSeconds
-  const position = aircraftPosition(aircraftId, timeSeconds)
-
   if (elapsedSeconds < 5) {
-    const waspRotation = deriveWaspStateForSimulation(timeSeconds).pose.rotation
+    const deck = deckPosition(aircraftId, timeSeconds)
+    const liftProgress = inverseLerp(2, 5, elapsedSeconds)
+    const verticalVelocity = (42 * 6 * liftProgress * (1 - liftProgress)) / 3
+    const carrierVelocity = deckVelocity(aircraftId, timeSeconds)
     return {
-      position,
-      rotation: {
-        x: 0,
-        y: waspRotation.y,
-        z: elapsedSeconds < 2 ? waspRotation.z : 0,
+      position: {
+        ...deck,
+        y: deck.y + smoothstep(2, 5, elapsedSeconds) * 42,
+      },
+      velocity: {
+        x: carrierVelocity.x,
+        y: carrierVelocity.y + verticalVelocity,
+        z: carrierVelocity.z,
       },
     }
   }
 
-  const before = aircraftPosition(aircraftId, Math.max(launchAtSeconds + 5, timeSeconds - 0.05))
-  const poseSampleMaximum = timeSeconds <= STAGE1_DURATION_SECONDS ? STAGE1_DURATION_SECONDS : SIMULATION_DURATION_SECONDS
-  const after = aircraftPosition(aircraftId, Math.min(poseSampleMaximum, timeSeconds + 0.05))
-  const horizontalDistance = Math.hypot(after.x - before.x, after.z - before.z)
-  const seededPhase = ((STAGE1_FIXED_SEED + (aircraftId === 'attacker_f35_01' ? 1 : 2)) % 360) * (Math.PI / 180)
+  return sampleAuthoredFlightPath(aircraftId, timeSeconds)
+}
+
+function headingFromMotion(aircraftId: AircraftId, timeSeconds: number): number {
+  const minimumTime = AIRCRAFT_LAUNCH_TIMES[aircraftId] + 5
+  const before = sampleAircraftMotion(aircraftId, Math.max(minimumTime, timeSeconds - AIRCRAFT_HEADING_SAMPLE_SECONDS)).position
+  const after = sampleAircraftMotion(aircraftId, Math.min(SIMULATION_DURATION_SECONDS, timeSeconds + AIRCRAFT_HEADING_SAMPLE_SECONDS)).position
+  return headingBetween(before, after)
+}
+
+function flightHeading(aircraftId: AircraftId, timeSeconds: number, motion: AircraftMotionSample): number {
+  const cinematicHeading = headingFromMotion(aircraftId, timeSeconds)
+  const horizontalSpeed = Math.hypot(motion.velocity.x, motion.velocity.z)
+  if (horizontalSpeed < 0.001) return cinematicHeading
+
+  const tangentHeading = yawForDirection(motion.velocity)
+  return lerpAngleRadians(cinematicHeading, tangentHeading, smoothstep(20, 100, horizontalSpeed))
+}
+
+function angleDifferenceRadians(start: number, end: number): number {
+  return Math.atan2(Math.sin(end - start), Math.cos(end - start))
+}
+
+function aircraftKinematics(aircraftId: AircraftId, timeSeconds: number): Pick<AircraftState, 'pose' | 'speedMetersPerSecond' | 'turnRateRadiansPerSecond' | 'bankRadians'> {
+  const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
+  const elapsedSeconds = timeSeconds - launchAtSeconds
+  const motion = sampleAircraftMotion(aircraftId, timeSeconds)
+  const position = motion.position
+  const speedMetersPerSecond = Math.hypot(motion.velocity.x, motion.velocity.y, motion.velocity.z)
+
+  if (elapsedSeconds < 5) {
+    const waspRotation = deriveWaspStateForSimulation(timeSeconds).pose.rotation
+    const flightHandoffHeading = headingFromMotion(aircraftId, launchAtSeconds + 5)
+    const yaw = elapsedSeconds < 2 ? waspRotation.y : lerpAngleRadians(waspRotation.y, flightHandoffHeading, smoothstep(2, 5, elapsedSeconds))
+    return {
+      pose: {
+        position,
+        rotation: {
+          x: 0,
+          y: yaw,
+          z: elapsedSeconds < 2 ? waspRotation.z : 0,
+        },
+      },
+      speedMetersPerSecond,
+      turnRateRadiansPerSecond: 0,
+      bankRadians: 0,
+    }
+  }
+
+  const transitionBlend = smoothstep(5, 11, elapsedSeconds)
+  const yaw = flightHeading(aircraftId, timeSeconds, motion)
+  const horizontalSpeed = Math.hypot(motion.velocity.x, motion.velocity.z)
+  const pitch = Math.atan2(motion.velocity.y, Math.max(horizontalSpeed, 0.001))
+  const bankBeforeTime = Math.max(launchAtSeconds + 5, timeSeconds - AIRCRAFT_BANK_SAMPLE_SECONDS)
+  const bankAfterTime = Math.min(SIMULATION_DURATION_SECONDS, timeSeconds + AIRCRAFT_BANK_SAMPLE_SECONDS)
+  const bankSampleDuration = Math.max(bankAfterTime - bankBeforeTime, 0.001)
+  const bankBeforeMotion = sampleAircraftMotion(aircraftId, bankBeforeTime)
+  const bankAfterMotion = sampleAircraftMotion(aircraftId, bankAfterTime)
+  const rawTurnRate = angleDifferenceRadians(flightHeading(aircraftId, bankBeforeTime, bankBeforeMotion), flightHeading(aircraftId, bankAfterTime, bankAfterMotion)) / bankSampleDuration
+  const turnRateRadiansPerSecond = clamp(rawTurnRate, -AIRCRAFT_MAX_CINEMATIC_TURN_RATE_RADIANS_PER_SECOND, AIRCRAFT_MAX_CINEMATIC_TURN_RATE_RADIANS_PER_SECOND)
+  const aerodynamicBank = Math.atan((horizontalSpeed * turnRateRadiansPerSecond) / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED)
+  const bankRadians = clamp(aerodynamicBank, -AIRCRAFT_MAX_BANK_RADIANS, AIRCRAFT_MAX_BANK_RADIANS) * smoothstep(8, 13, elapsedSeconds)
 
   return {
-    position,
-    rotation: {
-      x: Math.atan2(after.y - before.y, Math.max(horizontalDistance, 0.001)),
-      y: headingBetween(before, after),
-      z: Math.sin(timeSeconds * 0.48 + seededPhase) * (elapsedSeconds < 11 ? 0.06 : 0.12),
+    pose: {
+      position,
+      rotation: {
+        x: pitch * transitionBlend,
+        y: yaw,
+        z: bankRadians,
+      },
     },
+    speedMetersPerSecond,
+    turnRateRadiansPerSecond,
+    bankRadians,
   }
 }
 
@@ -252,6 +429,7 @@ function deriveAircraftStateForSimulation(aircraftId: AircraftId, timeSeconds: n
   const time = clampSimulationTime(timeSeconds)
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const elapsedSeconds = time - launchAtSeconds
+  const kinematics = aircraftKinematics(aircraftId, time)
   return {
     id: aircraftId,
     factionId: 'landings_attacker',
@@ -259,7 +437,7 @@ function deriveAircraftStateForSimulation(aircraftId: AircraftId, timeSeconds: n
     phase: aircraftPhase(elapsedSeconds),
     launched: eventReached(time, launchAtSeconds),
     onDeck: elapsedSeconds < 2,
-    pose: aircraftPose(aircraftId, time),
+    ...kinematics,
     mechanical: aircraftMechanicalState(elapsedSeconds),
   }
 }

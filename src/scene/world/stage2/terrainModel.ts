@@ -3,7 +3,7 @@ import { Color, MathUtils } from 'three'
 import type { WorldPosition, XZPoint } from '../worldData.ts'
 
 import { AAA_SITE, COMMUNICATIONS_MAST_SITE, MAINLAND_POLYGON_XZ, RADAR_PAD_POLYGONS, RADAR_SEARCH_SITE, RADAR_SUPPORT_BUILDINGS, RADAR_SUPPORT_POLYGONS, RADAR_TRACKING_SITE, SAM_PAD_POSITIONS } from '../worldData.ts'
-import { BEACH_FEATURES, CORRIDOR_FEATURES, HARBOR_FEATURES, INDUSTRIAL_FEATURES, RADAR_TERRAIN_POLYGONS, ROAD_DEFINITIONS, TERRAIN_STAGE2_POLYGONS } from './stage2Data.ts'
+import { BEACH_FEATURES, CORRIDOR_FEATURES, FUEL_BUND_CELLS, HARBOR_FEATURES, INDUSTRIAL_FEATURES, RADAR_TERRAIN_POLYGONS, ROAD_DEFINITIONS, TERRAIN_STAGE2_POLYGONS } from './stage2Data.ts'
 
 const TERRAIN_COLORS = {
   beach: new Color('#9b865c'),
@@ -14,6 +14,42 @@ const TERRAIN_COLORS = {
   rock: new Color('#776a50'),
   wash: new Color('#887a60'),
 } as const
+
+/**
+ * Stage 4A keeps source elevations available in map meters, but gives the
+ * broad middle-distance relief a restrained presentation remap. Harbor and
+ * shoreline elevations remain literal through 18 m, while all fixed Radar
+ * Hill installation elevations remain literal from 120 m upward. The middle
+ * band is stretched monotonically, so no terrain ordering is inverted.
+ */
+export const TERRAIN_PRESENTATION_PROFILE = {
+  exaggerationSourceM: 82,
+  exaggerationVisualM: 100,
+  highGroundAuthorityM: 120,
+  lowlandAuthorityM: 18,
+} as const
+
+export const FUEL_CONTAINMENT_FLOOR_MAP_HEIGHT_M = 32
+const FIREWATER_FOUNDATION_MARGIN_M = 4
+const [FIREWATER_TANK_X, FIREWATER_TANK_Z] = INDUSTRIAL_FEATURES.firewaterTank.center
+const FIREWATER_FOUNDATION_HALF_EXTENT_M = INDUSTRIAL_FEATURES.firewaterTank.radiusM + FIREWATER_FOUNDATION_MARGIN_M
+export const FIREWATER_TANK_FOUNDATION_POINTS = [
+  [FIREWATER_TANK_X - FIREWATER_FOUNDATION_HALF_EXTENT_M, FIREWATER_TANK_Z + FIREWATER_FOUNDATION_HALF_EXTENT_M],
+  [FIREWATER_TANK_X + FIREWATER_FOUNDATION_HALF_EXTENT_M, FIREWATER_TANK_Z + FIREWATER_FOUNDATION_HALF_EXTENT_M],
+  [FIREWATER_TANK_X + FIREWATER_FOUNDATION_HALF_EXTENT_M, FIREWATER_TANK_Z - FIREWATER_FOUNDATION_HALF_EXTENT_M],
+  [FIREWATER_TANK_X - FIREWATER_FOUNDATION_HALF_EXTENT_M, FIREWATER_TANK_Z - FIREWATER_FOUNDATION_HALF_EXTENT_M],
+] as const satisfies readonly XZPoint[]
+
+export function remapTerrainElevation(mapHeightM: number) {
+  const { exaggerationSourceM, exaggerationVisualM, highGroundAuthorityM, lowlandAuthorityM } = TERRAIN_PRESENTATION_PROFILE
+  if (mapHeightM <= lowlandAuthorityM || mapHeightM >= highGroundAuthorityM) return mapHeightM
+  if (mapHeightM <= exaggerationSourceM) {
+    const progress = (mapHeightM - lowlandAuthorityM) / (exaggerationSourceM - lowlandAuthorityM)
+    return MathUtils.lerp(lowlandAuthorityM, exaggerationVisualM, progress)
+  }
+  const progress = (mapHeightM - exaggerationSourceM) / (highGroundAuthorityM - exaggerationSourceM)
+  return MathUtils.lerp(exaggerationVisualM, highGroundAuthorityM, progress)
+}
 
 function smoothstep(edge0: number, edge1: number, value: number) {
   const progress = MathUtils.clamp((value - edge0) / (edge1 - edge0), 0, 1)
@@ -111,16 +147,20 @@ function getAnalyticTerrainHeight(x: number, z: number) {
   let height = 5.5 + broadRelief + microRelief
 
   height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.harborLowland, 240, MathUtils.clamp(8 + broadRelief * 0.34 + microRelief * 0.28, 3, 18))
-  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.industrialPlateau, 300, MathUtils.clamp(31 + broadRelief * 0.58 + microRelief * 0.5, 22, 46))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.industrialPlateau, 300, MathUtils.clamp(32 + broadRelief * 0.64 + microRelief * 0.62, 22, 46))
   height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.easternPlain, 360, MathUtils.clamp(40 + broadRelief * 0.88 + microRelief * 0.85, 28, 82))
   height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.beachDunes, 180, MathUtils.clamp(10 + broadRelief * 0.55 + microRelief * 0.7, 2, 24))
   height = blendTerrainBand(height, x, z, BEACH_FEATURES.landingStrand, 80, MathUtils.clamp(4.2 + broadRelief * 0.16 + microRelief * 0.2, 2, 8))
 
-  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.ridge, 260, MathUtils.clamp(88 + broadRelief * 0.68 + microRelief * 0.8, 80, 220))
-  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.lower, 210, MathUtils.clamp(121.5 + broadRelief * 0.42 + microRelief * 0.5, 80, 125))
-  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.middle, 175, MathUtils.clamp(169 + broadRelief * 0.38 + microRelief * 0.42, 125, 175))
-  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.upper, 145, MathUtils.clamp(194 + broadRelief * 0.25 + microRelief * 0.3, 175, 210))
-  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.summit, 110, MathUtils.clamp(215 + broadRelief * 0.14 + microRelief * 0.18, 205, 220))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.ridge, 260, MathUtils.clamp(94 + broadRelief * 0.78 + microRelief * 0.92, 80, 220))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.lower, 210, MathUtils.clamp(122.5 + broadRelief * 0.46 + microRelief * 0.58, 80, 125))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.middle, 175, MathUtils.clamp(171 + broadRelief * 0.42 + microRelief * 0.5, 125, 175))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.upper, 145, MathUtils.clamp(198 + broadRelief * 0.3 + microRelief * 0.36, 175, 210))
+  height = blendTerrainBand(height, x, z, RADAR_TERRAIN_POLYGONS.summit, 110, MathUtils.clamp(218 + broadRelief * 0.16 + microRelief * 0.22, 205, 220))
+
+  const ridgeInterior = polygonInfluence(x, z, RADAR_TERRAIN_POLYGONS.ridge, 260)
+  const ridgeFacet = Math.sin(x * 0.0061 - z * 0.0047 + 1.2) * 1.5 + Math.sin(x * 0.012 + z * 0.0081) * 0.75
+  height += ridgeInterior * ridgeFacet
 
   height = blendHeightControl(height, x, z, 2450, 3650, 108)
   height = blendHeightControl(height, x, z, 3300, 4480, 184)
@@ -129,15 +169,15 @@ function getAnalyticTerrainHeight(x: number, z: number) {
   height = blendHeightControl(height, x, z, 4050, 2850, 126)
   height = blendHeightControl(height, x, z, 5050, 3200, 96)
 
-  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffWest, 65, MathUtils.clamp(50 + broadRelief * 0.4 + microRelief * 0.55, 28, 62))
-  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffCenter, 65, MathUtils.clamp(47 + broadRelief * 0.4 + microRelief * 0.55, 32, 58))
-  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffEast, 60, MathUtils.clamp(43 + broadRelief * 0.35 + microRelief * 0.5, 26, 54))
-  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassWest, 45, MathUtils.clamp(24 + broadRelief * 0.22 + microRelief * 0.25, 20, 32))
-  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassEast, 45, MathUtils.clamp(23 + broadRelief * 0.22 + microRelief * 0.25, 18, 30))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffWest, 65, MathUtils.clamp(58 + broadRelief * 0.48 + microRelief * 0.68, 28, 62))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffCenter, 65, MathUtils.clamp(54 + broadRelief * 0.48 + microRelief * 0.68, 32, 58))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorBluffEast, 60, MathUtils.clamp(50 + broadRelief * 0.42 + microRelief * 0.62, 26, 54))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassWest, 45, MathUtils.clamp(22 + broadRelief * 0.2 + microRelief * 0.22, 20, 32))
+  height = blendTerrainBand(height, x, z, TERRAIN_STAGE2_POLYGONS.separatorPassEast, 45, MathUtils.clamp(20.5 + broadRelief * 0.2 + microRelief * 0.22, 18, 30))
 
   const washDistance = distanceToPolyline(x, z, CORRIDOR_FEATURES.dryWash)
-  const channelCut = (1 - smoothstep(0, 64, washDistance)) * 5
-  const washBank = (smoothstep(42, 76, washDistance) - smoothstep(76, 125, washDistance)) * 1.35
+  const channelCut = (1 - smoothstep(0, 64, washDistance)) * 5.2
+  const washBank = (smoothstep(38, 76, washDistance) - smoothstep(76, 132, washDistance)) * 1.45
   height += washBank - channelCut
 
   height = blendTerrainBand(height, x, z, BEACH_FEATURES.duneWest, 48, MathUtils.clamp(11.5 + broadRelief * 0.22 + microRelief * 0.72, 4, 14))
@@ -155,6 +195,11 @@ function getAnalyticTerrainHeight(x: number, z: number) {
   height = gradePolygon(height, x, z, INDUSTRIAL_FEATURES.ammunitionLoadingYard, 32, 38)
   height = gradePolygon(height, x, z, INDUSTRIAL_FEATURES.ammunitionRailPlatform, 24, 38)
   for (const utility of INDUSTRIAL_FEATURES.utilities) height = gradePolygon(height, x, z, utility.points, 18, 31)
+  // Containment cells are engineered level floors. Every product-tank shell,
+  // including its damaged replacement, therefore shares one footprint-safe
+  // terrain base without changing the authored cylinder dimensions.
+  for (const cell of FUEL_BUND_CELLS) height = gradePolygon(height, x, z, cell.points, 28, FUEL_CONTAINMENT_FLOOR_MAP_HEIGHT_M)
+  height = gradePolygon(height, x, z, FIREWATER_TANK_FOUNDATION_POINTS, 24, FUEL_CONTAINMENT_FLOOR_MAP_HEIGHT_M)
 
   height = gradePolygon(height, x, z, RADAR_PAD_POLYGONS.search, 26, 209.35)
   height = gradePolygon(height, x, z, RADAR_PAD_POLYGONS.tracking, 24, 194.35)
@@ -199,6 +244,8 @@ function terrainGridConstraintPoints() {
     INDUSTRIAL_FEATURES.ammunitionLoadingYard,
     INDUSTRIAL_FEATURES.ammunitionRailPlatform,
     ...INDUSTRIAL_FEATURES.utilities.map((utility) => utility.points),
+    ...FUEL_BUND_CELLS.map((cell) => cell.points),
+    FIREWATER_TANK_FOUNDATION_POINTS,
   ])
     points.push(...polygon)
   for (const polygon of RADAR_SUPPORT_POLYGONS) points.push(...polygon)
@@ -240,8 +287,26 @@ function enclosingAxisInterval(values: readonly number[], coordinate: number) {
   return low
 }
 
-/** Height of the actual triangulated Stage 2 terrain, not a finer hidden sampler. */
-export function getTerrainHeight(x: number, z: number) {
+const ANALYTIC_GRID_HEIGHT_CACHE = new Map<number, Map<number, number>>()
+
+function getCachedAnalyticTerrainHeight(x: number, z: number) {
+  let zValues = ANALYTIC_GRID_HEIGHT_CACHE.get(x)
+  if (!zValues) {
+    zValues = new Map<number, number>()
+    ANALYTIC_GRID_HEIGHT_CACHE.set(x, zValues)
+  }
+  const cached = zValues.get(z)
+  if (cached !== undefined) return cached
+  const height = getAnalyticTerrainHeight(x, z)
+  zValues.set(z, height)
+  return height
+}
+
+function getPresentedGridHeight(x: number, z: number) {
+  return remapTerrainElevation(getCachedAnalyticTerrainHeight(x, z))
+}
+
+function interpolateTerrainGrid(x: number, z: number, cornerHeight: (cornerX: number, cornerZ: number) => number) {
   const xIndex = enclosingAxisInterval(TERRAIN_GRID_X_VALUES, x)
   const zIndex = enclosingAxisInterval(TERRAIN_GRID_Z_VALUES, z)
   const x0 = TERRAIN_GRID_X_VALUES[xIndex]!
@@ -250,15 +315,25 @@ export function getTerrainHeight(x: number, z: number) {
   const z1 = TERRAIN_GRID_Z_VALUES[zIndex + 1]!
   const xMix = MathUtils.clamp((x - x0) / (x1 - x0), 0, 1)
   const zMix = MathUtils.clamp((z - z0) / (z1 - z0), 0, 1)
-  const height00 = getAnalyticTerrainHeight(x0, z0)
-  const height10 = getAnalyticTerrainHeight(x1, z0)
-  const height11 = getAnalyticTerrainHeight(x1, z1)
-  const height01 = getAnalyticTerrainHeight(x0, z1)
+  const height00 = cornerHeight(x0, z0)
+  const height10 = cornerHeight(x1, z0)
+  const height11 = cornerHeight(x1, z1)
+  const height01 = cornerHeight(x0, z1)
 
   if (xMix >= zMix) {
     return height00 * (1 - xMix) + height10 * (xMix - zMix) + height11 * zMix
   }
   return height00 * (1 - zMix) + height11 * xMix + height01 * (zMix - xMix)
+}
+
+/** Map-spec elevation sampled on the exact mesh grid, before presentation remapping. */
+export function getMapTerrainHeight(x: number, z: number) {
+  return interpolateTerrainGrid(x, z, getCachedAnalyticTerrainHeight)
+}
+
+/** Height of the actual rendered Stage 2 terrain, not a finer hidden sampler. */
+export function getTerrainHeight(x: number, z: number) {
+  return interpolateTerrainGrid(x, z, getPresentedGridHeight)
 }
 
 export function getTerrainColor(x: number, z: number, height: number, target = new Color()) {

@@ -81,6 +81,12 @@ export interface AircraftState {
   readonly launched: boolean
   readonly onDeck: boolean
   readonly pose: Pose3
+  /** World-space speed reconstructed from the deterministic authored flight curve. */
+  readonly speedMetersPerSecond: number
+  /** Smoothed cinematic heading rate. Positive values turn toward increasing yaw. */
+  readonly turnRateRadiansPerSecond: number
+  /** The authored aerodynamic bank, also applied to pose.rotation.z. */
+  readonly bankRadians: number
   readonly mechanical: AircraftMechanicalState
 }
 

@@ -1,16 +1,22 @@
-# Cinderfront — Stage 3: Combat Language Correction + Harbor and Industrial Hero Destruction
+# Cinderfront — Stage 4A: Cinematic Battlefield Enhancement
 
 Work directly in the existing Cinderfront repository.
 
-Stage 1 and Stage 2 have been implemented.
+Stage 1, Stage 2, and Stage 3 have already been implemented.
 
-This task implements **Stage 3**, but Stage 2 visual inspection has revealed several important problems that must be corrected before Stage 3 destruction work is considered complete.
+This task implements a refinement-focused milestone called:
 
-Do not stop after planning.
+**Stage 4A — Cinematic Battlefield Enhancement**
 
-Inspect the repository, reproduce the current visual problems in the browser, correct them, implement Stage 3, run all repository-permitted validation, perform browser inspection at important timeline points, fix problems discovered during inspection, and leave the project in a coherent working state.
+This is intentionally **not** the old planned “Stage 4 defender reactions / reinforcements / logistics” milestone from the long-term iteration plan.
 
-## 1. Read Authoritative Project Files First
+For this task, do **not** implement the old planned Stage 4 moving-ground-reinforcement features yet.
+
+Instead, improve the battlefield’s cinematic readability, physical scale, terrain relief, hero-destruction escalation, smoke / fire presentation, and F-35 flight behavior while preserving the deterministic runtime and the existing scenario structure.
+
+Do not stop after planning. Inspect the current repository, run the application, reproduce the current visual shortcomings, implement the improvements, validate under repository rules, perform browser inspection, fix issues you discover, and leave the project in a coherent working state.
+
+## 1. Read the authoritative project files first
 
 Before changing code, read:
 
@@ -22,1115 +28,619 @@ Before changing code, read:
 - `assets/scenario/scenario-timeline.md`
 - `assets/vehicle/Belligerents.yaml`
 
-Also inspect the relevant vehicle references:
+Also inspect relevant vehicle references:
 
 - `assets/vehicle/F-35B/`
+- `assets/vehicle/Wasp/`
 - `assets/vehicle/Talwar/`
 - `assets/vehicle/Project 12418 Molniya missile boat/`
 - `assets/vehicle/Pantsir-S1/`
 
 Treat:
 
-- `map-spec.yaml` as spatial authority;
-- `scenario-spec.yaml` as deterministic event/state authority;
-- `scenario-timeline.md` as human-readable scenario authority;
-- `AGENTS.md` as hard repository policy.
+- `AGENTS.md` as hard repository policy;
+- `map-spec.yaml` as the authoritative physical map source;
+- `scenario-spec.yaml` as the authoritative deterministic scenario source;
+- `scenario-timeline.md` as the human-readable scenario reference.
 
-Preserve the faction identifiers:
+Preserve the existing faction identifiers:
 
 - `landings_attacker`
 - `island_defender`
 
-Do not introduce color-based faction terminology.
+Do not introduce color-force terminology.
 
-## 2. Stage 1 and Stage 2 Preservation
+Do not create visible human characters.
 
-Preserve the existing deterministic simulation architecture.
+## 2. Preserve existing core runtime behavior
 
-Do not break:
+Do not break or replace the current deterministic architecture.
+
+Preserve:
 
 - play;
 - pause;
 - restart;
-- playback speed;
-- arbitrary timeline seek;
-- camera movement while paused;
-- Stage 1 F-35B launch;
-- Radar Hill engagement;
-- Pantsir destruction;
-- radar destruction;
-- persistent damage reconstruction.
+- 0.5× / 1× / 2×;
+- direct timeline seek;
+- spectator camera usability while paused;
+- persistent destruction reconstruction;
+- Stage 1 opening sequence;
+- Stage 3 Harbor / Industrial events already implemented.
 
-Stage 3 adds later scenario events and richer persistent states while continuing to derive important world state deterministically from simulation time.
+Do not replace the deterministic model with ad hoc timeout chains.
 
-Do not replace this with irreversible timeout-driven event logic.
+All important persistent world state must still reconstruct correctly from arbitrary timeline positions.
 
-## 3. Mandatory Visual Correction Gate
+## 3. Current known problems to solve
 
-Before considering Stage 3 successful, correct three existing visual problems:
+The current implementation has several visible shortcomings that must be addressed in this task.
 
-1. incorrect F-35B air-to-ground weapon behavior;
-2. insufficient terrain relief / overly flat world appearance;
-3. underscaled industrial and harbor structures.
+### 3.1 Terrain relief is still too weak
 
-These are mandatory corrections, not optional polish.
+The battlefield still reads as too flat, especially in wide views.
 
-Do not proceed under the assumption that Stage 2 visual scale is already approved.
+The map size itself is not necessarily the problem.
 
-## 4. Correct the F-35B Air-to-Ground Weapon Language
+The likely issue is that the visual realization of elevation is too conservative or vertically compressed.
 
-The current implementation visually launches a glowing / fireball-like object from above the F-35B.
+### 3.2 Fuel-storage structures still read as too short / too small
 
-The projectile initially moves upward in a lobbed arc and may travel arbitrarily left or right.
+Fuel tanks and related industrial structures still look underscaled.
 
-This is visually incorrect for the intended air-to-ground strike behavior.
+The district does not yet read strongly enough as a large, dangerous petroleum / military-industrial facility.
 
-It currently resembles:
+### 3.3 Fuel-storage destruction is not escalating enough
 
-- a flare;
-- a decoy;
-- an arcade projectile;
-- or a generic fireball.
+The current fuel event still feels too localized and not catastrophic enough.
 
-Remove this visual language from air-to-ground attacks.
+The blast is not yet satisfying enough as a battlefield hero event.
 
-## 5. Air-to-Ground Weapon Spawn Position
+There is not enough clear secondary escalation, sympathetic ignition, or district-wide collapse language.
 
-Air-to-ground weapons must originate from a plausible lower-fuselage / weapons-bay area.
+### 3.4 F-35 flight behavior is too game-like
 
-They must not spawn:
+The F-35 aircraft can still accelerate / decelerate too sharply and turn too abruptly.
 
-- above the aircraft;
-- from the canopy;
-- from the dorsal fuselage;
-- from arbitrary world-space positions.
+Their movement feels too instantaneous and not sufficiently aircraft-like.
 
-Exact internal weapons-bay engineering detail is not required.
+This task should improve that behavior without rewriting the whole simulation into a full flight simulator.
 
-A simplified lower-fuselage release point is sufficient.
+## 4. Primary goal of Stage 4A
 
-The important requirement is that the release visually reads as an aircraft weapon leaving the underside / internal bay region.
+This task is about making the battlefield feel more like a convincing interactive war-cinema visualization.
 
-## 6. Guided Bomb / Glide Weapon Behavior
+Focus on:
 
-For bomb-like weapons:
+- stronger terrain readability;
+- more convincing battlefield scale;
+- more imposing industrial geometry;
+- more satisfying destruction escalation;
+- better smoke / fire composition;
+- smoother aircraft motion;
+- stronger camera readability.
 
-- release from the lower fuselage;
-- inherit substantial aircraft forward velocity;
-- separate slightly downward;
-- continue forward;
-- gradually descend toward the assigned target;
-- allow restrained guidance correction if desired.
+Do not expand the roster of active battlefield units unless a very small amount of static or non-critical support dressing is genuinely needed for scale and readability.
 
-Do not:
+The priority is quality of presentation, not quantity of units.
 
-- launch upward first;
-- draw a high artillery-like parabola;
-- randomly throw the weapon left or right;
-- give the weapon a continuous flame trail;
-- render the weapon itself as a fireball.
+## 5. Terrain enhancement requirements
 
-A bomb should visually read as a physical dark munition body.
+### 5.1 Introduce visual vertical exaggeration where needed
 
-A short aerodynamic condensation effect is optional but not required.
+Inspect how terrain heights are currently derived from the map data.
 
-No bright propulsion effect should exist for an unpowered guided bomb.
+If the current world uses a too-literal or visually flattened elevation interpretation, introduce a controlled visual vertical exaggeration strategy.
 
-## 7. Powered Air-to-Ground Weapon Behavior
+The purpose is not to falsify the map, but to make its terrain legible in a large battlefield presentation.
 
-If a Stage 3 strike uses a powered guided air-to-ground weapon:
+Use a restrained but meaningful exaggeration factor or elevation remapping approach so that:
 
-1. release from the lower-fuselage / weapons-bay region;
-2. perform a clean short separation;
-3. ignite the motor after separation;
-4. accelerate primarily forward;
-5. use a deterministic guided path toward the assigned target.
+- Radar Hill clearly dominates its surrounding terrain;
+- Harbor / Industrial lowlands read distinctly lower;
+- the D / E separation is more obvious;
+- coastal bluffs / dunes / drainage become visible;
+- overview views no longer read as a mostly flat tabletop.
 
-The path may curve.
+Do not simply multiply every number blindly and break the world.
 
-The path must remain physically readable as target-directed guidance.
+The exaggeration must remain coherent with roads, pads, facilities, and shoreline.
 
-Use:
+### 5.2 Preserve physical grounding
 
-- a small exhaust plume;
-- restrained missile flame;
-- optional smoke trail.
+After terrain enhancement:
 
-Do not render the complete missile as a glowing fireball.
+- roads must still sit correctly on terrain;
+- pads must not float or bury;
+- ships must still relate plausibly to waterline;
+- industrial compounds may remain locally graded / flattened where appropriate;
+- beach and shoreline transitions must remain believable.
 
-Do not use random left/right launch direction.
+### 5.3 Add micro-relief and terrain articulation
 
-## 8. Deterministic Weapon Targeting
+Without changing authoritative region placement, enrich the terrain with better readable shape where appropriate:
 
-Air-to-ground strike weapons must have explicit scenario targets.
-
-Do not select arbitrary random ground positions.
-
-Their paths should be deterministic from simulation time and event definition.
-
-For each strike, separate:
-
-- aircraft path;
-- weapon release time;
-- weapon target;
-- munition trajectory;
-- impact effect.
-
-Seeking to a time before release must show no munition.
-
-Seeking into weapon flight must reconstruct a plausible weapon position.
-
-Seeking after impact must reconstruct the persistent damage state without requiring playback from release.
-
-Transient trail history may be approximated after seek.
-
-## 9. Terrain Relief Correction
-
-The current battlefield reads as too flat.
-
-Inspect `map-spec.yaml` and determine whether the Stage 2 terrain implementation is failing to express authoritative elevation data strongly enough.
-
-Honor the map's:
-
-- elevation control points;
-- Radar Hill elevation;
-- ridges;
-- bluffs;
-- drainage;
-- dry washes;
-- dunes;
-- coastal transitions;
-- terrain regions.
-
-Do not change the approved 2D region layout.
-
-Do not move major facilities.
-
-Improve the vertical terrain realization.
-
-## 10. Terrain Visual Requirements
-
-From high Overview camera distance, the spectator should clearly perceive:
-
-- Radar Hill as major elevated terrain;
-- meaningful ridge structure;
-- lower terrain around Harbor and Industrial districts;
-- D / E physical separation;
-- coastal bluff / dune structure;
-- drainage or wadi depressions;
-- non-uniform inland terrain.
-
-From low spectator altitude, movement across the map should visibly involve:
-
-- climbing;
-- descending;
-- terrain occlusion;
-- ridgelines;
-- cuts;
-- valleys;
-- slopes.
-
-The landscape must no longer read as a nearly flat plane with surface colors applied to it.
-
-## 11. Terrain Implementation Guidance
-
-Do not solve this with extreme global vertical exaggeration unless necessary.
-
-First inspect whether existing elevation inputs are being compressed, normalized incorrectly, or visually flattened.
-
-Where the authoritative map does not specify centimeter-level terrain, locally authored micro-relief is allowed for:
-
-- rocky ground;
-- drainage;
-- embankments;
 - cut slopes;
-- dune surfaces;
+- berm shaping;
+- dune articulation;
+- dry wash depression;
+- rocky outcrop variation;
+- industrial grading edges;
+- coastal erosion / bluff hints.
+
+Do not over-noise the entire world.
+
+The goal is cinematic readability, not procedural chaos.
+
+## 6. Industrial scale correction requirements
+
+### 6.1 Fuel district must feel larger and more dangerous
+
+Re-evaluate the physical expression of the fuel district.
+
+Where heights are explicitly defined in YAML, use them.
+
+Where heights are not defined or are too visually weak to communicate scale, improve the rendered scale in a physically believable way.
+
+Make the district read as a major tank farm, not a small utility yard.
+
+Emphasize:
+
+- tank volume;
+- tank-to-road proportion;
+- tank-to-building proportion;
+- bund / containment-wall presence;
+- pipe-rack height;
+- transfer-station height;
+- pump-house scale;
+- utility-building scale;
+- interconnection density.
+
+### 6.2 Preserve believable industrial scale
+
+Do not turn the district into science-fiction megastructures.
+
+Aim for believable real-world industrial proportions.
+
+The viewer should feel:
+
+- these are very large tanks;
+- these are hazardous facilities;
+- this place stores massive fuel volume.
+
+### 6.3 Improve vertical layering
+
+Strengthen the perception of scale by using more layered industrial composition:
+
+- elevated pipe racks;
+- stairs / service platforms if useful;
+- catwalk hints where useful;
 - berms;
-- road shoulders.
+- utility nodes;
+- transfer manifolds;
+- fence lines;
+- different building masses;
+- industrial hardstands.
 
-Keep large-scale terrain consistent with the map specification.
+Do not over-detail every object.
 
-Industrial compounds may be locally graded / flattened while surrounding terrain retains meaningful relief.
+Prioritize readable large shapes and convincing hierarchy.
 
-Roads should conform plausibly to terrain rather than floating, burying, or slicing impossibly through slopes.
+## 7. Hero-destruction escalation requirements
 
-## 12. Industrial and Harbor Vertical Scale Correction
+### 7.1 Fuel-storage disaster must escalate more clearly
 
-The current industrial structures read as underscaled and approximately one-storey tall.
+The current event needs more dramatic progression.
 
-Correct their vertical scale.
+Do not treat the fuel-storage event as one single explosion and one smoke plume.
 
-Use `map-spec.yaml` dimensions where explicitly provided.
+Instead, turn it into a multi-stage catastrophic sequence.
 
-Where height is unspecified, use visually plausible real-world-like dimensions appropriate to the physical role.
+The sequence should clearly communicate:
 
-Use the following as guidance, not inflexible constants:
+1. initial strike;
+2. local ignition;
+3. growing fire;
+4. neighboring tank / transfer risk;
+5. secondary tank failure or sympathetic ignition;
+6. larger district-scale blast escalation;
+7. heavy black smoke;
+8. persistent multi-source fire.
 
-- major fuel storage tanks: approximately 12–22 m tall;
-- major fuel tank diameter: approximately 20–45 m;
-- medium storage tanks: approximately 8–15 m tall;
-- industrial warehouses: approximately 8–16 m tall;
-- harbor warehouses: approximately 10–18 m tall;
-- pipe racks: approximately 5–8 m high;
-- pump / transfer structures: approximately 6–12 m high;
-- ammunition magazines: approximately 4–8 m structural height plus protective berms;
-- protective earth berms: several meters high and visibly substantial;
-- major harbor cranes: approximately 25–50 m high where appropriate;
-- utility poles: approximately 12–20 m;
-- major radar / communications structures: scaled to remain visually significant.
+### 7.2 Add secondary events
 
-Maintain believable relationships between:
+Use deterministic sub-events to create escalation.
 
-- vehicles;
-- ships;
-- buildings;
-- tanks;
-- roads;
-- terrain.
+Examples of acceptable sub-events:
 
-A Talwar-class frigate beside a harbor warehouse should provide a useful scale reference.
+- neighboring tank flashover;
+- pipe-rack rupture;
+- transfer manifold burst;
+- containment-bund fire spread;
+- delayed tank overpressure event;
+- secondary fuel fireball;
+- staggered ignitions;
+- persistent burning pools;
+- follow-on ammunition-area sympathetic activity.
 
-Do not arbitrarily make everything enormous.
+Do not randomize the scenario each run.
 
-The goal is believable physical scale.
+The sequence must remain deterministic.
 
-## 13. Re-Inspect Stage 2 World After Scale Corrections
+### 7.3 Strengthen visual hierarchy
 
-Before implementing the major Stage 3 hero effects, visually inspect:
+The fuel-storage disaster should feel like one of the major visual set-pieces of the whole project.
+
+Make sure it clearly outranks:
+
+- minor local impacts;
+- small Harbor strikes;
+- cook-off pops.
+
+At the same time, do not make it identical to the ammunition-detonation language.
+
+Fuel disaster should emphasize:
+
+- sustained fire;
+- thick smoke;
+- liquid-fuel burning character;
+- multiple industrial ignition points;
+- layered heat and fire.
+
+Ammunition should emphasize:
+
+- sharper impulses;
+- irregular cook-off;
+- fragment violence;
+- harder flash punctuation.
+
+### 7.4 Improve debris and aftermath
+
+Increase the sense of destructive consequence through:
+
+- more readable large debris pieces where appropriate;
+- more visible burning fragments where appropriate;
+- better fragment spacing and timing;
+- additional persistent small fires;
+- more scorched ground;
+- more damaged industrial geometry;
+- clearer destruction footprint.
+
+Do not create unbounded particle spam.
+
+## 8. Smoke, fire, and blast composition
+
+### 8.1 Improve black smoke columns
+
+Current smoke should become more cinematic and more layered.
+
+Black smoke should:
+
+- rise strongly;
+- have a dense darker core;
+- have more broken edges;
+- vary over height;
+- drift with wind;
+- remain visible at long range;
+- avoid reading as one repetitive particle stack.
+
+### 8.2 Improve fire layering
+
+Persistent fires should vary in:
+
+- size;
+- intensity;
+- color temperature;
+- smoke density;
+- location;
+- start time.
+
+Do not let every fire look cloned.
+
+### 8.3 Improve local illumination
+
+Use efficient local lighting / emissive response so that key explosions and sustained fires influence nearby surroundings.
+
+Do not add excessive expensive dynamic lights.
+
+Use just enough lighting to enhance cinematic impact.
+
+### 8.4 Improve blast readability
+
+Hero blasts should feel more forceful through:
+
+- better flash;
+- more readable expanding pressure / dust layer;
+- stronger but localized environmental response;
+- better timing between flash, debris, smoke, and aftermath.
+
+## 9. F-35 cinematic flight smoothing
+
+Do not rebuild the project into a flight simulator.
+
+Instead, improve the current aircraft motion model so it behaves more plausibly in presentation.
+
+### 9.1 Limit abrupt heading changes
+
+The aircraft should no longer snap into sharp-angle turns.
+
+Introduce aircraft-like steering constraints such as:
+
+- turn-rate limit;
+- heading smoothing;
+- banked turning behavior;
+- curvature smoothing.
+
+### 9.2 Limit abrupt acceleration changes
+
+Reduce overly game-like acceleration / deceleration.
+
+The aircraft should carry momentum more convincingly.
+
+Changes in speed should feel smoother and more intentional.
+
+### 9.3 Add readable banking
+
+Where the F-35 changes direction, add visible bank / roll behavior as appropriate.
+
+Keep it cinematic and readable.
+
+Do not aim for a full CFD / aero model.
+
+### 9.4 Preserve existing mission logic
+
+Keep the current scenario logic and strike timing functional.
+
+Weapon release and path logic may be adjusted as needed to match the smoother aircraft motion.
+
+Do not destroy the deterministic timing model.
+
+### 9.5 Keep the roster limited
+
+Do not solve the flight-readability problem by adding many more aircraft.
+
+Continue using the existing two F-35B aircraft.
+
+Improve choreography, not unit count.
+
+## 10. Camera and presentation improvements
+
+The project is now closer to an interactive battlefield visualization than a traditional game scene.
+
+Strengthen camera readability.
+
+### 10.1 Improve presets
+
+Refine existing camera presets so key scenes are easier to appreciate:
 
 - Overview;
 - Harbor;
+- Talwar;
+- Molniya;
 - Industrial;
+- Fuel storage;
+- Ammunition;
 - Radar Hill;
-- Convoy Corridor;
-- Remote Beachhead.
+- Search radar;
+- Convoy corridor;
+- Beach inland;
+- Beach offshore;
+- F-35 01;
+- F-35 02.
 
-Confirm:
+Presets should frame the battlefield more clearly.
 
-- terrain relief is now legible;
-- industrial structures have convincing scale;
-- fuel tanks are visually substantial;
-- harbor structures do not look miniature;
-- roads still fit terrain;
-- no major props float or become buried;
-- Wasp, Talwar, Molniya, F-35B and Pantsir maintain coherent relative scale.
+### 10.2 Preserve spectator freedom
 
-Fix obvious defects before continuing.
+Do not replace the experience with forced cinematic cutscenes.
 
-## 14. Stage 3 Scenario Scope
+The user must still be able to:
 
-Implement the authoritative Harbor and Industrial events assigned to this stage.
+- orbit;
+- pan;
+- zoom;
+- inspect freely while paused.
 
-Use the exact event timing from the scenario files.
+### 10.3 Improve sense of scale in key viewpoints
 
-The Stage 3 focus includes:
+Choose preset positions and focal behavior that help the viewer appreciate:
 
-- Harbor first strike;
-- Molniya emergency departure;
-- Talwar first major hit;
-- industrial transfer / pipeline ignition;
-- initial fuel tank hit;
-- fuel-storage cascade;
-- Talwar fuel leakage;
-- second Talwar heavy hit;
-- ammunition cook-off;
-- Molniya damage during withdrawal;
-- ammunition-storage primary detonation;
-- Talwar severe final damage state;
-- Molniya reaching open water.
+- terrain relief;
+- industrial scale;
+- ship size;
+- smoke columns;
+- blast footprint.
 
-Do not independently rewrite the scenario timing.
+## 11. Optional scale cues
 
-## 15. Harbor First Strike
+Because human figures are prohibited, scale must be communicated through environment and machinery.
 
-Implement the first Harbor District strike according to the scenario timeline.
+You may strengthen scale cues using already appropriate non-human environmental elements such as:
 
-Use a physically readable air-to-ground weapon trajectory.
-
-The strike may hit:
-
-- pier infrastructure;
-- warehouse;
-- service structure;
-
-as defined by the existing scenario interpretation.
-
-The impact should include:
-
-- brief flash;
-- local explosion;
-- debris;
-- dust;
-- beginning fire;
-- persistent local damage.
-
-This is not a hero explosion.
-
-Do not make it visually larger than the later Talwar or industrial events.
-
-## 16. Molniya Emergency Departure
-
-Implement the Project 12418 Molniya emergency departure.
-
-The ship must:
-
-- leave its berth;
-- rotate into the harbor channel;
-- accelerate;
-- generate a changing wake;
-- navigate toward the harbor exit;
-- continue toward open water.
-
-Use deterministic authored movement.
-
-The motion must respect:
-
-- harbor geometry;
-- berth placement;
-- channel shape;
-- ship scale.
-
-Do not allow it to:
-
-- move through piers;
-- rotate around an obviously incorrect pivot;
-- teleport;
-- instantly reach full speed.
-
-## 17. Molniya Damage During Withdrawal
-
-Later in the timeline, Molniya receives nearby-impact / fragment damage.
-
-It survives.
-
-Show damage through:
-
-- local flash or fragment impact;
-- small local fire if appropriate;
-- smoke;
-- reduced visual cleanliness;
-- continued movement.
-
-Do not turn the vessel into a hero explosion.
-
-The important contrast is:
-
-- Talwar becomes trapped and progressively mission-killed;
-- Molniya escapes while damaged.
-
-The Molniya must remain physically visible into open water.
-
-## 18. Talwar Progressive Damage Architecture
-
-Do not implement Talwar damage as a binary intact/destroyed switch.
-
-Create a deterministic progressive damage model derived from scenario time.
-
-Useful states include:
-
-- intact;
-- first-hit damage;
-- burning;
-- second-hit severe damage;
-- fuel leakage;
-- increasing list;
-- flooding;
-- mission-killed;
-- partially flooded / severe final state.
-
-The model should preserve the same physical vessel.
-
-Do not replace it with an unrelated generic wreck.
-
-## 19. Talwar First Major Hit
-
-At the authoritative event time, implement the first major Talwar hit.
-
-Use a physically readable air-to-ground weapon impact.
-
-Effects should include:
-
-- intense local flash;
-- localized fireball;
-- sparks;
-- fragments;
-- local ship response;
-- persistent deck fire;
-- smoke;
-- localized visible structural damage.
-
-The ship remains present and recognizable.
-
-After the first hit it should still show limited continuing mechanical / defensive activity where appropriate.
-
-## 20. Talwar Second Major Hit
-
-The second hit must not simply replay the first effect.
-
-Show escalation.
-
-Possible differences include:
-
-- different impact location;
-- stronger structural response;
-- additional deck fire;
-- heavier smoke;
-- loss of more systems;
-- more severe list progression;
-- flooding onset / increase.
-
-The viewer should understand that the same ship is accumulating damage.
-
-## 21. Talwar List and Flooding
-
-Progressive list must occur smoothly over scenario time.
-
-Avoid an instantaneous rotation snap.
-
-The list should become increasingly obvious between the major hit events and final Stage 3 state.
-
-Flooding may be visually approximated through:
-
-- lower waterline;
-- reduced freeboard;
-- hull immersion;
-- local water effects;
-- smoke / steam near damaged areas.
-
-Do not require physically simulated water entering internal compartments.
-
-The visual result matters.
-
-By the final Stage 3 state:
-
-- Talwar should be heavily listed;
-- partially flooded;
-- still recognizable;
-- still above water enough to remain a major aftermath landmark;
-- burning;
-- producing heavy smoke.
-
-Do not sink it completely.
-
-## 22. Harbor Fuel Leakage
-
-Implement progressive fuel leakage from the damaged Talwar.
-
-Before ignition, it should read as contamination.
-
-Use:
-
-- dark / iridescent surface sheen;
-- irregular expanding shape;
-- water-relative movement;
-- restrained surface distortion.
-
-Do not immediately render it as fire.
-
-Later ignition may create localized harbor surface fire according to scenario timing.
-
-## 23. Harbor Surface Fire
-
-When harbor fuel ignites:
-
-- use irregular surface fire patches;
-- avoid a perfect circle;
-- avoid one giant flat orange plane;
-- allow dark contaminated water to remain visible between flames;
-- add drifting smoke;
-- preserve floating debris where appropriate.
-
-Fire motion may be scripted / procedural.
-
-Full fluid combustion simulation is not required.
-
-The contamination and fire should remain visible after the initial event.
-
-## 24. Industrial Transfer / Pipeline Ignition
-
-Implement the prelude strike against transfer or pipeline infrastructure.
-
-This event should communicate industrial instability without becoming the main explosion.
-
-Include:
-
-- local impact;
-- sparks;
-- pipe or equipment damage;
-- fuel or vapor ignition;
-- persistent local fire;
-- growing smoke.
-
-The event should visually prepare the viewer for the fuel-storage cascade.
-
-## 25. Initial Fuel Tank Hit
-
-Implement the first major fuel-tank strike before the hero cascade.
-
-The tank should:
-
-- remain recognizable initially;
-- show localized rupture / damage;
-- begin intense burning;
-- produce a smaller fireball;
-- generate thickening smoke.
-
-This is a prelude, not yet the main visual climax.
-
-## 26. Fuel Storage Cascade — Hero Event
-
-The authoritative fuel-storage cascade is one of the highest-priority visual events in the entire project.
-
-Do not represent it as one enlarged Stage 1 explosion emitter.
-
-Build it as a timed layered destruction sequence.
-
-The sequence should include at least:
-
-1. ignition flash;
-2. local illumination;
-3. expanding non-spherical fireball;
-4. debris emission;
-5. selected flaming debris;
-6. ember / flame trails;
-7. pressure / dust front;
-8. nearby environmental response;
-9. secondary local ignition;
-10. ground fire;
-11. dense persistent black smoke;
-12. scorch / soot;
-13. damaged industrial geometry;
-14. continuing post-event activity.
-
-## 27. Fuel Explosion Flash and Fireball
-
-Use a very brief intense ignition flash.
-
-The flash should visibly illuminate nearby:
-
-- tanks;
-- pipe racks;
-- warehouses;
-- terrain;
-- vehicles or infrastructure where visible.
-
-The main fireball should:
-
-- grow rapidly;
-- become vertically turbulent;
-- avoid remaining a perfect sphere;
-- transition into rising flame and smoke;
-- reveal parts of the destroyed industrial site as it clears.
-
-Do not simply scale up an opaque particle sphere.
-
-The effect should retain internal variation.
-
-## 28. Flaming Debris
-
-The hero fuel explosion must include selected large visible debris.
-
-Use approximately the ranges already defined in `scenario-spec.yaml`.
-
-The important visual behavior:
-
-- debris begins near the explosion;
-- follows readable ballistic arcs;
-- rotates;
-- has different mass / trajectory behavior;
-- selected fragments burn;
-- selected burning fragments carry short flame tails;
-- smaller glowing particles may leave ember trails.
-
-Do not make every fragment identical.
-
-Do not make every fragment burn.
-
-Do not create hundreds of individually expensive physics bodies.
-
-Use authored deterministic trajectories, pooled objects, or lightweight analytical ballistic motion.
-
-Some fragments may later create secondary ground-fire ignition points.
-
-## 29. Shock Front
-
-Implement a clearly visible but restrained shock / pressure front.
-
-It may be represented through a combination of:
-
-- expanding dust ring;
-- ground haze;
-- brief refractive distortion;
-- local vegetation response;
-- lightweight prop motion.
-
-Avoid a bright science-fiction energy ring.
-
-It should read as moving air / dust pressure.
-
-## 30. Environmental Blast Response
-
-Use the Stage 2 response-ready vegetation / environment data.
-
-Within the local hero-event response radius, selected environmental objects should react according to distance and orientation.
-
-Suitable objects include:
-
-- scrub;
-- grass clusters;
-- bushes;
-- occasional small trees;
-- light poles;
-- signs;
-- lightweight fences;
-- small antennas.
-
-The response should approximately follow:
-
-1. shock front approaches;
-2. object rapidly bends / deflects away from blast;
-3. reaches maximum displacement;
-4. springs back;
-5. slightly overshoots;
-6. settles.
-
-Response amplitude should generally decrease with distance.
-
-Do not animate the entire map.
-
-Do not make every plant bend by the exact same amount at the exact same time.
-
-## 31. Local Ground Ignition
-
-After the hero fuel explosion, create several persistent localized fire patches.
-
-Possible causes:
-
-- burning fragments landing;
-- ruptured fuel infrastructure;
-- grass / scrub ignition.
-
-The fire patches should:
-
-- begin at different moments;
-- vary in size;
-- persist;
-- produce restrained smoke;
-- remain deterministic under seek.
-
-Full wildfire simulation is not required.
-
-Scripted or analytical spread is acceptable.
-
-## 32. Black Smoke Column
-
-The fuel-storage event must produce a large persistent black smoke column.
-
-The smoke should:
-
-- grow quickly;
-- have a dense dark core;
-- contain lighter turbulent edges;
-- drift with the scenario wind;
-- bend progressively downwind;
-- vary over height;
-- remain visible through the rest of the timeline and aftermath.
-
-Avoid:
-
-- one uniform vertical cylinder;
-- one flat billboard;
-- identical repeated smoke puffs clearly revealing the particle pattern.
-
-Use an efficient browser-friendly approach.
-
-Reserve high density for this hero source.
-
-## 33. Persistent Industrial Damage
-
-After the fuel event, the district must remain visibly changed.
-
-Persistent state should include:
-
-- damaged / ruptured tank geometry;
-- scorched ground;
-- soot;
-- burned scrub;
-- broken selected industrial props;
-- multiple fires;
-- black smoke;
-- debris;
-- partial utility failure.
-
-Seeking to a later time must reconstruct this state.
-
-## 34. Ammunition Cook-Off
-
-The ammunition district must have a different destruction language from the fuel district.
-
-Do not reuse the same hero explosion with different coordinates.
-
-Before the main detonation, implement irregular cook-off activity:
-
-- small explosions;
-- bright internal flashes;
-- dust bursts;
-- fragment ejection;
-- smoke accumulation;
-- irregular pauses.
-
-Timing should remain deterministic but should not look mechanically periodic.
-
-The viewer should experience uncertainty about whether the compound is finished detonating.
-
-## 35. Ammunition Primary Detonation
-
-The main ammunition explosion should be:
-
-- sharper;
-- faster;
-- more violent initially;
-- more fragment-heavy;
-- less dominated by a sustained liquid-fuel fireball.
-
-Include:
-
-- sharp bright flash;
-- compact major fireball;
-- dust / pressure front;
-- high-arc fragments;
-- selected burning fragments;
-- multiple damaged magazine structures;
-- persistent smaller fires;
-- heavy smoke;
-- continuing minor secondary detonations.
-
-Make its visual identity clearly different from the fuel-storage cascade.
-
-## 36. Environmental Pollution / Damage Language
-
-Stage 3 should begin establishing the persistent environmental cost of the battle.
-
-Show through objects and environment, not people.
-
-Relevant persistent visuals include:
-
-- harbor oil sheen;
-- burning fuel on water;
-- black smoke;
-- soot-darkened ground;
-- damaged industrial facilities;
-- burned vegetation;
-- localized ground fire;
-- floating ship debris;
-- industrial haze.
-
-Do not add visible casualties or human figures.
-
-## 37. Lighting Response to Explosions
-
-Hero explosions should affect nearby lighting.
-
-Use efficient temporary local illumination.
-
-Avoid dozens of large shadow-casting dynamic lights.
-
-The main flash and fireball should briefly change the appearance of nearby structures and terrain.
-
-Persistent fire may contribute weaker local illumination.
-
-The dawn environment should make these lighting changes especially visible.
-
-## 38. Persistent Effect Reconstruction
-
-Seeking is a hard requirement.
-
-For each Stage 3 event, distinguish between:
-
-### Transient state
-
-Examples:
-
-- initial flash;
-- first fireball;
-- airborne debris;
-- shock front.
-
-These may be analytically reconstructed, approximated, or omitted when seeking far after the event.
-
-### Persistent state
-
-Examples:
-
-- damaged Talwar;
-- ship list;
-- smoke source;
-- deck fire;
-- fuel sheen;
-- burning harbor water;
-- damaged fuel tank;
-- industrial fires;
-- soot;
-- wreckage;
-- damaged ammunition compound.
-
-These must reconstruct correctly at arbitrary timeline positions.
-
-## 39. Restart
-
-Restarting the scenario must fully remove Stage 3 persistent damage and return the world to T+00:00.
-
-Verify reset of:
-
-- Talwar damage;
-- Talwar list;
-- Talwar flooding;
-- harbor contamination;
-- harbor fire;
-- Molniya movement;
-- Molniya damage;
-- fuel tank damage;
-- ammunition compound damage;
-- smoke;
-- ground fire;
-- debris;
-- scorch;
-- vegetation blast response;
-- damaged lightweight props.
-
-Do not allow repeated replay to accumulate duplicate fires or smoke.
-
-## 40. Stage 3 Performance
-
-Hero effects can be visually dense, but the browser must remain usable.
-
-Prefer:
-
-- pooled transient particles;
-- instanced debris where useful;
-- analytical trajectories;
-- shared smoke geometry / materials;
-- bounded effect counts;
-- limited local dynamic lights;
-- localized environment response;
-- persistent damage state rather than permanent particle overload.
-
-Do not create a full rigid-body destruction simulation.
-
-Do not create global fluid simulation.
-
-Do not create global combustion propagation.
-
-The project is a deterministic cinematic battlefield, not a physics research project.
-
-## 41. Explicit Non-Goals for Stage 3
-
-Do not implement:
-
-- BTR-80 support / withdrawal timeline;
-- T-72B reinforcement timeline;
-- second Pantsir relocation / destruction;
-- support / rescue convoy behavior;
-- Su-30MKK reinforcement;
-- LCAC landing;
-- LAV-25 unloading;
-- full T+00:00–T+03:00 integration;
-- final aftermath mode;
-- audio;
-- player vehicle controls;
-- automatic cinematic camera;
-- visible humans.
-
-Do not implement future-stage units just because references exist.
-
-## 42. Browser Validation — Foundation Corrections
-
-Before accepting Stage 3, visually inspect the corrected Stage 2 world.
-
-At T+00:00 verify:
-
-### Overview
-
-- terrain relief is obvious;
-- Radar Hill visually dominates its surrounding terrain;
-- Harbor and Industrial lowlands are distinct;
-- D / E terrain separation is readable.
-
-### Industrial
-
-Inspect from low and medium altitude.
-
-Confirm:
-
-- fuel tanks look genuinely large;
-- pipe racks have realistic vertical presence;
-- warehouses no longer resemble one-storey sheds unless intentionally small;
-- berms are substantial;
-- structures have believable scale relative to roads and vehicles.
-
-### Harbor
-
-Confirm:
-
-- Talwar scale;
-- Molniya scale;
-- warehouses;
+- utility poles;
+- barriers;
+- road widths;
+- fence spacing;
+- parked non-animated service objects if already compatible with the map and constraints;
+- ladders / catwalk hints;
 - cranes;
-- piers;
-- terrain / water relationship.
+- pump equipment;
+- pipe diameters;
+- ship-to-berth relationships.
 
-If these still look miniature or flat, continue correcting before declaring Stage 3 complete.
+Do not add visible people.
 
-## 43. Browser Validation — Air-to-Ground Weapons
+Do not create crowd, crew, or silhouette hacks.
 
-Inspect at least one F-35B ground strike from:
+## 12. Explicit non-goals for Stage 4A
 
-- aircraft-follow view;
-- side / distant spectator view;
-- target-area view.
+Do not implement in this task:
 
-Verify:
+- the old planned “defender reactions / support / withdrawal” milestone in full;
+- large new ground-unit battle choreography;
+- BTR-80 active timeline behaviors;
+- T-72B active timeline behaviors;
+- second Pantsir relocation sequence if not already required;
+- Su-30MKK operational air sequence;
+- LCAC landing sequence;
+- LAV-25 unloading sequence;
+- audio;
+- visible humans;
+- player-controlled combat;
+- a full flight-simulation rewrite;
+- a new map replacing the current authoritative one.
 
-- weapon originates under the aircraft;
-- no projectile originates above the aircraft;
-- no upward arcade lob occurs;
-- no arbitrary left/right throw occurs;
-- physical munition body is visible where practical;
-- unpowered weapon has no continuous fire trail;
-- powered weapon uses restrained exhaust;
-- flight path converges naturally on assigned target;
-- impact location matches authoritative target.
+If a tiny amount of static support dressing is needed for scale, keep it minimal and deterministic.
 
-Fix the strike system if it still visually resembles flare deployment.
+## 13. Validation requirements
 
-## 44. Browser Validation — Hero Events
+Respect `AGENTS.md`.
 
-Inspect the timeline around:
+Run all repository-permitted validation.
 
-- industrial transfer ignition;
-- initial fuel tank hit;
-- fuel-storage cascade;
+At minimum, where permitted, run:
+
+- TypeScript check;
+- lint;
+- Vitest suite;
+- any new tests you add for smoothing / derived event logic where practical.
+
+Do not claim to run forbidden commands if repository rules prohibit them.
+
+## 14. Browser inspection requirements
+
+You must visually inspect the running application.
+
+Do not rely on tests alone.
+
+### 14.1 Terrain inspection
+
+Inspect from:
+
+- Overview;
+- low-altitude Harbor view;
+- Industrial view;
+- Radar Hill view;
+- Convoy Corridor;
+- Beach inland;
+- Beach offshore.
+
+Confirm:
+
+- terrain relief is more legible;
+- D / E separation is more visible;
+- industrial zones sit plausibly in lower terrain;
+- world no longer reads as overly flat.
+
+### 14.2 Industrial scale inspection
+
+Inspect the fuel district and ammunition district from medium and low viewpoints.
+
+Confirm:
+
+- fuel tanks feel large;
+- utility structures are no longer toy-sized;
+- bunds / containment walls are visible and meaningful;
+- industrial vertical layering is visible;
+- buildings do not all read as one-storey boxes.
+
+### 14.3 Hero-event inspection
+
+Inspect timeline moments around:
+
+- first fuel ignition;
+- secondary escalation;
+- main fuel disaster;
 - ammunition cook-off;
-- ammunition primary detonation;
-- Talwar first hit;
-- Talwar second hit;
-- Talwar final Stage 3 condition;
-- Molniya departure;
-- Molniya damage;
-- Molniya open-water withdrawal.
+- ammunition detonation;
+- late aftermath.
 
-Use multiple viewpoints.
+Confirm:
 
-Do not only inspect from Overview.
+- there are multiple stages;
+- there is visible secondary escalation;
+- smoke composition is improved;
+- aftermath is stronger and more satisfying.
 
-At minimum inspect hero explosions:
+### 14.4 F-35 inspection
 
-- near-ground but safely offset;
-- medium oblique distance;
-- high overview.
+Inspect:
 
-Verify visual hierarchy remains readable.
+- a straight flight segment;
+- a turn;
+- a strike approach;
+- a departure.
 
-## 45. Browser Validation — Shock Response
+Confirm:
 
-During the fuel-storage hero event verify:
+- speed changes are smoother;
+- turns are smoother;
+- bank behavior is visible;
+- no visibly absurd sharp-angle snapping remains.
 
-- shock front visibly propagates;
-- nearby vegetation reacts after the blast reaches it;
-- vegetation does not react before the front;
-- bending direction is generally away from the explosion;
-- different objects respond with some variation;
-- vegetation rebounds;
-- selected ground fires begin afterward;
-- distant vegetation remains mostly unaffected.
+Fix obvious issues discovered during inspection.
 
-Fix obvious synchronized or artificial-looking behavior.
+## 15. Acceptance criteria
 
-## 46. Regression Validation
+Stage 4A is complete only if all of the following are true.
 
-Re-test the Stage 1 sequence:
+### Terrain and world readability
 
-- F-35B STOVL;
-- Radar Hill tracking;
-- Pantsir engagement;
-- fixed AAA;
-- T+00:42 Pantsir destruction;
-- T+00:45 radar destruction;
-- seek;
-- restart;
-- paused-camera control.
+- terrain relief is visibly stronger and easier to read;
+- the world no longer feels excessively flat;
+- Radar Hill and other topographic differences are clearer;
+- the enhanced terrain remains physically coherent with roads, pads, and shoreline.
 
-Stage 3 must not break earlier functionality.
+### Industrial scale
 
-## 47. Acceptance Criteria
+- the fuel district feels larger and more imposing;
+- key tanks and industrial structures are more convincing in scale;
+- the industrial district no longer reads as too low / too miniature;
+- scale is improved without becoming absurdly exaggerated.
 
-Stage 3 is complete only if all of the following are true.
+### Destruction quality
 
-### Foundation corrections
+- the fuel-storage event has clear staged escalation;
+- secondary ignition / sympathetic events exist;
+- the fuel disaster feels more catastrophic and satisfying;
+- smoke columns are larger, denser, and more layered;
+- persistent fires and aftermath are richer;
+- the ammunition district remains visually distinct in destruction language.
 
-- F-35B no longer throws fireball-like projectiles from above the aircraft.
-- Air-to-ground munitions visually originate from plausible lower-fuselage positions.
-- Weapon trajectories look like aircraft-delivered guided weapons rather than upward lobbed arcade projectiles.
-- Terrain relief is visibly stronger and coherent.
-- Radar Hill and major terrain structure read clearly in 3D.
-- Industrial structure heights have believable physical scale.
-- Fuel tanks no longer look approximately one-storey tall.
+### Aircraft presentation
 
-### Harbor
+- F-35 turning is smoother;
+- F-35 speed transitions are smoother;
+- F-35 banking is more readable;
+- mission timing remains deterministic and functional.
 
-- Molniya visibly performs deterministic emergency departure.
-- Molniya can be damaged without being destroyed.
-- Molniya reaches open water.
-- Talwar damage progresses through multiple visual states.
-- Talwar fires and smoke persist.
-- Talwar progressively lists.
-- Talwar becomes partially flooded but does not disappear.
-- Harbor fuel contamination appears.
-- Harbor surface fire persists where applicable.
+### Presentation
 
-### Industrial
+- camera presets better communicate the battlefield;
+- the scene reads more like an interactive war visualization and less like a flat technical demo.
 
-- transfer infrastructure ignites before the main cascade;
-- initial fuel tank hit exists;
-- fuel-storage cascade is a true layered hero event;
-- visible burning debris follows ballistic arcs;
-- selected debris carries ember / flame trails;
-- shock response affects nearby environment;
-- localized grass / scrub fires appear;
-- dense black smoke persists;
-- ammunition cook-off is irregular;
-- ammunition primary detonation has a distinct visual identity;
-- industrial damage remains after transient explosions fade.
+### Preservation
 
-### Determinism
+- play / pause / restart / seek still work;
+- persistent destruction still reconstructs;
+- existing major scenario events are preserved;
+- no visible humans are introduced.
 
-- arbitrary seek reconstructs correct persistent Stage 3 states;
-- restarting removes all Stage 3 damage;
-- repeated replay does not duplicate persistent effects;
-- Stage 1 deterministic behavior still passes regression.
+## 16. Final response
 
-### Policy
+When complete, report:
 
-- `AGENTS.md` is fully obeyed.
-- No visible human characters exist anywhere.
+1. how terrain relief was improved;
+2. whether a vertical-exaggeration or elevation-remapping strategy was added;
+3. how fuel-district scale was improved;
+4. what was changed to make the industrial district feel larger;
+5. how the fuel-storage disaster escalation was upgraded;
+6. what new secondary events were added;
+7. how smoke / fire / blast composition was improved;
+8. how the F-35 flight smoothing was implemented;
+9. what camera / preset improvements were made;
+10. what validation was run under `AGENTS.md`;
+11. what browser inspections were performed;
+12. what limitations still remain before the later large unit-action stages.
 
-## 48. Final Response
-
-When finished, report:
-
-1. how the air-to-ground weapon behavior was corrected;
-2. what caused or contributed to the previously flat terrain appearance;
-3. how terrain relief was improved;
-4. how industrial structure scale was corrected;
-5. Talwar progressive damage implementation;
-6. Molniya departure / withdrawal implementation;
-7. fuel-storage hero destruction architecture;
-8. ammunition cook-off and detonation implementation;
-9. environmental shock-response implementation;
-10. persistent pollution / fire / smoke implementation;
-11. deterministic seek / restart support for Stage 3;
-12. browser viewpoints and timeline moments inspected;
-13. automated validation performed under `AGENTS.md`;
-14. remaining visual limitations before Stage 4.
-
-Do not describe Stage 4 features as completed.
+Do not describe future large reinforcement / landing stages as completed.

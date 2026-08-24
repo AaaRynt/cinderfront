@@ -40,7 +40,7 @@ export function createPolygonSurfaceGeometry(points: readonly XZPoint[], y: numb
   return createPolygonPrismGeometry(points, y - 0.08, y)
 }
 
-export function createRoadRibbonGeometry(points: readonly WorldPosition[], widthM: number) {
+export function createRoadRibbonGeometry(points: readonly WorldPosition[], widthM: number, surfaceHeightAt?: (x: number, z: number) => number) {
   const geometry = new BufferGeometry()
 
   if (points.length < 2) {
@@ -48,7 +48,6 @@ export function createRoadRibbonGeometry(points: readonly WorldPosition[], width
   }
 
   const vertices: number[] = []
-  const normals: number[] = []
   const uvs: number[] = []
   const indices: number[] = []
   const halfWidth = widthM / 2
@@ -62,10 +61,16 @@ export function createRoadRibbonGeometry(points: readonly WorldPosition[], width
     const tangentLength = Math.hypot(tangentX, tangentZ) || 1
     const offsetX = (-tangentZ / tangentLength) * halfWidth
     const offsetZ = (tangentX / tangentLength) * halfWidth
-    const y = current[1] + 0.18
+    const leftX = current[0] + offsetX
+    const leftZ = current[2] + offsetZ
+    const rightX = current[0] - offsetX
+    const rightZ = current[2] - offsetZ
+    const centerTerrainY = surfaceHeightAt?.(current[0], current[2])
+    const clearanceM = centerTerrainY === undefined ? 0.18 : current[1] - centerTerrainY + 0.18
+    const leftY = surfaceHeightAt ? surfaceHeightAt(leftX, leftZ) + clearanceM : current[1] + 0.18
+    const rightY = surfaceHeightAt ? surfaceHeightAt(rightX, rightZ) + clearanceM : current[1] + 0.18
 
-    vertices.push(current[0] + offsetX, y, current[2] + offsetZ, current[0] - offsetX, y, current[2] - offsetZ)
-    normals.push(0, 1, 0, 0, 1, 0)
+    vertices.push(leftX, leftY, leftZ, rightX, rightY, rightZ)
     uvs.push(0, index, 1, index)
 
     if (index < points.length - 1) {
@@ -78,9 +83,10 @@ export function createRoadRibbonGeometry(points: readonly WorldPosition[], width
   }
 
   geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3))
-  geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3))
   geometry.setAttribute('uv', new Float32BufferAttribute(uvs, 2))
   geometry.setIndex(indices)
+  geometry.computeVertexNormals()
+  geometry.computeBoundingBox()
   geometry.computeBoundingSphere()
 
   return geometry

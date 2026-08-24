@@ -3,19 +3,17 @@ import { BoxGeometry, DynamicDrawUsage, InstancedMesh, MeshStandardMaterial, Obj
 
 import type { SimulationWorldState, Vector3 } from '@/simulation'
 
-import { AIR_GROUND_STRIKE_BY_ID, AMMUNITION_COOKOFF_SCHEDULE, FUEL_GROUND_FIRE_SCHEDULE, deriveMolniyaState, transformLocalOffsetByPose } from '@/simulation'
+import { AIR_GROUND_STRIKE_BY_ID, AMMUNITION_COOKOFF_SCHEDULE, deriveMolniyaState, transformLocalOffsetByPose } from '@/simulation'
 
 import type { AmmunitionCookoffBurstDescriptor, GroundFireDescriptor, Stage3Vec3 } from './stage3/index.ts'
 
 import { AMMUNITION_BUNKERS, FUEL_TANKS, HARBOR_FEATURES } from '../world/stage2/stage2Data.ts'
 import { getTerrainHeight } from '../world/stage2/terrainModel.ts'
 import { ImpactEffect } from './BattleEffects.tsx'
-import { AmmunitionCookoffEffect, BlastResponseField, BoundedSmokeColumn, FuelStorageHeroEffect, GuidedBomb, PersistentBlastDamage, PersistentGroundFires, createBlastResponseLayout } from './stage3/index.ts'
+import { AmmunitionCookoffEffect, BlastResponseField, BoundedSmokeColumn, GuidedBomb, PersistentBlastDamage, PersistentGroundFires, createBlastResponseLayout } from './stage3/index.ts'
+import { Stage4AFuelDisaster } from './stage4a/index.ts'
 
-const PIPELINE_HIT: Stage3Vec3 = [-1_450, 26.66, 2_500]
-const TANK_05_HIT: Stage3Vec3 = [-550, getTerrainHeight(-550, 2_050) + 22, 2_050]
 const FUEL_RESPONSE_ORIGIN: Stage3Vec3 = [-545, getTerrainHeight(-545, 2_050), 2_050]
-const FUEL_BLAST_ORIGIN: Stage3Vec3 = [FUEL_RESPONSE_ORIGIN[0], FUEL_RESPONSE_ORIGIN[1] + 8, FUEL_RESPONSE_ORIGIN[2]]
 
 const WAREHOUSE_01 = HARBOR_FEATURES.warehouses[0]
 const WAREHOUSE_01_CENTER_X = WAREHOUSE_01.points.reduce((sum, point) => sum + point[0], 0) / WAREHOUSE_01.points.length
@@ -54,7 +52,6 @@ const AMMO_COOKOFF_BURSTS: readonly AmmunitionCookoffBurstDescriptor[] = AMMUNIT
     sharpness: pulse.strength,
   }
 })
-const FUEL_GROUND_FIRE_POSITIONS = FUEL_GROUND_FIRE_SCHEDULE.map((fire): Stage3Vec3 => [fire.position.x, getTerrainHeight(fire.position.x, fire.position.z), fire.position.z])
 const MOLNIYA_IMPACT = tuple(transformLocalOffsetByPose(deriveMolniyaState(128).pose, MOLNIYA_FIRE_LOCAL))
 
 const INDUSTRIAL_LIGHTS = [
@@ -169,20 +166,6 @@ function IndustrialIndicatorLights({ blackoutFraction }: { blackoutFraction: num
   )
 }
 
-function LocalIndustrialDamage({ timeSeconds }: { timeSeconds: number }) {
-  return (
-    <group name="stage3-industrial-local-strike-damage">
-      <ImpactEffect impactTime={78} persistent={false} position={PIPELINE_HIT} time={timeSeconds} variant="boundary-hit" />
-      <PersistentGroundFires descriptors={HEAVY_FIRE} eventTimeSeconds={78} origin={PIPELINE_HIT} timeSeconds={timeSeconds} />
-      <BoundedSmokeColumn ageSeconds={timeSeconds - 78.35} heightM={88} origin={PIPELINE_HIT} profile="local" puffCount={11} seed="pipeline-hit-smoke" />
-
-      <ImpactEffect impactTime={86} persistent={false} position={TANK_05_HIT} time={timeSeconds} variant="vehicle-kill" />
-      <PersistentGroundFires descriptors={HEAVY_FIRE} eventTimeSeconds={86} origin={TANK_05_HIT} timeSeconds={timeSeconds} />
-      <BoundedSmokeColumn ageSeconds={timeSeconds - 86.25} heightM={118} origin={TANK_05_HIT} profile="local" puffCount={14} seed="tank-05-hit-smoke" />
-    </group>
-  )
-}
-
 function HarborDamage({ world }: { world: SimulationWorldState }) {
   const time = world.timeSeconds
   const { harbor, molniya, talwar } = world.stage3
@@ -249,8 +232,7 @@ export function Stage3BattleEffects({ world }: { world: SimulationWorldState }) 
       </group>
 
       {time >= 48 ? <HarborDamage world={world} /> : null}
-      {time >= 78 ? <LocalIndustrialDamage timeSeconds={time} /> : null}
-      {time >= 92 ? <FuelStorageHeroEffect groundFirePositions={FUEL_GROUND_FIRE_POSITIONS} position={FUEL_BLAST_ORIGIN} seed={52_730} surfaceHeightAt={getTerrainHeight} timeSeconds={time} /> : null}
+      {time >= 78 ? <Stage4AFuelDisaster surfaceHeightAt={getTerrainHeight} timeSeconds={time} /> : null}
       <BlastResponseField descriptors={RESPONSE_LAYOUT} origin={FUEL_RESPONSE_ORIGIN} seed={52_730} surfaceHeightAt={getTerrainHeight} timeSeconds={time} />
       <IndustrialIndicatorLights blackoutFraction={world.stage3.industrial.blackoutFraction} />
       {time >= 116 ? (

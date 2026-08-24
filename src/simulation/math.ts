@@ -111,6 +111,6 @@ export function transformLocalOffsetByPose(pose: Pose3, offset: Vector3): Vector
 }
 
 export function lerpAngleRadians(start: number, end: number, amount: number): number {
-  const difference = ((end - start + Math.PI) % (Math.PI * 2)) - Math.PI
+  const difference = Math.atan2(Math.sin(end - start), Math.cos(end - start))
   return start + difference * clamp(amount, 0, 1)
 }

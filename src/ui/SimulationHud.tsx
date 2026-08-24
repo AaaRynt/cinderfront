@@ -88,7 +88,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="eyebrow">Cinderfront / Stage 03</p>
+            <p className="eyebrow">Cinderfront / Stage 4A</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
         </div>
 
         <div className="timeline-control">
-          <input aria-label="Seek simulation time" data-testid="timeline-slider" max={duration} min={0} onChange={(event) => onSeek(Number(event.target.value))} step={0.1} type="range" value={time} />
+          <input aria-label="Seek simulation time" data-testid="timeline-slider" max={duration} min={0} onInput={(event) => onSeek(Number(event.currentTarget.value))} step={0.1} type="range" value={time} />
           <div aria-hidden="true" className="timeline-markers">
             {EVENT_TIMES.map((eventTime) => (
               <span key={eventTime} style={{ left: `${(eventTime / duration) * 100}%` }} />

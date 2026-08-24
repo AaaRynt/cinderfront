@@ -9,6 +9,11 @@ const TALWAR_FIRST_HIT = transformLocalOffset(TALWAR_POSITION, TALWAR_MODEL_YAW,
 const TALWAR_SECOND_HIT = transformLocalOffset(TALWAR_POSITION, TALWAR_MODEL_YAW, { x: 0, y: 5.1, z: -38 })
 
 const LOWER_WEAPONS_BAY_OFFSET: Vector3 = { x: 0, y: -1.2, z: -0.65 }
+// Stage 4A presentation-remapped Y anchors. XZ coordinates and event timing
+// remain the authored scenario values while the visible impacts meet the
+// elevated pipe rack and Tank 05 roof instead of passing below the terrain.
+const INDUSTRIAL_PIPELINE_HIT: Vector3 = { x: -1450, y: 43.04, z: 2500 }
+const FUEL_TANK_05_HIT: Vector3 = { x: -550, y: 57.94, z: 2050 }
 
 export const AIR_GROUND_STRIKES = [
   {
@@ -77,7 +82,7 @@ export const AIR_GROUND_STRIKES = [
     targetId: 'pipeline_harbor_fuel_trunk',
     releaseAtSeconds: 74,
     impactAtSeconds: 78,
-    targetPosition: { x: -1450, y: 26.66, z: 2500 },
+    targetPosition: INDUSTRIAL_PIPELINE_HIT,
     lowerBayOffset: LOWER_WEAPONS_BAY_OFFSET,
     kind: 'guided-bomb',
     powered: false,
@@ -89,7 +94,7 @@ export const AIR_GROUND_STRIKES = [
     targetId: 'fuel_tank_05',
     releaseAtSeconds: 82,
     impactAtSeconds: 86,
-    targetPosition: { x: -550, y: 54, z: 2050 },
+    targetPosition: FUEL_TANK_05_HIT,
     lowerBayOffset: LOWER_WEAPONS_BAY_OFFSET,
     kind: 'guided-bomb',
     powered: false,

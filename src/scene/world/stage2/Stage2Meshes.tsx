@@ -5,8 +5,8 @@ import { useEffect, useMemo } from 'react'
 import type { WorldPosition, XZPoint } from '../worldData.ts'
 
 import { createPolygonPrismGeometry, createPolygonSurfaceGeometry, createRoadRibbonGeometry } from '../worldGeometry.ts'
-import { createTerrainSurfaceGeometry } from './terrainGeometry.ts'
-import { sampleTerrainPolyline } from './terrainModel.ts'
+import { createTerrainRoadGeometry, createTerrainSurfaceGeometry } from './terrainGeometry.ts'
+import { getTerrainHeight, sampleTerrainPolyline } from './terrainModel.ts'
 
 function useGeometryDisposal(geometry: BufferGeometry) {
   useEffect(() => () => geometry.dispose(), [geometry])
@@ -31,12 +31,15 @@ export function TerrainPolygonSurface({ material, name, points, receiveShadow = 
 }
 
 export function RoadRibbon({ material, name, points, widthM }: { material: Material; name?: string; points: readonly WorldPosition[]; widthM: number }) {
-  const geometry = useMemo(() => createRoadRibbonGeometry(points, widthM), [points, widthM])
+  const geometry = useMemo(() => createRoadRibbonGeometry(points, widthM, getTerrainHeight), [points, widthM])
   useGeometryDisposal(geometry)
   return <mesh frustumCulled geometry={geometry} material={material} name={name} receiveShadow />
 }
 
 export function TerrainRoad({ material, name, points, spacingM = 75, widthM, yOffset = 0.3 }: { material: Material; name?: string; points: readonly XZPoint[]; spacingM?: number; widthM: number; yOffset?: number }) {
   const terrainPoints = useMemo(() => sampleTerrainPolyline(points, spacingM, yOffset), [points, spacingM, yOffset])
-  return <RoadRibbon material={material} name={name} points={terrainPoints} widthM={widthM} />
+  const terrainXZ = useMemo(() => terrainPoints.map(([x, , z]) => [x, z] as XZPoint), [terrainPoints])
+  const geometry = useMemo(() => createTerrainRoadGeometry(terrainXZ, widthM, yOffset + 0.18), [terrainXZ, widthM, yOffset])
+  useGeometryDisposal(geometry)
+  return <mesh frustumCulled geometry={geometry} material={material} name={name} receiveShadow />
 }

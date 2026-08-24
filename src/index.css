@@ -401,6 +401,7 @@ input:focus-visible {
   left: 6px;
   z-index: 1;
   height: 4px;
+  pointer-events: none;
 }
 
 .timeline-markers span {

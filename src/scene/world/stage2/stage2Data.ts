@@ -489,35 +489,160 @@ export const FUEL_TANKS = [
   { id: 'fuel_tank_08', center: [-250, 1575], radiusM: 95, heightM: 16 },
 ] as const
 
-export const FUEL_PIPE_RUNS = [
-  [
-    [-1200, 2300],
-    [100, 2300],
-    [250, 2300],
-    [250, 1800],
-    [300, 1800],
-  ],
-  [
-    [-800, 2700],
-    [-800, 1800],
-    [-850, 1800],
-    [-850, 1670],
-  ],
-  [
-    [-300, 2700],
-    [-300, 1800],
-    [-250, 1800],
-    [-250, 1670],
-  ],
-  [
-    [300, 1800],
-    [410, 1740],
-  ],
-  [
-    [250, 2000],
-    [300, 2000],
-  ],
-] as const satisfies readonly (readonly XZPoint[])[]
+export const FUEL_DISTRICT_DAMAGE_TIMES = {
+  pipelineTrunk: 78,
+  fuelHeader: 81.2,
+  tank05: 86,
+  tank05Feed: 88.6,
+  centralBund: 92,
+  tank04: 95.2,
+  transferRack: 97.6,
+  tank06: 101.4,
+  northPipeHeader: 105.6,
+  tank02: 109.8,
+} as const
+
+export const FUEL_DISTRICT_DAMAGE_THRESHOLDS_SECONDS = [
+  FUEL_DISTRICT_DAMAGE_TIMES.pipelineTrunk,
+  FUEL_DISTRICT_DAMAGE_TIMES.fuelHeader,
+  FUEL_DISTRICT_DAMAGE_TIMES.tank05,
+  FUEL_DISTRICT_DAMAGE_TIMES.tank05Feed,
+  FUEL_DISTRICT_DAMAGE_TIMES.centralBund,
+  FUEL_DISTRICT_DAMAGE_TIMES.tank04,
+  FUEL_DISTRICT_DAMAGE_TIMES.transferRack,
+  FUEL_DISTRICT_DAMAGE_TIMES.tank06,
+  FUEL_DISTRICT_DAMAGE_TIMES.northPipeHeader,
+  FUEL_DISTRICT_DAMAGE_TIMES.tank02,
+] as const
+
+/** A stable selector value that changes only when permanent fuel-district geometry changes. */
+export function getFuelDistrictDamagePhase(timeSeconds: number) {
+  const resolvedTime = Number.isFinite(timeSeconds) ? Math.max(0, timeSeconds) : 0
+  let phase = 0
+  while (phase < FUEL_DISTRICT_DAMAGE_THRESHOLDS_SECONDS.length && resolvedTime >= FUEL_DISTRICT_DAMAGE_THRESHOLDS_SECONDS[phase]!) phase += 1
+  return phase
+}
+
+export const FUEL_PIPE_DEFINITIONS = [
+  {
+    diameterM: 0.8,
+    elevationM: 3.6,
+    failureAtSeconds: FUEL_DISTRICT_DAMAGE_TIMES.fuelHeader,
+    id: 'fuel_pipe_header_east_west',
+    points: [
+      [-1200, 2300],
+      [100, 2300],
+      [250, 2300],
+      [250, 1800],
+      [300, 1800],
+    ],
+  },
+  {
+    diameterM: 0.5,
+    elevationM: 3,
+    id: 'fuel_pipe_lateral_west',
+    points: [
+      [-800, 2700],
+      [-800, 1800],
+      [-850, 1800],
+      [-850, 1670],
+    ],
+  },
+  {
+    diameterM: 0.5,
+    elevationM: 3,
+    failureAtSeconds: FUEL_DISTRICT_DAMAGE_TIMES.northPipeHeader,
+    id: 'fuel_pipe_lateral_east',
+    points: [
+      [-300, 2700],
+      [-300, 1800],
+      [-250, 1800],
+      [-250, 1670],
+    ],
+  },
+  {
+    diameterM: 0.5,
+    elevationM: 2.4,
+    id: 'fuel_pipe_pump_drop',
+    points: [
+      [300, 1800],
+      [410, 1740],
+    ],
+  },
+  {
+    diameterM: 0.5,
+    elevationM: 2.8,
+    failureAtSeconds: FUEL_DISTRICT_DAMAGE_TIMES.transferRack,
+    id: 'fuel_pipe_transfer_rack_branch',
+    points: [
+      [250, 2000],
+      [300, 2000],
+    ],
+  },
+  {
+    diameterM: 0.35,
+    elevationM: 1.5,
+    id: 'fuel_pipe_tank_01_feed',
+    points: [
+      [-800, 2550],
+      [-930, 2550],
+    ],
+  },
+  {
+    diameterM: 0.35,
+    elevationM: 1.5,
+    id: 'fuel_pipe_tank_02_feed',
+    points: [
+      [-800, 2550],
+      [-660, 2550],
+    ],
+  },
+  {
+    diameterM: 0.35,
+    elevationM: 1.5,
+    id: 'fuel_pipe_tank_03_feed',
+    points: [
+      [-300, 2550],
+      [-175, 2550],
+    ],
+  },
+  {
+    diameterM: 0.35,
+    elevationM: 1.5,
+    id: 'fuel_pipe_tank_04_feed',
+    points: [
+      [-800, 2050],
+      [-945, 2050],
+    ],
+  },
+  {
+    diameterM: 0.35,
+    elevationM: 1.5,
+    failureAtSeconds: FUEL_DISTRICT_DAMAGE_TIMES.tank05Feed,
+    id: 'fuel_pipe_tank_05_feed',
+    points: [
+      [-800, 2050],
+      [-670, 2050],
+    ],
+  },
+  {
+    diameterM: 0.35,
+    elevationM: 1.5,
+    id: 'fuel_pipe_tank_06_feed',
+    points: [
+      [-300, 2050],
+      [-155, 2050],
+    ],
+  },
+] as const satisfies readonly {
+  readonly diameterM: number
+  readonly elevationM: number
+  readonly failureAtSeconds?: number
+  readonly id: string
+  readonly points: readonly XZPoint[]
+}[]
+
+export const FUEL_PIPE_RUNS = FUEL_PIPE_DEFINITIONS.map((definition) => definition.points)
 
 export const AMMUNITION_BUNKERS = [
   {

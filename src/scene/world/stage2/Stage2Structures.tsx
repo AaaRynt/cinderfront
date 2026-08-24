@@ -1,14 +1,37 @@
-import type { Material } from 'three'
+import type { BufferGeometry, InstancedMesh, Material } from 'three'
 
-import { useMemo } from 'react'
-import { Quaternion, Vector3 } from 'three'
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import { BoxGeometry, CylinderGeometry, Matrix4, Quaternion, StaticDrawUsage, Vector3 } from 'three'
 
 import type { WorldPosition, XZPoint } from '../worldData.ts'
 import type { Stage2Materials } from './stage2Materials.ts'
 
+import { matrixBetween, transformMatrix } from './environment/primitiveLayout.ts'
 import { PolygonPrism, PolygonSurface } from './Stage2Meshes.tsx'
 
+const TANK_RIB_ANGLES = Array.from({ length: 12 }, (_, index) => (index / 12) * Math.PI * 2)
+const TANK_ROOF_SPOKE_ANGLES = Array.from({ length: 8 }, (_, index) => (index / 8) * Math.PI * 2)
+const TANK_STAIR_STEPS = Array.from({ length: 9 }, (_, index) => (index + 1) / 10)
+const TANK_SERVICE_BOX_GEOMETRY = new BoxGeometry(1, 1, 1)
+const TANK_SERVICE_CYLINDER_GEOMETRY = new CylinderGeometry(1, 1, 1, 8)
 const Y_AXIS = new Vector3(0, 1, 0)
+
+function StaticTankServicePool({ geometry, material, matrices, name, receiveShadow = false }: { geometry: BufferGeometry; material: Material; matrices: readonly Matrix4[]; name: string; receiveShadow?: boolean }) {
+  const meshRef = useRef<InstancedMesh>(null)
+
+  useLayoutEffect(() => {
+    const mesh = meshRef.current
+    if (!mesh) return
+    matrices.forEach((matrix, index) => mesh.setMatrixAt(index, matrix))
+    mesh.count = matrices.length
+    mesh.instanceMatrix.setUsage(StaticDrawUsage)
+    mesh.instanceMatrix.needsUpdate = true
+    mesh.computeBoundingBox()
+    mesh.computeBoundingSphere()
+  }, [matrices])
+
+  return <instancedMesh ref={meshRef} args={[geometry, material, matrices.length]} dispose={null} frustumCulled name={name} receiveShadow={receiveShadow} />
+}
 
 export function SegmentCylinder({ end, material, name, radius, radialSegments = 8, start }: { end: WorldPosition; material: Material; name?: string; radius: number; radialSegments?: number; start: WorldPosition }) {
   const transform = useMemo(() => {
@@ -142,8 +165,8 @@ export function GantryCrane({ headingRadians, id, materials, position, scale = 1
 }
 
 export function FuelTank({ center, heightM, id, materials, radiusM }: { center: WorldPosition; heightM: number; id: string; materials: Stage2Materials; radiusM: number }) {
-  const ribAngles = Array.from({ length: 12 }, (_, index) => (index / 12) * Math.PI * 2)
-  const stairSteps = Array.from({ length: 9 }, (_, index) => (index + 1) / 10)
+  const roofSpokeMatrices = useMemo(() => TANK_ROOF_SPOKE_ANGLES.map((angle) => matrixBetween([Math.cos(angle) * 7, heightM + 1.08, Math.sin(angle) * 7], [Math.cos(angle) * radiusM * 0.88, heightM + 1.08, Math.sin(angle) * radiusM * 0.88], 0.24)), [heightM, radiusM])
+  const railPostMatrices = useMemo(() => TANK_RIB_ANGLES.map((angle) => transformMatrix([Math.cos(angle) * radiusM * 0.965, heightM + 2.25, Math.sin(angle) * radiusM * 0.965], [0.38, 1.9, 0.38])), [heightM, radiusM])
 
   return (
     <group name={id} position={center}>
@@ -155,7 +178,7 @@ export function FuelTank({ center, heightM, id, materials, radiusM }: { center: 
           <torusGeometry args={[radiusM + 0.18, 0.42, 4, 28]} />
         </mesh>
       ))}
-      {ribAngles.map((angle) => (
+      {TANK_RIB_ANGLES.map((angle) => (
         <mesh key={angle} castShadow material={materials.paintedSteel} position={[Math.cos(angle) * (radiusM + 0.35), heightM / 2, Math.sin(angle) * (radiusM + 0.35)]} rotation={[0, -angle, 0]}>
           <boxGeometry args={[0.85, Math.max(2, heightM - 1.2), 2.1]} />
         </mesh>
@@ -166,20 +189,21 @@ export function FuelTank({ center, heightM, id, materials, radiusM }: { center: 
       <mesh material={materials.darkSteel} position={[0, heightM + 1.35, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[radiusM * 0.965, 0.82, 5, 28]} />
       </mesh>
+      <mesh castShadow material={materials.darkSteel} position={[0, heightM + 1.7, 0]}>
+        <cylinderGeometry args={[6.5, 7.4, 2.4, 14]} />
+      </mesh>
+      <mesh material={materials.paintedSteel} position={[0, heightM + 3.05, 0]}>
+        <cylinderGeometry args={[8.2, 6.6, 0.35, 14]} />
+      </mesh>
+      <StaticTankServicePool geometry={TANK_SERVICE_CYLINDER_GEOMETRY} material={materials.paintedSteel} matrices={roofSpokeMatrices} name={`${id}:roof-spokes`} receiveShadow />
       <mesh material={materials.paintedSteel} position={[0, heightM + 3.2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[radiusM * 0.965, 0.32, 4, 28]} />
       </mesh>
-      {ribAngles
-        .filter((_, index) => index % 2 === 0)
-        .map((angle) => (
-          <mesh key={`rail:${angle}`} material={materials.paintedSteel} position={[Math.cos(angle) * radiusM * 0.965, heightM + 2.25, Math.sin(angle) * radiusM * 0.965]}>
-            <boxGeometry args={[0.38, 1.9, 0.38]} />
-          </mesh>
-        ))}
+      <StaticTankServicePool geometry={TANK_SERVICE_BOX_GEOMETRY} material={materials.paintedSteel} matrices={railPostMatrices} name={`${id}:roof-rail-posts`} />
       <group name={`${id}:access-stair`}>
         <SegmentCylinder end={[radiusM + 1.5, heightM + 1.2, -2.2]} material={materials.steel} radius={0.48} start={[radiusM + 17, 0.8, -2.2]} />
         <SegmentCylinder end={[radiusM + 1.5, heightM + 1.2, 2.2]} material={materials.steel} radius={0.48} start={[radiusM + 17, 0.8, 2.2]} />
-        {stairSteps.map((progress) => (
+        {TANK_STAIR_STEPS.map((progress) => (
           <mesh key={progress} castShadow material={materials.darkSteel} position={[radiusM + 17 - 15.5 * progress, 0.8 + heightM * progress, 0]}>
             <boxGeometry args={[2.5, 0.42, 5.1]} />
           </mesh>
