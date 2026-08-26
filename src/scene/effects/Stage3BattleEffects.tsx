@@ -10,7 +10,7 @@ import type { AmmunitionCookoffBurstDescriptor, GroundFireDescriptor, Stage3Vec3
 import { AMMUNITION_BUNKERS, FUEL_TANKS, HARBOR_FEATURES } from '../world/stage2/stage2Data.ts'
 import { getTerrainHeight } from '../world/stage2/terrainModel.ts'
 import { ImpactEffect } from './BattleEffects.tsx'
-import { AmmunitionCookoffEffect, BlastResponseField, BoundedSmokeColumn, GuidedBomb, PersistentBlastDamage, PersistentGroundFires, createBlastResponseLayout } from './stage3/index.ts'
+import { AMMUNITION_EFFECT_POSITIONS, AmmunitionCookoffEffect, BlastResponseField, BoundedSmokeColumn, GuidedBomb, PersistentBlastDamage, PersistentGroundFires, createBlastResponseLayout } from './stage3/index.ts'
 import { Stage4AFuelDisaster } from './stage4a/index.ts'
 
 const FUEL_RESPONSE_ORIGIN: Stage3Vec3 = [-545, getTerrainHeight(-545, 2_050), 2_050]
@@ -37,10 +37,7 @@ const SURFACE_FIRES: readonly GroundFireDescriptor[] = [
   { delaySeconds: 1.25, offset: [0, 0, 0], phase: 4.8, scale: 0.7 },
 ]
 
-const AMMO_POSITIONS = AMMUNITION_BUNKERS.map((bunker): Stage3Vec3 => {
-  const [x, z] = bunker.center
-  return [x, getTerrainHeight(x, z) + 8.2, z]
-})
+const AMMO_POSITIONS = AMMUNITION_EFFECT_POSITIONS
 const AMMO_PRIMARY_POSITION = AMMO_POSITIONS[3]!
 const AMMO_SECONDARY_POSITIONS = AMMO_POSITIONS.slice(1)
 const AMMO_COOKOFF_BURSTS: readonly AmmunitionCookoffBurstDescriptor[] = AMMUNITION_COOKOFF_SCHEDULE.map((pulse) => {

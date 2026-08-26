@@ -19,6 +19,7 @@ interface BattlefieldStatus {
   primaryRadar: string
   talwar: string
   molniya: string
+  btrGroup: string
   industrial: string
 }
 
@@ -55,6 +56,7 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Camera, id: 'radar-hill', label: 'Radar Hill' },
   { icon: Radar, id: 'search-radar', label: 'Search radar' },
   { icon: Route, id: 'corridor', label: 'Convoy corridor' },
+  { icon: Camera, id: 'btr', label: 'BTR focus' },
   { icon: Waves, id: 'beachhead', label: 'Beach inland' },
   { icon: Waves, id: 'beach-offshore', label: 'Beach offshore' },
   { icon: Plane, id: 'f35-01', label: 'F-35B 01' },
@@ -88,7 +90,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="eyebrow">Cinderfront / Stage 4A</p>
+            <p className="eyebrow">Cinderfront / Stage 4B</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -111,6 +113,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           <StatusRow label="Search radar" value={battlefieldStatus.primaryRadar} />
           <StatusRow label="Talwar" value={battlefieldStatus.talwar} />
           <StatusRow label="Molniya" value={battlefieldStatus.molniya} />
+          <StatusRow label="BTR-80 group" value={battlefieldStatus.btrGroup} />
           <StatusRow label="Industrial" value={battlefieldStatus.industrial} />
         </div>
       </aside>
@@ -172,7 +175,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="stage-notice">Escalation phase · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
+      <div className="stage-notice">Reaction phase · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
     </div>
   )
 }

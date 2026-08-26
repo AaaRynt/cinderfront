@@ -1,5 +1,6 @@
 export * from './constants'
 export * from './derive'
+export * from './groundVehicles'
 export * from './math'
 export * from './stage3'
 export * from './store'

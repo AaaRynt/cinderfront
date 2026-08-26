@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import type { SimulationEvent, SimulationSpeed } from '@/simulation'
+import type { GroundVehicleGroupState, SimulationEvent, SimulationSpeed } from '@/simulation'
 
 import { BattlefieldScene } from '@/scene/BattlefieldScene'
 import { deriveSimulationWorldState, quantizeSimulationTime, SIMULATION_DURATION_SECONDS, useSimulationStore } from '@/simulation'
@@ -32,12 +32,21 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   ammunition_cookoff_begin: 'Ammunition compound cook-off begins',
   molniya_fragment_damage: 'Molniya damaged but still mobile',
   ammunition_storage_primary_detonation: 'Primary ammunition bunker detonates',
+  btr_01_disabled: 'BTR-80 01 disabled by secondary blast',
+  btr_survivors_fallback: 'BTR-80 survivors begin withdrawal',
   talwar_severe_list: 'Talwar mission-killed and partially flooded',
   molniya_open_water: 'Molniya reaches open water',
 }
 
 function phaseLabel(value: string) {
   return value.replaceAll('-', ' ')
+}
+
+function btrGroupStatus(group: GroundVehicleGroupState) {
+  const fallbackActive = group.activity === 'turning-to-withdraw' || group.activity === 'withdrawing' || group.activity === 'movement-complete'
+  if (group.disabledCount === 1 && fallbackActive) return '3 withdrawing / 1 disabled'
+  if (group.disabledCount === 1) return '1 disabled / 3 operational'
+  return phaseLabel(group.activity)
 }
 
 function SimulationInterface() {
@@ -59,6 +68,7 @@ function SimulationInterface() {
     primaryRadar: world.persistent.primaryRadarDestroyed ? 'destroyed / secondary active' : phaseLabel(world.radar.primaryPhase),
     talwar: phaseLabel(world.stage3.talwar.phase),
     molniya: phaseLabel(world.stage3.molniya.phase),
+    btrGroup: btrGroupStatus(world.stage4b.btrGroup),
     industrial: world.stage3.industrial.ammunitionCompoundDestroyed ? 'fuel and ammunition sites destroyed' : world.stage3.industrial.blackoutFraction > 0 ? 'partial blackout / fires active' : world.stage3.industrial.pipelineIgnited ? 'fuel-transfer fire active' : 'operational',
   }
 

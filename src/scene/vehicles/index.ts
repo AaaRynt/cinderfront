@@ -1,4 +1,7 @@
 export { F35BModel } from './F35BModel'
+export { Btr80Model } from './Btr80Model'
+export type { Btr80ModelProps } from './Btr80Model'
+export { Btr80Group } from './Btr80Group'
 export type { F35BModelProps } from './F35BModel'
 export { MolniyaModel } from './MolniyaModel'
 export type { MolniyaModelProps } from './MolniyaModel'

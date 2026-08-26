@@ -1,6 +1,7 @@
 import type { AircraftId, AircraftMechanicalState, AircraftPhase, AircraftState, AirGroundStrikeId, AirGroundWeaponState, FixedAaaState, PantsirState, PersistentStage1State, RadarState, SimulationWorldState, Stage1WorldState, Stage3WorldState, TransientEffectState, Vector3, WaspState } from './types'
 
 import { SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_FIXED_SEED } from './constants'
+import { deriveStage4BWorldState } from './groundVehicles'
 import { clamp, distanceVector3, headingBetween, inverseLerp, lerp, lerpAngleRadians, normalizeVector3, samplePolyline, scaleVector3, smoothstep, subtractVector3, transformLocalOffset, yawForDirection } from './math'
 import { deriveHarborStage3State, deriveIndustrialStage3State, deriveMolniyaState, deriveStage3ReachedEvents, deriveTalwarState } from './stage3'
 import { formatLocalTime, formatSimulationTime, clampSimulationTime, clampStage1Time } from './time'
@@ -656,5 +657,6 @@ export function deriveSimulationWorldState(timeSeconds: number): SimulationWorld
     persistent: derivePersistentStateForSimulation(time),
     transientEffects: deriveTransientEffectsForSimulation(time),
     stage3: deriveStage3WorldState(time),
+    stage4b: deriveStage4BWorldState(time),
   }
 }

@@ -1,4 +1,4 @@
-import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId } from './types'
+import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId } from './types'
 
 import { clampSimulationTime, clampStage1Time } from './time'
 
@@ -217,7 +217,29 @@ export const STAGE3_EVENTS = [
   },
 ] as const satisfies readonly Stage3Event[]
 
-export const SIMULATION_EVENTS = [...STAGE1_EVENTS, ...STAGE3_EVENTS] as const satisfies readonly SimulationEvent[]
+export const STAGE4B_EVENTS = [
+  {
+    id: 'btr_01_disabled',
+    atSeconds: 133,
+    localTime: '05:29:13',
+    event: 'one_vehicle_disabled_by_secondary_blast_and_debris',
+    groupId: 'defender_btr_group_01',
+    actorId: 'defender_btr_01',
+    targetId: 'defender_btr_group_01',
+    effectProfile: 'vehicle_kill_medium',
+  },
+  {
+    id: 'btr_survivors_fallback',
+    atSeconds: 136,
+    localTime: '05:29:16',
+    event: 'three_surviving_vehicles_fall_back_along_branch_route',
+    groupId: 'defender_btr_group_01',
+    pathId: 'path_defender_convoy_fallback',
+    resultingState: 'three_mobile_one_disabled',
+  },
+] as const satisfies readonly Stage4BEvent[]
+
+export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
 
 export function hasReachedEvent(timeSeconds: number, atSeconds: number): boolean {
   return clampSimulationTime(timeSeconds) + Number.EPSILON >= atSeconds
@@ -231,6 +253,11 @@ export function getReachedEvents(timeSeconds: number): readonly Stage1Event[] {
 export function getReachedStage3Events(timeSeconds: number): readonly Stage3Event[] {
   const time = clampSimulationTime(timeSeconds)
   return STAGE3_EVENTS.filter((event) => hasReachedEvent(time, event.atSeconds))
+}
+
+export function getReachedStage4BEvents(timeSeconds: number): readonly Stage4BEvent[] {
+  const time = clampSimulationTime(timeSeconds)
+  return STAGE4B_EVENTS.filter((event) => hasReachedEvent(time, event.atSeconds))
 }
 
 export function getReachedSimulationEvents(timeSeconds: number): readonly SimulationEvent[] {
@@ -247,5 +274,11 @@ export function getStage1Event(id: Stage1EventId): Stage1Event {
 export function getStage3Event(id: Stage3EventId): Stage3Event {
   const event = STAGE3_EVENTS.find((candidate) => candidate.id === id)
   if (!event) throw new Error(`Unknown Stage 3 event: ${id}`)
+  return event
+}
+
+export function getStage4BEvent(id: Stage4BEventId): Stage4BEvent {
+  const event = STAGE4B_EVENTS.find((candidate) => candidate.id === id)
+  if (!event) throw new Error(`Unknown Stage 4B event: ${id}`)
   return event
 }

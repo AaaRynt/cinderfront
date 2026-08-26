@@ -25,6 +25,8 @@ export type Stage3EventId =
   | 'talwar_severe_list'
   | 'molniya_open_water'
 
+export type Stage4BEventId = 'btr_01_disabled' | 'btr_survivors_fallback'
+
 export interface Vector3 {
   readonly x: number
   readonly y: number
@@ -58,7 +60,20 @@ export interface Stage3Event {
   readonly resultingState?: 'withdrawing_through_harbor_channel' | 'damaged_mobile_with_smoke' | 'escaped_into_open_water'
 }
 
-export type SimulationEvent = Stage1Event | Stage3Event
+export interface Stage4BEvent {
+  readonly id: Stage4BEventId
+  readonly atSeconds: number
+  readonly localTime: string
+  readonly event: string
+  readonly groupId: 'defender_btr_group_01'
+  readonly actorId?: 'defender_btr_01'
+  readonly targetId?: 'defender_btr_group_01'
+  readonly pathId?: 'path_defender_convoy_fallback'
+  readonly effectProfile?: 'vehicle_kill_medium'
+  readonly resultingState?: 'three_mobile_one_disabled'
+}
+
+export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent
 
 export type AircraftPhase = 'launch-ready' | 'stovl-prep' | 'vertical-lift' | 'transition' | 'forward-flight'
 
@@ -300,7 +315,67 @@ export interface Stage3WorldState {
   readonly industrial: IndustrialStage3State
 }
 
+export type GroundVehicleId = 'defender_btr_01' | 'defender_btr_02' | 'defender_btr_03' | 'defender_btr_04'
+
+export type GroundVehicleActivityPhase = 'security-hold' | 'alerted' | 'moving-to-support' | 'supporting' | 'turning-to-withdraw' | 'withdrawing' | 'movement-complete'
+
+export type GroundVehiclePhysicalCondition = 'operational' | 'damaged' | 'disabled' | 'destroyed'
+
+export type GroundVehicleOutcome = 'active' | 'lost' | 'survived'
+
+export interface GroundVehicleDamageState {
+  readonly causeEventId: 'ammunition_storage_primary_detonation' | null
+  readonly ageSeconds: number
+  readonly hullDamageProgress: number
+  readonly flashIntensity: number
+  readonly sparkIntensity: number
+  readonly dustKickIntensity: number
+  readonly localFireIntensity: number
+  readonly smokeIntensity: number
+}
+
+export interface GroundVehicleState {
+  readonly id: GroundVehicleId
+  readonly groupId: 'defender_btr_group_01'
+  readonly factionId: 'island_defender'
+  readonly vehicleType: 'BTR-80'
+  readonly activity: GroundVehicleActivityPhase
+  readonly physicalCondition: GroundVehiclePhysicalCondition
+  readonly outcome: GroundVehicleOutcome
+  readonly pose: Pose3
+  /** Unit world-space XZ tangent followed by the vehicle's actual motion path. */
+  readonly routeTangent: Vector3
+  readonly speedMetersPerSecond: number
+  readonly accelerationMetersPerSecondSquared: number
+  readonly steeringRadians: number
+  /** Turret azimuth relative to the hull's local forward axis. */
+  readonly turretYawRadians: number
+  readonly traveledDistanceMeters: number
+  readonly wheelRotationRadians: number
+  readonly dustIntensity: number
+  readonly groundClearanceMeters: number
+  readonly damage: GroundVehicleDamageState
+}
+
+export interface GroundVehicleGroupState {
+  readonly id: 'defender_btr_group_01'
+  readonly factionId: 'island_defender'
+  readonly activity: GroundVehicleActivityPhase
+  readonly vehicles: Readonly<Record<GroundVehicleId, GroundVehicleState>>
+  readonly orderedVehicleIds: readonly GroundVehicleId[]
+  readonly operationalCount: number
+  readonly disabledCount: number
+  readonly withdrawingCount: number
+  readonly survivorCount: number
+}
+
+export interface Stage4BWorldState {
+  readonly reachedEvents: readonly Stage4BEvent[]
+  readonly btrGroup: GroundVehicleGroupState
+}
+
 export interface SimulationWorldState extends Omit<Stage1WorldState, 'reachedEvents'> {
   readonly reachedEvents: readonly SimulationEvent[]
   readonly stage3: Stage3WorldState
+  readonly stage4b: Stage4BWorldState
 }

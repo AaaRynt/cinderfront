@@ -13,8 +13,9 @@ import type { Vec3 } from './effects/BattleEffects'
 import { CameraRig } from './camera/CameraRig'
 import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effects/BattleEffects'
 import { Stage3BattleEffects } from './effects/Stage3BattleEffects'
+import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
-import { F35BModel, PantsirModel, WaspModel } from './vehicles'
+import { Btr80Group, F35BModel, PantsirModel, WaspModel } from './vehicles'
 import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
 
 const NEAR_HIT_POSITION: Vec3 = [3_115, 174, 3_330]
@@ -228,8 +229,10 @@ function DynamicBattlefield() {
       <AircraftEntity aircraft={f35Primary} time={time} waspDeckY={deckY} />
       <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
       <RadarHillEngagement world={world} />
+      <Btr80Group group={world.stage4b.btrGroup} />
       <Stage3BattleEffects world={world} />
-      <CameraRig f35Position={vectorTuple(f35Primary.pose.position)} f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)} molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)} />
+      <Stage4BGroundVehicleEffects world={world} />
+      <CameraRig btrPosition={vectorTuple(world.stage4b.btrGroup.vehicles.defender_btr_03.pose.position)} f35Position={vectorTuple(f35Primary.pose.position)} f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)} molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)} />
     </>
   )
 }

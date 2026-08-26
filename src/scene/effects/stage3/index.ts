@@ -14,6 +14,7 @@ export { GuidedBomb } from './GuidedBomb.tsx'
 export type { GuidedBombProps } from './GuidedBomb.tsx'
 export { PersistentGroundFires } from './PersistentGroundFires.tsx'
 export type { PersistentGroundFiresProps } from './PersistentGroundFires.tsx'
+export { AMMUNITION_EFFECT_POSITIONS, AMMUNITION_PRIMARY_EFFECT_POSITION } from './effectAnchors.ts'
 export {
   AMMUNITION_COOKOFF_OFFSETS_SECONDS,
   AMMUNITION_COOKOFF_START_SECONDS,

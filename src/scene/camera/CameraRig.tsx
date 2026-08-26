@@ -14,10 +14,13 @@ import type { CameraPreset } from './cameraStore'
 import { useCameraStore } from './cameraStore'
 
 interface CameraRigProps {
+  btrPosition: Vec3
   f35Position: Vec3
   f35SecondaryPosition: Vec3
   molniyaPosition: Vec3
 }
+
+type FollowPreset = 'btr' | 'f35-01' | 'f35-02' | 'molniya'
 
 const CAMERA_PRESETS = {
   overview: {
@@ -57,8 +60,8 @@ const CAMERA_PRESETS = {
     target: [3_550, 216, 4_150] as Vec3,
   },
   corridor: {
-    position: [2_390, 190, -1_080] as Vec3,
-    target: [3_360, 58, -180] as Vec3,
+    position: [1_850, 210, 520] as Vec3,
+    target: [1_050, 48, 1_430] as Vec3,
   },
   beachhead: {
     position: [4_050, 175, -1_950] as Vec3,
@@ -72,8 +75,8 @@ const CAMERA_PRESETS = {
 
 const WORLD_UP = new Vector3(0, 1, 0)
 
-function isFollowPreset(preset: CameraPreset): preset is 'f35-01' | 'f35-02' | 'molniya' {
-  return preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya'
+function isFollowPreset(preset: CameraPreset): preset is FollowPreset {
+  return preset === 'btr' || preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya'
 }
 
 function setVector(target: Vector3, source: Vec3) {
@@ -101,9 +104,9 @@ function directionFromYaw(direction: Vector3, yawRadians: number) {
   return direction.set(-Math.sin(yawRadians), 0, -Math.cos(yawRadians)).normalize()
 }
 
-function deterministicFollowDirection(preset: 'f35-01' | 'f35-02' | 'molniya', direction: Vector3) {
+function deterministicFollowDirection(preset: FollowPreset, direction: Vector3) {
   const world = deriveSimulationWorldState(simulationStore.getState().timeSeconds)
-  const yaw = preset === 'f35-01' ? world.aircraft.attacker_f35_01.pose.rotation.y : preset === 'f35-02' ? world.aircraft.attacker_f35_02.pose.rotation.y : world.stage3.molniya.pose.rotation.y
+  const yaw = preset === 'btr' ? world.stage4b.btrGroup.vehicles.defender_btr_03.pose.rotation.y : preset === 'f35-01' ? world.aircraft.attacker_f35_01.pose.rotation.y : preset === 'f35-02' ? world.aircraft.attacker_f35_02.pose.rotation.y : world.stage3.molniya.pose.rotation.y
   return directionFromYaw(direction, yaw)
 }
 
@@ -113,11 +116,12 @@ function yawBetweenDirections(start: Vector3, end: Vector3): number {
   return Math.atan2(Math.sin(endYaw - startYaw), Math.cos(endYaw - startYaw))
 }
 
-export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }: CameraRigProps) {
+export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, molniyaPosition }: CameraRigProps) {
   const camera = useThree((state) => state.camera)
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
   const preset = useCameraStore((state) => state.preset)
   const requestId = useCameraStore((state) => state.requestId)
+  const btrPositionRef = useRef(btrPosition)
   const f35PositionRef = useRef(f35Position)
   const f35SecondaryPositionRef = useRef(f35SecondaryPosition)
   const molniyaPositionRef = useRef(molniyaPosition)
@@ -129,15 +133,18 @@ export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }
   const observedPrimaryPosition = useStableVector3()
   const observedSecondaryPosition = useStableVector3()
   const observedMolniyaPosition = useStableVector3()
+  const observedBtrPosition = useStableVector3()
   const primaryDirection = useStableVector3()
   const secondaryDirection = useStableVector3()
   const molniyaDirection = useStableVector3()
+  const btrDirection = useStableVector3()
   const lastFollowDirection = useStableVector3()
   const observationScratch = useStableVector3()
   const followCameraOffset = useStableVector3()
   const followTargetOffset = useStableVector3()
   const observationsInitialized = useRef(false)
   const lastSimulationTime = useRef(simulationStore.getState().timeSeconds)
+  btrPositionRef.current = btrPosition
   f35PositionRef.current = f35Position
   f35SecondaryPositionRef.current = f35SecondaryPosition
   molniyaPositionRef.current = molniyaPosition
@@ -146,9 +153,11 @@ export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }
     observedPrimaryPosition.set(...f35Position)
     observedSecondaryPosition.set(...f35SecondaryPosition)
     observedMolniyaPosition.set(...molniyaPosition)
+    observedBtrPosition.set(...btrPosition)
     primaryDirection.set(-0.55, 0, -0.84)
     secondaryDirection.set(-0.55, 0, -0.84)
     molniyaDirection.set(-0.85, 0, -0.52)
+    deterministicFollowDirection('btr', btrDirection)
     observationsInitialized.current = true
   }
 
@@ -157,13 +166,13 @@ export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }
     if (!orbitControls) return
 
     if (isFollowPreset(preset)) {
-      const targetPosition = preset === 'f35-01' ? f35PositionRef.current : preset === 'f35-02' ? f35SecondaryPositionRef.current : molniyaPositionRef.current
+      const targetPosition = preset === 'btr' ? btrPositionRef.current : preset === 'f35-01' ? f35PositionRef.current : preset === 'f35-02' ? f35SecondaryPositionRef.current : molniyaPositionRef.current
       const anchor = followPositionScratch.set(...targetPosition)
-      const direction = deterministicFollowDirection(preset, preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection)
-      const followDistance = preset === 'molniya' ? 142 : 74
-      const sideDistance = preset === 'molniya' ? 62 : 31
-      const height = preset === 'molniya' ? 46 : 29
-      const lookAhead = preset === 'molniya' ? 24 : 18
+      const direction = deterministicFollowDirection(preset, preset === 'btr' ? btrDirection : preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection)
+      const followDistance = preset === 'molniya' ? 142 : preset === 'btr' ? 58 : 74
+      const sideDistance = preset === 'molniya' ? 62 : preset === 'btr' ? 25 : 31
+      const height = preset === 'molniya' ? 46 : preset === 'btr' ? 17 : 29
+      const lookAhead = preset === 'molniya' ? 24 : preset === 'btr' ? 2 : 18
       const right = followRightScratch.set(direction.z, 0, -direction.x).normalize()
 
       camera.position.copy(anchor).addScaledVector(direction, -followDistance).addScaledVector(right, sideDistance)
@@ -178,7 +187,7 @@ export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }
     }
     camera.updateProjectionMatrix()
     orbitControls.update()
-  }, [camera, followPositionScratch, followRightScratch, lastFollowDirection, lastFollowPosition, molniyaDirection, preset, primaryDirection, requestId, secondaryDirection])
+  }, [btrDirection, camera, followPositionScratch, followRightScratch, lastFollowDirection, lastFollowPosition, molniyaDirection, preset, primaryDirection, requestId, secondaryDirection])
 
   useFrame(() => {
     const simulationTime = simulationStore.getState().timeSeconds
@@ -191,12 +200,14 @@ export function CameraRig({ f35Position, f35SecondaryPosition, molniyaPosition }
     updateObservedDirection(secondary, observedSecondaryPosition, secondaryDirection, observationScratch)
     const molniya = followDirectionScratch.set(...molniyaPosition)
     updateObservedDirection(molniya, observedMolniyaPosition, molniyaDirection, observationScratch)
+    const btr = followDirectionScratch.set(...btrPosition)
+    updateObservedDirection(btr, observedBtrPosition, btrDirection, observationScratch)
 
     if (!isFollowPreset(preset) || !controls.current) return
-    const targetPosition = preset === 'f35-01' ? f35Position : preset === 'f35-02' ? f35SecondaryPosition : molniyaPosition
+    const targetPosition = preset === 'btr' ? btrPosition : preset === 'f35-01' ? f35Position : preset === 'f35-02' ? f35SecondaryPosition : molniyaPosition
     const current = followPositionScratch.set(...targetPosition)
     const delta = followDeltaScratch.copy(current).sub(lastFollowPosition)
-    const direction = preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection
+    const direction = preset === 'btr' ? btrDirection : preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection
     if (timelineDiscontinuity || delta.length() >= 180) deterministicFollowDirection(preset, direction)
 
     camera.position.add(delta)

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { adaptScenarioFaction, SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED, STAGE3_EVENTS } from '.'
+import { adaptScenarioFaction, getReachedSimulationEvents, SIMULATION_DURATION_SECONDS, SIMULATION_EVENTS, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED, STAGE3_EVENTS, STAGE4B_EVENTS } from '.'
 import { clampSimulationTime, clampStage1Time, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
 
 describe('Stage 1 timeline authority', () => {
@@ -43,5 +43,26 @@ describe('Stage 3 timeline authority', () => {
     expect(SIMULATION_DURATION_SECONDS).toBe(172)
     expect(STAGE3_EVENTS.map((event) => event.atSeconds)).toEqual([52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 165, 172])
     expect(STAGE3_EVENTS.map((event) => event.localTime)).toEqual(['05:27:52', '05:28:02', '05:28:12', '05:28:18', '05:28:26', '05:28:32', '05:28:34', '05:28:38', '05:28:40', '05:28:55', '05:28:56', '05:29:08', '05:29:12', '05:29:45', '05:29:52'])
+  })
+})
+
+describe('Stage 4B timeline authority', () => {
+  it('adds only the two in-scope BTR reaction events without extending the simulation', () => {
+    expect(SIMULATION_DURATION_SECONDS).toBe(172)
+    expect(STAGE4B_EVENTS.map((event) => event.id)).toEqual(['btr_01_disabled', 'btr_survivors_fallback'])
+    expect(STAGE4B_EVENTS.map((event) => event.atSeconds)).toEqual([133, 136])
+    expect(STAGE4B_EVENTS.map((event) => event.localTime)).toEqual(['05:29:13', '05:29:16'])
+    expect(STAGE4B_EVENTS.map((event) => event.groupId)).toEqual(['defender_btr_group_01', 'defender_btr_group_01'])
+  })
+
+  it('keeps the combined event stream chronological around the BTR events and later Stage 3 events', () => {
+    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 133, 136, 165, 172])
+
+    expect(getReachedSimulationEvents(132.9).at(-1)?.id).toBe('ammunition_storage_primary_detonation')
+    expect(getReachedSimulationEvents(133).at(-1)?.id).toBe('btr_01_disabled')
+    expect(getReachedSimulationEvents(135.9).at(-1)?.id).toBe('btr_01_disabled')
+    expect(getReachedSimulationEvents(136).at(-1)?.id).toBe('btr_survivors_fallback')
+    expect(getReachedSimulationEvents(165).at(-1)?.id).toBe('talwar_severe_list')
+    expect(getReachedSimulationEvents(172).at(-1)?.id).toBe('molniya_open_water')
   })
 })

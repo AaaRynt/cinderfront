@@ -20,6 +20,22 @@ Authoritative project data is maintained separately:
 
 The scenario and map specifications should not be casually rewritten during implementation stages.
 
+## Current Sequencing Decision
+
+The next priority is authored battlefield logic and event response, beginning with a narrow deterministic ground-vehicle vertical slice.
+
+The project should prove that vehicles can move, react, take persistent losses, withdraw, and reconstruct correctly after direct seeking before it expands environmental detail or adds a larger order of battle.
+
+The intended sequence is:
+
+1. complete the four-vehicle BTR-80 reaction slice in Stage 4B;
+2. reuse the proven lifecycle for a limited set of additional actors in Stage 4B.2;
+3. improve environmental storytelling and coastal realism in Stage 4C;
+4. integrate the amphibious operation and full timeline in Stage 5;
+5. perform final aftermath, camera, asset, visual, and performance refinement in Stage 6.
+
+This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
+
 # Stage 1 — Core Runtime + Opening Vertical Slice
 
 **Status:** COMPLETE
@@ -64,7 +80,7 @@ Stage 1 functionality becomes regression-critical infrastructure.
 
 # Stage 2 — Full Ash Harbor World Construction
 
-**Status:** NEXT
+**Status:** COMPLETE
 
 ## Goal
 
@@ -262,7 +278,7 @@ Stage 2 does not implement those explosion responses yet.
 
 # Stage 3 — Harbor + Industrial Hero Destruction
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
 ## Goal
 
@@ -337,55 +353,123 @@ Implement localized authored response around hero explosions:
 
 Do not implement full global rigid-body or combustion simulation.
 
-# Stage 4 — island_defender Reactions, Support, Losses, and Withdrawal
+# Stage 4A — Cinematic Enhancement
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
 ## Goal
 
-Make battlefield vehicles visibly respond to changing conditions rather than behave as static props.
+Improve terrain interpretation, aircraft motion, industrial scale, fuel-disaster presentation, and camera readability without changing Cinderfront's deterministic simulation model.
+
+## Completed Scope
+
+- stronger terrain relief while preserving authoritative shoreline and high-ground elevations
+- shared terrain grounding for mainland geometry, overlays, roads, and industrial foundations
+- restored authoritative fuel-tank scale
+- denser functional industrial infrastructure with controlled draw-call cost
+- expanded deterministic fuel-disaster escalation and persistent aftermath
+- velocity-continuous F-35 flight paths, bounded turns, and more coherent banking
+- retuned camera presets and improved aircraft follow views
+- seek, restart, playback-speed, paused-camera, regression, and browser validation
+
+## Stage 4A Preservation Rule
+
+Future work must preserve:
+
+- terrain and road grounding;
+- authoritative industrial scale;
+- the established T+78, T+86, and T+92 fuel-event anchors;
+- persistent Stage 4A destruction;
+- deterministic F-35 motion;
+- camera control while paused.
+
+# Stage 4B — Deterministic Battlefield Reaction Vertical Slice
+
+**Status:** CURRENT
+
+## Goal
+
+Prove one reusable deterministic ground-vehicle reaction workflow before adding more unit families.
+
+Stage 4B is deliberately a narrow vertical slice. It prioritizes event causality, lifecycle reconstruction, and readable vehicle behavior over unit count or environmental expansion.
 
 ## Scope
 
-- second Pantsir-S1 relocation
-- secondary engagement
-- second Pantsir-S1 destruction
-- BTR-80 support movement
-- BTR-80 loss
-- surviving BTR-80 withdrawal
-- T-72B reinforcement movement
-- lead T-72B destruction
-- surviving T-72B fallback
-- support / rescue convoy movement
-- firefighting response
-- engineering response
-- route obstruction
-- failed rescue approach
-- partial convoy withdrawal
-- Su-30MKK reinforcement
-- brief defensive air action
-- one damaged Su-30MKK withdrawal
-- second Su-30MKK covering withdrawal
+- a small authored ground-vehicle lifecycle foundation
+- separate activity phase, physical condition, and outcome state
+- four BTR-80 vehicles with stable authored identities
+- security hold and alert response
+- road-following movement to a support position
+- one persistent BTR-80 loss at T+133 as a delayed consequence of the existing T+132 ammunition detonation
+- survivor reaction and three-vehicle withdrawal beginning at T+136
+- deterministic position, heading, speed, wheel rotation, dust, damage, smoke, and wreck reconstruction
+- direct-seek, restart, playback-speed, path, terrain-grounding, camera, and regression validation
 
-Important behavioral states include:
+## Explicit Boundary
 
-- supporting
-- repositioning
-- damaged
-- disabled
-- destroyed
-- withdrawing
-- surviving
+Stage 4B does not include:
 
-Destroyed vehicles remain as persistent wrecks.
+- T-72B reinforcement or losses;
+- Su-30MKK activity;
+- the support / rescue convoy;
+- a second Pantsir-S1 sequence;
+- generalized AI, pathfinding, traffic simulation, or collision-avoidance AI;
+- environmental realism expansion;
+- LCAC or LAV-25 activity;
+- audio.
 
-# Stage 5 — Amphibious Landing + Full Timeline Integration
+The surviving BTR-80 vehicles may still be withdrawing when the currently implemented timeline ends. Stage 4B must not extend the timeline merely to finish their route.
+
+# Stage 4B.2 — Deterministic Actor Expansion
 
 **Status:** PLANNED
 
 ## Goal
 
-Complete the second major battlefield theater and integrate the full authoritative 180-second scenario.
+Reuse the validated Stage 4B lifecycle and authored-path architecture for a limited expansion of battlefield reactions.
+
+## Planned Scope
+
+- T-72B reinforcement movement
+- lead T-72B loss
+- surviving T-72B fallback
+- limited Su-30MKK defensive appearance and withdrawal
+- support / rescue convoy movement only after the Stage 4B lifecycle foundation is proven
+- firefighting and engineering response represented through vehicles and machinery only
+- route obstruction, failed approach, and partial convoy withdrawal
+- persistent deterministic damage and survivor outcomes
+
+This remains an authored scenario. Do not introduce generalized AI or nondeterministic combat outcomes.
+
+# Stage 4C — Environmental Storytelling and Coastal Realism
+
+**Status:** PLANNED
+
+## Goal
+
+Make Ash Harbor feel like a long-used coastal military and industrial location after the core reaction logic has been proven.
+
+## Planned Scope
+
+- improved vegetation zoning and silhouettes
+- rocks and localized terrain variation
+- surface history, including stains, drainage, tire wear, repair patches, and material breakup
+- industrial wear, corrosion, salt exposure, and weathering
+- functional clutter grouped by operational purpose
+- maintenance and logistics traces represented without visible humans
+- sea-surface variation and restrained low-frequency motion
+- waves, shoreline foam, wet/dry transitions, and shallow-water variation
+- stronger coastal haze and maritime atmosphere
+
+Stage 4C should reuse deterministic layouts, instancing, shared resources, exclusion masks, and existing environmental primitives. It must not become a generic ecosystem or physics simulation.
+
+# Stage 5 — Full Operation Integration
+
+**Status:** PLANNED
+
+## Goal
+
+Complete the amphibious theater and integrate the full authoritative 180-second scenario after the ground-actor and environmental foundations are validated.
 
 ## Scope
 
@@ -518,11 +602,11 @@ Profile and optimize:
 
 # Out of Current Core Plan
 
-Audio is intentionally excluded from the current six-stage visual implementation plan.
+Audio is intentionally excluded from the current visual implementation roadmap.
 
 Audio may be added after the visual scenario, runtime, effects, and performance are stable.
 
-Do not introduce audio opportunistically during the six stages unless the project plan is explicitly revised.
+Do not introduce audio opportunistically during these stages unless the project plan is explicitly revised.
 
 # Stage Execution Rules
 

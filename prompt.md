@@ -1,646 +1,608 @@
-# Cinderfront — Stage 4A: Cinematic Battlefield Enhancement
+# Stage 4B — Deterministic Battlefield Reaction Vertical Slice
 
 Work directly in the existing Cinderfront repository.
 
-Stage 1, Stage 2, and Stage 3 have already been implemented.
+Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, and React Three Fiber. It is not a conventional player-controlled game. The viewer observes an authored military scenario through spectator cameras, timeline playback, pause, restart, and direct seeking.
 
-This task implements a refinement-focused milestone called:
+This task is an implementation task. Do not stop after planning. Inspect the current repository, implement the complete scoped vertical slice below, validate it under repository rules, perform browser inspection, fix issues discovered during inspection, and leave the project in a coherent working state.
 
-**Stage 4A — Cinematic Battlefield Enhancement**
+## 1. Stage goal
 
-This is intentionally **not** the old planned “Stage 4 defender reactions / reinforcements / logistics” milestone from the long-term iteration plan.
+Stage 4B must prove one reusable deterministic ground-vehicle reaction workflow before the project adds more unit families.
 
-For this task, do **not** implement the old planned Stage 4 moving-ground-reinforcement features yet.
+Implement:
 
-Instead, improve the battlefield’s cinematic readability, physical scale, terrain relief, hero-destruction escalation, smoke / fire presentation, and F-35 flight behavior while preserving the deterministic runtime and the existing scenario structure.
+1. a small, reusable deterministic ground-vehicle lifecycle foundation;
+2. one complete four-vehicle BTR-80 reaction sequence;
+3. road-following movement, support positioning, one persistent vehicle loss, and survivor withdrawal;
+4. deterministic reconstruction through pause, restart, and direct seeking;
+5. camera readability and regression coverage for the complete sequence.
 
-Do not stop after planning. Inspect the current repository, run the application, reproduce the current visual shortcomings, implement the improvements, validate under repository rules, perform browser inspection, fix issues you discover, and leave the project in a coherent working state.
+The purpose is not to add many units. The purpose is to establish a reliable authored pattern that later stages can reuse for T-72B, support vehicles, and other ground actors.
 
-## 1. Read the authoritative project files first
+## 2. Read before implementation
 
-Before changing code, read:
+Read these files completely before changing source code:
 
-- `AGENTS.md`
-- `ITERATION_PLAN.md`
-- `assets/map/map-spec.yaml`
-- `assets/map/map-layout.svg`
-- `assets/scenario/scenario-spec.yaml`
-- `assets/scenario/scenario-timeline.md`
-- `assets/vehicle/Belligerents.yaml`
+1. `AGENTS.md`
+2. `ITERATION_PLAN.md`
+3. `assets/map/map-spec.yaml`
+4. `assets/scenario/scenario-spec.yaml`
+5. `assets/scenario/scenario-timeline.md`
+6. `assets/vehicle/BTR-80/btr-80.yaml`
+7. the BTR-80 reference image in `assets/vehicle/BTR-80/`
+8. the current simulation, timeline, terrain, camera, world, vehicle, and effect implementations relevant to this task
 
-Also inspect relevant vehicle references:
+The authoritative map and scenario files are design references. Do not rewrite those reference assets during this task.
 
-- `assets/vehicle/F-35B/`
-- `assets/vehicle/Wasp/`
-- `assets/vehicle/Talwar/`
-- `assets/vehicle/Project 12418 Molniya missile boat/`
-- `assets/vehicle/Pantsir-S1/`
+If implementation details conflict, use this order of authority:
 
-Treat:
+1. `AGENTS.md` and the hard human-visibility constraint;
+2. this Stage 4B prompt and its explicit scope;
+3. authoritative scenario and map references;
+4. existing implementation details.
 
-- `AGENTS.md` as hard repository policy;
-- `map-spec.yaml` as the authoritative physical map source;
-- `scenario-spec.yaml` as the authoritative deterministic scenario source;
-- `scenario-timeline.md` as the human-readable scenario reference.
+## 3. Hard product constraints
 
-Preserve the existing faction identifiers:
+Do not introduce:
 
-- `landings_attacker`
-- `island_defender`
-
-Do not introduce color-force terminology.
-
-Do not create visible human characters.
-
-## 2. Preserve existing core runtime behavior
-
-Do not break or replace the current deterministic architecture.
-
-Preserve:
-
-- play;
-- pause;
-- restart;
-- 0.5× / 1× / 2×;
-- direct timeline seek;
-- spectator camera usability while paused;
-- persistent destruction reconstruction;
-- Stage 1 opening sequence;
-- Stage 3 Harbor / Industrial events already implemented.
-
-Do not replace the deterministic model with ad hoc timeout chains.
-
-All important persistent world state must still reconstruct correctly from arbitrary timeline positions.
-
-## 3. Current known problems to solve
-
-The current implementation has several visible shortcomings that must be addressed in this task.
-
-### 3.1 Terrain relief is still too weak
-
-The battlefield still reads as too flat, especially in wide views.
-
-The map size itself is not necessarily the problem.
-
-The likely issue is that the visual realization of elevation is too conservative or vertically compressed.
-
-### 3.2 Fuel-storage structures still read as too short / too small
-
-Fuel tanks and related industrial structures still look underscaled.
-
-The district does not yet read strongly enough as a large, dangerous petroleum / military-industrial facility.
-
-### 3.3 Fuel-storage destruction is not escalating enough
-
-The current fuel event still feels too localized and not catastrophic enough.
-
-The blast is not yet satisfying enough as a battlefield hero event.
-
-There is not enough clear secondary escalation, sympathetic ignition, or district-wide collapse language.
-
-### 3.4 F-35 flight behavior is too game-like
-
-The F-35 aircraft can still accelerate / decelerate too sharply and turn too abruptly.
-
-Their movement feels too instantaneous and not sufficiently aircraft-like.
-
-This task should improve that behavior without rewriting the whole simulation into a full flight simulator.
-
-## 4. Primary goal of Stage 4A
-
-This task is about making the battlefield feel more like a convincing interactive war-cinema visualization.
-
-Focus on:
-
-- stronger terrain readability;
-- more convincing battlefield scale;
-- more imposing industrial geometry;
-- more satisfying destruction escalation;
-- better smoke / fire composition;
-- smoother aircraft motion;
-- stronger camera readability.
-
-Do not expand the roster of active battlefield units unless a very small amount of static or non-critical support dressing is genuinely needed for scale and readability.
-
-The priority is quality of presentation, not quantity of units.
-
-## 5. Terrain enhancement requirements
-
-### 5.1 Introduce visual vertical exaggeration where needed
-
-Inspect how terrain heights are currently derived from the map data.
-
-If the current world uses a too-literal or visually flattened elevation interpretation, introduce a controlled visual vertical exaggeration strategy.
-
-The purpose is not to falsify the map, but to make its terrain legible in a large battlefield presentation.
-
-Use a restrained but meaningful exaggeration factor or elevation remapping approach so that:
-
-- Radar Hill clearly dominates its surrounding terrain;
-- Harbor / Industrial lowlands read distinctly lower;
-- the D / E separation is more obvious;
-- coastal bluffs / dunes / drainage become visible;
-- overview views no longer read as a mostly flat tabletop.
-
-Do not simply multiply every number blindly and break the world.
-
-The exaggeration must remain coherent with roads, pads, facilities, and shoreline.
-
-### 5.2 Preserve physical grounding
-
-After terrain enhancement:
-
-- roads must still sit correctly on terrain;
-- pads must not float or bury;
-- ships must still relate plausibly to waterline;
-- industrial compounds may remain locally graded / flattened where appropriate;
-- beach and shoreline transitions must remain believable.
-
-### 5.3 Add micro-relief and terrain articulation
-
-Without changing authoritative region placement, enrich the terrain with better readable shape where appropriate:
-
-- cut slopes;
-- berm shaping;
-- dune articulation;
-- dry wash depression;
-- rocky outcrop variation;
-- industrial grading edges;
-- coastal erosion / bluff hints.
-
-Do not over-noise the entire world.
-
-The goal is cinematic readability, not procedural chaos.
-
-## 6. Industrial scale correction requirements
-
-### 6.1 Fuel district must feel larger and more dangerous
-
-Re-evaluate the physical expression of the fuel district.
-
-Where heights are explicitly defined in YAML, use them.
-
-Where heights are not defined or are too visually weak to communicate scale, improve the rendered scale in a physically believable way.
-
-Make the district read as a major tank farm, not a small utility yard.
-
-Emphasize:
-
-- tank volume;
-- tank-to-road proportion;
-- tank-to-building proportion;
-- bund / containment-wall presence;
-- pipe-rack height;
-- transfer-station height;
-- pump-house scale;
-- utility-building scale;
-- interconnection density.
-
-### 6.2 Preserve believable industrial scale
-
-Do not turn the district into science-fiction megastructures.
-
-Aim for believable real-world industrial proportions.
-
-The viewer should feel:
-
-- these are very large tanks;
-- these are hazardous facilities;
-- this place stores massive fuel volume.
-
-### 6.3 Improve vertical layering
-
-Strengthen the perception of scale by using more layered industrial composition:
-
-- elevated pipe racks;
-- stairs / service platforms if useful;
-- catwalk hints where useful;
-- berms;
-- utility nodes;
-- transfer manifolds;
-- fence lines;
-- different building masses;
-- industrial hardstands.
-
-Do not over-detail every object.
-
-Prioritize readable large shapes and convincing hierarchy.
-
-## 7. Hero-destruction escalation requirements
-
-### 7.1 Fuel-storage disaster must escalate more clearly
-
-The current event needs more dramatic progression.
-
-Do not treat the fuel-storage event as one single explosion and one smoke plume.
-
-Instead, turn it into a multi-stage catastrophic sequence.
-
-The sequence should clearly communicate:
-
-1. initial strike;
-2. local ignition;
-3. growing fire;
-4. neighboring tank / transfer risk;
-5. secondary tank failure or sympathetic ignition;
-6. larger district-scale blast escalation;
-7. heavy black smoke;
-8. persistent multi-source fire.
-
-### 7.2 Add secondary events
-
-Use deterministic sub-events to create escalation.
-
-Examples of acceptable sub-events:
-
-- neighboring tank flashover;
-- pipe-rack rupture;
-- transfer manifold burst;
-- containment-bund fire spread;
-- delayed tank overpressure event;
-- secondary fuel fireball;
-- staggered ignitions;
-- persistent burning pools;
-- follow-on ammunition-area sympathetic activity.
-
-Do not randomize the scenario each run.
-
-The sequence must remain deterministic.
-
-### 7.3 Strengthen visual hierarchy
-
-The fuel-storage disaster should feel like one of the major visual set-pieces of the whole project.
-
-Make sure it clearly outranks:
-
-- minor local impacts;
-- small Harbor strikes;
-- cook-off pops.
-
-At the same time, do not make it identical to the ammunition-detonation language.
-
-Fuel disaster should emphasize:
-
-- sustained fire;
-- thick smoke;
-- liquid-fuel burning character;
-- multiple industrial ignition points;
-- layered heat and fire.
-
-Ammunition should emphasize:
-
-- sharper impulses;
-- irregular cook-off;
-- fragment violence;
-- harder flash punctuation.
-
-### 7.4 Improve debris and aftermath
-
-Increase the sense of destructive consequence through:
-
-- more readable large debris pieces where appropriate;
-- more visible burning fragments where appropriate;
-- better fragment spacing and timing;
-- additional persistent small fires;
-- more scorched ground;
-- more damaged industrial geometry;
-- clearer destruction footprint.
-
-Do not create unbounded particle spam.
-
-## 8. Smoke, fire, and blast composition
-
-### 8.1 Improve black smoke columns
-
-Current smoke should become more cinematic and more layered.
-
-Black smoke should:
-
-- rise strongly;
-- have a dense darker core;
-- have more broken edges;
-- vary over height;
-- drift with wind;
-- remain visible at long range;
-- avoid reading as one repetitive particle stack.
-
-### 8.2 Improve fire layering
-
-Persistent fires should vary in:
-
-- size;
-- intensity;
-- color temperature;
-- smoke density;
-- location;
-- start time.
-
-Do not let every fire look cloned.
-
-### 8.3 Improve local illumination
-
-Use efficient local lighting / emissive response so that key explosions and sustained fires influence nearby surroundings.
-
-Do not add excessive expensive dynamic lights.
-
-Use just enough lighting to enhance cinematic impact.
-
-### 8.4 Improve blast readability
-
-Hero blasts should feel more forceful through:
-
-- better flash;
-- more readable expanding pressure / dust layer;
-- stronger but localized environmental response;
-- better timing between flash, debris, smoke, and aftermath.
-
-## 9. F-35 cinematic flight smoothing
-
-Do not rebuild the project into a flight simulator.
-
-Instead, improve the current aircraft motion model so it behaves more plausibly in presentation.
-
-### 9.1 Limit abrupt heading changes
-
-The aircraft should no longer snap into sharp-angle turns.
-
-Introduce aircraft-like steering constraints such as:
-
-- turn-rate limit;
-- heading smoothing;
-- banked turning behavior;
-- curvature smoothing.
-
-### 9.2 Limit abrupt acceleration changes
-
-Reduce overly game-like acceleration / deceleration.
-
-The aircraft should carry momentum more convincingly.
-
-Changes in speed should feel smoother and more intentional.
-
-### 9.3 Add readable banking
-
-Where the F-35 changes direction, add visible bank / roll behavior as appropriate.
-
-Keep it cinematic and readable.
-
-Do not aim for a full CFD / aero model.
-
-### 9.4 Preserve existing mission logic
-
-Keep the current scenario logic and strike timing functional.
-
-Weapon release and path logic may be adjusted as needed to match the smoother aircraft motion.
-
-Do not destroy the deterministic timing model.
-
-### 9.5 Keep the roster limited
-
-Do not solve the flight-readability problem by adding many more aircraft.
-
-Continue using the existing two F-35B aircraft.
-
-Improve choreography, not unit count.
-
-## 10. Camera and presentation improvements
-
-The project is now closer to an interactive battlefield visualization than a traditional game scene.
-
-Strengthen camera readability.
-
-### 10.1 Improve presets
-
-Refine existing camera presets so key scenes are easier to appreciate:
-
-- Overview;
-- Harbor;
-- Talwar;
-- Molniya;
-- Industrial;
-- Fuel storage;
-- Ammunition;
-- Radar Hill;
-- Search radar;
-- Convoy corridor;
-- Beach inland;
-- Beach offshore;
-- F-35 01;
-- F-35 02.
-
-Presets should frame the battlefield more clearly.
-
-### 10.2 Preserve spectator freedom
-
-Do not replace the experience with forced cinematic cutscenes.
-
-The user must still be able to:
-
-- orbit;
-- pan;
-- zoom;
-- inspect freely while paused.
-
-### 10.3 Improve sense of scale in key viewpoints
-
-Choose preset positions and focal behavior that help the viewer appreciate:
-
-- terrain relief;
-- industrial scale;
-- ship size;
-- smoke columns;
-- blast footprint.
-
-## 11. Optional scale cues
-
-Because human figures are prohibited, scale must be communicated through environment and machinery.
-
-You may strengthen scale cues using already appropriate non-human environmental elements such as:
-
-- utility poles;
-- barriers;
-- road widths;
-- fence spacing;
-- parked non-animated service objects if already compatible with the map and constraints;
-- ladders / catwalk hints;
-- cranes;
-- pump equipment;
-- pipe diameters;
-- ship-to-berth relationships.
-
-Do not add visible people.
-
-Do not create crowd, crew, or silhouette hacks.
-
-## 12. Explicit non-goals for Stage 4A
-
-Do not implement in this task:
-
-- the old planned “defender reactions / support / withdrawal” milestone in full;
-- large new ground-unit battle choreography;
-- BTR-80 active timeline behaviors;
-- T-72B active timeline behaviors;
-- second Pantsir relocation sequence if not already required;
-- Su-30MKK operational air sequence;
-- LCAC landing sequence;
-- LAV-25 unloading sequence;
-- audio;
+- player-controlled units;
+- scoring;
+- mission success/failure gameplay loops;
+- multiplayer;
+- generalized autonomous AI agents;
+- nondeterministic combat outcomes;
 - visible humans;
-- player-controlled combat;
-- a full flight-simulation rewrite;
-- a new map replacing the current authoritative one.
+- infantry;
+- pilots;
+- crews;
+- humanoid silhouettes;
+- visible cockpit occupants;
+- ejection or parachuting sequences.
 
-If a tiny amount of static support dressing is needed for scale, keep it minimal and deterministic.
+All activity must be communicated through vehicles, machinery, movement, lights, dust, damage, smoke, wrecks, infrastructure, and environmental response.
 
-## 13. Validation requirements
+Vehicle windows, vision blocks, and optical surfaces must remain dark, opaque, or reflective. They must never reveal occupants.
 
-Respect `AGENTS.md`.
+## 4. Explicit stage boundary
 
-Run all repository-permitted validation.
+This stage implements only the BTR-80 vertical slice and the minimum reusable foundation required for it.
 
-At minimum, where permitted, run:
+Do not implement any of the following in Stage 4B:
 
-- TypeScript check;
-- lint;
-- Vitest suite;
-- any new tests you add for smoothing / derived event logic where practical.
+- T-72B reinforcement movement;
+- T-72B destruction or fallback;
+- Su-30MKK entry, combat, damage, or withdrawal;
+- a second Pantsir-S1;
+- the support/rescue convoy;
+- fire engines, engineering trucks, recovery vehicles, or logistics trucks;
+- LCAC movement or landing;
+- LAV-25 deployment;
+- the full amphibious operation;
+- new aircraft combat systems;
+- full weapon simulation for ground vehicles;
+- generalized vehicle AI;
+- traffic simulation;
+- collision avoidance AI;
+- pathfinding;
+- environmental realism or clutter expansion;
+- vegetation expansion;
+- coastal wave work;
+- weathering pass;
+- audio.
 
-Do not claim to run forbidden commands if repository rules prohibit them.
+Do not add placeholder implementations for excluded units.
 
-## 14. Browser inspection requirements
+Do not add extra BTR-80 vehicles beyond the four specified below.
 
-You must visually inspect the running application.
+Do not extend the current implemented simulation duration during this stage. The surviving vehicles may still be withdrawing when the current timeline ends.
 
-Do not rely on tests alone.
+## 5. Deterministic vehicle-state foundation
 
-### 14.1 Terrain inspection
+Create only the abstraction needed to support authored ground-vehicle timelines. Do not build a universal entity-component framework or a generic autonomous-agent system.
 
-Inspect from:
+### 5.1 Separate activity from physical condition
 
-- Overview;
-- low-altitude Harbor view;
-- Industrial view;
-- Radar Hill view;
-- Convoy Corridor;
-- Beach inland;
-- Beach offshore.
+Do not represent every concept in one mutually exclusive state enum.
 
-Confirm:
+The design must distinguish at least:
 
-- terrain relief is more legible;
-- D / E separation is more visible;
-- industrial zones sit plausibly in lower terrain;
-- world no longer reads as overly flat.
+#### Activity phase
 
-### 14.2 Industrial scale inspection
+- `security-hold`
+- `alerted`
+- `moving-to-support`
+- `supporting`
+- `turning-to-withdraw`
+- `withdrawing`
+- `movement-complete`
 
-Inspect the fuel district and ammunition district from medium and low viewpoints.
+Actor-specific activity phases are allowed. Do not force aircraft, ships, and every future vehicle to share inappropriate ground-vehicle phases.
 
-Confirm:
+#### Physical condition
 
-- fuel tanks feel large;
-- utility structures are no longer toy-sized;
-- bunds / containment walls are visible and meaningful;
-- industrial vertical layering is visible;
-- buildings do not all read as one-storey boxes.
+- `operational`
+- `damaged`
+- `disabled`
+- `destroyed`
 
-### 14.3 Hero-event inspection
+#### Outcome
 
-Inspect timeline moments around:
+- `active`
+- `lost`
+- `survived`
 
-- first fuel ignition;
-- secondary escalation;
-- main fuel disaster;
-- ammunition cook-off;
-- ammunition detonation;
-- late aftermath.
+A vehicle must be able to combine concepts. For example, a surviving BTR may be both `withdrawing` and `operational`, while the lost BTR is `supporting`, `disabled`, and `lost` after the damage threshold.
 
-Confirm:
+### 5.2 Absolute-time derivation
 
-- there are multiple stages;
-- there is visible secondary escalation;
-- smoke composition is improved;
-- aftermath is stronger and more satisfying.
+Every vehicle property must be reconstructed from absolute simulation time and authored data.
 
-### 14.4 F-35 inspection
+This includes:
 
-Inspect:
+- activity phase;
+- physical condition;
+- outcome;
+- position;
+- heading;
+- speed;
+- steering/turning presentation;
+- wheel rotation;
+- turret orientation;
+- dust intensity;
+- damage visibility;
+- smoke/fire intensity;
+- wreck persistence.
 
-- a straight flight segment;
-- a turn;
-- a strike approach;
-- a departure.
+Requirements:
 
-Confirm:
+- direct seeking backward and forward reconstructs the identical result;
+- restart reconstructs the original result;
+- playback speed does not change the outcome;
+- no behavior depends on the number of rendered frames;
+- no accumulated mutable vehicle AI state;
+- no random result without a fixed deterministic seed;
+- no transient object may survive after seeking to a time before its event.
 
-- speed changes are smoother;
-- turns are smoother;
-- bank behavior is visible;
-- no visibly absurd sharp-angle snapping remains.
+### 5.3 Authored road motion
+
+Create or reuse a deterministic timed-path sampler suitable for ground vehicles.
+
+It should support:
+
+- explicit timed path segments or keyframes;
+- smooth position interpolation;
+- heading derived from the road/path tangent;
+- bounded steering changes;
+- bounded acceleration and deceleration;
+- terrain-aware vertical placement;
+- deterministic distance traveled for wheel rotation;
+- vehicle spacing without frame-history simulation.
+
+Do not add pathfinding. Use the authored road network and the exact route contract below.
+
+Do not hide a sharp path kink by smoothing only the rendered vehicle yaw. The actual movement path and the visible heading must remain reasonably aligned.
+
+## 6. BTR-80 model contract
+
+Create one reusable BTR-80 visual component based on `assets/vehicle/BTR-80/btr-80.yaml` and its reference image.
+
+Use real map scale:
+
+- length: `7.65 m`;
+- width: `2.89 m`;
+- height: `2.35 m`;
+- forward axis: negative Z;
+- up axis: positive Y;
+- centered origin.
+
+The silhouette must clearly include:
+
+- a long, low, boat-shaped armored hull;
+- a pointed and strongly sloped front;
+- angled upper side plates;
+- four wheels per side;
+- a visibly larger gap between the second and third axles;
+- a small central turret;
+- a short forward heavy-machine-gun barrel;
+- a raised rear engine deck.
+
+Avoid:
+
+- tracks;
+- fewer than eight wheels;
+- evenly spaced axles;
+- a tall rectangular truck-like hull;
+- a large autocannon turret;
+- an LAV-25-like silhouette;
+- visible occupants or interior spaces.
+
+Use shared geometry and materials across all four vehicles. Repeated elements such as wheels should not create unnecessary unique resources.
+
+Wheel rotation must be derived from deterministic traveled distance. It must reconstruct correctly after direct seeking.
+
+The turret may orient toward the industrial threat while supporting, but this stage does not require firing or projectile simulation.
+
+## 7. Authoritative BTR group contract
+
+Implement exactly one group:
+
+- group ID: `defender_btr_group_01`;
+- vehicle IDs: `defender_btr_01`, `defender_btr_02`, `defender_btr_03`, `defender_btr_04`;
+- faction: `island_defender`;
+- count: exactly `4`;
+- planned loss: `defender_btr_01` becomes disabled and remains as a persistent wreck;
+- survivors: `defender_btr_02`, `defender_btr_03`, and `defender_btr_04` begin withdrawal and survive the implemented timeline.
+
+The four vehicles must not share one identical transform. Give them authored longitudinal spacing and small restrained lateral variation while keeping them on the road or adjacent prepared hard ground.
+
+Maintain a safe visual spacing. Vehicles must not overlap during holds, turns, or withdrawal.
+
+## 8. Route and spatial contract
+
+Use the existing map features:
+
+- `road_eastern_trunk`;
+- `road_rescue_branch` only as the later intended fallback connection;
+- `path_defender_convoy_fallback` as the authoritative long-term withdrawal route concept;
+- the industrial perimeter near `gate_fuel_eastern_trunk`;
+- the Convoy Corridor region.
+
+The relevant eastern trunk centerline includes:
+
+- `[600, 1400]`;
+- `[1300, 1000]`;
+- `[2200, 400]`;
+- `[3100, -300]`;
+- later eastern waypoints beyond the scope of this stage.
+
+### Initial security hold
+
+Before T+75, place the group in an authored roadside security hold centered around the `[1300, 1000]` eastern-trunk waypoint.
+
+- `defender_btr_01` is the lead vehicle, facing toward the industrial district and `[600, 1400]`;
+- the other three vehicles trail toward the `[2200, 400]` side of the road;
+- use approximately `18–24 m` longitudinal spacing;
+- use only small lateral offsets that remain within the road/pull-off envelope;
+- all four vehicles are operational.
+
+### Movement to support
+
+From T+75 to T+118, move the group toward the industrial perimeter along `road_eastern_trunk`, from the `[1300, 1000]` area toward `[600, 1400]`.
+
+The lead support position should be near `[720, 1330]`, with the other vehicles holding behind it along the same road direction.
+
+Use the road centerline and terrain sampling rather than a straight off-road shortcut.
+
+### Withdrawal
+
+After T+136, the three surviving vehicles must turn away from the industrial district and withdraw eastward along the reverse road direction.
+
+Within the current implemented timeline they should progress back toward the `[1300, 1000]` area. They do not need to reach `road_rescue_branch` or `corridor_service_yard` before the timeline ends.
+
+The long-term path may point toward the rescue branch and service yard, but do not teleport vehicles there and do not extend the timeline merely to complete that journey.
+
+## 9. Exact event and state contract
+
+Use the following thresholds. Do not invent additional official BTR timeline events.
+
+| Simulation time       | Required BTR behavior                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| T+0 to before T+75    | Four operational vehicles in `security-hold`                                                                         |
+| T+75                  | Internal authored transition to `alerted`; this is not a new official scenario event                                 |
+| T+75 to T+118         | `moving-to-support` along `road_eastern_trunk`                                                                       |
+| T+118 to before T+133 | `supporting` near the industrial perimeter                                                                           |
+| T+132                 | Existing ammunition primary detonation occurs; do not duplicate or replace it                                        |
+| T+133                 | Official event `btr_01_disabled`: `defender_btr_01` becomes disabled/lost and remains in place                       |
+| T+133 to before T+136 | Three survivors remain operational, react to the loss, and prepare to withdraw                                       |
+| T+136                 | Official event `btr_survivors_fallback`: the three survivors begin a readable turn away from the industrial district |
+| T+136 to timeline end | Three survivors are `withdrawing`; the disabled vehicle remains persistent                                           |
+
+Add only these two official Stage 4B scenario events to the implemented timeline:
+
+1. `btr_01_disabled` at T+133;
+2. `btr_survivors_fallback` at T+136.
+
+Do not add the excluded Su-30MKK, T-72B, LCAC, LAV-25, support-convoy, or second-Pantsir events to the implemented timeline during this task.
+
+The T+75 alert and T+118 support arrival are actor-internal authored phase thresholds, not new top-level official events.
+
+## 10. Damage and causality contract
+
+The loss must have one clear cause:
+
+- the existing ammunition-storage primary detonation occurs at T+132;
+- approximately one second later, secondary blast/debris effects disable `defender_btr_01` at T+133.
+
+Do not add a new aircraft strike, missile, bomb, attacker, or weapon system for this loss.
+
+The BTR damage language must remain smaller and more localized than the ammunition hero explosion.
+
+Use a restrained combination of:
+
+- a compact local flash;
+- sparks or a small number of fragments;
+- a dust kick;
+- visible hull damage or darkened materials;
+- limited local fire if visually useful;
+- a persistent dark smoke source;
+- a permanently disabled hull.
+
+Do not launch the complete vehicle or turret unrealistically.
+
+Do not imply crew escape, casualties, bodies, hatches opening for people, or rescue personnel.
+
+The surviving vehicles must visibly react to the loss. They must not continue blindly toward the same threat.
+
+Their reaction should include:
+
+1. a short hesitation or deceleration;
+2. spacing adjustment;
+3. a smooth authored turn away;
+4. deterministic withdrawal.
+
+## 11. Movement presentation
+
+### Speed and acceleration
+
+Keep the BTR road movement cinematic but plausible.
+
+- target moving speed should remain at or below approximately `22 m/s`;
+- acceleration/deceleration should remain bounded and visually gradual;
+- vehicles must not teleport at phase boundaries;
+- vehicles must not snap into large heading changes;
+- all three survivors must follow the authored route with individual spacing rather than one shared position.
+
+### Grounding
+
+Vehicles must remain correctly grounded on the Stage 4A terrain presentation surface.
+
+- derive Y from the authoritative terrain-height function plus an explicit model clearance;
+- do not use a single constant world Y for the entire route;
+- avoid visible floating or wheel burial;
+- preserve road and terrain coherence after direct seeks.
+
+### Dust
+
+Add a restrained deterministic movement indication for moving BTRs.
+
+- dust should appear only when speed and surface conditions justify it;
+- use bounded reusable resources or instancing;
+- dust must reconstruct from absolute time;
+- seeking backward before movement must remove later dust;
+- do not create a large smoke cloud that obscures the vehicles;
+- do not add persistent tire tracks unless they can be reconstructed deterministically and remain within scope.
+
+## 12. Camera requirements
+
+Do not create many new cameras and do not add forced cutscenes.
+
+First attempt to make the sequence readable through the existing `Convoy corridor` preset and free spectator controls.
+
+You may retune that preset if necessary so it communicates:
+
+- the moving group;
+- the industrial support position;
+- the T+133 loss;
+- the beginning of withdrawal.
+
+Add at most one new BTR follow preset only if the existing preset and spectator controls cannot adequately inspect movement quality. If a follow preset is added, it must remain seek-safe and must not remove orbit, pan, or zoom freedom while paused.
+
+Do not add separate presets for each BTR or each phase.
+
+## 13. UI and status readability
+
+Keep UI changes minimal.
+
+If the operational-status panel is extended, show the group or lead vehicle with concise state language such as:
+
+- security hold;
+- moving to support;
+- supporting;
+- one disabled / three operational;
+- withdrawing.
+
+Do not add a tactical command interface, unit-selection UI, health bars, scores, or player controls.
+
+Timeline labels must use the two official event IDs and times defined above.
+
+## 14. Preserve existing systems
+
+Do not break or replace:
+
+- the Stage 1 opening sequence;
+- deterministic playback;
+- pause/play/restart;
+- 0.5×, 1×, and 2× playback;
+- direct timeline seeking;
+- F-35B launch and flight smoothing;
+- Radar Hill engagement;
+- Pantsir-S1 destruction;
+- Harbor and Talwar events;
+- Molniya movement and damage;
+- the Stage 4A fuel disaster;
+- ammunition cook-off and primary detonation;
+- persistent destruction reconstruction;
+- terrain relief and road grounding;
+- camera orbit, pan, and zoom;
+- the limited active battlefield roster outside this stage.
+
+Do not modify dependency versions or add dependencies unless explicitly authorized under repository rules.
+
+## 15. Required tests
+
+Add focused regression coverage for the new vehicle foundation and BTR sequence.
+
+At minimum, test:
+
+1. exactly four BTR vehicles exist;
+2. vehicle IDs and faction are correct;
+3. all four are operational before T+133;
+4. only `defender_btr_01` becomes disabled/lost at T+133;
+5. exactly three survivors begin withdrawal at T+136;
+6. the disabled BTR remains persistent at later times;
+7. backward seeking before T+133 restores all four to operational condition;
+8. direct seeks reconstruct identical state;
+9. restart reconstructs the initial security hold;
+10. playback speed does not change outcomes;
+11. no position jump occurs at T+75, T+118, T+133, or T+136;
+12. speed and acceleration remain bounded;
+13. visible heading remains aligned with the actual route tangent;
+14. vehicle spacing prevents overlap;
+15. road/terrain grounding remains within a small explicit tolerance;
+16. wheel rotation is deterministic after direct seek;
+17. dust and damage effects disappear when seeking to a time before their thresholds;
+18. existing Stage 1, Stage 3, and Stage 4A tests remain green.
+
+Use boundary samples around at least:
+
+- T+74.9 / T+75.0;
+- T+117.9 / T+118.0;
+- T+132.9 / T+133.0;
+- T+135.9 / T+136.0;
+- a late withdrawal time near T+160 or the current timeline end.
+
+Tests must verify actual motion-path continuity, not only smoothed model rotation.
+
+## 16. Browser inspection matrix
+
+Run the application and inspect the implementation in the browser.
+
+At minimum inspect:
+
+### T+0 to T+74
+
+- four BTRs are present in the security hold;
+- silhouettes, scale, eight-wheel layout, spacing, and grounding read correctly;
+- no occupants or humanoid shapes are visible.
+
+### T+75 to T+118
+
+- support movement is visible;
+- starts and stops are smooth;
+- vehicles follow the road;
+- heading follows the actual route;
+- wheel rotation and dust are readable but restrained;
+- vehicles do not overlap or move identically.
+
+### T+118 to T+132
+
+- the support hold is readable;
+- vehicles are positioned on the road or prepared hard ground;
+- the group does not interfere visually with the existing ammunition sequence.
+
+### T+132 to T+140
+
+- watch this interval continuously at 1× speed;
+- verify the ammunition detonation remains the dominant hero event;
+- verify the BTR loss occurs as a delayed localized consequence;
+- verify the wreck persists;
+- verify the survivors hesitate, turn, and begin withdrawal without snapping.
+
+### T+140 to timeline end
+
+- survivors continue withdrawing;
+- spacing and grounding remain coherent;
+- the lost BTR remains in place;
+- no excluded future units appear.
+
+### Seek and control checks
+
+- seek from a late withdrawal time back to T+120;
+- seek forward to T+133 and T+136;
+- restart;
+- test pause/play;
+- test 0.5×, 1×, and 2× playback;
+- orbit, pan, and zoom while paused;
+- inspect the final browser console for errors.
 
 Fix obvious issues discovered during inspection.
 
-## 15. Acceptance criteria
+## 17. Update `ITERATION_PLAN.md`
 
-Stage 4A is complete only if all of the following are true.
+Update only the relevant roadmap section. Do not rewrite unrelated completed stages.
 
-### Terrain and world readability
+Use this structure:
 
-- terrain relief is visibly stronger and easier to read;
-- the world no longer feels excessively flat;
-- Radar Hill and other topographic differences are clearer;
-- the enhanced terrain remains physically coherent with roads, pads, and shoreline.
+### Stage 4A — Cinematic Enhancement
 
-### Industrial scale
+- status: completed;
+- preserve the existing completed description.
 
-- the fuel district feels larger and more imposing;
-- key tanks and industrial structures are more convincing in scale;
-- the industrial district no longer reads as too low / too miniature;
-- scale is improved without becoming absurdly exaggerated.
+### Stage 4B — Deterministic Battlefield Reaction Vertical Slice
 
-### Destruction quality
+- status: current;
+- deterministic ground-vehicle lifecycle foundation;
+- four-vehicle BTR-80 support movement;
+- one persistent BTR-80 loss;
+- three-vehicle withdrawal;
+- seek/restart/path/camera validation.
 
-- the fuel-storage event has clear staged escalation;
-- secondary ignition / sympathetic events exist;
-- the fuel disaster feels more catastrophic and satisfying;
-- smoke columns are larger, denser, and more layered;
-- persistent fires and aftermath are richer;
-- the ammunition district remains visually distinct in destruction language.
+### Stage 4B.2 — Deterministic Actor Expansion
 
-### Aircraft presentation
+- status: planned;
+- T-72B reinforcement, lead loss, and fallback;
+- limited Su-30MKK defensive appearance and withdrawal;
+- support/rescue convoy only after the Stage 4B lifecycle foundation is proven;
+- no generalized AI.
 
-- F-35 turning is smoother;
-- F-35 speed transitions are smoother;
-- F-35 banking is more readable;
-- mission timing remains deterministic and functional.
+### Stage 4C — Environmental Storytelling and Coastal Realism
 
-### Presentation
+Keep the planned environmental scope here:
 
-- camera presets better communicate the battlefield;
-- the scene reads more like an interactive war visualization and less like a flat technical demo.
+- vegetation improvement;
+- surface history;
+- industrial wear;
+- functional clutter;
+- waves and shoreline foam;
+- coastal atmosphere;
+- weathering.
 
-### Preservation
+### Stage 5 — Full Operation Integration
 
-- play / pause / restart / seek still work;
-- persistent destruction still reconstructs;
-- existing major scenario events are preserved;
-- no visible humans are introduced.
+Keep the full operation work here:
 
-## 16. Final response
+- LCAC approach and landing;
+- LAV-25 deployment;
+- complete amphibious timeline;
+- broader battlefield integration only after prior foundations are validated.
+
+## 18. Validation under repository rules
+
+Before finishing, run the permitted non-build checks required by the repository, including:
+
+- TypeScript no-emit checking;
+- lint;
+- the complete test suite;
+- `git diff --check`;
+- browser inspection.
+
+Do not run build commands.
+
+Do not run format commands.
+
+Do not modify existing dependency versions.
+
+Do not add new dependencies unless the reason is explicitly explained and permitted.
+
+Do not automatically upgrade framework versions.
+
+## 19. Final response requirements
 
 When complete, report:
 
-1. how terrain relief was improved;
-2. whether a vertical-exaggeration or elevation-remapping strategy was added;
-3. how fuel-district scale was improved;
-4. what was changed to make the industrial district feel larger;
-5. how the fuel-storage disaster escalation was upgraded;
-6. what new secondary events were added;
-7. how smoke / fire / blast composition was improved;
-8. how the F-35 flight smoothing was implemented;
-9. what camera / preset improvements were made;
-10. what validation was run under `AGENTS.md`;
-11. what browser inspections were performed;
-12. what limitations still remain before the later large unit-action stages.
+1. the deterministic vehicle-state structure implemented;
+2. how activity, physical condition, and outcome are represented;
+3. the exact four BTR vehicle IDs and final outcomes;
+4. how authored road movement, steering, speed, and wheel rotation work;
+5. how terrain grounding was preserved;
+6. how the T+133 loss is causally connected to the existing ammunition detonation;
+7. how the T+136 survivor reaction and withdrawal were implemented;
+8. dust, damage, smoke, and persistent wreck presentation;
+9. camera or preset changes;
+10. timeline and `ITERATION_PLAN.md` changes;
+11. validation results;
+12. browser inspections performed;
+13. remaining limitations before Stage 4B.2, Stage 4C, and Stage 5.
 
-Do not describe future large reinforcement / landing stages as completed.
+Do not claim that T-72B, Su-30MKK, the support convoy, LCAC, LAV-25, environmental realism, or the full operation has been implemented.
