@@ -237,6 +237,33 @@ export const STAGE4B_EVENTS = [
     pathId: 'path_defender_convoy_fallback',
     resultingState: 'three_mobile_one_disabled',
   },
+  {
+    id: 'defender_armored_reinforcement_move',
+    atSeconds: 150,
+    localTime: '05:29:30',
+    event: 'move_toward_inland_beach_approach',
+    groupId: 'defender_t72_group_01',
+    pathId: 'path_defender_armored_reinforcement',
+  },
+  {
+    id: 't72_lead_destroyed',
+    atSeconds: 158,
+    localTime: '05:29:38',
+    event: 'lead_vehicle_destroyed_by_supporting_air_strike',
+    groupId: 'defender_t72_group_01',
+    sourceActorId: 'attacker_f35_01',
+    targetId: 'defender_t72_01',
+    effectProfile: 'vehicle_kill_medium',
+  },
+  {
+    id: 't72_survivors_withdraw',
+    atSeconds: 163,
+    localTime: '05:29:43',
+    event: 'two_surviving_vehicles_reverse_and_withdraw_behind_terrain',
+    groupId: 'defender_t72_group_01',
+    pathId: 'path_defender_armored_fallback',
+    resultingState: 'one_destroyed_two_withdrawing',
+  },
 ] as const satisfies readonly Stage4BEvent[]
 
 export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]

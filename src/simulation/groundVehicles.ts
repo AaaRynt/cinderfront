@@ -1,6 +1,7 @@
-import type { GroundVehicleActivityPhase, GroundVehicleDamageState, GroundVehicleGroupState, GroundVehicleId, GroundVehicleState, Stage4BWorldState, Vector3 } from './types'
+import type { Btr80ActivityPhase, Btr80GroundVehicleGroupState, Btr80GroundVehicleState, Btr80VehicleId, GroundVehicleDamageState, Stage4BWorldState, T72ActivityPhase, T72GroundVehicleGroupState, T72GroundVehicleState, T72VehicleId, Vector3 } from './types'
 
 import { getTerrainHeight } from '../scene/world/stage2/terrainModel.ts'
+import { T72_AUTHORED_YARD_EXIT, T72_REINFORCEMENT_ROUTE_POINTS } from './groundVehicleRoutes.ts'
 import { clamp, smoothstep, yawForDirection } from './math'
 import { getReachedStage4BEvents } from './timeline'
 
@@ -26,7 +27,7 @@ interface ScalarMotionSample {
 }
 
 interface BtrAuthoredDefinition {
-  readonly id: GroundVehicleId
+  readonly id: Btr80VehicleId
   readonly order: number
   readonly stationOffsetMeters: number
   readonly lateralOffsetMeters: number
@@ -36,7 +37,7 @@ interface BtrAuthoredDefinition {
   readonly mergeDistanceMeters: number
 }
 
-export const BTR80_VEHICLE_IDS = ['defender_btr_01', 'defender_btr_02', 'defender_btr_03', 'defender_btr_04'] as const satisfies readonly GroundVehicleId[]
+export const BTR80_VEHICLE_IDS = ['defender_btr_01', 'defender_btr_02', 'defender_btr_03', 'defender_btr_04'] as const satisfies readonly Btr80VehicleId[]
 
 export const BTR80_DIMENSIONS_METERS = {
   height: 2.35,
@@ -335,29 +336,62 @@ export function getBtr80PresentationSurfaceHeight(x: number, z: number, surfaceH
   return surfaceHeightAt(x, z) + roadRibbonOffset
 }
 
-function createTerrainPose(sample: PathSample, surfaceHeightAt: (x: number, z: number) => number, disabledRoll = 0) {
-  const presentedSurfaceHeight = (x: number, z: number) => getBtr80PresentationSurfaceHeight(x, z, surfaceHeightAt)
-  const centerHeight = presentedSurfaceHeight(sample.x, sample.z)
-  const halfLength = BTR80_DIMENSIONS_METERS.length * 0.38
-  const halfWidth = BTR80_DIMENSIONS_METERS.width * 0.42
-  const rightX = -sample.tangentZ
-  const rightZ = sample.tangentX
-  const frontHeight = presentedSurfaceHeight(sample.x + sample.tangentX * halfLength, sample.z + sample.tangentZ * halfLength)
-  const rearHeight = presentedSurfaceHeight(sample.x - sample.tangentX * halfLength, sample.z - sample.tangentZ * halfLength)
-  const rightHeight = presentedSurfaceHeight(sample.x + rightX * halfWidth, sample.z + rightZ * halfWidth)
-  const leftHeight = presentedSurfaceHeight(sample.x - rightX * halfWidth, sample.z - rightZ * halfWidth)
+function createGroundedPose({
+  groundClearanceMeters,
+  halfLengthMeters,
+  halfWidthMeters,
+  heightMeters,
+  hullTangent,
+  position,
+  rollOffsetRadians = 0,
+  surfaceHeightAt,
+}: {
+  readonly groundClearanceMeters: number
+  readonly halfLengthMeters: number
+  readonly halfWidthMeters: number
+  readonly heightMeters: number
+  readonly hullTangent: XZPoint
+  readonly position: XZPoint
+  readonly rollOffsetRadians?: number
+  readonly surfaceHeightAt: (x: number, z: number) => number
+}) {
+  const [tangentX, tangentZ] = hullTangent
+  const [x, z] = position
+  const centerHeight = surfaceHeightAt(x, z)
+  const rightX = -tangentZ
+  const rightZ = tangentX
+  const frontHeight = surfaceHeightAt(x + tangentX * halfLengthMeters, z + tangentZ * halfLengthMeters)
+  const rearHeight = surfaceHeightAt(x - tangentX * halfLengthMeters, z - tangentZ * halfLengthMeters)
+  const rightHeight = surfaceHeightAt(x + rightX * halfWidthMeters, z + rightZ * halfWidthMeters)
+  const leftHeight = surfaceHeightAt(x - rightX * halfWidthMeters, z - rightZ * halfWidthMeters)
   return {
     position: {
-      x: sample.x,
-      y: centerHeight + BTR80_DIMENSIONS_METERS.height / 2 + BTR80_GROUND_CLEARANCE_METERS,
-      z: sample.z,
+      x,
+      y: centerHeight + heightMeters / 2 + groundClearanceMeters,
+      z,
     },
     rotation: {
-      x: Math.atan2(frontHeight - rearHeight, halfLength * 2),
-      y: yawForDirection({ x: sample.tangentX, y: 0, z: sample.tangentZ }),
-      z: Math.atan2(rightHeight - leftHeight, halfWidth * 2) + disabledRoll,
+      x: Math.atan2(frontHeight - rearHeight, halfLengthMeters * 2),
+      y: yawForDirection({ x: tangentX, y: 0, z: tangentZ }),
+      z: Math.atan2(rightHeight - leftHeight, halfWidthMeters * 2) + rollOffsetRadians,
     },
   }
+}
+
+function createTerrainPose(sample: PathSample, surfaceHeightAt: (x: number, z: number) => number, disabledRoll = 0) {
+  const presentedSurfaceHeight = (x: number, z: number) => getBtr80PresentationSurfaceHeight(x, z, surfaceHeightAt)
+  const halfLength = BTR80_DIMENSIONS_METERS.length * 0.38
+  const halfWidth = BTR80_DIMENSIONS_METERS.width * 0.42
+  return createGroundedPose({
+    groundClearanceMeters: BTR80_GROUND_CLEARANCE_METERS,
+    halfLengthMeters: halfLength,
+    halfWidthMeters: halfWidth,
+    heightMeters: BTR80_DIMENSIONS_METERS.height,
+    hullTangent: [sample.tangentX, sample.tangentZ],
+    position: [sample.x, sample.z],
+    rollOffsetRadians: disabledRoll,
+    surfaceHeightAt: presentedSurfaceHeight,
+  })
 }
 
 const UNDAMAGED_STATE: GroundVehicleDamageState = {
@@ -386,7 +420,7 @@ function deriveLeadDamageState(timeSeconds: number): GroundVehicleDamageState {
   }
 }
 
-function preWithdrawalActivity(timeSeconds: number): GroundVehicleActivityPhase {
+function preWithdrawalActivity(timeSeconds: number): Btr80ActivityPhase {
   if (timeSeconds < BTR80_SUPPORT_MOVE_START_SECONDS) return 'security-hold'
   if (timeSeconds === BTR80_SUPPORT_MOVE_START_SECONDS) return 'alerted'
   if (timeSeconds < BTR80_SUPPORT_ARRIVAL_SECONDS) return 'moving-to-support'
@@ -406,7 +440,7 @@ function turretYawForState(sample: PathSample, timeSeconds: number) {
   return supportOrientation * (1 - smoothstep(BTR80_WITHDRAWAL_START_SECONDS, BTR80_WITHDRAWAL_START_SECONDS + 9, timeSeconds))
 }
 
-function deriveBtrState(definition: BtrAuthoredDefinition, timeSeconds: number, surfaceHeightAt: (x: number, z: number) => number): GroundVehicleState {
+function deriveBtrState(definition: BtrAuthoredDefinition, timeSeconds: number, surfaceHeightAt: (x: number, z: number) => number): Btr80GroundVehicleState {
   const supportMotion = deriveSupportMotion(timeSeconds)
   const routeStation = BTR80_ROUTE_STATIONS.securityHoldMeters + definition.stationOffsetMeters - supportMotion.distanceMeters
   const inboundRouteSample = sampleOffsetPath(EASTERN_TRUNK_PATH, routeStation, definition.lateralOffsetMeters)
@@ -425,7 +459,7 @@ function deriveBtrState(definition: BtrAuthoredDefinition, timeSeconds: number, 
   const damage = isLead ? deriveLeadDamageState(timeSeconds) : UNDAMAGED_STATE
   const speedMetersPerSecond = withdrawalMotion?.speedMetersPerSecond ?? (timeSeconds >= BTR80_SUPPORT_MOVE_START_SECONDS && timeSeconds < BTR80_SUPPORT_ARRIVAL_SECONDS ? supportMotion.speedMetersPerSecond : 0)
   const accelerationMetersPerSecondSquared = withdrawalMotion?.accelerationMetersPerSecondSquared ?? (timeSeconds >= BTR80_SUPPORT_MOVE_START_SECONDS && timeSeconds < BTR80_SUPPORT_ARRIVAL_SECONDS ? supportMotion.accelerationMetersPerSecondSquared : 0)
-  const activity: GroundVehicleActivityPhase = disabled ? 'supporting' : withdrawing ? (withdrawalDistance < definition.turnDistanceMeters ? 'turning-to-withdraw' : 'withdrawing') : preWithdrawalActivity(timeSeconds)
+  const activity: Btr80ActivityPhase = disabled ? 'supporting' : withdrawing ? (withdrawalDistance < definition.turnDistanceMeters ? 'turning-to-withdraw' : 'withdrawing') : preWithdrawalActivity(timeSeconds)
   const traveledDistanceMeters = supportMotion.distanceMeters + withdrawalDistance
 
   return {
@@ -438,20 +472,25 @@ function deriveBtrState(definition: BtrAuthoredDefinition, timeSeconds: number, 
     outcome: disabled ? 'lost' : withdrawing ? 'survived' : 'active',
     pose: createTerrainPose(sample, surfaceHeightAt, disabled ? damage.hullDamageProgress * 0.025 : 0),
     routeTangent: { x: sample.tangentX, y: 0, z: sample.tangentZ },
+    motionDirection: speedMetersPerSecond > 0.001 ? 'forward' : 'stationary',
     speedMetersPerSecond,
+    longitudinalSpeedMetersPerSecond: speedMetersPerSecond,
     accelerationMetersPerSecondSquared,
-    steeringRadians: withdrawalMotion ? steeringForPath(definition.withdrawalPath, withdrawalDistance) : 0,
     turretYawRadians: turretYawForState(sample, timeSeconds),
     traveledDistanceMeters,
-    wheelRotationRadians: traveledDistanceMeters / BTR80_DIMENSIONS_METERS.wheelRadius,
+    drivetrain: {
+      kind: 'wheeled',
+      steeringRadians: withdrawalMotion ? steeringForPath(definition.withdrawalPath, withdrawalDistance) : 0,
+      wheelRotationRadians: traveledDistanceMeters / BTR80_DIMENSIONS_METERS.wheelRadius,
+    },
     dustIntensity: smoothstep(1.5, 8, speedMetersPerSecond) * 0.28,
     groundClearanceMeters: BTR80_GROUND_CLEARANCE_METERS,
     damage,
   }
 }
 
-export function deriveBtr80GroupState(timeSeconds: number, surfaceHeightAt: (x: number, z: number) => number = getTerrainHeight): GroundVehicleGroupState {
-  const vehicles = Object.fromEntries(AUTHORED_BTR_DEFINITIONS.map((definition) => [definition.id, deriveBtrState(definition, timeSeconds, surfaceHeightAt)])) as Readonly<Record<GroundVehicleId, GroundVehicleState>>
+export function deriveBtr80GroupState(timeSeconds: number, surfaceHeightAt: (x: number, z: number) => number = getTerrainHeight): Btr80GroundVehicleGroupState {
+  const vehicles = Object.fromEntries(AUTHORED_BTR_DEFINITIONS.map((definition) => [definition.id, deriveBtrState(definition, timeSeconds, surfaceHeightAt)])) as Readonly<Record<Btr80VehicleId, Btr80GroundVehicleState>>
   const orderedVehicles = BTR80_VEHICLE_IDS.map((id) => vehicles[id])
   const disabledCount = orderedVehicles.filter((vehicle) => vehicle.physicalCondition === 'disabled').length
   const withdrawingCount = orderedVehicles.filter((vehicle) => vehicle.activity === 'turning-to-withdraw' || vehicle.activity === 'withdrawing').length
@@ -463,21 +502,243 @@ export function deriveBtr80GroupState(timeSeconds: number, surfaceHeightAt: (x: 
     orderedVehicleIds: BTR80_VEHICLE_IDS,
     operationalCount: orderedVehicles.filter((vehicle) => vehicle.physicalCondition === 'operational').length,
     disabledCount,
+    destroyedCount: 0,
     withdrawingCount,
     survivorCount: orderedVehicles.length - disabledCount,
   }
+}
+
+/** Exposes the exact authored path sample for continuity and grounding regression tests. */
+export function sampleBtr80MotionPath(id: Btr80VehicleId, timeSeconds: number): Vector3 {
+  const definition = AUTHORED_BTR_DEFINITIONS.find((candidate) => candidate.id === id)!
+  const state = deriveBtrState(definition, timeSeconds, () => 0)
+  return { ...state.pose.position }
+}
+
+interface T72AuthoredDefinition {
+  readonly id: T72VehicleId
+  readonly lateralOffsetMeters: number
+  readonly order: number
+  readonly reserveStationMeters: number
+  readonly reverseAccelerationMetersPerSecondSquared: number
+  readonly reverseDelaySeconds: number
+  readonly reverseSpeedMetersPerSecond: number
+}
+
+interface T72MotionSample {
+  readonly accelerationMetersPerSecondSquared: number
+  readonly direction: 'stationary' | 'forward' | 'reverse'
+  readonly longitudinalSpeedMetersPerSecond: number
+  readonly stationDeltaMeters: number
+}
+
+export const T72_VEHICLE_IDS = ['defender_t72_01', 'defender_t72_02', 'defender_t72_03'] as const satisfies readonly T72VehicleId[]
+
+export const T72_DIMENSIONS_METERS = {
+  gunForwardLength: 9.53,
+  height: 2.23,
+  hullLength: 6.86,
+  roadWheelRadius: 0.435,
+  trackWidth: 0.63,
+  width: 3.59,
+} as const
+
+export const T72_GROUP_ID = 'defender_t72_group_01' as const
+export const T72_GROUND_CLEARANCE_METERS = 0.025
+export const T72_REINFORCEMENT_START_SECONDS = 150
+export const T72_LEAD_DESTROYED_SECONDS = 158
+export const T72_WITHDRAWAL_START_SECONDS = 163
+
+const T72_FORWARD_ACCELERATION_SECONDS = 6
+const T72_FORWARD_SPEED_METERS_PER_SECOND = 9
+const T72_FORWARD_ACCELERATION_METERS_PER_SECOND_SQUARED = T72_FORWARD_SPEED_METERS_PER_SECOND / T72_FORWARD_ACCELERATION_SECONDS
+const T72_FORWARD_DISTANCE_AT_IMPACT_METERS = 45
+const T72_BRAKING_SECONDS = 4.5
+const T72_BRAKING_METERS_PER_SECOND_SQUARED = T72_FORWARD_SPEED_METERS_PER_SECOND / T72_BRAKING_SECONDS
+const T72_BRAKING_DISTANCE_METERS = 0.5 * T72_FORWARD_SPEED_METERS_PER_SECOND * T72_BRAKING_SECONDS
+const T72_TRACK_LINK_PITCH_METERS = 0.154
+const T72_ROUTE = createPath(T72_REINFORCEMENT_ROUTE_POINTS)
+
+const AUTHORED_T72_DEFINITIONS = [
+  { id: 'defender_t72_01', lateralOffsetMeters: 0, order: 0, reserveStationMeters: 63, reverseAccelerationMetersPerSecondSquared: 0, reverseDelaySeconds: 0, reverseSpeedMetersPerSecond: 0 },
+  { id: 'defender_t72_02', lateralOffsetMeters: 4.5, order: 1, reserveStationMeters: 32, reverseAccelerationMetersPerSecondSquared: 1, reverseDelaySeconds: 0, reverseSpeedMetersPerSecond: 4.5 },
+  { id: 'defender_t72_03', lateralOffsetMeters: -3.5, order: 2, reserveStationMeters: 0, reverseAccelerationMetersPerSecondSquared: 0.9, reverseDelaySeconds: 0.55, reverseSpeedMetersPerSecond: 4 },
+] as const satisfies readonly T72AuthoredDefinition[]
+
+export const T72_RESERVE_POSITIONS_XZ = Object.freeze(
+  Object.fromEntries(
+    AUTHORED_T72_DEFINITIONS.map((definition) => {
+      const sample = sampleOffsetPath(T72_ROUTE, definition.reserveStationMeters, definition.lateralOffsetMeters)
+      return [definition.id, [sample.x, sample.z] as const]
+    }),
+  ),
+) as Readonly<Record<T72VehicleId, XZPoint>>
+
+export function getT72PresentationSurfaceHeight(x: number, z: number, surfaceHeightAt: (surfaceX: number, surfaceZ: number) => number = getTerrainHeight) {
+  const centerlineDistance = distanceToPath(T72_ROUTE, [x, z])
+  const renderedRoadOffset = 0.48 * (1 - smoothstep(7, 10, centerlineDistance))
+  return surfaceHeightAt(x, z) + renderedRoadOffset
+}
+
+function deriveT72ForwardMotion(timeSeconds: number): T72MotionSample {
+  if (timeSeconds < T72_REINFORCEMENT_START_SECONDS) return { accelerationMetersPerSecondSquared: 0, direction: 'stationary', longitudinalSpeedMetersPerSecond: 0, stationDeltaMeters: 0 }
+  const elapsed = clamp(timeSeconds - T72_REINFORCEMENT_START_SECONDS, 0, T72_LEAD_DESTROYED_SECONDS - T72_REINFORCEMENT_START_SECONDS)
+  if (elapsed <= T72_FORWARD_ACCELERATION_SECONDS) {
+    return {
+      accelerationMetersPerSecondSquared: T72_FORWARD_ACCELERATION_METERS_PER_SECOND_SQUARED,
+      direction: 'forward',
+      longitudinalSpeedMetersPerSecond: T72_FORWARD_ACCELERATION_METERS_PER_SECOND_SQUARED * elapsed,
+      stationDeltaMeters: 0.5 * T72_FORWARD_ACCELERATION_METERS_PER_SECOND_SQUARED * elapsed * elapsed,
+    }
+  }
+  const cruiseElapsed = elapsed - T72_FORWARD_ACCELERATION_SECONDS
+  return {
+    accelerationMetersPerSecondSquared: 0,
+    direction: 'forward',
+    longitudinalSpeedMetersPerSecond: T72_FORWARD_SPEED_METERS_PER_SECOND,
+    stationDeltaMeters: 0.5 * T72_FORWARD_SPEED_METERS_PER_SECOND * T72_FORWARD_ACCELERATION_SECONDS + T72_FORWARD_SPEED_METERS_PER_SECOND * cruiseElapsed,
+  }
+}
+
+function deriveT72SurvivorMotion(definition: T72AuthoredDefinition, timeSeconds: number): T72MotionSample {
+  if (timeSeconds < T72_LEAD_DESTROYED_SECONDS) return deriveT72ForwardMotion(timeSeconds)
+  const brakingElapsed = clamp(timeSeconds - T72_LEAD_DESTROYED_SECONDS, 0, T72_BRAKING_SECONDS)
+  const brakingSpeed = Math.max(0, T72_FORWARD_SPEED_METERS_PER_SECOND - T72_BRAKING_METERS_PER_SECOND_SQUARED * brakingElapsed)
+  const brakingDistance = T72_FORWARD_SPEED_METERS_PER_SECOND * brakingElapsed - 0.5 * T72_BRAKING_METERS_PER_SECOND_SQUARED * brakingElapsed * brakingElapsed
+  if (timeSeconds < T72_LEAD_DESTROYED_SECONDS + T72_BRAKING_SECONDS) {
+    return {
+      accelerationMetersPerSecondSquared: -T72_BRAKING_METERS_PER_SECOND_SQUARED,
+      direction: 'forward',
+      longitudinalSpeedMetersPerSecond: brakingSpeed,
+      stationDeltaMeters: T72_FORWARD_DISTANCE_AT_IMPACT_METERS + brakingDistance,
+    }
+  }
+
+  const stoppedStationDelta = T72_FORWARD_DISTANCE_AT_IMPACT_METERS + T72_BRAKING_DISTANCE_METERS
+  if (timeSeconds < T72_WITHDRAWAL_START_SECONDS) return { accelerationMetersPerSecondSquared: 0, direction: 'stationary', longitudinalSpeedMetersPerSecond: 0, stationDeltaMeters: stoppedStationDelta }
+
+  const reverseElapsed = Math.max(0, timeSeconds - T72_WITHDRAWAL_START_SECONDS - definition.reverseDelaySeconds)
+  const accelerationDuration = definition.reverseSpeedMetersPerSecond / definition.reverseAccelerationMetersPerSecondSquared
+  const acceleratingElapsed = Math.min(reverseElapsed, accelerationDuration)
+  const accelerationDistance = 0.5 * definition.reverseAccelerationMetersPerSecondSquared * acceleratingElapsed * acceleratingElapsed
+  const cruiseElapsed = Math.max(0, reverseElapsed - accelerationDuration)
+  const reverseDistance = accelerationDistance + definition.reverseSpeedMetersPerSecond * cruiseElapsed
+  const reverseSpeed = Math.min(definition.reverseSpeedMetersPerSecond, definition.reverseAccelerationMetersPerSecondSquared * reverseElapsed)
+  return {
+    accelerationMetersPerSecondSquared: reverseElapsed > 0 && reverseElapsed < accelerationDuration ? -definition.reverseAccelerationMetersPerSecondSquared : 0,
+    direction: 'reverse',
+    longitudinalSpeedMetersPerSecond: reverseSpeed === 0 ? 0 : -reverseSpeed,
+    stationDeltaMeters: stoppedStationDelta - reverseDistance,
+  }
+}
+
+function deriveT72DamageState(timeSeconds: number): GroundVehicleDamageState {
+  if (timeSeconds < T72_LEAD_DESTROYED_SECONDS) return UNDAMAGED_STATE
+  const ageSeconds = timeSeconds - T72_LEAD_DESTROYED_SECONDS
+  return {
+    causeEventId: 't72_lead_destroyed',
+    ageSeconds,
+    hullDamageProgress: smoothstep(0, 0.9, ageSeconds),
+    flashIntensity: 1 - smoothstep(0, 0.18, ageSeconds),
+    sparkIntensity: 1 - smoothstep(0.04, 0.9, ageSeconds),
+    dustKickIntensity: 1 - smoothstep(0, 1.55, ageSeconds),
+    localFireIntensity: smoothstep(0.14, 0.75, ageSeconds) * (0.31 + 0.12 * Math.exp(-ageSeconds * 0.12)),
+    smokeIntensity: smoothstep(0.3, 1.55, ageSeconds) * 0.68,
+  }
+}
+
+function t72Activity(definition: T72AuthoredDefinition, timeSeconds: number): T72ActivityPhase {
+  if (timeSeconds < T72_REINFORCEMENT_START_SECONDS) return 'stationary-reserve'
+  if (timeSeconds < T72_LEAD_DESTROYED_SECONDS) return 'moving-to-reinforce'
+  if (definition.id === 'defender_t72_01' || timeSeconds < T72_WITHDRAWAL_START_SECONDS) return 'halted-after-strike'
+  return 'reversing-to-cover'
+}
+
+function deriveT72State(definition: T72AuthoredDefinition, timeSeconds: number, surfaceHeightAt: (x: number, z: number) => number): T72GroundVehicleState {
+  const isLead = definition.id === 'defender_t72_01'
+  const destroyed = isLead && timeSeconds >= T72_LEAD_DESTROYED_SECONDS
+  const motion = destroyed ? { accelerationMetersPerSecondSquared: 0, direction: 'stationary' as const, longitudinalSpeedMetersPerSecond: 0, stationDeltaMeters: T72_FORWARD_DISTANCE_AT_IMPACT_METERS } : isLead ? deriveT72ForwardMotion(timeSeconds) : deriveT72SurvivorMotion(definition, timeSeconds)
+  const pathStation = definition.reserveStationMeters + motion.stationDeltaMeters
+  const sample = sampleOffsetPath(T72_ROUTE, pathStation, definition.lateralOffsetMeters)
+  const reversing = motion.direction === 'reverse'
+  const routeTangent = reversing ? { x: -sample.tangentX, y: 0, z: -sample.tangentZ } : { x: sample.tangentX, y: 0, z: sample.tangentZ }
+  const damage = isLead ? deriveT72DamageState(timeSeconds) : UNDAMAGED_STATE
+  const speedMetersPerSecond = Math.abs(motion.longitudinalSpeedMetersPerSecond)
+  const presentedSurfaceHeight = (x: number, z: number) => getT72PresentationSurfaceHeight(x, z, surfaceHeightAt)
+  const traveledDistanceMeters = motion.stationDeltaMeters
+
+  return {
+    id: definition.id,
+    groupId: T72_GROUP_ID,
+    factionId: 'island_defender',
+    vehicleType: 'T-72B',
+    activity: t72Activity(definition, timeSeconds),
+    physicalCondition: destroyed ? 'destroyed' : 'operational',
+    outcome: destroyed ? 'lost' : timeSeconds >= T72_WITHDRAWAL_START_SECONDS ? 'survived' : 'active',
+    pose: createGroundedPose({
+      groundClearanceMeters: T72_GROUND_CLEARANCE_METERS,
+      halfLengthMeters: T72_DIMENSIONS_METERS.hullLength * 0.38,
+      halfWidthMeters: T72_DIMENSIONS_METERS.width * 0.42,
+      heightMeters: T72_DIMENSIONS_METERS.height,
+      hullTangent: [sample.tangentX, sample.tangentZ],
+      position: [sample.x, sample.z],
+      surfaceHeightAt: presentedSurfaceHeight,
+    }),
+    routeTangent,
+    motionDirection: motion.direction,
+    speedMetersPerSecond,
+    longitudinalSpeedMetersPerSecond: motion.longitudinalSpeedMetersPerSecond,
+    accelerationMetersPerSecondSquared: motion.accelerationMetersPerSecondSquared,
+    turretYawRadians: destroyed ? -0.08 * damage.hullDamageProgress : 0,
+    traveledDistanceMeters,
+    drivetrain: {
+      kind: 'tracked',
+      trackTravelMeters: traveledDistanceMeters,
+      trackPhase: (((traveledDistanceMeters / T72_TRACK_LINK_PITCH_METERS) % 1) + 1) % 1,
+      roadWheelRotationRadians: traveledDistanceMeters / T72_DIMENSIONS_METERS.roadWheelRadius,
+    },
+    dustIntensity: destroyed ? 0 : smoothstep(1, 7, speedMetersPerSecond) * 0.34,
+    groundClearanceMeters: T72_GROUND_CLEARANCE_METERS,
+    damage,
+  }
+}
+
+export function deriveT72GroupState(timeSeconds: number, surfaceHeightAt: (x: number, z: number) => number = getTerrainHeight): T72GroundVehicleGroupState {
+  const vehicles = Object.fromEntries(AUTHORED_T72_DEFINITIONS.map((definition) => [definition.id, deriveT72State(definition, timeSeconds, surfaceHeightAt)])) as Readonly<Record<T72VehicleId, T72GroundVehicleState>>
+  const orderedVehicles = T72_VEHICLE_IDS.map((id) => vehicles[id])
+  const destroyedCount = orderedVehicles.filter((vehicle) => vehicle.physicalCondition === 'destroyed').length
+  const withdrawingCount = orderedVehicles.filter((vehicle) => vehicle.activity === 'reversing-to-cover' || vehicle.activity === 'turning-to-withdraw' || vehicle.activity === 'withdrawing').length
+  const activity: T72ActivityPhase = timeSeconds < T72_REINFORCEMENT_START_SECONDS ? 'stationary-reserve' : timeSeconds < T72_LEAD_DESTROYED_SECONDS ? 'moving-to-reinforce' : timeSeconds < T72_WITHDRAWAL_START_SECONDS ? 'halted-after-strike' : 'withdrawing'
+  return {
+    id: T72_GROUP_ID,
+    factionId: 'island_defender',
+    activity,
+    vehicles,
+    orderedVehicleIds: T72_VEHICLE_IDS,
+    operationalCount: orderedVehicles.filter((vehicle) => vehicle.physicalCondition === 'operational').length,
+    disabledCount: 0,
+    destroyedCount,
+    withdrawingCount,
+    survivorCount: orderedVehicles.length - destroyedCount,
+  }
+}
+
+/** Exact model-origin impact anchor shared by the authored tank and weapon derivations. */
+export const T72_LEAD_IMPACT_ANCHOR: Vector3 = Object.freeze({ ...deriveT72GroupState(T72_LEAD_DESTROYED_SECONDS).vehicles.defender_t72_01.pose.position })
+
+/** Exposes the actual T-72 translation path for derivative and collision tests. */
+export function sampleT72MotionPath(id: T72VehicleId, timeSeconds: number): Vector3 {
+  const definition = AUTHORED_T72_DEFINITIONS.find((candidate) => candidate.id === id)!
+  return { ...deriveT72State(definition, timeSeconds, () => 0).pose.position }
 }
 
 export function deriveStage4BWorldState(timeSeconds: number): Stage4BWorldState {
   return {
     reachedEvents: getReachedStage4BEvents(timeSeconds),
     btrGroup: deriveBtr80GroupState(timeSeconds),
+    t72Group: deriveT72GroupState(timeSeconds),
   }
 }
 
-/** Exposes the exact authored path sample for continuity and grounding regression tests. */
-export function sampleBtr80MotionPath(id: GroundVehicleId, timeSeconds: number): Vector3 {
-  const definition = AUTHORED_BTR_DEFINITIONS.find((candidate) => candidate.id === id)!
-  const state = deriveBtrState(definition, timeSeconds, () => 0)
-  return { ...state.pose.position }
-}
+export const T72_REINFORCEMENT_ROUTE_LENGTH_METERS = T72_ROUTE.lengthMeters
+export const T72_YARD_EXIT_POSITION_XZ = T72_AUTHORED_YARD_EXIT

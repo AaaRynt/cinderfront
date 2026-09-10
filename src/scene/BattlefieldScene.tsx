@@ -13,9 +13,10 @@ import type { Vec3 } from './effects/BattleEffects'
 import { CameraRig } from './camera/CameraRig'
 import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effects/BattleEffects'
 import { Stage3BattleEffects } from './effects/Stage3BattleEffects'
+import { Stage4B2AArmoredEffects } from './effects/Stage4B2AArmoredEffects'
 import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
-import { Btr80Group, F35BModel, PantsirModel, WaspModel } from './vehicles'
+import { Btr80Group, F35BModel, PantsirModel, T72BGroup, WaspModel } from './vehicles'
 import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
 
 const NEAR_HIT_POSITION: Vec3 = [3_115, 174, 3_330]
@@ -222,6 +223,8 @@ function DynamicBattlefield() {
   const f35Primary = world.aircraft.attacker_f35_01
   const f35Secondary = world.aircraft.attacker_f35_02
   const deckY = world.wasp.pose.position.y + 13.2
+  const t72Vehicles = world.stage4b.t72Group.orderedVehicleIds.map((id) => world.stage4b.t72Group.vehicles[id])
+  const t72Position: Vec3 = [t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.x, 0) / t72Vehicles.length, t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.y, 0) / t72Vehicles.length, t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.z, 0) / t72Vehicles.length]
 
   return (
     <>
@@ -230,9 +233,18 @@ function DynamicBattlefield() {
       <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
       <RadarHillEngagement world={world} />
       <Btr80Group group={world.stage4b.btrGroup} />
+      <T72BGroup group={world.stage4b.t72Group} />
       <Stage3BattleEffects world={world} />
       <Stage4BGroundVehicleEffects world={world} />
-      <CameraRig btrPosition={vectorTuple(world.stage4b.btrGroup.vehicles.defender_btr_03.pose.position)} f35Position={vectorTuple(f35Primary.pose.position)} f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)} molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)} />
+      <Stage4B2AArmoredEffects world={world} />
+      <CameraRig
+        btrPosition={vectorTuple(world.stage4b.btrGroup.vehicles.defender_btr_03.pose.position)}
+        f35Position={vectorTuple(f35Primary.pose.position)}
+        f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)}
+        molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)}
+        t72HullYawRadians={world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y}
+        t72Position={t72Position}
+      />
     </>
   )
 }

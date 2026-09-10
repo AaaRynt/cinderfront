@@ -1,6 +1,7 @@
 import type { WorldPosition } from '../worldData.ts'
 import type { Stage2Materials } from './stage2Materials.ts'
 
+import { T72_SERVICE_YARD_CONNECTOR_POINTS } from '../../../simulation/groundVehicleRoutes.ts'
 import { BarrierRun, DistrictEquipmentBatch, DistrictLightPoleBatch, createEnvironmentResponseGroup, type DistrictGeneratorInstance, type DistrictLightPoleInstance, type DistrictTransformerBankInstance } from './environment/index.ts'
 import { CORRIDOR_FEATURES } from './stage2Data.ts'
 import { PolygonPrism, TerrainPolygonSurface, TerrainRoad } from './Stage2Meshes.tsx'
@@ -44,6 +45,7 @@ export function ConvoyCorridor({ materials }: { materials: Stage2Materials }) {
       <TerrainPolygonSurface material={materials.gravel} name="convoy-pull-off-east" points={CORRIDOR_FEATURES.pullOffEast} yOffset={0.4} />
       <TerrainPolygonSurface material={materials.hardstand} name="corridor-service-yard" points={CORRIDOR_FEATURES.serviceYard} yOffset={0.35} />
       <TerrainPolygonSurface material={materials.concrete} name="corridor-substation" points={CORRIDOR_FEATURES.substation} yOffset={0.35} />
+      <TerrainRoad material={materials.asphalt} name="armored-service-yard-connector" points={T72_SERVICE_YARD_CONNECTOR_POINTS} spacingM={18} widthM={14} />
 
       <BarrierRun
         id="bridge-guardrail-north"

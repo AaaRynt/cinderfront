@@ -47,21 +47,28 @@ describe('Stage 3 timeline authority', () => {
 })
 
 describe('Stage 4B timeline authority', () => {
-  it('adds only the two in-scope BTR reaction events without extending the simulation', () => {
+  it('keeps the BTR slice and adds the three exact armored-reinforcement events without extending the simulation', () => {
     expect(SIMULATION_DURATION_SECONDS).toBe(172)
-    expect(STAGE4B_EVENTS.map((event) => event.id)).toEqual(['btr_01_disabled', 'btr_survivors_fallback'])
-    expect(STAGE4B_EVENTS.map((event) => event.atSeconds)).toEqual([133, 136])
-    expect(STAGE4B_EVENTS.map((event) => event.localTime)).toEqual(['05:29:13', '05:29:16'])
-    expect(STAGE4B_EVENTS.map((event) => event.groupId)).toEqual(['defender_btr_group_01', 'defender_btr_group_01'])
+    expect(STAGE4B_EVENTS.map((event) => event.id)).toEqual(['btr_01_disabled', 'btr_survivors_fallback', 'defender_armored_reinforcement_move', 't72_lead_destroyed', 't72_survivors_withdraw'])
+    expect(STAGE4B_EVENTS.map((event) => event.atSeconds)).toEqual([133, 136, 150, 158, 163])
+    expect(STAGE4B_EVENTS.map((event) => event.localTime)).toEqual(['05:29:13', '05:29:16', '05:29:30', '05:29:38', '05:29:43'])
+    expect(STAGE4B_EVENTS.map((event) => event.groupId)).toEqual(['defender_btr_group_01', 'defender_btr_group_01', 'defender_t72_group_01', 'defender_t72_group_01', 'defender_t72_group_01'])
+    expect(STAGE4B_EVENTS.filter((event) => event.id === 't72_lead_destroyed')[0]).toMatchObject({ sourceActorId: 'attacker_f35_01', targetId: 'defender_t72_01' })
   })
 
   it('keeps the combined event stream chronological around the BTR events and later Stage 3 events', () => {
-    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 133, 136, 165, 172])
+    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 133, 136, 150, 158, 163, 165, 172])
 
     expect(getReachedSimulationEvents(132.9).at(-1)?.id).toBe('ammunition_storage_primary_detonation')
     expect(getReachedSimulationEvents(133).at(-1)?.id).toBe('btr_01_disabled')
     expect(getReachedSimulationEvents(135.9).at(-1)?.id).toBe('btr_01_disabled')
     expect(getReachedSimulationEvents(136).at(-1)?.id).toBe('btr_survivors_fallback')
+    expect(getReachedSimulationEvents(149.9).at(-1)?.id).toBe('btr_survivors_fallback')
+    expect(getReachedSimulationEvents(150).at(-1)?.id).toBe('defender_armored_reinforcement_move')
+    expect(getReachedSimulationEvents(157.9).at(-1)?.id).toBe('defender_armored_reinforcement_move')
+    expect(getReachedSimulationEvents(158).at(-1)?.id).toBe('t72_lead_destroyed')
+    expect(getReachedSimulationEvents(162.9).at(-1)?.id).toBe('t72_lead_destroyed')
+    expect(getReachedSimulationEvents(163).at(-1)?.id).toBe('t72_survivors_withdraw')
     expect(getReachedSimulationEvents(165).at(-1)?.id).toBe('talwar_severe_list')
     expect(getReachedSimulationEvents(172).at(-1)?.id).toBe('molniya_open_water')
   })

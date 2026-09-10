@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type CameraPreset = 'overview' | 'wasp' | 'harbor' | 'talwar' | 'molniya' | 'industrial' | 'fuel-storage' | 'ammunition' | 'radar-hill' | 'search-radar' | 'corridor' | 'btr' | 'beachhead' | 'beach-offshore' | 'f35-01' | 'f35-02'
+export type CameraPreset = 'overview' | 'wasp' | 'harbor' | 'talwar' | 'molniya' | 'industrial' | 'fuel-storage' | 'ammunition' | 'radar-hill' | 'search-radar' | 'corridor' | 'btr' | 't72' | 'beachhead' | 'beach-offshore' | 'f35-01' | 'f35-02'
 
 interface CameraState {
   preset: CameraPreset

@@ -34,6 +34,7 @@ const FIXED_AAA_POSITION: Vector3 = { x: 4625, y: 175, z: 3300 }
 interface TimedPosition {
   readonly atSeconds: number
   readonly position: Vector3
+  readonly velocity?: Vector3
 }
 
 interface TimedFlightKeyframe extends TimedPosition {
@@ -121,10 +122,25 @@ function authoredFlightPositions(aircraftId: AircraftId): readonly TimedPosition
       { atSeconds: 56, position: { x: 6000, y: 760, z: 4400 } },
       { atSeconds: 60, position: { x: 6100, y: 800, z: 3800 } },
       { atSeconds: 68, position: { x: 5600, y: 860, z: 2800 } },
-      { atSeconds: 90, position: { x: 3000, y: 1000, z: 1000 } },
-      { atSeconds: 120, position: { x: 0, y: 1100, z: -500 } },
-      { atSeconds: 150, position: { x: -3000, y: 1200, z: -2500 } },
-      { atSeconds: 172, position: { x: -7000, y: 1300, z: -4200 } },
+      {
+        atSeconds: 90,
+        position: { x: 3000, y: 1000, z: 1000 },
+        // Preserve the completed pre-T+90 Hermite segment exactly while the
+        // following keyframes author the late return pass.
+        velocity: { x: -108.36055031789476, y: 4.644023585052633, z: -63.8553242944737 },
+      },
+      { atSeconds: 100, position: { x: 2000, y: 930, z: 300 } },
+      { atSeconds: 110, position: { x: 1000, y: 850, z: -1000 } },
+      { atSeconds: 120, position: { x: 800, y: 780, z: -2200 } },
+      { atSeconds: 130, position: { x: 1600, y: 700, z: -3000 } },
+      { atSeconds: 140, position: { x: 3500, y: 620, z: -2000 } },
+      { atSeconds: 148, position: { x: 4600, y: 580, z: -900 } },
+      { atSeconds: 154.5, position: { x: 5400, y: 550, z: -100 } },
+      { atSeconds: 158, position: { x: 6250, y: 520, z: 400 } },
+      { atSeconds: 161.5, position: { x: 6933, y: 535, z: 490 } },
+      { atSeconds: 165, position: { x: 7479, y: 570, z: 71 } },
+      { atSeconds: 168.5, position: { x: 7569, y: 650, z: -612 } },
+      { atSeconds: 172, position: { x: 7150, y: 760, z: -1158 }, velocity: { x: -174, y: 31, z: -101 } },
     ]
   }
 
@@ -175,6 +191,7 @@ function buildAuthoredFlightPath(aircraftId: AircraftId): readonly TimedFlightKe
 
   const positions = authoredFlightPositions(aircraftId)
   const path = positions.map((keyframe, index): TimedFlightKeyframe => {
+    if (keyframe.velocity) return { ...keyframe, velocity: { ...keyframe.velocity } }
     if (index === 0) {
       return {
         ...keyframe,

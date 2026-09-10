@@ -1,5 +1,6 @@
 import type { AirGroundStrikeDefinition, AirGroundWeaponState, Pose3, Vector3 } from './types'
 
+import { T72_LEAD_IMPACT_ANCHOR } from './groundVehicles.ts'
 import { addVector3, clamp, distanceVector3, inverseLerp, normalizeVector3, rotateVectorByEulerXYZ, scaleVector3, subtractVector3, transformLocalOffset, transformLocalOffsetByPose } from './math'
 
 const TALWAR_POSITION: Vector3 = { x: -3766, y: 0, z: 3847 }
@@ -107,6 +108,18 @@ export const AIR_GROUND_STRIKES = [
     releaseAtSeconds: 110.5,
     impactAtSeconds: 115,
     targetPosition: TALWAR_SECOND_HIT,
+    lowerBayOffset: LOWER_WEAPONS_BAY_OFFSET,
+    kind: 'guided-bomb',
+    powered: false,
+    bodyColor: '#202522',
+  },
+  {
+    id: 't72_lead_destroyed',
+    sourceAircraftId: 'attacker_f35_01',
+    targetId: 'defender_t72_01',
+    releaseAtSeconds: 154.5,
+    impactAtSeconds: 158,
+    targetPosition: T72_LEAD_IMPACT_ANCHOR,
     lowerBayOffset: LOWER_WEAPONS_BAY_OFFSET,
     kind: 'guided-bomb',
     powered: false,

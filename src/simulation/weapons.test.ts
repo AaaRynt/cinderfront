@@ -15,9 +15,11 @@ describe('deterministic aircraft-delivered guided bombs', () => {
       ['industrial_pipeline_hit', 78],
       ['fuel_tank_initial_hit', 86],
       ['talwar_second_hit', 115],
+      ['t72_lead_destroyed', 158],
     ])
     expect(AIR_GROUND_STRIKE_BY_ID.industrial_pipeline_hit.targetPosition).toEqual({ x: -1450, y: 43.04, z: 2500 })
     expect(AIR_GROUND_STRIKE_BY_ID.fuel_tank_initial_hit.targetPosition).toEqual({ x: -550, y: 57.94, z: 2050 })
+    expect(AIR_GROUND_STRIKE_BY_ID.t72_lead_destroyed).toMatchObject({ releaseAtSeconds: 154.5, sourceAircraftId: 'attacker_f35_01', targetId: 'defender_t72_01' })
   })
 
   it.each(AIR_GROUND_STRIKES)('$id releases from the transformed lower bay with a forward/downward tangent', (definition) => {

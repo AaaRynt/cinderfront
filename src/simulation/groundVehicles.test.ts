@@ -59,7 +59,7 @@ describe('Stage 4B deterministic BTR-80 lifecycle', () => {
     const late = deriveBtr80GroupState(172).vehicles.defender_btr_01
     expect(late.pose.position).toEqual(atLoss.pose.position)
     expect(late.traveledDistanceMeters).toBe(atLoss.traveledDistanceMeters)
-    expect(late.wheelRotationRadians).toBe(atLoss.wheelRotationRadians)
+    expect(late.drivetrain.wheelRotationRadians).toBe(atLoss.drivetrain.wheelRotationRadians)
     expect(late.physicalCondition).toBe('disabled')
     expect(late.damage.hullDamageProgress).toBe(1)
     expect(late.damage.smokeIntensity).toBeGreaterThan(0)
@@ -121,7 +121,7 @@ describe('Stage 4B deterministic BTR-80 lifecycle', () => {
         const state = group.vehicles[id]
         maximumDerivedSpeed = Math.max(maximumDerivedSpeed, state.speedMetersPerSecond)
         maximumAcceleration = Math.max(maximumAcceleration, Math.abs(state.accelerationMetersPerSecondSquared))
-        maximumSteering = Math.max(maximumSteering, Math.abs(state.steeringRadians))
+        maximumSteering = Math.max(maximumSteering, Math.abs(state.drivetrain.steeringRadians))
         if (time >= 0.05 && time <= 171.95) {
           const before = sampleBtr80MotionPath(id, time - 0.05)
           const after = sampleBtr80MotionPath(id, time + 0.05)
@@ -183,8 +183,8 @@ describe('Stage 4B deterministic BTR-80 lifecycle', () => {
   it('derives wheel travel, dust, and damage visibility only from absolute time', () => {
     const moving = deriveBtr80GroupState(90).vehicles.defender_btr_03
     expect(moving.dustIntensity).toBeGreaterThan(0)
-    expect(moving.wheelRotationRadians).toBeCloseTo(moving.traveledDistanceMeters / BTR80_DIMENSIONS_METERS.wheelRadius, 10)
-    expect(deriveBtr80GroupState(90).vehicles.defender_btr_03.wheelRotationRadians).toBe(moving.wheelRotationRadians)
+    expect(moving.drivetrain.wheelRotationRadians).toBeCloseTo(moving.traveledDistanceMeters / BTR80_DIMENSIONS_METERS.wheelRadius, 10)
+    expect(deriveBtr80GroupState(90).vehicles.defender_btr_03.drivetrain.wheelRotationRadians).toBe(moving.drivetrain.wheelRotationRadians)
     expect(deriveBtr80GroupState(74.9).vehicles.defender_btr_03.dustIntensity).toBe(0)
     expect(deriveBtr80GroupState(118).vehicles.defender_btr_03.dustIntensity).toBe(0)
     expect(deriveBtr80GroupState(132.9).vehicles.defender_btr_01.damage.flashIntensity).toBe(0)

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import type { GroundVehicleGroupState, SimulationEvent, SimulationSpeed } from '@/simulation'
+import type { Btr80GroundVehicleGroupState, SimulationEvent, SimulationSpeed, T72GroundVehicleGroupState } from '@/simulation'
 
 import { BattlefieldScene } from '@/scene/BattlefieldScene'
 import { deriveSimulationWorldState, quantizeSimulationTime, SIMULATION_DURATION_SECONDS, useSimulationStore } from '@/simulation'
@@ -34,6 +34,9 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   ammunition_storage_primary_detonation: 'Primary ammunition bunker detonates',
   btr_01_disabled: 'BTR-80 01 disabled by secondary blast',
   btr_survivors_fallback: 'BTR-80 survivors begin withdrawal',
+  defender_armored_reinforcement_move: 'T-72B group begins armored reinforcement',
+  t72_lead_destroyed: 'Lead T-72B destroyed by F-35B 01',
+  t72_survivors_withdraw: 'T-72B survivors begin reverse withdrawal',
   talwar_severe_list: 'Talwar mission-killed and partially flooded',
   molniya_open_water: 'Molniya reaches open water',
 }
@@ -42,11 +45,18 @@ function phaseLabel(value: string) {
   return value.replaceAll('-', ' ')
 }
 
-function btrGroupStatus(group: GroundVehicleGroupState) {
+function btrGroupStatus(group: Btr80GroundVehicleGroupState) {
   const fallbackActive = group.activity === 'turning-to-withdraw' || group.activity === 'withdrawing' || group.activity === 'movement-complete'
   if (group.disabledCount === 1 && fallbackActive) return '3 withdrawing / 1 disabled'
   if (group.disabledCount === 1) return '1 disabled / 3 operational'
   return phaseLabel(group.activity)
+}
+
+function t72GroupStatus(group: T72GroundVehicleGroupState) {
+  if (group.destroyedCount === 1 && group.withdrawingCount === 2) return '2 withdrawing / 1 destroyed'
+  if (group.destroyedCount === 1) return '1 destroyed / 2 halted'
+  if (group.activity === 'moving-to-reinforce') return '3 reinforcing'
+  return 'reserve'
 }
 
 function SimulationInterface() {
@@ -69,6 +79,7 @@ function SimulationInterface() {
     talwar: phaseLabel(world.stage3.talwar.phase),
     molniya: phaseLabel(world.stage3.molniya.phase),
     btrGroup: btrGroupStatus(world.stage4b.btrGroup),
+    t72Group: t72GroupStatus(world.stage4b.t72Group),
     industrial: world.stage3.industrial.ammunitionCompoundDestroyed ? 'fuel and ammunition sites destroyed' : world.stage3.industrial.blackoutFraction > 0 ? 'partial blackout / fires active' : world.stage3.industrial.pipelineIgnited ? 'fuel-transfer fire active' : 'operational',
   }
 

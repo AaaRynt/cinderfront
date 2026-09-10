@@ -385,7 +385,7 @@ Future work must preserve:
 
 # Stage 4B — Deterministic Battlefield Reaction Vertical Slice
 
-**Status:** CURRENT
+**Status:** COMPLETE
 
 ## Goal
 
@@ -420,24 +420,44 @@ Stage 4B does not include:
 
 The surviving BTR-80 vehicles may still be withdrawing when the currently implemented timeline ends. Stage 4B must not extend the timeline merely to finish their route.
 
-# Stage 4B.2 — Deterministic Actor Expansion
+# Stage 4B.2A — Deterministic Armored Reinforcement Attempt
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
 ## Goal
 
-Reuse the validated Stage 4B lifecycle and authored-path architecture for a limited expansion of battlefield reactions.
+Validate a second deterministic ground-vehicle family through one bounded armored reinforcement, air-strike loss, and fallback response.
+
+## Completed Scope
+
+- three T-72B reinforcement movement
+- returning F-35B support strike
+- one persistent lead-tank loss
+- two-tank reverse / fallback response
+- tracked-motion and deterministic reconstruction validation
+
+# Stage 4B.2B — Limited Airborne Defender Reaction
+
+**Status:** PLANNED
 
 ## Planned Scope
 
-- T-72B reinforcement movement
-- lead T-72B loss
-- surviving T-72B fallback
-- limited Su-30MKK defensive appearance and withdrawal
-- support / rescue convoy movement only after the Stage 4B lifecycle foundation is proven
-- firefighting and engineering response represented through vehicles and machinery only
-- route obstruction, failed approach, and partial convoy withdrawal
-- persistent deterministic damage and survivor outcomes
+- two Su-30MKK aircraft
+- brief defensive appearance
+- one damaged withdrawal
+- one covering withdrawal
+- no generalized air-combat AI
+
+# Stage 4B.2C — Support and Rescue Convoy
+
+**Status:** PLANNED
+
+## Planned Scope
+
+- six simple support vehicles
+- firefighting, engineering, recovery, and logistics response
+- obstruction, failed approach, and partial withdrawal
+- no visible personnel
 
 This remains an authored scenario. Do not introduce generalized AI or nondeterministic combat outcomes.
 

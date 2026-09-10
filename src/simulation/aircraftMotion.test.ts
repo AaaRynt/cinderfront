@@ -100,4 +100,53 @@ describe('Stage 4A deterministic F-35 cinematic motion', () => {
       expect(aircraftAt('attacker_f35_02', time)).toEqual(aircraftAt('attacker_f35_02', time))
     }
   })
+
+  it('preserves the primary F-35 handoff at T+90 and follows the authored late support pass', () => {
+    const beforeHandoff = aircraftAt('attacker_f35_01', 89.999)
+    const handoff = aircraftAt('attacker_f35_01', 90)
+    const afterHandoff = aircraftAt('attacker_f35_01', 90.001)
+
+    expect(handoff.pose.position).toEqual({ x: 3_000, y: 1_000, z: 1_000 })
+    expect(Math.hypot(handoff.pose.position.x - beforeHandoff.pose.position.x, handoff.pose.position.y - beforeHandoff.pose.position.y, handoff.pose.position.z - beforeHandoff.pose.position.z)).toBeLessThan(0.2)
+    expect(Math.hypot(afterHandoff.pose.position.x - handoff.pose.position.x, afterHandoff.pose.position.y - handoff.pose.position.y, afterHandoff.pose.position.z - handoff.pose.position.z)).toBeLessThan(0.2)
+    expect(Math.abs(handoff.speedMetersPerSecond - beforeHandoff.speedMetersPerSecond)).toBeLessThan(0.2)
+    expect(Math.abs(afterHandoff.speedMetersPerSecond - handoff.speedMetersPerSecond)).toBeLessThan(0.2)
+    expect(angularDistance(beforeHandoff.pose.rotation.y, afterHandoff.pose.rotation.y)).toBeLessThan(0.002)
+
+    expect(aircraftAt('attacker_f35_01', 154.5).pose.position).toEqual({ x: 5_400, y: 550, z: -100 })
+    expect(aircraftAt('attacker_f35_01', 158).pose.position).toEqual({ x: 6_250, y: 520, z: 400 })
+    const outboundTurn = aircraftAt('attacker_f35_01', 168.5)
+    const final = aircraftAt('attacker_f35_01', 172)
+    expect(outboundTurn.pose.position).toEqual({ x: 7_569, y: 650, z: -612 })
+    expect(final.pose.position).toEqual({ x: 7_150, y: 760, z: -1_158 })
+    expect(final.pose.position.x).toBeLessThan(outboundTurn.pose.position.x)
+    expect(final.pose.position.z).toBeLessThan(outboundTurn.pose.position.z)
+  })
+
+  it('keeps the revised late primary-F-35 pass inside the established motion envelope', () => {
+    const sampleStepSeconds = 0.05
+    let previous = aircraftAt('attacker_f35_01', 90)
+    let maximumAcceleration = 0
+    let maximumBank = 0
+    let maximumPoseMismatch = 0
+    let maximumSpeed = 0
+    let maximumTurnRate = 0
+
+    for (let time = 90 + sampleStepSeconds; time <= 171.95; time += sampleStepSeconds) {
+      const current = aircraftAt('attacker_f35_01', time)
+      const pathHeading = headingBetweenPositions(previous.pose.position, current.pose.position)
+      maximumAcceleration = Math.max(maximumAcceleration, Math.abs(current.speedMetersPerSecond - previous.speedMetersPerSecond) / sampleStepSeconds)
+      maximumBank = Math.max(maximumBank, Math.abs(current.bankRadians))
+      maximumPoseMismatch = Math.max(maximumPoseMismatch, angularDistance(current.pose.rotation.y, pathHeading))
+      maximumSpeed = Math.max(maximumSpeed, current.speedMetersPerSecond)
+      maximumTurnRate = Math.max(maximumTurnRate, Math.abs(current.turnRateRadiansPerSecond))
+      previous = current
+    }
+
+    expect(maximumSpeed).toBeLessThan(330)
+    expect(maximumAcceleration).toBeLessThan(110)
+    expect(maximumTurnRate).toBeLessThan((25 * Math.PI) / 180)
+    expect(maximumBank).toBeLessThanOrEqual((34 * Math.PI) / 180)
+    expect(maximumPoseMismatch).toBeLessThan((1.5 * Math.PI) / 180)
+  })
 })
