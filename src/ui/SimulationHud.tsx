@@ -21,6 +21,7 @@ interface BattlefieldStatus {
   molniya: string
   btrGroup: string
   t72Group: string
+  su30Group: string
   industrial: string
 }
 
@@ -63,13 +64,14 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Waves, id: 'beach-offshore', label: 'Beach offshore' },
   { icon: Plane, id: 'f35-01', label: 'F-35B 01' },
   { icon: Plane, id: 'f35-02', label: 'F-35B 02' },
+  { icon: Plane, id: 'su30', label: 'Air reinforcement' },
 ]
 
 function StatusRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="status-row">
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong title={value}>{value}</strong>
     </div>
   )
 }
@@ -92,7 +94,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="eyebrow">Cinderfront / Stage 4B.2A</p>
+            <p className="eyebrow">Cinderfront / Stage 4B.2B</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -117,6 +119,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           <StatusRow label="Molniya" value={battlefieldStatus.molniya} />
           <StatusRow label="BTR-80 group" value={battlefieldStatus.btrGroup} />
           <StatusRow label="T-72B group" value={battlefieldStatus.t72Group} />
+          <StatusRow label="Su-30MKK pair" value={battlefieldStatus.su30Group} />
           <StatusRow label="Industrial" value={battlefieldStatus.industrial} />
         </div>
       </aside>

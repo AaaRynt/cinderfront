@@ -238,7 +238,8 @@ describe('Stage 4B.2A deterministic T-72B reinforcement lifecycle', () => {
     expect(T72_LEAD_IMPACT_ANCHOR.x).toBe(T72_AUTHORED_EXIT_X)
     expect(T72_LEAD_IMPACT_ANCHOR.z).toBe(250)
     const serialized = JSON.stringify(deriveSimulationWorldState(172))
-    for (const excluded of ['su30', 'support_convoy', 'pantsir_02', 'lcac', 'lav_25']) expect(serialized.toLowerCase()).not.toContain(excluded)
+    // Stage 4B.2B now permits precisely the two authored Su-30s; later actors remain excluded.
+    for (const excluded of ['support_convoy', 'pantsir_02', 'lcac', 'lav_25']) expect(serialized.toLowerCase()).not.toContain(excluded)
   })
 
   it('keeps dust and every lead-damage layer tied to absolute time', () => {

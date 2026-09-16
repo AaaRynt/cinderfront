@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { adaptScenarioFaction, getReachedSimulationEvents, SIMULATION_DURATION_SECONDS, SIMULATION_EVENTS, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED, STAGE3_EVENTS, STAGE4B_EVENTS } from '.'
 import { clampSimulationTime, clampStage1Time, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
+import { STAGE4B2B_EVENTS } from './timeline'
 
 describe('Stage 1 timeline authority', () => {
   it('contains the exact authoritative event boundaries through 48 seconds', () => {
@@ -57,13 +58,13 @@ describe('Stage 4B timeline authority', () => {
   })
 
   it('keeps the combined event stream chronological around the BTR events and later Stage 3 events', () => {
-    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 133, 136, 150, 158, 163, 165, 172])
+    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 78, 86, 92, 94, 98, 100, 104, 115, 116, 128, 132, 133, 136, 137, 142, 150, 158, 163, 165, 170, 172])
 
     expect(getReachedSimulationEvents(132.9).at(-1)?.id).toBe('ammunition_storage_primary_detonation')
     expect(getReachedSimulationEvents(133).at(-1)?.id).toBe('btr_01_disabled')
     expect(getReachedSimulationEvents(135.9).at(-1)?.id).toBe('btr_01_disabled')
     expect(getReachedSimulationEvents(136).at(-1)?.id).toBe('btr_survivors_fallback')
-    expect(getReachedSimulationEvents(149.9).at(-1)?.id).toBe('btr_survivors_fallback')
+    expect(getReachedSimulationEvents(149.9).at(-1)?.id).toBe('su30_02_cover_withdrawal')
     expect(getReachedSimulationEvents(150).at(-1)?.id).toBe('defender_armored_reinforcement_move')
     expect(getReachedSimulationEvents(157.9).at(-1)?.id).toBe('defender_armored_reinforcement_move')
     expect(getReachedSimulationEvents(158).at(-1)?.id).toBe('t72_lead_destroyed')
@@ -71,5 +72,24 @@ describe('Stage 4B timeline authority', () => {
     expect(getReachedSimulationEvents(163).at(-1)?.id).toBe('t72_survivors_withdraw')
     expect(getReachedSimulationEvents(165).at(-1)?.id).toBe('talwar_severe_list')
     expect(getReachedSimulationEvents(172).at(-1)?.id).toBe('molniya_open_water')
+  })
+})
+
+describe('Stage 4B.2B airborne event authority', () => {
+  it('adds only the four official events, with deliberately unspecified damage causality', () => {
+    expect(STAGE4B2B_EVENTS).toEqual([
+      { id: 'su30_reinforcement_entry', atSeconds: 104, localTime: '05:28:44', entities: ['defender_su30_01', 'defender_su30_02'], event: 'enter_map_from_defending_airspace', pathId: 'path_defender_air_entry' },
+      { id: 'su30_01_damaged', atSeconds: 137, localTime: '05:29:17', actorId: 'defender_su30_01', event: 'take_damage_and_begin_withdrawal', pathId: 'path_air_egress_southwest', resultingState: 'damaged_and_egressing' },
+      { id: 'su30_02_cover_withdrawal', atSeconds: 142, localTime: '05:29:22', actorId: 'defender_su30_02', targetId: 'defender_su30_01', event: 'brief_covering_pass_for_defender_su30_01', pathId: 'path_air_egress_southwest' },
+      { id: 'aircraft_egress', atSeconds: 170, localTime: '05:29:50', entities: ['attacker_f35_01', 'attacker_f35_02', 'defender_su30_01', 'defender_su30_02'], event: 'main_air_combat_activity_exits_scene', pathId: 'path_air_egress_southwest' },
+    ])
+    for (const event of STAGE4B2B_EVENTS) {
+      expect(SIMULATION_EVENTS.filter((candidate) => candidate.id === event.id)).toEqual([event])
+      expect(getReachedSimulationEvents(event.atSeconds - 0.1).some((candidate) => candidate.id === event.id)).toBe(false)
+      expect(getReachedSimulationEvents(event.atSeconds).at(-1)).toEqual(event)
+      expect(getReachedSimulationEvents(event.atSeconds + 0.1).at(-1)).toEqual(event)
+    }
+    expect(SIMULATION_EVENTS.filter((event) => !STAGE4B2B_EVENTS.some((added) => added.id === event.id))).toEqual([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].sort((a, b) => a.atSeconds - b.atSeconds))
+    expect(SIMULATION_DURATION_SECONDS).toBe(172)
   })
 })

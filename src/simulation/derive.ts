@@ -1,9 +1,10 @@
-import type { AircraftId, AircraftMechanicalState, AircraftPhase, AircraftState, AirGroundStrikeId, AirGroundWeaponState, FixedAaaState, PantsirState, PersistentStage1State, RadarState, SimulationWorldState, Stage1WorldState, Stage3WorldState, TransientEffectState, Vector3, WaspState } from './types'
+import type { F35AircraftId, AircraftMechanicalState, AircraftPhase, F35AircraftState, AirGroundStrikeId, AirGroundWeaponState, FixedAaaState, PantsirState, PersistentStage1State, RadarState, SimulationWorldState, Stage1WorldState, Stage3WorldState, TransientEffectState, Vector3, WaspState } from './types'
 
 import { SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_FIXED_SEED } from './constants'
 import { deriveStage4BWorldState } from './groundVehicles'
 import { clamp, distanceVector3, headingBetween, inverseLerp, lerp, lerpAngleRadians, normalizeVector3, samplePolyline, scaleVector3, smoothstep, subtractVector3, transformLocalOffset, yawForDirection } from './math'
 import { deriveHarborStage3State, deriveIndustrialStage3State, deriveMolniyaState, deriveStage3ReachedEvents, deriveTalwarState } from './stage3'
+import { deriveSu30ReinforcementState } from './su30Reinforcement'
 import { formatLocalTime, formatSimulationTime, clampSimulationTime, clampStage1Time } from './time'
 import { getReachedEvents, getReachedSimulationEvents, hasReachedEvent } from './timeline'
 import { AIR_GROUND_STRIKES, deriveAirGroundWeaponState } from './weapons'
@@ -20,12 +21,12 @@ const WASP_PATROL_POINTS: readonly Vector3[] = [
 const AIRCRAFT_LAUNCH_TIMES = {
   attacker_f35_01: 5,
   attacker_f35_02: 13,
-} as const satisfies Readonly<Record<AircraftId, number>>
+} as const satisfies Readonly<Record<F35AircraftId, number>>
 
 const AIRCRAFT_DECK_OFFSETS = {
   attacker_f35_01: { x: -5, y: 15, z: -58 },
   attacker_f35_02: { x: -5, y: 15, z: 20 },
-} as const satisfies Readonly<Record<AircraftId, Vector3>>
+} as const satisfies Readonly<Record<F35AircraftId, Vector3>>
 
 const PANTSIR_POSITION: Vector3 = { x: 3050, y: 190, z: 3375 }
 const PRIMARY_RADAR_POSITION: Vector3 = { x: 3550, y: 210, z: 4150 }
@@ -53,7 +54,7 @@ const AIRCRAFT_MAX_BANK_RADIANS = (34 * Math.PI) / 180
 const AIRCRAFT_MAX_CINEMATIC_TURN_RATE_RADIANS_PER_SECOND = (12 * Math.PI) / 180
 const STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED = 9.81
 
-const AIRCRAFT_FLIGHT_PATH_CACHE = new Map<AircraftId, readonly TimedFlightKeyframe[]>()
+const AIRCRAFT_FLIGHT_PATH_CACHE = new Map<F35AircraftId, readonly TimedFlightKeyframe[]>()
 
 function eventReached(timeSeconds: number, atSeconds: number): boolean {
   return hasReachedEvent(timeSeconds, atSeconds)
@@ -91,19 +92,19 @@ export function deriveWaspState(timeSeconds: number): WaspState {
   return deriveWaspStateForSimulation(clampStage1Time(timeSeconds))
 }
 
-function deckPosition(aircraftId: AircraftId, timeSeconds: number): Vector3 {
+function deckPosition(aircraftId: F35AircraftId, timeSeconds: number): Vector3 {
   const wasp = deriveWaspStateForSimulation(timeSeconds)
   return transformLocalOffset(wasp.pose.position, wasp.pose.rotation.y, AIRCRAFT_DECK_OFFSETS[aircraftId])
 }
 
-function deckVelocity(aircraftId: AircraftId, timeSeconds: number): Vector3 {
+function deckVelocity(aircraftId: F35AircraftId, timeSeconds: number): Vector3 {
   const sampleRadiusSeconds = 0.05
   const before = deckPosition(aircraftId, Math.max(0, timeSeconds - sampleRadiusSeconds))
   const after = deckPosition(aircraftId, Math.min(SIMULATION_DURATION_SECONDS, timeSeconds + sampleRadiusSeconds))
   return scaleVector3(subtractVector3(after, before), 1 / (sampleRadiusSeconds * 2))
 }
 
-function authoredFlightPositions(aircraftId: AircraftId): readonly TimedPosition[] {
+function authoredFlightPositions(aircraftId: F35AircraftId): readonly TimedPosition[] {
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const transitionStart = deckPosition(aircraftId, launchAtSeconds + 5)
   const liftedStart = { ...transitionStart, y: transitionStart.y + 42 }
@@ -185,7 +186,7 @@ function cappedVelocity(direction: Vector3, speedMetersPerSecond: number): Vecto
   return scaleVector3(normalizeVector3(direction), Math.min(speedMetersPerSecond, AIRCRAFT_MAX_KEYFRAME_SPEED_METERS_PER_SECOND))
 }
 
-function buildAuthoredFlightPath(aircraftId: AircraftId): readonly TimedFlightKeyframe[] {
+function buildAuthoredFlightPath(aircraftId: F35AircraftId): readonly TimedFlightKeyframe[] {
   const cached = AIRCRAFT_FLIGHT_PATH_CACHE.get(aircraftId)
   if (cached) return cached
 
@@ -262,7 +263,7 @@ function sampleCubicFlightSegment(previous: TimedFlightKeyframe, next: TimedFlig
   }
 }
 
-function sampleAuthoredFlightPath(aircraftId: AircraftId, timeSeconds: number): AircraftMotionSample {
+function sampleAuthoredFlightPath(aircraftId: F35AircraftId, timeSeconds: number): AircraftMotionSample {
   const keyframes = buildAuthoredFlightPath(aircraftId)
   if (timeSeconds <= keyframes[0].atSeconds) return { position: { ...keyframes[0].position }, velocity: { ...keyframes[0].velocity } }
 
@@ -335,7 +336,7 @@ function aircraftMechanicalState(elapsedSeconds: number): AircraftMechanicalStat
   }
 }
 
-function sampleAircraftMotion(aircraftId: AircraftId, timeSeconds: number): AircraftMotionSample {
+function sampleAircraftMotion(aircraftId: F35AircraftId, timeSeconds: number): AircraftMotionSample {
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const elapsedSeconds = timeSeconds - launchAtSeconds
 
@@ -368,14 +369,14 @@ function sampleAircraftMotion(aircraftId: AircraftId, timeSeconds: number): Airc
   return sampleAuthoredFlightPath(aircraftId, timeSeconds)
 }
 
-function headingFromMotion(aircraftId: AircraftId, timeSeconds: number): number {
+function headingFromMotion(aircraftId: F35AircraftId, timeSeconds: number): number {
   const minimumTime = AIRCRAFT_LAUNCH_TIMES[aircraftId] + 5
   const before = sampleAircraftMotion(aircraftId, Math.max(minimumTime, timeSeconds - AIRCRAFT_HEADING_SAMPLE_SECONDS)).position
   const after = sampleAircraftMotion(aircraftId, Math.min(SIMULATION_DURATION_SECONDS, timeSeconds + AIRCRAFT_HEADING_SAMPLE_SECONDS)).position
   return headingBetween(before, after)
 }
 
-function flightHeading(aircraftId: AircraftId, timeSeconds: number, motion: AircraftMotionSample): number {
+function flightHeading(aircraftId: F35AircraftId, timeSeconds: number, motion: AircraftMotionSample): number {
   const cinematicHeading = headingFromMotion(aircraftId, timeSeconds)
   const horizontalSpeed = Math.hypot(motion.velocity.x, motion.velocity.z)
   if (horizontalSpeed < 0.001) return cinematicHeading
@@ -388,7 +389,7 @@ function angleDifferenceRadians(start: number, end: number): number {
   return Math.atan2(Math.sin(end - start), Math.cos(end - start))
 }
 
-function aircraftKinematics(aircraftId: AircraftId, timeSeconds: number): Pick<AircraftState, 'pose' | 'speedMetersPerSecond' | 'turnRateRadiansPerSecond' | 'bankRadians'> {
+function aircraftKinematics(aircraftId: F35AircraftId, timeSeconds: number): Pick<F35AircraftState, 'pose' | 'speedMetersPerSecond' | 'turnRateRadiansPerSecond' | 'bankRadians'> {
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const elapsedSeconds = timeSeconds - launchAtSeconds
   const motion = sampleAircraftMotion(aircraftId, timeSeconds)
@@ -443,13 +444,14 @@ function aircraftKinematics(aircraftId: AircraftId, timeSeconds: number): Pick<A
   }
 }
 
-function deriveAircraftStateForSimulation(aircraftId: AircraftId, timeSeconds: number): AircraftState {
+function deriveAircraftStateForSimulation(aircraftId: F35AircraftId, timeSeconds: number): F35AircraftState {
   const time = clampSimulationTime(timeSeconds)
   const launchAtSeconds = AIRCRAFT_LAUNCH_TIMES[aircraftId]
   const elapsedSeconds = time - launchAtSeconds
   const kinematics = aircraftKinematics(aircraftId, time)
   return {
     id: aircraftId,
+    vehicleType: 'F-35B',
     factionId: 'landings_attacker',
     launchAtSeconds,
     phase: aircraftPhase(elapsedSeconds),
@@ -461,7 +463,7 @@ function deriveAircraftStateForSimulation(aircraftId: AircraftId, timeSeconds: n
 }
 
 /** Frozen Stage 1 helper: direct callers retain the original T+48 boundary. */
-export function deriveAircraftState(aircraftId: AircraftId, timeSeconds: number): AircraftState {
+export function deriveAircraftState(aircraftId: F35AircraftId, timeSeconds: number): F35AircraftState {
   return deriveAircraftStateForSimulation(aircraftId, clampStage1Time(timeSeconds))
 }
 
@@ -657,6 +659,7 @@ export function deriveStage3WorldState(timeSeconds: number): Stage3WorldState {
 export function deriveSimulationWorldState(timeSeconds: number): SimulationWorldState {
   const time = clampSimulationTime(timeSeconds)
   const opening = deriveStage1WorldState(Math.min(time, STAGE1_DURATION_SECONDS))
+  const stage4b2b = deriveSu30ReinforcementState(time)
   return {
     ...opening,
     timeSeconds: time,
@@ -667,6 +670,7 @@ export function deriveSimulationWorldState(timeSeconds: number): SimulationWorld
     aircraft: {
       attacker_f35_01: deriveAircraftStateForSimulation('attacker_f35_01', time),
       attacker_f35_02: deriveAircraftStateForSimulation('attacker_f35_02', time),
+      ...stage4b2b.aircraft,
     },
     radar: deriveRadarStateForSimulation(time),
     pantsir: derivePantsirStateForSimulation(time),
@@ -675,5 +679,6 @@ export function deriveSimulationWorldState(timeSeconds: number): SimulationWorld
     transientEffects: deriveTransientEffectsForSimulation(time),
     stage3: deriveStage3WorldState(time),
     stage4b: deriveStage4BWorldState(time),
+    stage4b2b,
   }
 }

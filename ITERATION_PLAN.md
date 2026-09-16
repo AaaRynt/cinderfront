@@ -438,14 +438,17 @@ Validate a second deterministic ground-vehicle family through one bounded armore
 
 # Stage 4B.2B — Limited Airborne Defender Reaction
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
-## Planned Scope
+## Completed Scope
 
 - two Su-30MKK aircraft
-- brief defensive appearance
-- one damaged withdrawal
-- one covering withdrawal
+- T+104 entry from the northeast on authored, deterministic paths
+- brief pressure and support roles before the breakaway
+- T+137 damaged survivor breakaway for `defender_su30_01`
+- T+142 covering withdrawal for `defender_su30_02`
+- T+170 air-activity egress through the southwest boundary
+- deterministic aircraft-state, effects, camera, UI, and browser validation
 - no generalized air-combat AI
 
 # Stage 4B.2C — Support and Rescue Convoy

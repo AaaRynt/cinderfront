@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { AircraftId } from './types'
+import type { F35AircraftId } from './types'
 
 import { deriveSimulationWorldState } from './derive'
 
@@ -8,7 +8,7 @@ function angularDistance(start: number, end: number): number {
   return Math.abs(Math.atan2(Math.sin(end - start), Math.cos(end - start)))
 }
 
-function aircraftAt(aircraftId: AircraftId, timeSeconds: number) {
+function aircraftAt(aircraftId: F35AircraftId, timeSeconds: number) {
   return deriveSimulationWorldState(timeSeconds).aircraft[aircraftId]
 }
 

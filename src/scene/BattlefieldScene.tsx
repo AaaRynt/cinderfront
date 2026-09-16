@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { ACESFilmicToneMapping, BackSide, DoubleSide, RingGeometry } from 'three'
 
-import type { AircraftState, SimulationWorldState } from '@/simulation'
+import type { F35AircraftState, SimulationWorldState } from '@/simulation'
 
 import { deriveAircraftState, deriveSimulationWorldState, simulationStore, useSimulationStore } from '@/simulation'
 
@@ -17,6 +17,7 @@ import { Stage4B2AArmoredEffects } from './effects/Stage4B2AArmoredEffects'
 import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
 import { Btr80Group, F35BModel, PantsirModel, T72BGroup, WaspModel } from './vehicles'
+import { Su30MkkGroup } from './vehicles/Su30MkkGroup'
 import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
 
 const NEAR_HIT_POSITION: Vec3 = [3_115, 174, 3_330]
@@ -128,7 +129,7 @@ function DawnEnvironment() {
   )
 }
 
-function DownwashDisturbance({ aircraft, time, waspDeckY }: { aircraft: AircraftState; time: number; waspDeckY: number }) {
+function DownwashDisturbance({ aircraft, time, waspDeckY }: { aircraft: F35AircraftState; time: number; waspDeckY: number }) {
   const strength = aircraft.mechanical.downwashStrength
   if (strength < 0.08 || aircraft.pose.position.y > waspDeckY + 85) return null
 
@@ -148,7 +149,7 @@ function DownwashDisturbance({ aircraft, time, waspDeckY }: { aircraft: Aircraft
   )
 }
 
-function AircraftEntity({ aircraft, time, waspDeckY }: { aircraft: AircraftState; time: number; waspDeckY: number }) {
+function AircraftEntity({ aircraft, time, waspDeckY }: { aircraft: F35AircraftState; time: number; waspDeckY: number }) {
   const { mechanical, pose } = aircraft
   const enginePower = aircraft.launched ? Math.max(0.42, mechanical.heatHazeStrength) : 0.12
   const enginePulse = enginePower * (0.97 + Math.sin(time * 17 + aircraft.launchAtSeconds) * 0.03)
@@ -222,6 +223,9 @@ function DynamicBattlefield() {
   const world = useMemo(() => deriveSimulationWorldState(time), [time])
   const f35Primary = world.aircraft.attacker_f35_01
   const f35Secondary = world.aircraft.attacker_f35_02
+  const su30Primary = world.aircraft.defender_su30_01.pose.position
+  const su30Secondary = world.aircraft.defender_su30_02.pose.position
+  const su30Separation = Math.hypot(su30Primary.x - su30Secondary.x, su30Primary.y - su30Secondary.y, su30Primary.z - su30Secondary.z)
   const deckY = world.wasp.pose.position.y + 13.2
   const t72Vehicles = world.stage4b.t72Group.orderedVehicleIds.map((id) => world.stage4b.t72Group.vehicles[id])
   const t72Position: Vec3 = [t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.x, 0) / t72Vehicles.length, t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.y, 0) / t72Vehicles.length, t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.z, 0) / t72Vehicles.length]
@@ -231,6 +235,7 @@ function DynamicBattlefield() {
       <WaspEntity world={world} />
       <AircraftEntity aircraft={f35Primary} time={time} waspDeckY={deckY} />
       <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
+      <Su30MkkGroup group={world.stage4b2b} />
       <RadarHillEngagement world={world} />
       <Btr80Group group={world.stage4b.btrGroup} />
       <T72BGroup group={world.stage4b.t72Group} />
@@ -242,6 +247,9 @@ function DynamicBattlefield() {
         f35Position={vectorTuple(f35Primary.pose.position)}
         f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)}
         molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)}
+        su30Position={vectorTuple(world.stage4b2b.anchor.position)}
+        su30FramingScale={Math.sqrt(1 + (su30Separation / 310) ** 2)}
+        su30YawRadians={world.stage4b2b.anchor.rotation.y}
         t72HullYawRadians={world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y}
         t72Position={t72Position}
       />

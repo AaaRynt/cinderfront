@@ -1,10 +1,13 @@
+import type { Su30AircraftId, Su30AircraftState, Su30ReinforcementState } from './su30Types'
+
 export type RawScenarioFaction = 'attacker' | 'defender'
 
 export type FactionId = 'landings_attacker' | 'island_defender'
 
 export type SimulationSpeed = 0.5 | 1 | 2
 
-export type AircraftId = 'attacker_f35_01' | 'attacker_f35_02'
+export type F35AircraftId = 'attacker_f35_01' | 'attacker_f35_02'
+export type AircraftId = F35AircraftId | Su30AircraftId
 
 export type Stage1EventId = 'scenario_begin' | 'wasp_offshore_underway' | 'f35_01_launch' | 'f35_02_launch' | 'radar_alert' | 'air_defense_tracking' | 'pantsir_01_engage' | 'fixed_air_defense_engage' | 'radar_hill_near_hit' | 'pantsir_01_destroyed' | 'primary_radar_disabled' | 'harbor_first_hit'
 
@@ -74,7 +77,21 @@ export interface Stage4BEvent {
   readonly resultingState?: 'three_mobile_one_disabled' | 'one_destroyed_two_withdrawing'
 }
 
-export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent
+export type Stage4B2BEventId = 'su30_reinforcement_entry' | 'su30_01_damaged' | 'su30_02_cover_withdrawal' | 'aircraft_egress'
+
+export interface Stage4B2BEvent {
+  readonly id: Stage4B2BEventId
+  readonly atSeconds: number
+  readonly localTime: string
+  readonly event: string
+  readonly actorId?: Su30AircraftId
+  readonly entities?: readonly AircraftId[]
+  readonly targetId?: Su30AircraftId
+  readonly pathId: 'path_defender_air_entry' | 'path_air_egress_southwest'
+  readonly resultingState?: 'damaged_and_egressing'
+}
+
+export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent | Stage4B2BEvent
 
 export type AircraftPhase = 'launch-ready' | 'stovl-prep' | 'vertical-lift' | 'transition' | 'forward-flight'
 
@@ -89,22 +106,27 @@ export interface AircraftMechanicalState {
   readonly heatHazeStrength: number
 }
 
-export interface AircraftState {
-  readonly id: AircraftId
+export interface AircraftMotionState {
+  readonly pose: Pose3
+  /** World-space speed reconstructed from the deterministic authored flight curve. */
+  readonly speedMetersPerSecond: number
+  readonly turnRateRadiansPerSecond: number
+  readonly bankRadians: number
+}
+
+export interface F35AircraftState extends AircraftMotionState {
+  readonly id: F35AircraftId
+  readonly vehicleType: 'F-35B'
   readonly factionId: 'landings_attacker'
   readonly launchAtSeconds: number
   readonly phase: AircraftPhase
   readonly launched: boolean
   readonly onDeck: boolean
-  readonly pose: Pose3
-  /** World-space speed reconstructed from the deterministic authored flight curve. */
-  readonly speedMetersPerSecond: number
-  /** Smoothed cinematic heading rate. Positive values turn toward increasing yaw. */
-  readonly turnRateRadiansPerSecond: number
-  /** The authored aerodynamic bank, also applied to pose.rotation.z. */
-  readonly bankRadians: number
   readonly mechanical: AircraftMechanicalState
 }
+
+export type AircraftState = F35AircraftState | Su30AircraftState
+export type AircraftStates = Readonly<Record<F35AircraftId, F35AircraftState> & Record<Su30AircraftId, Su30AircraftState>>
 
 export interface WaspState {
   readonly factionId: 'landings_attacker'
@@ -173,7 +195,7 @@ export interface Stage1WorldState {
   readonly localTimeLabel: string
   readonly reachedEvents: readonly Stage1Event[]
   readonly wasp: WaspState
-  readonly aircraft: Readonly<Record<AircraftId, AircraftState>>
+  readonly aircraft: Readonly<Record<F35AircraftId, F35AircraftState>>
   readonly radar: RadarState
   readonly pantsir: PantsirState
   readonly fixedAaa: FixedAaaState
@@ -185,7 +207,7 @@ export type AirGroundStrikeId = 'radar_hill_near_hit' | 'pantsir_01_destroyed' |
 
 export interface AirGroundStrikeDefinition {
   readonly id: AirGroundStrikeId
-  readonly sourceAircraftId: AircraftId
+  readonly sourceAircraftId: F35AircraftId
   readonly targetId: 'sam_battery_area' | 'defender_pantsir_01' | 'radar_search_site' | 'warehouse_harbor_01' | 'defender_talwar_01:first_hit' | 'pipeline_harbor_fuel_trunk' | 'fuel_tank_05' | 'defender_talwar_01:second_hit' | 'defender_t72_01'
   readonly releaseAtSeconds: number
   readonly impactAtSeconds: number
@@ -436,8 +458,10 @@ export interface Stage4BWorldState {
   readonly t72Group: T72GroundVehicleGroupState
 }
 
-export interface SimulationWorldState extends Omit<Stage1WorldState, 'reachedEvents'> {
+export interface SimulationWorldState extends Omit<Stage1WorldState, 'reachedEvents' | 'aircraft'> {
+  readonly aircraft: AircraftStates
   readonly reachedEvents: readonly SimulationEvent[]
   readonly stage3: Stage3WorldState
   readonly stage4b: Stage4BWorldState
+  readonly stage4b2b: Su30ReinforcementState
 }

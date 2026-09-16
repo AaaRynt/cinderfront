@@ -39,6 +39,10 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   t72_survivors_withdraw: 'T-72B survivors begin reverse withdrawal',
   talwar_severe_list: 'Talwar mission-killed and partially flooded',
   molniya_open_water: 'Molniya reaches open water',
+  su30_reinforcement_entry: 'Two Su-30MKK reinforcements enter from the northeast',
+  su30_01_damaged: 'Su-30 01 damaged · controlled breakaway',
+  su30_02_cover_withdrawal: 'Su-30 02 covers the damaged aircraft’s withdrawal',
+  aircraft_egress: 'Primary air activity transitions to egress',
 }
 
 function phaseLabel(value: string) {
@@ -80,6 +84,7 @@ function SimulationInterface() {
     molniya: phaseLabel(world.stage3.molniya.phase),
     btrGroup: btrGroupStatus(world.stage4b.btrGroup),
     t72Group: t72GroupStatus(world.stage4b.t72Group),
+    su30Group: world.stage4b2b.status,
     industrial: world.stage3.industrial.ammunitionCompoundDestroyed ? 'fuel and ammunition sites destroyed' : world.stage3.industrial.blackoutFraction > 0 ? 'partial blackout / fires active' : world.stage3.industrial.pipelineIgnited ? 'fuel-transfer fire active' : 'operational',
   }
 

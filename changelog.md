@@ -115,3 +115,15 @@ Stage 4B.2A is complete.
 8. **Remaining scope:** Stage 4B.2B Su-30MKK reaction, Stage 4B.2C support/rescue convoy, Stage 4C environmental realism, and Stage 5 full-operation integration remain planned. No Pantsir 02, LCAC, LAV-25, generalized AI, 180-second operation, aftermath mode, or visible humans were added.
 
 No build command was run, no dependency was added or upgraded, and the staged `prompt.md` change was preserved without edits.
+
+## Stage 4B.2B
+
+Stage 4B.2B is complete.
+
+1. Added a dedicated deterministic Su-30MKK reinforcement state and authored flight-path module. The roster is exactly `defender_su30_01` and `defender_su30_02`, with shared aircraft geometry and separate poses, roles, outcomes, and effects.
+2. Both aircraft enter from the northeast at T+104. The first briefly pressures the departing F-35B formation and becomes a damaged survivor breaking away at T+137; the second remains offset in support, performs the T+142 covering pass, and follows the withdrawal. Both cross the southwest air-activity boundary from T+170 onward.
+3. Motion is reconstructed from absolute time with bounded speed, acceleration, heading rate, bank, terrain clearance, and inter-aircraft/F-35 separation. No generalized air-combat AI or new F-35 path was introduced.
+4. Added one reusable occupant-free Su-30MKK model with the long nose/canopy, separated twin engines, twin fins, closed dark canopy, navigation lights, vapor, exhaust, and shared resources. `defender_su30_01` alone receives the persistent smoke, brief damage flash/sparks, and darkened surface state; neither aircraft is destroyed.
+5. Added the four authoritative events `su30_reinforcement_entry`, `su30_01_damaged`, `su30_02_cover_withdrawal`, and `aircraft_egress`, plus the `Su-30 focus` camera and concise Stage 4B.2B HUD status/event readouts. Seeking and restart reconstruct the same aircraft and effect state.
+6. Validation passed with TypeScript no-emit checking, full tests (303 passing), lint with existing warnings only, and `git diff --check`. Browser inspection covered entry, pressure/support, damage, covering withdrawal, egress, close model readability, seeking/restart, playback controls, camera controls, and console output; only the existing Three.js `Clock` deprecation warning remains.
+7. Remaining work is Stage 4B.2C support/rescue convoy, Stage 4C environmental realism, and Stage 5 integration. No visible humans or occupants were added.

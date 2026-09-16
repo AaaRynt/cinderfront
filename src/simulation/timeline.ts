@@ -1,4 +1,4 @@
-import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId } from './types'
+import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId, Stage4B2BEvent } from './types'
 
 import { clampSimulationTime, clampStage1Time } from './time'
 
@@ -266,7 +266,44 @@ export const STAGE4B_EVENTS = [
   },
 ] as const satisfies readonly Stage4BEvent[]
 
-export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
+export const STAGE4B2B_EVENTS = [
+  {
+    id: 'su30_reinforcement_entry',
+    atSeconds: 104,
+    localTime: '05:28:44',
+    event: 'enter_map_from_defending_airspace',
+    entities: ['defender_su30_01', 'defender_su30_02'],
+    pathId: 'path_defender_air_entry',
+  },
+  {
+    id: 'su30_01_damaged',
+    atSeconds: 137,
+    localTime: '05:29:17',
+    event: 'take_damage_and_begin_withdrawal',
+    actorId: 'defender_su30_01',
+    pathId: 'path_air_egress_southwest',
+    resultingState: 'damaged_and_egressing',
+  },
+  {
+    id: 'su30_02_cover_withdrawal',
+    atSeconds: 142,
+    localTime: '05:29:22',
+    event: 'brief_covering_pass_for_defender_su30_01',
+    actorId: 'defender_su30_02',
+    targetId: 'defender_su30_01',
+    pathId: 'path_air_egress_southwest',
+  },
+  {
+    id: 'aircraft_egress',
+    atSeconds: 170,
+    localTime: '05:29:50',
+    event: 'main_air_combat_activity_exits_scene',
+    entities: ['attacker_f35_01', 'attacker_f35_02', 'defender_su30_01', 'defender_su30_02'],
+    pathId: 'path_air_egress_southwest',
+  },
+] as const satisfies readonly Stage4B2BEvent[]
+
+export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
 
 export function hasReachedEvent(timeSeconds: number, atSeconds: number): boolean {
   return clampSimulationTime(timeSeconds) + Number.EPSILON >= atSeconds
