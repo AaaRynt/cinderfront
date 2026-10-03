@@ -99,7 +99,7 @@ describe('Stage 4B.2A deterministic T-72B reinforcement lifecycle', () => {
       expect(final.vehicles[id]).toMatchObject({ motionDirection: 'reverse', outcome: 'survived', physicalCondition: 'operational' })
       expect(final.vehicles[id].longitudinalSpeedMetersPerSecond).toBeLessThan(0)
     }
-    expect(SIMULATION_DURATION_SECONDS).toBe(172)
+    expect(SIMULATION_DURATION_SECONDS).toBe(176)
   })
 
   it('freezes and reconstructs the wreck while seeks, restart, and playback speed remain equivalent', () => {
@@ -239,7 +239,7 @@ describe('Stage 4B.2A deterministic T-72B reinforcement lifecycle', () => {
     expect(T72_LEAD_IMPACT_ANCHOR.z).toBe(250)
     const serialized = JSON.stringify(deriveSimulationWorldState(172))
     // Stage 4B.2B now permits precisely the two authored Su-30s; later actors remain excluded.
-    for (const excluded of ['support_convoy', 'pantsir_02', 'lcac', 'lav_25']) expect(serialized.toLowerCase()).not.toContain(excluded)
+    for (const excluded of ['pantsir_02', 'lcac', 'lav_25']) expect(serialized.toLowerCase()).not.toContain(excluded)
   })
 
   it('keeps dust and every lead-damage layer tied to absolute time', () => {

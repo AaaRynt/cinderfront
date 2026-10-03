@@ -1,4 +1,5 @@
 import type { Su30AircraftId, Su30AircraftState, Su30ReinforcementState } from './su30Types'
+import type { Stage4B2CEvent, SupportConvoyWorldState } from './supportConvoyTypes'
 
 export type RawScenarioFaction = 'attacker' | 'defender'
 
@@ -91,7 +92,7 @@ export interface Stage4B2BEvent {
   readonly resultingState?: 'damaged_and_egressing'
 }
 
-export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent | Stage4B2BEvent
+export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent | Stage4B2BEvent | Stage4B2CEvent
 
 export type AircraftPhase = 'launch-ready' | 'stovl-prep' | 'vertical-lift' | 'transition' | 'forward-flight'
 
@@ -385,11 +386,8 @@ export interface TrackedDrivetrainState {
 
 export type GroundVehicleDrivetrainState = WheeledDrivetrainState | TrackedDrivetrainState
 
-interface GroundVehicleBaseState {
+export interface GroundVehicleMotionState {
   readonly factionId: 'island_defender'
-  readonly activity: GroundVehicleActivityPhase
-  readonly physicalCondition: GroundVehiclePhysicalCondition
-  readonly outcome: GroundVehicleOutcome
   readonly pose: Pose3
   /** Unit world-space XZ tangent of actual translation, including reverse travel. */
   readonly routeTangent: Vector3
@@ -398,13 +396,19 @@ interface GroundVehicleBaseState {
   /** Signed along the hull axis: positive forward, negative in reverse. */
   readonly longitudinalSpeedMetersPerSecond: number
   readonly accelerationMetersPerSecondSquared: number
-  /** Turret azimuth relative to the hull's local forward axis. */
-  readonly turretYawRadians: number
   /** Signed longitudinal travel used to reconstruct running-gear presentation. */
   readonly traveledDistanceMeters: number
   readonly drivetrain: GroundVehicleDrivetrainState
   readonly dustIntensity: number
   readonly groundClearanceMeters: number
+}
+
+interface GroundVehicleBaseState extends GroundVehicleMotionState {
+  readonly activity: GroundVehicleActivityPhase
+  readonly physicalCondition: GroundVehiclePhysicalCondition
+  readonly outcome: GroundVehicleOutcome
+  /** Turret azimuth relative to the hull's local forward axis. */
+  readonly turretYawRadians: number
   readonly damage: GroundVehicleDamageState
 }
 
@@ -464,4 +468,5 @@ export interface SimulationWorldState extends Omit<Stage1WorldState, 'reachedEve
   readonly stage3: Stage3WorldState
   readonly stage4b: Stage4BWorldState
   readonly stage4b2b: Su30ReinforcementState
+  readonly stage4b2c: SupportConvoyWorldState
 }

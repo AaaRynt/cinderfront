@@ -453,14 +453,22 @@ Validate a second deterministic ground-vehicle family through one bounded armore
 
 # Stage 4B.2C — Support and Rescue Convoy
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
-## Planned Scope
+## Completed Scope
 
-- six simple support vehicles
-- firefighting, engineering, recovery, and logistics response
-- obstruction, failed approach, and partial withdrawal
-- no visible personnel
+- exactly `defender_support_convoy_01`, containing `defender_support_fire_01`, `defender_support_engineering_01`, `defender_support_recovery_01`, `defender_support_fire_02`, `defender_support_logistics_01`, and `defender_support_logistics_02`
+- two fire engines, one engineering truck, one recovery vehicle, and two logistics trucks; all six remain operational and become confirmed survivors at T+174
+- real T+0 movement on the authoritative rescue branch just beyond the service yard's northwest corner, clear of the north barrier, maintenance shed, and reserve T-72Bs
+- T+75 emergency redirect with continuous acceleration and deterministic emergency beacons
+- T+108 reduced-visibility chokepoint response with staggered braking, separation, hesitation, and cautious restart
+- T+125 unattributed secondary bridge hit, bounded effects, persistent scorch/rubble/edge damage, and a stopped approach without destroying the convoy or collapsing the bridge
+- T+174 abandoned approach and partial withdrawal: lead holds, engineering/recovery reposition locally, and the rear three begin reversing; no completed retreat by the T+176 endpoint
+- absolute-time support lifecycle, grounding, steering, signed wheel motion, lighting, dust, smoke, obstruction, and seek/restart reconstruction
+- one support-convoy camera, concise phase/outcome HUD, accessible timeline endpoint, and bounded Tailwind utilities for touched UI
+- bounded duration extension to T+176 while preserving the exact completed T+172 world and continuing established aircraft/naval movement
+- TypeScript no-emit, full lint, 315 tests across 20 files, whitespace checks, and actual browser validation including continuous T+70–130 and T+170–176 playback at 1×
+- no visible personnel or occupants; no generalized convoy AI
 
 This remains an authored scenario. Do not introduce generalized AI or nondeterministic combat outcomes.
 

@@ -1,3 +1,4 @@
+import type { Stage4B2CEvent } from './supportConvoyTypes'
 import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId, Stage4B2BEvent } from './types'
 
 import { clampSimulationTime, clampStage1Time } from './time'
@@ -303,7 +304,16 @@ export const STAGE4B2B_EVENTS = [
   },
 ] as const satisfies readonly Stage4B2BEvent[]
 
-export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
+export const STAGE4B2C_EVENTS = [
+  { id: 'rescue_convoy_redirect', atSeconds: 75, localTime: '05:28:15', event: 'redirect_toward_industrial_emergency', groupId: 'defender_support_convoy_01', pathId: 'path_support_convoy_industrial' },
+  { id: 'rescue_convoy_chokepoint', atSeconds: 108, localTime: '05:28:48', event: 'staggered_visibility_hesitation', groupId: 'defender_support_convoy_01', pathId: 'path_support_convoy_industrial' },
+  { id: 'rescue_route_secondary_hit', atSeconds: 125, localTime: '05:29:05', event: 'unattributed_secondary_explosion_blocks_bridge_approach', groupId: 'defender_support_convoy_01', pathId: 'path_support_convoy_industrial', targetFeatureId: 'dry_wash_bridge' },
+  { id: 'rescue_convoy_abandon_approach', atSeconds: 174, localTime: '05:29:54', event: 'abandon_approach_and_begin_partial_withdrawal', groupId: 'defender_support_convoy_01', pathId: 'path_support_convoy_industrial' },
+] as const satisfies readonly Stage4B2CEvent[]
+
+// Explicit scoped arrays: T+176 is an endpoint, not admission of the later
+// amphibious/LAV event from the reference scenario.
+export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
 
 export function hasReachedEvent(timeSeconds: number, atSeconds: number): boolean {
   return clampSimulationTime(timeSeconds) + Number.EPSILON >= atSeconds

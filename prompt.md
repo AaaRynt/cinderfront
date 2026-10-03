@@ -1,28 +1,27 @@
-# Stage 4B.2B — Limited Airborne Defender Reaction
+# Stage 4B.2C — Support and Rescue Convoy
 
 Work directly in the existing Cinderfront repository.
 
-Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, and React Three Fiber. It is not a conventional player-controlled game. The viewer observes an authored military scenario through spectator cameras, timeline playback, pause, restart, and direct seeking.
+Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. It is not a conventional player-controlled game. The viewer observes an authored military scenario through spectator cameras, timeline playback, pause, restart, playback-speed controls, and direct seeking.
 
 This is an implementation task. Do not stop after planning. Inspect the current repository, implement the complete scoped vertical slice below, run every validation permitted by repository rules, perform browser inspection, fix issues discovered during inspection, and leave the repository in a coherent working state.
 
 ## 1. Stage goal
 
-Stage 4B established a deterministic wheeled-vehicle lifecycle through the BTR-80 group. Stage 4B.2A extended that foundation to tracked vehicles, reverse movement, and one authored F-35B ground-support strike against the T-72B group.
+Stages 4B, 4B.2A, and 4B.2B are complete. They established deterministic wheeled and tracked ground-vehicle lifecycles, reverse movement, an authored F-35B ground-support strike, and a two-aircraft Su-30MKK defender reaction.
 
-Stage 4B.2B must now prove a compact deterministic airborne-reinforcement lifecycle for a second aircraft family.
+Stage 4B.2C must now add a small defender support-and-rescue system and prove a complete failed-response lifecycle:
 
-Implement one complete defender-aircraft reaction sequence:
+1. exactly six support vehicles begin in motion from the industrial service-yard area;
+2. at T+75, the convoy redirects toward the industrial emergency;
+3. at T+108, smoke, dust, and reduced visibility cause a staggered chokepoint hesitation;
+4. at T+125, an unattributed secondary explosion damages and blocks the dry-wash bridge approach;
+5. the lead response vehicle is forced to stop while the convoy assesses the failed route;
+6. at T+174, the convoy abandons the approach and begins a partial withdrawal;
+7. the response remains visibly incomplete: one fire engine may hold near the obstruction, engineering and recovery assets may reposition locally, and rear vehicles begin turning or reversing;
+8. all convoy state, motion, effects, damage, lights, and outcomes reconstruct deterministically after pause, restart, direct seeking, and playback-speed changes.
 
-1. exactly two Su-30MKK aircraft enter from the northeast at T+104;
-2. `defender_su30_01` briefly pressures the departing F-35B formation;
-3. `defender_su30_02` remains offset in a supporting position;
-4. `defender_su30_01` takes non-catastrophic damage at T+137 and breaks away;
-5. `defender_su30_02` performs a brief covering pass at T+142 and then follows the damaged aircraft out;
-6. the main air activity transitions to egress at T+170;
-7. the entire sequence reconstructs deterministically after pause, restart, direct seeking, and playback-speed changes.
-
-The purpose is not to create a dogfighting game. The purpose is to establish a reusable authored pattern for aircraft entry, role differentiation, non-fatal damage, covering behavior, coordinated withdrawal, visibility at map boundaries, and persistent-in-time but non-persistent-in-space effects.
+The dramatic point is not destruction. A real support system exists, mobilizes, encounters worsening conditions, and fails to reach the main fire because its route becomes unusable.
 
 ## 2. Read before implementation
 
@@ -35,21 +34,18 @@ Read these files completely before changing source code:
 5. `assets/map/map-layout.svg`
 6. `assets/scenario/scenario-spec.yaml`
 7. `assets/scenario/scenario-timeline.md`
-8. `assets/vehicle/Su-30MKK/su-30mkk.yaml`
-9. `assets/vehicle/Su-30MKK/Sukhoi_Su-30_3-view_line_drawing.svg`
-10. `assets/vehicle/Su-30MKK/HA9554-list-1-01.jpg`
-11. `assets/vehicle/F-35B/f-35b.yaml`
-12. the existing F-35B reference images relevant to the current model
-13. the current aircraft types, absolute-time derivation, authored flight paths, motion tests, rendering, effects, UI, and camera code
-14. the complete Stage 4B and Stage 4B.2A ground-vehicle implementation and tests
-15. the current unified timeline and event-type implementation
+8. the support-vehicle and generic-vehicle reference files, if present
+9. the current BTR-80 and T-72B types, routes, motion derivation, rendering, tests, effects, UI, and camera code
+10. the current F-35B and Su-30MKK implementation and regression tests
+11. the current unified timeline and event-type implementation
+12. `src/index.css` and the current Tailwind/Vite configuration
 
 The authoritative map, scenario, and vehicle files are design references. Do not rewrite those reference assets during this task.
 
 If implementation details conflict, use this order of authority:
 
 1. `AGENTS.md` and the hard human-visibility constraint;
-2. this Stage 4B.2B prompt and its explicit scope;
+2. this Stage 4B.2C prompt and its explicit scope;
 3. authoritative scenario, map, and vehicle references;
 4. completed-stage behavior documented in `changelog.md`;
 5. existing implementation details.
@@ -58,879 +54,727 @@ If implementation details conflict, use this order of authority:
 
 Do not introduce:
 
-- player-controlled aircraft;
+- player-controlled units;
 - scoring;
 - mission success or failure gameplay loops;
 - multiplayer;
 - generalized autonomous AI agents;
-- dogfight AI;
-- autonomous target selection;
-- nondeterministic combat outcomes;
+- autonomous route planning;
+- generalized collision avoidance;
+- nondeterministic outcomes;
 - visible humans;
-- pilots;
+- drivers;
+- firefighters;
+- engineers;
+- rescue personnel;
 - ground crews;
-- ejection sequences;
-- parachuting personnel;
 - casualties;
 - humanoid silhouettes;
-- visible cockpit occupants.
+- visible vehicle occupants;
+- people represented behind windshields or inside open compartments.
 
-All activity must be communicated through aircraft, formation geometry, relative motion, control surfaces where appropriate, navigation lights, engine presentation, vapor, smoke, sparks, damage, terrain, infrastructure, and existing battlefield effects.
+All convoy activity must be communicated through vehicles, spacing, braking, steering, reversing, emergency beacons, headlights, brake lights, dust, smoke, doors or equipment that do not expose people, route obstruction, bridge damage, and infrastructure.
 
-Both Su-30MKK canopies must remain dark, opaque, or strongly reflective. They must never reveal seats, faces, helmets, bodies, or occupant silhouettes.
+Every cab window and windshield must remain dark, opaque, or strongly reflective. Do not model seats, faces, helmets, bodies, or occupant silhouettes.
 
 ## 4. Explicit stage boundary
 
 Implement only:
 
-- the minimum aircraft-state architecture required for a second aircraft family;
-- exactly two Su-30MKK aircraft;
-- their T+104 entry;
-- a brief authored pressure/support interaction with the existing F-35B formation;
-- the T+137 non-catastrophic damage and breakaway of `defender_su30_01`;
-- the T+142 covering pass and withdrawal of `defender_su30_02`;
-- the T+170 air-activity egress transition;
-- the minimum effects, camera, UI, timeline, and tests required to read this sequence.
+- the minimum support-vehicle state architecture required for this convoy;
+- exactly six support vehicles in one authored group;
+- the existing `path_support_convoy_industrial` route, with only the focused implementation detail needed to connect it cleanly to rendered roads;
+- the T+75 redirect;
+- the T+108 visibility/chokepoint hesitation;
+- the T+125 dry-wash bridge secondary explosion and persistent obstruction;
+- the T+174 abandoned approach and partial withdrawal;
+- simple procedural support-vehicle models;
+- the minimum effects, bridge-damage presentation, camera, UI, timeline, and tests required to read the sequence;
+- a bounded simulation-duration extension from 172 seconds to 176 seconds so the T+174 response is visible.
 
 Do not implement:
 
-- the support or rescue convoy;
-- fire engines, engineering trucks, recovery vehicles, or logistics trucks;
 - a second Pantsir-S1 relocation, engagement, or destruction sequence;
 - LCAC movement, beaching, or ramps;
 - LAV-25 deployment;
+- the T+176 amphibious event;
 - the complete amphibious operation;
-- additional Su-30MKK aircraft;
-- additional F-35B aircraft;
-- new ground vehicles;
-- generalized air-combat AI;
-- a generalized aircraft mission planner;
-- pursuit or interception pathfinding;
-- generalized weapon employment;
-- a full radar or sensor simulation;
-- a full aerodynamic or flight-control simulation;
-- environmental realism expansion;
-- vegetation, coastal-wave, weathering, or clutter passes;
-- audio.
+- personnel, hoses operated by people, rescue teams, or dismounted crews;
+- generalized traffic AI;
+- generalized route finding;
+- generalized convoy AI;
+- generalized vehicle damage simulation;
+- firefighting-fluid simulation;
+- a dynamic bridge-destruction system;
+- new aircraft;
+- additional weapon events;
+- environmental-realism expansion;
+- vegetation, coastal-wave, weathering, or broad clutter passes;
+- audio;
+- a broad Tailwind migration of the whole application.
 
 Do not add placeholder implementations for excluded actors.
 
-Do not extend the current 172-second simulation duration. The authoritative scenario continues to T+180, but that extension belongs to a later integration stage.
+The simulation may end at T+176, but the event scheduled at T+176 for a later stage must not be implemented, displayed, or claimed. Treat this stage's endpoint as the final visible moment of the convoy response, not as completion of the authoritative T+180 scenario.
 
-## 5. Preserve completed aircraft behavior before extending it
+## 5. Preserve all completed behavior
 
-Stage 4B.2A is complete in commit history and in `changelog.md`.
-
-Before changing aircraft architecture, understand the existing behavior and tests in:
+Before changing ground-vehicle architecture, understand the existing completed behavior and tests in the relevant files, including:
 
 - `src/simulation/derive.ts`;
-- `src/simulation/aircraftMotion.test.ts`;
-- `src/simulation/weapons.ts`;
-- `src/simulation/weapons.test.ts`;
+- `src/simulation/groundVehicles.ts`;
+- `src/simulation/groundVehicleRoutes.ts`;
+- current ground-vehicle motion and timeline tests;
+- current aircraft motion and weapon tests;
 - `src/simulation/types.ts`;
-- `src/scene/vehicles/F35BModel.tsx`;
 - `src/scene/BattlefieldScene.tsx`;
+- current ground-vehicle and aircraft model components;
 - `src/scene/camera/CameraRig.tsx`;
 - `src/ui/SimulationHud.tsx`.
 
 Preserve:
 
-- both F-35B STOVL launch sequences;
-- every completed F-35B weapon release and impact;
-- the exact Stage 4B.2A T+90 primary-F-35 handoff;
-- the T+154.5 lower-bay release and T+158 T-72B impact;
-- the completed late primary-F-35 support pass;
-- the existing secondary-F-35 path;
-- current F-35 speed, acceleration, turn-rate, bank, and pose/path-alignment test envelopes;
-- all F-35 camera presets and paused-camera behavior.
+- all Stage 4B BTR-80 states, paths, damage outcomes, spacing, cameras, and timing;
+- all Stage 4B.2A T-72B states, paths, reverse semantics, strike effects, cameras, and timing;
+- all completed F-35B launch, flight, weapon, impact, and support-pass behavior;
+- both Stage 4B.2B Su-30MKK paths, roles, damage state, covering withdrawal, and T+170 egress behavior;
+- Molniya open-water behavior at T+172;
+- all harbor, industrial, naval, radar, beach, and infrastructure behavior;
+- deterministic results at every previously tested timestamp, especially T+172.
 
-Do not move an existing F-35 merely to make the Su-30MKK choreography easier. Author the defender paths around the completed F-35 tracks.
+Do not move existing T-72Bs merely to make the support convoy easier to stage. Author the convoy around the completed reserve-tank placement and motion.
 
-Refactor only where the second aircraft family genuinely requires it.
+Do not teleport BTR-80s into a close escort formation. Preserve their completed routes. The support convoy can exist within the broader defender security context without forcing unrelated vehicles into physical proximity.
 
-## 6. Aircraft architecture requirements
+Refactor only where the support convoy genuinely requires it.
 
-### 6.1 Avoid forcing Su-30MKK into F-35B-specific state
+## 6. Exact convoy roster
 
-The current aircraft state was designed around carrier-launched F-35Bs and includes STOVL-specific concepts such as:
+Create exactly one support group:
 
-- launch time;
-- on-deck state;
-- lift-fan doors;
-- rear-nozzle deflection;
-- landing-gear retraction;
-- downwash.
+- group ID: `defender_support_convoy_01`;
+- faction: defender / `island_defender`;
+- group role: `generic_support_convoy` or an equivalently precise existing type;
+- initial broad state: moving;
+- initial area: the industrial service-yard / rescue-corridor area.
 
-Do not assign meaningless STOVL values to the Su-30MKK merely to fit the current interface.
+Create exactly these six stable vehicle IDs:
 
-Prefer a small discriminated aircraft-state design, for example:
+1. `defender_support_fire_01`
+2. `defender_support_engineering_01`
+3. `defender_support_recovery_01`
+4. `defender_support_fire_02`
+5. `defender_support_logistics_01`
+6. `defender_support_logistics_02`
 
-- a common airborne-motion base;
-- an F-35B state containing existing STOVL mechanics;
-- a Su-30MKK state containing entry, role, condition, outcome, visibility, engine, and damage presentation.
+Use the order above as the default authored convoy order unless existing map geometry proves that a small order adjustment is required for safe staging. If the order changes, keep all six IDs and document the reason in code and tests.
 
-Exact type names may differ, but the result must remain type-safe and readable.
+Composition must remain exactly:
 
-Do not build a universal aircraft framework, entity-component system, mission-planning engine, or behavior tree.
+- two fire engines;
+- one engineering truck;
+- one recovery vehicle;
+- two logistics trucks.
 
-### 6.2 Keep actor-specific lifecycle dimensions separate
+Do not create additional escort, ambulance, command, civilian, or personnel-carrier vehicles.
 
-The Su-30MKK implementation must distinguish at least:
+## 7. Support-vehicle architecture requirements
+
+### 7.1 Do not force support trucks into BTR-80 or T-72B state
+
+The current ground-vehicle domain contains combat-specific fields for BTR-80 and T-72B behavior. Do not assign meaningless turret, weapon, track, armor, or combat-role values to support vehicles merely to fit an existing interface.
+
+Prefer a small discriminated design with:
+
+- genuinely shared ground-motion and transform data;
+- BTR-80-specific state;
+- T-72B-specific state;
+- support-vehicle state with subtype, activity, condition, outcome, lighting, and convoy-role data.
+
+Exact type names may differ, but the result must remain type-safe, narrow, and readable.
+
+Do not build an entity-component system, universal vehicle framework, behavior tree, traffic simulator, or route-planning engine.
+
+### 7.2 Keep lifecycle dimensions separate
+
+The support-vehicle implementation must distinguish at least:
 
 #### Activity phase
 
-- `off-map`;
-- `entering`;
-- `pressuring`;
-- `supporting`;
-- `damaged-breakaway`;
-- `covering-withdrawal`;
-- `withdrawing`;
-- `egressing`;
-- `exited`.
+- routine transit;
+- emergency response;
+- smoke or visibility hesitation;
+- cautious advance;
+- obstruction stop;
+- route assessment;
+- limited reposition;
+- abandoning approach;
+- turning or reversing;
+- holding.
 
-Exact names may differ if a clearer actor-specific type is used.
+Exact names may differ if a clearer actor-specific union is used.
 
 #### Physical condition
 
-- `operational`;
-- `damaged`.
-
-Do not imply that either Su-30MKK is destroyed.
+Use `operational` for all six support vehicles unless the implementation has a narrowly justified non-destructive mechanical state. The T+125 event blocks the route; it does not require a support vehicle to be destroyed or visibly wrecked.
 
 #### Outcome
 
-- `active`;
-- `survived`.
+- `active` before the final response;
+- `survived` once the stage outcome is known.
 
-`defender_su30_01` survives in a damaged condition. `defender_su30_02` survives intact.
+All six vehicles survive this stage.
 
-#### Visibility or map-presence state
+#### Visibility or map presence
 
-The state must clearly represent whether an aircraft is:
+State must clearly represent whether each vehicle is present and renderable. Do not use React mounting history or effect history as simulation state.
 
-- outside the modeled scene;
-- crossing the map boundary;
-- active over the modeled battlefield;
-- leaving the immediate battlefield;
-- beyond the renderable area.
+### 7.3 Domain-specific event types
 
-Do not use object mounting history to decide visibility.
+Do not continue expanding a BTR/T-72 ground-combat event type with unrelated rescue-convoy fields.
 
-### 6.3 Domain-specific event types
+Add a dedicated Stage 4B.2C event ID and event shape, or an equivalently clear domain-specific structure, for:
 
-Do not keep expanding a ground-vehicle event type with unrelated air-reinforcement fields.
+- `rescue_convoy_redirect` at T+75;
+- `rescue_convoy_chokepoint` at T+108;
+- `rescue_route_secondary_hit` at T+125;
+- `rescue_convoy_abandon_approach` at T+174.
 
-Add a dedicated Stage 4B.2B event ID and event shape, or an equivalently clear domain-specific structure, for:
+Integrate these events into the unified chronological event list without changing completed event IDs or times.
 
-- `su30_reinforcement_entry`;
-- `su30_01_damaged`;
-- `su30_02_cover_withdrawal`;
-- `aircraft_egress`.
+The T+125 event has no authoritative source actor. Do not invent a shooter, aircraft, artillery unit, munition identity, targeter, kill credit, or causal explanation.
 
-Integrate those events into the unified chronological event list without changing completed event IDs or times.
+### 7.4 Keep derivation modular
 
-### 6.4 Keep new derivation modular
+Do not place the entire support-convoy lifecycle inside the already large general derivation files.
 
-Do not place the entire Su-30MKK lifecycle inside the already large general `derive.ts` file.
+Prefer a focused pure module such as `supportConvoy.ts` for:
 
-Prefer a focused pure module for:
-
-- authored Su-30 paths;
-- flight sampling;
-- per-aircraft lifecycle derivation;
-- damage derivation;
+- roster and authored offsets;
+- route/path sampling;
+- per-vehicle lifecycle derivation;
+- steering, speed, braking, reversing, and wheel rotation;
 - group state and counts;
-- test-facing path sampling where useful.
+- test-facing route sampling where useful.
 
-The top-level simulation derivation may integrate the result, but it should not become the home for all Su-30-specific data and logic.
+Reuse genuinely shared route and transform helpers from `groundVehicleRoutes.ts` or a small focused shared module. Do not duplicate a large path sampler, but do not over-generalize unrelated actor types either.
 
-### 6.5 Absolute-time reconstruction
+### 7.5 Absolute-time reconstruction
 
-Every Su-30MKK property must derive from absolute simulation time and authored data.
-
-This includes:
+Every support-convoy property must derive from absolute simulation time and authored data, including:
 
 - visibility;
 - activity phase;
-- physical condition;
+- condition;
 - outcome;
 - position;
-- velocity;
 - heading;
-- pitch;
-- bank;
-- speed;
-- acceleration;
-- turn rate;
-- formation role and offset;
-- engine presentation;
-- navigation-light state;
-- vapor intensity;
-- damage flash and sparks;
-- smoke intensity and trail position;
-- exit state.
-
-Requirements:
-
-- direct seeking backward and forward reconstructs identical state;
-- restart returns both aircraft to the invisible off-map state;
-- playback speed does not change any outcome;
-- no behavior depends on rendered-frame count;
-- no mutable pursuit or flight AI state accumulates across frames;
-- no random outcome is introduced;
-- any procedural visual variation uses a fixed deterministic seed;
-- no smoke, sparks, vapor, or damage survives after seeking before its event;
-- both aircraft reconstruct identically after seeking away and back.
-
-## 7. Su-30MKK model contract
-
-Create one reusable procedural Su-30MKK visual component based on `assets/vehicle/Su-30MKK/su-30mkk.yaml` and its two reference images.
-
-Use real map scale:
-
-- length: `21.94 m`;
-- wingspan: `14.7 m`;
-- height: `6.36 m`;
-- forward axis: negative Z;
-- up axis: positive Y;
-- centered origin.
-
-The recognizable silhouette must include:
-
-- a long pointed nose;
-- an elongated dark two-seat canopy;
-- a broad blended centerbody and wing-root area;
-- two large swept trapezoidal wings;
-- two box-like underslung intake openings;
-- two widely separated engine nacelles;
-- two distinct rear exhausts;
-- a visible central channel between the engines;
-- a central tail boom extending behind the exhausts;
-- two near-vertical tail fins;
-- two broad horizontal stabilizers.
+- velocity or scalar speed;
+- acceleration and braking state;
+- steering state;
+- forward-versus-reverse motion direction;
+- wheel rotation;
+- inter-vehicle spacing;
+- headlights, brake lights, and emergency beacons;
+- dust emission;
+- T+125 bridge effect visibility;
+- persistent bridge damage and obstruction;
+- group counts and final response state.
 
-Avoid:
-
-- a compact F-35-like silhouette;
-- a single centerline engine or exhaust;
-- engine nacelles merged without a central gap;
-- a single vertical tail;
-- strongly outward-canted stealth-fighter tails;
-- canards ahead of the main wings;
-- ending the airframe at the engine exhausts;
-- an open or transparent occupied cockpit;
-- visible pilots or crew silhouettes.
+Do not advance authoritative state through render-frame accumulation, component-local elapsed time, uncontrolled timers, random values, or one-shot mount effects.
 
-The Su-30MKK is substantially larger and longer than the F-35B. This difference must be readable in comparable camera views.
+Direct seeking to a timestamp must produce the same state as uninterrupted playback to that timestamp.
 
-Use shared geometry and materials across both aircraft. Mirrored wings, intakes, engines, stabilizers, and tails must not create unnecessary unique resources.
+## 8. Route and spatial contract
 
-The model should be recognizable from the air-reinforcement focus view without becoming a CAD-level asset project.
+Use the authoritative route:
 
-## 8. Authoritative roster contract
+- path ID: `path_support_convoy_industrial`;
+- relevant features: `corridor_service_yard`, `road_rescue_branch`, and `road_eastern_trunk`;
+- connector waypoints: `[5750, 250]`, `[6075, 250]`, `[6300, 400]`.
 
-Implement exactly two aircraft:
+Relevant authoritative map geometry includes:
 
-1. `defender_su30_01`
-   - faction: `island_defender`;
-   - vehicle type: `Su-30MKK`;
-   - role: late defensive support and brief interception pressure;
-   - final state: damaged and withdrawing or exited;
-   - outcome: survived.
+- service-yard center: `[5750, 250]`;
+- service-yard size: `[650, 360]`;
+- service-yard polygon: `[[5425, 430], [6075, 430], [6075, 70], [5425, 70]]`;
+- rescue-branch polyline: `[[3100, -300], [4050, 100], [5050, 450], [6300, 400]]`;
+- eastern-trunk polyline: `[[600, 1400], [1300, 1000], [2200, 400], [3100, -300], [4000, -1100], [5000, -1900], [6050, -1600]]`;
+- dry-wash bridge center: `[3100, -300]`;
+- dry-wash bridge size: `[145, 34]`;
+- dry-wash bridge rotation: approximately -38 degrees;
+- dry-wash bridge footprint: `[[3167, -331], [3147, -357], [3033, -269], [3053, -243]]`.
 
-2. `defender_su30_02`
-   - faction: `island_defender`;
-   - vehicle type: `Su-30MKK`;
-   - role: supporting position followed by covering withdrawal;
-   - final state: intact and withdrawing or exited;
-   - outcome: survived.
+Use the project’s established world-coordinate conversion and terrain sampling. Do not assume the YAML coordinates can be copied directly into Three.js coordinates without following the existing map transform.
 
-Do not add randomized callsigns, replacements, respawns, or extra aircraft.
+### 8.1 Initial staging
 
-Both aircraft begin outside the modeled northeast airspace and use the authoritative entry reference:
+The authoritative initial state is moving. Do not present six parked vehicles waiting motionless for T+75.
 
-- off-map zone: `offmap_defender_air_northeast`;
-- entry point XZ: `[7000, 4200]`;
-- inbound heading: `225°`;
-- entry path: `path_defender_air_entry`.
+Stage the convoy from the service-yard north exit and/or already onto the rescue branch at T+0, with rear vehicles still reading as connected to the operational yard. This is allowed because the group is already in motion when the modeled interval begins.
 
-Their withdrawal uses:
+Avoid the east-yard connector area occupied by the completed T-72B reserve group. Do not overlap or clip:
 
-- path: `path_air_egress_southwest`;
-- intended off-map exit point XZ: `[-7000, -4200]`;
-- outbound heading: `225°`.
+- the T-72Bs;
+- the maintenance shed;
+- the service-yard barriers;
+- the generator or yard lights;
+- the substation;
+- other static industrial structures.
 
-## 9. Authored flight-path contract
+Do not move those completed assets to make space.
 
-### 9.1 Entry path
+### 8.2 Route timing and scale
 
-Use the authoritative entry XZ waypoints:
+The map distance between the yard and bridge is substantial. Do not teleport the convoy or require every vehicle to reach the bridge at T+125.
 
-1. `[7000, 4200]`;
-2. `[5500, 3500]`;
-3. `[3500, 3000]`;
-4. `[2000, 2500]`.
+Use plausible heavy-vehicle speeds and authored starting positions. A useful envelope is:
 
-Choose restrained explicit altitude and timing keyframes that:
+- routine motion around 15–20 m/s where the road permits;
+- emergency response no faster than 28 m/s;
+- smooth acceleration and decisive but physically readable braking;
+- slower motion during smoke, turns, assessment, and reverse movement.
 
-- keep the aircraft clearly airborne above terrain and infrastructure;
-- make the entry visible but not dominant over the active industrial destruction;
-- preserve plausible fighter speeds;
-- avoid identical formation paths;
-- avoid collision or near-overlap between the two Su-30MKK aircraft;
-- avoid collision or implausibly close intersection with either F-35B;
-- lead naturally into the brief pressure/support roles.
+At T+125, the secondary explosion may occur ahead of the convoy at the bridge. The lead vehicle can then approach the obstruction cautiously and stop short. The event does not need to occur beneath a convoy vehicle.
 
-### 9.2 Role differentiation
+### 8.3 Convoy spacing and collision avoidance
 
-Do not render the two Su-30MKK aircraft as one rigid duplicated formation.
+Use authored lane offsets and time/distance offsets so that:
 
-`defender_su30_01` must:
+- the vehicles read as one response group;
+- long trucks do not overlap on curves;
+- staggered braking propagates rearward;
+- no two vehicles share the same position at a timestamp;
+- vehicles do not cut visibly across terrain outside the rendered road;
+- no vehicle clips the bridge, guardrails, yard structures, T-72Bs, or another convoy vehicle.
 
-- take the more forward and assertive path;
-- briefly pressure the departing F-35B formation;
-- remain close enough in composition for the interaction to read;
-- avoid a prolonged tail chase or orbit;
-- transition naturally into the T+137 breakaway.
+Do not implement dynamic collision AI. Author and test safe trajectories.
 
-`defender_su30_02` must:
+### 8.4 Reverse and turn semantics
 
-- remain laterally and vertically offset;
-- support rather than mirror the first aircraft;
-- avoid synchronized turns and identical timing;
-- retain enough spatial position to perform the T+142 covering pass;
-- follow the damaged aircraft out rather than continue fighting alone.
+At T+174, rear vehicles must visibly begin a withdrawal instead of merely changing a status string.
 
-Use authored paths and timed keyframes. Do not add pursuit AI.
+Support at least the minimum distinction between:
 
-### 9.3 Egress path
+- vehicle facing direction;
+- direction of travel;
+- reverse motion;
+- a turning maneuver where space permits.
 
-Use the authoritative southwest egress XZ waypoints as the intended route:
+Reuse completed T-72B reverse semantics where they are genuinely shared. Wheels must rotate in the correct direction during reverse motion.
 
-1. `[2000, 2000]`;
-2. `[0, 0]`;
-3. `[-3000, -2000]`;
-4. `[-7000, -4200]`.
+## 9. Exact event choreography
 
-The damaged aircraft should lead the withdrawal after T+137. The intact aircraft should cross into a covering position at T+142, then settle into a separated escorting or trailing relationship.
+### Before T+75 — routine movement
 
-The two paths must not be identical. Use restrained offset, altitude, and timing differences while maintaining a coherent common direction.
+- the convoy is already moving from the service-yard/rescue-corridor area;
+- emergency beacons are not yet in the full response presentation;
+- spacing is orderly and speed is moderate;
+- there are no personnel or open occupied cabs;
+- existing T-72B yard behavior remains untouched.
 
-The aircraft may become invisible only after they cross a clearly defined render boundary or complete an authored exit transition. Do not simply remove them at T+137, T+142, or T+170.
+### T+75 — `rescue_convoy_redirect`
 
-### 9.4 Motion quality
+- the group redirects toward the industrial emergency on `path_support_convoy_industrial`;
+- acceleration and/or a readable turn communicates escalation;
+- emergency beacons activate deterministically from this time;
+- headlights or marker lights may support readability but must not substitute for motion;
+- the group remains a single convoy with authored spacing;
+- no siren audio is added.
 
-Use or extract the existing velocity-continuous authored-flight-path approach.
+### T+108 — `rescue_convoy_chokepoint`
 
-Requirements:
+- smoke and dust reduce the apparent visibility on the route;
+- lead vehicles hesitate, brake, or make a small cautious steering adjustment;
+- braking propagates rearward with authored delays;
+- spacing temporarily increases or compresses in a controlled, collision-free way;
+- the group may pause briefly to search for a viable approach;
+- the behavior must read differently from ordinary waypoint motion.
 
-- actual position paths must be continuous;
-- velocity must not jump at event boundaries;
-- visible heading must follow the true path tangent;
-- bank must respond to authored turn direction;
-- pitch must remain restrained and coherent with climb or descent;
-- speed, acceleration, turn rate, and bank must be bounded and tested;
-- do not hide a sharp path kink by smoothing only the rendered yaw;
-- do not teleport at the map boundary;
-- do not let either aircraft fly backward or slide sideways;
-- direct seeking must reconstruct the identical pose and kinematics.
+Do not turn this into generalized perception, pathfinding, or obstacle AI. It is an authored response to a known event.
 
-Target a plausible cinematic fighter envelope rather than a flight simulator. Document and test the actual limits selected. As a starting range:
+### T+125 — `rescue_route_secondary_hit`
 
-- ordinary speed: approximately `170–330 m/s`;
-- bank: generally below `50°`;
-- heading rate: generally below `30°/s`;
-- altitude: high enough to clear all terrain with a comfortable deterministic margin.
+- a compact secondary explosion occurs at the dry-wash bridge / roadside approach;
+- the source remains unattributed;
+- use a restrained flash, dust pulse, limited debris, and a compact shock presentation;
+- create persistent scorch, damaged road edge or guardrail detail, and a clear physical obstruction;
+- do not destroy the entire bridge;
+- do not use a hero-scale fireball;
+- do not destroy any convoy vehicle;
+- the lead response vehicle brakes and stops short of the unusable approach;
+- following vehicles remain separated and transition into assessment/cautious states;
+- seeking to before T+125 removes the blast and bridge damage;
+- seeking back to or after T+125 reconstructs them exactly.
 
-These are upper guidance values, not permission to maximize every maneuver.
+### T+125 to T+173.9 — failed approach
 
-## 10. Exact event and state contract
+- the lead fire engine may hold closest to the obstruction;
+- engineering and recovery vehicles may move forward only as far as safe authored space permits;
+- the second fire engine and logistics trucks remain farther back;
+- limited repositioning must not imply that the bridge has been cleared;
+- emergency beacons continue;
+- dust and smoke remain bounded and do not accumulate indefinitely;
+- no vehicle crosses the blocked bridge;
+- no invented detour succeeds;
+- the convoy remains unable to reach the main fire.
 
-Use these official scenario events and exact boundaries.
+### T+174 — `rescue_convoy_abandon_approach`
 
-### Before T+104
+- the convoy stops advancing and begins partial withdrawal;
+- `defender_support_fire_01` may remain closest to the obstruction in a holding state;
+- engineering and recovery vehicles may perform only limited local repositioning;
+- `defender_support_fire_02` and the two logistics trucks must begin a physically readable turn or reverse withdrawal;
+- not every vehicle needs to execute the same maneuver at the same instant;
+- no vehicle is destroyed;
+- no vehicle teleports, snaps heading, or disappears;
+- final group state reads as `withdrawal_in_progress` or an equivalently precise value.
 
-- both Su-30MKK aircraft are outside the modeled scene;
-- neither aircraft is rendered over Ash Harbor;
-- no Su-30 engine glow, navigation light, vapor, smoke, spark, or damage effect is visible;
-- both are operational, with active authored outcomes not yet resolved;
-- existing F-35B, naval, industrial, BTR-80, and T-72B behavior remains unchanged.
+The interval from T+174 to T+176 is intentionally short. Show the onset of the maneuver clearly; do not compress an unrealistic complete convoy retreat into two seconds.
 
-### T+104 — `su30_reinforcement_entry`
+## 10. Vehicle model contract
 
-- entities: `defender_su30_01` and `defender_su30_02`;
-- event: `enter_map_from_defending_airspace`;
-- path: `path_defender_air_entry`;
-- both cross into the modeled northeast airspace;
-- the entry reads as a functioning external defender response;
-- no runway or airfield is added to the map.
+These are simple procedural support vehicles, not hero assets. Reuse common cab, chassis, wheels, glass, lights, and material primitives where appropriate, then differentiate subtypes through focused attachments.
 
-T+103.9 must remain pre-entry. T+104 has reached the official entry event.
+Use real-meter dimensions and verify the final scale in scene.
 
-### T+104 to T+137
+### Fire engines
 
-- `defender_su30_01` moves into a brief pressure/interception role;
-- `defender_su30_02` remains in a supporting offset position;
-- their paths remain distinct;
-- they do not begin a prolonged dogfight;
-- they do not orbit indefinitely;
-- no new official weapon event is invented;
-- F-35B paths and completed strikes remain unchanged.
+Both fire engines should read as the same operational family, with small variation allowed.
 
-The interaction should be readable through relative geometry, direction, bank, spacing, and timing rather than through autonomous combat logic.
+Use approximately:
 
-### T+137 — `su30_01_damaged`
+- length: 8–9 meters;
+- width: 2.4–2.7 meters;
+- height: 3.0–3.4 meters.
 
-- entity: `defender_su30_01`;
-- event: `take_damage_and_begin_withdrawal`;
-- path: `path_air_egress_southwest`;
-- resulting state: `damaged_and_egressing`;
-- physical condition becomes damaged;
-- outcome becomes survived;
-- the aircraft stops pressing the F-35B formation;
-- it performs a forceful but continuous break toward the southwest egress route;
-- it begins trailing light damage smoke;
-- it does not explode, crash, eject, or disappear.
+Include a readable box cab, equipment-compartment body, wheels, bumpers, dark windows, mirrors or lights where useful, and a roof beacon. A stowed hose reel or compact roof monitor is acceptable if it does not imply visible personnel or animated hose operation.
 
-T+136.9 must show the aircraft operational with no damage residue. T+137 begins the official damage and breakaway state.
+Use a restrained industrial red rather than toy-like saturated plastic.
 
-### T+137 to T+142
+### Engineering truck
 
-- `defender_su30_01` continues its damaged withdrawal;
-- `defender_su30_02` repositions to cover the withdrawal;
-- the intact aircraft does not remain in a passive duplicated formation;
-- spacing remains safe and visually legible;
-- smoke from the damaged aircraft remains light enough that the model silhouette is visible.
+Use approximately 7.5–9 meters in length. It should read as an olive, tan, or industrial utility truck with tool/storage body and one restrained engineering cue such as a stowed small crane, folded boom, compact blade, or equipment rack.
 
-### T+142 — `su30_02_cover_withdrawal`
+Do not create articulated worker controls or open occupied operating stations.
 
-- entity: `defender_su30_02`;
-- target/covered entity: `defender_su30_01`;
-- event: `brief_covering_pass_for_defender_su30_01`;
-- path: `path_air_egress_southwest`;
-- the intact aircraft performs one brief authored covering maneuver;
-- it then turns away and follows the damaged aircraft out;
-- it does not continue fighting alone;
-- its condition remains operational;
-- its outcome becomes survived.
+### Recovery vehicle
 
-T+141.9 remains pre-cover. T+142 begins the official covering-withdrawal behavior.
+Use approximately 8–9 meters in length. It should read through a winch, towing assembly, folded boom, recovery frame, or related stowed equipment.
 
-### T+142 to T+170
+The equipment must remain stable during ordinary motion and must not clip through the cab or road.
 
-- both Su-30MKK aircraft withdraw southwest;
-- the damaged aircraft retains light smoke and restrained asymmetric engine/damage presentation;
-- the intact aircraft maintains a distinct covering or trailing offset;
-- neither aircraft returns to combat;
-- no additional weapon, hit, or explosion is introduced;
-- existing ground and naval events continue underneath the air withdrawal.
+### Logistics trucks
 
-### T+170 — `aircraft_egress`
+Use approximately 7–8.5 meters in length. Each should have a cab plus cargo bed, restrained tarp body, or container-like load. Small material or load variation is allowed, but both remain generic support vehicles.
 
-- entities include both existing F-35Bs and both Su-30MKK aircraft;
-- event: `main_air_combat_activity_exits_scene`;
-- the official event communicates the end of the primary air activity;
-- both Su-30MKK aircraft are already withdrawing or crossing out of the immediate battlefield;
-- the F-35B paths remain those completed in Stage 4B.2A;
-- do not snap any aircraft to the southwest boundary at this event;
-- do not require all four aircraft to share one exact exit point if their completed paths do not support it;
-- the event may mark an egress phase while physical motion continues through T+172.
+### Shared presentation
 
-### T+170 to T+172
+All six vehicles require:
 
-- primary air activity visibly recedes;
-- both Su-30MKK aircraft continue outbound or become hidden only after a real authored boundary crossing;
-- `defender_su30_01` remains damaged and survived;
-- `defender_su30_02` remains operational and survived;
-- no crash or ejection occurs;
-- no global freeze occurs at T+172.
+- grounded wheels with believable diameter and placement;
+- visible wheel rotation tied to absolute-time distance traveled;
+- front and rear lighting cues;
+- brake lights tied to authored braking state;
+- emergency beacons where appropriate for the response;
+- dark or reflective glazing;
+- no visible occupants;
+- no open crew compartments;
+- restrained roughness and color variation;
+- readable silhouettes at overview-camera distance.
 
-## 11. Damage causality and presentation
+Do not add a new dependency for modeling or effects.
 
-The authoritative `su30_01_damaged` event deliberately does not name a source actor, weapon, or projectile.
+## 11. Emergency lighting and motion presentation
 
-Do not invent an official shooter, missile launch, kill credit, or additional timeline event.
+Emergency beacon state must be deterministic from absolute time. Do not use local intervals, random flashing, or render-frame counters.
 
-Stage the existing F-35B and Su-30MKK paths so the damage is understandable as the result of the brief airborne engagement, but keep the formal cause unspecified.
+Use phase offsets between vehicles so the convoy does not flash as one synchronized object. The same timestamp must always produce the same beacon state.
 
-At T+137, use a restrained non-catastrophic damage onset:
+Brake lights must correspond to authored deceleration windows, especially near T+108, T+125, and T+174.
 
-- a compact contact flash on or near one engine/nacelle area;
-- a short burst of sparks;
-- a small number of deterministic fragments if needed;
-- a brief localized glow;
-- a forceful but continuous attitude break;
-- light gray-to-dark smoke from one aft engine area;
-- subtle asymmetric exhaust intensity or minor surface damage;
-- no large fireball;
-- no detached wing;
-- no engine separation;
-- no uncontrolled spin;
-- no terrain impact;
-- no ejection.
+Dust should follow wheel contact and motion intensity, remain subtle on paved surfaces, and become more readable near shoulders or damaged ground. Do not allow particles to accumulate without a bounded lifetime.
 
-The damage effect must be actor-attached and reconstructed from the aircraft's absolute T+137 pose and later path.
+## 12. Bridge strike and persistent obstruction
 
-Smoke must trail in world space behind the moving aircraft. It must not rotate as a rigid solid tube with the model, accumulate forever, or remain at future positions after a backward seek.
+Implement the T+125 bridge event as a focused authored effect:
 
-After the brief flash and sparks expire, the damaged condition must remain readable through smoke, surface darkening, asymmetric exhaust, and flight behavior.
+- exact location derived from authoritative bridge geometry;
+- compact flash;
+- dust and limited debris;
+- small persistent scorch/crater or damaged road-edge treatment;
+- a persistent obstruction that visually explains why the convoy cannot proceed;
+- optional restrained guardrail or bridge-edge damage.
 
-## 12. Engine, vapor, and aircraft presentation
+The obstruction must be visible enough from the convoy camera and overview camera to explain the stop, but it must not rewrite the authoritative map into a collapsed canyon or fully destroyed bridge.
 
-### 12.1 Engine presentation
+The effect must be seek-safe:
 
-Both Su-30MKK aircraft have two distinct engines.
+- no residue before T+125;
+- active blast only in a bounded window after T+125;
+- persistent damage at later times;
+- no duplicate effects after repeated seeks;
+- no dependence on how many render frames elapsed.
 
-Requirements:
+Do not assign the hit to any existing aircraft, ship, launcher, or ground unit.
 
-- two separate exhaust locations;
-- restrained engine glow appropriate to dawn;
-- bounded heat-haze or exhaust presentation;
-- no oversized science-fiction afterburner flames;
-- damage may reduce or alter one exhaust after T+137;
-- engine effects derive from absolute state and do not create per-frame resources.
+## 13. Terrain, road, and physical alignment
 
-### 12.2 Navigation and formation readability
+Every vehicle must remain grounded using the project’s established terrain-height approach.
 
-Restrained navigation or anti-collision lights may help reveal formation geometry at dawn.
+Verify:
 
-If used:
+- no floating wheels;
+- no chassis sinking into the terrain;
+- no abrupt vertical jumps at polyline joins;
+- no extreme pitch or roll;
+- readable steering through curves;
+- correct heading during forward motion;
+- correct facing/travel distinction during reverse;
+- bridge approach alignment;
+- safe clearance from road edges and static assets.
 
-- keep them small and physically attached;
-- derive blink phase from absolute time;
-- do not use random timers;
-- do not overpower the aircraft silhouette;
-- remove them correctly when the aircraft is off-map or exited.
-
-### 12.3 Vapor
-
-Use vapor only where it improves motion readability.
-
-Acceptable examples:
-
-- brief wing-root vapor during stronger turns;
-- short condensation wisps during the covering maneuver;
-- restrained high-altitude trails if appropriate.
-
-Do not create persistent white ribbons across the whole map. Vapor must be bounded, deterministic, and subordinate to the aircraft.
-
-## 13. Formation and interaction readability
-
-The airborne reinforcement should read as purposeful but short-lived.
-
-Requirements:
-
-- the two Su-30MKK aircraft enter with clear separation;
-- their roles differ before T+137;
-- the damaged aircraft visibly abandons pressure after T+137;
-- the second aircraft crosses or banks into a cover position around T+142;
-- both subsequently commit to withdrawal;
-- the covering maneuver does not resemble a collision course;
-- the sequence does not become a circling dogfight;
-- aircraft remain large enough in at least one camera view to identify their silhouettes;
-- wide views should still preserve the scale of Ash Harbor.
-
-Do not fake interaction using only HUD text. The relative aircraft movement must communicate the event visually.
+Do not add a general suspension or rigid-body physics system.
 
 ## 14. Camera requirements
 
-Preserve all existing spectator controls and camera presets.
+Add at most one focused convoy camera preset, named clearly such as `Support convoy` or `Rescue convoy`.
 
-Add at most one new preset:
+The camera must derive from absolute simulation time and should:
 
-- label: `Air reinforcement` or `Su-30 focus`;
-- before T+104: frame the northeast entry boundary without showing nonexistent aircraft;
-- T+104 to T+137: follow a stable group anchor that keeps both Su-30MKK aircraft readable when possible;
-- around T+137: keep the damaged aircraft and at least part of the interaction geometry visible;
-- around T+142: show the covering pass without a sudden target jump;
-- after T+142: follow a stable withdrawal anchor or the damaged aircraft while retaining the intact escort where practical;
-- derive camera targets from absolute state rather than accumulated camera history.
+- frame the moving group before T+75;
+- show the redirect and emergency-light transition at T+75;
+- show staggered braking and reduced visibility at T+108;
+- frame both the bridge blast and lead vehicle response at T+125;
+- show the separated assessment posture after T+125;
+- show the split hold/reposition/withdrawal response at T+174;
+- avoid clipping through truck geometry, terrain, structures, or effects;
+- avoid abrupt camera cuts within the preset;
+- remain stable while paused;
+- reconstruct correctly after direct seeking.
 
-The camera must not jump when the group changes from entry to damage to withdrawal.
+Preserve every existing camera preset and paused-camera behavior. Do not add multiple per-vehicle convoy cameras.
 
-Do not add automatic cinematic cuts.
+## 15. HUD and Tailwind CSS policy
 
-Free orbit, pan, and zoom must remain usable while paused.
+Update the HUD only enough to communicate:
 
-The existing F-35B, BTR, T-72B, harbor, industrial, Radar Hill, beach, Wasp, Talwar, and Molniya views must remain functional.
+- Stage 4B.2C / support-convoy status;
+- active convoy phase;
+- concise vehicle/group counts or outcomes where the existing UI pattern supports them;
+- the four new timeline events;
+- the extended T+176 endpoint.
 
-## 15. UI and timeline requirements
+Keep the UI compact and preserve the existing visual language.
 
-Add only the minimum UI required to communicate the new airborne sequence.
+### Tailwind requirement for touched UI
 
-Requirements:
+Tailwind CSS is already installed and connected. Use it deliberately for new or modified ordinary DOM UI in this stage.
 
-- add the four official air events to the unified timeline in chronological order;
-- keep total duration at 172 seconds;
-- label the current milestone as `Stage 4B.2B` or `Airborne defender reaction`;
-- display concise status for both Su-30MKK aircraft or their group;
-- preserve existing F-35B, BTR-80, and T-72B status;
-- preserve play, pause, restart, seek, and playback-speed controls;
-- avoid making the HUD taller than common viewport heights;
-- preserve the Stage 4B.2A camera-panel overflow fix;
-- do not claim that Pantsir 02, the support convoy, LCAC, LAV-25, the full operation, or aftermath mode is implemented.
+For UI markup touched by this task, prefer Tailwind utility classes for:
 
-Useful status language includes:
+- layout;
+- flex/grid behavior;
+- spacing;
+- width and height constraints;
+- typography;
+- borders, radii, and colors;
+- overflow behavior;
+- responsive adjustments;
+- focus and hover states.
 
-- `off-map`;
-- `2 entering`;
-- `1 pressuring / 1 supporting`;
-- `1 damaged withdrawing / 1 covering`;
-- `2 withdrawing`;
-- `2 egressing` or `2 exited`.
+Do not add new simple semantic selectors to `src/index.css` when the styling can be expressed clearly with existing Tailwind utilities.
 
-Use the exact official event IDs and times:
+Keep handwritten CSS where it is genuinely more appropriate, including:
 
-- `su30_reinforcement_entry` at T+104;
-- `su30_01_damaged` at T+137;
-- `su30_02_cover_withdrawal` at T+142;
-- `aircraft_egress` at T+170.
+- global document or canvas rules;
+- complex pseudo-elements;
+- range-input internals;
+- reusable reticle or tactical-display drawing;
+- specialized animations or selectors that would become unreadable as utilities.
 
-## 16. Performance and resource rules
+Do not perform a wholesale migration of the existing HUD in this logic-focused stage. Do not churn untouched markup merely to raise a Tailwind class count. Apply Tailwind consistently to the new/modified UI surface, preserve visual parity, and leave broader stylesheet consolidation for a dedicated later pass.
 
-This stage adds two aircraft and bounded attached effects. Preserve the existing browser-performance discipline.
+Do not add a UI library or change Tailwind/package versions.
 
-Requirements:
+Verify the HUD at both a normal desktop viewport and a shorter-height viewport. It must not obscure the scene, lose timeline controls, or introduce unintended page scrolling.
 
-- share Su-30MKK geometry and materials across both aircraft;
-- reuse bounded effect primitives where appropriate;
-- do not allocate new Three.js geometry or materials every frame;
-- do not append unbounded smoke or trail history;
-- calculate trail samples analytically from absolute time over a bounded time window;
-- avoid simulation-frequency React reconciliation for static model subtrees;
-- dispose only resources owned by the component that created them;
-- keep shadows restrained and intentional;
-- do not add a dependency for modeling, flight paths, state, or effects.
+## 16. Timeline and duration contract
 
-## 17. Preserve existing systems
+Extend the deterministic simulation duration from 172 seconds to exactly 176 seconds.
 
-Do not regress:
+Add exactly these authoritative convoy events:
 
-- deterministic pause, play, restart, and direct seeking;
-- 0.5×, 1×, and 2× playback;
-- Stage 1 F-35B launch and Radar Hill engagement;
-- Stage 2 terrain, harbor, industrial, corridor, beach, and naval construction;
-- Stage 3 Talwar damage, flooding, and persistent harbor effects;
-- Stage 3 Molniya departure, damage, wake, and open-water state;
-- Stage 3 industrial and ammunition destruction;
-- Stage 4A terrain remap, fuel disaster, and F-35 motion quality;
-- Stage 4B BTR support, loss, and withdrawal;
-- Stage 4B.2A T-72B reinforcement, lead loss, reverse withdrawal, effects, camera, and UI;
-- the T+154.5 F-35B weapon release and T+158 impact;
-- persistent damage reconstruction;
-- spectator camera control while paused;
-- the hard prohibition on visible humans.
+- T+75 — `rescue_convoy_redirect`;
+- T+108 — `rescue_convoy_chokepoint`;
+- T+125 — `rescue_route_secondary_hit`;
+- T+174 — `rescue_convoy_abandon_approach`.
 
-Do not rewrite completed ground, naval, industrial, or F-35 effects merely for stylistic consistency with the new aircraft effects.
+Preserve every completed event ID, timestamp, label, and ordering.
 
-## 18. Required tests
+Do not implement an amphibious or LAV event at T+176. If event inclusion uses a boundary convention, make the Stage 4B.2C cutoff explicit and test it so the later-stage T+176 event remains absent.
 
-Add focused tests for Stage 4B.2B and preserve the complete existing suite.
+Existing actors must remain correct after T+172 through T+176:
 
-### 18.1 Roster and model data
+- actors that should persist continue from their established state;
+- actors that have exited do not reappear;
+- completed survivor and destruction outcomes do not reset;
+- Molniya remains in its valid open-water continuation state;
+- aircraft continuation or exit remains deterministic;
+- no completed weapon or damage effect is replayed.
 
-Verify:
+Do not weaken exact T+172 regression assertions. Update only assertions whose sole purpose was to encode the old global duration, and add explicit tests for the new endpoint.
 
-- exactly two Su-30MKK aircraft exist;
-- IDs are `defender_su30_01` and `defender_su30_02`;
-- both belong to `island_defender`;
-- both use vehicle type `Su-30MKK`;
-- dimensions match the authoritative specification;
-- final authored outcomes are damaged survivor and intact survivor respectively;
-- no third Su-30MKK exists.
+## 17. Deterministic testing requirements
 
-### 18.2 Exact state boundaries
+Add focused tests for the support-convoy domain and update integration tests only where required.
 
-Test at least:
+At minimum, cover:
+
+### Roster and composition
+
+- exact group ID;
+- exact six vehicle IDs;
+- exactly two fire engines, one engineering truck, one recovery vehicle, and two logistics trucks;
+- stable subtype and convoy-order assignment;
+- all six survive.
+
+### Event boundaries
+
+Test immediately before, at, and after important boundaries, including:
 
 - T+0;
-- T+103.9;
-- T+104;
-- T+104.1;
-- T+120;
-- T+136.9;
-- T+137;
-- T+137.1;
-- T+141.9;
-- T+142;
-- T+142.1;
-- T+169.9;
-- T+170;
-- T+170.1;
-- T+172.
+- T+74.9, T+75, T+75.1;
+- T+107.9, T+108, T+108.1;
+- T+124.9, T+125, T+125.1;
+- T+171.9 and T+172;
+- T+173.9, T+174, T+174.1;
+- T+176.
 
-Verify exact entry, damage, covering-withdrawal, and egress boundaries.
+### Motion and route behavior
 
-### 18.3 Lifecycle and outcomes
+- initial movement is real and deterministic;
+- redirect follows the authored support-convoy path;
+- speed remains at or below 28 m/s;
+- acceleration and braking stay within believable tested envelopes;
+- heading follows route tangents during forward motion;
+- reverse direction is represented correctly after T+174;
+- wheel rotation direction matches forward/reverse distance;
+- vehicles maintain safe spacing;
+- vehicles do not overlap one another;
+- vehicles avoid completed T-72B positions and static yard infrastructure;
+- vehicles remain terrain-grounded;
+- no vehicle crosses the blocked bridge.
 
-Verify:
+### Lighting and effects
 
-- both aircraft are off-map and not rendered before T+104;
-- the first aircraft presses while the second supports before damage;
-- only `defender_su30_01` becomes damaged at T+137;
-- `defender_su30_01` stops pressing and begins withdrawal at T+137;
-- `defender_su30_02` begins covering withdrawal at T+142;
-- both are withdrawing or egressing by T+170;
-- neither is destroyed;
-- no crash or ejection state exists;
-- off-map or exited visibility is deterministic.
+- emergency beacons activate from T+75 and are deterministic at a timestamp;
+- vehicle phase offsets are stable;
+- brake lights match authored braking windows;
+- bridge blast is absent before T+125;
+- the active blast is bounded;
+- persistent bridge damage and obstruction exist after T+125;
+- repeated seeks do not duplicate residue;
+- seeking backward removes future damage/effects.
 
-### 18.4 Deterministic reconstruction
+### Lifecycle and group outcome
 
-Verify:
+- routine movement before T+75;
+- emergency response after T+75;
+- hesitation at T+108;
+- obstruction response at T+125;
+- route assessment before T+174;
+- partial withdrawal begins at T+174;
+- lead-hold, limited-reposition, and rear-withdrawal roles are distinct;
+- final group state is withdrawal in progress;
+- all six vehicles remain survivors.
 
-- repeated derivation at the same time is identical;
-- late-to-early-to-late seeking reconstructs identical state;
-- restart restores both aircraft to the off-map undamaged state;
-- 0.5×, 1×, and 2× playback reach identical state at the same absolute time;
-- flash, sparks, vapor, smoke, damage, and trail state do not leak backward through time;
-- the damage trail reconstructs identically without stored frame history.
+### Regression and duration
 
-### 18.5 Motion quality
+- full deterministic equality for repeated derivation at the same timestamp;
+- direct seek equals uninterrupted-time derivation;
+- all existing exact actor states at T+172 remain unchanged;
+- completed BTR, T-72B, F-35B, Su-30MKK, naval, and infrastructure behavior remains correct;
+- duration is exactly 176 seconds;
+- the excluded T+176 amphibious/LAV event is absent;
+- actor continuation from T+172 to T+176 is deterministic.
 
-Sample densely across T+103 to T+172 and verify:
+Do not replace strong exact assertions with vague truthiness checks merely to make regressions pass.
 
-- continuous position and velocity at every authored keyframe and event boundary;
-- bounded speed;
-- bounded acceleration;
-- bounded heading rate;
-- bounded bank;
-- visible heading aligned with the true path tangent;
-- restrained pitch aligned with climb or descent;
-- no backward flight or sideways sliding;
-- safe separation between both Su-30MKK aircraft;
-- safe separation from both F-35Bs;
-- role paths are visibly different rather than fixed duplicates;
-- terrain-clearance margin remains positive throughout;
-- both egress paths progress southwest after their respective withdrawal transitions.
+## 18. Browser validation
 
-### 18.6 Damage presentation
+Use the actual application in a browser after implementation. Do not rely only on unit tests.
 
-Verify:
+Inspect at least:
 
-- damage intensity is zero at T+136.9;
-- initial flash and sparks begin at T+137;
-- transient damage effects decay over bounded durations;
-- light smoke persists while the damaged aircraft remains present;
-- smoke originates from the correct aft engine area;
-- only `defender_su30_01` receives the damaged material/exhaust state;
-- no future smoke samples appear after a backward seek;
-- the damaged aircraft remains controllable and follows the egress path.
+### T+0
 
-### 18.7 Timeline integration
+- all six vehicles exist exactly once;
+- the convoy is already in motion;
+- initial yard/road placement is believable;
+- no overlap with T-72Bs or infrastructure;
+- scale, wheels, windows, and subtype silhouettes read correctly;
+- no visible occupants appear.
 
-Verify:
+### T+75
 
-- all four Stage 4B.2B events exist exactly once;
-- the unified event list remains chronologically sorted;
-- `aircraft_egress` includes both F-35Bs and both Su-30MKK aircraft without changing completed F-35 poses;
-- the simulation duration remains 172 seconds;
-- existing Stage 1 through Stage 4B.2A event IDs and times remain unchanged.
+- redirect/acceleration is readable;
+- emergency beacons activate;
+- the convoy remains orderly;
+- no vehicle snaps or teleports.
 
-### 18.8 Regression
+### T+108
 
-Verify:
+- smoke/dust and reduced visibility are visible but not opaque;
+- staggered braking is readable;
+- vehicles remain separated;
+- the reaction differs from ordinary route following.
 
-- all existing tests remain green;
-- completed F-35 path samples remain unchanged;
-- completed F-35 weapon release and impact positions remain unchanged;
-- BTR-80 and T-72B states remain unchanged at representative times;
-- no excluded actor is added to the world state or scene.
+### T+125
 
-Do not weaken existing assertions merely to make an architectural refactor pass.
+- the bridge event is correctly located;
+- effect scale is restrained;
+- no source actor is implied;
+- lead braking is readable;
+- no support vehicle is destroyed;
+- persistent obstruction explains the route failure.
 
-## 19. Browser inspection matrix
+### T+126 to T+150
 
-Use an actual browser against the running development application. Do not rely only on unit tests or source inspection.
+- convoy assessment and limited repositioning remain coherent;
+- no vehicle crosses the obstruction;
+- existing T-72B strike sequence remains fully readable at T+150 to T+166;
+- new effects do not obscure completed events.
 
-Inspect at minimum:
+### T+170 to T+176
 
-### T+0 and T+103.9
+- completed aircraft egress remains correct;
+- T+172 completed states remain correct;
+- T+174 partial withdrawal visibly begins;
+- lead-hold, engineering/recovery reposition, and rear withdrawal read as distinct responses;
+- motion continues naturally to T+176;
+- no LAV, LCAC, or excluded event appears.
 
-- no Su-30MKK is visible over the modeled battlefield;
-- no Su-30 effect residue exists;
-- all completed systems remain correct;
-- the air-reinforcement camera frames an empty entry sector without exposing invalid geometry.
+### Seek and controls
 
-### T+104 to T+115
-
-- both aircraft cross the northeast boundary continuously;
-- scale and silhouette are recognizable;
-- engines, twin tails, twin nacelles, and central tail boom read correctly;
-- canopies reveal no occupants;
-- formation spacing and role offsets are clear;
-- entry remains subordinate to major existing events.
-
-### T+115 to T+136.9
-
-- `defender_su30_01` visibly pressures the departing F-35B formation;
-- `defender_su30_02` remains supportively offset;
-- no prolonged dogfight or repeated orbit appears;
-- there are no aircraft collisions or implausibly close passes;
-- F-35B paths and completed weapon events remain correct.
-
-### T+137
-
-- damage onset is attached to `defender_su30_01`;
-- the flash and sparks are compact;
-- there is no large explosion;
-- no wing or engine detaches;
-- no pilot or ejection appears;
-- the aircraft begins a forceful but continuous breakaway;
-- `defender_su30_02` remains intact.
-
-### T+137 to T+141.9
-
-- the damaged aircraft continues withdrawing with light smoke;
-- the smoke follows the moving aircraft correctly;
-- the intact aircraft repositions to cover;
-- silhouettes remain visible through the effects.
-
-### T+142
-
-- the covering pass is visually distinct from prior supporting flight;
-- the camera does not jump between aircraft;
-- the second aircraft does not remain to fight alone;
-- both paths transition toward coherent withdrawal.
-
-### T+142 to T+169.9
-
-- both aircraft withdraw southwest with distinct offsets;
-- light damage smoke persists without becoming an unbounded ribbon;
-- the damaged aircraft remains under control;
-- no new engagement or weapon effect appears;
-- ground, industrial, naval, BTR, and T-72 events continue correctly.
-
-### T+170 to T+172
-
-- primary air activity visibly recedes;
-- egress occurs through continuous physical motion;
-- no aircraft teleports or disappears in the middle of the map;
-- aircraft become hidden only after a real authored exit boundary if reached;
-- final damaged/intact survivor states are correct.
-
-### Seek and control checks
-
-- seek from T+170 back to T+103.9;
-- seek forward to T+104, T+137, T+142, and T+170;
-- seek away from and back to the damaged smoke trail;
+- seek backward from T+176 to before T+125, then forward again;
+- seek directly to T+75, T+108, T+125, T+174, and T+176;
 - restart;
 - test pause and play;
-- test 0.5×, 1×, and 2× playback;
+- test 0.5x, 1x, and 2x playback;
 - orbit, pan, and zoom while paused;
-- inspect all aircraft follow views;
-- inspect BTR, T-72B, harbor, industrial, Radar Hill, beach, Wasp, Talwar, and Molniya views;
-- verify the HUD and camera panel fit at a shorter viewport height;
-- inspect the final browser console for errors.
+- inspect the new convoy camera and every existing camera preset;
+- verify timeline controls at the new endpoint;
+- inspect the HUD at a shorter viewport height;
+- inspect the final browser console for errors and warnings caused by this work.
 
-Watch the complete T+103 to T+150 airborne sequence continuously at 1× at least once. Boundary screenshots alone are insufficient to judge formation roles, damage breakaway, covering motion, and smoke behavior.
+Watch the complete T+70 to T+130 convoy sequence continuously at 1x at least once. Boundary screenshots alone are insufficient to judge redirect motion, staggered braking, spacing, bridge impact, and stop behavior.
 
-Also watch T+149 to T+166 once to verify that the new air activity does not obscure or regress the completed T-72B sequence.
+Also watch T+170 to T+176 continuously at 1x to verify the partial-withdrawal onset and old-to-new duration transition.
 
 Fix obvious issues discovered during inspection.
 
-## 20. Update project documentation
+## 19. Documentation updates after implementation
 
 Update only the relevant roadmap and changelog sections after implementation is complete and validated.
 
@@ -939,49 +783,45 @@ Update only the relevant roadmap and changelog sections after implementation is 
 Preserve:
 
 - Stage 4B — `COMPLETE`;
-- Stage 4B.2A — `COMPLETE`.
+- Stage 4B.2A — `COMPLETE`;
+- Stage 4B.2B — `COMPLETE`.
 
 Update:
 
-#### Stage 4B.2B — Limited Airborne Defender Reaction
-
-- status `COMPLETE` only after this task and validation succeed;
-- two Su-30MKK aircraft;
-- T+104 entry;
-- brief pressure and support roles;
-- T+137 damaged survivor breakaway;
-- T+142 covering withdrawal;
-- T+170 air-activity egress;
-- deterministic aircraft-state and visual validation;
-- no generalized air-combat AI.
-
-Keep planned:
-
 #### Stage 4B.2C — Support and Rescue Convoy
 
-- six simple support vehicles;
-- firefighting, engineering, recovery, and logistics response;
-- obstruction, failed approach, and partial withdrawal;
-- no visible personnel.
+- status `COMPLETE` only after implementation and validation succeed;
+- exact six-vehicle composition;
+- T+75 redirect;
+- T+108 chokepoint hesitation;
+- T+125 bridge obstruction;
+- T+174 abandoned approach and partial withdrawal;
+- deterministic support-vehicle, lighting, motion, and effect validation;
+- bounded extension to T+176;
+- no visible personnel;
+- no generalized convoy AI.
 
-Keep Stage 4C, Stage 5, Stage 6, and unrelated completed-stage descriptions intact.
+Keep Stage 4C, Stage 5, Stage 6, and unrelated completed-stage descriptions intact. Stage 4C remains the next planned stage unless repository documentation defines a narrower follow-up.
 
 ### `changelog.md`
 
-Append a concise Stage 4B.2B completion record covering:
+Append a concise Stage 4B.2C completion record covering:
 
-- aircraft architecture changes;
-- exact roster and outcomes;
-- entry, role, damage, covering, and egress paths;
-- Su-30MKK model contract;
-- damage and smoke presentation;
-- camera and UI changes;
-- validation and browser inspection;
-- remaining Stage 4B.2C, Stage 4C, and Stage 5 limitations.
+- support-vehicle architecture;
+- exact roster and final outcomes;
+- route and initial staging;
+- T+75, T+108, T+125, and T+174 behavior;
+- vehicle model contract;
+- emergency lights, braking, dust, bridge effects, and persistent obstruction;
+- camera and HUD changes;
+- bounded Tailwind usage for touched UI;
+- duration extension to T+176;
+- automated validation and browser inspection;
+- remaining Stage 4C and Stage 5 limitations.
 
 Do not claim completion before validation succeeds.
 
-## 21. Validation under repository rules
+## 20. Validation under repository rules
 
 Before finishing, run the permitted non-build checks appropriate to the repository, including:
 
@@ -1001,27 +841,29 @@ Do not add new dependencies unless the reason is explicitly explained and genuin
 
 Do not automatically upgrade framework versions.
 
-Avoid unrelated formatting churn or broad refactors.
+Avoid unrelated formatting churn, stylesheet rewrites, or broad refactors.
 
-## 22. Final response requirements
+## 21. Final response requirements
 
 When complete, report:
 
-1. the aircraft-state architecture changes made for the second aircraft family;
-2. how all completed F-35B behavior and paths were preserved;
-3. the exact two Su-30MKK IDs, roles, conditions, and final outcomes;
-4. how the authoritative northeast entry and southwest egress paths were authored;
-5. how pressure, support, damaged breakaway, covering withdrawal, and egress are represented;
-6. the exact T+104, T+137, T+142, and T+170 event implementation;
-7. Su-30MKK model scale and silhouette details;
-8. speed, acceleration, heading, pitch, bank, separation, and terrain-clearance behavior;
-9. damage flash, sparks, smoke, asymmetric engine presentation, and deterministic reconstruction;
-10. camera and UI changes;
-11. timeline, `ITERATION_PLAN.md`, and `changelog.md` changes;
-12. TypeScript, lint, test, and whitespace-check results;
-13. browser inspections performed and issues corrected;
-14. remaining limitations before Stage 4B.2C, Stage 4C, and Stage 5.
+1. the support-vehicle state architecture and focused modules added;
+2. how all completed BTR-80, T-72B, F-35B, Su-30MKK, naval, and infrastructure behavior was preserved;
+3. the exact group ID, six vehicle IDs, subtypes, conditions, and final outcomes;
+4. how initial staging avoids the reserve T-72Bs and service-yard infrastructure;
+5. how the authoritative rescue path, vehicle spacing, speed, braking, steering, wheel motion, and reverse semantics were implemented;
+6. the exact T+75, T+108, T+125, and T+174 event behavior;
+7. how the unattributed bridge strike and persistent obstruction reconstruct after seeking;
+8. procedural model scale and distinguishing details for every support subtype;
+9. emergency beacons, headlights, brake lights, dust, smoke, and deterministic effect behavior;
+10. camera and HUD changes;
+11. how Tailwind was used in new or modified UI and why any remaining touched CSS could not be expressed cleanly as utilities;
+12. the T+176 duration extension and the preserved T+172 regression state;
+13. timeline, `ITERATION_PLAN.md`, and `changelog.md` changes;
+14. TypeScript, lint, test, and whitespace-check results;
+15. browser inspections performed and issues corrected;
+16. remaining limitations before Stage 4C and Stage 5.
 
-Do not claim that a shooter or weapon for `su30_01_damaged` was authored unless the authoritative scenario is explicitly revised.
+Do not claim a source, shooter, or weapon for `rescue_route_secondary_hit`.
 
-Do not claim that Pantsir 02, the support convoy, LCAC, LAV-25, environmental realism, the full 180-second operation, or aftermath mode has been implemented.
+Do not claim that Pantsir 02, LCAC, LAV-25, the T+176 amphibious event, environmental realism, the full T+180 operation, aftermath mode, visible response personnel, or generalized convoy AI has been implemented.

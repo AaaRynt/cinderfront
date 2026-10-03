@@ -4,7 +4,7 @@ import { deriveSimulationWorldState } from './derive'
 import { createSimulationStore, getSimulationWorldState } from './store'
 
 describe('simulation store', () => {
-  it('plays, pauses, changes speed, and clamps at the active Stage 3 endpoint', () => {
+  it('plays, pauses, changes speed, and clamps at the active Stage 4B.2C endpoint', () => {
     const store = createSimulationStore()
     const actions = store.getState()
 
@@ -22,7 +22,7 @@ describe('simulation store', () => {
 
     store.getState().play()
     store.getState().tick(100)
-    expect(store.getState().timeSeconds).toBe(172)
+    expect(store.getState().timeSeconds).toBe(176)
     expect(store.getState().isPlaying).toBe(false)
   })
 
@@ -65,6 +65,8 @@ describe('simulation store', () => {
     expect(store.getState().isPlaying).toBe(true)
 
     store.getState().seek(172)
+    expect(store.getState().isPlaying).toBe(true)
+    store.getState().seek(176)
     expect(store.getState().isPlaying).toBe(false)
   })
 })

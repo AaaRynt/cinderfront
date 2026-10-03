@@ -173,6 +173,14 @@ export function deriveMolniyaState(timeSeconds: number): MolniyaState {
   const after = samplePolyline(MOLNIYA_HARBOR_PATH, Math.min(1, pathProgress + sampleDelta))
   const pathYaw = pathProgress >= 1 ? headingBetween(before, position) : headingBetween(position, after)
   const modelYaw = time <= MOLNIYA_DEPARTURE_SECONDS ? MOLNIYA_INITIAL_MODEL_YAW : lerpAngleRadians(MOLNIYA_INITIAL_MODEL_YAW, pathYaw, smoothstep(62, 70, time))
+  let continuedPosition = position
+  // The completed endpoint and yaw remain untouched; continue into open
+  // water along the final segment only in the new T+172–176 interval.
+  if (time > MOLNIYA_OPEN_WATER_SECONDS) {
+    const elapsed = time - MOLNIYA_OPEN_WATER_SECONDS
+    const length = Math.hypot(400, 40)
+    continuedPosition = { ...position, x: position.x - (400 / length) * MOLNIYA_CRUISE_SPEED_MPS * elapsed, z: position.z - (40 / length) * MOLNIYA_CRUISE_SPEED_MPS * elapsed }
+  }
   const damaged = time >= 128
   const escaped = time >= MOLNIYA_OPEN_WATER_SECONDS
   const mobile = time >= MOLNIYA_DEPARTURE_SECONDS
@@ -186,7 +194,7 @@ export function deriveMolniyaState(timeSeconds: number): MolniyaState {
     factionId: 'island_defender',
     phase,
     pose: {
-      position,
+      position: continuedPosition,
       rotation: { x: 0, y: modelYaw, z: damaged ? Math.sin(time * 0.7) * 0.012 : 0 },
     },
     headingDegrees: mapHeadingDegreesFromModelYaw(modelYaw),

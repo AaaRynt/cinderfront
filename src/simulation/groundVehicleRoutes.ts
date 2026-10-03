@@ -65,3 +65,20 @@ export const T72_SERVICE_YARD_CONNECTOR_POINTS = [YARD_ROUTE_START, ...EXIT_CURV
 export const T72_REINFORCEMENT_ROUTE_POINTS = [YARD_ROUTE_START, ...EXIT_CURVE, ...OFFSET_RESCUE_BRANCH.slice(1), [4_050, 100], [3_100, -300], [4_000, -1_100], [5_000, -1_900], [6_050, -1_600], [6_200, -1_830], [6_000, -2_050]] as const satisfies readonly GroundRoutePoint[]
 
 export const T72_AUTHORED_YARD_EXIT = YARD_EXIT
+
+/** Reference connector remains authoritative; this moving group is already
+ * on the rescue branch west of the yard at T+0, clear of the reserve tanks. */
+export const SUPPORT_CONVOY_ROUTE_CONTRACT = {
+  pathId: 'path_support_convoy_industrial',
+  featureIds: ['corridor_service_yard', 'road_rescue_branch', 'road_eastern_trunk'],
+  connectorWaypoints: [
+    [5_750, 250],
+    [6_075, 250],
+    [6_300, 400],
+  ],
+} as const
+
+// A 30 m rounded bend stays inside the existing 11 m rescue-road ribbon.
+const SUPPORT_BRANCH_BEND = Array.from({ length: 65 }, (_, index) => cubicPoint([5_080, 448.8], [5_060, 449.6], [5_040.56, 446.7], [5_021.68, 440.09], index / 64))
+const SUPPORT_APPROACH_BEND = Array.from({ length: 65 }, (_, index) => cubicPoint([4_080, 110.5], [4_060, 103.5], [4_040, 95.7894736842], [4_020, 87.3684210526], index / 64))
+export const SUPPORT_CONVOY_ROUTE_POINTS = [[6_300, 400], ...SUPPORT_BRANCH_BEND, ...SUPPORT_APPROACH_BEND, [3_100, -300]] as const satisfies readonly GroundRoutePoint[]

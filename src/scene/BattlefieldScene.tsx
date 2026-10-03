@@ -15,9 +15,11 @@ import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effect
 import { Stage3BattleEffects } from './effects/Stage3BattleEffects'
 import { Stage4B2AArmoredEffects } from './effects/Stage4B2AArmoredEffects'
 import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffects'
+import { SupportConvoyEffects } from './effects/SupportConvoyEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
 import { Btr80Group, F35BModel, PantsirModel, T72BGroup, WaspModel } from './vehicles'
 import { Su30MkkGroup } from './vehicles/Su30MkkGroup'
+import { SupportConvoyGroup } from './vehicles/SupportConvoyGroup'
 import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
 
 const NEAR_HIT_POSITION: Vec3 = [3_115, 174, 3_330]
@@ -239,6 +241,8 @@ function DynamicBattlefield() {
       <RadarHillEngagement world={world} />
       <Btr80Group group={world.stage4b.btrGroup} />
       <T72BGroup group={world.stage4b.t72Group} />
+      <SupportConvoyGroup group={world.stage4b2c.convoy} />
+      <SupportConvoyEffects state={world.stage4b2c} time={time} />
       <Stage3BattleEffects world={world} />
       <Stage4BGroundVehicleEffects world={world} />
       <Stage4B2AArmoredEffects world={world} />
@@ -252,6 +256,9 @@ function DynamicBattlefield() {
         su30YawRadians={world.stage4b2b.anchor.rotation.y}
         t72HullYawRadians={world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y}
         t72Position={t72Position}
+        supportPosition={vectorTuple(world.stage4b2c.camera.anchor.position)}
+        supportYawRadians={world.stage4b2c.camera.anchor.rotation.y}
+        supportFramingScale={world.stage4b2c.camera.framingScale}
       />
     </>
   )

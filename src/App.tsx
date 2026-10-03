@@ -43,6 +43,10 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   su30_01_damaged: 'Su-30 01 damaged · controlled breakaway',
   su30_02_cover_withdrawal: 'Su-30 02 covers the damaged aircraft’s withdrawal',
   aircraft_egress: 'Primary air activity transitions to egress',
+  rescue_convoy_redirect: 'Support convoy redirects to the industrial emergency',
+  rescue_convoy_chokepoint: 'Support convoy brakes in smoke and dust',
+  rescue_route_secondary_hit: 'Unattributed secondary blast blocks the dry-wash bridge',
+  rescue_convoy_abandon_approach: 'Support convoy abandons approach · partial withdrawal',
 }
 
 function phaseLabel(value: string) {
@@ -85,6 +89,8 @@ function SimulationInterface() {
     btrGroup: btrGroupStatus(world.stage4b.btrGroup),
     t72Group: t72GroupStatus(world.stage4b.t72Group),
     su30Group: world.stage4b2b.status,
+    supportPhase: world.stage4b2c.convoy.phase.replaceAll('_', ' '),
+    supportOutcome: world.stage4b2c.convoy.outcome === 'survived' ? '6 survived · 1 hold / 2 reposition / 3 withdrawing' : '6 operational · 2 fire / 1 engineering / 1 recovery / 2 logistics',
     industrial: world.stage3.industrial.ammunitionCompoundDestroyed ? 'fuel and ammunition sites destroyed' : world.stage3.industrial.blackoutFraction > 0 ? 'partial blackout / fires active' : world.stage3.industrial.pipelineIgnited ? 'fuel-transfer fire active' : 'operational',
   }
 

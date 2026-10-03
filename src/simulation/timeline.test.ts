@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { adaptScenarioFaction, getReachedSimulationEvents, SIMULATION_DURATION_SECONDS, SIMULATION_EVENTS, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED, STAGE3_EVENTS, STAGE4B_EVENTS } from '.'
 import { clampSimulationTime, clampStage1Time, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
-import { STAGE4B2B_EVENTS } from './timeline'
+import { STAGE4B2B_EVENTS, STAGE4B2C_EVENTS } from './timeline'
 
 describe('Stage 1 timeline authority', () => {
   it('contains the exact authoritative event boundaries through 48 seconds', () => {
@@ -41,15 +41,15 @@ describe('simulation time formatting', () => {
 
 describe('Stage 3 timeline authority', () => {
   it('uses the exact in-scope event boundaries through Molniya open water', () => {
-    expect(SIMULATION_DURATION_SECONDS).toBe(172)
+    expect(SIMULATION_DURATION_SECONDS).toBe(176)
     expect(STAGE3_EVENTS.map((event) => event.atSeconds)).toEqual([52, 62, 72, 78, 86, 92, 94, 98, 100, 115, 116, 128, 132, 165, 172])
     expect(STAGE3_EVENTS.map((event) => event.localTime)).toEqual(['05:27:52', '05:28:02', '05:28:12', '05:28:18', '05:28:26', '05:28:32', '05:28:34', '05:28:38', '05:28:40', '05:28:55', '05:28:56', '05:29:08', '05:29:12', '05:29:45', '05:29:52'])
   })
 })
 
 describe('Stage 4B timeline authority', () => {
-  it('keeps the BTR slice and adds the three exact armored-reinforcement events without extending the simulation', () => {
-    expect(SIMULATION_DURATION_SECONDS).toBe(172)
+  it('keeps the BTR slice and adds the three exact armored-reinforcement events within the extended simulation', () => {
+    expect(SIMULATION_DURATION_SECONDS).toBe(176)
     expect(STAGE4B_EVENTS.map((event) => event.id)).toEqual(['btr_01_disabled', 'btr_survivors_fallback', 'defender_armored_reinforcement_move', 't72_lead_destroyed', 't72_survivors_withdraw'])
     expect(STAGE4B_EVENTS.map((event) => event.atSeconds)).toEqual([133, 136, 150, 158, 163])
     expect(STAGE4B_EVENTS.map((event) => event.localTime)).toEqual(['05:29:13', '05:29:16', '05:29:30', '05:29:38', '05:29:43'])
@@ -58,7 +58,7 @@ describe('Stage 4B timeline authority', () => {
   })
 
   it('keeps the combined event stream chronological around the BTR events and later Stage 3 events', () => {
-    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 78, 86, 92, 94, 98, 100, 104, 115, 116, 128, 132, 133, 136, 137, 142, 150, 158, 163, 165, 170, 172])
+    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 75, 78, 86, 92, 94, 98, 100, 104, 108, 115, 116, 125, 128, 132, 133, 136, 137, 142, 150, 158, 163, 165, 170, 172, 174])
 
     expect(getReachedSimulationEvents(132.9).at(-1)?.id).toBe('ammunition_storage_primary_detonation')
     expect(getReachedSimulationEvents(133).at(-1)?.id).toBe('btr_01_disabled')
@@ -89,7 +89,7 @@ describe('Stage 4B.2B airborne event authority', () => {
       expect(getReachedSimulationEvents(event.atSeconds).at(-1)).toEqual(event)
       expect(getReachedSimulationEvents(event.atSeconds + 0.1).at(-1)).toEqual(event)
     }
-    expect(SIMULATION_EVENTS.filter((event) => !STAGE4B2B_EVENTS.some((added) => added.id === event.id))).toEqual([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].sort((a, b) => a.atSeconds - b.atSeconds))
-    expect(SIMULATION_DURATION_SECONDS).toBe(172)
+    expect(SIMULATION_EVENTS.filter((event) => ![...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS].some((added) => added.id === event.id))).toEqual([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].sort((a, b) => a.atSeconds - b.atSeconds))
+    expect(SIMULATION_DURATION_SECONDS).toBe(176)
   })
 })

@@ -22,6 +22,8 @@ interface BattlefieldStatus {
   btrGroup: string
   t72Group: string
   su30Group: string
+  supportPhase: string
+  supportOutcome: string
   industrial: string
 }
 
@@ -65,6 +67,7 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Plane, id: 'f35-01', label: 'F-35B 01' },
   { icon: Plane, id: 'f35-02', label: 'F-35B 02' },
   { icon: Plane, id: 'su30', label: 'Air reinforcement' },
+  { icon: Route, id: 'support-convoy', label: 'Support convoy' },
 ]
 
 function StatusRow({ label, value }: { label: string; value: string }) {
@@ -94,7 +97,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="eyebrow">Cinderfront / Stage 4B.2B</p>
+            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 4B.2C</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -104,7 +107,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
         </div>
       </header>
 
-      <aside className="faction-panel hud-panel" aria-label="Operational status">
+      <aside className="hud-panel absolute top-5 right-5 max-h-[calc(100dvh-160px)] w-[280px] overflow-y-auto px-3.5 py-[13px] max-[1100px]:max-h-[calc(100dvh-220px)] max-[760px]:hidden" aria-label="Operational status">
         <div className="faction-block faction-landings-attacker">
           <p className="eyebrow">landings_attacker</p>
           <StatusRow label="F-35B 01" value={battlefieldStatus.aircraft01} />
@@ -120,15 +123,28 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           <StatusRow label="BTR-80 group" value={battlefieldStatus.btrGroup} />
           <StatusRow label="T-72B group" value={battlefieldStatus.t72Group} />
           <StatusRow label="Su-30MKK pair" value={battlefieldStatus.su30Group} />
+          <div aria-label="Support convoy status" className="mt-2 border-t border-(--hud-edge) pt-2">
+            <div className="flex items-start justify-between gap-3 text-[10px] text-[#a7b5b1]">
+              <span className="shrink-0">Support convoy</span>
+              <strong className="text-right font-mono text-[9px] leading-3.5 font-medium tracking-wide text-(--ink) uppercase">{battlefieldStatus.supportPhase}</strong>
+            </div>
+            <p className="mt-1 mb-1 font-mono text-[9px] leading-3.5 text-(--island)">{battlefieldStatus.supportOutcome}</p>
+          </div>
           <StatusRow label="Industrial" value={battlefieldStatus.industrial} />
         </div>
       </aside>
 
-      <nav className="camera-panel hud-panel" aria-label="Camera presets">
+      <nav className="hud-panel absolute top-[102px] left-5 max-h-[calc(100dvh-222px)] w-[184px] overflow-y-auto p-3 max-[1100px]:max-h-[calc(100dvh-270px)] max-[760px]:top-[91px] max-[760px]:left-3 max-[760px]:w-[156px]" aria-label="Camera presets">
         <p className="panel-label">Spectator camera</p>
-        <div className="camera-buttons">
+        <div className="mt-2.5 grid gap-[3px]">
           {CAMERA_PRESETS.map(({ icon: Icon, id, label }) => (
-            <button key={id} aria-pressed={activePreset === id} className="camera-button" onClick={() => requestPreset(id)} type="button">
+            <button
+              key={id}
+              aria-pressed={activePreset === id}
+              className="flex w-full items-center gap-2 border border-[#b0c8bf1f] bg-[#ffffff03] px-2 py-[7px] text-left text-[10px]! text-[#a8b9b3]! transition-colors hover:border-[#e9a94d70] hover:bg-[#e9a94d0f] hover:text-(--ink)! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--amber-bright) aria-pressed:border-[#e9a94d8c] aria-pressed:bg-[#e9a94d1a] aria-pressed:text-(--amber-bright)!"
+              onClick={() => requestPreset(id)}
+              type="button"
+            >
               <Icon aria-hidden="true" size={15} strokeWidth={1.7} />
               <span>{label}</span>
             </button>
@@ -140,7 +156,9 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <section className="timeline-panel hud-panel" aria-label="Simulation timeline">
         <div aria-atomic="true" aria-live="polite" className="event-readout">
           <div>
-            <p className="eyebrow">Event {latestEvent.code}</p>
+            <p title={`Event ${latestEvent.code}`} className="m-0 truncate font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">
+              Event {latestEvent.code}
+            </p>
             <strong>{latestEvent.label}</strong>
           </div>
           <span>{formatTimelineBound(latestEvent.time)}</span>
@@ -181,7 +199,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="stage-notice">Reaction phase · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
+      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">Support response · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
     </div>
   )
 }

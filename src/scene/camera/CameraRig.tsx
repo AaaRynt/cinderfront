@@ -23,9 +23,12 @@ interface CameraRigProps {
   su30YawRadians: number
   t72HullYawRadians: number
   t72Position: Vec3
+  supportPosition: Vec3
+  supportYawRadians: number
+  supportFramingScale: number
 }
 
-type FollowPreset = 'btr' | 'f35-01' | 'f35-02' | 'molniya' | 'su30' | 't72'
+type FollowPreset = 'btr' | 'f35-01' | 'f35-02' | 'molniya' | 'su30' | 't72' | 'support-convoy'
 
 const CAMERA_PRESETS = {
   overview: {
@@ -81,7 +84,7 @@ const CAMERA_PRESETS = {
 const WORLD_UP = new Vector3(0, 1, 0)
 
 function isFollowPreset(preset: CameraPreset): preset is FollowPreset {
-  return preset === 'btr' || preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya' || preset === 'su30' || preset === 't72'
+  return preset === 'support-convoy' || preset === 'btr' || preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya' || preset === 'su30' || preset === 't72'
 }
 
 function setVector(target: Vector3, source: Vec3) {
@@ -113,17 +116,19 @@ function deterministicFollowDirection(preset: FollowPreset, direction: Vector3, 
   if (preset === 't72' && t72HullYawRadians !== undefined) return directionFromYaw(direction, t72HullYawRadians)
   const world = deriveSimulationWorldState(simulationStore.getState().timeSeconds)
   const yaw =
-    preset === 't72'
-      ? world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y
-      : preset === 'su30'
-        ? world.stage4b2b.anchor.rotation.y
-        : preset === 'btr'
-          ? world.stage4b.btrGroup.vehicles.defender_btr_03.pose.rotation.y
-          : preset === 'f35-01'
-            ? world.aircraft.attacker_f35_01.pose.rotation.y
-            : preset === 'f35-02'
-              ? world.aircraft.attacker_f35_02.pose.rotation.y
-              : world.stage3.molniya.pose.rotation.y
+    preset === 'support-convoy'
+      ? world.stage4b2c.camera.anchor.rotation.y
+      : preset === 't72'
+        ? world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y
+        : preset === 'su30'
+          ? world.stage4b2b.anchor.rotation.y
+          : preset === 'btr'
+            ? world.stage4b.btrGroup.vehicles.defender_btr_03.pose.rotation.y
+            : preset === 'f35-01'
+              ? world.aircraft.attacker_f35_01.pose.rotation.y
+              : preset === 'f35-02'
+                ? world.aircraft.attacker_f35_02.pose.rotation.y
+                : world.stage3.molniya.pose.rotation.y
   return directionFromYaw(direction, yaw)
 }
 
@@ -133,7 +138,7 @@ function yawBetweenDirections(start: Vector3, end: Vector3): number {
   return Math.atan2(Math.sin(endYaw - startYaw), Math.cos(endYaw - startYaw))
 }
 
-export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, molniyaPosition, su30Position, su30FramingScale, su30YawRadians, t72HullYawRadians, t72Position }: CameraRigProps) {
+export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, molniyaPosition, su30Position, su30FramingScale, su30YawRadians, t72HullYawRadians, t72Position, supportPosition, supportYawRadians, supportFramingScale }: CameraRigProps) {
   const camera = useThree((state) => state.camera)
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
   const preset = useCameraStore((state) => state.preset)
@@ -146,6 +151,9 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
   const su30FramingScaleRef = useRef(su30FramingScale)
   const lastSu30FramingScale = useRef(su30FramingScale)
   const t72PositionRef = useRef(t72Position)
+  const supportPositionRef = useRef(supportPosition)
+  const supportFramingScaleRef = useRef(supportFramingScale)
+  const lastSupportFramingScale = useRef(supportFramingScale)
   const lastFollowPosition = useStableVector3()
   const followPositionScratch = useStableVector3()
   const followDeltaScratch = useStableVector3()
@@ -161,6 +169,7 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
   const btrDirection = useStableVector3()
   const t72Direction = useStableVector3()
   const su30Direction = useStableVector3()
+  const supportDirection = useStableVector3()
   const lastFollowDirection = useStableVector3()
   const observationScratch = useStableVector3()
   const followCameraOffset = useStableVector3()
@@ -174,6 +183,10 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
   su30PositionRef.current = su30Position
   su30FramingScaleRef.current = su30FramingScale
   t72PositionRef.current = t72Position
+  useEffect(() => {
+    supportPositionRef.current = supportPosition
+    supportFramingScaleRef.current = supportFramingScale
+  }, [supportPosition, supportFramingScale])
 
   if (!observationsInitialized.current) {
     observedPrimaryPosition.set(...f35Position)
@@ -186,6 +199,7 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
     deterministicFollowDirection('btr', btrDirection)
     deterministicFollowDirection('t72', t72Direction, t72HullYawRadians)
     directionFromYaw(su30Direction, su30YawRadians)
+    directionFromYaw(supportDirection, supportYawRadians)
     observationsInitialized.current = true
   }
 
@@ -194,15 +208,28 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
     if (!orbitControls) return
 
     if (isFollowPreset(preset)) {
-      const targetPosition = preset === 'su30' ? su30PositionRef.current : preset === 'btr' ? btrPositionRef.current : preset === 't72' ? t72PositionRef.current : preset === 'f35-01' ? f35PositionRef.current : preset === 'f35-02' ? f35SecondaryPositionRef.current : molniyaPositionRef.current
+      const targetPosition =
+        preset === 'support-convoy'
+          ? supportPositionRef.current
+          : preset === 'su30'
+            ? su30PositionRef.current
+            : preset === 'btr'
+              ? btrPositionRef.current
+              : preset === 't72'
+                ? t72PositionRef.current
+                : preset === 'f35-01'
+                  ? f35PositionRef.current
+                  : preset === 'f35-02'
+                    ? f35SecondaryPositionRef.current
+                    : molniyaPositionRef.current
       const anchor = followPositionScratch.set(...targetPosition)
-      const direction = deterministicFollowDirection(preset, preset === 'su30' ? su30Direction : preset === 'btr' ? btrDirection : preset === 't72' ? t72Direction : preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection)
-      const followDistance = preset === 'su30' ? 350 : preset === 'molniya' ? 142 : preset === 't72' ? 105 : preset === 'btr' ? 58 : 74
-      const sideDistance = preset === 'su30' ? 115 : preset === 'molniya' ? 62 : preset === 't72' ? 46 : preset === 'btr' ? 25 : 31
-      const height = preset === 'su30' ? 135 : preset === 'molniya' ? 46 : preset === 't72' ? 36 : preset === 'btr' ? 17 : 29
-      const lookAhead = preset === 'su30' ? 0 : preset === 'molniya' ? 24 : preset === 't72' ? 2 : preset === 'btr' ? 2 : 18
+      const direction = deterministicFollowDirection(preset, preset === 'support-convoy' ? supportDirection : preset === 'su30' ? su30Direction : preset === 'btr' ? btrDirection : preset === 't72' ? t72Direction : preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection)
+      const followDistance = preset === 'support-convoy' ? 155 : preset === 'su30' ? 350 : preset === 'molniya' ? 142 : preset === 't72' ? 105 : preset === 'btr' ? 58 : 74
+      const sideDistance = preset === 'support-convoy' ? 210 : preset === 'su30' ? 115 : preset === 'molniya' ? 62 : preset === 't72' ? 46 : preset === 'btr' ? 25 : 31
+      const height = preset === 'support-convoy' ? 135 : preset === 'su30' ? 135 : preset === 'molniya' ? 46 : preset === 't72' ? 36 : preset === 'btr' ? 17 : 29
+      const lookAhead = preset === 'support-convoy' ? 0 : preset === 'su30' ? 0 : preset === 'molniya' ? 24 : preset === 't72' ? 2 : preset === 'btr' ? 2 : 18
       const right = followRightScratch.set(direction.z, 0, -direction.x).normalize()
-      const framingScale = preset === 'su30' ? su30FramingScaleRef.current : 1
+      const framingScale = preset === 'support-convoy' ? supportFramingScaleRef.current : preset === 'su30' ? su30FramingScaleRef.current : 1
 
       camera.position
         .copy(anchor)
@@ -213,6 +240,7 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
       lastFollowPosition.copy(anchor)
       lastFollowDirection.copy(direction)
       lastSu30FramingScale.current = su30FramingScaleRef.current
+      lastSupportFramingScale.current = supportFramingScaleRef.current
     } else {
       const selected = CAMERA_PRESETS[preset]
       setVector(camera.position, selected.position)
@@ -220,7 +248,7 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
     }
     camera.updateProjectionMatrix()
     orbitControls.update()
-  }, [btrDirection, camera, followPositionScratch, followRightScratch, lastFollowDirection, lastFollowPosition, molniyaDirection, preset, primaryDirection, requestId, secondaryDirection, su30Direction, t72Direction])
+  }, [btrDirection, camera, followPositionScratch, followRightScratch, lastFollowDirection, lastFollowPosition, molniyaDirection, preset, primaryDirection, requestId, secondaryDirection, su30Direction, supportDirection, t72Direction])
 
   useFrame(() => {
     const simulationTime = simulationStore.getState().timeSeconds
@@ -237,12 +265,13 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
     updateObservedDirection(btr, observedBtrPosition, btrDirection, observationScratch)
     directionFromYaw(t72Direction, t72HullYawRadians)
     directionFromYaw(su30Direction, su30YawRadians)
+    directionFromYaw(supportDirection, supportYawRadians)
 
     if (!isFollowPreset(preset) || !controls.current) return
-    const targetPosition = preset === 'su30' ? su30Position : preset === 'btr' ? btrPosition : preset === 't72' ? t72Position : preset === 'f35-01' ? f35Position : preset === 'f35-02' ? f35SecondaryPosition : molniyaPosition
+    const targetPosition = preset === 'support-convoy' ? supportPosition : preset === 'su30' ? su30Position : preset === 'btr' ? btrPosition : preset === 't72' ? t72Position : preset === 'f35-01' ? f35Position : preset === 'f35-02' ? f35SecondaryPosition : molniyaPosition
     const current = followPositionScratch.set(...targetPosition)
     const delta = followDeltaScratch.copy(current).sub(lastFollowPosition)
-    const direction = preset === 'su30' ? su30Direction : preset === 'btr' ? btrDirection : preset === 't72' ? t72Direction : preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection
+    const direction = preset === 'support-convoy' ? supportDirection : preset === 'su30' ? su30Direction : preset === 'btr' ? btrDirection : preset === 't72' ? t72Direction : preset === 'f35-01' ? primaryDirection : preset === 'f35-02' ? secondaryDirection : molniyaDirection
     if (timelineDiscontinuity || delta.length() >= 180) deterministicFollowDirection(preset, direction, t72HullYawRadians)
 
     camera.position.add(delta)
@@ -256,6 +285,14 @@ export function CameraRig({ btrPosition, f35Position, f35SecondaryPosition, moln
       camera.position.copy(current).add(followCameraOffset)
       controls.current.target.copy(current).add(followTargetOffset)
       lastSu30FramingScale.current = su30FramingScale
+    }
+    if (preset === 'support-convoy') {
+      const ratio = supportFramingScale / lastSupportFramingScale.current
+      followCameraOffset.copy(camera.position).sub(current).multiplyScalar(ratio)
+      followTargetOffset.copy(controls.current.target).sub(current).multiplyScalar(ratio)
+      camera.position.copy(current).add(followCameraOffset)
+      controls.current.target.copy(current).add(followTargetOffset)
+      lastSupportFramingScale.current = supportFramingScale
     }
     const yawDelta = yawBetweenDirections(lastFollowDirection, direction)
     if (Math.abs(yawDelta) > 0.000_01) {
