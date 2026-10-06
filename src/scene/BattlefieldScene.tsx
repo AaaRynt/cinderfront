@@ -93,7 +93,7 @@ function DawnEnvironment() {
   return (
     <>
       <color attach="background" args={['#0b1820']} />
-      <fog attach="fog" args={['#17272e', 7_000, 20_500]} />
+      <fog attach="fog" args={['#344852', 7_800, 21_000]} />
       <mesh ref={sky} frustumCulled={false} scale={19_000}>
         <sphereGeometry args={[1, 48, 24]} />
         <shaderMaterial
@@ -101,14 +101,18 @@ function DawnEnvironment() {
           fragmentShader={`
             varying vec3 vSkyPosition;
             void main() {
-              float height = normalize(vSkyPosition).y;
-              vec3 horizon = vec3(0.25, 0.29, 0.30);
-              vec3 zenith = vec3(0.025, 0.075, 0.105);
-              vec3 warm = vec3(0.34, 0.16, 0.065);
+              vec3 skyDirection = normalize(vSkyPosition);
+              float height = skyDirection.y;
+              vec3 horizon = vec3(0.075, 0.115, 0.155);
+              vec3 zenith = vec3(0.009, 0.027, 0.052);
+              vec3 warm = vec3(0.20, 0.105, 0.038);
               float verticalMix = smoothstep(-0.08, 0.72, height);
               float horizonGlow = exp(-pow((height - 0.015) * 7.0, 2.0));
-              vec3 color = mix(horizon, zenith, verticalMix) + warm * horizonGlow * 0.42;
+              float sunward = pow(max(0.0, dot(normalize(skyDirection.xz + vec2(0.0001)), vec2(-0.755, -0.656))), 3.0);
+              vec3 color = mix(horizon, zenith, verticalMix) + warm * horizonGlow * (0.08 + sunward * 0.36);
               gl_FragColor = vec4(color, 1.0);
+              #include <tonemapping_fragment>
+              #include <colorspace_fragment>
             }
           `}
           side={BackSide}
@@ -121,9 +125,9 @@ function DawnEnvironment() {
           `}
         />
       </mesh>
-      <hemisphereLight color="#a7bdc6" groundColor="#453a2e" intensity={0.88} />
-      <ambientLight color="#8ba2aa" intensity={0.38} />
-      <directionalLight castShadow color="#ffc27e" intensity={3.35} position={[-6_800, 3_900, -5_900]} shadow-bias={-0.00018} shadow-mapSize-height={1_024} shadow-mapSize-width={1_024} shadow-normalBias={18}>
+      <hemisphereLight color="#b1c8d3" groundColor="#4b514a" intensity={1.08} />
+      <ambientLight color="#91adb9" intensity={0.42} />
+      <directionalLight castShadow color="#ffd4a3" intensity={2.65} position={[-6_800, 3_900, -5_900]} shadow-bias={-0.00018} shadow-mapSize-height={1_024} shadow-mapSize-width={1_024} shadow-normalBias={18}>
         <orthographicCamera attach="shadow-camera" args={[-7_500, 7_500, 6_000, -6_000, 50, 22_000]} />
       </directionalLight>
       <directionalLight color="#789aaa" intensity={0.48} position={[4_000, 6_000, 2_000]} />

@@ -1,5 +1,7 @@
 import { DoubleSide, MeshStandardMaterial } from 'three'
 
+import { applyConcreteHistory, applyIndustrialWeathering } from '../stage4c/weathering'
+
 export function createStage2Materials() {
   const matte = { metalness: 0, roughness: 0.94 } as const
   const structure = { metalness: 0.18, roughness: 0.74 } as const
@@ -15,16 +17,16 @@ export function createStage2Materials() {
     asphalt: new MeshStandardMaterial({ color: '#3f4543', metalness: 0.02, roughness: 0.88 }),
     gravel: new MeshStandardMaterial({ color: '#746e60', ...matte }),
     hardstand: new MeshStandardMaterial({ color: '#656860', metalness: 0.01, roughness: 0.9 }),
-    concrete: new MeshStandardMaterial({ color: '#656861', metalness: 0.01, roughness: 0.86 }),
-    weatheredConcrete: new MeshStandardMaterial({ color: '#5a5c55', metalness: 0, roughness: 0.96 }),
+    concrete: applyConcreteHistory(new MeshStandardMaterial({ color: '#656861', metalness: 0.01, roughness: 0.86 })),
+    weatheredConcrete: applyConcreteHistory(new MeshStandardMaterial({ color: '#5a5c55', metalness: 0, roughness: 0.96 })),
     steel: new MeshStandardMaterial({ color: '#4e5757', ...structure }),
     darkSteel: new MeshStandardMaterial({ color: '#343b3c', metalness: 0.24, roughness: 0.68 }),
-    paintedSteel: new MeshStandardMaterial({ color: '#626b67', ...structure }),
-    warehouseWall: new MeshStandardMaterial({ color: '#4e534e', metalness: 0.08, roughness: 0.82 }),
+    paintedSteel: applyIndustrialWeathering(new MeshStandardMaterial({ color: '#626b67', ...structure }), 0.22),
+    warehouseWall: applyIndustrialWeathering(new MeshStandardMaterial({ color: '#4e534e', metalness: 0.08, roughness: 0.82 }), 0.18),
     warehouseRoof: new MeshStandardMaterial({ color: '#363d3c', metalness: 0.16, roughness: 0.74 }),
-    tankWall: new MeshStandardMaterial({ color: '#7c7d70', metalness: 0.16, roughness: 0.73 }),
+    tankWall: applyIndustrialWeathering(new MeshStandardMaterial({ color: '#7c7d70', metalness: 0.16, roughness: 0.73 }), 0.34),
     tankTop: new MeshStandardMaterial({ color: '#929080', metalness: 0.12, roughness: 0.78 }),
-    pipeline: new MeshStandardMaterial({ color: '#655c4b', metalness: 0.27, roughness: 0.68 }),
+    pipeline: applyIndustrialWeathering(new MeshStandardMaterial({ color: '#655c4b', metalness: 0.27, roughness: 0.68 }), 0.3),
     rail: new MeshStandardMaterial({ color: '#343737', metalness: 0.55, roughness: 0.48 }),
     tie: new MeshStandardMaterial({ color: '#423c33', ...matte }),
     berm: new MeshStandardMaterial({ color: '#6d644f', flatShading: true, ...matte }),

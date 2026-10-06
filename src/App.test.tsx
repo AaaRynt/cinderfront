@@ -12,7 +12,7 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
-describe('Stage 4B.2C spectator interface', () => {
+describe('Stage 4C spectator interface', () => {
   it('retains all 18 existing cameras and adds only one support-convoy preset', () => {
     render(<App />)
     const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
@@ -39,7 +39,7 @@ describe('Stage 4B.2C spectator interface', () => {
     ])
     fireEvent.click(cameras.getByRole('button', { name: 'Air reinforcement' }))
     expect(cameras.getByRole('button', { name: 'Air reinforcement' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByText('Cinderfront / Stage 4B.2C')).toBeInTheDocument()
+    expect(screen.getByText('Cinderfront / Stage 4C')).toBeInTheDocument()
     expect(screen.getByText('Su-30MKK pair')).toBeInTheDocument()
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('routine transit')
     fireEvent.click(cameras.getByRole('button', { name: 'Support convoy' }))

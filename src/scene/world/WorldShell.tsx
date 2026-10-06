@@ -10,11 +10,13 @@ import { RadarHillEnvironment } from './stage2/RadarHillEnvironment.tsx'
 import { RoadRailUtilities } from './stage2/RoadRailUtilities.tsx'
 import { createStage2Materials } from './stage2/stage2Materials.ts'
 import { TerrainAndWater } from './stage2/TerrainAndWater.tsx'
-import { VegetationSystem } from './stage2/VegetationSystem.tsx'
+import { RegionalCover } from './stage4c/RegionalCover.tsx'
+import { ServiceEquipment } from './stage4c/ServiceEquipment.tsx'
+import { SurfaceHistory } from './stage4c/SurfaceHistory.tsx'
 
 export type WorldShellProps = Pick<ThreeElements['group'], 'visible'>
 
-/** The complete static Stage 2 Ash Harbor battlefield in raw map meters. */
+/** Static Ash Harbor districts and environmental presentation in map meters. */
 export function WorldShell({ visible = true }: WorldShellProps) {
   const materials = useMemo(createStage2Materials, [])
 
@@ -34,7 +36,9 @@ export function WorldShell({ visible = true }: WorldShellProps) {
       <RadarHillEnvironment materials={materials} />
       <ConvoyCorridor materials={materials} />
       <BeachheadEnvironment materials={materials} />
-      <VegetationSystem />
+      <RegionalCover />
+      <ServiceEquipment />
+      <SurfaceHistory />
     </group>
   )
 }

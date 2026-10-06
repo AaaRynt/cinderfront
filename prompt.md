@@ -1,869 +1,346 @@
-# Stage 4B.2C — Support and Rescue Convoy
+# Stage 4C — Environmental Storytelling and Coastal Realism
 
 Work directly in the existing Cinderfront repository.
 
-Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. It is not a conventional player-controlled game. The viewer observes an authored military scenario through spectator cameras, timeline playback, pause, restart, playback-speed controls, and direct seeking.
+Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. The viewer observes an authored scenario using spectator cameras, playback, pause, restart, speed controls, and direct seeking.
 
-This is an implementation task. Do not stop after planning. Inspect the current repository, implement the complete scoped vertical slice below, run every validation permitted by repository rules, perform browser inspection, fix issues discovered during inspection, and leave the repository in a coherent working state.
+This is an implementation task. Read the repository, implement the scoped stage, complete the permitted checks, inspect the actual application in a browser, fix issues found during inspection, and deliver a coherent, reviewable result. Do not stop after planning.
 
-## 1. Stage goal
+## 1. Verified starting point and stage goal
 
-Stages 4B, 4B.2A, and 4B.2B are complete. They established deterministic wheeled and tracked ground-vehicle lifecycles, reverse movement, an authored F-35B ground-support strike, and a two-aircraft Su-30MKK defender reaction.
+Stage 4B.2C is complete in commit `1f91219`, following completed Stages 4B, 4B.2A, and 4B.2B. The current simulation ends at T+176. The latest documented validation baseline is 315 tests across 20 files.
 
-Stage 4B.2C must now add a small defender support-and-rescue system and prove a complete failed-response lifecycle:
+Stage 4C is the next planned stage in `ITERATION_PLAN.md`.
 
-1. exactly six support vehicles begin in motion from the industrial service-yard area;
-2. at T+75, the convoy redirects toward the industrial emergency;
-3. at T+108, smoke, dust, and reduced visibility cause a staggered chokepoint hesitation;
-4. at T+125, an unattributed secondary explosion damages and blocks the dry-wash bridge approach;
-5. the lead response vehicle is forced to stop while the convoy assesses the failed route;
-6. at T+174, the convoy abandons the approach and begins a partial withdrawal;
-7. the response remains visibly incomplete: one fire engine may hold near the obstruction, engineering and recovery assets may reposition locally, and rear vehicles begin turning or reversing;
-8. all convoy state, motion, effects, damage, lights, and outcomes reconstruct deterministically after pause, restart, direct seeking, and playback-speed changes.
+Make Ash Harbor read as a long-used, dry coastal military and industrial site through five connected improvements:
 
-The dramatic point is not destruction. A real support system exists, mobilizes, encounters worsening conditions, and fails to reach the main fire because its route becomes unusable.
+1. region-specific vegetation and rock silhouettes;
+2. surface history such as repairs, drainage stains, tire wear, and compacted shoulders;
+3. localized industrial corrosion and purposeful maintenance/logistics clutter;
+4. restrained sea motion, shoreline foam, wet/dry transitions, and shallow-water variation;
+5. coherent early-dawn maritime atmosphere that preserves battlefield readability.
 
-## 2. Read before implementation
+Deliver visible improvements at T+0 as well as after existing destruction events. Prioritize changes that can be seen from the established cameras. A larger object count or a global color adjustment alone does not complete this stage.
 
-Read these files completely before changing source code:
+## 2. Read before editing
 
-1. `AGENTS.md`
-2. `ITERATION_PLAN.md`
-3. `changelog.md`
-4. `assets/map/map-spec.yaml`
-5. `assets/map/map-layout.svg`
-6. `assets/scenario/scenario-spec.yaml`
-7. `assets/scenario/scenario-timeline.md`
-8. the support-vehicle and generic-vehicle reference files, if present
-9. the current BTR-80 and T-72B types, routes, motion derivation, rendering, tests, effects, UI, and camera code
-10. the current F-35B and Su-30MKK implementation and regression tests
-11. the current unified timeline and event-type implementation
-12. `src/index.css` and the current Tailwind/Vite configuration
+Read:
 
-The authoritative map, scenario, and vehicle files are design references. Do not rewrite those reference assets during this task.
+- `AGENTS.md`, `ITERATION_PLAN.md`, and `changelog.md`;
+- `assets/map/map-spec.yaml` and `assets/map/map-layout.svg`;
+- `assets/scenario/scenario-spec.yaml` and `assets/scenario/scenario-timeline.md`;
+- `assets/vehicle/Belligerents.yaml`;
+- authoritative LCAC and LAV-25 dimensions and approach/unloading route data, solely to reserve their future operating space;
+- the current terrain, water, world, atmosphere, environmental primitives, deterministic layout, and exclusion-mask implementation;
+- existing blast-response, industrial damage, harbor pollution, fire, smoke, and wake rendering;
+- ground-vehicle routes and clearance tests, particularly the support convoy and T-72B yard exits;
+- the current camera, HUD, Tailwind setup, and regression fixtures;
+- `package.json` and the TypeScript configurations to identify permitted validation commands.
 
-If implementation details conflict, use this order of authority:
+Relevant implementation entry points include:
 
-1. `AGENTS.md` and the hard human-visibility constraint;
-2. this Stage 4B.2C prompt and its explicit scope;
-3. authoritative scenario, map, and vehicle references;
-4. completed-stage behavior documented in `changelog.md`;
-5. existing implementation details.
-
-## 3. Hard product constraints
-
-Do not introduce:
-
-- player-controlled units;
-- scoring;
-- mission success or failure gameplay loops;
-- multiplayer;
-- generalized autonomous AI agents;
-- autonomous route planning;
-- generalized collision avoidance;
-- nondeterministic outcomes;
-- visible humans;
-- drivers;
-- firefighters;
-- engineers;
-- rescue personnel;
-- ground crews;
-- casualties;
-- humanoid silhouettes;
-- visible vehicle occupants;
-- people represented behind windshields or inside open compartments.
-
-All convoy activity must be communicated through vehicles, spacing, braking, steering, reversing, emergency beacons, headlights, brake lights, dust, smoke, doors or equipment that do not expose people, route obstruction, bridge damage, and infrastructure.
-
-Every cab window and windshield must remain dark, opaque, or strongly reflective. Do not model seats, faces, helmets, bodies, or occupant silhouettes.
-
-## 4. Explicit stage boundary
-
-Implement only:
-
-- the minimum support-vehicle state architecture required for this convoy;
-- exactly six support vehicles in one authored group;
-- the existing `path_support_convoy_industrial` route, with only the focused implementation detail needed to connect it cleanly to rendered roads;
-- the T+75 redirect;
-- the T+108 visibility/chokepoint hesitation;
-- the T+125 dry-wash bridge secondary explosion and persistent obstruction;
-- the T+174 abandoned approach and partial withdrawal;
-- simple procedural support-vehicle models;
-- the minimum effects, bridge-damage presentation, camera, UI, timeline, and tests required to read the sequence;
-- a bounded simulation-duration extension from 172 seconds to 176 seconds so the T+174 response is visible.
-
-Do not implement:
-
-- a second Pantsir-S1 relocation, engagement, or destruction sequence;
-- LCAC movement, beaching, or ramps;
-- LAV-25 deployment;
-- the T+176 amphibious event;
-- the complete amphibious operation;
-- personnel, hoses operated by people, rescue teams, or dismounted crews;
-- generalized traffic AI;
-- generalized route finding;
-- generalized convoy AI;
-- generalized vehicle damage simulation;
-- firefighting-fluid simulation;
-- a dynamic bridge-destruction system;
-- new aircraft;
-- additional weapon events;
-- environmental-realism expansion;
-- vegetation, coastal-wave, weathering, or broad clutter passes;
-- audio;
-- a broad Tailwind migration of the whole application.
-
-Do not add placeholder implementations for excluded actors.
-
-The simulation may end at T+176, but the event scheduled at T+176 for a later stage must not be implemented, displayed, or claimed. Treat this stage's endpoint as the final visible moment of the convoy response, not as completion of the authoritative T+180 scenario.
-
-## 5. Preserve all completed behavior
-
-Before changing ground-vehicle architecture, understand the existing completed behavior and tests in the relevant files, including:
-
-- `src/simulation/derive.ts`;
-- `src/simulation/groundVehicles.ts`;
-- `src/simulation/groundVehicleRoutes.ts`;
-- current ground-vehicle motion and timeline tests;
-- current aircraft motion and weapon tests;
-- `src/simulation/types.ts`;
+- `src/scene/world/WorldShell.tsx`;
+- `src/scene/world/stage2/TerrainAndWater.tsx`;
+- `src/scene/world/stage2/VegetationSystem.tsx`;
+- `src/scene/world/stage2/environment/`;
+- `src/scene/world/stage2/terrainModel.ts` and `terrainGeometry.ts`;
+- `src/scene/world/stage2/stage2Materials.ts`;
+- `src/scene/world/stage2/HarborDistrict.tsx`, `IndustrialDistrict.tsx`, `ConvoyCorridor.tsx`, and `BeachheadEnvironment.tsx`;
+- `src/scene/effects/stage3/BlastResponseField.tsx`;
+- `src/scene/effects/stage4a/`;
+- `src/scene/effects/SupportConvoyEffects.tsx`;
 - `src/scene/BattlefieldScene.tsx`;
-- current ground-vehicle and aircraft model components;
+- `src/simulation/supportConvoy.test.ts`;
+- `src/simulation/fixtures/`;
 - `src/scene/camera/CameraRig.tsx`;
-- `src/ui/SimulationHud.tsx`.
+- `src/ui/SimulationHud.tsx` and `src/index.css`.
 
-Preserve:
+Verify the current implementation rather than treating this file's description as a substitute for inspection.
 
-- all Stage 4B BTR-80 states, paths, damage outcomes, spacing, cameras, and timing;
-- all Stage 4B.2A T-72B states, paths, reverse semantics, strike effects, cameras, and timing;
-- all completed F-35B launch, flight, weapon, impact, and support-pass behavior;
-- both Stage 4B.2B Su-30MKK paths, roles, damage state, covering withdrawal, and T+170 egress behavior;
-- Molniya open-water behavior at T+172;
-- all harbor, industrial, naval, radar, beach, and infrastructure behavior;
-- deterministic results at every previously tested timestamp, especially T+172.
+Repository constraints and the hard human-visibility policy take precedence. Preserve authoritative map/scenario data; this prompt supplies implementation scope and acceptance criteria, not permission to rewrite those references.
 
-Do not move existing T-72Bs merely to make the support convoy easier to stage. Author the convoy around the completed reserve-tank placement and motion.
+## 3. Scope and hard boundaries
 
-Do not teleport BTR-80s into a close escort formation. Preserve their completed routes. The support convoy can exist within the broader defender security context without forcing unrelated vehicles into physical proximity.
+Implement the five environmental improvements above using focused modules and existing infrastructure.
 
-Refactor only where the support convoy genuinely requires it.
+Keep:
 
-## 6. Exact convoy roster
+- the 176-second duration;
+- the current 40-event scoped timeline, including every event ID, time, and ordering;
+- every actor roster, route, pose, condition, outcome, weapon release, and impact anchor;
+- the current terrain-height and road-grounding contract;
+- existing spectator controls and camera presets.
 
-Create exactly one support group:
+Do not add actors, weapons, scenario events, autonomous AI, traffic systems, weather simulation, audio, or aftermath mode.
 
-- group ID: `defender_support_convoy_01`;
-- faction: defender / `island_defender`;
-- group role: `generic_support_convoy` or an equivalently precise existing type;
-- initial broad state: moving;
-- initial area: the industrial service-yard / rescue-corridor area.
+Pantsir 02, both LCACs, eight LAV-25s, the excluded T+176 inland event, and full T+180 integration remain future work. Do not implement placeholders for them. Record the missing Pantsir 02 sequence as an outstanding integration gap; do not imply that an environmental pass completes it.
 
-Create exactly these six stable vehicle IDs:
+Do not redesign the HUD or perform a wholesale CSS/Tailwind migration.
 
-1. `defender_support_fire_01`
-2. `defender_support_engineering_01`
-3. `defender_support_recovery_01`
-4. `defender_support_fire_02`
-5. `defender_support_logistics_01`
-6. `defender_support_logistics_02`
+### Absolute prohibition on visible humans
 
-Use the order above as the default authored convoy order unless existing map geometry proves that a small order adjustment is required for safe staging. If the order changes, keep all six IDs and document the reason in code and tests.
+Never create, model, render, animate, or imply visible human characters, including personnel, crews, occupants, casualties, articulated bodies, or humanoid silhouettes.
 
-Composition must remain exactly:
+Use vehicles, sealed machinery, infrastructure, equipment, lights, and environmental traces to communicate activity. Do not add figures behind windows, human-shaped props, mannequins, or crew-operated equipment requiring visible people.
 
-- two fire engines;
-- one engineering truck;
-- one recovery vehicle;
-- two logistics trucks.
+## 4. Preservation contract
 
-Do not create additional escort, ambulance, command, civilian, or personnel-carrier vehicles.
+Capture representative before screenshots and rendering statistics before changing scene content. Use the same viewport, camera, and timestamp for after comparisons.
 
-## 7. Support-vehicle architecture requirements
+All existing simulation tests and immutable preservation fixtures must continue to pass. Do not regenerate old hashes or relax numerical assertions to accommodate visual work.
 
-### 7.1 Do not force support trucks into BTR-80 or T-72B state
+The preserved sequences include:
 
-The current ground-vehicle domain contains combat-specific fields for BTR-80 and T-72B behavior. Do not assign meaningless turret, weapon, track, armor, or combat-role values to support vehicles merely to fit an existing interface.
+- Stage 1 launches, air-defense activity, Pantsir loss, and radar destruction;
+- Talwar damage, fire, list, flooding, and mission kill;
+- Molniya departure, damaged withdrawal, and open-water continuation;
+- fuel ignition, cascade, sympathetic failures, and persistent wreckage;
+- ammunition cookoff, primary detonation, and environmental blast response;
+- BTR loss and survivor fallback;
+- T-72B movement, F-35B strike, persistent lead wreck, and survivor reverse;
+- Su-30MKK entry, pressure/support roles, damaged breakaway, covering withdrawal, and egress;
+- support-convoy redirect, hesitation, bridge obstruction, and partial withdrawal.
 
-Prefer a small discriminated design with:
+Treat T+172 and T+176 as explicit regression checkpoints.
 
-- genuinely shared ground-motion and transform data;
-- BTR-80-specific state;
-- T-72B-specific state;
-- support-vehicle state with subtype, activity, condition, outcome, lighting, and convoy-role data.
+This stage may change environmental appearance and add deterministic visual samplers, but it must not alter the numerical actor simulation to obtain a more attractive composition.
 
-Exact type names may differ, but the result must remain type-safe, narrow, and readable.
+## 5. Vegetation zoning and rock silhouettes
 
-Do not build an entity-component system, universal vehicle framework, behavior tree, traffic simulator, or route-planning engine.
+Follow the map's sparse, semi-arid setting: low scrub and dry grass dominate. Dense forest and tropical vegetation are prohibited.
 
-### 7.2 Keep lifecycle dimensions separate
+Create visibly different regional patterns:
 
-The support-vehicle implementation must distinguish at least:
+- Radar Hill: exposed rock, sparse low shrubs, wind-worn grass, and clear equipment pads;
+- convoy corridor: discontinuous roadside growth, dry-wash concentrations, compacted shoulders, and mostly clear service areas;
+- remote beach: low coastal scrub behind the wet zone, dune grass in sheltered patches, exposed sand toward the water;
+- harbor and industrial districts: small pockets along boundaries and unused edges, with operational yards and firebreaks kept open.
 
-#### Activity phase
+Improve silhouettes through a small number of shared grass/scrub variants, irregular clumps, varied height/orientation, and restrained regional color differences. Avoid a uniformly random carpet of repeated cones.
 
-- routine transit;
-- emergency response;
-- smoke or visibility hesitation;
-- cautious advance;
-- obstruction stop;
-- route assessment;
-- limited reposition;
-- abandoning approach;
-- turning or reversing;
-- holding.
+Add grounded rock groups at selected ridges, dry-wash edges, and coastal outcrops. Represent localized roughness with visual rocks or surface treatment; do not change terrain elevation or grounding functions in this stage.
 
-Exact names may differ if a clearer actor-specific union is used.
+Reuse seeded layouts, stable instance IDs, shared geometry/materials, and instancing. Keep layouts independent of camera selection, mounting order, and simulation time.
 
-#### Physical condition
+Optional gentle vegetation motion must use absolute simulation time and small bounded displacement. Preserve existing authored blast bending, ignition, charring, and settling. Do not draw intact duplicate vegetation over a charred or destroyed response instance.
 
-Use `operational` for all six support vehicles unless the implementation has a narrowly justified non-destructive mechanical state. The T+125 event blocks the route; it does not require a support vehicle to be destroyed or visibly wrecked.
+## 6. Spatial exclusion and future access
 
-#### Outcome
+New vegetation, rocks, props, and surface layers must respect:
 
-- `active` before the final response;
-- `survived` once the stage outcome is known.
+- mainland versus open-water masks;
+- roads, shoulders, bridges, culverts, intersections, and yard entrances;
+- building footprints, foundations, berms, tank containment, and firebreaks;
+- radar pads and operational sensor clearances;
+- piers, berth envelopes, harbor navigation channels, and ship trajectories;
+- full existing BTR, T-72B, and support-convoy swept paths;
+- the bridge obstruction and rear-convoy reverse maneuvers;
+- authoritative LCAC approach, beaching, ramp/unloading space, and both LAV inland routes;
+- beach exit apron and inland hardstand.
 
-All six vehicles survive this stage.
+Use actual vehicle dimensions and swept-path clearance where needed, not only a centerline or a single timestamp. Derive future landing exclusions from authoritative data without creating future vehicles.
 
-#### Visibility or map presence
+Prefer focused circle, polygon, and buffered-polyline exclusion helpers over a generic spatial-planning framework. Test representative accepted and rejected placements.
 
-State must clearly represent whether each vehicle is present and renderable. Do not use React mounting history or effect history as simulation state.
+## 7. Surface history and industrial weathering
 
-### 7.3 Domain-specific event types
+Give surfaces a readable history tied to their purpose:
 
-Do not continue expanding a BTR/T-72 ground-combat event type with unrelated rescue-convoy fields.
+- harbor: quay-edge salt staining, drainage streaks, cargo handling wear, and limited dockside grime;
+- fuel storage: restrained rust around seams/supports, drainage/runoff marks, oil stains near pumps and transfer equipment, and worn access surfaces;
+- ammunition compound: dusty hardstands, repair patches, berm material variation, and modest loading-area wear;
+- service yard/corridor: tire-worn entrances, patched pavement, gravel shoulders, maintenance stains, and a few reused barriers;
+- remote beach: wet sand, irregular dry-sand edges, restrained stranded material, and aged existing concrete remains.
 
-Add a dedicated Stage 4B.2C event ID and event shape, or an equivalently clear domain-specific structure, for:
+Use directional wear, contact-area stains, and material-specific roughness/color variation. Avoid painting every surface uniformly brown or covering the whole map with noisy textures.
 
-- `rescue_convoy_redirect` at T+75;
-- `rescue_convoy_chokepoint` at T+108;
-- `rescue_route_secondary_hit` at T+125;
-- `rescue_convoy_abandon_approach` at T+174.
+Ground overlays against the existing rendered surface. Avoid z-fighting, floating decals, oversized repetition, and interference with wheel contacts.
 
-Integrate these events into the unified chronological event list without changing completed event IDs or times.
+Keep pre-existing wear separate from timeline-driven destruction. T+0 must not show future explosion craters, bridge rubble, fuel-fire scorch, or ammunition damage. After destruction, new wear and props must respect the established damage presentation instead of looking freshly restored.
 
-The T+125 event has no authoritative source actor. Do not invent a shooter, aircraft, artillery unit, munition identity, targeter, kill credit, or causal explanation.
+Procedural vertex colors, shared material variations, batched overlays, or small locally generated texture resources are acceptable. No external asset pack, new dependency, or full asset pipeline is required.
 
-### 7.4 Keep derivation modular
+## 8. Functional clutter
 
-Do not place the entire support-convoy lifecycle inside the already large general derivation files.
+Add a limited set of small equipment clusters at selected useful locations rather than distributing unrelated objects everywhere.
 
-Prefer a focused pure module such as `supportConvoy.ts` for:
+Examples:
 
-- roster and authored offsets;
-- route/path sampling;
-- per-vehicle lifecycle derivation;
-- steering, speed, braking, reversing, and wheel rotation;
-- group state and counts;
-- test-facing route sampling where useful.
+- hose reels, closed utility cabinets, pipe spares, and pump-service equipment near industrial maintenance zones;
+- pallets, restrained cargo stacks, cable reels, and closed storage bins beside appropriate harbor facilities;
+- tools stored in sealed boxes, spare tires, stowed towing equipment, and service materials at the convoy yard;
+- modest communications/power fixtures near existing Radar Hill infrastructure;
+- a few weathered remnants at the minimally developed beach.
 
-Reuse genuinely shared route and transform helpers from `groundVehicleRoutes.ts` or a small focused shared module. Do not duplicate a large path sampler, but do not over-generalize unrelated actor types either.
+Reuse existing primitives first. Keep stairs, doors, road lanes, tank spacing, loading zones, and future beach exits usable. Do not add decorative parked vehicles, fake combat wrecks, or implied human silhouettes.
 
-### 7.5 Absolute-time reconstruction
+Use real-meter scale and shared resource families. Any new prop within an existing destruction footprint must have a coherent post-event appearance, or be placed outside that footprint.
 
-Every support-convoy property must derive from absolute simulation time and authored data, including:
+## 9. Deterministic coastal water
 
-- visibility;
-- activity phase;
-- condition;
-- outcome;
-- position;
-- heading;
-- velocity or scalar speed;
-- acceleration and braking state;
-- steering state;
-- forward-versus-reverse motion direction;
-- wheel rotation;
-- inter-vehicle spacing;
-- headlights, brake lights, and emergency beacons;
-- dust emission;
-- T+125 bridge effect visibility;
-- persistent bridge damage and obstruction;
-- group counts and final response state.
+Improve the current flat water layers into a restrained coastal surface with:
 
-Do not advance authoritative state through render-frame accumulation, component-local elapsed time, uncontrolled timers, random values, or one-shot mount effects.
+- low-frequency open-sea variation;
+- smaller motion inside the sheltered harbor;
+- regional roughness/color differences;
+- shallow-to-deep transitions grounded in authoritative water regions;
+- localized shoreline foam and wet/dry visual transitions.
 
-Direct seeking to a timestamp must produce the same state as uninterrupted playback to that timestamp.
+Use a compact analytic or shader-based solution with fixed parameters. Derive all wave phases, foam movement, and visual wetness from absolute simulation time.
 
-## 8. Route and spatial contract
+Requirements:
 
-Use the authoritative route:
+- pause freezes environmental motion;
+- seeking to a timestamp reconstructs the same surface;
+- restart reproduces T+0;
+- 0.5x, 1x, and 2x playback use the same simulation-time sampling;
+- camera movement does not change wave phase;
+- no render-clock accumulation, wall-clock animation, uncontrolled randomness, or timer-driven effects.
 
-- path ID: `path_support_convoy_industrial`;
-- relevant features: `corridor_service_yard`, `road_rescue_branch`, and `road_eastern_trunk`;
-- connector waypoints: `[5750, 250]`, `[6075, 250]`, `[6300, 400]`.
+Keep the established mean sea level and ship poses. Favor normal/roughness variation for broad water motion; any vertical displacement must be small, bounded, masked, and compatible with existing ship-waterline, wake, pollution, and surface-fire geometry.
 
-Relevant authoritative map geometry includes:
+Do not introduce ship buoyancy or change naval paths to follow waves.
 
-- service-yard center: `[5750, 250]`;
-- service-yard size: `[650, 360]`;
-- service-yard polygon: `[[5425, 430], [6075, 430], [6075, 70], [5425, 70]]`;
-- rescue-branch polyline: `[[3100, -300], [4050, 100], [5050, 450], [6300, 400]]`;
-- eastern-trunk polyline: `[[600, 1400], [1300, 1000], [2200, 400], [3100, -300], [4000, -1100], [5000, -1900], [6050, -1600]]`;
-- dry-wash bridge center: `[3100, -300]`;
-- dry-wash bridge size: `[145, 34]`;
-- dry-wash bridge rotation: approximately -38 degrees;
-- dry-wash bridge footprint: `[[3167, -331], [3147, -357], [3033, -269], [3053, -243]]`.
+Respect engineered harbor edges, breakwaters, channels, and the exact mainland coastline. Avoid giant waves, ocean flooding onto land, a glowing continuous white border, hard polygon seams, or overlapping transparent sheets that flicker.
 
-Use the project’s established world-coordinate conversion and terrain sampling. Do not assume the YAML coordinates can be copied directly into Three.js coordinates without following the existing map transform.
+Foam must be localized and broken: stronger at exposed beach/rock contacts, quieter within the harbor. Do not render surf through quay walls, across piers, or over inland roads.
 
-### 8.1 Initial staging
+Wet/dry transitions are visual treatments near the existing shoreline, not a new tide or changing terrain/water physics system. If approximating coastal distance or depth from polygons, identify it as a visual proxy; do not claim a bathymetric fluid simulation.
 
-The authoritative initial state is moving. Do not present six parked vehicles waiting motionless for T+75.
+Preserve existing Molniya wakes, harbor fuel sheen, floating debris, surface fires, and smoke layering.
 
-Stage the convoy from the service-yard north exit and/or already onto the rescue branch at T+0, with rear vehicles still reading as connected to the operational yard. This is allowed because the group is already in motion when the modeled interval begins.
+## 10. Dawn atmosphere and readability
 
-Avoid the east-yard connector area occupied by the completed T-72B reserve group. Do not overlap or clip:
+Honor the authoritative early-dawn setting: cold ambient sky, low warm horizon light, visible industrial lights, high visibility with light coastal haze, and no precipitation. The existing wind is 4.0 m/s toward the northeast, with normalized XZ direction [0.70, 0.71]; keep environmental motion coherent with it without rewriting established smoke trajectories.
 
-- the T-72Bs;
-- the maintenance shed;
-- the service-yard barriers;
-- the generator or yard lights;
-- the substation;
-- other static industrial structures.
+Refine horizon, distant contrast, and the balance between sea, land, warm light, and cool sky. Make near, middle, and distant regions distinguishable without concealing the scene.
 
-Do not move those completed assets to make space.
+Preserve the visual hierarchy of:
 
-### 8.2 Route timing and scale
+- dark military vehicle silhouettes;
+- localized fire and smoke;
+- bridge and convoy reactions;
+- aircraft motion;
+- terrain ridges, shoreline, and harbor structures.
 
-The map distance between the yard and bridge is substantial. Do not teleport the convoy or require every vehicle to reach the bridge at T+125.
+Do not use heavy fog, excessive bloom, very dark exposure, or saturated teal/orange grading to conceal geometry. Avoid a broad lighting/postprocessing rewrite.
 
-Use plausible heavy-vehicle speeds and authored starting positions. A useful envelope is:
+Existing cameras should show the improvement. Only make small camera framing corrections when necessary; preserve preset IDs, follow behavior, pause controls, and smooth transitions. No automatic camera cuts or new camera family is required.
 
-- routine motion around 15–20 m/s where the road permits;
-- emergency response no faster than 28 m/s;
-- smooth acceleration and decisive but physically readable braking;
-- slower motion during smoke, turns, assessment, and reverse movement.
+## 11. Architecture, resources, and performance
 
-At T+125, the secondary explosion may occur ahead of the convoy at the bridge. The lead vehicle can then approach the obstruction cautiously and stop short. The event does not need to occur beneath a convoy vehicle.
+Keep new regional data, sampling helpers, and rendering in focused modules, for example under `src/scene/world/stage4c/`, integrated through the existing world/scene entry points.
 
-### 8.3 Convoy spacing and collision avoidance
+Separate static seeded layouts from time-dependent presentation. Update dynamic uniforms/transforms from the existing simulation time without rebuilding static arrays, materials, geometries, or textures each frame.
 
-Use authored lane offsets and time/distance offsets so that:
+Use:
 
-- the vehicles read as one response group;
-- long trucks do not overlap on curves;
-- staggered braking propagates rearward;
-- no two vehicles share the same position at a timestamp;
-- vehicles do not cut visibly across terrain outside the rendered road;
-- no vehicle clips the bridge, guardrails, yard structures, T-72Bs, or another convoy vehicle.
+- instancing or batching for repeated vegetation, rocks, overlays, and props;
+- shared resource ownership with correct cleanup;
+- limited transparent layers and sensible ordering;
+- restrained shadow casting;
+- existing culling where valid, with bounds that accommodate any visual motion.
 
-Do not implement dynamic collision AI. Author and test safe trajectories.
+Do not allocate a material or draw call per grass blade, stain, or foam fragment. Do not remount the entire static world on each timeline update. Keep dynamic water integration from forcing static districts to re-render at simulation frequency.
 
-### 8.4 Reverse and turn semantics
+Measure baseline and final renderer calls, triangles, geometry/texture counts, and available frame-time indicators at the same viewport, cameras, and timestamps. Include quiet T+0 and a busy late-disaster view. Report actual measurements and limitations rather than claiming performance from object counts alone.
 
-At T+174, rear vehicles must visibly begin a withdrawal instead of merely changing a status string.
+Investigate material slowdowns or persistent resource growth. Repeated restart/seek/camera changes must not keep adding buffers, textures, meshes, or effect instances.
 
-Support at least the minimum distinction between:
+## 12. HUD and Tailwind policy
 
-- vehicle facing direction;
-- direction of travel;
-- reverse motion;
-- a turning maneuver where space permits.
+Update stage labeling to Stage 4C where appropriate. Preserve all actor statuses, timeline controls, camera controls, keyboard behavior, and accessible labels.
 
-Reuse completed T-72B reverse semantics where they are genuinely shared. Wheels must rotate in the correct direction during reverse motion.
+Update UI tests that explicitly assert the previous stage label to expect Stage 4C. This label-only adjustment does not authorize changing simulation regression expectations or preservation fixtures.
 
-## 9. Exact event choreography
+Use the installed Tailwind utilities for ordinary DOM markup touched by this task: layout, spacing, typography, responsive sizing, colors, borders, overflow, and focus states.
 
-### Before T+75 — routine movement
+Do not expand `src/index.css` with simple layout selectors already expressible as utilities. Retain specialized global/canvas, pseudo-element, reticle, and range-input CSS where appropriate.
 
-- the convoy is already moving from the service-yard/rescue-corridor area;
-- emergency beacons are not yet in the full response presentation;
-- spacing is orderly and speed is moderate;
-- there are no personnel or open occupied cabs;
-- existing T-72B yard behavior remains untouched.
+A broad stylesheet migration is outside this stage. No debug panels, new UI library, dependency changes, or Tailwind version changes are required.
 
-### T+75 — `rescue_convoy_redirect`
+## 13. Automated verification
 
-- the group redirects toward the industrial emergency on `path_support_convoy_industrial`;
-- acceleration and/or a readable turn communicates escalation;
-- emergency beacons activate deterministically from this time;
-- headlights or marker lights may support readability but must not substitute for motion;
-- the group remains a single convoy with authored spacing;
-- no siren audio is added.
+Run the complete existing tests. Add meaningful tests for new environmental behavior rather than snapshots that merely mirror implementation constants.
 
-### T+108 — `rescue_convoy_chokepoint`
+Cover:
 
-- smoke and dust reduce the apparent visibility on the route;
-- lead vehicles hesitate, brake, or make a small cautious steering adjustment;
-- braking propagates rearward with authored delays;
-- spacing temporarily increases or compresses in a controlled, collision-free way;
-- the group may pause briefly to search for a viable approach;
-- the behavior must read differently from ordinary waypoint motion.
+- reproducible seeded layouts and stable IDs;
+- regional bounds, land/water masks, and representative exclusion clearances;
+- full vehicle/future-landing access envelopes at relevant choke points;
+- finite grounded transforms and nondegenerate overlay/shoreline geometry;
+- bounded wave/foam sampling and regional attenuation;
+- repeated timestamp equality, backward seek, restart, and paused environmental state;
+- preservation of existing blast-response and destruction visibility;
+- unchanged duration, event list, actor states, weapon anchors, and immutable fixtures.
 
-Do not turn this into generalized perception, pathfinding, or obstacle AI. It is an authored response to a known event.
+Test the values used by rendering, not an unused parallel sampler. For shader motion, test shared inputs/analytic bounds and verify actual visual behavior in the browser.
 
-### T+125 — `rescue_route_secondary_hit`
+Do not regenerate preservation fixtures or change authoritative data to make tests pass.
 
-- a compact secondary explosion occurs at the dry-wash bridge / roadside approach;
-- the source remains unattributed;
-- use a restrained flash, dust pulse, limited debris, and a compact shock presentation;
-- create persistent scorch, damaged road edge or guardrail detail, and a clear physical obstruction;
-- do not destroy the entire bridge;
-- do not use a hero-scale fireball;
-- do not destroy any convoy vehicle;
-- the lead response vehicle brakes and stops short of the unusable approach;
-- following vehicles remain separated and transition into assessment/cautious states;
-- seeking to before T+125 removes the blast and bridge damage;
-- seeking back to or after T+125 reconstructs them exactly.
+## 14. Browser inspection and acceptance
 
-### T+125 to T+173.9 — failed approach
+Before editing, capture representative T+0 Harbor, Convoy Corridor, Radar Hill, and Beach views. After implementation, repeat the same views with the same framing and viewport.
 
-- the lead fire engine may hold closest to the obstruction;
-- engineering and recovery vehicles may move forward only as far as safe authored space permits;
-- the second fire engine and logistics trucks remain farther back;
-- limited repositioning must not imply that the bridge has been cleared;
-- emergency beacons continue;
-- dust and smoke remain bounded and do not accumulate indefinitely;
-- no vehicle crosses the blocked bridge;
-- no invented detour succeeds;
-- the convoy remains unable to reach the main fire.
+Inspect:
 
-### T+174 — `rescue_convoy_abandon_approach`
+- T+0: regional vegetation, grounded rocks, purposeful clutter, surface history, coastal water, and absence of future damage;
+- T+42–48: preserved Radar Hill/Pantsir destruction and opening effects;
+- T+75, T+92, and T+108: support response, fuel escalation, smoke, and environmental visibility;
+- T+125–133: bridge obstruction, ammunition detonation, and vegetation/damage reconstruction;
+- T+150–166: preserved T-72B movement/strike/reverse and Talwar deterioration;
+- T+170, T+172, T+174, and T+176: aircraft egress, naval continuation, and partial convoy withdrawal.
 
-- the convoy stops advancing and begins partial withdrawal;
-- `defender_support_fire_01` may remain closest to the obstruction in a holding state;
-- engineering and recovery vehicles may perform only limited local repositioning;
-- `defender_support_fire_02` and the two logistics trucks must begin a physically readable turn or reverse withdrawal;
-- not every vehicle needs to execute the same maneuver at the same instant;
-- no vehicle is destroyed;
-- no vehicle teleports, snaps heading, or disappears;
-- final group state reads as `withdrawal_in_progress` or an equivalently precise value.
+Check all existing camera presets, with closer inspections of harbor edges, industrial maintenance clusters, the yard exit, the bridge, dunes, and remote beach shallows.
 
-The interval from T+174 to T+176 is intentionally short. Show the onset of the maneuver clearly; do not compress an unrealistic complete convoy retreat into two seconds.
+Watch a quiet water/coast segment continuously at 1x and confirm wave/foam motion is restrained. Pause it, orbit the camera, seek backward and forward, restart, and test all playback speeds.
 
-## 10. Vehicle model contract
+Also replay representative fuel, bridge, and T-72B sequences continuously to check that the new environment does not obscure key motion or effects.
 
-These are simple procedural support vehicles, not hero assets. Reuse common cab, chassis, wheels, glass, lights, and material primitives where appropriate, then differentiate subtypes through focused attachments.
+Verify normal desktop and short-height viewports, HUD fit, browser console output, shoreline seams, transparent sorting, z-fighting, and resource stability after repeated seeks/restarts.
 
-Use real-meter dimensions and verify the final scale in scene.
+Stage 4C is complete only when the regional distinctions, surface wear, functional clutter, coastal motion, and atmosphere are visibly present and verified. Save comparison screenshots to a local artifact location and include their paths in the final report. Explain any browser or profiling limitation precisely.
 
-### Fire engines
+## 15. Permitted validation and repository rules
 
-Both fire engines should read as the same operational family, with small variation allowed.
+Do not run build commands. Do not invoke `pnpm build`, `tsc -b`, or the combined `pnpm check` script, which contains a build-mode TypeScript step.
 
-Use approximately:
+Use the existing runtime and permitted commands, such as:
 
-- length: 8–9 meters;
-- width: 2.4–2.7 meters;
-- height: 3.0–3.4 meters.
-
-Include a readable box cab, equipment-compartment body, wheels, bumpers, dark windows, mirrors or lights where useful, and a roof beacon. A stowed hose reel or compact roof monitor is acceptable if it does not imply visible personnel or animated hose operation.
-
-Use a restrained industrial red rather than toy-like saturated plastic.
-
-### Engineering truck
-
-Use approximately 7.5–9 meters in length. It should read as an olive, tan, or industrial utility truck with tool/storage body and one restrained engineering cue such as a stowed small crane, folded boom, compact blade, or equipment rack.
-
-Do not create articulated worker controls or open occupied operating stations.
-
-### Recovery vehicle
-
-Use approximately 8–9 meters in length. It should read through a winch, towing assembly, folded boom, recovery frame, or related stowed equipment.
-
-The equipment must remain stable during ordinary motion and must not clip through the cab or road.
-
-### Logistics trucks
-
-Use approximately 7–8.5 meters in length. Each should have a cab plus cargo bed, restrained tarp body, or container-like load. Small material or load variation is allowed, but both remain generic support vehicles.
-
-### Shared presentation
-
-All six vehicles require:
-
-- grounded wheels with believable diameter and placement;
-- visible wheel rotation tied to absolute-time distance traveled;
-- front and rear lighting cues;
-- brake lights tied to authored braking state;
-- emergency beacons where appropriate for the response;
-- dark or reflective glazing;
-- no visible occupants;
-- no open crew compartments;
-- restrained roughness and color variation;
-- readable silhouettes at overview-camera distance.
-
-Do not add a new dependency for modeling or effects.
-
-## 11. Emergency lighting and motion presentation
-
-Emergency beacon state must be deterministic from absolute time. Do not use local intervals, random flashing, or render-frame counters.
-
-Use phase offsets between vehicles so the convoy does not flash as one synchronized object. The same timestamp must always produce the same beacon state.
-
-Brake lights must correspond to authored deceleration windows, especially near T+108, T+125, and T+174.
-
-Dust should follow wheel contact and motion intensity, remain subtle on paved surfaces, and become more readable near shoulders or damaged ground. Do not allow particles to accumulate without a bounded lifetime.
-
-## 12. Bridge strike and persistent obstruction
-
-Implement the T+125 bridge event as a focused authored effect:
-
-- exact location derived from authoritative bridge geometry;
-- compact flash;
-- dust and limited debris;
-- small persistent scorch/crater or damaged road-edge treatment;
-- a persistent obstruction that visually explains why the convoy cannot proceed;
-- optional restrained guardrail or bridge-edge damage.
-
-The obstruction must be visible enough from the convoy camera and overview camera to explain the stop, but it must not rewrite the authoritative map into a collapsed canyon or fully destroyed bridge.
-
-The effect must be seek-safe:
-
-- no residue before T+125;
-- active blast only in a bounded window after T+125;
-- persistent damage at later times;
-- no duplicate effects after repeated seeks;
-- no dependence on how many render frames elapsed.
-
-Do not assign the hit to any existing aircraft, ship, launcher, or ground unit.
-
-## 13. Terrain, road, and physical alignment
-
-Every vehicle must remain grounded using the project’s established terrain-height approach.
-
-Verify:
-
-- no floating wheels;
-- no chassis sinking into the terrain;
-- no abrupt vertical jumps at polyline joins;
-- no extreme pitch or roll;
-- readable steering through curves;
-- correct heading during forward motion;
-- correct facing/travel distinction during reverse;
-- bridge approach alignment;
-- safe clearance from road edges and static assets.
-
-Do not add a general suspension or rigid-body physics system.
-
-## 14. Camera requirements
-
-Add at most one focused convoy camera preset, named clearly such as `Support convoy` or `Rescue convoy`.
-
-The camera must derive from absolute simulation time and should:
-
-- frame the moving group before T+75;
-- show the redirect and emergency-light transition at T+75;
-- show staggered braking and reduced visibility at T+108;
-- frame both the bridge blast and lead vehicle response at T+125;
-- show the separated assessment posture after T+125;
-- show the split hold/reposition/withdrawal response at T+174;
-- avoid clipping through truck geometry, terrain, structures, or effects;
-- avoid abrupt camera cuts within the preset;
-- remain stable while paused;
-- reconstruct correctly after direct seeking.
-
-Preserve every existing camera preset and paused-camera behavior. Do not add multiple per-vehicle convoy cameras.
-
-## 15. HUD and Tailwind CSS policy
-
-Update the HUD only enough to communicate:
-
-- Stage 4B.2C / support-convoy status;
-- active convoy phase;
-- concise vehicle/group counts or outcomes where the existing UI pattern supports them;
-- the four new timeline events;
-- the extended T+176 endpoint.
-
-Keep the UI compact and preserve the existing visual language.
-
-### Tailwind requirement for touched UI
-
-Tailwind CSS is already installed and connected. Use it deliberately for new or modified ordinary DOM UI in this stage.
-
-For UI markup touched by this task, prefer Tailwind utility classes for:
-
-- layout;
-- flex/grid behavior;
-- spacing;
-- width and height constraints;
-- typography;
-- borders, radii, and colors;
-- overflow behavior;
-- responsive adjustments;
-- focus and hover states.
-
-Do not add new simple semantic selectors to `src/index.css` when the styling can be expressed clearly with existing Tailwind utilities.
-
-Keep handwritten CSS where it is genuinely more appropriate, including:
-
-- global document or canvas rules;
-- complex pseudo-elements;
-- range-input internals;
-- reusable reticle or tactical-display drawing;
-- specialized animations or selectors that would become unreadable as utilities.
-
-Do not perform a wholesale migration of the existing HUD in this logic-focused stage. Do not churn untouched markup merely to raise a Tailwind class count. Apply Tailwind consistently to the new/modified UI surface, preserve visual parity, and leave broader stylesheet consolidation for a dedicated later pass.
-
-Do not add a UI library or change Tailwind/package versions.
-
-Verify the HUD at both a normal desktop viewport and a shorter-height viewport. It must not obscure the scene, lose timeline controls, or introduce unintended page scrolling.
-
-## 16. Timeline and duration contract
-
-Extend the deterministic simulation duration from 172 seconds to exactly 176 seconds.
-
-Add exactly these authoritative convoy events:
-
-- T+75 — `rescue_convoy_redirect`;
-- T+108 — `rescue_convoy_chokepoint`;
-- T+125 — `rescue_route_secondary_hit`;
-- T+174 — `rescue_convoy_abandon_approach`.
-
-Preserve every completed event ID, timestamp, label, and ordering.
-
-Do not implement an amphibious or LAV event at T+176. If event inclusion uses a boundary convention, make the Stage 4B.2C cutoff explicit and test it so the later-stage T+176 event remains absent.
-
-Existing actors must remain correct after T+172 through T+176:
-
-- actors that should persist continue from their established state;
-- actors that have exited do not reappear;
-- completed survivor and destruction outcomes do not reset;
-- Molniya remains in its valid open-water continuation state;
-- aircraft continuation or exit remains deterministic;
-- no completed weapon or damage effect is replayed.
-
-Do not weaken exact T+172 regression assertions. Update only assertions whose sole purpose was to encode the old global duration, and add explicit tests for the new endpoint.
-
-## 17. Deterministic testing requirements
-
-Add focused tests for the support-convoy domain and update integration tests only where required.
-
-At minimum, cover:
-
-### Roster and composition
-
-- exact group ID;
-- exact six vehicle IDs;
-- exactly two fire engines, one engineering truck, one recovery vehicle, and two logistics trucks;
-- stable subtype and convoy-order assignment;
-- all six survive.
-
-### Event boundaries
-
-Test immediately before, at, and after important boundaries, including:
-
-- T+0;
-- T+74.9, T+75, T+75.1;
-- T+107.9, T+108, T+108.1;
-- T+124.9, T+125, T+125.1;
-- T+171.9 and T+172;
-- T+173.9, T+174, T+174.1;
-- T+176.
-
-### Motion and route behavior
-
-- initial movement is real and deterministic;
-- redirect follows the authored support-convoy path;
-- speed remains at or below 28 m/s;
-- acceleration and braking stay within believable tested envelopes;
-- heading follows route tangents during forward motion;
-- reverse direction is represented correctly after T+174;
-- wheel rotation direction matches forward/reverse distance;
-- vehicles maintain safe spacing;
-- vehicles do not overlap one another;
-- vehicles avoid completed T-72B positions and static yard infrastructure;
-- vehicles remain terrain-grounded;
-- no vehicle crosses the blocked bridge.
-
-### Lighting and effects
-
-- emergency beacons activate from T+75 and are deterministic at a timestamp;
-- vehicle phase offsets are stable;
-- brake lights match authored braking windows;
-- bridge blast is absent before T+125;
-- the active blast is bounded;
-- persistent bridge damage and obstruction exist after T+125;
-- repeated seeks do not duplicate residue;
-- seeking backward removes future damage/effects.
-
-### Lifecycle and group outcome
-
-- routine movement before T+75;
-- emergency response after T+75;
-- hesitation at T+108;
-- obstruction response at T+125;
-- route assessment before T+174;
-- partial withdrawal begins at T+174;
-- lead-hold, limited-reposition, and rear-withdrawal roles are distinct;
-- final group state is withdrawal in progress;
-- all six vehicles remain survivors.
-
-### Regression and duration
-
-- full deterministic equality for repeated derivation at the same timestamp;
-- direct seek equals uninterrupted-time derivation;
-- all existing exact actor states at T+172 remain unchanged;
-- completed BTR, T-72B, F-35B, Su-30MKK, naval, and infrastructure behavior remains correct;
-- duration is exactly 176 seconds;
-- the excluded T+176 amphibious/LAV event is absent;
-- actor continuation from T+172 to T+176 is deterministic.
-
-Do not replace strong exact assertions with vague truthiness checks merely to make regressions pass.
-
-## 18. Browser validation
-
-Use the actual application in a browser after implementation. Do not rely only on unit tests.
-
-Inspect at least:
-
-### T+0
-
-- all six vehicles exist exactly once;
-- the convoy is already in motion;
-- initial yard/road placement is believable;
-- no overlap with T-72Bs or infrastructure;
-- scale, wheels, windows, and subtype silhouettes read correctly;
-- no visible occupants appear.
-
-### T+75
-
-- redirect/acceleration is readable;
-- emergency beacons activate;
-- the convoy remains orderly;
-- no vehicle snaps or teleports.
-
-### T+108
-
-- smoke/dust and reduced visibility are visible but not opaque;
-- staggered braking is readable;
-- vehicles remain separated;
-- the reaction differs from ordinary route following.
-
-### T+125
-
-- the bridge event is correctly located;
-- effect scale is restrained;
-- no source actor is implied;
-- lead braking is readable;
-- no support vehicle is destroyed;
-- persistent obstruction explains the route failure.
-
-### T+126 to T+150
-
-- convoy assessment and limited repositioning remain coherent;
-- no vehicle crosses the obstruction;
-- existing T-72B strike sequence remains fully readable at T+150 to T+166;
-- new effects do not obscure completed events.
-
-### T+170 to T+176
-
-- completed aircraft egress remains correct;
-- T+172 completed states remain correct;
-- T+174 partial withdrawal visibly begins;
-- lead-hold, engineering/recovery reposition, and rear withdrawal read as distinct responses;
-- motion continues naturally to T+176;
-- no LAV, LCAC, or excluded event appears.
-
-### Seek and controls
-
-- seek backward from T+176 to before T+125, then forward again;
-- seek directly to T+75, T+108, T+125, T+174, and T+176;
-- restart;
-- test pause and play;
-- test 0.5x, 1x, and 2x playback;
-- orbit, pan, and zoom while paused;
-- inspect the new convoy camera and every existing camera preset;
-- verify timeline controls at the new endpoint;
-- inspect the HUD at a shorter viewport height;
-- inspect the final browser console for errors and warnings caused by this work.
-
-Watch the complete T+70 to T+130 convoy sequence continuously at 1x at least once. Boundary screenshots alone are insufficient to judge redirect motion, staggered braking, spacing, bridge impact, and stop behavior.
-
-Also watch T+170 to T+176 continuously at 1x to verify the partial-withdrawal onset and old-to-new duration transition.
-
-Fix obvious issues discovered during inspection.
-
-## 19. Documentation updates after implementation
-
-Update only the relevant roadmap and changelog sections after implementation is complete and validated.
-
-### `ITERATION_PLAN.md`
-
-Preserve:
-
-- Stage 4B — `COMPLETE`;
-- Stage 4B.2A — `COMPLETE`;
-- Stage 4B.2B — `COMPLETE`.
-
-Update:
-
-#### Stage 4B.2C — Support and Rescue Convoy
-
-- status `COMPLETE` only after implementation and validation succeed;
-- exact six-vehicle composition;
-- T+75 redirect;
-- T+108 chokepoint hesitation;
-- T+125 bridge obstruction;
-- T+174 abandoned approach and partial withdrawal;
-- deterministic support-vehicle, lighting, motion, and effect validation;
-- bounded extension to T+176;
-- no visible personnel;
-- no generalized convoy AI.
-
-Keep Stage 4C, Stage 5, Stage 6, and unrelated completed-stage descriptions intact. Stage 4C remains the next planned stage unless repository documentation defines a narrower follow-up.
-
-### `changelog.md`
-
-Append a concise Stage 4B.2C completion record covering:
-
-- support-vehicle architecture;
-- exact roster and final outcomes;
-- route and initial staging;
-- T+75, T+108, T+125, and T+174 behavior;
-- vehicle model contract;
-- emergency lights, braking, dust, bridge effects, and persistent obstruction;
-- camera and HUD changes;
-- bounded Tailwind usage for touched UI;
-- duration extension to T+176;
-- automated validation and browser inspection;
-- remaining Stage 4C and Stage 5 limitations.
-
-Do not claim completion before validation succeeds.
-
-## 20. Validation under repository rules
-
-Before finishing, run the permitted non-build checks appropriate to the repository, including:
-
-- TypeScript no-emit checking without invoking a build command;
-- lint;
-- the complete test suite;
+- `pnpm exec tsc -p tsconfig.app.json --noEmit`;
+- `pnpm exec tsc -p tsconfig.node.json --noEmit`;
+- `pnpm lint`;
+- `pnpm test:run`;
 - `git diff --check`;
-- actual browser inspection.
+- the existing development server for actual browser verification.
 
-Do not run build commands.
+Do not run repository-wide formatting commands or make unrelated formatting changes.
 
-Do not use a combined project check command if it invokes a prohibited build step.
+Do not modify existing dependency versions or upgrade frameworks. No new dependency is expected for this stage. Preserve unrelated user changes, including any package/lockfile modifications already present.
 
-Do not modify existing dependency versions.
+Read applicable browser/React skills before using their workflows when they are available. Verify the actual implementation rather than reporting unperformed checks.
 
-Do not add new dependencies unless the reason is explicitly explained and genuinely necessary. No new dependency should be necessary for this stage.
+## 16. Documentation and final handoff
 
-Do not automatically upgrade framework versions.
+After implementation and validation succeed:
 
-Avoid unrelated formatting churn, stylesheet rewrites, or broad refactors.
+- mark Stage 4C COMPLETE in `ITERATION_PLAN.md`, describing what was actually delivered;
+- preserve all completed Stage 4B-family records;
+- keep Stage 5 and Stage 6 planned;
+- append a Stage 4C record to `changelog.md` with visual changes, determinism, preservation, tests, browser comparisons, performance measurements, and limitations;
+- retain the outstanding Pantsir 02, amphibious, full-timeline, and aftermath gaps in the documentation.
 
-## 21. Final response requirements
+Do not mark completion if a required verification remains unavailable; state the remaining work accurately.
 
-When complete, report:
+In the final response, lead with the resulting visual changes and provide:
 
-1. the support-vehicle state architecture and focused modules added;
-2. how all completed BTR-80, T-72B, F-35B, Su-30MKK, naval, and infrastructure behavior was preserved;
-3. the exact group ID, six vehicle IDs, subtypes, conditions, and final outcomes;
-4. how initial staging avoids the reserve T-72Bs and service-yard infrastructure;
-5. how the authoritative rescue path, vehicle spacing, speed, braking, steering, wheel motion, and reverse semantics were implemented;
-6. the exact T+75, T+108, T+125, and T+174 event behavior;
-7. how the unattributed bridge strike and persistent obstruction reconstruct after seeking;
-8. procedural model scale and distinguishing details for every support subtype;
-9. emergency beacons, headlights, brake lights, dust, smoke, and deterministic effect behavior;
-10. camera and HUD changes;
-11. how Tailwind was used in new or modified UI and why any remaining touched CSS could not be expressed cleanly as utilities;
-12. the T+176 duration extension and the preserved T+172 regression state;
-13. timeline, `ITERATION_PLAN.md`, and `changelog.md` changes;
-14. TypeScript, lint, test, and whitespace-check results;
-15. browser inspections performed and issues corrected;
-16. remaining limitations before Stage 4C and Stage 5.
+1. regional vegetation/rock and surface-history improvements;
+2. functional clutter and industrial weathering;
+3. the water/foam/wetness implementation and absolute-time behavior;
+4. dawn atmosphere and preserved battlefield readability;
+5. clearance, damage, actor, timeline, and grounding preservation;
+6. architecture/resource decisions and baseline-versus-final performance measurements;
+7. automated checks, browser inspections, and comparison screenshot paths;
+8. remaining limitations before Stage 5.
 
-Do not claim a source, shooter, or weapon for `rescue_route_secondary_hit`.
-
-Do not claim that Pantsir 02, LCAC, LAV-25, the T+176 amphibious event, environmental realism, the full T+180 operation, aftermath mode, visible response personnel, or generalized convoy AI has been implemented.
+Do not claim new actors, Pantsir 02, LCAC/LAV deployment, additional events, full T+180 integration, aftermath, visible people, or a physical ocean simulation.

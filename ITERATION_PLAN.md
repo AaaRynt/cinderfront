@@ -22,9 +22,7 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
-The next priority is authored battlefield logic and event response, beginning with a narrow deterministic ground-vehicle vertical slice.
-
-The project should prove that vehicles can move, react, take persistent losses, withdraw, and reconstruct correctly after direct seeking before it expands environmental detail or adds a larger order of battle.
+Stages 4B, 4B.2A, 4B.2B, 4B.2C and 4C are complete. The authored ground/air/support reactions and environmental pass are validated through the scoped T+176 endpoint. The next priority is Stage 5 integration of the outstanding authoritative operation tracks.
 
 The intended sequence is:
 
@@ -474,25 +472,38 @@ This remains an authored scenario. Do not introduce generalized AI or nondetermi
 
 # Stage 4C — Environmental Storytelling and Coastal Realism
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
 ## Goal
 
 Make Ash Harbor feel like a long-used coastal military and industrial location after the core reaction logic has been proven.
 
-## Planned Scope
+## Implemented Scope
 
-- improved vegetation zoning and silhouettes
-- rocks and localized terrain variation
-- surface history, including stains, drainage, tire wear, repair patches, and material breakup
-- industrial wear, corrosion, salt exposure, and weathering
-- functional clutter grouped by operational purpose
-- maintenance and logistics traces represented without visible humans
-- sea-surface variation and restrained low-frequency motion
-- waves, shoreline foam, wet/dry transitions, and shallow-water variation
-- stronger coastal haze and maritime atmosphere
+- stable seeded pockets of dry grass, low scrub and grounded rock clumps: exposed Radar Hill outcrops, discontinuous corridor/wash growth, sheltered dune cover, and sparse harbor/industrial boundary growth
+- six shared silhouette geometries/materials with regional instance bounds; static arrays remain independent of simulation time and spectator cameras
+- batched, terrain-draped pavement repairs, compacted/gravel shoulders, directional tire/runoff marks, ammunition loading dust, old pump/transfer stains, and flat quay-edge salt deposits
+- localized seam/streak corrosion and material roughness on intact industrial structures; aged concrete contact staining, with established charred wreck materials retained
+- five small functional equipment clusters using shared sealed cabinets, pallets, cable/hose reels, spare pipes, closed bins, spare tires and stowed tow beams; no parked actors or visible personnel
+- one continuous opaque sea surface at the unchanged -0.12 m mean level, with northeast harmonic normals, sheltered-harbor attenuation, feathered shallow/deep regional proxies, ragged broken beach foam and a terrain-draped wet sand edge
+- water, foam, wetness and destruction-sensitive wear use absolute simulation-time uniforms; paused camera movement freezes phase, backward seeking reconstructs it, and restart reproduces T+0
+- cooler ambient sky, directional warm horizon light and restrained coastal haze, retaining clear vehicle/aircraft silhouettes, smoke, fire, ship wakes and harbor pollution
+- focused polygon/circle/buffered-path reservations for operational surfaces, complete existing BTR/T-72/support sweeps, bridge obstruction/reverse maneuvers, future LCAC approach/ramp space, both LAV access routes, beach apron and hardstand
+- unchanged terrain height/grounding, actor derivations, routes, poses, weapon anchors, 40 scoped events, T+176 duration, 19 camera presets and controls; only the HUD stage label changed
 
-Stage 4C should reuse deterministic layouts, instancing, shared resources, exclusion masks, and existing environmental primitives. It must not become a generic ecosystem or physics simulation.
+## Validation and Measurements
+
+- both TypeScript no-emit checks, lint (19 pre-existing warnings), all 335 tests across 22 files, and whitespace checks passed; immutable preservation fixtures and authoritative data were unchanged
+- inspected all 19 camera presets, close quay/maintenance/yard/bridge/outcrop/dune/shore views, all required event checkpoints including T+172/T+176, desktop and 540 px high viewports, keyboard controls and paused orbit/pan/zoom
+- continuously replayed quiet coastal water at 1×, fuel T+73–110, bridge T+123–133 and T-72 T+149–166; tested all three speeds, backward/forward seeks and restart
+- actual GPU time stayed fixed during paused camera interaction; T+12 revisit and T+0 restart screenshots matched their reference hashes exactly
+- matched before/after captures at 1280×720, DPR 1 on Apple M4/Chrome: Harbor T+0 went from 1,534 to 1,568 calls and 503,235 to 588,719 triangles; fuel T+109 went from 1,864 to 1,896 calls and 540,127 to 621,759 triangles; texture count stayed at 3 and sampled mean RAF intervals stayed near 16.7 ms
+- after warmup, six complete camera/seek/restart cycles held at 1,066 geometries, 3 textures, 2,227 meshes and 131 cached shader programs in the same T+0 Harbor view; all 44 new mesh/geometry/material identities stayed stable
+- local comparison captures, recordings, raw metrics and inspection scripts are in ignored `stage4c-review.local/`; full measurements and limitations are recorded in `changelog.md`
+
+The water regions approximate visual depth/shelter rather than physical bathymetry. There is no wave displacement, buoyancy, tide, reflection system, vegetation sway or weather simulation. Procedural models/effects and existing terrain faceting remain. RAF measurements are display-capped indicators, not GPU timings; first-time shader compilation in development can briefly stall playback. No build or formatting command was run, and no repository dependencies or framework versions changed.
+
+Pantsir 02's missing sequence remains an explicit integration gap. Both LCACs, eight LAV-25s, the excluded T+176 inland event and full T+180 timeline remain Stage 5 work; indefinite aftermath remains Stage 6 work. This pass adds none of those actors or events.
 
 # Stage 5 — Full Operation Integration
 
@@ -529,6 +540,8 @@ Complete the amphibious theater and integrate the full authoritative 180-second 
 - continued inland advance
 
 ### Integration
+
+Outstanding integration gaps include the missing Pantsir 02 sequence, both LCACs/eight LAV-25s, the excluded T+176 inland event and the remaining full T+180 authoritative timeline. Preserve the completed T+176 scoped operation when integrating these tracks.
 
 Integrate all scenario tracks from:
 
