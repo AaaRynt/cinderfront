@@ -1,3 +1,4 @@
+import type { SecondaryPantsirState, Stage5AEvent } from './secondaryPantsirTypes'
 import type { Su30AircraftId, Su30AircraftState, Su30ReinforcementState } from './su30Types'
 import type { Stage4B2CEvent, SupportConvoyWorldState } from './supportConvoyTypes'
 
@@ -92,7 +93,7 @@ export interface Stage4B2BEvent {
   readonly resultingState?: 'damaged_and_egressing'
 }
 
-export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent | Stage4B2BEvent | Stage4B2CEvent
+export type SimulationEvent = Stage1Event | Stage3Event | Stage4BEvent | Stage4B2BEvent | Stage4B2CEvent | Stage5AEvent
 
 export type AircraftPhase = 'launch-ready' | 'stovl-prep' | 'vertical-lift' | 'transition' | 'forward-flight'
 
@@ -469,4 +470,5 @@ export interface SimulationWorldState extends Omit<Stage1WorldState, 'reachedEve
   readonly stage4b: Stage4BWorldState
   readonly stage4b2b: Su30ReinforcementState
   readonly stage4b2c: SupportConvoyWorldState
+  readonly secondaryPantsir: SecondaryPantsirState
 }

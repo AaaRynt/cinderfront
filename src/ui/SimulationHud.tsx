@@ -16,6 +16,7 @@ interface BattlefieldStatus {
   aircraft01: string
   aircraft02: string
   pantsir: string
+  secondaryPantsir: string
   primaryRadar: string
   talwar: string
   molniya: string
@@ -68,6 +69,7 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Plane, id: 'f35-02', label: 'F-35B 02' },
   { icon: Plane, id: 'su30', label: 'Air reinforcement' },
   { icon: Route, id: 'support-convoy', label: 'Support convoy' },
+  { icon: Radar, id: 'secondary-pantsir', label: 'Pantsir 02' },
 ]
 
 function StatusRow({ label, value }: { label: string; value: string }) {
@@ -97,7 +99,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 4C</p>
+            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 5A</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -116,7 +118,13 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
         <div className="faction-divider" />
         <div className="faction-block faction-island-defender">
           <p className="eyebrow">island_defender</p>
-          <StatusRow label="Pantsir-S1" value={battlefieldStatus.pantsir} />
+          <StatusRow label="Pantsir 01" value={battlefieldStatus.pantsir} />
+          <div aria-label="Secondary Pantsir status" className="flex items-center justify-between gap-4 py-[3px] text-[10px] text-[#a7b5b1]">
+            <span className="shrink-0">Pantsir 02</span>
+            <strong className="max-w-[156px] truncate font-mono text-[9px] font-[550] tracking-[0.06em] text-(--ink) uppercase" title={battlefieldStatus.secondaryPantsir}>
+              {battlefieldStatus.secondaryPantsir}
+            </strong>
+          </div>
           <StatusRow label="Search radar" value={battlefieldStatus.primaryRadar} />
           <StatusRow label="Talwar" value={battlefieldStatus.talwar} />
           <StatusRow label="Molniya" value={battlefieldStatus.molniya} />
@@ -199,7 +207,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">Support response · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
+      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">Secondary air defense · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
     </div>
   )
 }

@@ -22,14 +22,14 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
-Stages 4B, 4B.2A, 4B.2B, 4B.2C and 4C are complete. The authored ground/air/support reactions and environmental pass are validated through the scoped T+176 endpoint. The next priority is Stage 5 integration of the outstanding authoritative operation tracks.
+Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C and 5A are complete. The authored ground/air/support reactions, secondary Pantsir and environmental pass are validated through the scoped T+176 endpoint, now with 42 events. Stage 5B is next, subject to an explicit LCAC staging/route/shallow-threshold and shoreline-contact decision documented in `STAGE5_INTEGRATION_READINESS.md`. Stage 5C then completes the landing theater and full operation; Stage 6 retains indefinite aftermath.
 
 The intended sequence is:
 
 1. complete the four-vehicle BTR-80 reaction slice in Stage 4B;
 2. reuse the proven lifecycle for a limited set of additional actors in Stage 4B.2;
 3. improve environmental storytelling and coastal realism in Stage 4C;
-4. integrate the amphibious operation and full timeline in Stage 5;
+4. integrate the outstanding air-defense, amphibious operation, and full timeline through Stage 5A, Stage 5B, and Stage 5C;
 5. perform final aftermath, camera, asset, visual, and performance refinement in Stage 6.
 
 This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
@@ -507,11 +507,52 @@ Pantsir 02's missing sequence remains an explicit integration gap. Both LCACs, e
 
 # Stage 5 — Full Operation Integration
 
-**Status:** PLANNED
+**Status:** IN PROGRESS
 
 ## Goal
 
 Complete the amphibious theater and integrate the full authoritative 180-second scenario after the ground-actor and environmental foundations are validated.
+
+## Execution Rounds
+
+Parent Stage 5 remains incomplete until every round and full-operation verification succeed.
+
+### Stage 5A — Secondary Air-Defense Reaction and Landing Readiness
+
+**Status:** COMPLETE
+
+- exactly one new actor, `defender_pantsir_02`, at the corridor reserve
+- T+112 short local relocation, stop, deployment/alignment, and brief authored engagement
+- T+121 destruction attributed to existing `attacker_f35_01`, followed by persistent wreck/fire/smoke
+- preserve all existing actor paths and outcomes, Stage 4C appearance, and the T+176 endpoint
+- add the two missing Pantsir events, bringing the scoped event count from 40 to 42
+- create `STAGE5_INTEGRATION_READINESS.md` covering event coverage, LCAC route/timing, deck packing, ramp/grounding, unloading, spatial reservations, and the Stage 5/6 endpoint boundary
+- deterministic tests, immutable regression preservation, browser inspection, and concise camera/HUD integration
+
+Completed 2026-10-09. `defender_pantsir_02` travels 18.653 m from [5450,-1745] to [5432,-1749.8] inside the existing eastern pull-off beside the trunk. Movement runs T+112–117.2, peaks at 6.726 m/s and 3.983 m/s², then deploys/aligns through T+118.8. Two fixed-sector defensive misses launch at T+119/T+119.6; the authoritative F-35B 01 terminal strike destroys the vehicle at exactly T+121, with the same fixed wreck/scorch/fire/bounded smoke through T+176. This is a local stop, not arrival at the distant junction. No incoming weapon trajectory or new Stage 3 weapon is modeled.
+
+The actor has focused absolute-time state/types, optional shared-model wheel/steering/radar/stabilizer mechanics, a single `Pantsir 02` camera (20 total), and separate primary/secondary HUD status. Dense actual-model grounding/clearance, tube-origin/direction, exact-boundary and seek tests pass. Immutable fixtures retain every completed world field, old weapon and convoy value at 815 timestamps, plus Stage 4C layouts/samplers. Both no-emit TypeScript checks, lint (19 pre-existing warnings), all 365 tests across 27 files with `--maxWorkers=2`, and whitespace checks pass. Actual browser verification includes continuous T+110–124 at 1×, representative older replays, all cameras/speeds/controls, short HUDs and stable warmed resources across six repeated cycles. Review evidence is in ignored `stage5a-review.local/README.md`. No build, dependency change, reference edit or visible human was introduced.
+
+### Stage 5B — LCAC Approach, Beaching, and Embarked Payload
+
+**Status:** PLANNED
+
+- resolve the authoritative LCAC route/timing conflict before claiming physically credible transit
+- two LCACs, distinct approach choreography, deterministic fans/skirt/wake/spray, beach transition, and ramps
+- four embarked LAV-25s per craft with stable carrier-local poses and safe deck packing
+- preserve existing combat and environmental behavior
+
+Stage 5A measured raw waypoint lengths of 8,633.533 m west and 9,657.505 m east, requiring means of 191.856/185.721 m/s before acceleration/braking; route rounding barely changes those values. The west shallow event also conflicts with the current polygon, and the shore has a roughly 4.6–4.8 m vertical water/land edge. The readiness report recommends explicitly approved nearer staging and revised approaches, resolving shallow-event meanings/boundaries/times, terminal headings and shore contact together. Stage 5B remains PLANNED until that decision is recorded; this roadmap does not authorize silent reference changes, teleporting or map scaling.
+
+### Stage 5C — LAV Deployment and Full Timeline Integration
+
+**Status:** PLANNED
+
+- eight LAV-25s, staggered unloading, continuous carrier/ramp/ground transforms, and separation into two inland routes
+- T+160/T+166 unloading and T+176 inland-spread events
+- complete authoritative event coverage through T+180, including `scripted_phase_complete`
+- full three-minute deterministic playback and cross-theater regression/browser validation
+- document the scripted endpoint contract; indefinite aftermath remains Stage 6
 
 ## Scope
 

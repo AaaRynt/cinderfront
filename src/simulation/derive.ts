@@ -3,6 +3,7 @@ import type { F35AircraftId, AircraftMechanicalState, AircraftPhase, F35Aircraft
 import { STAGE3_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE1_FIXED_SEED } from './constants'
 import { deriveStage4BWorldState } from './groundVehicles'
 import { clamp, distanceVector3, headingBetween, inverseLerp, lerp, lerpAngleRadians, normalizeVector3, samplePolyline, scaleVector3, smoothstep, subtractVector3, transformLocalOffset, yawForDirection } from './math'
+import { deriveSecondaryPantsirState } from './secondaryPantsir'
 import { deriveHarborStage3State, deriveIndustrialStage3State, deriveMolniyaState, deriveStage3ReachedEvents, deriveTalwarState } from './stage3'
 import { deriveSu30ReinforcementState } from './su30Reinforcement'
 import { deriveSupportConvoyState } from './supportConvoy'
@@ -696,5 +697,6 @@ export function deriveSimulationWorldState(timeSeconds: number): SimulationWorld
     stage4b: deriveStage4BWorldState(time),
     stage4b2b,
     stage4b2c: deriveSupportConvoyState(time),
+    secondaryPantsir: deriveSecondaryPantsirState(time),
   }
 }

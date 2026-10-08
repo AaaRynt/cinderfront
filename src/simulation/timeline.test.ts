@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { adaptScenarioFaction, getReachedSimulationEvents, SIMULATION_DURATION_SECONDS, SIMULATION_EVENTS, STAGE1_DURATION_SECONDS, STAGE1_EVENTS, STAGE1_FIXED_SEED, STAGE3_EVENTS, STAGE4B_EVENTS } from '.'
+import { isStage5AAddedEvent } from './fixtures/stage5aPreservationProjection'
 import { clampSimulationTime, clampStage1Time, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
 import { STAGE4B2B_EVENTS, STAGE4B2C_EVENTS } from './timeline'
 
@@ -58,7 +59,7 @@ describe('Stage 4B timeline authority', () => {
   })
 
   it('keeps the combined event stream chronological around the BTR events and later Stage 3 events', () => {
-    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 75, 78, 86, 92, 94, 98, 100, 104, 108, 115, 116, 125, 128, 132, 133, 136, 137, 142, 150, 158, 163, 165, 170, 172, 174])
+    expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual([0, 1, 5, 13, 14, 20, 24, 29, 36, 42, 45, 48, 52, 62, 72, 75, 78, 86, 92, 94, 98, 100, 104, 108, 112, 115, 116, 121, 125, 128, 132, 133, 136, 137, 142, 150, 158, 163, 165, 170, 172, 174])
 
     expect(getReachedSimulationEvents(132.9).at(-1)?.id).toBe('ammunition_storage_primary_detonation')
     expect(getReachedSimulationEvents(133).at(-1)?.id).toBe('btr_01_disabled')
@@ -89,7 +90,7 @@ describe('Stage 4B.2B airborne event authority', () => {
       expect(getReachedSimulationEvents(event.atSeconds).at(-1)).toEqual(event)
       expect(getReachedSimulationEvents(event.atSeconds + 0.1).at(-1)).toEqual(event)
     }
-    expect(SIMULATION_EVENTS.filter((event) => ![...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS].some((added) => added.id === event.id))).toEqual([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].sort((a, b) => a.atSeconds - b.atSeconds))
+    expect(SIMULATION_EVENTS.filter((event) => !isStage5AAddedEvent(event) && ![...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS].some((added) => added.id === event.id))).toEqual([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS].sort((a, b) => a.atSeconds - b.atSeconds))
     expect(SIMULATION_DURATION_SECONDS).toBe(176)
   })
 })

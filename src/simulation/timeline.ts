@@ -1,3 +1,4 @@
+import type { Stage5AEvent } from './secondaryPantsirTypes'
 import type { Stage4B2CEvent } from './supportConvoyTypes'
 import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId, Stage4B2BEvent } from './types'
 
@@ -313,7 +314,12 @@ export const STAGE4B2C_EVENTS = [
 
 // Explicit scoped arrays: T+176 is an endpoint, not admission of the later
 // amphibious/LAV event from the reference scenario.
-export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
+export const STAGE5A_EVENTS = [
+  { id: 'pantsir_02_relocate', atSeconds: 112, localTime: '05:28:52', event: 'relocate_to_secondary_firing_position', actorId: 'defender_pantsir_02', pathId: 'path_pantsir_relocation' },
+  { id: 'pantsir_02_destroyed', atSeconds: 121, localTime: '05:29:01', event: 'destroy_after_secondary_engagement', actorId: 'defender_pantsir_02', sourceAircraftId: 'attacker_f35_01', effectProfile: 'vehicle_kill_medium' },
+] as const satisfies readonly Stage5AEvent[]
+
+export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS, ...STAGE5A_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
 
 export function hasReachedEvent(timeSeconds: number, atSeconds: number): boolean {
   return clampSimulationTime(timeSeconds) + Number.EPSILON >= atSeconds

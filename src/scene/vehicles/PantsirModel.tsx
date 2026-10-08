@@ -13,6 +13,14 @@ export interface PantsirModelProps extends Omit<ThreeElements['group'], 'childre
   launcherElevation?: number
   /** Number of opened/expended tubes across both six-tube banks (0..12). */
   firedTubeCount?: number
+  /** Signed, absolute truck travel; omitted for the original stationary model. */
+  wheelTravelMeters?: number
+  /** Steering of the forward two axle pairs in radians. */
+  steeringRadians?: number
+  /** 0 = raised road-safe pads; 1 = the original deployed stabilizers. */
+  stabilizerDeployment?: number
+  /** 0 = folded transport radar; 1 = the original raised search radar. */
+  radarDeployment?: number
   destroyed?: boolean
   /** Seconds since destruction, used only for deterministic wreck settling. */
   destructionAge?: number
@@ -25,6 +33,8 @@ const MISSILE_TUBE = new THREE.CylinderGeometry(0.145, 0.145, 2.85, 10)
 const GUN_BARREL = new THREE.CylinderGeometry(0.035, 0.045, 3.25, 7)
 const TRACKING_RADAR = new THREE.CylinderGeometry(0.57, 0.57, 0.12, 24)
 const TUBE_CAP = new THREE.CircleGeometry(0.125, 10)
+const WHEEL_HUB = new THREE.CylinderGeometry(0.26, 0.26, 0.395, 12)
+const WHEEL_MARKER = new THREE.BoxGeometry(0.032, 0.29, 0.065)
 
 const MATERIALS = {
   body: new THREE.MeshStandardMaterial({ color: '#697250', roughness: 0.86, metalness: 0.14 }),
@@ -97,6 +107,30 @@ interface PairedGunProps {
   settled: number
 }
 
+interface WheelProps {
+  readonly axleIndex: number
+  readonly side: -1 | 1
+  readonly steeringRadians: number
+  readonly wheelTravelMeters: number | undefined
+}
+
+function Wheel({ axleIndex, side, steeringRadians, wheelTravelMeters }: WheelProps) {
+  const spin = -(wheelTravelMeters ?? 0) / 0.72
+  return (
+    <group name={`pantsir-wheel-${side}-${axleIndex}`} position={[side * 1.38, 0.72, AXLE_Z[axleIndex]]} rotation={[0, axleIndex < 2 ? steeringRadians : 0, 0]}>
+      <group rotation={[spin, 0, 0]}>
+        <mesh geometry={WHEEL} material={MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} castShadow />
+        {wheelTravelMeters !== undefined && (
+          <>
+            <mesh geometry={WHEEL_HUB} material={MATERIALS.metal} rotation={[0, 0, Math.PI / 2]} />
+            <mesh name="pantsir-wheel-travel-marker" geometry={WHEEL_MARKER} material={MATERIALS.bodyDark} position={[side * 0.205, 0.17, 0]} />
+          </>
+        )}
+      </group>
+    </group>
+  )
+}
+
 function PairedGun({ side, elevation, destroyed, settled }: PairedGunProps) {
   return (
     <group position={[side * 0.64, 3.58, 0.62]} rotation={[Math.max(0.18, elevation + 0.1) - (destroyed ? settled * 0.18 : 0), 0, 0]}>
@@ -109,7 +143,7 @@ function PairedGun({ side, elevation, destroyed, settled }: PairedGunProps) {
 }
 
 /** A deployed, meter-scale Pantsir-S1 approximation with the cab facing local -Z. */
-export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevation = Math.PI / 10, firedTubeCount = 0, destroyed = false, destructionAge = 0, ...groupProps }: PantsirModelProps) {
+export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevation = Math.PI / 10, firedTubeCount = 0, wheelTravelMeters, steeringRadians = 0, stabilizerDeployment = 1, radarDeployment = 1, destroyed = false, destructionAge = 0, ...groupProps }: PantsirModelProps) {
   const age = Math.max(0, destructionAge)
   const settled = destroyed ? clamp01(age / 1.2) : 0
   const impactRock = destroyed ? Math.sin(age * 18) * Math.exp(-age * 2.8) * 0.06 : 0
@@ -117,6 +151,15 @@ export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevati
   const fired = Math.max(0, Math.min(12, Math.floor(firedTubeCount)))
   const bodyMaterial = destroyed ? MATERIALS.scorchedOlive : MATERIALS.body
   const weaponMaterial = destroyed ? MATERIALS.wreck : MATERIALS.bodyDark
+  const steering = Math.max(-0.45, Math.min(0.45, steeringRadians))
+  const stabilizers = clamp01(stabilizerDeployment)
+  const legLength = stabilizers === 1 ? 1.02 : 0.31 + stabilizers * 0.71
+  const legCenterY = stabilizers === 1 ? 0.56 : 1.07 - legLength / 2
+  const padRelativeY = stabilizers === 1 ? -0.5 : 0.77 - stabilizers * 0.71 - legCenterY
+  const radar = clamp01(radarDeployment)
+  const radarPivotY = radar === 1 ? 4.65 : 4.26 + radar * 0.39
+  const radarMastLength = radar === 1 ? 1.25 : radarPivotY - 3.795 + radar * 0.395
+  const radarMastY = radar === 1 ? 4.42 : 3.795 + radarMastLength / 2
 
   return (
     <group {...groupProps} dispose={null}>
@@ -136,13 +179,13 @@ export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevati
         <mesh geometry={UNIT_BOX} material={MATERIALS.bodyDark} position={[0, 1.46, -5.17]} scale={[1.72, 0.32, 0.05]} />
 
         {/* Exactly four wheels on each side, arranged as two forward and two rear axles. */}
-        {([-1, 1] as const).flatMap((side) => AXLE_Z.map((z) => <mesh key={`${side}-${z}`} geometry={WHEEL} material={MATERIALS.tire} position={[side * 1.38, 0.72, z]} rotation={[0, 0, Math.PI / 2]} castShadow />))}
+        {([-1, 1] as const).flatMap((side) => AXLE_Z.map((_, axleIndex) => <Wheel key={`${side}-${axleIndex}`} axleIndex={axleIndex} side={side} steeringRadians={steering} wheelTravelMeters={wheelTravelMeters} />))}
 
         {/* Four deployed stabilizer legs and pads. */}
         {STABILIZER_POSITIONS.map(([x, z]) => (
-          <group key={`${x}-${z}`} position={[x, 0.56, z]}>
-            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} scale={[0.075, 1.02, 0.075]} />
-            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, -0.5, 0]} scale={[0.24, 0.06, 0.24]} />
+          <group name="pantsir-stabilizer" key={`${x}-${z}`} position={[x, legCenterY, z]}>
+            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} scale={[0.075, legLength, 0.075]} />
+            <mesh name="pantsir-stabilizer-pad" geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, padRelativeY, 0]} scale={[0.24, 0.06, 0.24]} />
           </group>
         ))}
 
@@ -161,10 +204,12 @@ export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevati
           <mesh geometry={UNIT_BOX} material={MATERIALS.glass} position={[0, 3.55, -1.0]} scale={[0.28, 0.23, 0.2]} />
 
           {/* Independently rotating raised rectangular search radar, top at 5.65 m. */}
-          <group position={[0, 0, 0.05]} rotation={[0, radarRotation, destroyed ? settled * 0.18 : 0]}>
-            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, 4.42, 0.22]} scale={[0.1, 1.25, 0.1]} />
-            <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.radar} position={[0, 5.15, 0.22]} scale={[2.12, 1.0, 0.16]} castShadow />
-            <mesh geometry={UNIT_BOX} material={MATERIALS.metal} position={[0, 5.15, 0.13]} scale={[1.82, 0.7, 0.04]} />
+          <group name="pantsir-search-radar" position={[0, 0, 0.05]} rotation={[0, radarRotation, destroyed ? settled * 0.18 : 0]}>
+            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, radarMastY, 0.22]} scale={[0.1, radarMastLength, 0.1]} />
+            <group position={[0, radarPivotY, 0.22]} rotation={[((1 - radar) * Math.PI) / 2, 0, 0]}>
+              <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.radar} position={[0, 0.5, 0]} scale={[2.12, 1.0, 0.16]} castShadow />
+              <mesh geometry={UNIT_BOX} material={MATERIALS.metal} position={[0, 0.5, -0.09]} scale={[1.82, 0.7, 0.04]} />
+            </group>
           </group>
         </group>
 

@@ -8,6 +8,7 @@ import { distanceToPolyline, pointInPolygon } from '../scene/world/stage2/terrai
 import { SIMULATION_DURATION_SECONDS } from './constants'
 import { deriveSimulationWorldState } from './derive'
 import completedWorldHashes from './fixtures/stage4b2bPreservation.json'
+import { projectCompletedStage4cWorld } from './fixtures/stage5aPreservationProjection'
 import { SUPPORT_CONVOY_ROUTE_CONTRACT } from './groundVehicleRoutes'
 import { deriveT72GroupState } from './groundVehicles'
 import { createSimulationStore, getSimulationWorldState } from './store'
@@ -55,9 +56,9 @@ describe('Stage 4B.2C support convoy authority', () => {
     expect(hit.targetFeatureId).toBe('dry_wash_bridge')
     for (const attribution of ['sourceActorId', 'actorId', 'weaponId', 'munitionId', 'killCredit']) expect(hit).not.toHaveProperty(attribution)
     expect(SIMULATION_DURATION_SECONDS).toBe(176)
-    expect(SIMULATION_EVENTS).toHaveLength(40)
+    expect(SIMULATION_EVENTS).toHaveLength(42)
     expect(SIMULATION_EVENTS.filter((event) => event.atSeconds >= 176)).toEqual([])
-    expect(JSON.stringify(deriveSimulationWorldState(176))).not.toMatch(/pantsir_02|lcac|lav_25|amphibious/i)
+    expect(JSON.stringify(deriveSimulationWorldState(176))).not.toMatch(/lcac|lav_25|amphibious/i)
   })
 
   it('follows the authoritative road contract with real initial motion clear of the completed yard and tanks', () => {
@@ -254,7 +255,7 @@ describe('Stage 4B.2C support convoy authority', () => {
     // Immutable SHA-256 baselines captured with all 303 tests passing before
     // refactoring. Every old actor, effect, event field and numeric value counts.
     for (const [time, hash] of Object.entries(completedWorldHashes)) {
-      const { stage4b2c: added, ...oldWorld } = deriveSimulationWorldState(Number(time))
+      const { stage4b2c: added, ...oldWorld } = projectCompletedStage4cWorld(deriveSimulationWorldState(Number(time)))
       expect(added.convoy.operationalCount).toBe(6)
       oldWorld.reachedEvents = oldWorld.reachedEvents.filter((event) => !STAGE4B2C_EVENTS.some((addedEvent) => addedEvent.id === event.id))
       expect(createHash('sha256').update(JSON.stringify(oldWorld)).digest('hex'), `completed world at T+${time}`).toBe(hash)

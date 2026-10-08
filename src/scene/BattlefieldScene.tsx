@@ -18,6 +18,7 @@ import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffec
 import { SupportConvoyEffects } from './effects/SupportConvoyEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
 import { Btr80Group, F35BModel, PantsirModel, T72BGroup, WaspModel } from './vehicles'
+import { SecondaryPantsir } from './vehicles/SecondaryPantsir'
 import { Su30MkkGroup } from './vehicles/Su30MkkGroup'
 import { SupportConvoyGroup } from './vehicles/SupportConvoyGroup'
 import { AAA_SITE, HARBOR_WAREHOUSE_POSITIONS, HarborNavalAssets, SAM_PAD_POSITIONS, WorldShell } from './world'
@@ -243,6 +244,7 @@ function DynamicBattlefield() {
       <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
       <Su30MkkGroup group={world.stage4b2b} />
       <RadarHillEngagement world={world} />
+      <SecondaryPantsir state={world.secondaryPantsir} time={time} />
       <Btr80Group group={world.stage4b.btrGroup} />
       <T72BGroup group={world.stage4b.t72Group} />
       <SupportConvoyGroup group={world.stage4b2c.convoy} />
@@ -263,6 +265,8 @@ function DynamicBattlefield() {
         supportPosition={vectorTuple(world.stage4b2c.camera.anchor.position)}
         supportYawRadians={world.stage4b2c.camera.anchor.rotation.y}
         supportFramingScale={world.stage4b2c.camera.framingScale}
+        secondaryPantsirPosition={vectorTuple(world.secondaryPantsir.pose.position)}
+        secondaryPantsirYawRadians={world.secondaryPantsir.pose.rotation.y}
       />
     </>
   )

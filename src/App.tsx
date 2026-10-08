@@ -47,6 +47,8 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   rescue_convoy_chokepoint: 'Support convoy brakes in smoke and dust',
   rescue_route_secondary_hit: 'Unattributed secondary blast blocks the dry-wash bridge',
   rescue_convoy_abandon_approach: 'Support convoy abandons approach · partial withdrawal',
+  pantsir_02_relocate: 'Pantsir 02 begins local relocation',
+  pantsir_02_destroyed: 'Pantsir 02 destroyed by F-35B 01',
 }
 
 function phaseLabel(value: string) {
@@ -83,6 +85,7 @@ function SimulationInterface() {
     aircraft01: phaseLabel(world.aircraft.attacker_f35_01.phase),
     aircraft02: phaseLabel(world.aircraft.attacker_f35_02.phase),
     pantsir: world.persistent.pantsirWreck ? 'wreck / fire' : phaseLabel(world.pantsir.phase),
+    secondaryPantsir: world.secondaryPantsir.status,
     primaryRadar: world.persistent.primaryRadarDestroyed ? 'destroyed / secondary active' : phaseLabel(world.radar.primaryPhase),
     talwar: phaseLabel(world.stage3.talwar.phase),
     molniya: phaseLabel(world.stage3.molniya.phase),
