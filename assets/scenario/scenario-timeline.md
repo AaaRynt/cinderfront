@@ -593,32 +593,23 @@ This is a deliberate withdrawal.
 
 ## T+01:50
 
-Two LCAC craft leave the offshore staging area.
+Two LCAC craft depart separate nearer offshore holding points in the remote beachhead theater: west [4250, -3720] and east [5380, -3740]. They hold there until this event. Wasp remains in its established offshore theater; these craft are not positioned relative to its current pose.
 
-The movement begins while the main industrial battle is still occurring.
+The movement begins while the main industrial battle is still occurring. This secondary theater should initially be easy to miss from distant views.
 
-This secondary theater should initially be easy to miss from distant views.
-
-As the craft accelerate, they create:
-
-- long wakes;
-- water spray;
-- visible skirt motion or simplified hovercraft vibration;
-- strong forward movement.
+The approved 2026-10-09 routes replace the former multi-kilometer transit with smooth, event-constrained coastal approaches. The craft produce broad cushion disturbance and trailing churn/spray, visible fan and skirt activity, and continuous acceleration rather than narrow ship wakes.
 
 ## T+02:20
 
-The first LCAC enters shallow coastal water.
-
-Spray behavior begins changing.
+The first LCAC reaches the west final-nearshore gate [4300, -3160]. Event `lcac_01_shallow_water` retains its ID/time but now uses `enter_final_nearshore_approach`.
 
 ## T+02:28
 
-The second LCAC enters the same nearshore environment.
+The second LCAC reaches the east final-nearshore gate [5400, -2990]. Event `lcac_02_shallow_water` uses the same clarified event code. These gates do not represent first geometric entry into the unchanged broad shallow/intertidal polygons; water-region classification is independent of event phase.
 
-The craft should not travel in an identical formation.
+The two craft follow different corridors and arrival times. Locally graded shore contacts preserve coastline XZ and mean sea level while removing the former vertical shore lip. Each craft slows, pitches and settles continuously, then lowers its bow ramp onto the same rendered beach/road support.
 
-Their positions and arrival times should differ slightly.
+Stage 5B ends at T+176 with two operational craft and eight operational LAV-25s still embarked. The later unloading and inland-spread chapters remain the Stage 5C reference plan.
 
 # 19. Ground Reinforcement Attempt
 

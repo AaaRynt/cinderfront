@@ -49,6 +49,11 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   rescue_convoy_abandon_approach: 'Support convoy abandons approach · partial withdrawal',
   pantsir_02_relocate: 'Pantsir 02 begins local relocation',
   pantsir_02_destroyed: 'Pantsir 02 destroyed by F-35B 01',
+  lcac_departure: 'Both LCACs depart · 8 LAV-25s embarked',
+  lcac_01_shallow_water: 'LCAC 01 reaches the west nearshore gate',
+  lcac_02_shallow_water: 'LCAC 02 reaches the east nearshore gate',
+  lcac_01_beach: 'LCAC 01 beached · bow ramp lowering',
+  lcac_02_beach: 'LCAC 02 beached · bow ramp lowering',
 }
 
 function phaseLabel(value: string) {
@@ -84,6 +89,9 @@ function SimulationInterface() {
   const battlefieldStatus = {
     aircraft01: phaseLabel(world.aircraft.attacker_f35_01.phase),
     aircraft02: phaseLabel(world.aircraft.attacker_f35_02.phase),
+    lcacWest: phaseLabel(world.landing.crafts.attacker_lcac_01.activity),
+    lcacEast: phaseLabel(world.landing.crafts.attacker_lcac_02.activity),
+    embarkedPayload: '8 operational LAV-25s · all embarked',
     pantsir: world.persistent.pantsirWreck ? 'wreck / fire' : phaseLabel(world.pantsir.phase),
     secondaryPantsir: world.secondaryPantsir.status,
     primaryRadar: world.persistent.primaryRadarDestroyed ? 'destroyed / secondary active' : phaseLabel(world.radar.primaryPhase),

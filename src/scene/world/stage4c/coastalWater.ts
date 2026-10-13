@@ -117,11 +117,11 @@ export function createShoreFoamLayout(): readonly FoamFragment[] {
   }
   return fragments
 }
-export function createFoamGeometry() {
+export function createFoamGeometry(layout: readonly FoamFragment[] = createShoreFoamLayout()) {
   const positions: number[] = [],
     uvs: number[] = [],
     phases: number[] = []
-  for (const f of createShoreFoamLayout()) {
+  for (const f of layout) {
     for (const index of [0, 2, 1, 0, 3, 2]) {
       const p = f.points[index]!
       positions.push(p[0], 0.012, p[1])

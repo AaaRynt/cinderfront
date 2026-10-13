@@ -4,7 +4,8 @@ import { MeshStandardMaterial } from 'three'
 
 import { simulationStore } from '@/simulation/store'
 
-import { createSurfaceHistory, createWearGeometry, type WearKind } from './surfaceHistory'
+import { createLandingSurfaceHistory } from '../landing/landingReservations'
+import { createWearGeometry, type WearKind } from './surfaceHistory'
 
 const WEAR_MATERIALS: Record<WearKind, readonly [color: string, opacity: number]> = {
   repair: ['#353d3d', 0.65],
@@ -16,7 +17,7 @@ const WEAR_MATERIALS: Record<WearKind, readonly [color: string, opacity: number]
 export function SurfaceHistory() {
   const timeRef = useRef<{ value: number } | null>(null)
   const resources = useMemo(() => {
-    const patches = createSurfaceHistory()
+    const patches = createLandingSurfaceHistory()
     const time = { value: simulationStore.getState().timeSeconds }
     const pools = (Object.keys(WEAR_MATERIALS) as WearKind[]).map((kind) => {
       const [color, opacity] = WEAR_MATERIALS[kind]

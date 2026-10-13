@@ -1,3 +1,4 @@
+import type { Stage5BEvent } from './landingCraftTypes'
 import type { Stage5AEvent } from './secondaryPantsirTypes'
 import type { Stage4B2CEvent } from './supportConvoyTypes'
 import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId, Stage4B2BEvent } from './types'
@@ -319,7 +320,15 @@ export const STAGE5A_EVENTS = [
   { id: 'pantsir_02_destroyed', atSeconds: 121, localTime: '05:29:01', event: 'destroy_after_secondary_engagement', actorId: 'defender_pantsir_02', sourceAircraftId: 'attacker_f35_01', effectProfile: 'vehicle_kill_medium' },
 ] as const satisfies readonly Stage5AEvent[]
 
-export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS, ...STAGE5A_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
+export const STAGE5B_EVENTS = [
+  { id: 'lcac_departure', atSeconds: 110, localTime: '05:28:50', event: 'depart_offshore_staging_area', entities: ['attacker_lcac_01', 'attacker_lcac_02'], pathIds: ['path_lcac_beach_approach_west', 'path_lcac_beach_approach_east'] },
+  { id: 'lcac_01_shallow_water', atSeconds: 140, localTime: '05:29:20', event: 'enter_final_nearshore_approach', actorId: 'attacker_lcac_01', pathId: 'path_lcac_beach_approach_west' },
+  { id: 'lcac_02_shallow_water', atSeconds: 148, localTime: '05:29:28', event: 'enter_final_nearshore_approach', actorId: 'attacker_lcac_02', pathId: 'path_lcac_beach_approach_east' },
+  { id: 'lcac_01_beach', atSeconds: 155, localTime: '05:29:35', event: 'beach_and_lower_ramp', actorId: 'attacker_lcac_01', pathId: 'path_lcac_beach_approach_west', resultingState: 'beached_ramp_lowered' },
+  { id: 'lcac_02_beach', atSeconds: 162, localTime: '05:29:42', event: 'beach_and_lower_ramp', actorId: 'attacker_lcac_02', pathId: 'path_lcac_beach_approach_east', resultingState: 'beached_ramp_lowered' },
+] as const satisfies readonly Stage5BEvent[]
+
+export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS, ...STAGE5A_EVENTS, ...STAGE5B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
 
 export function hasReachedEvent(timeSeconds: number, atSeconds: number): boolean {
   return clampSimulationTime(timeSeconds) + Number.EPSILON >= atSeconds

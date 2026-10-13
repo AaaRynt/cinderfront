@@ -22,7 +22,7 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
-Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C and 5A are complete. The authored ground/air/support reactions, secondary Pantsir and environmental pass are validated through the scoped T+176 endpoint, now with 42 events. Stage 5B is next, subject to an explicit LCAC staging/route/shallow-threshold and shoreline-contact decision documented in `STAGE5_INTEGRATION_READINESS.md`. Stage 5C then completes the landing theater and full operation; Stage 6 retains indefinite aftermath.
+Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A and 5B are complete. The scoped T+176 viewer now contains 47 official events, two operational LCACs and eight operational LAV-25s that remain embarked. The approved nearer staging, revised approaches and local grades are implemented and verified; exact measurements and narrow preservation exceptions are in `STAGE5_INTEGRATION_READINESS.md`. Parent Stage 5 remains IN PROGRESS. Stage 5C owns unloading, inland spread and the full T+180 endpoint; Stage 6 owns indefinite aftermath.
 
 The intended sequence is:
 
@@ -535,14 +535,21 @@ The actor has focused absolute-time state/types, optional shared-model wheel/ste
 
 ### Stage 5B — LCAC Approach, Beaching, and Embarked Payload
 
-**Status:** PLANNED
+**Status:** COMPLETE
 
-- resolve the authoritative LCAC route/timing conflict before claiming physically credible transit
+- implement the approved nearer staging, revised final approaches and local shore grading; preserve official IDs and key event times, and measure actual motion/contact before claiming physically credible transit
 - two LCACs, distinct approach choreography, deterministic fans/skirt/wake/spray, beach transition, and ramps
 - four embarked LAV-25s per craft with stable carrier-local poses and safe deck packing
+- add exactly five LCAC events, bringing the count from 42 to 47; retain T+176 and keep all eight LAV-25s embarked throughout this round
 - preserve existing combat and environmental behavior
 
-Stage 5A measured raw waypoint lengths of 8,633.533 m west and 9,657.505 m east, requiring means of 191.856/185.721 m/s before acceleration/braking; route rounding barely changes those values. The west shallow event also conflicts with the current polygon, and the shore has a roughly 4.6–4.8 m vertical water/land edge. The readiness report recommends explicitly approved nearer staging and revised approaches, resolving shallow-event meanings/boundaries/times, terminal headings and shore contact together. Stage 5B remains PLANNED until that decision is recorded; this roadmap does not authorize silent reference changes, teleporting or map scaling.
+Stage 5A measured original raw waypoint lengths of 8,633.533 m west and 9,657.505 m east, requiring means of 191.856/185.721 m/s before acceleration/braking; route rounding barely changes those values. The west shallow event also conflicts with the current polygon, and the shore has a roughly 4.6–4.8 m vertical water/land edge. On 2026-10-09 the human explicitly approved nearer staging, revised final approaches and local shore slopes, retaining the key event times. The current prompt supplies approximately 806.210/893.642 m seed routes and explicitly reinterprets the T+140/T+148 events as final-nearshore gates; actual geometric shallow occupancy is sampled separately. Only the associated staging/path/event wording, two local contact grades, reservations and visual masks may change. Stage 5B implementation and verification are complete; that choice was not reopened. No teleporting, map scaling, unrelated reference rewrite, unloading or premature T+180/aftermath claim is authorized.
+
+Completed 2026-10-14. Exactly `attacker_lcac_01` / `attacker_lcac_02` carry `attacker_lav_01`–`attacker_lav_08` in two stable four-vehicle groups. Shared procedural models retain 26.4 × 14.3 × 7.2 m LCAC and 6.39 × 2.50 × 2.69 m LAV anchors, safe two-by-two packing, closed hatches and sealed glazing. Smoothed routes measure 806.846 / 894.438 m; peak speeds are 26.468 / 24.541 m/s and acceleration/braking stays below 4.0 m/s². Two 2 m local grades support the complete rotated skirt/platform crossing; ramps start at 155/162 and are ready at 158.8/165.2. Cargo remains embarked through 176 with zero relative wheel travel/dust.
+
+Only the approved staging/path/nearshore-code blocks, six map/SVG features and associated contact/mask treatment change. All prior actor/weapon values including Pantsir 02 and support convoy match the immutable 827-timestamp pre-edit baseline; original fixture bytes, global terrain axes, exterior heights, coastal samples, 3,574 cover instances, equipment and 404 wear records remain exact. One explicitly identified foam fragment is masked (38 → 37). The pre-existing Stage 5A fixture-format checksum mismatch is repaired by protecting both committed bytes and historical encoding without changing the fixture.
+
+All 393 tests across 32 files, app/node no-emit TypeScript checks, lint (the same 19 existing warnings) and whitespace checks pass. Two additive LCAC presets yield 22 cameras; the HUD states that all eight payloads remain embarked. Browser evidence includes complete 1× approaches, close contact/ramp boundaries, pause/seek/restart/all speeds/keyboard/short HUD checks, every preset, representative older replays, matched render measurements and flat warmed resources across six cycles. Detailed evidence is in ignored `stage5b-review.local/README.md`. No build, dependency upgrade, broad source rewrite, new combat, unloading or visible humans were introduced.
 
 ### Stage 5C — LAV Deployment and Full Timeline Integration
 

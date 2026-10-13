@@ -50,6 +50,10 @@ function propsAt(time: number): ComponentProps<typeof CameraRig> {
     supportFramingScale: 1,
     secondaryPantsirPosition: [position.x, position.y, position.z],
     secondaryPantsirYawRadians: world.secondaryPantsir.pose.rotation.y,
+    lcacWestPosition: [world.landing.crafts.attacker_lcac_01.pose.position.x, world.landing.crafts.attacker_lcac_01.pose.position.y, world.landing.crafts.attacker_lcac_01.pose.position.z],
+    lcacWestYawRadians: world.landing.crafts.attacker_lcac_01.pose.rotation.y,
+    lcacEastPosition: [world.landing.crafts.attacker_lcac_02.pose.position.x, world.landing.crafts.attacker_lcac_02.pose.position.y, world.landing.crafts.attacker_lcac_02.pose.position.z],
+    lcacEastYawRadians: world.landing.crafts.attacker_lcac_02.pose.rotation.y,
   }
 }
 
@@ -61,6 +65,37 @@ beforeEach(() => {
   harness.frame = undefined
 })
 afterEach(cleanup)
+
+describe('LCAC spectator follow', () => {
+  it.each(['lcac-west', 'lcac-east'] as const)('preserves paused controls and cargo framing across seeks for %s', (preset) => {
+    useCameraStore.getState().requestPreset(preset)
+    const view = render(<CameraRig {...propsAt(0)} />),
+      id = preset === 'lcac-west' ? 'attacker_lcac_01' : 'attacker_lcac_02'
+    const origin = deriveSimulationWorldState(0).landing.crafts[id].pose.position,
+      anchor = new Vector3(origin.x, origin.y, origin.z)
+    const distance = harness.camera!.position.distanceTo(anchor)
+    expect(distance).toBeGreaterThan(40)
+    expect(distance).toBeLessThan(55)
+    harness.camera!.position.add(new Vector3(2, 3, -1))
+    harness.controls!.target.add(new Vector3(1, 0.5, 0))
+    const cameraOffset = harness.camera!.position.distanceTo(anchor),
+      targetOffset = harness.controls!.target.distanceTo(anchor)
+    for (const time of [109.9, 110, 140, 148, 155, 159.9, 162, 165.9, 176, 0, 152.4, 0]) {
+      act(() => simulationStore.getState().seek(time))
+      view.rerender(<CameraRig {...propsAt(time)} />)
+      act(() => harness.frame!())
+      const p = deriveSimulationWorldState(time).landing.crafts[id].pose.position,
+        current = new Vector3(p.x, p.y, p.z)
+      expect(harness.camera!.position.distanceTo(current)).toBeCloseTo(cameraOffset, 8)
+      expect(harness.controls!.target.distanceTo(current)).toBeCloseTo(targetOffset, 8)
+      const pausedCamera = harness.camera!.position.toArray(),
+        pausedTarget = harness.controls!.target.toArray()
+      for (let i = 0; i < 10; i++) act(() => harness.frame!())
+      expect(harness.camera!.position.toArray()).toEqual(pausedCamera)
+      expect(harness.controls!.target.toArray()).toEqual(pausedTarget)
+    }
+  })
+})
 
 describe('secondary Pantsir spectator follow', () => {
   it('leaves paused spectator orbit, pan and zoom offsets untouched', () => {

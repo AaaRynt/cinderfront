@@ -56,9 +56,9 @@ describe('Stage 4B.2C support convoy authority', () => {
     expect(hit.targetFeatureId).toBe('dry_wash_bridge')
     for (const attribution of ['sourceActorId', 'actorId', 'weaponId', 'munitionId', 'killCredit']) expect(hit).not.toHaveProperty(attribution)
     expect(SIMULATION_DURATION_SECONDS).toBe(176)
-    expect(SIMULATION_EVENTS).toHaveLength(42)
+    expect(SIMULATION_EVENTS).toHaveLength(47)
     expect(SIMULATION_EVENTS.filter((event) => event.atSeconds >= 176)).toEqual([])
-    expect(JSON.stringify(deriveSimulationWorldState(176))).not.toMatch(/lcac|lav_25|amphibious/i)
+    expect(JSON.stringify(projectCompletedStage4cWorld(deriveSimulationWorldState(176)))).not.toMatch(/lcac|lav_25|amphibious/i)
   })
 
   it('follows the authoritative road contract with real initial motion clear of the completed yard and tanks', () => {

@@ -12,6 +12,7 @@ import { SIMULATION_DURATION_SECONDS } from './constants'
 import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage4cPreservation.json'
 import { isStage5AAddedEvent, projectCompletedStage4cWorld, STAGE5A_ADDED_EVENT_IDS } from './fixtures/stage5aPreservationProjection'
+import { isStage5BAddedEvent } from './fixtures/stage5bPreservationProjection'
 import { SIMULATION_EVENTS } from './timeline'
 
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
@@ -21,8 +22,8 @@ describe('Stage 5A immutable completed-world preservation', () => {
     expect(baseline.sourceCommit).toBe('6fb70b6d283814cbf5c16492505bc56f980d8c57')
     expect(baseline.capturedBeforeStage5A).toBe(true)
     expect(baseline.events).toHaveLength(40)
-    expect(SIMULATION_EVENTS).toHaveLength(42)
-    expect(SIMULATION_EVENTS.filter((event) => !isStage5AAddedEvent(event))).toEqual(baseline.events)
+    expect(SIMULATION_EVENTS).toHaveLength(47)
+    expect(SIMULATION_EVENTS.filter((event) => !isStage5AAddedEvent(event) && !isStage5BAddedEvent(event))).toEqual(baseline.events)
     expect(SIMULATION_EVENTS.filter(isStage5AAddedEvent).map((event) => [event.id, event.atSeconds])).toEqual([
       ['pantsir_02_relocate', 112],
       ['pantsir_02_destroyed', 121],
@@ -37,7 +38,7 @@ describe('Stage 5A immutable completed-world preservation', () => {
       const world = deriveSimulationWorldState(Number(time))
       const completed = projectCompletedStage4cWorld(world)
       expect(Object.keys(completed), `old-world shape at T+${time}`).toEqual(baseline.worldKeys)
-      expect(Object.keys(world).toSorted(), `only one new actor field at T+${time}`).toEqual([...baseline.worldKeys, 'secondaryPantsir'].toSorted())
+      expect(Object.keys(world).toSorted(), `only additive actor fields at T+${time}`).toEqual([...baseline.worldKeys, 'secondaryPantsir', 'landing'].toSorted())
       expect(completed.stage4b2c, `support convoy retained at T+${time}`).toBe(world.stage4b2c)
       expect(completed.stage3.weapons, `all old weapons retained at T+${time}`).toBe(world.stage3.weapons)
       expect(Object.keys(completed.stage3.weapons)).toEqual(baseline.weaponIds)
@@ -65,11 +66,15 @@ describe('Stage 5A immutable completed-world preservation', () => {
     const fixtureHashes = {
       'stage4b2aPreservation.ts': '030ef305a63935ad037562f7857c26830b775cf356080fb1f86fe3014045cf16',
       'stage4b2bPreservation.json': 'd2427bbec38ccb9c01a18f29c82cb9eb9c86319b64f317adfc886887f563b25d',
-      'stage4cPreservation.json': '452e0ab23a66ce073be34e424bbeb2c33137c5b44f023725a9c50dad4c8f7f79',
+      'stage4cPreservation.json': '14d103149f5ca7f9e3383d1ebd4c8573789d15ab485a040089fc6943894e72e9',
     }
     for (const [file, expectedHash] of Object.entries(fixtureHashes)) {
       const bytes = readFileSync(resolve(process.cwd(), 'src/simulation/fixtures', file))
       expect(createHash('sha256').update(bytes).digest('hex'), file).toBe(expectedHash)
     }
+    // Stage 5A reformatted this file. Keep both its committed bytes and its
+    // original historical encoding protected; neither baseline is regenerated.
+    const historicalEncoding = `${JSON.stringify(baseline, null, 2)}\n`
+    expect(createHash('sha256').update(historicalEncoding).digest('hex')).toBe('452e0ab23a66ce073be34e424bbeb2c33137c5b44f023725a9c50dad4c8f7f79')
   })
 })

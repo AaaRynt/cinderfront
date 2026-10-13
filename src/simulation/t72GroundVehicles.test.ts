@@ -15,6 +15,7 @@ import {
   T72_VEHICLE_IDS,
   T72_WITHDRAWAL_START_SECONDS,
 } from '.'
+import { projectCompletedStage5aWorld } from './fixtures/stage5bPreservationProjection'
 import { createSimulationStore, getSimulationWorldState } from './store.ts'
 
 function distanceXZ(left: { readonly x: number; readonly z: number }, right: { readonly x: number; readonly z: number }) {
@@ -237,8 +238,8 @@ describe('Stage 4B.2A deterministic T-72B reinforcement lifecycle', () => {
     expect(T72_LEAD_IMPACT_ANCHOR).toEqual(deriveT72GroupState(T72_LEAD_DESTROYED_SECONDS).vehicles.defender_t72_01.pose.position)
     expect(T72_LEAD_IMPACT_ANCHOR.x).toBe(T72_AUTHORED_EXIT_X)
     expect(T72_LEAD_IMPACT_ANCHOR.z).toBe(250)
-    const serialized = JSON.stringify(deriveSimulationWorldState(172))
-    // Stage 5A adds the secondary Pantsir; amphibious actors remain excluded.
+    const serialized = JSON.stringify(projectCompletedStage5aWorld(deriveSimulationWorldState(172)))
+    // The completed actor projection admits only the Stage 5B landing addition.
     for (const excluded of ['lcac', 'lav_25']) expect(serialized.toLowerCase()).not.toContain(excluded)
   })
 

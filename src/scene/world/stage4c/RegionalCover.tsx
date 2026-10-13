@@ -3,8 +3,9 @@ import type { BufferGeometry } from 'three'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Color, DoubleSide, FrontSide, InstancedMesh, MeshStandardMaterial, Object3D, StaticDrawUsage } from 'three'
 
+import { createLandingRegionalLayout } from '../landing/landingReservations'
 import { createCoverGeometry } from './coverGeometry'
-import { createRegionalLayout, REGIONAL_BOUNDS, type CoverInstance, type CoverKind, type Region } from './regionalLayout'
+import { REGIONAL_BOUNDS, type CoverInstance, type CoverKind, type Region } from './regionalLayout'
 
 const PALETTE: Record<Region, readonly [grass: string, scrub: string, rock: string]> = {
   radar: ['#8b8060', '#565b45', '#827967'],
@@ -44,7 +45,7 @@ function CoverPool({ geometry, instances, kind, material }: { geometry: BufferGe
  * with regional instance bounds so distant cover can leave the view frustum. */
 export function RegionalCover() {
   const resources = useMemo(() => {
-    const layout = createRegionalLayout()
+    const layout = createLandingRegionalLayout()
     return (['grass', 'scrub', 'rock'] as const).flatMap((kind) =>
       [0, 1].map((variant) => ({
         kind,

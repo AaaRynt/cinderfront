@@ -1691,6 +1691,49 @@ facilities:
       diagram_visibility: yaml_only
       polygon_xz: [[5520, 370], [5750, 370], [5750, 190], [5520, 190]]
   beachhead:
+    # Stage 5B approved landing sites (2026-10-09); XZ coast and sea level unchanged.
+    - id: lcac_holding_west
+      type: offshore_hovercraft_holding_point
+      region_id: region_e_remote_beachhead
+      diagram_visibility: subtle
+      center_xz: [4250, -3720]
+    - id: lcac_holding_east
+      type: offshore_hovercraft_holding_point
+      region_id: region_e_remote_beachhead
+      diagram_visibility: subtle
+      center_xz: [5380, -3740]
+    - id: lcac_final_nearshore_west
+      type: final_nearshore_approach_gate
+      region_id: region_e_remote_beachhead
+      diagram_visibility: subtle
+      center_xz: [4300, -3160]
+    - id: lcac_final_nearshore_east
+      type: final_nearshore_approach_gate
+      region_id: region_e_remote_beachhead
+      diagram_visibility: subtle
+      center_xz: [5400, -2990]
+    - id: beach_contact_grade_west
+      type: local_continuous_beach_contact_grade
+      region_id: region_e_remote_beachhead
+      diagram_visibility: subtle
+      polygon_xz: [[4230, -3130], [4390, -3130], [4390, -2850], [4230, -2850]]
+      local_grid_m: 2
+      edge_feather_m: 25
+      coastline_rise_distance_m: 90
+      mean_sea_level_m: -0.12
+      elevation_profile: 'original height feathered to sea + (original - sea) * smoothstep(0, rise, inland_z_from_exact_coast)'
+      road_start_clearance_profile: '0.48 * smoothstep(0, 20, along_initial_road_m); original road outside grade'
+    - id: beach_contact_grade_east
+      type: local_continuous_beach_contact_grade
+      region_id: region_e_remote_beachhead
+      diagram_visibility: subtle
+      polygon_xz: [[5350, -2970], [5540, -2970], [5540, -2790], [5350, -2790]]
+      local_grid_m: 2
+      edge_feather_m: 25
+      coastline_rise_distance_m: 70
+      mean_sea_level_m: -0.12
+      elevation_profile: 'original height feathered to sea + (original - sea) * smoothstep(0, rise, inland_z_from_exact_coast)'
+      road_start_clearance_profile: '0.48 * smoothstep(0, 20, along_initial_road_m); original road outside grade'
     - id: beach_landing_strand
       type: broad_landing_shore
       region_id: region_e_remote_beachhead

@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "4c89a93",
+  "capturedBeforeStage5BReferenceEdits": true,
+  "fileHashes": {
+    "scenario-spec.yaml": "d98c1ad52922a2c0dd4698fe1229a601f96be76b25200a0869a82003f65d5ea6",
+    "map-spec.yaml": "e37f951934510b9779948363374d9613cbf1c932e6bde10ba80967c2be13b919",
+    "map-layout.svg": "70c7efda9b1edd05372673a10dd94fc06995f51d5bdfc510933b0ae666ecbd17",
+    "scenario-timeline.md": "f4f96364707cf1b128315b8a3051e749f3d3b6c278402dfd846fc734c0fe99ef"
+  },
+  "actorLocations": {
+    "1": "    initial_location: 'Offshore staging area near Wasp'\n    initial_location_ref:\n      map_region_id: 'region_f_attacker_offshore_group'\n      relative_to_entity_id: 'attacker_wasp_01'\n      formation_slot_id: 'amphibious_staging_west'\n",
+    "2": "    initial_location: 'Offshore staging area near Wasp'\n    initial_location_ref:\n      map_region_id: 'region_f_attacker_offshore_group'\n      relative_to_entity_id: 'attacker_wasp_01'\n      formation_slot_id: 'amphibious_staging_east'\n"
+  },
+  "approachPaths": {
+    "west": "    - id: 'path_lcac_beach_approach_west'\n      type: 'amphibious_approach_path'\n      map_feature_ids:\n        - 'naval_attacker_offshore_reserve'\n        - 'surface_beach_deep_transition'\n        - 'surface_beach_shallows'\n        - 'surface_beach_intertidal'\n        - 'beach_landing_strand'\n      waypoints_xz_m:\n        - [-4200, -3400]\n        - [-2000, -3600]\n        - [500, -3800]\n        - [2500, -3500]\n        - [3600, -3200]\n        - [4300, -2920]\n",
+    "east": "    - id: 'path_lcac_beach_approach_east'\n      type: 'amphibious_approach_path'\n      map_feature_ids:\n        - 'naval_attacker_offshore_reserve'\n        - 'surface_beach_deep_transition'\n        - 'surface_beach_shallows'\n        - 'surface_beach_intertidal'\n        - 'beach_landing_strand'\n      waypoints_xz_m:\n        - [-3900, -2500]\n        - [-1500, -3000]\n        - [1000, -3500]\n        - [3200, -3600]\n        - [5000, -3300]\n        - [5450, -2860]\n"
+  },
+  "amphibiousNarrative": "# 18. Amphibious Approach\n\n## T+01:50\n\nTwo LCAC craft leave the offshore staging area.\n\nThe movement begins while the main industrial battle is still occurring.\n\nThis secondary theater should initially be easy to miss from distant views.\n\nAs the craft accelerate, they create:\n\n- long wakes;\n- water spray;\n- visible skirt motion or simplified hovercraft vibration;\n- strong forward movement.\n\n## T+02:20\n\nThe first LCAC enters shallow coastal water.\n\nSpray behavior begins changing.\n\n## T+02:28\n\nThe second LCAC enters the same nearshore environment.\n\nThe craft should not travel in an identical formation.\n\nTheir positions and arrival times should differ slightly.\n\n"
+}

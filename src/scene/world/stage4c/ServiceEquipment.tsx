@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { BoxGeometry, CylinderGeometry, DoubleSide, InstancedMesh, MeshStandardMaterial, StaticDrawUsage, TorusGeometry, type BufferGeometry, type Matrix4 } from 'three'
 
-import { createServiceEquipmentLayout, type Family } from './serviceLayout'
+import { createLandingServiceLayout } from '../landing/landingReservations'
+import { type Family } from './serviceLayout'
 import { applyIndustrialWeathering } from './weathering'
 function EquipmentPool({ geometry, material, matrices, name }: { geometry: BufferGeometry; material: MeshStandardMaterial; matrices: readonly Matrix4[]; name: string }) {
   const ref = useRef<InstancedMesh>(null)
@@ -19,7 +20,7 @@ function EquipmentPool({ geometry, material, matrices, name }: { geometry: Buffe
 }
 export function ServiceEquipment() {
   const resources = useMemo(() => {
-    const layout = createServiceEquipmentLayout()
+    const layout = createLandingServiceLayout()
     const box = new BoxGeometry(1, 1, 1)
     const reel = new CylinderGeometry(0.5, 0.5, 1, 12)
     const hose = new TorusGeometry(0.9, 0.24, 6, 16).rotateX(Math.PI / 2)

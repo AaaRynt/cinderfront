@@ -317,11 +317,10 @@ entities:
     vehicle_id: 'lcac'
     type: 'LCAC'
     count: 1
-    initial_location: 'Offshore staging area near Wasp'
+    initial_location: 'Nearshore offshore holding point west'
     initial_location_ref:
-      map_region_id: 'region_f_attacker_offshore_group'
-      relative_to_entity_id: 'attacker_wasp_01'
-      formation_slot_id: 'amphibious_staging_west'
+      map_region_id: 'region_e_remote_beachhead'
+      map_feature_id: 'lcac_holding_west'
     initial_state: 'holding'
     payload:
       vehicle_id: 'lav-25'
@@ -335,11 +334,10 @@ entities:
     vehicle_id: 'lcac'
     type: 'LCAC'
     count: 1
-    initial_location: 'Offshore staging area near Wasp'
+    initial_location: 'Nearshore offshore holding point east'
     initial_location_ref:
-      map_region_id: 'region_f_attacker_offshore_group'
-      relative_to_entity_id: 'attacker_wasp_01'
-      formation_slot_id: 'amphibious_staging_east'
+      map_region_id: 'region_e_remote_beachhead'
+      map_feature_id: 'lcac_holding_east'
     initial_state: 'holding'
     payload:
       vehicle_id: 'lav-25'
@@ -615,35 +613,45 @@ spatial_references:
     - id: 'path_lcac_beach_approach_west'
       type: 'amphibious_approach_path'
       map_feature_ids:
-        - 'naval_attacker_offshore_reserve'
-        - 'surface_beach_deep_transition'
+        - 'lcac_holding_west'
         - 'surface_beach_shallows'
         - 'surface_beach_intertidal'
+        - 'lcac_final_nearshore_west'
+        - 'beach_contact_grade_west'
         - 'beach_landing_strand'
       waypoints_xz_m:
-        - [-4200, -3400]
-        - [-2000, -3600]
-        - [500, -3800]
-        - [2500, -3500]
-        - [3600, -3200]
+        - [4250, -3720]
+        - [4260, -3530]
+        - [4290, -3330]
+        - [4300, -3160]
+        - [4320, -3050]
+        - [4311.0810828, -2968.7567643]
         - [4300, -2920]
-
+      final_nearshore_gate_feature_id: 'lcac_final_nearshore_west'
+      contact_grade_feature_id: 'beach_contact_grade_west'
+      terminal_road_id: 'road_beach_exit'
+      interpolation: 'arc-length-sampled cubic Hermite; continuous terminal road tangent'
     - id: 'path_lcac_beach_approach_east'
       type: 'amphibious_approach_path'
       map_feature_ids:
-        - 'naval_attacker_offshore_reserve'
-        - 'surface_beach_deep_transition'
+        - 'lcac_holding_east'
         - 'surface_beach_shallows'
         - 'surface_beach_intertidal'
+        - 'lcac_final_nearshore_east'
+        - 'beach_contact_grade_east'
         - 'beach_landing_strand'
       waypoints_xz_m:
-        - [-3900, -2500]
-        - [-1500, -3000]
-        - [1000, -3500]
-        - [3200, -3600]
-        - [5000, -3300]
+        - [5380, -3740]
+        - [5370, -3540]
+        - [5360, -3300]
+        - [5390, -3120]
+        - [5400, -2990]
+        - [5420.861424, -2912.4494368]
         - [5450, -2860]
-
+      final_nearshore_gate_feature_id: 'lcac_final_nearshore_east'
+      contact_grade_feature_id: 'beach_contact_grade_east'
+      terminal_road_id: 'road_beach_access_east'
+      interpolation: 'arc-length-sampled cubic Hermite; continuous terminal road tangent'
     - id: 'path_lav_inland_west'
       type: 'ground_vehicle_path'
       map_feature_ids:
@@ -1181,7 +1189,7 @@ timeline:
     id: 'lcac_01_shallow_water'
     track: 'track_remote_beach'
     entity: 'attacker_lcac_01'
-    event: 'enter_shallow_water_approach'
+    event: 'enter_final_nearshore_approach'
     path_id: 'path_lcac_beach_approach_west'
 
   - at_s: 142
@@ -1198,7 +1206,7 @@ timeline:
     id: 'lcac_02_shallow_water'
     track: 'track_remote_beach'
     entity: 'attacker_lcac_02'
-    event: 'enter_shallow_water_approach'
+    event: 'enter_final_nearshore_approach'
     path_id: 'path_lcac_beach_approach_east'
 
   - at_s: 150

@@ -5,6 +5,7 @@ import { Euler, Vector3, type BufferGeometry } from 'three'
 import { describe, expect, it } from 'vitest'
 
 import { BTR80_DIMENSIONS_METERS, deriveBtr80GroupState, deriveT72GroupState, T72_DIMENSIONS_METERS } from '../../../simulation/groundVehicles'
+import { LCAC_ROUTE_KNOTS } from '../../../simulation/landingCraftPaths'
 import { deriveSupportConvoyState, SUPPORT_DIMENSIONS } from '../../../simulation/supportConvoy'
 import { BEACH_FEATURES, ROAD_DEFINITIONS } from '../stage2/stage2Data'
 import { getTerrainHeight, pointInPolygon } from '../stage2/terrainModel'
@@ -112,7 +113,7 @@ describe('Stage 4C static regional environment', () => {
       }
     }
   })
-  it('matches future dimensions and routes to authoritative YAML without instantiating actors', () => {
+  it('matches dimensions and approved routes to authoritative YAML while retaining historical seed masks', () => {
     for (const [vehicle, path] of [
       ['lcac', 'assets/vehicle/LCAC/lcac.yaml'],
       ['lav', 'assets/vehicle/LAV-25/lav-25.yaml'],
@@ -124,13 +125,13 @@ describe('Stage 4C static regional environment', () => {
     }
     const scenario = readFileSync(resolve(process.cwd(), 'assets/scenario/scenario-spec.yaml'), 'utf8')
     for (const [id, points] of [
-      ['path_lcac_beach_approach_west', FUTURE_LCAC_APPROACHES[0]!],
-      ['path_lcac_beach_approach_east', FUTURE_LCAC_APPROACHES[1]!],
+      ['path_lcac_beach_approach_west', LCAC_ROUTE_KNOTS[0]!],
+      ['path_lcac_beach_approach_east', LCAC_ROUTE_KNOTS[1]!],
       ['path_lav_inland_west', FUTURE_LAV_CONNECTORS[0]!],
       ['path_lav_inland_east', FUTURE_LAV_CONNECTORS[1]!],
     ] as const) {
       const block = scenario.split(`- id: '${id}'`)[1]!.split('\n    - id:')[0]!.split('\neffect_profiles:')[0]!
-      const actual = Array.from(block.matchAll(/- \[(-?\d+), (-?\d+)\]/g), (m) => [Number(m[1]), Number(m[2])])
+      const actual = Array.from(block.matchAll(/- \[(-?[\d.]+), (-?[\d.]+)\]/g), (m) => [Number(m[1]), Number(m[2])])
       expect(actual).toEqual(points)
     }
   })

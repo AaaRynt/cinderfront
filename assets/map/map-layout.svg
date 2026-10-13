@@ -336,6 +336,12 @@
       </g>
 
       <g id="beachhead-facilities">
+        <g id="lcac_holding_west"><circle cx="4250" cy="-3720" r="28" fill="none" stroke="#426e83" stroke-width="1.5" class="technical"/></g>
+        <g id="lcac_holding_east"><circle cx="5380" cy="-3740" r="28" fill="none" stroke="#426e83" stroke-width="1.5" class="technical"/></g>
+        <g id="lcac_final_nearshore_west"><circle cx="4300" cy="-3160" r="20" fill="none" stroke="#6d8e8c" stroke-width="1.3" class="technical"/></g>
+        <g id="lcac_final_nearshore_east"><circle cx="5400" cy="-2990" r="20" fill="none" stroke="#6d8e8c" stroke-width="1.3" class="technical"/></g>
+        <g id="beach_contact_grade_west"><polygon points="4230,-3130 4390,-3130 4390,-2850 4230,-2850" fill="#cebd98" fill-opacity="0.12" stroke="#9d7b43" stroke-width="1.1" stroke-dasharray="4 4" class="technical"/></g>
+        <g id="beach_contact_grade_east"><polygon points="5350,-2970 5540,-2970 5540,-2790 5350,-2790" fill="#cebd98" fill-opacity="0.12" stroke="#9d7b43" stroke-width="1.1" stroke-dasharray="4 4" class="technical"/></g>
         <g id="beach_landing_strand">
           <polygon points="3300,-3030 3550,-3060 4300,-3100 4900,-3010 5500,-2900 5980,-3060 6200,-3170 6000,-2820 5500,-2600 4900,-2660 4300,-2740 3500,-2660" fill="#f0dca7" fill-opacity="0.68" stroke="#9d7b43" stroke-width="1.5" class="technical"/>
         </g>

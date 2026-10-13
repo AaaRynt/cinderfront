@@ -5,8 +5,9 @@ import { AMMUNITION_BUNKERS, AMMUNITION_GATE_SPURS, BEACH_FEATURES, CORRIDOR_FEA
 import { distanceToPolyline, pointInPolygon } from '../stage2/terrainModel'
 import { AAA_SITE, COMMUNICATIONS_MAST_SITE, MAINLAND_POLYGON_XZ, RADAR_SEARCH_SITE, RADAR_SUPPORT_POLYGONS, RADAR_TRACKING_SITE, SAM_PAD_POSITIONS, type XZPoint } from '../worldData'
 
-// Reservations only: dimensions and waypoints from LCAC.yaml, LAV-25.yaml and
-// scenario-spec.yaml. These do not create actors or extend the scoped runtime.
+// Historical Stage 4C seed masks: retain the former raw LCAC routes so seeded
+// layouts never reroll. Stage 5B applies its approved smoothed reservations
+// afterward in landing/landingReservations.ts; these arrays do not drive actors.
 export const FUTURE_LANDING_DIMENSIONS = { lcac: { length: 26.4, width: 14.3 }, lav: { length: 6.39, width: 2.5 } } as const
 export const FUTURE_LCAC_APPROACHES: readonly (readonly XZPoint[])[] = [
   [

@@ -18,6 +18,7 @@ import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffec
 import { SupportConvoyEffects } from './effects/SupportConvoyEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
 import { Btr80Group, F35BModel, PantsirModel, T72BGroup, WaspModel } from './vehicles'
+import { LandingCrafts } from './vehicles/LandingCrafts'
 import { SecondaryPantsir } from './vehicles/SecondaryPantsir'
 import { Su30MkkGroup } from './vehicles/Su30MkkGroup'
 import { SupportConvoyGroup } from './vehicles/SupportConvoyGroup'
@@ -245,6 +246,7 @@ function DynamicBattlefield() {
       <Su30MkkGroup group={world.stage4b2b} />
       <RadarHillEngagement world={world} />
       <SecondaryPantsir state={world.secondaryPantsir} time={time} />
+      <LandingCrafts landing={world.landing} />
       <Btr80Group group={world.stage4b.btrGroup} />
       <T72BGroup group={world.stage4b.t72Group} />
       <SupportConvoyGroup group={world.stage4b2c.convoy} />
@@ -267,6 +269,10 @@ function DynamicBattlefield() {
         supportFramingScale={world.stage4b2c.camera.framingScale}
         secondaryPantsirPosition={vectorTuple(world.secondaryPantsir.pose.position)}
         secondaryPantsirYawRadians={world.secondaryPantsir.pose.rotation.y}
+        lcacWestPosition={vectorTuple(world.landing.crafts.attacker_lcac_01.pose.position)}
+        lcacWestYawRadians={world.landing.crafts.attacker_lcac_01.pose.rotation.y}
+        lcacEastPosition={vectorTuple(world.landing.crafts.attacker_lcac_02.pose.position)}
+        lcacEastYawRadians={world.landing.crafts.attacker_lcac_02.pose.rotation.y}
       />
     </>
   )

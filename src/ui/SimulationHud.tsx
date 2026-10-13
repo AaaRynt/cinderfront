@@ -15,6 +15,9 @@ interface TimelineEventView {
 interface BattlefieldStatus {
   aircraft01: string
   aircraft02: string
+  lcacWest: string
+  lcacEast: string
+  embarkedPayload: string
   pantsir: string
   secondaryPantsir: string
   primaryRadar: string
@@ -70,6 +73,8 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Plane, id: 'su30', label: 'Air reinforcement' },
   { icon: Route, id: 'support-convoy', label: 'Support convoy' },
   { icon: Radar, id: 'secondary-pantsir', label: 'Pantsir 02' },
+  { icon: Waves, id: 'lcac-west', label: 'LCAC 01' },
+  { icon: Waves, id: 'lcac-east', label: 'LCAC 02' },
 ]
 
 function StatusRow({ label, value }: { label: string; value: string }) {
@@ -99,7 +104,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 5A</p>
+            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 5B</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -114,6 +119,17 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           <p className="eyebrow">landings_attacker</p>
           <StatusRow label="F-35B 01" value={battlefieldStatus.aircraft01} />
           <StatusRow label="F-35B 02" value={battlefieldStatus.aircraft02} />
+          <div aria-label="Landing craft status" className="mt-2 border-t border-(--hud-edge) pt-2">
+            <div className="flex justify-between gap-3 py-1 text-[10px] text-[#a7b5b1]">
+              <span>LCAC 01</span>
+              <strong className="font-mono text-[9px] text-(--ink) uppercase">{battlefieldStatus.lcacWest}</strong>
+            </div>
+            <div className="flex justify-between gap-3 py-1 text-[10px] text-[#a7b5b1]">
+              <span>LCAC 02</span>
+              <strong className="font-mono text-[9px] text-(--ink) uppercase">{battlefieldStatus.lcacEast}</strong>
+            </div>
+            <p className="my-1 font-mono text-[9px] leading-3.5 text-(--ink)">{battlefieldStatus.embarkedPayload}</p>
+          </div>
         </div>
         <div className="faction-divider" />
         <div className="faction-block faction-island-defender">
@@ -207,7 +223,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">Secondary air defense · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
+      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">LCAC approach · payload embarked · 47 events · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
     </div>
   )
 }

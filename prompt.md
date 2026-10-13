@@ -1,412 +1,378 @@
-# Stage 5A — Secondary Air-Defense Reaction and Landing Readiness
+# Stage 5B — LCAC Approach, Beaching, and Embarked Payload
 
 Work directly in the existing Cinderfront repository.
 
-Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. Viewers observe an authored scenario through spectator cameras, playback, pause, restart, speed controls, and direct seeking.
+Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. The viewer observes an authored scenario through spectator cameras, playback, pause, restart, speed controls, and direct seeking.
 
-This is an implementation task. Inspect the current repository, implement the bounded actor sequence below, run every permitted validation, inspect the actual application in a browser, fix issues discovered during inspection, and deliver a coherent, reviewable result. Do not stop after planning.
+This is an implementation task. Inspect the repository, implement the complete bounded landing-craft slice below, run all permitted checks, inspect the actual application in a browser, fix issues found during inspection, and deliver a coherent, reviewable result. Do not stop after planning.
 
-## 1. Verified starting point and next-iteration goal
+## 1. Verified starting point
 
-Stage 4C is complete in commit `6fb70b6`. The documented baseline is 335 tests across 22 files, 40 scoped events, 19 camera presets, and a T+176 endpoint.
+Stage 5A is complete in commit `4c89a93`. The documented baseline is 365 tests across 27 files, 42 scoped events, 20 camera presets, and a T+176 endpoint.
 
-Stage 5 is the next parent milestone. Implement it in bounded rounds:
+The secondary Pantsir's T+112 relocation, T+119/T+119.6 defensive misses, and T+121 terminal strike are complete. All earlier ground, aircraft, naval, destruction, and Stage 4C environmental behavior remains regression-critical.
 
-- Stage 5A, this task: close the missing second-Pantsir sequence and document amphibious integration feasibility;
-- Stage 5B: two LCAC approaches, beaching, ramps, and embarked payload presentation after route/timing decisions are settled;
-- Stage 5C: eight LAV-25 unloadings, inland movement, and full T+180 operation integration;
-- Stage 6: indefinite aftermath and final refinement.
+Stage 5B must implement exactly two LCACs carrying exactly eight recognizable, persistently identified LAV-25s. Show holding, departure, distinct coastal approaches, continuous shore contact, beaching, settling, and bow-ramp lowering. Payload remains embarked throughout this stage.
 
-This task must deliver exactly one new combat actor, `defender_pantsir_02`, with a readable lifecycle:
+Stage 5C owns unloading, independent LAV movement, T+176 inland spread, and full T+180 integration. Stage 6 owns indefinite aftermath.
 
-1. operational reserve posture at T+0;
-2. relocation begins at T+112;
-3. a short local move, stop, weapon alignment/deployment, and brief authored secondary engagement;
-4. destruction at exactly T+121, attributed to the existing `attacker_f35_01`;
-5. persistent grounded wreck, scorch, local fire, and bounded smoke through T+176;
-6. identical reconstruction after seeking, restart, and playback-speed changes.
+## 2. Human-approved landing decision
 
-Also create an English `STAGE5_INTEGRATION_READINESS.md` documenting the remaining amphibious geometry, timing, cargo, unloading, event, and endpoint decisions. That document is preparation for Stage 5B/5C, not permission to implement future actors now.
+On 2026-10-09, the human user explicitly approved:
 
-## 2. Read before editing
+**Use nearer offshore staging, revise the final approaches and local shore grades, and preserve the key event times.**
 
-Read:
+This approval resolves the pending design choice recorded by Stage 5A in `STAGE5_INTEGRATION_READINESS.md`. Do not ask again for approval of this same choice.
 
-- `AGENTS.md`, `ITERATION_PLAN.md`, and `changelog.md`;
-- `assets/map/map-spec.yaml` and `assets/map/map-layout.svg`;
-- `assets/scenario/scenario-spec.yaml` and `assets/scenario/scenario-timeline.md`;
+The existing 8.6/9.7 km approaches require aircraft-like speeds and the current shore has a roughly 4.6–4.8 m vertical edge. Implement the approved correction transparently.
+
+Authorization is limited to:
+
+- the two LCAC initial staging descriptions, region/feature references, and approach paths;
+- clarification of their T+140/T+148 events as final nearshore-approach thresholds;
+- two local beach-contact grades and their consistent rendered/grounded surfaces;
+- associated landing reservations, local visual masks, and matching map/scenario documentation.
+
+Preserve all event IDs and times, original beaching-center XZ coordinates, vehicle dimensions, existing actors/paths, broad water-region polygons, mean sea level, and unrelated map/scenario content.
+
+Technical refinements within this approved package are ordinary implementation choices. Record their exact coordinates, geometry, bounds, and measured motion. Do not use this approval to redesign the whole map, retime combat, or rewrite completed stages.
+
+## 3. Read before editing
+
+Read completely:
+
+- `AGENTS.md`, `ITERATION_PLAN.md`, `changelog.md`;
+- `STAGE5_INTEGRATION_READINESS.md`, including its approved-decision update;
+- `assets/map/map-spec.yaml`, `assets/map/map-layout.svg`;
+- `assets/scenario/scenario-spec.yaml`, `assets/scenario/scenario-timeline.md`;
 - `assets/vehicle/Belligerents.yaml`;
-- `assets/vehicle/Pantsir-S1/pantsir-s1.yaml` and its reference images;
-- LCAC and LAV-25 dimension/reference files and authoritative route/event data for the readiness report;
-- existing primary-Pantsir state, model, air-defense firing, destruction, effects, and tests;
-- ground-motion helpers, road/terrain grounding, actor-specific state types, and clearance tests;
-- both F-35B paths, weapon definitions, release transforms, impact anchors, and preservation fixtures;
-- the complete Stage 4C environment, regional layouts, spatial reservations, water, and weathering integration;
-- current cameras, HUD, timeline, store, time clamping, and package scripts.
+- `assets/vehicle/LCAC/lcac.yaml` and `LCAC.jpeg`;
+- `assets/vehicle/LAV-25/lav-25.yaml` and both reference images;
+- current ground-motion helpers, terrain grid/mesh sampling, coast skirt, roads, and beach surfaces;
+- Stage 4C water, regional layouts, masks, resource ownership, and spatial reservations;
+- Stage 5A state, model, effects, camera, and preservation tests;
+- current timeline, time/store APIs, HUD, and package scripts.
 
-Relevant files include:
+Relevant entry points include:
 
-- `src/scene/vehicles/PantsirModel.tsx`;
+- `src/simulation/groundMotion.ts`, `derive.ts`, `types.ts`, `timeline.ts`, and `constants.ts`;
+- `src/simulation/stage5aPreservation.test.ts`;
+- `src/simulation/fixtures/stage5aPreservationProjection.ts` and existing fixtures;
+- `src/scene/world/stage2/terrainModel.ts`, `terrainGeometry.ts`, and `stage2Data.ts`;
+- `src/scene/world/stage2/BeachheadEnvironment.tsx`;
+- `src/scene/world/stage4c/spatialReservations.ts`, `coastalWater.ts`, and associated render/test modules;
 - `src/scene/BattlefieldScene.tsx`;
-- `src/simulation/derive.ts`, `types.ts`, `timeline.ts`, and `weapons.ts`;
-- `src/simulation/groundMotion.ts` and `groundVehicleRoutes.ts`;
-- `src/simulation/supportConvoy.test.ts`;
-- `src/simulation/aircraftPreservation.test.ts` and `src/simulation/fixtures/`;
-- `src/scene/world/stage4c/spatialReservations.ts`;
-- `src/scene/world/stage2/terrainModel.ts` and `stage2Data.ts`;
 - `src/scene/camera/CameraRig.tsx`;
 - `src/ui/SimulationHud.tsx` and `src/App.test.tsx`.
 
-Inspect actual implementation before choosing integration points. Repository constraints and the human-visibility policy take precedence. Map geometry, vehicle dimensions, force ownership, and official event timing remain authoritative; do not rewrite reference assets in this task.
+Repository constraints and the hard human-visibility policy take precedence. The approved landing corrections are explicit, narrow exceptions to the prior reference-preservation rule.
 
-## 3. Explicit scope
+## 4. Scope and hard boundaries
 
 Implement:
 
-- exactly one secondary Pantsir actor;
-- its focused deterministic types, path, lifecycle, and mechanical state;
-- only the shared-model extensions needed for wheeled travel, stowed/deployed equipment, and persistent damage;
-- two official events, `pantsir_02_relocate` and `pantsir_02_destroyed`;
-- one brief authored secondary engagement, represented by internal timing rather than an extra official event;
-- compact impact and persistent wreck effects;
-- at most one secondary-Pantsir camera preset;
-- concise HUD status and Stage 5A labeling;
-- focused tests, regression preservation, browser verification, and documentation;
-- the landing-readiness report.
+- exactly two LCAC actors with focused deterministic types/state;
+- one shared procedural LCAC model with fan, skirt, and ramp mechanics;
+- exactly eight shared-model LAV-25 payload actors with stable IDs and carrier-local transforms;
+- approved nearer staging and revised approaches;
+- continuous water-to-land contact using two local graded landing footprints;
+- bounded wake, spray, cushion disturbance, sand/dust, and ramp effects;
+- five authoritative departure/nearshore/beaching events;
+- at most two LCAC follow presets;
+- concise HUD status and Stage 5B labeling;
+- tests, immutable actor preservation, browser inspection, performance/resource checks, and updated references/documentation.
 
-Keep simulation duration at exactly 176 seconds. The event list becomes 42 events: the existing 40 plus the two authoritative Pantsir events.
+Keep duration exactly 176 seconds. Event coverage becomes 47: the existing 42 plus five LCAC events.
 
-Do not implement LCACs, LAV-25s, visible payload placeholders, amphibious effects, the T+176 inland-spread event, the T+180 endpoint, or aftermath mode in this round.
+Do not implement:
 
-Do not introduce generalized air-defense AI, target acquisition, radar physics, traffic/pathfinding, collision avoidance, physics simulation, new aircraft, additional losses, audio, or a broad environment/UI rewrite.
+- LAV unloading, autonomous movement, beach/road travel, or turret combat;
+- `lav_group_01_disembark`, `lav_group_02_disembark`, `lav_inland_spread`, or `scripted_phase_complete`;
+- the T+180 endpoint or aftermath runtime;
+- new combat, losses, aircraft, ships, ground reinforcements, or audio;
+- general buoyancy, fluid, rigid-body, traffic, pathfinding, or collision-avoidance systems;
+- broad terrain, atmosphere, environment, or HUD rewrites.
 
-## 4. Hard human-visibility constraint
+Be truthful that payload stays embarked even after the future T+160/T+166 unloading timestamps. Do not expose those excluded events or claim the full operation is complete.
 
-Never create, model, render, animate, or imply visible humans, occupants, crew members, casualties, articulated bodies, or humanoid silhouettes.
+### No visible humans
 
-Keep cab glazing dark, opaque, or strongly reflective. Use closed machinery, radar/launcher motion, wheels, lights, dust, weapon effects, and persistent wreckage to communicate activity. Do not expose an interior, operator station, driver, or crew animation.
+Never create, model, render, animate, or imply personnel, crew, occupants, casualties, articulated bodies, or humanoid silhouettes. LCAC cabins use opaque/dark glazing; LAV hatches remain closed. Open cargo decks contain vehicles and machinery only.
 
-## 5. Preserve completed actor and environment behavior
+## 5. Exact actor and payload roster
 
-Preserve every existing actor's numerical state and authored outcomes at all previously validated times through T+176.
+LCACs, faction `landings_attacker`:
 
-In particular, preserve:
+- `attacker_lcac_01`, carrying `attacker_lav_group_01`;
+- `attacker_lcac_02`, carrying `attacker_lav_group_02`.
 
-- both F-35B launches, complete flight paths, weapon releases, and all existing impacts;
-- the primary Pantsir's T+24 engagement and T+42 destruction;
-- Radar Hill and fixed air-defense behavior;
-- Su-30MKK pressure/support, damage, covering withdrawal, and egress;
-- BTR, T-72B, and support-convoy routes, spacing, damage, survivor outcomes, and reverse movement;
-- the unattributed T+125 bridge explosion;
-- Talwar and Molniya behavior;
-- fuel/ammunition destruction, pollution, wakes, fire, and smoke;
-- Stage 4C seeded layouts, industrial wear, regional cover, coastal motion, wet sand, and dawn atmosphere;
-- existing camera IDs, controls, follow behavior, and paused orbit/pan/zoom.
+Assign these persistent payload IDs now and reuse them in Stage 5C:
 
-Do not move an existing F-35B or another actor to make the second Pantsir sequence easier.
+- group 01 / LCAC 01: `attacker_lav_01` through `attacker_lav_04`;
+- group 02 / LCAC 02: `attacker_lav_05` through `attacker_lav_08`.
 
-Do not assign a source to the existing Su-30 damage or bridge explosion. Do not tie secondary-Pantsir fire to an existing aircraft loss that the authoritative scenario does not attribute to it.
+Every craft and payload vehicle remains operational. No landing losses are authored.
 
-### Immutable regression fixtures
+Payload activity is `embarked`, with a carrier ID, local pose, world pose, and zero travel relative to the deck. Do not count carrier world movement as LAV wheel travel or dust emission. Each LAV must exist exactly once before, during, and after beaching.
 
-Do not regenerate old hashes or weaken exact numerical assertions.
+## 6. Revised staging and route contract
 
-New actor fields and events will naturally change the combined world shape. Adjust preservation-test projections only to exclude explicitly added Stage 5A state/events and, if applicable, the single added weapon record. Compare every existing field against its unchanged baseline.
+Use region `region_e_remote_beachhead` for the new nearshore staging references. Remove the inaccurate claim that these LCACs are holding near Wasp or relative to its current pose. Wasp remains unchanged in its established offshore theater.
 
-Keep Stage 4B.2C state in the preserved projection when verifying this round. Capture a new additive baseline where useful without replacing earlier fixtures.
+Add distinct map features for the two holding points and final-nearshore gates, with consistent scenario references and SVG representation where required by map conventions.
 
-Update event-count and stage-label assertions to the new scope. Old duration assertions remain valid at 176 seconds.
+The following seed routes are concrete starting designs in world XZ meters:
 
-## 6. Authoritative secondary-Pantsir contract
+### West / LCAC 01
 
-Actor:
+- holding point: [4250, -3720];
+- route knots: [[4250, -3720], [4260, -3530], [4290, -3330], [4300, -3160], [4320, -3050], [4310, -2970], [4300, -2920]];
+- final-nearshore gate: [4300, -3160] at T+140;
+- unchanged beaching center: [4300, -2920] at T+155.
 
-- ID: `defender_pantsir_02`;
-- faction: `island_defender`;
-- initial feature: `corridor_pull_off_east`;
-- initial broad state: operational and mobile;
-- role: relocation and secondary air-defense support;
-- final condition/outcome: destroyed and lost.
+The raw candidate is approximately 806.210 m: 562.794 m before the nearshore gate and 243.416 m afterward. Phase means are about 18.760 and 16.228 m/s.
 
-Official events:
+### East / LCAC 02
 
-| Time  | Event ID               | Required behavior                                                  |
-| ----- | ---------------------- | ------------------------------------------------------------------ |
-| T+112 | `pantsir_02_relocate`  | Begin relocation on `path_pantsir_relocation`                      |
-| T+121 | `pantsir_02_destroyed` | Destroy after brief secondary engagement; source `attacker_f35_01` |
+- holding point: [5380, -3740];
+- route knots: [[5380, -3740], [5370, -3540], [5360, -3300], [5390, -3120], [5400, -2990], [5421, -2912], [5450, -2860]];
+- final-nearshore gate: [5400, -2990] at T+148;
+- unchanged beaching center: [5450, -2860] at T+162.
 
-The route references:
+The raw candidate is approximately 893.642 m: 753.325 m before the nearshore gate and 140.317 m afterward. Phase means are about 19.824 and 10.023 m/s.
 
-- `corridor_pull_off_east`;
-- `road_eastern_trunk`;
-- `corridor_inland_junction`.
+These are seed polylines, not permission to use corner-snapping motion. Smooth the route and solve event-constrained distance/velocity profiles against its actual measured length.
 
-Relevant geometry:
+You may make small local knot/gate refinements for curvature, full-craft clearance, and contact geometry. Keep them in the same nearshore corridors, retain the beaching centers and event times, update the references to match, and report the final values. No return to multi-kilometer transit or coordinate scaling.
 
-- pull-off center: [5450, -1750];
-- pull-off size: 500 × 170 meters;
-- pull-off polygon: [[5200, -1665], [5700, -1665], [5700, -1835], [5200, -1835]];
-- inland junction: [4000, -1100].
+Use a bounded presentation envelope: speed at most 30 m/s, acceleration/braking magnitude at most 4.5 m/s², continuous velocity, modest turn rates, and clearly slower final contact/settling. These are authored visualization limits, not a claim of a full naval dynamics model.
 
-Follow the existing XZ/world transforms and rendered road/terrain height.
+Before T+110, both craft hold at their new starting positions with restrained machinery activity. No hidden pre-event travel. At T+110, both begin departure; their routes, phases, and arrival times differ.
 
-### Fit the local action into the nine-second window
+### Terminal headings
 
-The reference path points toward a distant junction; it does not require reaching the entire path's final feature before T+121. The narrative does require a stop and short engagement before destruction.
+Align the final craft heading with the initial inland-road direction:
 
-The pull-off-center-to-junction distance is about 1.6 km. Do not traverse it in nine seconds, teleport, shrink the map, move the event, or drive a heavy truck at aircraft speed.
+- west: toward [4250, -2700] from [4300, -2920], approximately 12.804 degrees west of north;
+- east: toward [5550, -2680] from [5450, -2860], approximately 29.055 degrees east of north.
 
-Author a short relocation from a valid point near the pull-off's road-facing edge to a nearby safe firing position on or beside the route. The firing position should be reached after a modest displacement, leaving time to brake, align/deploy, and engage before T+121.
+Use the project's negative-Z forward convention and established heading transform. Provide a continuous terminal tangent/heading; do not rotate the craft in place instantly when it stops or lowers its ramp.
 
-Use modest truck speed, smooth acceleration, a bounded turn, and readable braking. Select internal move/stop/deployment/engagement times only after checking actual distance and mechanical transition duration.
+## 7. Nearshore semantics and reference synchronization
 
-Document the short local firing stop as an implementation choice. Do not claim arrival at the distant inland junction.
+Add exactly:
 
-Avoid existing service equipment, vegetation, rocks, barriers, roads used by other actors, and all vehicle sweeps. Prefer existing clear space. If one local exclusion-mask adjustment is unavoidable, document it and preserve unrelated regional layouts.
+| Time  | Event ID                | Meaning                                               |
+| ----- | ----------------------- | ----------------------------------------------------- |
+| T+110 | `lcac_departure`        | Both craft leave nearer offshore holding points       |
+| T+140 | `lcac_01_shallow_water` | West craft reaches its final-nearshore gate           |
+| T+148 | `lcac_02_shallow_water` | East craft reaches its final-nearshore gate           |
+| T+155 | `lcac_01_beach`         | West craft stops/beaches and begins lowering its ramp |
+| T+162 | `lcac_02_beach`         | East craft stops/beaches and begins lowering its ramp |
 
-Do not place this actor on Radar Hill's `sam_platform_02`; the scenario assigns the secondary Pantsir to the corridor reserve.
+The nearshore route starts in or near the broad coastal-water regions. T+140/T+148 no longer mean first geometric entry into `surface_beach_shallows`.
 
-## 7. Focused state architecture and absolute time
+Keep those event IDs/timestamps but explicitly update their authoritative event code to `enter_final_nearshore_approach`, and update the narrative/adapter descriptions accordingly. Record the semantic revision in the readiness report and changelog. Derive actual water-region classification independently of event phase; do not pretend earlier shallow/intertidal crossings occur at the new gates.
 
-Keep the existing primary-Pantsir API and state unchanged. Add a clear actor-specific module such as `secondaryPantsir.ts` and focused types rather than overloading the opening `world.pantsir` field.
+Synchronize only affected sections of scenario YAML, scenario narrative, map YAML/SVG, and runtime route/reservation data. Preserve all unrelated authoritative content, event ordering, faction mappings, vehicle dimensions, and the four excluded Stage 5C events.
 
-Reuse genuine ground-motion, grounding, and drivetrain helpers. Do not force this actor into BTR/T-72 fields or create a universal vehicle framework.
+Use domain-specific Stage 5B event types, including a focused `pathIds` adapter for the departure event. Do not overload older combat event types or rename existing event fields wholesale.
 
-Keep lifecycle dimensions separate:
+## 8. Local shore grading and continuous contact
 
-- activity: reserve, relocating, braking, deploying/alignment, engaging, destroyed;
-- physical condition: operational or destroyed;
-- outcome: active or lost;
-- mechanical state: wheel motion, steering, stabilizer deployment, radar transport/deployment, radar rotation, turret yaw, launcher elevation, and expended tubes.
+Resolve the approved 4.6–4.8 m water/land edge physically in the rendered surface. Do not hide it with spray, float the craft through the coast wall, or lerp to an unrelated land height.
 
-Derive every value from absolute simulation time and authored data:
+Create two narrowly bounded graded contact footprints around the west/east shoreline crossings and their final approach sweeps. Preserve mainland XZ coastline, mean sea level -0.12 m, beaching-center XZ, and terrain/road heights outside those footprints.
 
-- pose, heading, speed, acceleration, travel distance, wheel rotation;
-- mechanical transitions, firing windows, missile/projectile visibility;
-- lights and dust;
-- destruction onset, fixed wreck pose, scorch, fire, smoke, debris;
-- camera target and HUD state.
+Use explicit map features/profile data for the grade footprints, feathering, and elevation transition. Sample the actual coastline and final smoothed path before fixing bounds.
 
-No render-frame accumulation, wall-clock time, random outcomes, uncontrolled timers, or mount-history-dependent state.
+Requirements:
 
-At and after T+121, freeze the vehicle's travel at the impact pose. Wheels, chassis translation, active scanning, and firing cease; bounded settling and persistent fire/smoke can continue.
+- a continuous rise from the water contact edge into the existing beach;
+- enough width for rotated skirt/craft corners with a tested safety margin;
+- no vertical lip, hidden duplicate terrain, missing triangles, or intersecting coast skirt;
+- the visible mesh, contact/height sampler, road/apron surfaces, wet-sand treatment, and future LAV grounding agree;
+- retained exact terrain values outside the declared footprint;
+- no movement of existing actors, infrastructure, dunes, or global terrain bands.
 
-Repeated timestamp derivation and direct seeking must reconstruct exactly the same state.
+The existing terrain grid is roughly 75 m and already has immutable grounding regressions. Do not globally insert grid axes or retessellate unrelated terrain: that can change far-away interpolation. Use local refinement/patching with explicit support bounds, and test outside-footprint equality.
 
-## 8. Shared Pantsir model extensions
+Update the coast skirt only where it intersects a grade footprint. Preserve the rest of the shore and engineered harbor edges.
 
-Reuse the current recognizable Pantsir model and materials where possible.
+Derive craft vertical pose and bounded pitch/roll from shared graded support samples. Keep a readable cushion gap during transit, then continuous skirt compression/settling. Do not jump from sea height to terrain height at one event.
 
-Preserve the primary actor's appearance and behavior by giving new optional mechanics props defaults equivalent to the existing deployed, stationary presentation.
+Tests must sample actual rotated lower-skirt/hull geometry against rendered contact surfaces across first-corner contact, the full crossing, and the final stop. Avoid a fit that grounds the center while the bow penetrates terrain.
 
-The secondary model must retain:
+Review local foam/wet-sand/wear and decoration masks against the approved swept footprints. Retain stable IDs/layout values outside them; do not reroll whole regions or remove scenery globally.
 
-- 10.30 m length and approximately 3.30 m deployed width;
-- approximately 5.65 m deployed height and a plausible stowed profile near the referenced 4.37 m transport height;
-- eight wheels in four mirrored axle pairs;
-- boxy forward cab and rear equipment body;
-- two six-tube missile banks;
-- paired thin guns, tracking radar, raised search radar, and stabilizers;
-- dark sealed cab glazing.
+## 9. LCAC model and machinery
 
-During movement, stabilizer pads must be retracted and the radar/weapon posture appropriate for transport. At the firing stop, align/deploy continuously. Do not drag stabilizers through the road or instantly snap a tall radar into position.
+Build one reusable procedural model based on the authoritative references:
 
-Use wheel travel tied to signed distance. Ensure all wheels are grounded and body/gun/radar clearances are safe.
+- overall on-cushion envelope: 26.4 × 14.3 × 7.2 m;
+- central cargo deck: 20.4 × 8.2 m;
+- broad rectangular platform, substantial dark perimeter skirt;
+- unobstructed center deck and wide bow ramp;
+- narrower stern ramp, kept closed in this stage;
+- low side machinery, forward starboard control cabin with sealed glazing;
+- two large, separate ducted stern propulsion fans;
+- restrained support frames, rudders, and lights.
 
-Keep the same intact-to-wreck model identity. Retain a recognizable vehicle silhouette after destruction; avoid full disintegration or a duplicate wreck appearing beside the original.
+Do not model a narrow boat hull or fill the deck with permanent superstructure.
 
-## 9. Brief authored engagement and T+121 strike
+Fan blades/ducts, propulsive posture, lights, skirt compression, and any small vibration derive from absolute simulation time. Machinery may turn while the craft holds; it freezes when simulation pauses.
 
-Create a short deterministic secondary engagement after the firing stop and before T+121.
+Use shared geometry/materials and correct resource ownership. Test actual model bounds in transit and settled configurations, excluding effects and the legitimately extended lowered ramp when comparing the closed overall-length reference.
 
-Use one or two compact authored firing actions, fixed tube-exp expenditure, radar/launcher alignment, and bounded flight/effects. Reuse established presentation primitives where appropriate.
+## 10. Embarked LAV model and packing
 
-Choose a fixed existing attacker-aircraft target or authored air sector consistent with geometry; record the choice. Do not implement target-selection logic or infer an unrecorded hit. Any defensive shots miss or leave the modeled engagement without creating new aircraft damage.
+Use one shared LAV-25 model for all eight payloads:
 
-No firing begins before deployment/alignment is ready. Do not continue launching after destruction.
+- hull scale anchor: 6.39 × 2.50 × 2.69 m;
+- low long hull, sharply sloped front, four wheels per side;
+- compact central turret and thin centered forward cannon;
+- closed hatches and opaque optics.
 
-For T+121:
+Do not reskin BTR geometry without correcting the recognizable hull, turret, axle spacing, and dimensions.
 
-- source attribution is exactly `attacker_f35_01`;
-- sample the secondary Pantsir's actual impact-time pose for the hit anchor;
-- use a medium vehicle-kill flash, restrained fragments/sparks/dust, fixed wreck, scorch, local fire, and bounded smoke;
-- keep scale subordinate to the fuel and ammunition hero effects;
-- ensure an exact boundary at T+121 and seek-safe persistence through T+176.
+Start with two-by-two cargo centers at LCAC-local X = ±1.8 m, Z = ±4.0 m, all facing local negative Z. Solve local Y from actual wheel/deck contact.
 
-If a full incoming weapon trajectory is included, derive its release from the unchanged F-35B's actual pose at the chosen release time, and verify flight distance, direction, clearance, and duration. Use the established dark, unpowered guided-weapon presentation without artificial upward launch, glow, flame, or a continuous trail.
+The report's provisional 3.0 m wheel envelope and 0.8 m forward barrel allowance are design budgets, not reference dimensions. Verify actual wheels, barrel, turret, machinery, fan, ramp-swing, and inter-vehicle clearance at every relevant craft/mechanical pose.
 
-Do not create an arbitrary release point or rewrite aircraft paths to fake the strike. A compact terminal strike with authoritative source attribution is acceptable if a credible full approach cannot be authored against the preserved flight path; report that visual limitation explicitly.
+World payload pose must use the carrier transform multiplied by the cargo-local transform, including pitch/roll. Keep those transforms stable through approach and settling. Payload wheels remain stationary relative to the deck.
 
-Do not invent an additional official release or engagement event. Internal choreography can have documented thresholds.
+Expose focused carrier/deck geometry and attachment data for Stage 5C reuse. Do not implement its transfer to ramp/ground yet.
 
-## 10. Camera and HUD
+## 11. Bow ramp
 
-Add at most one `Secondary air defense` or `Pantsir 02` preset.
+Use a measurable hinged panel and solve its contact angle against the settled pose and actual graded terrain.
 
-It should frame the reserve, local move, mechanical alignment, brief engagement, impact, and later wreck with continuous seek-safe targeting. Preserve free spectator control while paused and avoid clipping through machinery, terrain, smoke, or structures.
+A useful starting design is a 6 m panel with an 8.2 m clear opening, hinge at local Z = -10.2 m, and settled deck about 1.2 m above support ground. Refine this against the generated model and skirt profile.
 
-Update the stage label to Stage 5A and add concise secondary-Pantsir status. Preserve primary-Pantsir status so the two actors are distinguishable.
+Keep the closed ramp within the referenced on-cushion envelope. The lowered panel may extend beyond the bow; report its deployed bounds separately.
 
-Expose the two new events in chronological order. Keep the timeline endpoint and controls at 176 seconds.
+Begin west/east lowering at T+155/T+162. Make the west ramp fully ready before T+160 and the east before T+166, using continuous absolute-time hinge motion. The event initiates a transition rather than forcing an instantaneous angle change.
 
-Use existing Tailwind utilities for touched ordinary DOM layout, spacing, typography, color, responsive sizing, and focus states. Keep specialized CSS where appropriate; do not add simple global selectors or broadly migrate the HUD.
+Test the full ramp swing against payload and side machinery, the tip's terrain contact, usable lane width, and its slope/height. No penetration or floating tip. All vehicles stay aboard after the ramp opens in this stage.
 
-Check normal desktop and short-height viewport fit.
+## 12. Motion effects, architecture, and absolute time
 
-## 11. Stage 5 landing-readiness report
+Separate activity, condition, outcome, pose/motion, fan/skirt/ramp mechanics, cargo attachment, and visual-effect state.
 
-Create `STAGE5_INTEGRATION_READINESS.md` in English after the geometry/timeline audit. Ground it in actual references and implementation, not guesses.
+Keep new derivation in focused modules such as landing-craft types, authored paths, and pure motion/contact samplers. Do not place the whole sequence in `derive.ts` or create a general physics/vehicle framework.
 
-Include:
+Derive all authoritative values and effects from absolute simulation time:
 
-### Authoritative event coverage
+- continuous pose, heading, speed, acceleration, path distance;
+- region/phase, shore contact, compression, ramp hinge;
+- fan rotation and restrained vibration;
+- carrier-local/world payload poses;
+- wake/spray/dust births, ages, positions, and opacity;
+- camera/HUD state.
 
-List each currently implemented versus outstanding event ID/time through T+180, mapping authoritative fields to the existing event adapter where names differ.
+Wake presentation must suit hovercraft: a broad cushion disturbance and trailing churn/spray, not an enormous narrow ship wake. Offshore/coastal water effects diminish/change during shore contact; sand/dust begins where the cushion reaches land. Use region/contact masks and fixed bounded particle lifetimes.
 
-The current source has 51 official events. After this round, 42 are implemented and nine remain:
+No accumulated particle trails, wall-clock animation, frame-dependent phase, uncontrolled randomness, duplicate craft, or mount-dependent state. Seeking before departure removes future trails; seeking to any later timestamp reconstructs bounded effects exactly.
 
-- T+110 `lcac_departure`;
-- T+140 `lcac_01_shallow_water`;
-- T+148 `lcac_02_shallow_water`;
-- T+155 `lcac_01_beach`;
-- T+160 `lav_group_01_disembark`;
-- T+162 `lcac_02_beach`;
-- T+166 `lav_group_02_disembark`;
-- T+176 `lav_inland_spread`;
-- T+180 `scripted_phase_complete`.
+Preserve Stage 4C sea normals/roughness sampler, mean level, naval wakes, pollution, surface fire, smoke layering, and pause behavior. Do not subscribe the entire static world to every timeline tick.
 
-Verify the counts against the current files. Do not add these events to runtime during Stage 5A.
+## 13. Regression and local-change contract
 
-### LCAC route/timing conflict
+Capture a pre-edit Stage 5A baseline, including secondary-Pantsir state, all 42 old event records, every old actor/weapon field, and the environment layouts/contact heights needed for local comparisons.
 
-The existing raw waypoint lengths are approximately:
+Keep existing fixture files byte-identical. Adjust old-world projections only to omit added landing/payload state and five new events. The secondary Pantsir and support convoy must remain in the preserved projection.
 
-- west: 8,634 m from T+110 departure to T+155 beaching, requiring about 192 m/s mean transit speed;
-- east: 9,658 m from T+110 departure to T+162 beaching, requiring about 186 m/s mean transit speed.
+All old actor/weapon numerical values through T+176 must remain exact. Broad coastal sampler values remain exact.
 
-Rounded/smoothed paths may change these values slightly; compute the actual candidate lengths. These speeds are not credible ordinary LCAC motion, and acceleration/braking make the peak-speed requirement larger.
+The approved local grading/mask changes may intentionally alter environmental geometry/placements within their declared footprints. Handle this explicitly:
 
-Also check the shallow-water waypoints against the T+140/T+148 thresholds and validate that approach segments remain water-side until the intended beach transition.
+- retain the original fixture bytes and historical baseline;
+- identify each affected stable instance/overlay/shore record and measured height change;
+- add before/after comparisons proving exact equality outside the fixed approved footprint;
+- replace a whole-layout hash assertion only with a stronger scoped comparison plus explicit allowed local-difference assertions;
+- do not suppress all environment preservation tests, whitelist whole regions, or regenerate old fixtures.
 
-Describe viable alternatives with consequences:
+Retain old raw-route reservations if needed to preserve existing seeded layouts, then add approved-route reservations without re-randomizing unrelated placements. Verify actual local overlaps rather than assuming the former four-meter path margin protects smoothed craft.
 
-1. explicit cinematic time compression while retaining reference geometry/times, with clearly acknowledged nonphysical speed;
-2. revised nearer staging/approach geometry while retaining key event times;
-3. revised departure/transit timing while retaining geometry, identifying any impact on the three-minute scenario.
+Update only stage-label, additive shape/event-count, approved reference, and narrowly identified local-contact test expectations. Duration remains 176.
 
-Recommend one alternative based on scene readability and the project priorities. Distinguish implementation refinements from choices that require changing authoritative data. Do not silently select a reference rewrite or disguise the conflict with teleporting, coordinate scaling, off-map despawning, or implausible speed caps.
+## 14. Camera, HUD, and browser verification
 
-Stage 5B must not be described as ready for physically credible motion until this choice is resolved. Stage 5A's completed actor work does not depend on that future decision.
+Add at most two stable craft-follow presets, one per LCAC. Frame holding, approach, first contact, beach stop, ramp lowering, and deck cargo without abrupt cuts or clipping.
 
-### Cargo and unloading feasibility
+Preserve all existing 20 presets and free paused orbit/pan/zoom. Use concise craft phase and embarked-count readouts; show Stage 5B and the five added events.
 
-Audit:
+Use installed Tailwind utilities for touched ordinary DOM layout/spacing/type/colors/focus/responsive sizing. Keep specialized CSS where appropriate; no broad HUD migration or debug panels.
 
-- exact two-LCAC/eight-LAV roster and four vehicles per craft;
-- LCAC dimensions 26.4 × 14.3 × 7.2 m;
-- cargo deck 20.4 × 8.2 m;
-- LAV-25 dimensions 6.39 × 2.50 × 2.69 m;
-- viable two-by-two or alternative authored deck packing, including wheels, turret/barrel envelope, side machinery, and ramp clearance;
-- carrier-local-to-world pose continuity during movement and unloading;
-- ramp hinge/slope/ground contact, skirt height, beach surface, and wheel grounding;
-- staggered unloading from T+160/T+166 through T+176/T+180;
-- actual road/connector orientation and safe separation into two inland groups;
-- Stage 4C landing/ramp reservations versus full craft, ramp, payload, and vehicle swept envelopes.
+Before editing, capture representative beach/shore and preserved combat views. After implementation:
 
-Do not assume reference connector lists are already ordered in the movement direction. Check each endpoint against beaching, apron, and inland road geometry.
+- inspect T+0/T+109.9 holding, real scale, packing, dark glazing, and no future effects;
+- inspect T+110 departure and continuous acceleration;
+- inspect actual broad-shallow/intertidal crossings separately from T+140/T+148 final-nearshore gates;
+- inspect first rotated-corner contact and the full graded crossing closely;
+- inspect T+155 west stop/ramp, T+159.9 west readiness, T+162 east stop/ramp, T+165.9 east readiness;
+- inspect T+172/T+174/T+176: both landed craft, open ramps, exactly eight still-embarked payloads, preserved older outcomes;
+- seek backward/forward across departure/contact/ramp, restart, and test all speeds;
+- pause and confirm machinery, water, effects, and cargo freeze while camera controls work;
+- inspect all presets, 1280×720 and a short-height viewport, accessible timeline/keyboard controls, and console.
 
-Document which vehicles can realistically finish unloading or begin inland movement by T+180. Do not require the last craft's four vehicles to complete a long inland route in fourteen seconds.
+Watch both approaches continuously at 1x through contact/ramp readiness. Boundary screenshots alone do not prove contact continuity or packing clearance.
 
-### Integration and endpoint decisions
+Replay representative fuel, bridge, T-72, aircraft, naval, and Stage 5A Pantsir sequences. Save close inspection and comparison artifacts locally.
 
-Describe focused future types/modules, shared resource reuse, deterministic carrier transitions, impact on event adapters/tests, and expected camera/HUD additions.
+Measure matched-view renderer calls/triangles/resources before and after, plus a busy late-disaster view. Verify warmed stability across repeated seek/restart/camera cycles. Report actual measurements and limitations, not unverified performance claims.
 
-Preserve the authoritative T+180 event ID/code while distinguishing completion of the scripted phase from Stage 6's indefinite aftermath runtime. Identify the endpoint behavior needed in Stage 5C; do not claim an active aftermath system already exists.
+## 15. Automated checks and repository rules
 
-Include concrete next-round acceptance criteria and unresolved decisions. The report must help the next agent implement Stage 5B without rediscovering these conflicts.
+Add meaningful tests for:
 
-## 12. Meaningful tests
+- exact two-craft/eight-payload roster, faction, group/carrier IDs, dimensions, packing;
+- five event IDs/times, 47 total, 176-second scope, absent Stage 5C events;
+- all phase boundaries and dense smoothed path speed/acceleration/heading sampling;
+- actual water-region classification and exact final-nearshore gates;
+- full rotated hull/skirt/cargo/fan/ramp clearance and simultaneous craft separation;
+- shared rendered/contact grade geometry, continuous shore pose, and exact exterior terrain preservation;
+- ramp swing/tip contact/readiness and payload wheel/deck support;
+- unchanged cargo-relative wheel phase during carrier motion;
+- bounded deterministic wake/spray/dust and absence of future effects;
+- pause, restart, repeated seek, all speeds, and additive/local regression rules.
 
-Add focused tests for:
+Test data actually used by rendering. For shader effects, test shared inputs/bounds and inspect real visual output.
 
-- exact new actor ID/faction, reserve feature, role, condition, and final loss;
-- the two event IDs/times and 42-event scope;
-- T+0, T+111.9, T+112, T+112.1, all internal move/stop/deploy/fire boundaries, T+120.9, T+121, T+121.1, T+125, T+172, and T+176;
-- continuous pose/heading/speed, plausible acceleration/braking, actual wheel contact, signed wheel travel, and safe swept clearance;
-- stabilizers/radar in valid transport and firing configurations;
-- firing readiness, fixed target/sector, expended tubes, and no launch after destruction;
-- impact anchor matching the actual vehicle pose;
-- fixed post-impact wreck pose, bounded transients, and persistent scorch/fire/smoke;
-- absent future effects when seeking before the hit;
-- repeated seeks, restart, pause, and every playback speed;
-- unchanged existing actor, weapon, support-convoy, environmental sampler, timeline endpoint, and immutable regression values;
-- correct old-world projection when additive state is introduced.
-
-Do not write tests that only mirror implementation constants. Sample dense motion around turns, braking, and impact boundaries, and assert actual geometry/clearance where meaningful.
-
-For the readiness report, calculate route lengths and cargo/clearance inputs from the authoritative data or verified implementation helpers. No placeholder future-actor code is needed.
-
-## 13. Actual browser verification
-
-Capture representative before/after corridor views and inspect the implementation at:
-
-- T+0 and T+111.9: correctly grounded reserve actor, no future wreck/effect, sealed glazing;
-- T+112 through the move/stop: real relocation, wheel rotation, safe spacing, modest speed;
-- deployment/alignment: stabilizers, radar, launcher posture, and continuous mechanical transitions;
-- engagement before T+121: compact visible shots with no new damage;
-- T+121: correctly located medium-scale destruction and immediate stop;
-- T+121.1, T+125, T+132–133, T+172, and T+176: persistent wreck/effects and unaffected existing scenarios.
-
-Watch the complete T+110–124 sequence continuously at 1x at least once. Boundary screenshots alone cannot validate the nine-second reaction.
-
-Replay representative fuel, bridge, T-72B, and aircraft sequences to ensure the addition does not obscure or regress completed behavior.
-
-Test direct/backward seek, repeated seek/restart, all speeds, all camera presets, and paused orbit/pan/zoom. Check normal and short-height HUD layouts and the final console.
-
-Sample matched-view renderer/resource statistics before and after, including a late disaster view. Repeated seek/restart must not accumulate missiles, wrecks, particles, materials, or geometry.
-
-Save review screenshots locally and report their paths. State any verification limitation precisely.
-
-## 14. Permitted validation and repository rules
-
-Do not run build commands, `pnpm build`, `tsc -b`, or combined `pnpm check`.
-
-Use permitted checks:
+Run permitted checks:
 
 - `pnpm exec tsc -p tsconfig.app.json --noEmit`;
 - `pnpm exec tsc -p tsconfig.node.json --noEmit`;
 - `pnpm lint`;
-- `pnpm test:run`;
+- `pnpm test:run --maxWorkers=2`;
 - `git diff --check`;
-- the existing development server for browser inspection.
+- the existing development server for actual browser verification.
 
-Do not run repository-wide formatting commands. Preserve unrelated user changes.
+The reduced test parallelism follows Stage 5A's verified setup; do not weaken assertions or increase timeouts to hide failures.
 
-Do not change dependency versions, upgrade frameworks, or add dependencies. Existing libraries are sufficient.
+Do not run build commands, `pnpm build`, `tsc -b`, combined `pnpm check`, or repository-wide formatting commands. Do not change dependency versions, add dependencies, or upgrade frameworks. Preserve unrelated user changes.
 
 Use applicable browser and React skill workflows when available. Report only checks actually performed.
 
-## 15. Documentation and final handoff
+## 16. Documentation and final handoff
 
 After successful implementation and validation:
 
-- mark Stage 5A COMPLETE in `ITERATION_PLAN.md`;
-- keep parent Stage 5 incomplete; mark it IN PROGRESS if the roadmap uses that status;
-- keep Stage 5B, Stage 5C, and Stage 6 planned, with the LCAC route/timing dependency explicit;
-- retain all completed Stage 4-family records;
-- append a Stage 5A entry to `changelog.md`;
-- deliver `STAGE5_INTEGRATION_READINESS.md` with measured inputs, a recommended future decision, and remaining acceptance criteria.
+- mark Stage 5B COMPLETE, parent Stage 5 IN PROGRESS, and Stage 5C/Stage 6 PLANNED;
+- preserve all completed Stage 4/5A records;
+- update `STAGE5_INTEGRATION_READINESS.md` with actual approved-route/contact/model/ramp measurements and remaining Stage 5C work;
+- append a Stage 5B changelog entry, including the approved reference changes and precise local preservation exceptions;
+- retain source/runtime/map/narrative consistency and document the four outstanding events.
 
-Do not mark full-operation integration complete just because the second Pantsir exists.
+Report:
 
-In the final response, report:
+1. exact craft/payload IDs, model dimensions, packing, and operational outcomes;
+2. the recorded human decision and exact reference changes made;
+3. final route/gate coordinates, lengths, speed/acceleration/turn envelopes, terminal headings;
+4. local grade bounds, shared contact geometry, measured skirt/ramp clearance, and readiness times;
+5. absolute-time machinery/effects/carrier transforms;
+6. preserved actor/weapon/coastal values and precisely scoped environmental differences;
+7. camera/HUD changes, automated/browser results, artifact paths, and resource measurements;
+8. the remaining Stage 5C unloading/inland/full-timeline and Stage 6 aftermath work.
 
-1. the exact new actor lifecycle, local route, mechanics, and final outcome;
-2. T+112/T+121 behavior, engagement details, source attribution, and any incoming-weapon limitation;
-3. preservation of primary Pantsir, F-35B paths, existing actors, Stage 4C, fixtures, and the 176-second endpoint;
-4. camera/HUD changes and focused architecture;
-5. automated/browser results, review artifact paths, and resource observations;
-6. the measured amphibious route/timing conflict, recommended alternative, and remaining decision;
-7. documentation changes and the next Stage 5B scope.
-
-Do not claim LCAC/LAV deployment, all 51 events, T+180 integration, indefinite aftermath, visible personnel, or generalized air-defense AI.
+Do not claim LAV disembarkation, all 51 events, T+180 completion, indefinite aftermath, physical ocean/hovercraft simulation, or visible personnel.

@@ -14,8 +14,8 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
-describe('Stage 5A spectator interface', () => {
-  it('retains all 19 existing cameras and adds only one secondary-Pantsir preset', () => {
+describe('Stage 5B spectator interface', () => {
+  it('retains all 20 existing cameras and adds the two LCAC presets', () => {
     render(<App />)
     const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
     expect(cameras.getAllByRole('button').map((button) => button.textContent)).toEqual([
@@ -39,10 +39,12 @@ describe('Stage 5A spectator interface', () => {
       'Air reinforcement',
       'Support convoy',
       'Pantsir 02',
+      'LCAC 01',
+      'LCAC 02',
     ])
     fireEvent.click(cameras.getByRole('button', { name: 'Air reinforcement' }))
     expect(cameras.getByRole('button', { name: 'Air reinforcement' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByText('Cinderfront / Stage 5A')).toBeInTheDocument()
+    expect(screen.getByText('Cinderfront / Stage 5B')).toBeInTheDocument()
     expect(screen.getByText('Su-30MKK pair')).toBeInTheDocument()
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('routine transit')
     fireEvent.click(cameras.getByRole('button', { name: 'Support convoy' }))
@@ -64,7 +66,7 @@ describe('Stage 5A spectator interface', () => {
       [104, 'su30_reinforcement_entry'],
       [136.9, 'btr_survivors_fallback'],
       [137, 'su30_01_damaged'],
-      [141.9, 'su30_01_damaged'],
+      [141.9, 'lcac_01_shallow_water'],
       [142, 'su30_02_cover_withdrawal'],
       [170, 'aircraft_egress'],
       [75, 'rescue_convoy_redirect'],
@@ -73,7 +75,7 @@ describe('Stage 5A spectator interface', () => {
       [174, 'rescue_convoy_abandon_approach'],
       [176, 'rescue_convoy_abandon_approach'],
       [124.9, 'pantsir_02_destroyed'],
-      [111.9, 'rescue_convoy_chokepoint'],
+      [111.9, 'lcac_departure'],
       [112, 'pantsir_02_relocate'],
       [120.9, 'ammunition_cookoff_begin'],
       [121, 'pantsir_02_destroyed'],
@@ -106,5 +108,33 @@ describe('Stage 5A spectator interface', () => {
       expect(simulationStore.getState().speed).toBe(speed)
       expect(screen.getByRole('button', { name: `${speed}×` })).toHaveAttribute('aria-pressed', 'true')
     }
+  })
+  it('reports both craft phases, all embarked payloads, and five landing events without unloading', () => {
+    render(<App />)
+    const slider = screen.getByRole('slider', { name: 'Seek simulation time' }),
+      status = screen.getByLabelText('Landing craft status'),
+      timeline = screen.getByRole('region', { name: 'Simulation timeline' })
+    for (const [time, event] of [
+      [110, 'lcac_departure'],
+      [140, 'lcac_01_shallow_water'],
+      [148, 'lcac_02_shallow_water'],
+      [155, 'lcac_01_beach'],
+      [162, 'lcac_02_beach'],
+    ] as const) {
+      fireEvent.input(slider, { target: { value: String(time) } })
+      expect(timeline).toHaveTextContent(`Event ${event}`)
+      expect(status).toHaveTextContent('8 operational LAV-25s · all embarked')
+    }
+    fireEvent.input(slider, { target: { value: '176' } })
+    expect(status).toHaveTextContent('beached ready')
+    expect(status).toHaveTextContent('all embarked')
+    const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
+    for (const name of ['LCAC 01', 'LCAC 02']) {
+      fireEvent.click(cameras.getByRole('button', { name }))
+      expect(cameras.getByRole('button', { name })).toHaveAttribute('aria-pressed', 'true')
+    }
+    fireEvent.click(screen.getByRole('button', { name: 'Restart simulation' }))
+    expect(status).toHaveTextContent('holding')
+    expect(status).toHaveTextContent('all embarked')
   })
 })

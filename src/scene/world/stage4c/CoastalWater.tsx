@@ -4,6 +4,8 @@ import { Color, DoubleSide, MeshStandardMaterial, ShaderMaterial } from 'three'
 
 import { simulationStore } from '@/simulation/store'
 
+import { createLandingFoamLayout } from '../landing/landingReservations'
+import { applyLandingSurface } from '../landing/landingTerrain'
 import { createCoastalWaterGeometry, createFoamGeometry, createWetShoreGeometry, FOAM_ALPHA_GLSL, FOAM_SHAPE_GLSL, WATER_NORMAL_GLSL, WETNESS_GLSL } from './coastalWater'
 
 export function CoastalWater() {
@@ -50,7 +52,7 @@ export function CoastalWater() {
         .replace('#include <alphamap_fragment>', `#include <alphamap_fragment>\ndiffuseColor.a *= (1.0-smoothstep(0.15,1.0,vWetEdge)) * (${WETNESS_GLSL});`)
     }
     wet.customProgramCacheKey = () => 'stage4c-wet-shore-v1'
-    return { time, water, foam, wet, oceanGeometry: createCoastalWaterGeometry(), foamGeometry: createFoamGeometry(), wetGeometry: createWetShoreGeometry() }
+    return { time, water, foam, wet, oceanGeometry: createCoastalWaterGeometry(), foamGeometry: createFoamGeometry(createLandingFoamLayout()), wetGeometry: applyLandingSurface(createWetShoreGeometry(), 0.018) }
   }, [])
   useLayoutEffect(() => {
     timeRef.current = resources.time
