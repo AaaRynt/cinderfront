@@ -123,16 +123,16 @@ describe('Stage 5A secondary Pantsir authority and lifecycle', () => {
     expect(deriveSecondaryPantsirState(176)).toMatchObject({ id: initial.id, factionId: initial.factionId, phase: 'destroyed', activity: 'destroyed', condition: 'destroyed', outcome: 'lost' })
   })
 
-  it('adds exactly the two authoritative events, their source and chronological 47-event scope', () => {
+  it('adds exactly the two authoritative events, their source and chronological 51-event scope', () => {
     expect(STAGE5A_EVENTS).toEqual([
       { id: 'pantsir_02_relocate', atSeconds: 112, localTime: '05:28:52', event: 'relocate_to_secondary_firing_position', actorId: 'defender_pantsir_02', pathId: 'path_pantsir_relocation' },
       { id: 'pantsir_02_destroyed', atSeconds: 121, localTime: '05:29:01', event: 'destroy_after_secondary_engagement', actorId: 'defender_pantsir_02', sourceAircraftId: 'attacker_f35_01', effectProfile: 'vehicle_kill_medium' },
     ])
-    expect(SIMULATION_EVENTS).toHaveLength(47)
-    expect(new Set(SIMULATION_EVENTS.map((event) => event.id)).size).toBe(47)
+    expect(SIMULATION_EVENTS).toHaveLength(51)
+    expect(new Set(SIMULATION_EVENTS.map((event) => event.id)).size).toBe(51)
     expect(SIMULATION_EVENTS.map((event) => event.atSeconds)).toEqual(SIMULATION_EVENTS.map((event) => event.atSeconds).toSorted((a, b) => a - b))
-    expect(SIMULATION_DURATION_SECONDS).toBe(176)
-    expect(SIMULATION_EVENTS.some((event) => /lav_|scripted_phase_complete/.test(event.id))).toBe(false)
+    expect(SIMULATION_DURATION_SECONDS).toBe(180)
+    expect(SIMULATION_EVENTS.filter((event) => /lav_|scripted_phase_complete/.test(event.id))).toHaveLength(4)
     for (const event of STAGE5A_EVENTS) {
       expect(deriveSimulationWorldState(event.atSeconds - 0.0001).reachedEvents).not.toContainEqual(event)
       expect(deriveSimulationWorldState(event.atSeconds).reachedEvents).toContainEqual(event)
@@ -452,7 +452,8 @@ describe('absolute-time secondary Pantsir reconstruction', () => {
       }
     }
     expect(deriveSecondaryPantsirState(-1)).toEqual(expected.get(0))
-    expect(deriveSecondaryPantsirState(180)).toEqual(expected.get(176))
+    expect(deriveSecondaryPantsirState(180).pose).toEqual(expected.get(176)!.pose)
+    expect(deriveSecondaryPantsirState(999)).toEqual(deriveSecondaryPantsirState(180))
   })
 
   it('freezes while paused and reconstructs restart/backward seek at every supported speed', () => {
@@ -464,6 +465,8 @@ describe('absolute-time secondary Pantsir reconstruction', () => {
         expect(store.getState().timeSeconds).toBeCloseTo(target, 10)
         expect(getSimulationWorldState(store).secondaryPantsir).toEqual(deriveSecondaryPantsirState(target))
       }
+      expect(store.getState().isPlaying).toBe(true)
+      store.getState().tick((180 - store.getState().timeSeconds) / speed)
       expect(store.getState().isPlaying).toBe(false)
       store.getState().seek(119.6)
       store.getState().pause()

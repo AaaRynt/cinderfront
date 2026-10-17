@@ -609,7 +609,7 @@ The second LCAC reaches the east final-nearshore gate [5400, -2990]. Event `lcac
 
 The two craft follow different corridors and arrival times. Locally graded shore contacts preserve coastline XZ and mean sea level while removing the former vertical shore lip. Each craft slows, pitches and settles continuously, then lowers its bow ramp onto the same rendered beach/road support.
 
-Stage 5B ends at T+176 with two operational craft and eight operational LAV-25s still embarked. The later unloading and inland-spread chapters remain the Stage 5C reference plan.
+Stage 5B established two operational craft and eight persistent embarked LAV-25s. Stage 5C extends those same payloads into the staggered unloading and direct road joins below, without changing these approaches or contact grades.
 
 # 19. Ground Reinforcement Attempt
 
@@ -693,35 +693,21 @@ Vehicles should appear to react to battlefield events rather than blindly follow
 
 ## T+02:40
 
-The first four LAV-25 vehicles begin leaving the first LCAC.
+The first four persistent LAV-25 vehicles begin a staggered departure from the west craft at T+160/163/166/169, in their existing front-left/front-right/rear-left/rear-right slots. The west ramp is fully ready at T+158.8.
 
-They should not emerge simultaneously.
+Each vehicle starts smoothly, keeps its cargo lane through the 8.2 m bow opening, rolls from the actual deck onto the lowered panel, and settles onto the graded beach/road. Tires follow the finite panel edges and the chassis uses bounded individual suspension. Dust begins at moving tires that actually contact ground; hatches and optics remain sealed.
 
-Use a staggered sequence.
-
-Each vehicle should:
-
-- move down the ramp;
-- briefly settle onto the beach;
-- turn away from the LCAC;
-- accelerate toward an inland access path;
-- generate dust.
+The scripted traversal joins `road_beach_exit` directly at the forward ramp station, aligned with [4300,-2920] → [4250,-2700]. It does not drive back to the road origin under the craft. The original [4675,-2940] → [4475,-2930] → [4300,-2920] connector is retained as optional apron-to-beach service access, not the forward unloading route.
 
 ## T+02:42
 
-The second LCAC reaches the beach and lowers its ramp.
+The second LCAC reaches the beach and lowers its ramp, ready at T+165.2.
 
 ## T+02:46
 
-Its four LAV-25 vehicles begin disembarking.
+The east group's existing four vehicles depart at T+166/169/172/175 in the same slot order. They preserve two ramp lanes and join `road_beach_access_east` directly, aligned with [5450,-2860] → [5550,-2680]. Its original [5280,-2910] → [5360,-2890] → [5450,-2860] connector remains optional apron-to-beach service data.
 
-The two groups should not merge into one eight-vehicle line.
-
-The first group uses one inland route.
-
-The second group uses another.
-
-At least some separation between individual vehicles should remain.
+The groups keep separate roads and visible individual spacing. This is a narrow traversal-reference clarification; the map, roads, LCAC approaches and landing grades are unchanged.
 
 # 24. Talwar Final Deterioration
 
@@ -792,15 +778,11 @@ This is more effective than destroying every rescue vehicle.
 
 ## T+02:56
 
-The first LAV-25 vehicles are now clear of the landing craft.
+At least the lead vehicle from each group is now completely clear of its ramp and visibly advances along its own inland road alignment. The two cargo lanes continue onto the 10 m road starts; no immediate merge or abrupt turn is required.
 
-They begin spreading into the two inland routes.
+The remaining vehicles continue their staggered deck/ramp/ground transfer. T+176 does not mean that every vehicle is ashore. Some remain on a deck or ramp at T+180, and none is required to complete the long inland roads during this interval.
 
-No infantry appears.
-
-The vehicles themselves represent the expansion of the landing force.
-
-The remaining LAV-25 vehicles continue disembarking.
+No infantry or visible occupants appear. Vehicles and their restrained tire dust represent the expansion of the landing force.
 
 # 29. Scripted Phase End
 

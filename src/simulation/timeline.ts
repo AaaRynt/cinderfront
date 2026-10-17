@@ -1,4 +1,4 @@
-import type { Stage5BEvent } from './landingCraftTypes'
+import type { Stage5BEvent, Stage5CEvent } from './landingCraftTypes'
 import type { Stage5AEvent } from './secondaryPantsirTypes'
 import type { Stage4B2CEvent } from './supportConvoyTypes'
 import type { SimulationEvent, Stage1Event, Stage1EventId, Stage3Event, Stage3EventId, Stage4BEvent, Stage4BEventId, Stage4B2BEvent } from './types'
@@ -313,8 +313,7 @@ export const STAGE4B2C_EVENTS = [
   { id: 'rescue_convoy_abandon_approach', atSeconds: 174, localTime: '05:29:54', event: 'abandon_approach_and_begin_partial_withdrawal', groupId: 'defender_support_convoy_01', pathId: 'path_support_convoy_industrial' },
 ] as const satisfies readonly Stage4B2CEvent[]
 
-// Explicit scoped arrays: T+176 is an endpoint, not admission of the later
-// amphibious/LAV event from the reference scenario.
+// Retain the completed stage adapters, then admit the four final Stage 5C records.
 export const STAGE5A_EVENTS = [
   { id: 'pantsir_02_relocate', atSeconds: 112, localTime: '05:28:52', event: 'relocate_to_secondary_firing_position', actorId: 'defender_pantsir_02', pathId: 'path_pantsir_relocation' },
   { id: 'pantsir_02_destroyed', atSeconds: 121, localTime: '05:29:01', event: 'destroy_after_secondary_engagement', actorId: 'defender_pantsir_02', sourceAircraftId: 'attacker_f35_01', effectProfile: 'vehicle_kill_medium' },
@@ -328,7 +327,14 @@ export const STAGE5B_EVENTS = [
   { id: 'lcac_02_beach', atSeconds: 162, localTime: '05:29:42', event: 'beach_and_lower_ramp', actorId: 'attacker_lcac_02', pathId: 'path_lcac_beach_approach_east', resultingState: 'beached_ramp_lowered' },
 ] as const satisfies readonly Stage5BEvent[]
 
-export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS, ...STAGE5A_EVENTS, ...STAGE5B_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
+export const STAGE5C_EVENTS = [
+  { id: 'lav_group_01_disembark', atSeconds: 160, localTime: '05:29:40', event: 'begin_disembarkation', groupId: 'attacker_lav_group_01', pathId: 'path_lav_inland_west', track: 'track_remote_beach' },
+  { id: 'lav_group_02_disembark', atSeconds: 166, localTime: '05:29:46', event: 'begin_disembarkation', groupId: 'attacker_lav_group_02', pathId: 'path_lav_inland_east', track: 'track_remote_beach' },
+  { id: 'lav_inland_spread', atSeconds: 176, localTime: '05:29:56', event: 'first_lav_vehicles_spread_into_two_inland_access_paths', entities: ['attacker_lav_group_01', 'attacker_lav_group_02'], pathIds: ['path_lav_inland_west', 'path_lav_inland_east'], track: 'track_remote_beach' },
+  { id: 'scripted_phase_complete', atSeconds: 180, localTime: '05:30:00', event: 'enter_aftermath_observation', track: 'track_environment' },
+] as const satisfies readonly Stage5CEvent[]
+
+export const SIMULATION_EVENTS = Object.freeze([...STAGE1_EVENTS, ...STAGE3_EVENTS, ...STAGE4B_EVENTS, ...STAGE4B2B_EVENTS, ...STAGE4B2C_EVENTS, ...STAGE5A_EVENTS, ...STAGE5B_EVENTS, ...STAGE5C_EVENTS].toSorted((left, right) => left.atSeconds - right.atSeconds)) satisfies readonly SimulationEvent[]
 
 export function hasReachedEvent(timeSeconds: number, atSeconds: number): boolean {
   return clampSimulationTime(timeSeconds) + Number.EPSILON >= atSeconds

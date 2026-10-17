@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -13,6 +12,8 @@ import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage4cPreservation.json'
 import { isStage5AAddedEvent, projectCompletedStage4cWorld, STAGE5A_ADDED_EVENT_IDS } from './fixtures/stage5aPreservationProjection'
 import { isStage5BAddedEvent } from './fixtures/stage5bPreservationProjection'
+/// <reference types="node" />
+import { isStage5CAddedEvent } from './fixtures/stage5cPreservationProjection'
 import { SIMULATION_EVENTS } from './timeline'
 
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
@@ -22,13 +23,13 @@ describe('Stage 5A immutable completed-world preservation', () => {
     expect(baseline.sourceCommit).toBe('6fb70b6d283814cbf5c16492505bc56f980d8c57')
     expect(baseline.capturedBeforeStage5A).toBe(true)
     expect(baseline.events).toHaveLength(40)
-    expect(SIMULATION_EVENTS).toHaveLength(47)
-    expect(SIMULATION_EVENTS.filter((event) => !isStage5AAddedEvent(event) && !isStage5BAddedEvent(event))).toEqual(baseline.events)
+    expect(SIMULATION_EVENTS).toHaveLength(51)
+    expect(SIMULATION_EVENTS.filter((event) => !isStage5AAddedEvent(event) && !isStage5BAddedEvent(event) && !isStage5CAddedEvent(event))).toEqual(baseline.events)
     expect(SIMULATION_EVENTS.filter(isStage5AAddedEvent).map((event) => [event.id, event.atSeconds])).toEqual([
       ['pantsir_02_relocate', 112],
       ['pantsir_02_destroyed', 121],
     ])
-    expect(SIMULATION_DURATION_SECONDS).toBe(176)
+    expect(SIMULATION_DURATION_SECONDS).toBe(180)
   })
 
   it('compares every completed world field, weapon and support-convoy state through T+176', () => {

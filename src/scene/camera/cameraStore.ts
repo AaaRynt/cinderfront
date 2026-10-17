@@ -23,6 +23,8 @@ export type CameraPreset =
   | 'secondary-pantsir'
   | 'lcac-west'
   | 'lcac-east'
+  | 'lav-west'
+  | 'lav-east'
 
 interface CameraState {
   preset: CameraPreset

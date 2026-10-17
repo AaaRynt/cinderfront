@@ -17,6 +17,8 @@ interface BattlefieldStatus {
   aircraft02: string
   lcacWest: string
   lcacEast: string
+  lavWest: string
+  lavEast: string
   embarkedPayload: string
   pantsir: string
   secondaryPantsir: string
@@ -75,6 +77,8 @@ const CAMERA_PRESETS: ReadonlyArray<{
   { icon: Radar, id: 'secondary-pantsir', label: 'Pantsir 02' },
   { icon: Waves, id: 'lcac-west', label: 'LCAC 01' },
   { icon: Waves, id: 'lcac-east', label: 'LCAC 02' },
+  { icon: Route, id: 'lav-west', label: 'LAV west' },
+  { icon: Route, id: 'lav-east', label: 'LAV east' },
 ]
 
 function StatusRow({ label, value }: { label: string; value: string }) {
@@ -104,7 +108,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 5B</p>
+            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 5C</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -128,6 +132,12 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
               <span>LCAC 02</span>
               <strong className="font-mono text-[9px] text-(--ink) uppercase">{battlefieldStatus.lcacEast}</strong>
             </div>
+            <p className="my-1 font-mono text-[9px] leading-3.5 text-(--ink)" aria-label="West LAV group">
+              West · {battlefieldStatus.lavWest}
+            </p>
+            <p className="my-1 font-mono text-[9px] leading-3.5 text-(--ink)" aria-label="East LAV group">
+              East · {battlefieldStatus.lavEast}
+            </p>
             <p className="my-1 font-mono text-[9px] leading-3.5 text-(--ink)">{battlefieldStatus.embarkedPayload}</p>
           </div>
         </div>
@@ -223,7 +233,9 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
       <div aria-hidden="true" className="hud-reticle">
         <span />
       </div>
-      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">LCAC approach · payload embarked · 47 events · T+00:00—{formatTimelineBound(duration).slice(2)}</div>
+      <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">
+        {time >= duration ? 'Script complete · aftermath pending Stage 6' : `LAV deployment · 51 events · T+00:00—${formatTimelineBound(duration).slice(2)}`}
+      </div>
     </div>
   )
 }

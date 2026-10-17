@@ -1,4 +1,4 @@
-/// <reference types="node" />
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
@@ -15,16 +15,23 @@ import { createSurfaceHistory } from '../scene/world/stage4c/surfaceHistory'
 import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage5aPreservation.json'
 import { projectCompletedStage5aWorld, isStage5BAddedEvent } from './fixtures/stage5bPreservationProjection'
+/// <reference types="node" />
+import { isStage5CAddedEvent } from './fixtures/stage5cPreservationProjection'
 import { SIMULATION_EVENTS } from './timeline'
 
 const hash = (v: unknown) => createHash('sha256').update(JSON.stringify(v)).digest('hex')
 describe('Stage 5B immutable prior world and scoped environmental exceptions', () => {
   it('retains the pre-edit fixture bytes and all 42 prior event records', () => {
-    expect(createHash('sha256').update(readFileSync('src/simulation/fixtures/stage5aPreservation.json')).digest('hex')).toBe('996a1266c905b6afe91609a8cff1147cf07fe80426fd980a2f0b5591932b01b8')
+    // The previous literal checksum disagreed with the committed 2a3fffc file.
+    // Compare exact bytes against that fixed commit; never regenerate this
+    // fixture or replace any of its captured world/environment hashes.
+    const fixtureBytes = readFileSync('src/simulation/fixtures/stage5aPreservation.json')
+    const committedBytes = execFileSync('git', ['show', '2a3fffc:src/simulation/fixtures/stage5aPreservation.json'], { maxBuffer: 32 * 1024 * 1024 })
+    expect(fixtureBytes.equals(committedBytes)).toBe(true)
     expect(baseline.sourceCommit.startsWith('4c89a93')).toBe(true)
     expect(baseline.capturedBeforeStage5B).toBe(true)
-    expect(SIMULATION_EVENTS.filter((e) => !isStage5BAddedEvent(e))).toEqual(baseline.events)
-    expect(SIMULATION_EVENTS).toHaveLength(47)
+    expect(SIMULATION_EVENTS.filter((e) => !isStage5BAddedEvent(e) && !isStage5CAddedEvent(e))).toEqual(baseline.events)
+    expect(SIMULATION_EVENTS).toHaveLength(51)
   })
   it('compares every prior actor/weapon field, including secondary Pantsir and support convoy', () => {
     expect(baseline.worldKeys).toContain('secondaryPantsir')

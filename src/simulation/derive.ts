@@ -68,7 +68,7 @@ function deriveWaspStateForSimulation(timeSeconds: number): WaspState {
   const pathProgress = time / WASP_PATROL_SECONDS
   const flatPosition = samplePolyline(WASP_PATROL_POINTS, pathProgress)
   const nextPosition = samplePolyline(WASP_PATROL_POINTS, Math.min(1, pathProgress + 0.0005))
-  const yaw = headingBetween(flatPosition, nextPosition)
+  const yaw = pathProgress >= 1 ? headingBetween(samplePolyline(WASP_PATROL_POINTS, 1 - 0.0005), flatPosition) : headingBetween(flatPosition, nextPosition)
   const seededPhase = (STAGE1_FIXED_SEED % 360) * (Math.PI / 180)
 
   return {

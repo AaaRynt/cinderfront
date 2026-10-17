@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 import { LANDING_SITES, landingGradePolygon } from '../scene/world/landing/landingSiteData'
 import old from './fixtures/stage5bReferencePreservation.json'
+import { restoreStage5bNarrative, restoreStage5bScenario } from './fixtures/stage5cReferenceProjection'
 import { LCAC_ROUTE_KNOTS } from './landingCraftPaths'
 import { STAGE5B_EVENTS } from './timeline'
 
@@ -72,7 +73,7 @@ describe('approved Stage 5B authority changes only', () => {
     }
   })
   it('retains byte-exact unrelated scenario content and all four future event records', () => {
-    let restored = scenario
+    let restored = restoreStage5bScenario(scenario)
     for (const i of [1, 2] as const) {
       const block = restored.match(new RegExp("  - id: 'attacker_lcac_0" + i + "'[\\s\\S]+?(?=\\n  - id:)"))![0]
       const location = block.match(/    initial_location:[\s\S]+?(?=    initial_state:)/)![0]
@@ -98,7 +99,7 @@ describe('approved Stage 5B authority changes only', () => {
     expect(hash(restored)).toBe(old.fileHashes['map-layout.svg'])
   })
   it('preserves every narrative chapter outside the revised approach semantics', () => {
-    const narrative = read('assets/scenario/scenario-timeline.md'),
+    const narrative = restoreStage5bNarrative(read('assets/scenario/scenario-timeline.md')),
       section = narrative.match(/# 18\. Amphibious Approach[\s\S]+?(?=# 19\.)/)![0]
     expect(section).toContain('2026-10-09')
     expect(section).toContain('eight operational LAV-25s still embarked')

@@ -100,7 +100,7 @@ describe('Stage 4B.2A deterministic T-72B reinforcement lifecycle', () => {
       expect(final.vehicles[id]).toMatchObject({ motionDirection: 'reverse', outcome: 'survived', physicalCondition: 'operational' })
       expect(final.vehicles[id].longitudinalSpeedMetersPerSecond).toBeLessThan(0)
     }
-    expect(SIMULATION_DURATION_SECONDS).toBe(176)
+    expect(SIMULATION_DURATION_SECONDS).toBe(180)
   })
 
   it('freezes and reconstructs the wreck while seeks, restart, and playback speed remain equivalent', () => {

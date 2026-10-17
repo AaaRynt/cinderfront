@@ -15,14 +15,14 @@ import { createSimulationStore, getSimulationWorldState } from './store'
 import { SIMULATION_EVENTS, STAGE5B_EVENTS } from './timeline'
 
 describe('Stage 5B measured approach and contact', () => {
-  it('retains exactly two operational craft and eight persistent embarked payloads through T+176', () => {
+  it('retains exactly two operational craft and eight persistent payloads, retaining every pre-departure attachment', () => {
     for (const time of [0, 109.9, 110, 110.1, 140, 148, 155, 159.9, 160, 162, 165.9, 166, 172, 174, 176]) {
       const world = deriveLandingWorldState(time)
       expect(world.orderedCraftIds).toEqual(LCAC_IDS)
       expect(world.orderedPayloadIds).toEqual(LAV_IDS)
       expect(Object.keys(world.crafts)).toEqual([...LCAC_IDS])
       expect(Object.keys(world.payload)).toEqual([...LAV_IDS])
-      expect(world).toMatchObject({ operationalCraftCount: 2, operationalPayloadCount: 8, embarkedCount: 8 })
+      expect(world).toMatchObject({ operationalCraftCount: 2, operationalPayloadCount: 8 })
       for (const [index, id] of LCAC_IDS.entries()) {
         const craft = world.crafts[id]
         expect(craft).toMatchObject({ factionId: 'landings_attacker', condition: 'operational', outcome: 'active', payloadGroupId: `attacker_lav_group_0${index + 1}`, stagingRegionId: 'region_e_remote_beachhead' })
@@ -30,6 +30,7 @@ describe('Stage 5B measured approach and contact', () => {
         for (const [slot, pid] of craft.payloadIds.entries()) {
           const payload = world.payload[pid],
             center = LCAC_CARGO_CENTERS[slot]!
+          if (time > payload.departureAtSeconds) continue
           expect(payload).toMatchObject({ id: pid, carrierId: id, groupId: craft.payloadGroupId, factionId: 'landings_attacker', vehicleType: 'LAV-25', activity: 'embarked', condition: 'operational', outcome: 'active', wheelTravelMeters: 0, wheelRotationRadians: 0, dustIntensity: 0 })
           expect(payload.localPose).toEqual({ position: { x: center[0], y: craft.mechanics.deckLocalY, z: center[1] }, rotation: { x: 0, y: 0, z: 0 } })
           // Invert the full pitched/rolled carrier transform independently.
@@ -76,7 +77,7 @@ describe('Stage 5B measured approach and contact', () => {
       expect(ready.pose).toEqual(deriveLandingCraft(id, 176).pose)
     }
   })
-  it('adds the five official event records and keeps unloading, inland spread and aftermath out of scope', () => {
+  it('retains the five LCAC events within the complete 51-event scripted timeline', () => {
     expect(STAGE5B_EVENTS.map((e) => [e.id, e.atSeconds])).toEqual([
       ['lcac_departure', 110],
       ['lcac_01_shallow_water', 140],
@@ -84,14 +85,14 @@ describe('Stage 5B measured approach and contact', () => {
       ['lcac_01_beach', 155],
       ['lcac_02_beach', 162],
     ])
-    expect(SIMULATION_EVENTS).toHaveLength(47)
-    expect(new Set(SIMULATION_EVENTS.map((e) => e.id)).size).toBe(47)
-    expect(SIMULATION_DURATION_SECONDS).toBe(176)
-    expect(SIMULATION_EVENTS.some((e) => /lav_|scripted_phase_complete/.test(e.id))).toBe(false)
+    expect(SIMULATION_EVENTS).toHaveLength(51)
+    expect(new Set(SIMULATION_EVENTS.map((e) => e.id)).size).toBe(51)
+    expect(SIMULATION_DURATION_SECONDS).toBe(180)
+    expect(SIMULATION_EVENTS.filter((e) => /lav_|scripted_phase_complete/.test(e.id))).toHaveLength(4)
     const store = createSimulationStore({ timeSeconds: 174, isPlaying: true })
     store.getState().tick(10)
-    expect(store.getState()).toMatchObject({ timeSeconds: 176, isPlaying: false })
-    expect(getSimulationWorldState(store).landing.embarkedCount).toBe(8)
+    expect(store.getState()).toMatchObject({ timeSeconds: 180, isPlaying: false })
+    expect(getSimulationWorldState(store).landing.operationalPayloadCount).toBe(8)
   })
   it('measures both authored approaches, the full skirt crossing and ramp landing', () => {
     const measurements = LCAC_IDS.map((id, index) => {
@@ -170,7 +171,7 @@ describe('Stage 5B measured approach and contact', () => {
     })
     if (process.env.CINDERFRONT_STAGE5B_MEASUREMENTS === '1') writeFileSync('stage5b-review.local/contact-measurements.json', JSON.stringify(measurements, null, 2) + '\n')
     const world = deriveLandingWorldState(176)
-    expect(world.embarkedCount).toBe(8)
+    expect(world.embarkedCount).toBe(3)
   })
   it('keeps full craft separation and C1 translation/heading through every knot and event', () => {
     let minimumSeparation = Infinity

@@ -55,9 +55,9 @@ describe('Stage 4B.2C support convoy authority', () => {
     const hit = STAGE4B2C_EVENTS[2]
     expect(hit.targetFeatureId).toBe('dry_wash_bridge')
     for (const attribution of ['sourceActorId', 'actorId', 'weaponId', 'munitionId', 'killCredit']) expect(hit).not.toHaveProperty(attribution)
-    expect(SIMULATION_DURATION_SECONDS).toBe(176)
-    expect(SIMULATION_EVENTS).toHaveLength(47)
-    expect(SIMULATION_EVENTS.filter((event) => event.atSeconds >= 176)).toEqual([])
+    expect(SIMULATION_DURATION_SECONDS).toBe(180)
+    expect(SIMULATION_EVENTS).toHaveLength(51)
+    expect(SIMULATION_EVENTS.filter((event) => event.atSeconds >= 176).map((e) => e.id)).toEqual(['lav_inland_spread', 'scripted_phase_complete'])
     expect(JSON.stringify(projectCompletedStage4cWorld(deriveSimulationWorldState(176)))).not.toMatch(/lcac|lav_25|amphibious/i)
   })
 
@@ -241,6 +241,8 @@ describe('Stage 4B.2C support convoy authority', () => {
         store.getState().tick(remaining / speed)
         expect(getSimulationWorldState(store)).toEqual(deriveSimulationWorldState(target))
       }
+      expect(store.getState().isPlaying).toBe(true)
+      store.getState().tick((180 - store.getState().timeSeconds) / speed)
       expect(store.getState().isPlaying).toBe(false)
       store.getState().seek(124.9)
       expect(getSimulationWorldState(store).stage4b2c.bridge.blocked).toBe(false)

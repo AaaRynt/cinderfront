@@ -1,28 +1,95 @@
 # Stage 5 Amphibious Integration Readiness
 
-Stage 5A validation completed 2026-10-09; Stage 5B validation completed 2026-10-14. The runtime contains two LCACs, eight embarked LAV-25s and 47 official events through T+176. Parent Stage 5 is IN PROGRESS; four Stage 5C events, T+180 integration and Stage 6 indefinite aftermath remain outstanding. The original Stage 5A readiness measurements are retained below as historical inputs.
+Stages 5A, 5B and 5C are COMPLETE; parent Stage 5 is COMPLETE for the finite T+0–180 scripted operation. The viewer has 51 official events, two operational LCACs, eight operational LAV-25s and 24 cameras. Stage 6 indefinite aftermath remains PLANNED. The measured current delivery is recorded first; original Stage 5A feasibility estimates and dated Stage 5B completion data remain as historical records.
 
-**The human approved nearer staging, revised final approaches and local shore grading on 2026-10-09, retaining the key event times.** Rounding the original routes does not resolve their speed conflict. The approved package is now implemented and measured below. Reference edits are limited to the recorded staging/approach/nearshore meanings, local contact grades and associated reservations/masks; all unrelated authoritative content remains exact.
+**The human approved nearer staging, revised final approaches and local shore grading on 2026-10-09, retaining the key event times.** Rounding the original routes does not resolve their speed conflict. The approved package is now implemented and measured below. Stage 5B reference edits were limited to its recorded staging/approach/nearshore meanings, local contact grades and associated reservations/masks. Stage 5C adds the direct-join clarification recorded separately below; unrelated authoritative content remains exact.
+
+## Completed Stage 5C — 2026-10-17
+
+Stage 5C and parent Stage 5 are **COMPLETE for scripted operation through T+180**. Stage 6 remains **PLANNED**. Exactly two LCACs and the original eight LAV-25s remain operational, with 51 unique official event records and 24 spectator presets. Playback pauses at exactly 180 and the interface says **“Script complete · aftermath pending Stage 6”**. Backward seeking and free spectator controls remain available.
+
+### Deployment, attachment and measured timings
+
+The existing slot order and [0,3,6,9] s offsets are unchanged: west starts at 160/163/166/169 and east at 166/169/172/175. Both fully ready ramps gate departure. The immutable `carrierId` is the origin manifest; `attachedToCarrierId` describes current deck support. Every vehicle has one persistent world-space render root throughout unloading. Counts are mutually exclusive: aboard means all tires are deck-supported, transferring covers ramp/mixed support and a remaining rear overhang, and ashore requires full-envelope clearance. Each group sums to four, and both groups sum to eight. Aggregate support explicitly distinguishes deck, pure ramp, mixed contacts and ground.
+
+| Persistent ID     | Depart T+ | First road tire T+¹ | Full ramp clear / full road entry T+ | At 176      | At 180      |
+| ----------------- | --------: | ------------------: | -----------------------------------: | ----------- | ----------- |
+| `attacker_lav_01` |       160 |             166.075 |                              168.591 | inland      | inland      |
+| `attacker_lav_02` |       163 |             169.075 |                              171.591 | inland      | inland      |
+| `attacker_lav_03` |       166 |             176.075 |                              178.591 | ramp        | inland      |
+| `attacker_lav_04` |       169 |             179.075 |                              pending | deck        | ramp/ground |
+| `attacker_lav_05` |       166 |             172.050 |                              174.558 | inland      | inland      |
+| `attacker_lav_06` |       169 |             175.050 |                              177.558 | ramp/ground | inland      |
+| `attacker_lav_07` |       172 |             pending |                              pending | deck        | ramp        |
+| `attacker_lav_08` |       175 |             pending |                              pending | deck        | deck        |
+
+¹ First/last tire contact samples use a 25 ms grid; full-envelope clearance stations are solved by bisection. A vehicle is ashore only when all eight tires are ground-supported and the complete conservative hull/wheel/cannon envelope is beyond the panel toe. Full road entry uses that same criterion; first tire road contact is shown separately. Pending means it has not occurred by the finite endpoint.
+
+At 176 the totals are **3 aboard / 2 transferring / 3 ashore**. At 180 they are **1 aboard / 2 transferring / 5 ashore**: west has three ashore and vehicle 04 spanning ramp/ground; east has 05/06 ashore, 07 spanning deck/ramp and 08 still deck-supported. All eight remain visible operational actors. Mathematical continuation estimates for 04/07/08 are 181.591/184.558/187.558 s at the authored ramp pace; these are future schedule estimates, not observed post-180 runtime. At 180 the lead vehicles have traveled only 62.024 m west / 35.104 m east from their cargo slots, far short of completing the inland roads.
+
+### Kinematic support and clearances
+
+Tires use the actual settled carrier YXZ transform, 1.20 m deck top, -10.08 m hinge, 6 × 8.2 × 0.12 m panel top, 12 mm traction strips and uploaded graded mainland/road support. Finite 0.49 m circles/cylinders roll over the real deck overhang and toe. Ground strips sample the unchanged triangle support at 0.2 m; a spatially filtered all-axle chassis fit uses bounded independent suspension, with unfiltered finite-edge tire support. Full quaternion composition is used throughout. Wheel travel integrates the supporting profile, independently of carrier travel; wheel rotation is about the actual axle. The scripted road starts are straight, so front steering remains stowed at zero in this short interval.
+
+Measured vehicle speed peaks at **4.512057 m/s**, with **2.064587 m/s** maximum while transferring and **1.499844 m/s²** peak world-vector acceleration. The authored profile smoothly reaches 2 m/s over two seconds, keeps that ramp pace through full clearance, then waits 0.3 s and eases to 4.5 m/s over three seconds. Heading rate stays below **0.214°/s**; pitch/roll rates peak at 8.073°/s and 0.718°/s. Maximum suspension travel is **0.161119 m** within a ±0.27 m bound. A separate 1 ms boundary sweep measures at most 2.639078 m/s wheel-center speed, 2.061831 m/s chassis speed and 0.004497 rad wheel-angle change per sample through contact kinks. The endpoint pauses the clock with movement still authored; it is not a vehicle braking maneuver.
+
+Actual rendered tire meshes penetrate sampled support by at most **0.988 mm**. Their maximum geometric distance from ideal circular contact is **6.133 mm**, including the 20-sided tire faceting. Panel contact-location error is at most **0.175 mm**, and ground contact-location error is at most **1.505 mm** against the uploaded triangles. Dense belly-face and hull checks retain **0.427556 m** minimum clearance; the complete cannon retains **1.969899 m**. Actual tire edges retain **0.831286 m** to ramp sides. Conservative full-model boxes retain **1.055 m** same-lane separation, **0.581820 m** column clearance and **1.662416 m** road shoulder clearance. A 5.2 m sphere enclosing the full rotated model and suspension sweep retains 172.741 m / 740.511 m margins to cover / service equipment. No environmental exclusion or geometry change was needed.
+
+Each LAV has eight bounded dust slots, a 0.18 s birth interval and 1.35 s lifetime. Births use actual ground-contacting tire origins and the existing land mask; deck-only motion emits none. Tire phases, poses, suspension, dust, fans and water reconstruct from absolute time. Shared geometry/materials are owned once and disposed once; static world layouts acquire no timeline subscription.
+
+### Direct joins and preserved history
+
+Both lanes continue from the settled ramps onto the initial 10 m roads: west `road_beach_exit`, [4300,-2920] → [4250,-2700], and east `road_beach_access_east`, [5450,-2860] → [5550,-2680]. The road origins remain under the craft; vehicles enter at the forward ramp station. No immediate centerline merge or apron detour is authored.
+
+Only the two LAV path blocks and landing narrative chapters 18/23/28 are clarified. Original optional apron-to-beach service connectors retain every coordinate and their direction/purpose is explicit. Both path IDs and all four event records remain unchanged. This is the specified Stage 5C reference clarification; the approved 2026-10-09 map/contact solution remains intact.
+
+The immutable pre-edit `stage5bPreservation.json` captures 1,554 timestamps, complete landing snapshots/hashes, all 47 old events, old actors/weapons, support samples, geometry attributes and environmental layouts from commit `2a3fffc`. LCACs are compared in full throughout; every old payload field is compared before its own departure, with immutable identity/faction/model/manifest/condition fields protected afterward. Older projections omit only additive state/events and never forge old LAV poses. Original fixtures and all old terrain/road/coast geometry, cover/equipment/wear and the established 37-record foam layout retain exact bytes or values.
+
+Fresh validation found that the existing Stage 5A capture's literal checksum assertion disagreed with its committed Stage 5B bytes. The fixture itself matches `2a3fffc` exactly. Its test now compares exact bytes to that fixed Git blob; no fixture or captured world/environment hash was rewritten. Reference tests normalize only the specified path blocks/landing chapters back to their captured text and retain whole-file coverage, with positive direct-join assertions.
+
+`SCRIPTED_DURATION_SECONDS = 180` controls active store/clamp/seek/quantization/slider/keyboard/labels. Historical 48/172/176 constants and frozen Stage 1 APIs remain intact. Wasp uses a valid terminal tangent at 180; old poses through 176 stay exact. Existing F-35/Molniya continuation, support withdrawal, losses, fire/smoke, water and machinery remain finite and coherent through the final four seconds. No attack is replayed or departed aircraft resurrected.
+
+### Fresh verification and renderer evidence
+
+Both TypeScript no-emit checks, lint with the same 19 existing warnings, **421 tests across 37 files** at `--maxWorkers=2`, and `git diff --check` pass. Original timeout limits remain. The final default suite also passes with the ignored review directory temporarily absent; optional measurement export is enabled only by `CINDERFRONT_STAGE5C_MEASUREMENTS=1`. Tests/browser work run separately under idle-sleep inhibition. Only touched code was formatted. No build, dependency/version change or framework upgrade ran; the user's prompt and unrelated edits remain preserved.
+
+Actual Chrome review covers both complete unloading intervals at 1×, close low-angle hinge/toe motion, every departure, ready/contact boundaries, 175.9/176/176.1 and 179.9/180, backward/repeated seeks/restart, all speeds and endpoint overshoot, paused orbit/pan/zoom, actual tire/dust/fan/GPU-water freeze, all 24 presets and 1280×720 / 1280×540 HUDs. One uninterrupted 1× T+0–180 run records 706 samples and 184.47 s wall time including development stalls/recording overhead. Older fuel, bridge, T-72, aircraft, naval and Pantsir replays were reviewed. Twenty-five paused seek checks find exact rendered root positions and at most 1.02×10⁻¹² m wheel-center error. The final console has zero JavaScript errors and only the existing Three.js Clock warning.
+
+| Matched camera / T+  | Calls before → after | Triangles before → after | Geometries before → after | Programs before → after |
+| -------------------- | -------------------: | -----------------------: | ------------------------: | ----------------------: |
+| Beach inland / 0     |        1,639 → 1,639 |        601,156 → 601,156 |               1062 → 1062 |                 30 → 30 |
+| Beach offshore / 0   |        2,174 → 2,174 |        725,680 → 725,680 |               1073 → 1073 |                 30 → 30 |
+| Pantsir 02 / 125     |        1,339 → 1,339 |        613,715 → 613,715 |                 978 → 978 |                 54 → 54 |
+| Fuel storage / 132.4 |        1,912 → 1,912 |        715,865 → 715,865 |                 978 → 978 |                 54 → 54 |
+| LCAC 01 / 159.9      |        1,441 → 1,441 |        596,186 → 596,186 |                 978 → 978 |                 55 → 55 |
+| LCAC 02 / 165.9      |        1,455 → 1,455 |        629,086 → 629,086 |                 969 → 969 |                 55 → 55 |
+| LCAC 02 / 176        |        1,400 → 1,401 |        622,062 → 628,462 |                 969 → 970 |                 55 → 55 |
+
+Measurements use Chrome / ANGLE Metal Apple M4, 1280×720, DPR 1, the same view order and 90 RAF observations per paused view. All views retain three textures. At LCAC 02/T176 the 64-slot dust pool adds one draw, 6,400 submitted triangles and one uploaded geometry; earlier matched views retain their counts. The busy fuel view at 132.4 is unchanged. After-only late fuel views at 176/179.9 both show 1,857 calls, 710,873 triangles, 1,016 geometries, three textures and 196 warmed programs. These late figures have a different shader/upload history from the matched table.
+
+Across six seek/restart/all-camera cycles, five after warm-up remain flat at **1,092 geometries at T0 / 963 at T180**, **3 textures / 195 programs**, with identical ten actor roots and all **12 landing geometry / 14 material identities**. Different active transients explain the two timestamp counts. Similar display-capped ~16.7 ms RAF cadence does not establish a GPU improvement. Local captures, chronological video sheets, recordings, logs and raw measurements are in `stage5c-review.local/README.md`.
+
+Stage 6 still owns indefinite world motion, continuing the three late unloads and the longer road routes, aftermath clock/seek semantics and further presentation/performance work. The source's eventual no-freeze aftermath requirement is unchanged. Local support tables span carrier-forward stations -12…90 m; Stage 6 must extend route/support coverage before admitting longer travel. This delivery is a bounded kinematic presentation with finite sampling tolerances and procedural models; it adds no visible humans, new combat, general AI or rigid-body simulation.
 
 ## Approved Stage 5B decision — 2026-10-09
 
 The human selected: nearer offshore staging, revised terminal routes and local shoreline slopes, preserving the key event times. This supersedes the pending choice among cinematic compression, nearer staging and longer transit. Do not request that same decision again.
 
-The English implementation prompt in `prompt.md` defines the authorized package:
+The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The current `prompt.md` now targets Stage 5C.
 
 - replace the LCAC staging descriptions/feature references and approach paths with nearshore holding positions in `region_e_remote_beachhead`;
 - preserve departure at T+110, final-nearshore gates at T+140/T+148 and beaching at T+155/T+162, along with all official event IDs and other timestamps;
-- explicitly interpret the two existing shallow-event IDs as final-nearshore approach gates, using the proposed `enter_final_nearshore_approach` code and synchronized authoritative narrative/adapter wording; actual broad shallow-polygon occupancy remains an independently sampled geometric fact;
+- explicitly interpret the two existing shallow-event IDs as final-nearshore approach gates, using the now-implemented `enter_final_nearshore_approach` code and synchronized authoritative narrative/adapter wording; actual broad shallow-polygon occupancy remains an independently sampled geometric fact;
 - keep beach centers [4300,-2920] and [5450,-2860], sea level, broad water polygons, vehicle dimensions, existing actors and unrelated map/scenario data unchanged;
 - grade only the two landing contact footprints, using one consistent rendered/contact surface with continuous approach, skirt seating and ramp contact; review only the associated local reservations and visual masks.
 
-The prompt supplies seed holding positions [4250,-3720] and [5380,-3740], with raw final-route lengths of approximately 806.210 m and 893.642 m. These seed lengths are retained as the approved authoring input; the actual smoothed routes and measured envelopes are recorded in the completion section below. Local grading must preserve the original terrain and environmental values outside explicitly bounded landing footprints.
+The Stage 5B prompt supplied seed holding positions [4250,-3720] and [5380,-3740], with raw final-route lengths of approximately 806.210 m and 893.642 m. These seed lengths are retained as the approved authoring input; the actual smoothed routes and measured envelopes are recorded in the completion section below. Local grading preserves the original terrain and environmental values outside explicitly bounded landing footprints.
 
-Stage 5B is **COMPLETE**: two LCACs, eight persistent embarked LAV-25 identities, five added events (42 → 47), and the unchanged T+176 runtime. Unloading, the four remaining events and the T+180 endpoint belong to Stage 5C. The earlier Stage 5A audit calculations remain labeled as historical inputs.
+Stage 5B completed two LCACs, eight persistent embarked LAV-25 identities and five events (42 → 47) at its original T+176 endpoint. Stage 5C subsequently completed unloading motion, the four final events and T+180 integration as recorded above. Earlier Stage 5A audit calculations remain historical inputs.
 
 ## Completed Stage 5B — 2026-10-14
 
-Stage 5B is COMPLETE. Parent Stage 5 is IN PROGRESS; Stage 5C and Stage 6 remain PLANNED. The scoped viewer contains 47 official events and stops at T+176. All eight LAV-25s stay embarked, including at the future T+160/T+166/T+176 event times.
+At the Stage 5B delivery, that round was COMPLETE while parent Stage 5 was IN PROGRESS and Stage 5C/6 were PLANNED. Its recorded 47-event viewer stopped at T+176 with all eight LAV-25s embarked. These are the historical Stage 5B results; current Stage 5C deployment is recorded above.
 
 ### Roster, geometry and attachments
 
@@ -93,7 +160,7 @@ Chrome / ANGLE Metal Apple M4, 1280×720, DPR 1, same four presets/times and sam
 
 Visible landing models increase the beach-inland view by 488 calls / 103,309 triangles. The other three views add 90–92 calls and 87,925–96,821 triangles, including global shadow and local terrain refinement work. This is a measurable rendering cost; similar display-capped RAF cadence does not establish a GPU speed improvement. Across six broader camera/seek/restart cycles, five after warm-up hold 1,087 geometries at T0 / 958 at T176, three textures and 89 programs, with identical ten actor IDs and all 11 new shared geometry / 13 material identities. Different active effects and upload histories explain why these warmed counts are separate from the matched four-view table.
 
-This remains an authored hovercraft presentation envelope with faceted procedural models and planar water contact, rather than a fluid/buoyancy/rigid-body simulation. Renderer counts include submitted main/shadow work; RAF cadence is display-capped development evidence, not GPU timing or a cross-device guarantee. Stage 5C must implement staggered continuous carrier/ramp/ground transfer, independent LAV wheel travel/dust, both inland routes, `lav_group_01_disembark` (160), `lav_group_02_disembark` (166), `lav_inland_spread` (176), and `scripted_phase_complete` (180), with full-operation verification. Stage 6 still owns indefinite aftermath.
+This remains an authored hovercraft presentation envelope with faceted procedural models and planar water contact, rather than a fluid/buoyancy/rigid-body simulation. Renderer counts include submitted main/shadow work; RAF cadence is display-capped development evidence, not GPU timing or a cross-device guarantee. Stage 5B deferred continuous carrier/ramp/ground transfer, independent LAV wheel travel/dust, both inland routes and the four final events to Stage 5C; those items and full-operation verification are now complete above. Stage 6 still owns indefinite aftermath.
 
 ## Sources and measurement method
 
@@ -117,9 +184,9 @@ Region/contact crossings were sampled at 1 m stations and refined with bisection
 
 ## Official event coverage
 
-All event IDs and official timestamps remain unchanged in the adapter. Existing arrays contain 12 Stage 1, 15 Stage 3, five Stage 4B, four Stage 4B.2B and four Stage 4B.2C events: 40 total. Stage 5A contributes two Pantsir events and Stage 5B five LCAC events: **47 implemented, four outstanding, 51 official**. The T+176 inland event remains outstanding even though 176 is the current endpoint.
+All event IDs and official timestamps remain unchanged in the adapter. Existing arrays contain 12 Stage 1, 15 Stage 3, five Stage 4B, four Stage 4B.2B and four Stage 4B.2C events: 40 total. Stage 5A contributes two Pantsir events and Stage 5B five LCAC events: **47 implemented at the Stage 5B delivery**. Stage 5C adds the four final records at 160/166/176/180, bringing current coverage to **51 implemented, zero outstanding**; 176 is now in range and 180 is the finite endpoint.
 
-| T+ seconds | Official event ID                       | Coverage after Stage 5B  |
+| T+ seconds | Official event ID                       | Coverage after Stage 5C  |
 | ---------: | --------------------------------------- | ------------------------ |
 |          0 | `scenario_begin`                        | Implemented: Stage 1     |
 |          1 | `wasp_offshore_underway`                | Implemented: Stage 1     |
@@ -162,16 +229,16 @@ All event IDs and official timestamps remain unchanged in the adapter. Existing 
 |        150 | `defender_armored_reinforcement_move`   | Implemented: Stage 4B    |
 |        155 | `lcac_01_beach`                         | Implemented: Stage 5B    |
 |        158 | `t72_lead_destroyed`                    | Implemented: Stage 4B    |
-|        160 | `lav_group_01_disembark`                | Outstanding: Stage 5C    |
+|        160 | `lav_group_01_disembark`                | Implemented: Stage 5C    |
 |        162 | `lcac_02_beach`                         | Implemented: Stage 5B    |
 |        163 | `t72_survivors_withdraw`                | Implemented: Stage 4B    |
 |        165 | `talwar_severe_list`                    | Implemented: Stage 3     |
-|        166 | `lav_group_02_disembark`                | Outstanding: Stage 5C    |
+|        166 | `lav_group_02_disembark`                | Implemented: Stage 5C    |
 |        170 | `aircraft_egress`                       | Implemented: Stage 4B.2B |
 |        172 | `molniya_open_water`                    | Implemented: Stage 3     |
 |        174 | `rescue_convoy_abandon_approach`        | Implemented: Stage 4B.2C |
-|        176 | `lav_inland_spread`                     | Outstanding: Stage 5C    |
-|        180 | `scripted_phase_complete`               | Outstanding: Stage 5C    |
+|        176 | `lav_inland_spread`                     | Implemented: Stage 5C    |
+|        180 | `scripted_phase_complete`               | Implemented: Stage 5C    |
 
 The adapter renames `at_s` → `atSeconds`, `local_time` → `localTime`, `path_id` → `pathId`, `effect_profile` → `effectProfile`, and `resulting_state` → `resultingState`. Source `entity` becomes `actorId` or the actor family's `groupId`; plural `entities` stays `entities`. Source target entity/map feature/map region becomes `targetId`, except support route damage uses `targetFeatureId`. Source attribution is `actorId` for the older strike records, with the damaged source `entity` represented by `targetId`; the T-72 strike instead uses explicit `sourceActorId` and a concrete lead-vehicle `targetId`. Stage 5A uses `actorId: defender_pantsir_02` for the affected vehicle and `sourceAircraftId: attacker_f35_01` for its destruction source. These are adapter conventions, not new official events.
 
@@ -186,9 +253,11 @@ Four existing support event codes differ in wording from the authority; their ID
 | `rescue_route_secondary_hit`     | `roadside_secondary_explosion_blocks_route`          | `unattributed_secondary_explosion_blocks_bridge_approach` |
 | `rescue_convoy_abandon_approach` | `stop_advance_and_begin_partial_withdrawal`          | `abandon_approach_and_begin_partial_withdrawal`           |
 
-Future plural `path_ids` needs a focused `pathIds` adapter. Keep the official T+180 ID **`scripted_phase_complete`** and code **`enter_aftermath_observation`** exactly; it is not an actor-destruction or global-freeze event.
+Plural `path_ids` now uses the focused `pathIds` adapter. Keep the official T+180 ID **`scripted_phase_complete`** and code **`enter_aftermath_observation`** exactly; it is not an actor-destruction or global-freeze event.
 
-## LCAC distance, timing and coastal contact
+## Historical Stage 5A LCAC distance, timing and coastal-contact audit
+
+The following raw-route/vertical-wall estimates describe the pre-approval Stage 5A source. The completed Stage 5B routes, grades and measured contact behavior above supersede those inputs.
 
 | Route                           | Raw length m | Rounded candidate m | Transit window | Raw mean m/s | Rounded mean m/s |
 | ------------------------------- | -----------: | ------------------: | -------------- | -----------: | ---------------: |
@@ -216,9 +285,9 @@ At T+140, constant-speed west transit is still at [1527.138, -3645.929], outside
 
 The original centerlines stay outside mainland until their final segments. First center contact is [3902.941, -3078.824] west and [5388.112, -2920.513] east. The following **427.645/86.556 m** of route is on mainland before the final [4300, -2920]/[5450, -2860] beaching centers. At constant transit speed, center contact occurs at T+152.771/T+161.534; full-craft corners contact 28.636/23.813 m earlier. There is no earlier mainland crossing, but the last segment is already a water-to-land traverse, not pure water until the final point.
 
-Sea is the unchanged -0.12 m plane. Rendered terrain at first contact is 4.633/4.447 m; final centers are 4.492/4.268 m. `createCoastSkirtGeometry` fills the coast vertically down to -3 m. Thus the present beach has a roughly 4.6–4.8 m vertical water/land edge. Normal-only Stage 4C waves provide no physical slope, buoyancy or shore ramp. A craft cannot retain a sea-level skirt and pass through that wall or silently jump to the land sampler. A narrowly scoped approved contact-grade correction, or an explicitly documented nonphysical visual contact bridge, is required before claiming a grounded landing. Preserve existing land elevation/road behavior outside the landing contact footprint.
+Sea is the unchanged -0.12 m plane. Rendered terrain at first contact is 4.633/4.447 m; final centers are 4.492/4.268 m. `createCoastSkirtGeometry` fills the coast vertically down to -3 m. Thus the beach at that audit had a roughly 4.6–4.8 m vertical water/land edge. Normal-only Stage 4C waves provide no physical slope, buoyancy or shore ramp. A craft cannot retain a sea-level skirt and pass through that wall or silently jump to the land sampler. A narrowly scoped approved contact-grade correction, or an explicitly documented nonphysical visual contact bridge, is required before claiming a grounded landing. Preserve existing land elevation/road behavior outside the landing contact footprint.
 
-The LCAC starting waypoints coincide with map reference anchors for a distant support hull (west, 220 m occupancy radius) and northern escort hull (east, 240 m radius). These reference hulls are not current runtime actors, so there is no existing rendered ship collision. They cannot all occupy those positions in a later expanded roster. Current Wasp-to-staging-center distances at T+110 are about 799.936/1,249.947 m, clear of the actual Wasp hull; no Wasp movement is needed.
+The LCAC starting waypoints coincide with map reference anchors for a distant support hull (west, 220 m occupancy radius) and northern escort hull (east, 240 m radius). These reference hulls are not current runtime actors, so there is no existing rendered ship collision. They cannot all occupy those positions in a later expanded roster. Audit-time Wasp-to-original-staging-center distances at T+110 are about 799.936/1,249.947 m, clear of the actual Wasp hull; no Wasp movement is needed.
 
 ### Alternatives and recommendation
 
@@ -226,13 +295,15 @@ The LCAC starting waypoints coincide with map reference anchors for a distant su
 2. **Nearer staging and revised final approaches — recommended:** Retain T+110 departure, T+155/T+162 stops, T+160/T+166 unloading and T+176/T+180 narrative beats, but update initial staging references and LCAC approach geometry explicitly. Illustrative direct approaches from [4200, -4000] via [4300, -3100] to the current west stop, and [5400, -4000] via [5450, -2909.167] to the east stop, are 1,085.539/1,141.145 m: means 24.123/21.945 m/s before acceleration/braking. These are scale estimates, not approved paths. They require terminal heading curves, a shore-contact solution and full-clearance remeasurement. They are no longer staging near Wasp and must not retain that incorrect initial-location contract.
 3. **Revised departure/transit timing:** Keep the long geometry and use a chosen presentation cruise speed, then revise departure/arrival/shallow times together. At a 25 m/s illustrative ceiling, distance alone needs at least 345.341/386.300 s. T+110 departure implies earliest beaching about T+455/T+496, before acceleration/braking. Keeping T+155/T+162 arrival instead would require departure before T+0 (about -190/-224). This changes the three-minute sequence or requires a documented pre-script transit whose onscreen state at T+0 is already far along the route. Moving departure alone does not repair the remaining west shallow-to-stop distance in 15 s.
 
-**Authoritative decision required by the original audit, now resolved above:** A nearer direct approach crosses the existing broad shallow polygon well before T+140/T+148. The approved package preserves those times and explicitly redefines them as final-nearshore approach gates, rather than changing broad water polygons. Do not pretend the original literal `enter_shallow_water_approach` definition is unchanged. Synchronize staging, path points, event semantics, beach-contact treatment and terminal headings as one package. Retain the future T+180 endpoint ID/code. No such rewrite was authorized or applied during Stage 5A; the subsequent human approval permits the scoped Stage 5B revision, which is not yet implemented.
+**Authoritative decision required by the original audit, now resolved above:** A nearer direct approach crosses the existing broad shallow polygon well before T+140/T+148. The approved package preserves those times and explicitly redefines them as final-nearshore approach gates, rather than changing broad water polygons. Do not pretend the original literal `enter_shallow_water_approach` definition is unchanged. Synchronize staging, path points, event semantics, beach-contact treatment and terminal headings as one package. Retain the future T+180 endpoint ID/code. No such rewrite was authorized or applied during Stage 5A; the subsequent human approval permits the scoped Stage 5B revision, which was implemented and verified in Stage 5B.
 
-## Cargo, ramp and unloading feasibility
+## Historical Stage 5A cargo, ramp and unloading feasibility
+
+These were candidate feasibility calculations. Final Stage 5B packing/ramp measurements and Stage 5C contact/clearance measurements are recorded in their completion sections above.
 
 ### Roster and deck packing
 
-The exact authoritative roster is `attacker_lcac_01` carrying `attacker_lav_group_01` (four LAV-25s) and `attacker_lcac_02` carrying `attacker_lav_group_02` (four). That is two craft and eight ground vehicles, with no planned landing losses. The source defines group IDs/counts, not eight individual IDs. The Stage 5B prompt assigns persistent runtime IDs `attacker_lav_01`–`attacker_lav_04` to group 01 and `attacker_lav_05`–`attacker_lav_08` to group 02, to be reused during Stage 5C unloading.
+The exact authoritative roster is `attacker_lcac_01` carrying `attacker_lav_group_01` (four LAV-25s) and `attacker_lcac_02` carrying `attacker_lav_group_02` (four). That is two craft and eight ground vehicles, with no planned landing losses. The source defines group IDs/counts, not eight individual IDs. Stage 5B assigned persistent runtime IDs `attacker_lav_01`–`attacker_lav_04` to group 01 and `attacker_lav_05`–`attacker_lav_08` to group 02, reused during the completed Stage 5C unloading.
 
 LCAC dimensions are **26.4 × 14.3 × 7.2 m**, with a **20.4 × 8.2 m** open deck. LAV hull dimensions are **6.39 × 2.50 × 2.69 m**; the source width is hull width and the cannon is excluded from the length anchor. Four bare hull footprints use 63.9 m² of the 167.28 m² deck. Area alone does not prove egress.
 
@@ -267,7 +338,7 @@ With modest 4–6 m/s beach travel after ramp clearance, early vehicles can begi
 
 `path_lav_inland_west.connector_waypoints_xz_m` is **[4675,-2940] → [4475,-2930] → [4300,-2920]**, length **375.535 m**. East is **[5280,-2910] → [5360,-2890] → [5450,-2860]**, length **177.330 m**. Both are stored **apron → beaching point**, opposite unloading movement toward the apron. Reverse them only if choosing that apron-bound movement.
 
-Both actual inland roads begin exactly at the LCAC beaching centers. `road_beach_exit` runs [4300,-2920] toward [4250,-2700] and has length **874.827 m**. `road_beach_access_east` runs [5450,-2860] toward [5550,-2680], length **1,001.774 m**. Both are 10 m wide. The first segments head **12.804° west of north / 29.055° east of north**. The LCAC raw final approach heads **68.199° east of north / 45.644° east of north**, differing by **81.003°/16.589°**. West especially needs a terminal alignment curve or deliberate settled turn before dropping its ramp; otherwise initial unloading points across the road.
+Both actual inland roads begin exactly at the LCAC beaching centers. `road_beach_exit` runs [4300,-2920] toward [4250,-2700] and has length **874.827 m**. `road_beach_access_east` runs [5450,-2860] toward [5550,-2680], length **1,001.774 m**. Both are 10 m wide. The first segments head **12.804° west of north / 29.055° east of north**. The original pre-Stage-5B raw LCAC approaches differed from those directions by **81.003°/16.589°**. Stage 5B resolved that mismatch with continuous terminal tangents aligned to the roads; preserve the completed headings during unloading.
 
 The apron-end connector points are 375.533/177.200 m from the closest road centerlines. A reversed connector therefore ends on the apron, not on its named inland road, and following it then teleporting to the road is invalid. Prefer short unloading fans that join each road directly near its start, preserving two groups. If the authoritative apron connectors must be traversed, explicitly author apron-to-road return/join arcs and reserve them; the west connector alone cannot be completed by T+176 at cautious ramp/beach speed. This is an integration choice to settle against the reference feature contract, not an excuse to reorder roads blindly.
 
@@ -285,21 +356,33 @@ The 100 m rounded candidates leave the original centerlines by as much as **5.66
 
 Water-side checks must include rotated corners, bow ramp in its raised configuration, spray/wake footprint and both craft at simultaneous times. Stage 4C deliberately suppresses foam along the old approach strips, wet-shore bands near their contacts, and wear inside current landing reservations. New staging/approaches need corresponding narrowly scoped visual-mask review. Keep the water sampler's absolute-time normals and mean level, existing wakes/pollution/render ordering, industrial damage and environmental regression values intact.
 
-## Focused integration and endpoint contract
+## Completed integration and endpoint contract
 
-Stage 5B should introduce focused landing-craft state/types and absolute-time paths, not a generic vehicle/physics framework. State should separate holding/transit/shallow/beaching/ramp activity from physical condition and outcome, with signed travel, fan phase, skirt compression, ramp angle, settled pose and fixed cargo-local transforms. Reuse common path/ground sampling and shared LCAC geometry/materials; one prototype must serve both craft. LAV geometry can also be shared between eight instances. Own and dispose persistent resources, derive particle births/ages from authored time, and avoid per-frame resource creation or mount-history accumulation.
+Focused landing types separate activity from physical condition and outcome. Stage 5B established the two craft and eight persistent payload IDs; Stage 5C reuses them for deterministic deployment, support, signed wheel motion and bounded dust. One shared model resource owner serves the craft/payloads, with explicit particle-pool ownership and disposal. Static world layouts stay outside timeline subscriptions.
 
-Stage 5B should establish all eight persistent payload IDs and carrier-local attachments. Stage 5C should reuse those identities and add group deployment state, carrier-to-ramp/ground transitions, wheel travel and short authored beach-to-road paths. Keep all cargo visible before and during egress. Future camera/HUD additions should cover craft approaches and the two groups with concise phases/counts, preserving all existing camera IDs and paused spectator control. Do not add occupants, crew, figures or humanoid silhouettes; use dark sealed optics, machinery and vehicle motion only.
+Adapter progression is 42 → 47 → **51**. `SCRIPTED_DURATION_SECONDS` admits T+176 inland spread and T+180 `scripted_phase_complete` / `enter_aftermath_observation`. The finite store pauses and seeks clamp at 180. Historical constants and frozen APIs remain intact. The interface explicitly marks aftermath as pending Stage 6, while paused spectator movement and backseek remain available.
 
-Adapter progression is **42 → 47** when Stage 5B adds the five departure/shallow/beach events, then **47 → 51** when Stage 5C adds two disembark events, inland spread and endpoint. Stage 5B need not extend the 176-second runtime. Stage 5C must admit `lav_inland_spread` at exactly 176, extend clamping/slider/local-time/event APIs to 180, and test `scripted_phase_complete` at exactly 180. Preserve older stage-specific clamping APIs and immutable fixtures through their old endpoint; project only explicitly additive state/events when comparing them. Add new baselines for completed Stage 4B.2C/4C/5A behavior rather than regenerating old hashes.
+All older preservation fixtures remain unchanged. The Stage 5C baseline protects complete LCAC state and each pre-departure payload alongside older actors/weapons; it does not omit the landing object. Geometry/support/environment hashes retain the completed Stage 5B solution. Only additive events/deployment fields, post-departure LAV mechanics, the specified source clarification and the new final interval are admitted.
 
-Stage 5A's additive preservation contract is concrete: `src/simulation/fixtures/stage4cPreservation.json` records the completed `6fb70b6` world at 815 timestamps before actor integration, all 40 old event records/weapons, Stage 4C seeded layouts and coastal samples. `stage5aPreservationProjection.ts` excludes only the added top-level `secondaryPantsir` state and the two new event IDs; it retains the support convoy and every old weapon. Future rounds must retain those values and capture Stage 5A's actor as another preserved baseline. The approved Stage 5B contact grades/local masks are narrow environmental exceptions: retain original fixture bytes, enumerate allowed local record/height changes, and prove exact exterior equality. A whole-layout hash may be replaced only by stronger scoped before/after assertions, not by regenerating fixtures or suppressing environmental coverage. Old actor/weapon fields and broad coastal sampler values stay exact. The new Pantsir's terminal-only T+121 strike is a bounded visual presentation choice with authoritative `attacker_f35_01` attribution, not evidence that every longer preserved-flight-path solution is impossible.
-
-Current `createSimulationStore` stops playback at `SIMULATION_DURATION_SECONDS`, and `clampSimulationTime` clamps derivations there. Stage 5A remains at 176; there is no active indefinite aftermath implementation. Stage 5C must define whether its delivery pauses at 180 with a truthful pending-aftermath status or includes a separately scoped continuous clock handoff. The authority's `enter_aftermath_observation` and “no global freeze” describe the eventual full-operation contract; claiming that behavior requires an actual independent runtime clock with scripted progress capped at 180 while ongoing machinery, smoke, fire, withdrawal and incomplete unloading continue. Indefinite Stage 6 aftermath requires its own deterministic extrapolation, seek/reset behavior and camera/resource acceptance. Do not implement it implicitly by removing every clamp or looping the scripted events.
+The authoritative eventual no-freeze aftermath contract remains unchanged. Stage 6 must provide continued world motion and longer routes, with deliberate runtime/scripted-progress clock and seek/reset semantics; removing clamps alone is insufficient.
 
 ## Stage 5C decisions and retained acceptance gates
 
-The nearer-staging/local-grading choice is approved and its narrowly scoped reference package is implemented above, with synchronized staging/route/final-nearshore meanings, measured contact geometry, stop headings and payload/ramp clearance. Do not expand this authorization to unrelated actors, chronology, broad coastlines or map scaling. Stages 5A and 5B are complete. The Stage 5B criteria below are retained as the completed acceptance record; Stage 5C implementation and acceptance remain outstanding.
+### Historical Stage 5C implementation contract — 2026-10-15
+
+`prompt.md` now targets Stage 5C from completed commit `2a3fffc`. This paragraph records the preparation-only update; completed implementation and fresh verification are now recorded above. The starting baseline is 393 recorded passing tests, 47 events, 22 cameras and a T+176 endpoint.
+
+Use the existing eight payload IDs and a candidate per-group departure stagger [0,3,6,9] seconds. Keep leader starts at T+160/T+166, verify ramp readiness at T+158.8/T+165.2, and measure actual clearance times. Both group leaders must be clear and beginning inland advance at T+176. Report individual deck/ramp/ground states at 180; late unloading can continue in Stage 6.
+
+Select direct joins from the two ramp lanes to `road_beach_exit` / `road_beach_access_east`. In the two LAV path blocks and affected landing narrative, distinguish these scripted joins from the existing optional apron/service connectors, retaining those original coordinates and documenting their apron-to-beach direction. This is a scoped Stage 5C reference clarification, not a new human-approved map redesign. Preserve all event records, map geometry, completed LCAC routes/contact grades and environmental layouts; keep historical fixture bytes and normalize only the identified source edits in reference comparisons.
+
+Use actual deck/ramp/ground surfaces and the rendered wheel radius. The 0.12 m panel's underside contact does not make its top flush with the beach: tires need continuous finite-radius hinge/toe contact and bounded suspension while axles span different surfaces. Reuse one visible instance per ID and the shared models; changing attachment must not duplicate, hide or teleport a vehicle. Protect full LCAC histories and each LAV's pre-departure state in a new Stage 5B baseline instead of excluding the entire landing object.
+
+The finite endpoint decision is recorded above. The 2026-10-15 preparation update did not implement deployment. Verified delivery on 2026-10-17 now completes Stage 5C and parent Stage 5 for scripted operation through T+180; Stage 6 remains planned.
+
+### Acceptance records
+
+The nearer-staging/local-grading choice is approved and its narrowly scoped reference package is implemented above, with synchronized staging/route/final-nearshore meanings, measured contact geometry, stop headings and payload/ramp clearance. Do not expand this authorization to unrelated actors, chronology, broad coastlines or map scaling. Stages 5A and 5B are complete. The Stage 5B criteria below are retained as the completed acceptance record; Stage 5C implementation and acceptance are now complete as measured above.
 
 Stage 5B acceptance (completed above):
 
@@ -310,12 +393,12 @@ Stage 5B acceptance (completed above):
 5. Exactly five added official events, total 47, 176-second scope; existing actor paths, damage, source attribution, fixture bytes, broad Stage 4C coastal samplers and Stage 5A lifecycle preserved. Approved route/contact changes are enumerated, with exact environmental equality outside the fixed local footprints.
 6. Continuous 1× approach/beaching inspection, required boundary seeks, pause/orbit/pan/zoom, restart/backseek/all speeds, all cameras/short HUD, matched renderer statistics and repeated resource stability. Report only checks actually performed.
 
-Stage 5C acceptance:
+Stage 5C acceptance (completed above):
 
 1. Exactly eight persistent vehicle identities, two four-vehicle groups, staggered departure and continuous deck/ramp/beach/road motion with all wheels grounded.
 2. T+160/T+166 begin unloading; T+176 visibly begins two-route spread. Report which vehicles remain aboard/on ramps at T+180; do not force all to complete long inland paths.
-3. Explicit connector orientation and apron-versus-direct-road joining choice, safe inter-vehicle separation and full turns/sweeps without generalized pathfinding.
-4. All 51 IDs/times represented, T+180 `scripted_phase_complete`/`enter_aftermath_observation` retained, complete three-minute playback, and an honest Stage 5/6 endpoint handoff contract.
+3. Direct road joins with explicit source clarification, preserved optional apron connector coordinates, safe inter-vehicle separation and full turns/sweeps without generalized pathfinding.
+4. All 51 IDs/times represented, T+180 `scripted_phase_complete`/`enter_aftermath_observation` retained, complete three-minute playback, and an explicitly paused endpoint with indefinite aftermath pending Stage 6.
 5. Full automated and actual browser regression/resource verification, with old immutable values preserved and any endpoint-specific new behavior documented separately.
 
-The original candidate calculations and completed Stage 5B verification are retained together. Stage 5C unloading/full-timeline verification and Stage 6 aftermath remain future work.
+The original candidate calculations and completed Stage 5B verification are retained together. Stage 5C unloading/full-timeline verification is complete; Stage 6 aftermath remains future work.

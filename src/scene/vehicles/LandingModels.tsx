@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
 
-import type { LandingCraftState } from '@/simulation/landingCraftTypes'
+import type { EmbarkedLavState, LandingCraftState, LandingWorldState, LavWheelState } from '@/simulation/landingCraftTypes'
 
 import { LCAC_RAMP, LAV_DIMENSIONS } from '@/simulation/landingCraftData'
 
 import type { LandingModelResources } from './landingModelResources'
 
-export function Lav25Model({ resources }: { resources: LandingModelResources }) {
+export function Lav25Model({ resources, wheels }: { resources: LandingModelResources; wheels?: readonly LavWheelState[] }) {
   const { geometry: g, material: m } = resources
   return (
     <group name="lav25-model" dispose={null}>
@@ -21,18 +21,52 @@ export function Lav25Model({ resources }: { resources: LandingModelResources }) 
       {[-1, 1].map((side) => (
         <group key={side}>
           <mesh geometry={g.box} material={m.lavDark} position={[side * 1.17, 1.07, 0.3]} scale={[0.15, 0.1, 5.35]} />
-          {LAV_DIMENSIONS.axleZ.map((z, axle) => (
-            <group key={axle} name={`lav25-wheel-${side}-${axle}`} position={[side * LAV_DIMENSIONS.wheelCentersX, LAV_DIMENSIONS.wheelRadius, z]}>
-              <mesh geometry={g.wheel} material={m.tire} rotation={[0, 0, Math.PI / 2]} castShadow />
-              <mesh geometry={g.cylinder} material={m.lavDark} rotation={[0, 0, Math.PI / 2]} scale={[0.23, 0.34, 0.23]} />
-              <mesh name="lav25-wheel-marker" geometry={g.box} material={m.metal} position={[side * 0.165, 0.27, 0]} scale={[0.012, 0.16, 0.045]} />
-            </group>
-          ))}
+          {LAV_DIMENSIONS.axleZ.map((z, axle) => {
+            const wheel = wheels?.find((w) => w.side === side && w.axle === axle)
+            return (
+              <group key={axle} name={`lav25-wheel-${side}-${axle}`} position={[side * LAV_DIMENSIONS.wheelCentersX, LAV_DIMENSIONS.wheelRadius + (wheel?.suspensionMeters ?? 0), z]} rotation={[0, wheel?.steeringRadians ?? 0, 0]}>
+                <group name="lav25-wheel-roll" rotation={[wheel?.rotationRadians ?? 0, 0, 0]}>
+                  <mesh geometry={g.wheel} material={m.tire} rotation={[0, 0, Math.PI / 2]} castShadow />
+                  <mesh geometry={g.cylinder} material={m.lavDark} rotation={[0, 0, Math.PI / 2]} scale={[0.23, 0.34, 0.23]} />
+                  <mesh name="lav25-wheel-marker" geometry={g.box} material={m.metal} position={[side * 0.165, 0.27, 0]} scale={[0.012, 0.16, 0.045]} />
+                </group>
+              </group>
+            )
+          })}
           <mesh geometry={g.box} material={m.glass} position={[side * 0.87, 1.32, -2.65]} scale={[0.21, 0.1, 0.04]} />
         </group>
       ))}
       <mesh geometry={g.box} material={m.lavDark} position={[0.7, 1.69, 1.8]} scale={[0.63, 0.08, 1.45]} />
       <mesh name="lav25-driver-hatch-closed" geometry={g.cylinder} material={m.lavDark} position={[-0.65, 1.7, -1.55]} scale={[0.28, 0.08, 0.28]} />
+    </group>
+  )
+}
+
+/** One stable world-space root per ID throughout every support transition. */
+export function LandingPayloadModel({ payload, resources }: { payload: EmbarkedLavState; resources: LandingModelResources }) {
+  const { position: p, rotation: r } = payload.pose
+  return (
+    <group name={payload.id} position={[p.x, p.y, p.z]} rotation={[r.x, r.y, r.z, 'YXZ']}>
+      <Lav25Model resources={resources} wheels={payload.wheels} />
+    </group>
+  )
+}
+
+export function LandingVehicleModels({ landing, resources }: { landing: LandingWorldState; resources: LandingModelResources }) {
+  return (
+    <group name="landing-vehicle-models">
+      {landing.orderedCraftIds.map((id) => {
+        const craft = landing.crafts[id],
+          { position: p, rotation: r } = craft.pose
+        return (
+          <group key={id} name={id} position={[p.x, p.y, p.z]} rotation={[r.x, r.y, r.z, 'YXZ']}>
+            <LcacModel mechanics={craft.mechanics} resources={resources} />
+          </group>
+        )
+      })}
+      {landing.orderedPayloadIds.map((id) => (
+        <LandingPayloadModel key={id} payload={landing.payload[id]} resources={resources} />
+      ))}
     </group>
   )
 }

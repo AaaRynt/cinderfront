@@ -657,20 +657,42 @@ spatial_references:
       map_feature_ids:
         - 'beach_exit_apron'
         - 'road_beach_exit'
+      connector_direction: 'apron_to_beach'
+      connector_purpose: 'optional_service_access; not the scripted unloading traversal'
       connector_waypoints_xz_m:
         - [4675, -2940]
         - [4475, -2930]
         - [4300, -2920]
+      scripted_traversal: 'direct_ramp_lanes_to_initial_road_segment'
+      origin_carrier_entity_id: 'attacker_lcac_01'
+      road_id: 'road_beach_exit'
+      direct_join:
+        carrier_local_lane_centers_x_m: [-1.8, 1.8]
+        carrier_forward_axis: 'negative_z'
+        road_origin_xz_m: [4300, -2920]
+        road_next_xz_m: [4250, -2700]
+        strategy: 'continue both settled ramp lanes onto the forward road station; no return to waypoint zero or apron'
 
     - id: 'path_lav_inland_east'
       type: 'ground_vehicle_path'
       map_feature_ids:
         - 'beach_exit_apron'
         - 'road_beach_access_east'
+      connector_direction: 'apron_to_beach'
+      connector_purpose: 'optional_service_access; not the scripted unloading traversal'
       connector_waypoints_xz_m:
         - [5280, -2910]
         - [5360, -2890]
         - [5450, -2860]
+      scripted_traversal: 'direct_ramp_lanes_to_initial_road_segment'
+      origin_carrier_entity_id: 'attacker_lcac_02'
+      road_id: 'road_beach_access_east'
+      direct_join:
+        carrier_local_lane_centers_x_m: [-1.8, 1.8]
+        carrier_forward_axis: 'negative_z'
+        road_origin_xz_m: [5450, -2860]
+        road_next_xz_m: [5550, -2680]
+        strategy: 'continue both settled ramp lanes onto the forward road station; no return to waypoint zero or apron'
 
 effect_profiles:
   radar_position_hit:

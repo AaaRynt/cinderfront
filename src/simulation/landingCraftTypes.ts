@@ -16,20 +16,58 @@ export interface Stage5BEvent {
   readonly pathIds?: readonly LandingPathId[]
   readonly resultingState?: 'beached_ramp_lowered'
 }
+export type LavPathId = 'path_lav_inland_west' | 'path_lav_inland_east'
+export type Stage5CEvent =
+  | { readonly id: 'lav_group_01_disembark' | 'lav_group_02_disembark'; readonly atSeconds: number; readonly localTime: string; readonly event: 'begin_disembarkation'; readonly groupId: LavGroupId; readonly pathId: LavPathId; readonly track: 'track_remote_beach' }
+  | { readonly id: 'lav_inland_spread'; readonly atSeconds: 176; readonly localTime: '05:29:56'; readonly event: 'first_lav_vehicles_spread_into_two_inland_access_paths'; readonly entities: readonly LavGroupId[]; readonly pathIds: readonly LavPathId[]; readonly track: 'track_remote_beach' }
+  | { readonly id: 'scripted_phase_complete'; readonly atSeconds: 180; readonly localTime: '05:30:00'; readonly event: 'enter_aftermath_observation'; readonly track: 'track_environment' }
+export interface LavWheelState {
+  readonly side: -1 | 1
+  readonly axle: number
+  readonly suspensionMeters: number
+  readonly steeringRadians: number
+  readonly travelMeters: number
+  readonly rotationRadians: number
+  readonly center: Vector3
+  readonly contact: Vector3
+  readonly surface: 'deck' | 'ramp' | 'ground'
+}
 export interface EmbarkedLavState {
   readonly id: LavId
   readonly groupId: LavGroupId
+  /** Immutable manifest/origin, distinct from physical attachment below. */
   readonly carrierId: LcacId
   readonly factionId: 'landings_attacker'
   readonly vehicleType: 'LAV-25'
-  readonly activity: 'embarked'
+  readonly activity: 'embarked' | 'deck-transit' | 'ramp-transit' | 'beach-clearance' | 'inland-advance'
   readonly condition: 'operational'
   readonly outcome: 'active'
   readonly localPose: Pose3
   readonly pose: Pose3
-  readonly wheelTravelMeters: 0
-  readonly wheelRotationRadians: 0
-  readonly dustIntensity: 0
+  readonly wheelTravelMeters: number
+  readonly wheelRotationRadians: number
+  readonly dustIntensity: number
+  readonly departureAtSeconds: number
+  readonly pathId: LavPathId
+  readonly roadId: 'road_beach_exit' | 'road_beach_access_east'
+  readonly attachedToCarrierId: LcacId | null
+  readonly occupancy: 'embarked' | 'transferring' | 'ashore'
+  readonly support: 'deck' | 'ramp' | 'mixed' | 'ground'
+  readonly pathDistanceMeters: number
+  readonly speedMetersPerSecond: number
+  readonly accelerationMetersPerSecondSquared: number
+  readonly rampClearanceMeters: number
+  readonly wheels: readonly LavWheelState[]
+  readonly dust: readonly LandingParticle[]
+}
+export interface LavGroupState {
+  readonly id: LavGroupId
+  readonly payloadIds: readonly LavId[]
+  readonly activity: 'embarked' | 'unloading' | 'inland-advance' | 'deployed'
+  readonly embarkedCount: number
+  readonly transferringCount: number
+  readonly ashoreCount: number
+  readonly operationalCount: 4
 }
 export interface LandingParticle {
   readonly id: string
@@ -79,7 +117,10 @@ export interface LandingWorldState {
   readonly crafts: Readonly<Record<LcacId, LandingCraftState>>
   readonly orderedPayloadIds: readonly LavId[]
   readonly payload: Readonly<Record<LavId, EmbarkedLavState>>
-  readonly embarkedCount: 8
+  readonly groups: Readonly<Record<LavGroupId, LavGroupState>>
+  readonly embarkedCount: number
+  readonly transferringCount: number
+  readonly ashoreCount: number
   readonly operationalCraftCount: 2
   readonly operationalPayloadCount: 8
 }

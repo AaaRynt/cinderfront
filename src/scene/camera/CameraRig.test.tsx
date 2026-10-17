@@ -50,6 +50,10 @@ function propsAt(time: number): ComponentProps<typeof CameraRig> {
     supportFramingScale: 1,
     secondaryPantsirPosition: [position.x, position.y, position.z],
     secondaryPantsirYawRadians: world.secondaryPantsir.pose.rotation.y,
+    lavWestPosition: Object.values(world.landing.payload.attacker_lav_01.pose.position) as [number, number, number],
+    lavWestYawRadians: world.landing.payload.attacker_lav_01.pose.rotation.y,
+    lavEastPosition: Object.values(world.landing.payload.attacker_lav_05.pose.position) as [number, number, number],
+    lavEastYawRadians: world.landing.payload.attacker_lav_05.pose.rotation.y,
     lcacWestPosition: [world.landing.crafts.attacker_lcac_01.pose.position.x, world.landing.crafts.attacker_lcac_01.pose.position.y, world.landing.crafts.attacker_lcac_01.pose.position.z],
     lcacWestYawRadians: world.landing.crafts.attacker_lcac_01.pose.rotation.y,
     lcacEastPosition: [world.landing.crafts.attacker_lcac_02.pose.position.x, world.landing.crafts.attacker_lcac_02.pose.position.y, world.landing.crafts.attacker_lcac_02.pose.position.z],
@@ -67,6 +71,30 @@ beforeEach(() => {
 afterEach(cleanup)
 
 describe('LCAC spectator follow', () => {
+  it.each(['lav-west', 'lav-east'] as const)('keeps a stable lead anchor and free paused controls through all attachment changes for %s', (preset) => {
+    useCameraStore.getState().requestPreset(preset)
+    const id = preset === 'lav-west' ? 'attacker_lav_01' : 'attacker_lav_05'
+    const view = render(<CameraRig {...propsAt(0)} />)
+    const start = deriveSimulationWorldState(0).landing.payload[id].pose.position
+    const origin = new Vector3(start.x, start.y, start.z)
+    expect(harness.controls!.target.distanceTo(origin)).toBeLessThan(1e-9)
+    harness.camera!.position.add(new Vector3(3, 2, -1))
+    harness.controls!.target.add(new Vector3(1, 0.5, 0))
+    const cameraDistance = harness.camera!.position.distanceTo(origin),
+      targetDistance = harness.controls!.target.distanceTo(origin)
+    for (const time of [159.9, 160, 160.1, 163.15, 165.2, 165.9, 166, 166.1, 168.2, 174.175, 175.9, 176, 176.1, 179.9, 180, 159.9, 0]) {
+      act(() => simulationStore.getState().seek(time))
+      view.rerender(<CameraRig {...propsAt(time)} />)
+      act(() => harness.frame!())
+      const p = deriveSimulationWorldState(time).landing.payload[id].pose.position,
+        anchor = new Vector3(p.x, p.y, p.z)
+      expect(harness.camera!.position.distanceTo(anchor)).toBeCloseTo(cameraDistance, 7)
+      expect(harness.controls!.target.distanceTo(anchor)).toBeCloseTo(targetDistance, 7)
+      const paused = harness.camera!.position.toArray()
+      for (let i = 0; i < 10; i++) act(() => harness.frame!())
+      expect(harness.camera!.position.toArray()).toEqual(paused)
+    }
+  })
   it.each(['lcac-west', 'lcac-east'] as const)('preserves paused controls and cargo framing across seeks for %s', (preset) => {
     useCameraStore.getState().requestPreset(preset)
     const view = render(<CameraRig {...propsAt(0)} />),

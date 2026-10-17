@@ -269,6 +269,10 @@ function DynamicBattlefield() {
         supportFramingScale={world.stage4b2c.camera.framingScale}
         secondaryPantsirPosition={vectorTuple(world.secondaryPantsir.pose.position)}
         secondaryPantsirYawRadians={world.secondaryPantsir.pose.rotation.y}
+        lavWestPosition={vectorTuple(world.landing.payload.attacker_lav_01.pose.position)}
+        lavWestYawRadians={world.landing.payload.attacker_lav_01.pose.rotation.y}
+        lavEastPosition={vectorTuple(world.landing.payload.attacker_lav_05.pose.position)}
+        lavEastYawRadians={world.landing.payload.attacker_lav_05.pose.rotation.y}
         lcacWestPosition={vectorTuple(world.landing.crafts.attacker_lcac_01.pose.position)}
         lcacWestYawRadians={world.landing.crafts.attacker_lcac_01.pose.rotation.y}
         lcacEastPosition={vectorTuple(world.landing.crafts.attacker_lcac_02.pose.position)}

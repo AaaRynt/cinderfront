@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import type { Btr80GroundVehicleGroupState, SimulationEvent, SimulationSpeed, T72GroundVehicleGroupState } from '@/simulation'
+import type { LavGroupState } from '@/simulation/landingCraftTypes'
 
 import { BattlefieldScene } from '@/scene/BattlefieldScene'
 import { deriveSimulationWorldState, quantizeSimulationTime, SIMULATION_DURATION_SECONDS, useSimulationStore } from '@/simulation'
@@ -49,6 +50,10 @@ const EVENT_LABELS: Readonly<Record<SimulationEvent['id'], string>> = {
   rescue_convoy_abandon_approach: 'Support convoy abandons approach · partial withdrawal',
   pantsir_02_relocate: 'Pantsir 02 begins local relocation',
   pantsir_02_destroyed: 'Pantsir 02 destroyed by F-35B 01',
+  lav_group_01_disembark: 'West LAV group begins staggered unloading',
+  lav_group_02_disembark: 'East LAV group begins staggered unloading',
+  lav_inland_spread: 'Leading LAVs advance along both inland roads',
+  scripted_phase_complete: 'Script complete · aftermath pending Stage 6',
   lcac_departure: 'Both LCACs depart · 8 LAV-25s embarked',
   lcac_01_shallow_water: 'LCAC 01 reaches the west nearshore gate',
   lcac_02_shallow_water: 'LCAC 02 reaches the east nearshore gate',
@@ -74,6 +79,10 @@ function t72GroupStatus(group: T72GroundVehicleGroupState) {
   return 'reserve'
 }
 
+function landingGroupStatus(group: LavGroupState) {
+  return `${phaseLabel(group.activity)} · ${group.embarkedCount} aboard / ${group.transferringCount} transfer / ${group.ashoreCount} ashore`
+}
+
 function SimulationInterface() {
   const time = useSimulationStore((state) => quantizeSimulationTime(state.timeSeconds))
   const playing = useSimulationStore((state) => state.isPlaying)
@@ -91,7 +100,9 @@ function SimulationInterface() {
     aircraft02: phaseLabel(world.aircraft.attacker_f35_02.phase),
     lcacWest: phaseLabel(world.landing.crafts.attacker_lcac_01.activity),
     lcacEast: phaseLabel(world.landing.crafts.attacker_lcac_02.activity),
-    embarkedPayload: '8 operational LAV-25s · all embarked',
+    lavWest: landingGroupStatus(world.landing.groups.attacker_lav_group_01),
+    lavEast: landingGroupStatus(world.landing.groups.attacker_lav_group_02),
+    embarkedPayload: `${world.landing.operationalPayloadCount} operational LAV-25s · ${world.landing.embarkedCount} aboard / ${world.landing.transferringCount} transferring / ${world.landing.ashoreCount} ashore`,
     pantsir: world.persistent.pantsirWreck ? 'wreck / fire' : phaseLabel(world.pantsir.phase),
     secondaryPantsir: world.secondaryPantsir.status,
     primaryRadar: world.persistent.primaryRadarDestroyed ? 'destroyed / secondary active' : phaseLabel(world.radar.primaryPhase),

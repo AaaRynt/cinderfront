@@ -28,13 +28,17 @@ interface CameraRigProps {
   supportFramingScale: number
   secondaryPantsirPosition: Vec3
   secondaryPantsirYawRadians: number
+  lavWestPosition: Vec3
+  lavWestYawRadians: number
+  lavEastPosition: Vec3
+  lavEastYawRadians: number
   lcacWestPosition: Vec3
   lcacWestYawRadians: number
   lcacEastPosition: Vec3
   lcacEastYawRadians: number
 }
 
-type FollowPreset = 'lcac-west' | 'lcac-east' | 'btr' | 'f35-01' | 'f35-02' | 'molniya' | 'su30' | 't72' | 'support-convoy' | 'secondary-pantsir'
+type FollowPreset = 'lav-west' | 'lav-east' | 'lcac-west' | 'lcac-east' | 'btr' | 'f35-01' | 'f35-02' | 'molniya' | 'su30' | 't72' | 'support-convoy' | 'secondary-pantsir'
 
 const CAMERA_PRESETS = {
   overview: {
@@ -90,7 +94,7 @@ const CAMERA_PRESETS = {
 const WORLD_UP = new Vector3(0, 1, 0)
 
 function isFollowPreset(preset: CameraPreset): preset is FollowPreset {
-  return preset === 'lcac-west' || preset === 'lcac-east' || preset === 'secondary-pantsir' || preset === 'support-convoy' || preset === 'btr' || preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya' || preset === 'su30' || preset === 't72'
+  return preset === 'lav-west' || preset === 'lav-east' || preset === 'lcac-west' || preset === 'lcac-east' || preset === 'secondary-pantsir' || preset === 'support-convoy' || preset === 'btr' || preset === 'f35-01' || preset === 'f35-02' || preset === 'molniya' || preset === 'su30' || preset === 't72'
 }
 
 function setVector(target: Vector3, source: Vec3) {
@@ -122,25 +126,29 @@ function deterministicFollowDirection(preset: FollowPreset, direction: Vector3, 
   if (preset === 't72' && t72HullYawRadians !== undefined) return directionFromYaw(direction, t72HullYawRadians)
   const world = deriveSimulationWorldState(simulationStore.getState().timeSeconds)
   const yaw =
-    preset === 'lcac-west'
-      ? world.landing.crafts.attacker_lcac_01.pose.rotation.y
-      : preset === 'lcac-east'
-        ? world.landing.crafts.attacker_lcac_02.pose.rotation.y
-        : preset === 'secondary-pantsir'
-          ? world.secondaryPantsir.pose.rotation.y
-          : preset === 'support-convoy'
-            ? world.stage4b2c.camera.anchor.rotation.y
-            : preset === 't72'
-              ? world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y
-              : preset === 'su30'
-                ? world.stage4b2b.anchor.rotation.y
-                : preset === 'btr'
-                  ? world.stage4b.btrGroup.vehicles.defender_btr_03.pose.rotation.y
-                  : preset === 'f35-01'
-                    ? world.aircraft.attacker_f35_01.pose.rotation.y
-                    : preset === 'f35-02'
-                      ? world.aircraft.attacker_f35_02.pose.rotation.y
-                      : world.stage3.molniya.pose.rotation.y
+    preset === 'lav-west'
+      ? world.landing.payload.attacker_lav_01.pose.rotation.y
+      : preset === 'lav-east'
+        ? world.landing.payload.attacker_lav_05.pose.rotation.y
+        : preset === 'lcac-west'
+          ? world.landing.crafts.attacker_lcac_01.pose.rotation.y
+          : preset === 'lcac-east'
+            ? world.landing.crafts.attacker_lcac_02.pose.rotation.y
+            : preset === 'secondary-pantsir'
+              ? world.secondaryPantsir.pose.rotation.y
+              : preset === 'support-convoy'
+                ? world.stage4b2c.camera.anchor.rotation.y
+                : preset === 't72'
+                  ? world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y
+                  : preset === 'su30'
+                    ? world.stage4b2b.anchor.rotation.y
+                    : preset === 'btr'
+                      ? world.stage4b.btrGroup.vehicles.defender_btr_03.pose.rotation.y
+                      : preset === 'f35-01'
+                        ? world.aircraft.attacker_f35_01.pose.rotation.y
+                        : preset === 'f35-02'
+                          ? world.aircraft.attacker_f35_02.pose.rotation.y
+                          : world.stage3.molniya.pose.rotation.y
   return directionFromYaw(direction, yaw)
 }
 
@@ -165,14 +173,24 @@ export function CameraRig({
   supportFramingScale,
   secondaryPantsirPosition,
   secondaryPantsirYawRadians,
-  lcacWestPosition,
-  lcacWestYawRadians,
-  lcacEastPosition,
-  lcacEastYawRadians,
+  lavWestPosition,
+  lavWestYawRadians,
+  lavEastPosition,
+  lavEastYawRadians,
+  lcacWestPosition: craftWestPosition,
+  lcacWestYawRadians: craftWestYaw,
+  lcacEastPosition: craftEastPosition,
+  lcacEastYawRadians: craftEastYaw,
 }: CameraRigProps) {
   const camera = useThree((state) => state.camera)
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
   const preset = useCameraStore((state) => state.preset)
+  const lavFollow = preset === 'lav-west' || preset === 'lav-east'
+  const followPreset = preset === 'lav-west' ? 'lcac-west' : preset === 'lav-east' ? 'lcac-east' : preset
+  const lcacWestPosition = preset === 'lav-west' ? lavWestPosition : craftWestPosition
+  const lcacWestYawRadians = preset === 'lav-west' ? lavWestYawRadians : craftWestYaw
+  const lcacEastPosition = preset === 'lav-east' ? lavEastPosition : craftEastPosition
+  const lcacEastYawRadians = preset === 'lav-east' ? lavEastYawRadians : craftEastYaw
   const requestId = useCameraStore((state) => state.requestId)
   const btrPositionRef = useRef(btrPosition)
   const f35PositionRef = useRef(f35Position)
@@ -256,9 +274,9 @@ export function CameraRig({
 
     if (isFollowPreset(preset)) {
       const targetPosition =
-        preset === 'lcac-west'
+        followPreset === 'lcac-west'
           ? lcacWestPositionRef.current
-          : preset === 'lcac-east'
+          : followPreset === 'lcac-east'
             ? lcacEastPositionRef.current
             : preset === 'secondary-pantsir'
               ? secondaryPantsirPositionRef.current
@@ -278,9 +296,9 @@ export function CameraRig({
       const anchor = followPositionScratch.set(...targetPosition)
       const direction = deterministicFollowDirection(
         preset,
-        preset === 'lcac-west'
+        followPreset === 'lcac-west'
           ? lcacWestDirection
-          : preset === 'lcac-east'
+          : followPreset === 'lcac-east'
             ? lcacEastDirection
             : preset === 'secondary-pantsir'
               ? secondaryPantsirDirection
@@ -298,10 +316,10 @@ export function CameraRig({
                           ? secondaryDirection
                           : molniyaDirection,
       )
-      const followDistance = preset === 'lcac-west' || preset === 'lcac-east' ? -28 : preset === 'secondary-pantsir' ? -26 : preset === 'support-convoy' ? 155 : preset === 'su30' ? 350 : preset === 'molniya' ? 142 : preset === 't72' ? 105 : preset === 'btr' ? 58 : 74
-      const sideDistance = preset === 'lcac-west' || preset === 'lcac-east' ? 29 : preset === 'secondary-pantsir' ? 28 : preset === 'support-convoy' ? 210 : preset === 'su30' ? 115 : preset === 'molniya' ? 62 : preset === 't72' ? 46 : preset === 'btr' ? 25 : 31
-      const height = preset === 'lcac-west' || preset === 'lcac-east' ? 23 : preset === 'secondary-pantsir' ? 19 : preset === 'support-convoy' ? 135 : preset === 'su30' ? 135 : preset === 'molniya' ? 46 : preset === 't72' ? 36 : preset === 'btr' ? 17 : 29
-      const lookAhead = preset === 'lcac-west' || preset === 'lcac-east' ? 0 : preset === 'secondary-pantsir' ? 0 : preset === 'support-convoy' ? 0 : preset === 'su30' ? 0 : preset === 'molniya' ? 24 : preset === 't72' ? 2 : preset === 'btr' ? 2 : 18
+      const followDistance = lavFollow ? -20 : followPreset === 'lcac-west' || followPreset === 'lcac-east' ? -28 : preset === 'secondary-pantsir' ? -26 : preset === 'support-convoy' ? 155 : preset === 'su30' ? 350 : preset === 'molniya' ? 142 : preset === 't72' ? 105 : preset === 'btr' ? 58 : 74
+      const sideDistance = lavFollow ? 20 : followPreset === 'lcac-west' || followPreset === 'lcac-east' ? 29 : preset === 'secondary-pantsir' ? 28 : preset === 'support-convoy' ? 210 : preset === 'su30' ? 115 : preset === 'molniya' ? 62 : preset === 't72' ? 46 : preset === 'btr' ? 25 : 31
+      const height = lavFollow ? 13 : followPreset === 'lcac-west' || followPreset === 'lcac-east' ? 23 : preset === 'secondary-pantsir' ? 19 : preset === 'support-convoy' ? 135 : preset === 'su30' ? 135 : preset === 'molniya' ? 46 : preset === 't72' ? 36 : preset === 'btr' ? 17 : 29
+      const lookAhead = followPreset === 'lcac-west' || followPreset === 'lcac-east' ? 0 : preset === 'secondary-pantsir' ? 0 : preset === 'support-convoy' ? 0 : preset === 'su30' ? 0 : preset === 'molniya' ? 24 : preset === 't72' ? 2 : preset === 'btr' ? 2 : 18
       const right = followRightScratch.set(direction.z, 0, -direction.x).normalize()
       const framingScale = preset === 'support-convoy' ? supportFramingScaleRef.current : preset === 'su30' ? su30FramingScaleRef.current : 1
 
@@ -322,7 +340,27 @@ export function CameraRig({
     }
     camera.updateProjectionMatrix()
     orbitControls.update()
-  }, [btrDirection, camera, followPositionScratch, followRightScratch, lastFollowDirection, lastFollowPosition, lcacWestDirection, lcacEastDirection, molniyaDirection, preset, primaryDirection, requestId, secondaryDirection, secondaryPantsirDirection, su30Direction, supportDirection, t72Direction])
+  }, [
+    btrDirection,
+    camera,
+    followPreset,
+    lavFollow,
+    followPositionScratch,
+    followRightScratch,
+    lastFollowDirection,
+    lastFollowPosition,
+    lcacWestDirection,
+    lcacEastDirection,
+    molniyaDirection,
+    preset,
+    primaryDirection,
+    requestId,
+    secondaryDirection,
+    secondaryPantsirDirection,
+    su30Direction,
+    supportDirection,
+    t72Direction,
+  ])
 
   useFrame(() => {
     const simulationTime = simulationStore.getState().timeSeconds
@@ -346,9 +384,9 @@ export function CameraRig({
 
     if (!isFollowPreset(preset) || !controls.current) return
     const targetPosition =
-      preset === 'lcac-west'
+      followPreset === 'lcac-west'
         ? lcacWestPosition
-        : preset === 'lcac-east'
+        : followPreset === 'lcac-east'
           ? lcacEastPosition
           : preset === 'secondary-pantsir'
             ? secondaryPantsirPosition
@@ -368,9 +406,9 @@ export function CameraRig({
     const current = followPositionScratch.set(...targetPosition)
     const delta = followDeltaScratch.copy(current).sub(lastFollowPosition)
     const direction =
-      preset === 'lcac-west'
+      followPreset === 'lcac-west'
         ? lcacWestDirection
-        : preset === 'lcac-east'
+        : followPreset === 'lcac-east'
           ? lcacEastDirection
           : preset === 'secondary-pantsir'
             ? secondaryPantsirDirection

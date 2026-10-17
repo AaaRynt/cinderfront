@@ -1,4 +1,4 @@
-import type { EmbarkedLavState, LandingCraftState, LandingParticle, LandingWorldState, LcacId, LavId } from './landingCraftTypes'
+import type { LandingCraftState, LandingParticle, LandingWorldState, LcacId } from './landingCraftTypes'
 
 import { LANDING_SITES } from '../scene/world/landing/landingSiteData'
 import { landingCoastZ } from '../scene/world/landing/landingTerrain'
@@ -6,8 +6,9 @@ import { WATER_POLYGONS } from '../scene/world/stage2/stage2Data'
 import { pointInPolygon } from '../scene/world/stage2/terrainModel'
 import { MAINLAND_POLYGON_XZ } from '../scene/world/worldData'
 import { landingRampPoint, sampleLandingContact, solveLandingRampAngle, transformLandingPoint } from './landingCraftContact'
-import { LCAC_CARGO_CENTERS, LCAC_IDS, LCAC_RAMP, LAV_GROUP_IDS, LAV_IDS } from './landingCraftData'
+import { LCAC_IDS, LCAC_RAMP, LAV_GROUP_IDS, LAV_IDS } from './landingCraftData'
 import { LCAC_APPROACHES } from './landingCraftPaths'
+import { deriveLavPayload } from './lavDeployment'
 import { smoothstep } from './math'
 import { clampSimulationTime } from './time'
 
@@ -119,29 +120,38 @@ export function deriveLandingCraft(id: LcacId, timeSeconds: number): LandingCraf
 export function deriveLandingWorldState(timeSeconds: number): LandingWorldState {
   const craftList = LCAC_IDS.map((id) => deriveLandingCraft(id, timeSeconds))
   const crafts = Object.fromEntries(craftList.map((craft) => [craft.id, craft])) as LandingWorldState['crafts']
-  const payload = Object.fromEntries(
-    craftList.flatMap((craft) =>
-      craft.payloadIds.map((id, index) => {
-        const [x, z] = LCAC_CARGO_CENTERS[index]!,
-          localPose = { position: { x, y: craft.mechanics.deckLocalY, z }, rotation: { x: 0, y: 0, z: 0 } }
-        const state: EmbarkedLavState = {
-          id,
-          groupId: craft.payloadGroupId,
-          carrierId: craft.id,
-          factionId: 'landings_attacker',
-          vehicleType: 'LAV-25',
-          activity: 'embarked',
-          condition: 'operational',
-          outcome: 'active',
-          localPose,
-          pose: { position: transformLandingPoint(craft.pose, localPose.position), rotation: { ...craft.pose.rotation } },
-          wheelTravelMeters: 0,
-          wheelRotationRadians: 0,
-          dustIntensity: 0,
-        }
-        return [id, state]
-      }),
-    ),
-  ) as Readonly<Record<LavId, EmbarkedLavState>>
-  return { orderedCraftIds: LCAC_IDS, crafts, orderedPayloadIds: LAV_IDS, payload, embarkedCount: 8, operationalCraftCount: 2, operationalPayloadCount: 8 }
+  const time = clampSimulationTime(timeSeconds)
+  const payload = Object.fromEntries(craftList.flatMap((craft) => craft.payloadIds.map((id, slot) => [id, deriveLavPayload(craft, id, slot, time)]))) as LandingWorldState['payload']
+  const groups = Object.fromEntries(
+    craftList.map((craft) => {
+      const vehicles = craft.payloadIds.map((id) => payload[id])
+      const embarkedCount = vehicles.filter((v) => v.occupancy === 'embarked').length
+      const ashoreCount = vehicles.filter((v) => v.occupancy === 'ashore').length
+      return [
+        craft.payloadGroupId,
+        {
+          id: craft.payloadGroupId,
+          payloadIds: craft.payloadIds,
+          activity: ashoreCount === 4 ? 'deployed' : ashoreCount > 0 ? 'inland-advance' : vehicles.some((v) => v.activity !== 'embarked') ? 'unloading' : 'embarked',
+          embarkedCount,
+          transferringCount: 4 - embarkedCount - ashoreCount,
+          ashoreCount,
+          operationalCount: 4,
+        },
+      ]
+    }),
+  ) as LandingWorldState['groups']
+  const values = Object.values(groups)
+  return {
+    orderedCraftIds: LCAC_IDS,
+    crafts,
+    orderedPayloadIds: LAV_IDS,
+    payload,
+    groups,
+    embarkedCount: values.reduce((n, g) => n + g.embarkedCount, 0),
+    transferringCount: values.reduce((n, g) => n + g.transferringCount, 0),
+    ashoreCount: values.reduce((n, g) => n + g.ashoreCount, 0),
+    operationalCraftCount: 2,
+    operationalPayloadCount: 8,
+  }
 }

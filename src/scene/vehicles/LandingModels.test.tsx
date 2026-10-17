@@ -1,49 +1,17 @@
 /// <reference types="node" />
 import { writeFileSync } from 'node:fs'
-import { isValidElement, type ReactNode } from 'react'
 import * as THREE from 'three'
 import { afterAll, describe, expect, it, vi } from 'vitest'
 
 import { deriveLandingWorldState } from '@/simulation/landingCraft'
 import { landingRampPoint, transformLandingPoint } from '@/simulation/landingCraftContact'
 import { LCAC_DIMENSIONS, LCAC_IDS, LCAC_RAMP, LAV_DIMENSIONS } from '@/simulation/landingCraftData'
+import { appendModel as append } from '@/test/inspectModel'
 
 import { getLandingSupportHeight } from '../world/landing/landingTerrain'
 import { createLandingModelResources } from './landingModelResources'
 import { LcacModel, Lav25Model } from './LandingModels'
 
-interface Props {
-  children?: ReactNode
-  geometry?: THREE.BufferGeometry
-  material?: THREE.Material
-  name?: string
-  position?: readonly number[]
-  rotation?: readonly [number, number, number, THREE.EulerOrder?]
-  scale?: readonly number[]
-}
-function append(parent: THREE.Object3D, node: ReactNode) {
-  if (Array.isArray(node)) {
-    node.forEach((n) => append(parent, n))
-    return
-  }
-  if (!isValidElement<Props>(node)) return
-  if (typeof node.type === 'function') {
-    append(parent, (node.type as (p: Props) => ReactNode)(node.props))
-    return
-  }
-  if (typeof node.type !== 'string') {
-    append(parent, node.props.children)
-    return
-  }
-  const p = node.props,
-    object = node.type === 'mesh' ? new THREE.Mesh(p.geometry, p.material) : new THREE.Group()
-  object.name = p.name ?? ''
-  if (p.position) object.position.set(p.position[0]!, p.position[1]!, p.position[2]!)
-  if (p.rotation) object.rotation.set(p.rotation[0], p.rotation[1], p.rotation[2], p.rotation[3] ?? 'XYZ')
-  if (p.scale) object.scale.set(p.scale[0]!, p.scale[1]!, p.scale[2]!)
-  parent.add(object)
-  append(object, p.children)
-}
 const resources = createLandingModelResources()
 afterAll(() => resources.dispose())
 function model(id: (typeof LCAC_IDS)[number], time: number, closed = false, worldPose = false) {
@@ -51,19 +19,17 @@ function model(id: (typeof LCAC_IDS)[number], time: number, closed = false, worl
     craft = state.crafts[id],
     root = new THREE.Group()
   const children = craft.payloadIds.map((payloadId) => {
-    const p = state.payload[payloadId].localPose.position
+    const payload = state.payload[payloadId],
+      p = payload.localPose.position,
+      r = payload.localPose.rotation
     return (
-      <group key={payloadId} name={payloadId} position={[p.x, p.y, p.z]}>
-        <Lav25Model resources={resources} />
+      <group key={payloadId} name={payloadId} position={[p.x, p.y, p.z]} rotation={[r.x, r.y, r.z, 'YXZ']}>
+        <Lav25Model resources={resources} wheels={payload.wheels} />
       </group>
     )
   })
-  append(
-    root,
-    <LcacModel resources={resources} mechanics={closed ? { ...craft.mechanics, bowRampAngleRadians: LCAC_RAMP.closedAngle } : craft.mechanics}>
-      {children}
-    </LcacModel>,
-  )
+  append(root, <LcacModel resources={resources} mechanics={closed ? { ...craft.mechanics, bowRampAngleRadians: LCAC_RAMP.closedAngle } : craft.mechanics} />)
+  append(root, children)
   if (worldPose) {
     root.position.set(craft.pose.position.x, craft.pose.position.y, craft.pose.position.z)
     root.rotation.set(craft.pose.rotation.x, craft.pose.rotation.y, craft.pose.rotation.z, 'YXZ')
@@ -106,8 +72,8 @@ describe('LCAC and LAV-25 actual rendered geometry', () => {
   })
 
   it('measures the closed transit and settled envelopes, deck and deployed length', () => {
-    const transit = bounds(model(LCAC_IDS[0], 0).root),
-      settled = bounds(model(LCAC_IDS[0], 176, true).root)
+    const transit = bounds(model(LCAC_IDS[0], 0).root.getObjectByName('lcac-model')!),
+      settled = bounds(model(LCAC_IDS[0], 176, true).root.getObjectByName('lcac-model')!)
     expect(transit.getSize(new THREE.Vector3()).x).toBeCloseTo(LCAC_DIMENSIONS.width, 5)
     expect(transit.getSize(new THREE.Vector3()).z).toBeCloseTo(LCAC_DIMENSIONS.length, 5)
     expect(transit.max.y).toBeCloseTo(LCAC_DIMENSIONS.height, 5)
@@ -118,8 +84,8 @@ describe('LCAC and LAV-25 actual rendered geometry', () => {
       expect(deck.getSize(new THREE.Vector3()).x).toBeCloseTo(8.2, 6)
       expect(deck.getSize(new THREE.Vector3()).z).toBeCloseTo(20.4, 6)
       expect(deck.max.y).toBeCloseTo(craft.mechanics.deckLocalY, 6)
-      expect(bounds(root).getSize(new THREE.Vector3()).z).toBeGreaterThan(29)
-      expect(bounds(root).getSize(new THREE.Vector3()).z).toBeLessThan(30)
+      expect(bounds(root.getObjectByName('lcac-model')!).getSize(new THREE.Vector3()).z).toBeGreaterThan(29)
+      expect(bounds(root.getObjectByName('lcac-model')!).getSize(new THREE.Vector3()).z).toBeLessThan(30)
       expect(root.getObjectByName('lcac-stern-ramp-closed')).toBeDefined()
       expect(meshes(root, 'lcac-fan-duct')).toHaveLength(2)
       expect(meshes(root, 'lcac-fan-rotor')).toHaveLength(2)
@@ -130,6 +96,7 @@ describe('LCAC and LAV-25 actual rendered geometry', () => {
     const measured = []
     for (const id of LCAC_IDS)
       for (const time of [0, 110, 141, 143, 152.4, 154.9, 155, 155.4, 156, 157, 158, 159.9, 162, 162.4, 163, 164, 165.9, 176]) {
+        if (time > (id === LCAC_IDS[0] ? 160 : 166)) continue
         const { root, craft } = model(id, time),
           cargo = craft.payloadIds.map((pid) => bounds(root.getObjectByName(pid)!)),
           ramp = bounds(root.getObjectByName('lcac-bow-ramp-panel')!)
@@ -159,7 +126,7 @@ describe('LCAC and LAV-25 actual rendered geometry', () => {
           betweenColumns: cargo[1]!.min.x - cargo[0]!.max.x,
           betweenRows: cargo[2]!.min.z - cargo[0]!.max.z,
           rampNoseGap: cargo[0]!.min.z - ramp.max.z,
-          deployedLength: bounds(root).getSize(new THREE.Vector3()).z,
+          deployedLength: bounds(root.getObjectByName('lcac-model')!).getSize(new THREE.Vector3()).z,
         })
       }
     if (process.env.CINDERFRONT_STAGE5B_MEASUREMENTS === '1') writeFileSync('stage5b-review.local/model-measurements.json', JSON.stringify(measured, null, 2) + '\n')
