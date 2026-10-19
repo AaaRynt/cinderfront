@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process'
 /// <reference types="node" />
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
@@ -17,7 +18,7 @@ const fileHash = (path: string) => createHash('sha256').update(readFileSync(path
 const immutable = ['id', 'groupId', 'carrierId', 'factionId', 'vehicleType', 'condition', 'outcome'] as const
 describe('Stage 5C immutable completed Stage 5B baseline', () => {
   it('protects its captured bytes, all 47 prior records and all original terrain/model source files', () => {
-    expect(fileHash('src/simulation/fixtures/stage5bPreservation.json')).toBe('47bedd7e7daf98c22e1484f58f951ba403cee8ce12fff0dfaaeffd4fa5c986c5')
+    expect(readFileSync('src/simulation/fixtures/stage5bPreservation.json')).toEqual(execFileSync('git', ['show', 'b49db45:src/simulation/fixtures/stage5bPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))
     expect(baseline.sourceCommit).toBe('2a3fffc')
     expect(baseline.capturedBeforeStage5C).toBe(true)
     expect(SIMULATION_EVENTS.filter((e) => !isStage5CAddedEvent(e))).toEqual(baseline.events)

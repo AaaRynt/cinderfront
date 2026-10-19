@@ -1,28 +1,13 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
-import { Color, ConeGeometry, DodecahedronGeometry, InstancedMesh, MeshStandardMaterial, Object3D, StaticDrawUsage } from 'three'
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { Color, DoubleSide, InstancedMesh, MeshStandardMaterial, Object3D, StaticDrawUsage } from 'three'
 
 import type { EnvironmentResponseInstance } from './responseGroups.ts'
 import type { VegetationInstanceTransform, VegetationPatchSpec } from './seededLayout.ts'
 
+import { fitLandscapeBase } from '../../landscape/groundFit'
+import { createGrassGeometry, createScrubGeometry } from '../../landscape/landscapeGeometry'
 import { createEnvironmentUserData } from './responseGroups.ts'
 import { createVegetationLayout } from './seededLayout.ts'
-
-const GRASS_GEOMETRY = new ConeGeometry(0.5, 1, 3, 1)
-const SCRUB_GEOMETRY = new DodecahedronGeometry(0.5, 0)
-
-const GRASS_MATERIAL = new MeshStandardMaterial({
-  color: '#ffffff',
-  flatShading: true,
-  metalness: 0,
-  roughness: 0.98,
-})
-
-const SCRUB_MATERIAL = new MeshStandardMaterial({
-  color: '#ffffff',
-  flatShading: true,
-  metalness: 0,
-  roughness: 1,
-})
 
 const VEGETATION_COLORS = {
   coastal_dune: {
@@ -62,7 +47,7 @@ function applyInstanceTransforms(mesh: InstancedMesh, instances: readonly Vegeta
     transform.rotation.set(0, instance.yaw, 0)
     transform.scale.set(...instance.scale)
     transform.updateMatrix()
-    mesh.setMatrixAt(instance.instanceIndex, transform.matrix)
+    mesh.setMatrixAt(instance.instanceIndex, fitLandscapeBase(mesh.geometry, transform.matrix, 0.025).matrix)
 
     color.copy(colors[0]).lerp(colors[1], instance.colorMix)
     mesh.setColorAt(instance.instanceIndex, color)
@@ -91,6 +76,15 @@ export type SparseVegetationPatchProps = VegetationPatchSpec &
  * each InstancedMesh for later authored Stage 3 lookup.
  */
 export function SparseVegetationPatch({ exclusions, grassCount, id, polygonXZ, profile = 'dry_plain', responseGroup, scrubCount, seed, surfaceY, visible = true }: SparseVegetationPatchProps) {
+  const resources = useMemo(() => ({ grass: createGrassGeometry(0, 'center'), scrub: createScrubGeometry(1, 'center'), material: new MeshStandardMaterial({ color: '#ffffff', vertexColors: true, side: DoubleSide, roughness: 0.98, flatShading: true }) }), [])
+  useEffect(
+    () => () => {
+      resources.grass.dispose()
+      resources.scrub.dispose()
+      resources.material.dispose()
+    },
+    [resources],
+  )
   const grassRef = useRef<InstancedMesh>(null)
   const scrubRef = useRef<InstancedMesh>(null)
   const layout = useMemo(
@@ -121,12 +115,18 @@ export function SparseVegetationPatch({ exclusions, grassCount, id, polygonXZ, p
     if (scrubRef.current) {
       applyInstanceTransforms(scrubRef.current, layout.scrub, VEGETATION_COLORS[profile].scrub)
     }
+    const grass = grassRef.current,
+      scrub = scrubRef.current
+    return () => {
+      grass?.dispose()
+      scrub?.dispose()
+    }
   }, [layout, profile])
 
   return (
     <group name={id} visible={visible}>
-      <instancedMesh ref={grassRef} args={[GRASS_GEOMETRY, GRASS_MATERIAL, Math.max(1, layout.grass.length)]} castShadow={false} dispose={null} frustumCulled name={`${id}:dry-grass`} receiveShadow={false} userData={grassUserData} />
-      <instancedMesh ref={scrubRef} args={[SCRUB_GEOMETRY, SCRUB_MATERIAL, Math.max(1, layout.scrub.length)]} castShadow={false} dispose={null} frustumCulled name={`${id}:scrub`} receiveShadow={false} userData={scrubUserData} />
+      <instancedMesh ref={grassRef} args={[resources.grass, resources.material, Math.max(1, layout.grass.length)]} castShadow={false} dispose={null} frustumCulled name={`${id}:dry-grass`} receiveShadow={false} userData={grassUserData} />
+      <instancedMesh ref={scrubRef} args={[resources.scrub, resources.material, Math.max(1, layout.scrub.length)]} castShadow={false} dispose={null} frustumCulled name={`${id}:scrub`} receiveShadow={false} userData={scrubUserData} />
     </group>
   )
 }

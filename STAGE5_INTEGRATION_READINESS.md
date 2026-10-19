@@ -1,6 +1,6 @@
 # Stage 5 Amphibious Integration Readiness
 
-Stages 5A, 5B and 5C are COMPLETE; parent Stage 5 is COMPLETE for the finite T+0–180 scripted operation. The viewer has 51 official events, two operational LCACs, eight operational LAV-25s and 24 cameras. Stage 6 indefinite aftermath remains PLANNED. The measured current delivery is recorded first; original Stage 5A feasibility estimates and dated Stage 5B completion data remain as historical records.
+Stages 5A, 5B and 5C are COMPLETE; parent Stage 5 is COMPLETE for the finite T+0–180 scripted operation. The viewer has 51 official events, two operational LCACs, eight operational LAV-25s and 24 cameras. Stage 6 is IN PROGRESS: Stage 6A landscape is complete; Stage 6B indefinite aftermath and Stage 6C remaining presentation/performance integration remain planned. The measured current delivery is recorded first; original Stage 5A feasibility estimates and dated Stage 5B completion data remain as historical records.
 
 **The human approved nearer staging, revised final approaches and local shore grading on 2026-10-09, retaining the key event times.** Rounding the original routes does not resolve their speed conflict. The approved package is now implemented and measured below. Stage 5B reference edits were limited to its recorded staging/approach/nearshore meanings, local contact grades and associated reservations/masks. Stage 5C adds the direct-join clarification recorded separately below; unrelated authoritative content remains exact.
 
@@ -69,13 +69,19 @@ Measurements use Chrome / ANGLE Metal Apple M4, 1280×720, DPR 1, the same view 
 
 Across six seek/restart/all-camera cycles, five after warm-up remain flat at **1,092 geometries at T0 / 963 at T180**, **3 textures / 195 programs**, with identical ten actor roots and all **12 landing geometry / 14 material identities**. Different active transients explain the two timestamp counts. Similar display-capped ~16.7 ms RAF cadence does not establish a GPU improvement. Local captures, chronological video sheets, recordings, logs and raw measurements are in `stage5c-review.local/README.md`.
 
-Stage 6 still owns indefinite world motion, continuing the three late unloads and the longer road routes, aftermath clock/seek semantics and further presentation/performance work. The source's eventual no-freeze aftermath requirement is unchanged. Local support tables span carrier-forward stations -12…90 m; Stage 6 must extend route/support coverage before admitting longer travel. This delivery is a bounded kinematic presentation with finite sampling tolerances and procedural models; it adds no visible humans, new combat, general AI or rigid-body simulation.
+Stage 6B owns indefinite world motion, continuing the three late unloads and longer road routes, and aftermath clock/seek semantics. Stage 6A first refines the ground landscape; Stage 6C handles remaining presentation/performance integration. The source's eventual no-freeze aftermath requirement is unchanged. Local support tables span carrier-forward stations -12…90 m; Stage 6B must extend route/support coverage before admitting longer travel. This delivery is a bounded kinematic presentation with finite sampling tolerances and procedural models; it adds no visible humans, new combat, general AI or rigid-body simulation.
+
+### Next-stage pointer — Stage 6B, updated 2026-10-19
+
+Stage 6A is COMPLETE: rooted grass/scrub, fitted fractured/embedded rocks, 32 sparse dryland trees and visual surface breakup, verified with 440 tests and matched browser review. Parent Stage 6 is IN PROGRESS; 6B/6C remain PLANNED. The completed Stage 5 actor/contact measurements and finite 51-event/T+180 behavior above remain exact. Landscape variants, full 0–180/road reservations, counts, clearances, render costs and evidence are recorded in `ITERATION_PLAN.md`, `changelog.md` and ignored `stage6a-review.local/README.md`.
+
+Stage 6B owns indefinite aftermath, continuing the three late unloads and longer road routes, and clock/seek semantics. Extend the existing -12…90 m carrier-forward support coverage before admitting longer travel. Stage 6C owns remaining camera/presentation/performance integration. This pointer does not claim post-180 motion or alter the completed Stage 5 measurements.
 
 ## Approved Stage 5B decision — 2026-10-09
 
 The human selected: nearer offshore staging, revised terminal routes and local shoreline slopes, preserving the key event times. This supersedes the pending choice among cinematic compression, nearer staging and longer transit. Do not request that same decision again.
 
-The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The current `prompt.md` now targets Stage 5C.
+The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C prompt is preserved in `b49db45`; the current `prompt.md` targets Stage 6A.
 
 - replace the LCAC staging descriptions/feature references and approach paths with nearshore holding positions in `region_e_remote_beachhead`;
 - preserve departure at T+110, final-nearshore gates at T+140/T+148 and beaching at T+155/T+162, along with all official event IDs and other timestamps;
@@ -370,7 +376,7 @@ The authoritative eventual no-freeze aftermath contract remains unchanged. Stage
 
 ### Historical Stage 5C implementation contract — 2026-10-15
 
-`prompt.md` now targets Stage 5C from completed commit `2a3fffc`. This paragraph records the preparation-only update; completed implementation and fresh verification are now recorded above. The starting baseline is 393 recorded passing tests, 47 events, 22 cameras and a T+176 endpoint.
+On 2026-10-15, `prompt.md` was prepared for Stage 5C from completed commit `2a3fffc`. This paragraph records that historical preparation-only update; completed implementation and fresh verification are now recorded above. Its starting baseline was 393 recorded passing tests, 47 events, 22 cameras and a T+176 endpoint.
 
 Use the existing eight payload IDs and a candidate per-group departure stagger [0,3,6,9] seconds. Keep leader starts at T+160/T+166, verify ramp readiness at T+158.8/T+165.2, and measure actual clearance times. Both group leaders must be clear and beginning inland advance at T+176. Report individual deck/ramp/ground states at 180; late unloading can continue in Stage 6.
 

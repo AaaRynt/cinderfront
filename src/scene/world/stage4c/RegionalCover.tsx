@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Color, DoubleSide, FrontSide, InstancedMesh, MeshStandardMaterial, Object3D, StaticDrawUsage } from 'three'
 
 import { createLandingRegionalLayout } from '../landing/landingReservations'
+import { fitLandscapeBase } from '../landscape/groundFit'
 import { createCoverGeometry } from './coverGeometry'
 import { REGIONAL_BOUNDS, type CoverInstance, type CoverKind, type Region } from './regionalLayout'
 
@@ -26,7 +27,7 @@ function CoverPool({ geometry, instances, kind, material }: { geometry: BufferGe
       object.scale.set(...instance.scale)
       object.rotation.set(0, instance.yaw, 0)
       object.updateMatrix()
-      mesh.setMatrixAt(i, object.matrix)
+      mesh.setMatrixAt(i, fitLandscapeBase(geometry, object.matrix, kind === 'rock' ? 0.08 : 0.025).matrix)
       const paletteIndex = kind === 'grass' ? 0 : kind === 'scrub' ? 1 : 2
       color.set(PALETTE[instance.region][paletteIndex]).multiplyScalar(0.84 + instance.colorMix * 0.3)
       mesh.setColorAt(i, color)
@@ -37,8 +38,8 @@ function CoverPool({ geometry, instances, kind, material }: { geometry: BufferGe
     mesh.computeBoundingBox()
     mesh.computeBoundingSphere()
     return () => mesh.dispose()
-  }, [instances, kind])
-  return <instancedMesh ref={ref} args={[geometry, material, instances.length]} castShadow={kind === 'rock'} dispose={null} name={`4c-${kind}-clumps`} receiveShadow />
+  }, [instances, kind, geometry])
+  return <instancedMesh ref={ref} args={[geometry, material, instances.length]} castShadow={kind === 'rock' && instances[0]?.region === 'radar'} dispose={null} name={`4c-${kind}-clumps`} receiveShadow />
 }
 
 /** Static layout has no timeline/camera subscription. Six shared resources,
@@ -52,7 +53,7 @@ export function RegionalCover() {
         variant,
         regions: (Object.keys(REGIONAL_BOUNDS) as Region[]).map((region) => ({ region, instances: layout.filter((i) => i.kind === kind && i.variant === variant && i.region === region) })),
         geometry: createCoverGeometry(kind, variant),
-        material: new MeshStandardMaterial({ color: '#ffffff', roughness: 0.98, flatShading: true, side: kind === 'grass' ? DoubleSide : FrontSide }),
+        material: new MeshStandardMaterial({ color: '#ffffff', roughness: 0.98, vertexColors: true, flatShading: true, side: kind === 'rock' ? FrontSide : DoubleSide }),
       })),
     )
   }, [])

@@ -1,16 +1,18 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
-import { BoxGeometry, BufferGeometry, CylinderGeometry, DodecahedronGeometry, Euler, InstancedMesh, Matrix4, MeshStandardMaterial, Quaternion, StaticDrawUsage, Vector3 } from 'three'
+import { useContext, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { BoxGeometry, BufferGeometry, CylinderGeometry, InstancedMesh, Matrix4, MeshStandardMaterial, StaticDrawUsage } from 'three'
 
 import type { WorldPosition } from '../../worldData.ts'
 import type { EnvironmentResponseGroup, EnvironmentResponseInstance } from './responseGroups.ts'
+import type { DeterministicSeed } from './seededLayout.ts'
 
+import { fitLandscapeBase } from '../../landscape/groundFit'
+import { createLegacyRockResources, LegacyRockResourcesContext } from '../../landscape/legacyRockResources'
+import { createLegacyRockLayout } from '../../landscape/legacyRocks'
 import { matrixBetween, offsetPolyline, samplePolyline, transformMatrix } from './primitiveLayout.ts'
 import { createEnvironmentUserData } from './responseGroups.ts'
-import { createDeterministicRandom, type DeterministicSeed } from './seededLayout.ts'
 
 const UNIT_BOX_GEOMETRY = new BoxGeometry(1, 1, 1)
 const UNIT_CYLINDER_GEOMETRY = new CylinderGeometry(0.5, 0.5, 1, 8)
-const ROCK_GEOMETRY = new DodecahedronGeometry(1, 0)
 
 const FENCE_MATERIAL = new MeshStandardMaterial({ color: '#5b605b', metalness: 0.34, roughness: 0.72 })
 const UTILITY_MATERIAL = new MeshStandardMaterial({ color: '#4b4940', metalness: 0.08, roughness: 0.88 })
@@ -29,7 +31,6 @@ const CONCRETE_MATERIAL = new MeshStandardMaterial({ color: '#77766c', metalness
 const EQUIPMENT_MATERIAL = new MeshStandardMaterial({ color: '#596057', metalness: 0.12, roughness: 0.82 })
 const EQUIPMENT_DARK_MATERIAL = new MeshStandardMaterial({ color: '#303633', metalness: 0.24, roughness: 0.72 })
 const INSULATOR_MATERIAL = new MeshStandardMaterial({ color: '#81745f', metalness: 0.02, roughness: 0.64 })
-const ROCK_MATERIAL = new MeshStandardMaterial({ color: '#716750', flatShading: true, metalness: 0, roughness: 1 })
 
 type StaticInstancedRunProps = Readonly<{
   castShadow?: boolean
@@ -57,6 +58,7 @@ function StaticInstancedRun({ castShadow = false, geometry, material, matrices, 
     mesh.instanceMatrix.needsUpdate = true
     mesh.computeBoundingBox()
     mesh.computeBoundingSphere()
+    return () => mesh.dispose()
   }, [matrices])
 
   if (matrices.length === 0) {
@@ -555,39 +557,25 @@ export type RockClusterProps = Readonly<{
 }>
 
 export function RockCluster({ count = 9, id, position, radiusM = 12, responseGroup, seed, visible = true }: RockClusterProps) {
-  const layout = useMemo(() => {
-    const random = createDeterministicRandom(`${seed}:${id}`)
-    const matrices: Matrix4[] = []
-    const responseInstances: EnvironmentResponseInstance[] = []
-
-    for (let index = 0; index < Math.max(0, Math.floor(count)); index += 1) {
-      const angle = random() * Math.PI * 2
-      const distance = Math.sqrt(random()) * radiusM
-      const localX = Math.cos(angle) * distance
-      const localZ = Math.sin(angle) * distance
-      const size = 0.9 + random() * 2.8
-      const localY = size * (0.22 + random() * 0.12)
-      const rotation = new Quaternion().setFromEuler(new Euler((random() - 0.5) * 0.65, random() * Math.PI * 2, (random() - 0.5) * 0.65))
-      matrices.push(new Matrix4().compose(new Vector3(localX, localY, localZ), rotation, new Vector3(size, size * (0.48 + random() * 0.42), size * (0.7 + random() * 0.55))))
-
-      if (responseGroup) {
-        responseInstances.push({
-          id: `${id}:rock:${index}`,
-          instanceIndex: index,
-          kind: 'rock',
-          position: [position[0] + localX, position[1], position[2] + localZ],
-          responseGroupId: responseGroup.id,
-        })
-      }
-    }
-
-    return { matrices, responseInstances }
-  }, [count, id, position, radiusM, responseGroup, seed])
+  const shared = useContext(LegacyRockResourcesContext)
+  const owned = useMemo(() => (shared ? null : createLegacyRockResources()), [shared])
+  useEffect(() => () => owned?.dispose(), [owned])
+  const resources = shared ?? owned!
+  const geometry = resources.geometry[id.startsWith('radar') ? 0 : 1]!
+  const layout = useMemo(() => createLegacyRockLayout({ count, id, position, radiusM, responseGroup, seed }), [count, id, position, radiusM, responseGroup, seed])
+  const fitted = useMemo(
+    () =>
+      layout.matrices.map((matrix) => {
+        const world = new Matrix4().makeTranslation(...position).multiply(matrix)
+        return new Matrix4().makeTranslation(-position[0], -position[1], -position[2]).multiply(fitLandscapeBase(geometry, world, 0.07).matrix)
+      }),
+    [layout, position, geometry],
+  )
   const userData = useMemo(() => createEnvironmentUserData(id, responseGroup, layout.matrices.length, layout.responseInstances), [id, layout.matrices.length, layout.responseInstances, responseGroup])
 
   return (
     <group name={id} position={position} visible={visible}>
-      <StaticInstancedRun castShadow geometry={ROCK_GEOMETRY} material={ROCK_MATERIAL} matrices={layout.matrices} name={`${id}:rocks`} userData={userData} />
+      <StaticInstancedRun castShadow={id.startsWith('radar')} geometry={geometry} material={resources.material} matrices={fitted} name={`${id}:rocks`} userData={userData} />
     </group>
   )
 }

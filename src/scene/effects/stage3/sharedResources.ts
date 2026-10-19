@@ -1,10 +1,12 @@
-import { AdditiveBlending, BoxGeometry, ConeGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, Matrix4, MeshBasicMaterial, MeshStandardMaterial, Quaternion, RingGeometry, Shape, ShapeGeometry, Vector3 } from 'three'
+import { AdditiveBlending, BoxGeometry, ConeGeometry, CylinderGeometry, DoubleSide, IcosahedronGeometry, Matrix4, MeshBasicMaterial, MeshStandardMaterial, Quaternion, RingGeometry, Shape, ShapeGeometry, Vector3 } from 'three'
 
 import type { Stage3Vec3 } from './types.ts'
 
+import { createGrassGeometry, createScrubGeometry } from '../../world/landscape/landscapeGeometry'
+
 const SEGMENT_UP = new Vector3(0, 1, 0)
 
-function baseAnchored<Geometry extends BoxGeometry | ConeGeometry | CylinderGeometry | DodecahedronGeometry>(geometry: Geometry) {
+function baseAnchored<Geometry extends BoxGeometry | ConeGeometry | CylinderGeometry>(geometry: Geometry) {
   geometry.translate(0, 0.5, 0)
   geometry.computeBoundingBox()
   geometry.computeBoundingSphere()
@@ -38,12 +40,12 @@ export const STAGE3_GEOMETRIES = {
   fence: baseAnchored(new BoxGeometry(1, 1, 1)),
   fire: baseAnchored(new ConeGeometry(0.5, 1, 7)),
   flameTrail: new CylinderGeometry(0.18, 0.62, 1, 6),
-  grass: baseAnchored(new ConeGeometry(0.5, 1, 3)),
+  grass: createGrassGeometry(1),
   irregularDisc: createIrregularDiscGeometry(),
   lightPole: baseAnchored(new CylinderGeometry(0.5, 0.72, 1, 7)),
   puff: new IcosahedronGeometry(1, 1),
   ring: new RingGeometry(0.84, 1, 72),
-  scrub: baseAnchored(new DodecahedronGeometry(0.5, 0)),
+  scrub: createScrubGeometry(0),
 } as const
 
 export const STAGE3_MATERIALS = {
@@ -58,10 +60,10 @@ export const STAGE3_MATERIALS = {
   fireInner: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#ffd067', depthWrite: false, opacity: 0.78, toneMapped: false, transparent: true }),
   fireOuter: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#e74b16', depthWrite: false, opacity: 0.64, toneMapped: false, transparent: true }),
   flame: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#ff641c', depthWrite: false, opacity: 0.72, toneMapped: false, transparent: true }),
-  grass: new MeshStandardMaterial({ color: '#8d7b49', flatShading: true, metalness: 0, roughness: 0.98 }),
+  grass: new MeshStandardMaterial({ color: '#8d7b49', side: DoubleSide, vertexColors: true, flatShading: true, metalness: 0, roughness: 0.98 }),
   lightPole: new MeshStandardMaterial({ color: '#5e6662', metalness: 0.46, roughness: 0.56 }),
   scorch: new MeshBasicMaterial({ color: '#1b1712', depthWrite: false, opacity: 0.74, transparent: true }),
-  scrub: new MeshStandardMaterial({ color: '#61613d', flatShading: true, metalness: 0, roughness: 1 }),
+  scrub: new MeshStandardMaterial({ color: '#61613d', side: DoubleSide, vertexColors: true, flatShading: true, metalness: 0, roughness: 1 }),
   smokeCore: new MeshBasicMaterial({ color: '#101415', depthWrite: false, opacity: 0.28, transparent: true }),
   smokeEdge: new MeshBasicMaterial({ color: '#303638', depthWrite: false, opacity: 0.16, transparent: true }),
   smokeLocal: new MeshBasicMaterial({ color: '#252a29', depthWrite: false, opacity: 0.19, transparent: true }),

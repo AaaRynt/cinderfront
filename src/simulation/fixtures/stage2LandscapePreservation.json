@@ -1,0 +1,1252 @@
+{
+  "sourceCommit": "b49db45",
+  "browser": [
+    { "metadata": { "componentId": "power-line-1", "instanceCount": 352, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 }, "name": "power-line-1:poles" },
+    {
+      "metadata": { "componentId": "power-line-1", "instanceCount": 352, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "power-line-1:crossarms"
+    },
+    {
+      "metadata": { "componentId": "power-line-1", "instanceCount": 352, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "power-line-1:conductors"
+    },
+    { "metadata": { "componentId": "power-line-2", "instanceCount": 32, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 }, "name": "power-line-2:poles" },
+    {
+      "metadata": { "componentId": "power-line-2", "instanceCount": 32, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "power-line-2:crossarms"
+    },
+    {
+      "metadata": { "componentId": "power-line-2", "instanceCount": 32, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "power-line-2:conductors"
+    },
+    { "metadata": { "componentId": "power-line-3", "instanceCount": 227, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 }, "name": "power-line-3:poles" },
+    {
+      "metadata": { "componentId": "power-line-3", "instanceCount": 227, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "power-line-3:crossarms"
+    },
+    {
+      "metadata": { "componentId": "power-line-3", "instanceCount": 227, "responseGroup": { "id": "ash-harbor-power-distribution", "ignitionEligible": false, "kind": "utility", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "power-line-3:conductors"
+    },
+    {
+      "metadata": {
+        "componentId": "harbor-maintenance-equipment",
+        "instanceCount": 3,
+        "responseGroup": { "id": "harbor-maintenance-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_a_harbor_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "harbor-maintenance-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-3190, 8.770872478576937, 4190], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:0", "instanceIndex": 1, "kind": "industrial_fixture", "position": [-3070.2404154655155, 8.94768708906314, 4187.287400359347], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:1", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-3069.7595845344845, 8.94768708906314, 4182.712599640653], "responseGroupId": "harbor-maintenance-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "harbor-maintenance-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "harbor-maintenance-equipment",
+        "instanceCount": 3,
+        "responseGroup": { "id": "harbor-maintenance-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_a_harbor_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "harbor-maintenance-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-3190, 8.770872478576937, 4190], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:0", "instanceIndex": 1, "kind": "industrial_fixture", "position": [-3070.2404154655155, 8.94768708906314, 4187.287400359347], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:1", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-3069.7595845344845, 8.94768708906314, 4182.712599640653], "responseGroupId": "harbor-maintenance-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "harbor-maintenance-equipment:equipment-shells"
+    },
+    {
+      "metadata": {
+        "componentId": "harbor-maintenance-equipment",
+        "instanceCount": 3,
+        "responseGroup": { "id": "harbor-maintenance-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_a_harbor_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "harbor-maintenance-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-3190, 8.770872478576937, 4190], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:0", "instanceIndex": 1, "kind": "industrial_fixture", "position": [-3070.2404154655155, 8.94768708906314, 4187.287400359347], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:1", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-3069.7595845344845, 8.94768708906314, 4182.712599640653], "responseGroupId": "harbor-maintenance-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "harbor-maintenance-equipment:dark-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "harbor-maintenance-equipment",
+        "instanceCount": 3,
+        "responseGroup": { "id": "harbor-maintenance-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_a_harbor_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "harbor-maintenance-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-3190, 8.770872478576937, 4190], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:0", "instanceIndex": 1, "kind": "industrial_fixture", "position": [-3070.2404154655155, 8.94768708906314, 4187.287400359347], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:1", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-3069.7595845344845, 8.94768708906314, 4182.712599640653], "responseGroupId": "harbor-maintenance-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "harbor-maintenance-equipment:exhausts"
+    },
+    {
+      "metadata": {
+        "componentId": "harbor-maintenance-equipment",
+        "instanceCount": 3,
+        "responseGroup": { "id": "harbor-maintenance-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_a_harbor_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "harbor-maintenance-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-3190, 8.770872478576937, 4190], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:0", "instanceIndex": 1, "kind": "industrial_fixture", "position": [-3070.2404154655155, 8.94768708906314, 4187.287400359347], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:1", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-3069.7595845344845, 8.94768708906314, 4182.712599640653], "responseGroupId": "harbor-maintenance-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "harbor-maintenance-equipment:equipment-pads"
+    },
+    {
+      "metadata": {
+        "componentId": "harbor-maintenance-equipment",
+        "instanceCount": 3,
+        "responseGroup": { "id": "harbor-maintenance-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_a_harbor_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "harbor-maintenance-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-3190, 8.770872478576937, 4190], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:0", "instanceIndex": 1, "kind": "industrial_fixture", "position": [-3070.2404154655155, 8.94768708906314, 4187.287400359347], "responseGroupId": "harbor-maintenance-fixtures" },
+          { "id": "harbor-maintenance-transformers:transformer:1", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-3069.7595845344845, 8.94768708906314, 4182.712599640653], "responseGroupId": "harbor-maintenance-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "harbor-maintenance-equipment:insulators"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-equipment",
+        "instanceCount": 5,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "fuel-pump-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [345, 34.85625, 1610], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "ammunition-yard-generator", "instanceIndex": 1, "kind": "industrial_fixture", "position": [2050, 43.625, 1460], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [465, 34.85625, 1684.4], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [465, 34.85625, 1680], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:2", "instanceIndex": 4, "kind": "industrial_fixture", "position": [465, 34.85625, 1675.6], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-equipment",
+        "instanceCount": 5,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "fuel-pump-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [345, 34.85625, 1610], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "ammunition-yard-generator", "instanceIndex": 1, "kind": "industrial_fixture", "position": [2050, 43.625, 1460], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [465, 34.85625, 1684.4], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [465, 34.85625, 1680], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:2", "instanceIndex": 4, "kind": "industrial_fixture", "position": [465, 34.85625, 1675.6], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-equipment:equipment-shells"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-equipment",
+        "instanceCount": 5,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "fuel-pump-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [345, 34.85625, 1610], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "ammunition-yard-generator", "instanceIndex": 1, "kind": "industrial_fixture", "position": [2050, 43.625, 1460], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [465, 34.85625, 1684.4], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [465, 34.85625, 1680], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:2", "instanceIndex": 4, "kind": "industrial_fixture", "position": [465, 34.85625, 1675.6], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-equipment:dark-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-equipment",
+        "instanceCount": 5,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "fuel-pump-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [345, 34.85625, 1610], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "ammunition-yard-generator", "instanceIndex": 1, "kind": "industrial_fixture", "position": [2050, 43.625, 1460], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [465, 34.85625, 1684.4], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [465, 34.85625, 1680], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:2", "instanceIndex": 4, "kind": "industrial_fixture", "position": [465, 34.85625, 1675.6], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-equipment:exhausts"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-equipment",
+        "instanceCount": 5,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "fuel-pump-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [345, 34.85625, 1610], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "ammunition-yard-generator", "instanceIndex": 1, "kind": "industrial_fixture", "position": [2050, 43.625, 1460], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [465, 34.85625, 1684.4], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [465, 34.85625, 1680], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:2", "instanceIndex": 4, "kind": "industrial_fixture", "position": [465, 34.85625, 1675.6], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-equipment:equipment-pads"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-equipment",
+        "instanceCount": 5,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "fuel-pump-generator", "instanceIndex": 0, "kind": "industrial_fixture", "position": [345, 34.85625, 1610], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "ammunition-yard-generator", "instanceIndex": 1, "kind": "industrial_fixture", "position": [2050, 43.625, 1460], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [465, 34.85625, 1684.4], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [465, 34.85625, 1680], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "fuel-transfer-transformers:transformer:2", "instanceIndex": 4, "kind": "industrial_fixture", "position": [465, 34.85625, 1675.6], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-equipment:insulators"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_header_east_west", "instanceCount": 140, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_header_east_west:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_header_east_west", "instanceCount": 140, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_header_east_west:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_lateral_west", "instanceCount": 79, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_lateral_west:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_lateral_west", "instanceCount": 79, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_lateral_west:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_lateral_east", "instanceCount": 79, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_lateral_east:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_lateral_east", "instanceCount": 79, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_lateral_east:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_pump_drop", "instanceCount": 13, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_pump_drop:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_pump_drop", "instanceCount": 13, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_pump_drop:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_transfer_rack_branch", "instanceCount": 7, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_transfer_rack_branch:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_transfer_rack_branch", "instanceCount": 7, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_transfer_rack_branch:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_01_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_01_feed:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_01_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_01_feed:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_02_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_02_feed:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_02_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_02_feed:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_03_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_03_feed:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_03_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_03_feed:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_04_feed", "instanceCount": 19, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_04_feed:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_04_feed", "instanceCount": 19, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_04_feed:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_05_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_05_feed:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_05_feed", "instanceCount": 17, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_05_feed:saddles"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_06_feed", "instanceCount": 19, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_06_feed:pipe"
+    },
+    {
+      "metadata": { "componentId": "fuel_pipe_tank_06_feed", "instanceCount": 19, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel_pipe_tank_06_feed:saddles"
+    },
+    {
+      "metadata": { "componentId": "harbor-fuel-four-pipe-rack", "instanceCount": 270, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "harbor-fuel-four-pipe-rack:pipes"
+    },
+    {
+      "metadata": { "componentId": "harbor-fuel-four-pipe-rack", "instanceCount": 270, "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "harbor-fuel-four-pipe-rack:supports"
+    },
+    {
+      "metadata": { "componentId": "fuel-compound-security", "instanceCount": 435, "responseGroup": { "id": "storage-security-fence", "ignitionEligible": false, "kind": "fence", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel-compound-security:posts"
+    },
+    {
+      "metadata": { "componentId": "fuel-compound-security", "instanceCount": 435, "responseGroup": { "id": "storage-security-fence", "ignitionEligible": false, "kind": "fence", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "fuel-compound-security:rails"
+    },
+    {
+      "metadata": { "componentId": "ammunition-compound-security", "instanceCount": 764, "responseGroup": { "id": "storage-security-fence", "ignitionEligible": false, "kind": "fence", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "ammunition-compound-security:posts"
+    },
+    {
+      "metadata": { "componentId": "ammunition-compound-security", "instanceCount": 764, "responseGroup": { "id": "storage-security-fence", "ignitionEligible": false, "kind": "fence", "regionId": "region_b_storage_district", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "ammunition-compound-security:rails"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "storage-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-1320, 35.923829030300695, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [250, 35.40731101819859, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-1320, 36.429413467963464, 1320], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [520, 35.455420379270365, 1350], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [980, 45.87299209549335, 2750], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [2630, 105.23199992953494, 2700], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-7", "instanceIndex": 6, "kind": "industrial_fixture", "position": [2630, 45.576764189442656, 1400], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-8", "instanceIndex": 7, "kind": "industrial_fixture", "position": [980, 46.400222353841826, 1400], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-lights"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "storage-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-1320, 35.923829030300695, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [250, 35.40731101819859, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-1320, 36.429413467963464, 1320], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [520, 35.455420379270365, 1350], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [980, 45.87299209549335, 2750], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [2630, 105.23199992953494, 2700], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-7", "instanceIndex": 6, "kind": "industrial_fixture", "position": [2630, 45.576764189442656, 1400], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-8", "instanceIndex": 7, "kind": "industrial_fixture", "position": [980, 46.400222353841826, 1400], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-lights:poles"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "storage-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-1320, 35.923829030300695, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [250, 35.40731101819859, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-1320, 36.429413467963464, 1320], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [520, 35.455420379270365, 1350], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [980, 45.87299209549335, 2750], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [2630, 105.23199992953494, 2700], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-7", "instanceIndex": 6, "kind": "industrial_fixture", "position": [2630, 45.576764189442656, 1400], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-8", "instanceIndex": 7, "kind": "industrial_fixture", "position": [980, 46.400222353841826, 1400], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-lights:arms"
+    },
+    {
+      "metadata": {
+        "componentId": "storage-industrial-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "storage-industrial-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_b_storage_district", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "storage-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [-1320, 35.923829030300695, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [250, 35.40731101819859, 2920], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [-1320, 36.429413467963464, 1320], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [520, 35.455420379270365, 1350], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [980, 45.87299209549335, 2750], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [2630, 105.23199992953494, 2700], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-7", "instanceIndex": 6, "kind": "industrial_fixture", "position": [2630, 45.576764189442656, 1400], "responseGroupId": "storage-industrial-fixtures" },
+          { "id": "storage-light-8", "instanceIndex": 7, "kind": "industrial_fixture", "position": [980, 46.400222353841826, 1400], "responseGroupId": "storage-industrial-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "storage-industrial-lights:lenses"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-hill-generator-west", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3710, 198.34796177940575, 3570], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-generator-east", "instanceIndex": 1, "kind": "industrial_fixture", "position": [4390, 196.68963470419675, 3650], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4447.838706972192, 192.72357864585453, 3580.786646329649], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4452.161293027808, 192.72357864585453, 3579.213353670351], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-hill-generator-west", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3710, 198.34796177940575, 3570], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-generator-east", "instanceIndex": 1, "kind": "industrial_fixture", "position": [4390, 196.68963470419675, 3650], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4447.838706972192, 192.72357864585453, 3580.786646329649], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4452.161293027808, 192.72357864585453, 3579.213353670351], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-equipment:equipment-shells"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-hill-generator-west", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3710, 198.34796177940575, 3570], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-generator-east", "instanceIndex": 1, "kind": "industrial_fixture", "position": [4390, 196.68963470419675, 3650], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4447.838706972192, 192.72357864585453, 3580.786646329649], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4452.161293027808, 192.72357864585453, 3579.213353670351], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-equipment:dark-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-hill-generator-west", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3710, 198.34796177940575, 3570], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-generator-east", "instanceIndex": 1, "kind": "industrial_fixture", "position": [4390, 196.68963470419675, 3650], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4447.838706972192, 192.72357864585453, 3580.786646329649], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4452.161293027808, 192.72357864585453, 3579.213353670351], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-equipment:exhausts"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-hill-generator-west", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3710, 198.34796177940575, 3570], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-generator-east", "instanceIndex": 1, "kind": "industrial_fixture", "position": [4390, 196.68963470419675, 3650], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4447.838706972192, 192.72357864585453, 3580.786646329649], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4452.161293027808, 192.72357864585453, 3579.213353670351], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-equipment:equipment-pads"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-hill-generator-west", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3710, 198.34796177940575, 3570], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-generator-east", "instanceIndex": 1, "kind": "industrial_fixture", "position": [4390, 196.68963470419675, 3650], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:0", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4447.838706972192, 192.72357864585453, 3580.786646329649], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-hill-transformer-bank:transformer:1", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4452.161293027808, 192.72357864585453, 3579.213353670351], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-equipment:insulators"
+    },
+    {
+      "metadata": { "componentId": "radar-hill-security-perimeter", "instanceCount": 376, "responseGroup": { "id": "radar-hill-fence", "ignitionEligible": false, "kind": "fence", "regionId": "region_c_radar_hill", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "radar-hill-security-perimeter:posts"
+    },
+    {
+      "metadata": { "componentId": "radar-hill-security-perimeter", "instanceCount": 376, "responseGroup": { "id": "radar-hill-fence", "ignitionEligible": false, "kind": "fence", "regionId": "region_c_radar_hill", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "radar-hill-security-perimeter:rails"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-lights",
+        "instanceCount": 6,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3200, 190.00869932555852, 4280], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [3900, 196.1044542810884, 4510], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4570, 190.74385440394423, 4060], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4680, 121.65, 3380], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [3900, 169.8909973832345, 3020], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [3100, 169.65459303255773, 3330], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-lights"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-lights",
+        "instanceCount": 6,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3200, 190.00869932555852, 4280], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [3900, 196.1044542810884, 4510], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4570, 190.74385440394423, 4060], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4680, 121.65, 3380], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [3900, 169.8909973832345, 3020], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [3100, 169.65459303255773, 3330], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-lights:poles"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-lights",
+        "instanceCount": 6,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3200, 190.00869932555852, 4280], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [3900, 196.1044542810884, 4510], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4570, 190.74385440394423, 4060], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4680, 121.65, 3380], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [3900, 169.8909973832345, 3020], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [3100, 169.65459303255773, 3330], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-lights:arms"
+    },
+    {
+      "metadata": {
+        "componentId": "radar-hill-lights",
+        "instanceCount": 6,
+        "responseGroup": { "id": "radar-hill-fixtures", "ignitionEligible": false, "kind": "industrial_fixture", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-light-1", "instanceIndex": 0, "kind": "industrial_fixture", "position": [3200, 190.00869932555852, 4280], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-2", "instanceIndex": 1, "kind": "industrial_fixture", "position": [3900, 196.1044542810884, 4510], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-3", "instanceIndex": 2, "kind": "industrial_fixture", "position": [4570, 190.74385440394423, 4060], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-4", "instanceIndex": 3, "kind": "industrial_fixture", "position": [4680, 121.65, 3380], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-5", "instanceIndex": 4, "kind": "industrial_fixture", "position": [3900, 169.8909973832345, 3020], "responseGroupId": "radar-hill-fixtures" },
+          { "id": "radar-light-6", "instanceIndex": 5, "kind": "industrial_fixture", "position": [3100, 169.65459303255773, 3330], "responseGroupId": "radar-hill-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-hill-lights:lenses"
+    },
+    {
+      "matrices": [
+        -1.6219738721847534, -0.5054727792739868, -2.9955129623413086, 0, -0.047821011394262314, 2.8776981830596924, -0.45969879627227783, 0, 3.0091700553894043, -0.20475874841213224, -1.594817042350769, 0, -20.33715057373047, 0.8311159014701843, 5.461513996124268, 1, -1.0396668910980225, 0.3760841488838196,
+        -1.331466555595398, 0, 0.13235847651958466, 1.1032298803329468, 0.2082654982805252, 0, 1.2589212656021118, 0.032787006348371506, -0.9737594127655028, 0, 9.159623146057127, 0.5715528726577759, -2.7312846183776855, 1, 2.478813409805298, -1.0369751453399658, 1.4656630754470823, 0, 0.4721302092075348,
+        1.895370364189148, 0.5425047278404236, 0, -1.821271896362305, -0.35589995980262756, 2.8284356594085693, 0, 12.290593147277832, 0.908702313899994, 6.2892632484436035, 1, 1.2141934633255005, 0.3617214858531952, 0.527969241142273, 0, -0.16316214203834534, 1.149507761001587, -0.41231805086135864, 0,
+        -0.7348088622093201, 0.40284478664398193, 1.4138749837875366, 0, 17.381702423095703, 0.41179049015045166, 6.717983245849609, 1, 1.2765564918518066, -0.317243754863739, 1.6670749187469482, 0, 0.1786390244960785, 1.550564527511597, 0.158279687166214, 0, -1.6057133674621582, 0.05834637209773064,
+        1.2406723499298096, 0, -1.5400999784469604, 0.6966217756271362, -8.364776611328125, 1, 1.0371888875961304, 0.21832989156246185, -1.8571391105651855, 0, -0.22481468319892883, 1.665149211883545, 0.07020290195941925, 0, 1.9790397882461548, 0.2195073515176773, 1.1310746669769287, 0, 14.22550106048584,
+        0.507954478263855, 12.821521759033203, 1, 1.1555438041687012, 0.04140684753656387, -1.1358059644699097, 0, 0.05161457136273384, 1.1173311471939087, 0.09324484318494795, 0, 1.3459099531173706, -0.1759108453989029, 1.3628859519958496, 0, 19.10372543334961, 0.5233827233314514, 7.2542243003845215, 1
+      ],
+      "metadata": {
+        "componentId": "radar-rocks-1",
+        "instanceCount": 7,
+        "responseGroup": { "id": "radar-hill-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-rocks-1:rock:0", "instanceIndex": 0, "kind": "rock", "position": [2839.6628499523135, 168.88566939872422, 4105.461513793316], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-1:rock:1", "instanceIndex": 1, "kind": "rock", "position": [2869.159622934847, 168.88566939872422, 4097.268715291152], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-1:rock:2", "instanceIndex": 2, "kind": "rock", "position": [2872.2905930730453, 168.88566939872422, 4106.289263314811], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-1:rock:3", "instanceIndex": 3, "kind": "rock", "position": [2877.381701591374, 168.88566939872422, 4106.717983277125], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-1:rock:4", "instanceIndex": 4, "kind": "rock", "position": [2858.4599000497037, 168.88566939872422, 4091.6352233261905], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-1:rock:5", "instanceIndex": 5, "kind": "rock", "position": [2874.225501090781, 168.88566939872422, 4112.821522007985], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-1:rock:6", "instanceIndex": 6, "kind": "rock", "position": [2879.1037250324193, 168.88566939872422, 4107.254224221831], "responseGroupId": "radar-hill-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-rocks-1:rocks"
+    },
+    {
+      "matrices": [
+        -0.233065664768219, -0.0026783132925629616, 1.996012568473816, 0, -0.04988723993301392, 1.803130269050598, -0.0034056175500154495, 0, -2.0729501247406006, -0.05780965834856033, -0.24212689697742465, 0, 0.5875627994537354, 0.5185368657112122, 8.200094223022461, 1, 3.34097671508789, 0.6155592203140259,
+        0.4196074903011322, 0, -0.5623459815979004, 3.002145767211914, 0.07336895167827606, 0, -0.36447739601135254, -0.14436990022659302, 3.113811731338501, 0, 8.945630073547363, 0.8788473010063171, -4.110714435577393, 1, -2.08125901222229, -0.6197257041931152, 0.3869800269603729, 0, -0.3457246422767639,
+        1.4621260166168213, 0.4821296036243438, 0, -0.41057464480400085, 0.41297101974487305, -1.546807050704956, 0, -16.807767868041992, 0.7276834845542908, -5.026782512664795, 1, -0.44914937019348145, -0.35803693532943726, 0.8753420114517212, 0, -0.08615634590387344, 0.6288816928863525, 0.2130205035209656, 0,
+        -0.7233755588531494, 0.02338528633117676, -0.3616082370281219, 0, 10.388345718383787, 0.3233164846897125, 1.96076500415802, 1, -0.6410177946090698, 0.3853769898414612, -0.6312164664268494, 0, 0.06117553636431694, 0.45301878452301025, 0.21445639431476593, 0, 0.6717677116394043, 0.18016259372234344,
+        -0.5722039341926575, 0, -10.651508331298828, 0.2387114018201828, -6.1011643409729, 1, -1.93844473361969, -1.4756735563278198, -2.4317002296447754, 0, -0.1770443618297577, 1.479426622390747, -0.7566558122634888, 0, 2.0449461936950684, -0.44950422644615173, -1.3573604822158811, 0, -11.308372497558594,
+        0.9967017769813538, -6.49746036529541, 1, 0.7371766567230225, 0.00864316150546074, -1.253682017326355, 0, 0.11893504858016968, 1.0853533744812012, 0.07741757482290268, 0, 1.446724534034729, -0.2191060185432434, 0.849176824092865, 0, -2.189788818359375, 0.3821164071559906, 12.87386989593506, 1
+      ],
+      "metadata": {
+        "componentId": "radar-rocks-2",
+        "instanceCount": 7,
+        "responseGroup": { "id": "radar-hill-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-rocks-2:rock:0", "instanceIndex": 0, "kind": "rock", "position": [2700.5875627724795, 150.19249623017956, 3458.200094236349], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-2:rock:1", "instanceIndex": 1, "kind": "rock", "position": [2708.9456297112283, 150.19249623017956, 3445.8892856661837], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-2:rock:2", "instanceIndex": 2, "kind": "rock", "position": [2683.1922314708813, 150.19249623017956, 3444.9732173679986], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-2:rock:3", "instanceIndex": 3, "kind": "rock", "position": [2710.388345366196, 150.19249623017956, 3451.9607650499247], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-2:rock:4", "instanceIndex": 4, "kind": "rock", "position": [2689.348491426883, 150.19249623017956, 3443.8988358076244], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-2:rock:5", "instanceIndex": 5, "kind": "rock", "position": [2688.691627427689, 150.19249623017956, 3443.5025398715857], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-2:rock:6", "instanceIndex": 6, "kind": "rock", "position": [2697.8102112515667, 150.19249623017956, 3462.8738698827874], "responseGroupId": "radar-hill-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-rocks-2:rocks"
+    },
+    {
+      "matrices": [
+        1.232405662536621, -1.019378662109375, -2.3725521564483643, 0, 0.1841791868209839, 1.651516318321228, -0.6139114499092102, 0, 2.5150065422058105, 0.17689451575279236, 1.2303988933563232, 0, 15.358975410461426, 0.9380494952201844, 4.699097156524658, 1, 3.6128766536712646, 0.4519179761409759,
+        -0.08387329429388046, 0, -0.319951593875885, 2.479618549346924, -0.42160528898239136, 0, 0.0053319185972213745, 0.47381842136383057, 2.7826573848724365, 0, 7.263195037841797, 0.8424298763275146, -17.40283203125, 1, -1.770050048828125, -0.06492986530065536, 0.24908415973186493, 0, -0.033719561994075775,
+        1.0391099452972412, 0.03125028312206268, 0, -0.18327653408050537, 0.03296284377574921, -1.2938131093978882, 0, 13.109182357788086, 0.4951544404029846, 12.565391540527344, 1, 0.1971515268087387, 1.750835418701172, 2.803102731704712, 0, -0.028977621346712112, 1.467370867729187, -0.9144908785820008, 0,
+        -3.0902884006500244, 0.05357468500733375, 0.18388716876506803, 0, -15.745074272155762, 0.9456546902656556, 5.025304317474365, 1, -1.3725407123565674, -0.20888428390026093, 0.03887859359383583, 0, -0.12985682487487793, 0.8377746939659119, -0.08322847634553909, 0, -0.021720655262470245, -0.1706072986125946,
+        -1.6834369897842407, 0, 11.24107837677002, 0.3202470541000366, -15.839876174926758, 1, 1.3482578992843628, -0.07926351577043533, 0.9541422724723816, 0, 0.08842667192220688, 0.863089382648468, -0.05325249955058098, 0, -1.033139944076538, 0.19693315029144287, 1.476245999336243, 0, 9.448737144470217,
+        0.36915963888168335, -19.735862731933594, 1, -0.933479905128479, 0.30612093210220337, 0.9669260382652284, 0, 0.02663007564842701, 0.8891428709030151, -0.2557864785194397, 0, -1.0507100820541382, -0.23860955238342285, -0.9388239979743958, 0, 4.167110919952393, 0.30904537439346313, -9.1949462890625, 1
+      ],
+      "metadata": {
+        "componentId": "radar-rocks-3",
+        "instanceCount": 7,
+        "responseGroup": { "id": "radar-hill-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-rocks-3:rock:0", "instanceIndex": 0, "kind": "rock", "position": [4785.358975398301, 170.7624327799341, 3864.699097173349], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-3:rock:1", "instanceIndex": 1, "kind": "rock", "position": [4777.263195140997, 170.7624327799341, 3842.5971671890575], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-3:rock:2", "instanceIndex": 2, "kind": "rock", "position": [4783.109182222835, 170.7624327799341, 3872.565391233298], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-3:rock:3", "instanceIndex": 3, "kind": "rock", "position": [4754.254925790709, 170.7624327799341, 3865.025304231819], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-3:rock:4", "instanceIndex": 4, "kind": "rock", "position": [4781.241078180321, 170.7624327799341, 3844.1601235222647], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-3:rock:5", "instanceIndex": 5, "kind": "rock", "position": [4779.448737418597, 170.7624327799341, 3840.264137691353], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-3:rock:6", "instanceIndex": 6, "kind": "rock", "position": [4774.16711092556, 170.7624327799341, 3850.8050534680688], "responseGroupId": "radar-hill-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-rocks-3:rocks"
+    },
+    {
+      "matrices": [
+        -0.13812711834907532, 0.030039865523576736, 0.9434121251106262, 0, 0.008530784398317337, 0.5126613974571228, -0.015075010247528551, 0, -1.0223605632781982, 0.012598900124430656, -0.15008729696273804, 0, -1.9272964000701904, 0.27139273285865784, -20.060012817382812, 1, 2.46405029296875, 0.6690740585327148,
+        2.4281835556030273, 0, -0.39368295669555664, 1.727172613143921, -0.07641588151454926, 0, -2.312802791595459, -0.4182322919368744, 2.462207078933716, 0, -2.176880121231079, 0.8677278757095337, -6.5107879638671875, 1, -2.706407070159912, 0.18590234220027924, 0.6232041716575623, 0, 0.010763682425022124,
+        2.238922357559204, -0.6211287379264832, 0, -0.45704177021980286, -0.5065174102783203, -1.833714246749878, 0, -12.448763847351074, 0.7606614828109741, -18.58207321166992, 1, 0.251217782497406, -0.24949796497821808, -1.000025987625122, 0, 0.04021253436803818, 0.8193761706352234, -0.1943255364894867, 0,
+        0.9513917565345764, 0.009432397782802582, 0.23664699494838717, 0, -1.2477595806121826, 0.32753899693489075, 15.20022678375244, 1, -0.10319475084543228, -0.8920894861221313, 2.271963119506836, 0, -0.01142728142440319, 1.375594973564148, 0.5396102070808411, 0, -2.393263339996338, 0.019722824916243553,
+        -0.10096012055873872, 0, -10.092223167419434, 0.6392841339111328, 1.4160979986190796, 1, -1.3156042098999023, 0.0242921132594347, -3.4474658966064453, 0, -0.2179971933364868, 2.467797040939331, 0.10057996958494186, 0, 3.4726057052612305, 0.3606662154197693, -1.322656512260437, 0, 15.320157051086426,
+        0.998455047607422, 4.949471950531006, 1, 0.39659690856933594, 1.0573211908340454, -2.6733739376068115, 0, -0.041917361319065094, 1.3268764019012451, 0.5185620784759521, 0, 2.4886538982391357, -0.05687583237886429, 0.3466991186141968, 0, 4.423245906829834, 0.9066310524940492, -7.964239120483398, 1
+      ],
+      "metadata": {
+        "componentId": "radar-rocks-4",
+        "instanceCount": 7,
+        "responseGroup": { "id": "radar-hill-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-rocks-4:rock:0", "instanceIndex": 0, "kind": "rock", "position": [4378.072703546205, 123.99020203718038, 2849.9399864193506], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-4:rock:1", "instanceIndex": 1, "kind": "rock", "position": [4377.8231199378015, 123.99020203718038, 2863.4892118170515], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-4:rock:2", "instanceIndex": 2, "kind": "rock", "position": [4367.551235717097, 123.99020203718038, 2851.417926764371], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-4:rock:3", "instanceIndex": 3, "kind": "rock", "position": [4378.752240452224, 123.99020203718038, 2885.2002271606657], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-4:rock:4", "instanceIndex": 4, "kind": "rock", "position": [4369.907776737419, 123.99020203718038, 2871.416097965628], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-4:rock:5", "instanceIndex": 5, "kind": "rock", "position": [4395.320156639092, 123.99020203718038, 2874.9494721386727], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-4:rock:6", "instanceIndex": 6, "kind": "rock", "position": [4384.423246064419, 123.99020203718038, 2862.035760680454], "responseGroupId": "radar-hill-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-rocks-4:rocks"
+    },
+    {
+      "matrices": [
+        -1.285906434059143, 0.4040762186050415, 2.5005102157592773, 0, 0.01475756149739027, 2.421715021133423, -0.3837539255619049, 0, -3.016453742980957, -0.22175399959087372, -1.51539945602417, 0, 9.444218635559082, 0.7713128924369812, -3.1146554946899414, 1, 0.8593136668205261, -0.6130568385124207,
+        2.084052801132202, 0, 0.22997494041919708, 1.8763017654418943, 0.4571184515953064, 0, -2.602170944213867, 0.05369565635919571, 1.088743805885315, 0, 10.642642974853516, 0.6814842224121094, 7.22928524017334, 1, 2.0611050128936768, 0.6291531920433044, -2.806586742401123, 0, 0.08603682368993759, 2.034820079803467,
+        0.5193299055099487, 0, 3.252490997314453, -0.7067041993141174, 2.230146646499634, 0, -1.8080633878707888, 0.9611602425575256, 10.516945838928224, 1, -0.7743147611618042, 0.5965318083763123, -1.1535471677780151, 0, 0.12409963458776474, 0.8167191743850708, 0.33904707431793213, 0, 1.524445414543152,
+        0.15902085602283478, -0.9410448670387268, 0, 5.477411270141602, 0.36183515191078186, -8.62514877319336, 1, -2.489974021911621, -0.2655501365661621, -0.6309193968772888, 0, -0.062447402626276016, 1.7062841653823853, -0.4717108905315399, 0, 0.548728346824646, -0.5183001160621643, -1.947451114654541, 0,
+        -6.600704669952393, 0.676247775554657, -22.520263671875, 1, 1.075455665588379, -0.02790958806872368, -0.5440842509269714, 0, 0.07379293441772461, 0.5684071779251099, 0.11670438945293428, 0, 0.4146210551261902, -0.22446131706237793, 0.8310682773590088, 0, 8.237321853637695, 0.2717460095882416, 2.185481309890747,
+        1, -1.579397439956665, 0.27720406651496887, 0.7463188171386719, 0, 0.05484309419989586, 1.307051181793213, -0.3694142997264862, 0, -0.5864254236221313, -0.29516127705574036, -1.1313916444778442, 0, -17.378389358520508, 0.5536931157112122, 11.268014907836914, 1
+      ],
+      "metadata": {
+        "componentId": "radar-rocks-5",
+        "instanceCount": 7,
+        "responseGroup": { "id": "radar-hill-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_c_radar_hill", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "radar-rocks-5:rock:0", "instanceIndex": 0, "kind": "rock", "position": [5079.444218477813, 118.0241257696684, 3306.8853445952072], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-5:rock:1", "instanceIndex": 1, "kind": "rock", "position": [5080.642642770044, 118.0241257696684, 3317.2292854677053], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-5:rock:2", "instanceIndex": 2, "kind": "rock", "position": [5068.191936585022, 118.0241257696684, 3320.516945502707], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-5:rock:3", "instanceIndex": 3, "kind": "rock", "position": [5075.477411494902, 118.0241257696684, 3301.374851367668], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-5:rock:4", "instanceIndex": 4, "kind": "rock", "position": [5063.399295271061, 118.0241257696684, 3287.4797368972145], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-5:rock:5", "instanceIndex": 5, "kind": "rock", "position": [5078.237321864916, 118.0241257696684, 3312.1854811983594], "responseGroupId": "radar-hill-rocks" },
+          { "id": "radar-rocks-5:rock:6", "instanceIndex": 6, "kind": "rock", "position": [5052.621610270556, 118.0241257696684, 3321.2680151356863], "responseGroupId": "radar-hill-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "radar-rocks-5:rocks"
+    },
+    {
+      "metadata": { "componentId": "bridge-guardrail-north", "instanceCount": 198, "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "bridge-guardrail-north:blocks"
+    },
+    {
+      "metadata": { "componentId": "bridge-guardrail-south", "instanceCount": 198, "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "bridge-guardrail-south:blocks"
+    },
+    {
+      "metadata": { "componentId": "service-yard-barriers", "instanceCount": 164, "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "service-yard-barriers:blocks"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-service-generator", "instanceIndex": 0, "kind": "barrier", "position": [5580, 47.61299532945622, 170], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:0", "instanceIndex": 1, "kind": "barrier", "position": [6200, 45.95843075130809, 654.4], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:1", "instanceIndex": 2, "kind": "barrier", "position": [6200, 45.95843075130809, 650], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:2", "instanceIndex": 3, "kind": "barrier", "position": [6200, 45.95843075130809, 645.6], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-service-generator", "instanceIndex": 0, "kind": "barrier", "position": [5580, 47.61299532945622, 170], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:0", "instanceIndex": 1, "kind": "barrier", "position": [6200, 45.95843075130809, 654.4], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:1", "instanceIndex": 2, "kind": "barrier", "position": [6200, 45.95843075130809, 650], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:2", "instanceIndex": 3, "kind": "barrier", "position": [6200, 45.95843075130809, 645.6], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-equipment:equipment-shells"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-service-generator", "instanceIndex": 0, "kind": "barrier", "position": [5580, 47.61299532945622, 170], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:0", "instanceIndex": 1, "kind": "barrier", "position": [6200, 45.95843075130809, 654.4], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:1", "instanceIndex": 2, "kind": "barrier", "position": [6200, 45.95843075130809, 650], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:2", "instanceIndex": 3, "kind": "barrier", "position": [6200, 45.95843075130809, 645.6], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-equipment:dark-equipment"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-service-generator", "instanceIndex": 0, "kind": "barrier", "position": [5580, 47.61299532945622, 170], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:0", "instanceIndex": 1, "kind": "barrier", "position": [6200, 45.95843075130809, 654.4], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:1", "instanceIndex": 2, "kind": "barrier", "position": [6200, 45.95843075130809, 650], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:2", "instanceIndex": 3, "kind": "barrier", "position": [6200, 45.95843075130809, 645.6], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-equipment:exhausts"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-service-generator", "instanceIndex": 0, "kind": "barrier", "position": [5580, 47.61299532945622, 170], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:0", "instanceIndex": 1, "kind": "barrier", "position": [6200, 45.95843075130809, 654.4], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:1", "instanceIndex": 2, "kind": "barrier", "position": [6200, 45.95843075130809, 650], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:2", "instanceIndex": 3, "kind": "barrier", "position": [6200, 45.95843075130809, 645.6], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-equipment:equipment-pads"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-equipment",
+        "instanceCount": 4,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-service-generator", "instanceIndex": 0, "kind": "barrier", "position": [5580, 47.61299532945622, 170], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:0", "instanceIndex": 1, "kind": "barrier", "position": [6200, 45.95843075130809, 654.4], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:1", "instanceIndex": 2, "kind": "barrier", "position": [6200, 45.95843075130809, 650], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-substation-transformers:transformer:2", "instanceIndex": 3, "kind": "barrier", "position": [6200, 45.95843075130809, 645.6], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-equipment:insulators"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-light-1", "instanceIndex": 0, "kind": "barrier", "position": [4380, 43.68672101607876, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-2", "instanceIndex": 1, "kind": "barrier", "position": [4640, 45.307423417000976, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-3", "instanceIndex": 2, "kind": "barrier", "position": [5280, 44.04478002383906, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-4", "instanceIndex": 3, "kind": "barrier", "position": [5630, 45.42401811340734, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-5", "instanceIndex": 4, "kind": "barrier", "position": [5450, 46.45867806805301, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-6", "instanceIndex": 5, "kind": "barrier", "position": [6000, 46.71074728087479, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-7", "instanceIndex": 6, "kind": "barrier", "position": [6100, 46.37299928549681, 740], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-8", "instanceIndex": 7, "kind": "barrier", "position": [6330, 46.29650369533518, 740], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-lights"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-light-1", "instanceIndex": 0, "kind": "barrier", "position": [4380, 43.68672101607876, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-2", "instanceIndex": 1, "kind": "barrier", "position": [4640, 45.307423417000976, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-3", "instanceIndex": 2, "kind": "barrier", "position": [5280, 44.04478002383906, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-4", "instanceIndex": 3, "kind": "barrier", "position": [5630, 45.42401811340734, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-5", "instanceIndex": 4, "kind": "barrier", "position": [5450, 46.45867806805301, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-6", "instanceIndex": 5, "kind": "barrier", "position": [6000, 46.71074728087479, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-7", "instanceIndex": 6, "kind": "barrier", "position": [6100, 46.37299928549681, 740], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-8", "instanceIndex": 7, "kind": "barrier", "position": [6330, 46.29650369533518, 740], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-lights:poles"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-light-1", "instanceIndex": 0, "kind": "barrier", "position": [4380, 43.68672101607876, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-2", "instanceIndex": 1, "kind": "barrier", "position": [4640, 45.307423417000976, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-3", "instanceIndex": 2, "kind": "barrier", "position": [5280, 44.04478002383906, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-4", "instanceIndex": 3, "kind": "barrier", "position": [5630, 45.42401811340734, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-5", "instanceIndex": 4, "kind": "barrier", "position": [5450, 46.45867806805301, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-6", "instanceIndex": 5, "kind": "barrier", "position": [6000, 46.71074728087479, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-7", "instanceIndex": 6, "kind": "barrier", "position": [6100, 46.37299928549681, 740], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-8", "instanceIndex": 7, "kind": "barrier", "position": [6330, 46.29650369533518, 740], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-lights:arms"
+    },
+    {
+      "metadata": {
+        "componentId": "convoy-corridor-lights",
+        "instanceCount": 8,
+        "responseGroup": { "id": "convoy-corridor-fixtures", "ignitionEligible": false, "kind": "barrier", "regionId": "region_d_convoy_corridor", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "corridor-light-1", "instanceIndex": 0, "kind": "barrier", "position": [4380, 43.68672101607876, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-2", "instanceIndex": 1, "kind": "barrier", "position": [4640, 45.307423417000976, -1390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-3", "instanceIndex": 2, "kind": "barrier", "position": [5280, 44.04478002383906, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-4", "instanceIndex": 3, "kind": "barrier", "position": [5630, 45.42401811340734, -1710], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-5", "instanceIndex": 4, "kind": "barrier", "position": [5450, 46.45867806805301, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-6", "instanceIndex": 5, "kind": "barrier", "position": [6000, 46.71074728087479, 390], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-7", "instanceIndex": 6, "kind": "barrier", "position": [6100, 46.37299928549681, 740], "responseGroupId": "convoy-corridor-fixtures" },
+          { "id": "corridor-light-8", "instanceIndex": 7, "kind": "barrier", "position": [6330, 46.29650369533518, 740], "responseGroupId": "convoy-corridor-fixtures" }
+        ],
+        "stage": 2
+      },
+      "name": "convoy-corridor-lights:lenses"
+    },
+    {
+      "metadata": { "componentId": "beach-west-remnant-barriers", "instanceCount": 63, "responseGroup": { "id": "beachhead-remains", "ignitionEligible": false, "kind": "barrier", "regionId": "region_e_remote_beachhead", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "beach-west-remnant-barriers:blocks"
+    },
+    {
+      "metadata": { "componentId": "beach-east-remnant-barriers", "instanceCount": 58, "responseGroup": { "id": "beachhead-remains", "ignitionEligible": false, "kind": "barrier", "regionId": "region_e_remote_beachhead", "stage3Addressable": true }, "responseInstances": null, "stage": 2 },
+      "name": "beach-east-remnant-barriers:blocks"
+    },
+    {
+      "matrices": [
+        -3.57609224319458, -0.20922686159610748, 0.01481272093951702, 0, -0.1761510968208313, 2.973663568496704, -0.5240278244018555, 0, 0.023677367717027664, -0.6774005889892578, -3.8519561290740967, 0, 31.521894454956055, 0.954930305480957, 0.3560729920864105, 1, -1.3248438835144043, 1.6357146501541138,
+        2.830406427383423, 0, 0.16579702496528623, 1.639891505241394, -0.8701009750366211, 0, -3.772230625152588, -0.4251132905483246, -1.520012378692627, 0, 28.374755859375, 0.8393908739089966, 9.631632804870604, 1, 2.6230032444000244, 0.17922274768352509, 0.22148732841014865, 0, -0.11229733377695084,
+        1.3077162504196167, 0.2717256546020508, 0, -0.2001902014017105, -0.6128509044647217, 2.86669397354126, 0, -7.654001712799072, 0.6234491467475891, 29.91749382019043, 1, 3.100109815597534, 0.21343056857585907, -1.9663597345352173, 0, 0.1332646608352661, 2.412304639816284, 0.471935361623764, 0, 1.9434038400650024,
+        -0.6920797228813171, 2.9887993335723877, 0, 16.991525650024414, 0.9428631663322448, -17.430892944335938, 1, 3.200114488601685, 0.3664010167121887, 0.8917429447174072, 0, -0.3712860941886902, 2.732421636581421, 0.2096971720457077, 0, -0.789259672164917, -0.3351806402206421, 2.970062255859375, 0,
+        -4.224495887756348, 1.0387444496154783, 5.691293716430664, 1, -1.2356213331222534, 0.7130565643310547, 2.253915786743164, 0, 0.14375647902488708, 2.199855327606201, -0.6171448826789856, 0, -1.9502534866333008, -0.15843158960342407, -1.0190284252166748, 0, 9.99482250213623, 0.6684610247612, -4.540196418762207, 1
+      ],
+      "metadata": {
+        "componentId": "beach-rocks-1",
+        "instanceCount": 6,
+        "responseGroup": { "id": "beachhead-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_e_remote_beachhead", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "beach-rocks-1:rock:0", "instanceIndex": 0, "kind": "rock", "position": [3131.521894474258, 6.415405182483143, -2479.643927017659], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-1:rock:1", "instanceIndex": 1, "kind": "rock", "position": [3128.374756325508, 6.415405182483143, -2470.368367327881], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-1:rock:2", "instanceIndex": 2, "kind": "rock", "position": [3092.3459982070967, 6.415405182483143, -2450.082505435598], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-1:rock:3", "instanceIndex": 3, "kind": "rock", "position": [3116.9915253834006, 6.415405182483143, -2497.430892449853], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-1:rock:4", "instanceIndex": 4, "kind": "rock", "position": [3095.7755040323723, 6.415405182483143, -2474.3087064390293], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-1:rock:5", "instanceIndex": 5, "kind": "rock", "position": [3109.9948222605667, 6.415405182483143, -2484.540196598982], "responseGroupId": "beachhead-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "beach-rocks-1:rocks"
+    },
+    {
+      "matrices": [
+        -0.8347644209861755, 0.15306170284748075, 0.44019606709480286, 0, 0.1970292627811432, 0.7585945129394531, 0.10986295342445374, 0, -0.4153851568698883, 0.2337383329868317, -0.868988037109375, 0, 5.270662784576416, 0.3135874569416046, 1.0652039051055908, 1, -0.20622387528419495, -0.49341920018196106,
+        1.5348341464996338, 0, -0.05002720654010773, 1.207446575164795, 0.3814487159252167, 0, -2.006096601486206, 0.0018478077836334703, -0.2689497768878937, 0, -24.118261337280273, 0.5151984095573425, 2.092853307723999, 1, -1.17278254032135, -0.2839219570159912, -0.015314830467104912, 0, -0.1377210170030594,
+        0.5752262473106384, -0.11770103126764296, 0, 0.08529142290353775, -0.27455011010169983, -1.441575050354004, 0, -10.662416458129885, 0.40306589007377625, 22.490154266357425, 1, 1.349910020828247, 0.8284396529197693, -1.6665350198745728, 0, -0.2917068600654602, 1.8886650800704956, 0.7025757431983948, 0,
+        1.578280687332153, -0.19562549889087677, 1.1811771392822266, 0, 19.776912689208984, 0.6758033633232117, 1.6619700193405151, 1, -2.8850505352020264, 0.07785508036613464, 0.2306404411792755, 0, 0.06720054894685745, 1.9262250661849976, 0.19038547575473783, 0, -0.17489974200725555, 0.23001492023468015,
+        -2.265441417694092, 0, -18.894763946533203, 0.6671615242958069, -24.54106330871582, 1, 1.3763039112091064, 0.07045764476060867, -0.508886992931366, 0, -0.1607903242111206, 1.133751630783081, -0.27789053320884705, 0, 0.3379920423030853, 0.28154438734054565, 0.9530932307243348, 0, 0.3735488951206207,
+        0.3258010745048523, -31.656309127807617, 1
+      ],
+      "metadata": {
+        "componentId": "beach-rocks-2",
+        "instanceCount": 6,
+        "responseGroup": { "id": "beachhead-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_e_remote_beachhead", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "beach-rocks-2:rock:0", "instanceIndex": 0, "kind": "rock", "position": [3805.270662607458, 11.494744118687542, -2498.9347961194967], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-2:rock:1", "instanceIndex": 1, "kind": "rock", "position": [3775.881739243568, 11.494744118687542, -2497.9071465857683], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-2:rock:2", "instanceIndex": 2, "kind": "rock", "position": [3789.337583529773, 11.494744118687542, -2477.509845403212], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-2:rock:3", "instanceIndex": 3, "kind": "rock", "position": [3819.7769122451928, 11.494744118687542, -2498.3380300034196], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-2:rock:4", "instanceIndex": 4, "kind": "rock", "position": [3781.10523672154, 11.494744118687542, -2524.541063212159], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-2:rock:5", "instanceIndex": 5, "kind": "rock", "position": [3800.373548890517, 11.494744118687542, -2531.656308466729], "responseGroupId": "beachhead-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "beach-rocks-2:rocks"
+    },
+    {
+      "matrices": [
+        -2.122169733047486, 0.2967636287212372, 2.7325551509857178, 0, -0.009290109388530254, 1.7043513059616089, -0.192312553524971, 0, -2.0933237075805664, -0.1924923360347748, -1.6048215627670288, 0, 22.53759765625, 1.153721809387207, 5.67017936706543, 1, -1.7958482503890991, 0.3871844410896301, -0.6451936364173889,
+        0, 0.2416241616010666, 1.580871343612671, 0.2761472463607788, 0, 0.5749443769454956, 0.17348219454288483, -1.4962071180343628, 0, 8.622354507446289, 0.6047728657722473, 3.1439976692199707, 1, -2.909553050994873, -0.5867438316345215, 0.31463608145713806, 0, -0.5315355658531189, 2.300529956817627,
+        -0.6251962184906006, 0, -0.13574552536010742, -0.7552635669708252, -2.6637284755706787, 0, 0.95468932390213, 0.870002031326294, 27.039409637451172, 1, 0.19685806334018707, 0.044567711651325226, 1.0385839939117432, 0, -0.027248959988355637, 0.5803569555282593, -0.01973938010632992, 0, -1.1570308208465576,
+        -0.04679744318127632, 0.22131721675395968, 0, -30.77484703063965, 0.28449124097824097, 2.0833911895751953, 1, 1.3225783109664917, -0.05046849325299263, -2.6375644207000732, 0, 0.09102708101272584, 1.5681041479110718, 0.01563965156674385, 0, 2.6334269046783447, -0.16607002913951874, 1.323681354522705, 0,
+        -0.7336276769638062, 0.7219371795654297, -25.53118133544922, 1, 1.0362544059753418, -0.05307678505778313, 0.4662588834762573, 0, 0.06881151348352432, 0.8699586391448975, -0.0539005808532238, 0, -0.5311646461486816, 0.1159731224179268, 1.193708419799805, 0, 29.85923767089844, 0.30299729108810425,
+        8.351814270019531, 1
+      ],
+      "metadata": {
+        "componentId": "beach-rocks-3",
+        "instanceCount": 6,
+        "responseGroup": { "id": "beachhead-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_e_remote_beachhead", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "beach-rocks-3:rock:0", "instanceIndex": 0, "kind": "rock", "position": [4492.53759708313, 64.78520942562277, -2344.3298204427892], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-3:rock:1", "instanceIndex": 1, "kind": "rock", "position": [4478.62235421267, 64.78520942562277, -2346.8560022665356], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-3:rock:2", "instanceIndex": 2, "kind": "rock", "position": [4470.9546893186, 64.78520942562277, -2322.9605911114136], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-3:rock:3", "instanceIndex": 3, "kind": "rock", "position": [4439.225152881401, 64.78520942562277, -2347.916608795268], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-3:rock:4", "instanceIndex": 4, "kind": "rock", "position": [4469.26637232094, 64.78520942562277, -2375.5311804316], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-3:rock:5", "instanceIndex": 5, "kind": "rock", "position": [4499.859238594459, 64.78520942562277, -2341.648185846682], "responseGroupId": "beachhead-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "beach-rocks-3:rocks"
+    },
+    {
+      "matrices": [
+        -0.9120490550994872, 0.7766650319099426, 3.277611255645752, 0, -0.006552457343786955, 2.327709913253784, -0.5533990263938904, 0, -3.641130208969116, -0.2377396374940872, -0.9568692445755004, 0, 17.500694274902344, 1.0591062307357788, -25.086353302001953, 1, -3.1674818992614746, -0.29807472229003906,
+        -1.26410174369812, 0, -0.10625816881656648, 2.780334711074829, -0.3893489837646485, 0, 1.597448706626892, -0.4835158586502075, -3.888742685317993, 0, 26.641427993774418, 1.0877901315689087, -14.920602798461914, 1, 3.0486223697662354, -0.17496387660503387, 1.901071310043335, 0, -0.005368155427277088,
+        2.835683584213257, 0.2695888876914978, 0, -1.9666038751602173, -0.3009139597415924, 3.1260180473327637, 0, 5.444686412811279, 1.1402571201324463, -20.809419631958008, 1, -2.207554578781128, 0.981727421283722, 1.884590744972229, 0, 0.18618284165859225, 1.571352243423462, -0.6004649996757507, 0,
+        -2.1583704948425293, -0.5924561619758606, -2.219627857208252, 0, 20.268835067749023, 0.8101755380630493, 21.684497833251953, 1, 1.5834019184112549, 0.2978358566761017, -1.6064996719360352, 0, -0.12659300863742828, 1.5126760005950928, 0.15566858649253845, 0, 1.3016111850738523, -0.02266043983399868,
+        1.2786959409713743, 0, 11.833647727966309, 0.7119554281234741, -20.69948959350586, 1, 1.8476320505142212, 0.45054635405540466, 3.0966031551361084, 0, -0.2881775498390198, 2.519559144973755, -0.1946430057287216, 0, -3.64288067817688, -0.24597910046577456, 2.2093656063079834, 0, 17.948062896728516,
+        1.009906768798828, 20.482120513916016, 1
+      ],
+      "metadata": {
+        "componentId": "beach-rocks-4",
+        "instanceCount": 6,
+        "responseGroup": { "id": "beachhead-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_e_remote_beachhead", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "beach-rocks-4:rock:0", "instanceIndex": 0, "kind": "rock", "position": [5367.500694914311, 63.21852270367134, -2385.086354032063], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-4:rock:1", "instanceIndex": 1, "kind": "rock", "position": [5376.641427062523, 63.21852270367134, -2374.9206030751193], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-4:rock:2", "instanceIndex": 2, "kind": "rock", "position": [5355.444686520961, 63.21852270367134, -2380.8094190957545], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-4:rock:3", "instanceIndex": 3, "kind": "rock", "position": [5370.26883581768, 63.21852270367134, -2338.3155030753787], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-4:rock:4", "instanceIndex": 4, "kind": "rock", "position": [5361.833648175685, 63.21852270367134, -2380.6994902576375], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-4:rock:5", "instanceIndex": 5, "kind": "rock", "position": [5367.948062402574, 63.21852270367134, -2339.517878923841], "responseGroupId": "beachhead-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "beach-rocks-4:rocks"
+    },
+    {
+      "matrices": [
+        -1.7187124490737915, 0.186406672000885, 0.9701597690582277, 0, 0.13150368630886078, 1.4106876850128174, -0.03808090463280678, 0, -0.9320054650306702, 0.042091574519872665, -1.6592066287994385, 0, 8.834238052368164, 0.44902047514915466, 14.343260765075684, 1, 3.112809181213379, 0.07212387770414352,
+        1.7616699934005735, 0, 0.10359755158424376, 2.09594464302063, -0.2688625454902649, 0, -1.4708276987075806, 0.4039585590362549, 2.5823628902435303, 0, 10.027488708496094, 1.1418893337249756, -13.903471946716309, 1, -3.43129563331604, 0.9176076650619508, -0.2287345677614212, 0, 0.7389180064201355,
+        2.8871819972991943, 0.497756689786911, 0, 0.38737016916275024, 0.5336262583732605, -3.670289039611816, 0, -11.004074096679688, 0.8822993636131287, 18.83738899230957, 1, 2.3886446952819824, 0.005737842060625553, -1.6166564226150513, 0, -0.2581803798675537, 2.179187536239624, -0.37373265624046326, 0,
+        1.7646571397781372, 0.6566259264945984, 2.609649419784546, 0, 3.4114856719970703, 0.6984758377075195, 17.45765495300293, 1, -2.2547004222869873, -0.2672942280769348, -0.7985814213752747, 0, -0.2026333212852478, 1.8130539655685425, -0.034738410264253616, 0, 0.983399510383606, 0.05634840577840805,
+        -2.79537296295166, 0, -6.912725925445557, 0.7068737149238586, 17.047719955444336, 1, -2.991753101348877, 0.8639840483665466, 1.9805877208709717, 0, 0.6816534996032715, 2.972670316696167, -0.26709282398223877, 0, -2.4761548042297363, 0.22299271821975708, -3.837600946426392, 0, 24.732818603515625,
+        0.9143661856651306, -18.669809341430664, 1
+      ],
+      "metadata": {
+        "componentId": "beach-rocks-5",
+        "instanceCount": 6,
+        "responseGroup": { "id": "beachhead-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_e_remote_beachhead", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "beach-rocks-5:rock:0", "instanceIndex": 0, "kind": "rock", "position": [6108.834238418135, 58.64350178507159, -2485.6567391463977], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-5:rock:1", "instanceIndex": 1, "kind": "rock", "position": [6110.027488891343, 58.64350178507159, -2513.903471913805], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-5:rock:2", "instanceIndex": 2, "kind": "rock", "position": [6088.995925485849, 58.64350178507159, -2481.1626105733526], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-5:rock:3", "instanceIndex": 3, "kind": "rock", "position": [6103.4114856180295, 58.64350178507159, -2482.5423448745782], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-5:rock:4", "instanceIndex": 4, "kind": "rock", "position": [6093.087273905632, 58.64350178507159, -2482.952280793221], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-5:rock:5", "instanceIndex": 5, "kind": "rock", "position": [6124.732818715084, 58.64350178507159, -2518.669808888376], "responseGroupId": "beachhead-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "beach-rocks-5:rocks"
+    },
+    {
+      "matrices": [
+        0.8506478667259216, -0.22534413635730743, -1.774782419204712, 0, -0.03687380626797676, 0.978617548942566, -0.14192858338356018, 0, 1.6083725690841677, 0.16928698122501373, 0.7493937611579895, 0, -29.536388397216797, 0.5084868669509888, -4.993196487426758, 1, 0.8235206007957458, 0.6086108684539795,
+        -1.9451171159744265, 0, -0.20849260687828064, 1.7782350778579712, 0.4681236445903778, 0, 1.8374415636062624, 0.00983221549540758, 0.7810094356536865, 0, -21.5564022064209, 0.5721131563186646, 0.5697402358055115, 1, 0.09995986521244048, -0.1946755349636078, -1.5114400386810305, 0, -0.0035646986216306686,
+        1.0486234426498413, -0.13529987633228302, 0, 1.5400525331497192, 0.0180764552205801, 0.09952390193939208, 0, 5.453357219696045, 0.3558090627193451, 14.029955863952637, 1, 0.8183532953262329, -0.649543285369873, 0.7521060705184937, 0, 0.19764333963394165, 0.8135879635810852, 0.4875887930393219, 0,
+        -1.1171499490737915, -0.30120372772216797, 0.9554218053817748, 0, 1.823668360710144, 0.32891717553138733, 16.319780349731445, 1, 0.10566876083612442, 1.0341674089431765, 2.546486139297486, 0, -0.014620344154536724, 1.9240130186080933, -0.7807647585868835, 0, -2.578572988510132, 0.020455364137887955,
+        0.09869299083948135, 0, 7.801302909851074, 0.6589460968971252, 8.823728561401367, 1, -2.7935545444488525, -0.05933273583650589, 0.16840887069702148, 0, -0.0697290226817131, 2.078964948654175, -0.4242125153541565, 0, -0.17032651603221893, -0.6273261904716492, -3.046379804611206, 0, 28.188093185424805,
+        0.8122243285179138, 2.8797497749328613, 1
+      ],
+      "metadata": {
+        "componentId": "beach-rocks-6",
+        "instanceCount": 6,
+        "responseGroup": { "id": "beachhead-rocks", "ignitionEligible": false, "kind": "rock", "regionId": "region_e_remote_beachhead", "stage3Addressable": true },
+        "responseInstances": [
+          { "id": "beach-rocks-6:rock:0", "instanceIndex": 0, "kind": "rock", "position": [6420.46361087638, 20.331093123874737, -2734.993196251833], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-6:rock:1", "instanceIndex": 1, "kind": "rock", "position": [6428.443598266645, 20.331093123874737, -2729.4302597646183], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-6:rock:2", "instanceIndex": 2, "kind": "rock", "position": [6455.4533573146055, 20.331093123874737, -2715.970044297741], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-6:rock:3", "instanceIndex": 3, "kind": "rock", "position": [6451.823668367623, 20.331093123874737, -2713.680219725295], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-6:rock:4", "instanceIndex": 4, "kind": "rock", "position": [6457.80130302505, 20.331093123874737, -2721.176271380767], "responseGroupId": "beachhead-rocks" },
+          { "id": "beach-rocks-6:rock:5", "instanceIndex": 5, "kind": "rock", "position": [6478.18809397177, 20.331093123874737, -2727.1202502473866], "responseGroupId": "beachhead-rocks" }
+        ],
+        "stage": 2
+      },
+      "name": "beach-rocks-6:rocks"
+    }
+  ],
+  "rocks": [
+    {
+      "id": "radar-rocks-1",
+      "matrices": [
+        [-1.6219738544232118, -0.5054727917390566, -2.995512973583875, 0, -0.04782101249594954, 2.877698158715995, -0.4596987902411044, 0, 3.0091699572203336, -0.20475875475594466, -1.5948170002455606, 0, -20.337150047686674, 0.8311159141593897, 5.4615137933158895, 1],
+        [-1.0396669343149567, 0.3760841372904681, -1.3314665456520591, 0, 0.132358471090602, 1.1032299181724876, 0.20826550020733078, 0, 1.2589212226223285, 0.03278700523477108, -0.9737594231891029, 0, 9.159622934847247, 0.5715528936831564, -2.7312847088480785, 1],
+        [2.4788133574892797, -1.0369751074268265, 1.4656631283662067, 0, 0.47213020248320703, 1.8953703256890917, 0.5425047402208402, 0, -1.8212718906181504, -0.35589996068342994, 2.828435545582839, 0, 12.290593073045125, 0.9087023299835841, 6.289263314811124, 1],
+        [1.2141934985689804, 0.3617214912130965, 0.5279692302050996, 0, -0.16316213664056056, 1.1495077130901863, -0.4123180408331374, 0, -0.7348088386017702, 0.4028447881502441, 1.413875003159137, 0, 17.381701591373997, 0.4117905033926469, 6.71798327712511, 1],
+        [1.2765565042088318, -0.31724375952928824, 1.6670749594790133, 0, 0.17863901824469866, 1.5505644928778972, 0.15827969040451534, 0, -1.6057133176452525, 0.05834637391125122, 1.2406723469685306, 0, -1.5400999502963801, 0.6966218047114813, -8.364776673809633, 1],
+        [1.0371888414007193, 0.2183298913006815, -1.8571390620696768, 0, -0.224814684356677, 1.6651491813791557, 0.07020290533701998, 0, 1.9790397836486906, 0.2195073443028427, 1.1310746932267406, 0, 14.225501090781082, 0.5079545066505372, 12.821522007984738, 1],
+        [1.1555438196675487, 0.04140684734560297, -1.1358060070393154, 0, 0.05161457077041041, 1.1173310881024818, 0.0932448458642736, 0, 1.3459099349792087, -0.175910839236664, 1.3628859015834431, 0, 19.103725032419273, 0.523382732609311, 7.2542242218305795, 1]
+      ],
+      "responseInstances": [
+        { "id": "radar-rocks-1:rock:0", "instanceIndex": 0, "kind": "rock", "position": [2839.6628499523135, 168.88566939872422, 4105.461513793316], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-1:rock:1", "instanceIndex": 1, "kind": "rock", "position": [2869.1596229348474, 168.88566939872422, 4097.268715291152], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-1:rock:2", "instanceIndex": 2, "kind": "rock", "position": [2872.2905930730453, 168.88566939872422, 4106.289263314811], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-1:rock:3", "instanceIndex": 3, "kind": "rock", "position": [2877.381701591374, 168.88566939872422, 4106.717983277125], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-1:rock:4", "instanceIndex": 4, "kind": "rock", "position": [2858.4599000497037, 168.88566939872422, 4091.6352233261905], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-1:rock:5", "instanceIndex": 5, "kind": "rock", "position": [2874.225501090781, 168.88566939872422, 4112.821522007985], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-1:rock:6", "instanceIndex": 6, "kind": "rock", "position": [2879.1037250324193, 168.88566939872422, 4107.254224221831], "responseGroupId": "radar-hill-rocks" }
+      ]
+    },
+    {
+      "id": "radar-rocks-2",
+      "matrices": [
+        [-0.23306566824808822, -0.002678313258850476, 1.9960125269578017, 0, -0.0498872405663433, 1.803130320776828, -0.0034056175110466777, 0, -2.072950050620395, -0.05780965926829349, -0.24212689782376068, 0, 0.5875627724793994, 0.5185368786501299, 8.20009423634865, 1],
+        [3.3409766043201845, 0.6155592262393487, 0.419607485503746, 0, -0.5623459772768418, 3.002145874440026, 0.0733689534889587, 0, -0.3644774000036705, -0.14436990154805524, 3.113811684117871, 0, 8.945629711228406, 0.8788472805392449, -4.110714333816404, 1],
+        [-2.0812590389052876, -0.6197256967225916, 0.3869800365672998, 0, -0.34572463838458434, 1.4621260055211236, 0.48212959643248504, 0, -0.41057464221863244, 0.4129710202277295, -1.5468070067275015, 0, -16.80776852911885, 0.7276834695097698, -5.02678263200121, 1],
+        [-0.4491493754675479, -0.3580369278555348, 0.8753420195407534, 0, -0.08615634256915707, 0.6288816987270368, 0.2130205105852478, 0, -0.7233755481586357, 0.023385286290673494, -0.36160823147674187, 0, 10.388345366196262, 0.323316498991983, 1.9607650499246934, 1],
+        [-0.6410177795201825, 0.3853769813444037, -0.6312164698833472, 0, 0.0611755368319446, 0.45301879674011114, 0.21445639658931376, 0, 0.6717677153953252, 0.18016258828774628, -0.5722039143200431, 0, -10.651508573116885, 0.23871140893437381, -6.101164192375667, 1],
+        [-1.9384447572072545, -1.4756735921034891, -2.431700181276436, 0, -0.17704435824116133, 1.4794266040132091, -0.7566558069696377, 0, 2.0449461722996944, -0.4495042152000101, -1.3573604640778303, 0, -11.308372572310883, 0.9967018041388561, -6.4974601284142155, 1],
+        [0.737176661789592, 0.00864316185616837, -1.253682064039403, 0, 0.11893504528028871, 1.0853533517107392, 0.07741757429851642, 0, 1.446724513366092, -0.2191060234348494, 0.8491768439583567, 0, -2.1897887484331178, 0.38211640584850376, 12.87386988278751, 1]
+      ],
+      "responseInstances": [
+        { "id": "radar-rocks-2:rock:0", "instanceIndex": 0, "kind": "rock", "position": [2700.5875627724795, 150.19249623017956, 3458.200094236349], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-2:rock:1", "instanceIndex": 1, "kind": "rock", "position": [2708.9456297112283, 150.19249623017956, 3445.8892856661837], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-2:rock:2", "instanceIndex": 2, "kind": "rock", "position": [2683.1922314708813, 150.19249623017956, 3444.9732173679986], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-2:rock:3", "instanceIndex": 3, "kind": "rock", "position": [2710.388345366196, 150.19249623017956, 3451.9607650499247], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-2:rock:4", "instanceIndex": 4, "kind": "rock", "position": [2689.348491426883, 150.19249623017956, 3443.8988358076244], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-2:rock:5", "instanceIndex": 5, "kind": "rock", "position": [2688.691627427689, 150.19249623017956, 3443.5025398715857], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-2:rock:6", "instanceIndex": 6, "kind": "rock", "position": [2697.8102112515667, 150.19249623017956, 3462.8738698827874], "responseGroupId": "radar-hill-rocks" }
+      ]
+    },
+    {
+      "id": "radar-rocks-3",
+      "matrices": [
+        [1.232405609002618, -1.0193786631340618, -2.372552197611129, 0, 0.18417918444513973, 1.6515163032661728, -0.6139114759466268, 0, 2.5150065879765933, 0.17689451361056643, 1.2303989500589552, 0, 15.358975398300823, 0.9380495230994769, 4.699097173348519, 1],
+        [3.6128767688685004, 0.45191798638306013, -0.08387329240461626, 0, -0.31995159524523964, 2.4796186388984833, -0.4216052848438141, 0, 0.005331918628832331, 0.4738184345517842, 2.7826574003499607, 0, 7.26319514099641, 0.8424298996860069, -17.40283281094237, 1],
+        [-1.7700500702971342, -0.06492986202185635, 0.24908416438598077, 0, -0.03371956214290101, 1.0391099177260659, 0.031250281451065585, 0, -0.18327652699901162, 0.0329628453130387, -1.293813106484781, 0, 13.109182222835448, 0.49515444280370147, 12.565391233298426, 1],
+        [0.1971515232422664, 1.7508353997099528, 2.803102684653307, 0, -0.028977620583982976, 1.4673708589978443, -0.9144908876983243, 0, -3.0902883872136484, 0.05357468570819547, 0.18388716523046897, 0, -15.745074209290742, 0.9456546924666069, 5.025304231819596, 1],
+        [-1.3725406606616941, -0.20888428023785477, 0.038878595119072344, 0, -0.12985682281133235, 0.8377746898251853, -0.08322847771012734, 0, -0.021720655921081248, -0.1706072959409366, -1.6834370028912986, 0, 11.24107818032065, 0.3202470428062298, -15.839876477735281, 1],
+        [1.3482579314500744, -0.07926351741844816, 0.9541422611453184, 0, 0.08842667321725252, 0.8630893980686086, -0.053252501276302766, 0, -1.033139902423322, 0.1969331521353792, 1.4762459849368592, 0, 9.448737418597345, 0.3691596499839706, -19.73586230864684, 1],
+        [-0.9334799226244781, 0.3061209368862111, 0.9669260617372417, 0, 0.026630075698574913, 0.8891428722277255, -0.25578647412305283, 0, -1.050710066154239, -0.23860955625944605, -0.9388239765833909, 0, 4.167110925559974, 0.30904536183535536, -9.19494653193106, 1]
+      ],
+      "responseInstances": [
+        { "id": "radar-rocks-3:rock:0", "instanceIndex": 0, "kind": "rock", "position": [4785.358975398301, 170.7624327799341, 3864.6990971733485], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-3:rock:1", "instanceIndex": 1, "kind": "rock", "position": [4777.263195140997, 170.7624327799341, 3842.5971671890575], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-3:rock:2", "instanceIndex": 2, "kind": "rock", "position": [4783.109182222835, 170.7624327799341, 3872.565391233298], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-3:rock:3", "instanceIndex": 3, "kind": "rock", "position": [4754.254925790709, 170.7624327799341, 3865.0253042318195], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-3:rock:4", "instanceIndex": 4, "kind": "rock", "position": [4781.241078180321, 170.7624327799341, 3844.1601235222647], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-3:rock:5", "instanceIndex": 5, "kind": "rock", "position": [4779.448737418597, 170.7624327799341, 3840.264137691353], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-3:rock:6", "instanceIndex": 6, "kind": "rock", "position": [4774.16711092556, 170.7624327799341, 3850.8050534680688], "responseGroupId": "radar-hill-rocks" }
+      ]
+    },
+    {
+      "id": "radar-rocks-4",
+      "matrices": [
+        [-0.1381271133141218, 0.030039865256436017, 0.943412148581626, 0, 0.008530784331032123, 0.5126614263081153, -0.015075009979359793, 0, -1.022360560718465, 0.012598899729343757, -0.15008730010672153, 0, -1.9272964537946442, 0.27139274714115685, -20.06001358064958, 1],
+        [2.4640502293907085, 0.6690740601811375, 2.4281835713858304, 0, -0.39368297103851463, 1.7271726352344576, -0.07641588337141504, 0, -2.312802850272423, -0.41823229134034584, 2.462207075885532, 0, -2.1768800621989026, 0.8677278804727624, -6.510788182948387, 1],
+        [-2.7064071284131925, 0.18590234053834395, 0.6232041611206294, 0, 0.010763682737170672, 2.2389223808477183, -0.621128720481199, 0, -0.45704177972480053, -0.5065173997837418, -1.8337142653729146, 0, -12.448764282902589, 0.760661462953702, -18.582073235629238, 1],
+        [0.251217771626061, -0.24949797194593987, -1.0000260065709277, 0, 0.04021253253828744, 0.8193761448950864, -0.19432552985582238, 0, 0.9513917600932355, 0.009432397447743322, 0.2366469995032413, 0, -1.2477595477755368, 0.3275389858212028, 15.2002271606659, 1],
+        [-0.10319474719058228, -0.8920894663822687, 2.2719631831507945, 0, -0.011427281362303426, 1.3755949911066219, 0.5396102257532924, 0, -2.393263305273048, 0.019722825697937582, -0.10096012047942661, 0, -10.092223262580502, 0.6392841058570597, 1.4160979656282682, 1],
+        [-1.3156041610500087, 0.024292113737548218, -3.4474659140119353, 0, -0.21799719775711357, 2.4677971347327166, 0.10057997317255636, 0, 3.4726056207790172, 0.36066621235656404, -1.3226564594004226, 0, 15.320156639092133, 0.9984550205832938, 4.949472138672569, 1],
+        [0.39659690381859874, 1.0573212174470152, -2.6733739908959953, 0, -0.041917360955570505, 1.3268764273226408, 0.518562052555417, 0, 2.4886538113550896, -0.0568758314092696, 0.346699106113538, 0, 4.42324606441865, 0.9066310273802849, -7.964239319545731, 1]
+      ],
+      "responseInstances": [
+        { "id": "radar-rocks-4:rock:0", "instanceIndex": 0, "kind": "rock", "position": [4378.072703546205, 123.99020203718038, 2849.9399864193506], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-4:rock:1", "instanceIndex": 1, "kind": "rock", "position": [4377.8231199378015, 123.99020203718038, 2863.4892118170515], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-4:rock:2", "instanceIndex": 2, "kind": "rock", "position": [4367.551235717097, 123.99020203718038, 2851.417926764371], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-4:rock:3", "instanceIndex": 3, "kind": "rock", "position": [4378.752240452224, 123.99020203718038, 2885.2002271606657], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-4:rock:4", "instanceIndex": 4, "kind": "rock", "position": [4369.907776737419, 123.99020203718038, 2871.416097965628], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-4:rock:5", "instanceIndex": 5, "kind": "rock", "position": [4395.320156639092, 123.99020203718038, 2874.9494721386727], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-4:rock:6", "instanceIndex": 6, "kind": "rock", "position": [4384.423246064419, 123.99020203718038, 2862.035760680454], "responseGroupId": "radar-hill-rocks" }
+      ]
+    },
+    {
+      "id": "radar-rocks-5",
+      "matrices": [
+        [-1.2859064608197277, 0.40407623089352945, 2.5005102473615706, 0, 0.0147575618474049, 2.4217149453218902, -0.38375391754190263, 0, -3.0164537835763947, -0.22175400068128914, -1.515399463882388, 0, 9.44421847781313, 0.7713129160655295, -3.114655404792541, 1],
+        [0.8593136487227779, -0.6130568294558836, 2.084052787945054, 0, 0.22997494540622282, 1.8763017264172108, 0.4571184489944933, 0, -2.602170908061612, 0.05369565700187068, 1.0887437592601075, 0, 10.642642770044803, 0.6814842080140691, 7.22928546770531, 1],
+        [2.0611049231058205, 0.629153220696521, -2.8065868262692164, 0, 0.08603682095883737, 2.0348200647863393, 0.5193299202085866, 0, 3.2524910009336336, -0.7067041727644261, 2.2301465785498173, 0, -1.8080634149780053, 0.9611602470246405, 10.516945502707058, 1],
+        [-0.774314774288535, 0.5965318255511363, -1.1535471466775755, 0, 0.12409963658270114, 0.8167191521711726, 0.3390470739266103, 0, 1.5244453977269579, 0.15902085763029494, -0.9410448412791697, 0, 5.477411494902564, 0.36183514356318647, -8.625148632332, 1],
+        [-2.4899741158985504, -0.2655501298378336, -0.6309193948868586, 0, -0.06244740141420638, 1.7062841179427473, -0.47171090054506826, 0, 0.5487283472764568, -0.5183001332864708, -1.9474511699062873, 0, -6.600704728938317, 0.6762477783216575, -22.520263102785318, 1],
+        [1.0754556241245534, -0.027909588432027902, -0.5440842525193046, 0, 0.07379293728726695, 0.5684071723091246, 0.11670438703433772, 0, 0.4146210510906474, -0.22446131167569666, 0.831068280344337, 0, 8.23732186491644, 0.2717460138860974, 2.185481198359554, 1],
+        [-1.5793974898279444, 0.2772040553962745, 0.7463188261175875, 0, 0.05484309319300164, 1.307051182956188, -0.3694142974213116, 0, -0.5864254104291854, -0.2951612677905506, -1.131391693772835, 0, -17.378389729444123, 0.5536931280418023, 11.268015135686463, 1]
+      ],
+      "responseInstances": [
+        { "id": "radar-rocks-5:rock:0", "instanceIndex": 0, "kind": "rock", "position": [5079.444218477813, 118.02412576966839, 3306.8853445952072], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-5:rock:1", "instanceIndex": 1, "kind": "rock", "position": [5080.642642770044, 118.02412576966839, 3317.2292854677053], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-5:rock:2", "instanceIndex": 2, "kind": "rock", "position": [5068.191936585022, 118.02412576966839, 3320.516945502707], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-5:rock:3", "instanceIndex": 3, "kind": "rock", "position": [5075.477411494902, 118.02412576966839, 3301.374851367668], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-5:rock:4", "instanceIndex": 4, "kind": "rock", "position": [5063.399295271061, 118.02412576966839, 3287.4797368972145], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-5:rock:5", "instanceIndex": 5, "kind": "rock", "position": [5078.237321864916, 118.02412576966839, 3312.1854811983594], "responseGroupId": "radar-hill-rocks" },
+        { "id": "radar-rocks-5:rock:6", "instanceIndex": 6, "kind": "rock", "position": [5052.621610270556, 118.02412576966839, 3321.2680151356863], "responseGroupId": "radar-hill-rocks" }
+      ]
+    },
+    {
+      "id": "beach-rocks-1",
+      "matrices": [
+        [-3.576092184551511, -0.20922686735552753, 0.014812721326876756, 0, -0.17615110256720687, 2.9736635213040614, -0.5240278195728942, 0, 0.023677366811847442, -0.6774005663378699, -3.851956083828955, 0, 31.52189447425802, 0.9549303115363234, 0.3560729823411559, 1],
+        [-1.3248439060882635, 1.6357146569175278, 2.8304064023668762, 0, 0.165797018269694, 1.639891501224116, -0.8701009837121425, 0, -3.7722307076509, -0.425113294120158, -1.520012396717941, 0, 28.37475632550796, 0.8393909027290541, 9.63163267211908, 1],
+        [2.6230032042384614, 0.179222742810734, 0.22148733005712218, 0, -0.11229733668111103, 1.3077162010797378, 0.2717256537921787, 0, -0.20019020462868994, -0.612850934254039, 2.8666938799866557, 0, -7.654001792903094, 0.6234491489129089, 29.917494564402002, 1],
+        [3.100109744380086, 0.21343056893412468, -1.9663596772410605, 0, 0.1332646662895063, 2.4123047025873734, 0.47193535669089176, 0, 1.9434038944536531, -0.692079704293554, 2.988799278915626, 0, 16.99152538340042, 0.9428631440588332, -17.430892449853328, 1],
+        [3.2001144677406956, 0.36640101568763866, 0.8917429181272397, 0, -0.37128609387667216, 2.7324215648939805, 0.20969716744644257, 0, -0.7892596974847865, -0.3351806266924361, 2.970062161353467, 0, -4.22449596762767, 1.0387444772630234, 5.691293560970962, 1],
+        [-1.2356213698132943, 0.7130565718319039, 2.2539158524656977, 0, 0.14375648486780393, 2.199855232730504, -0.6171448878642455, 0, -1.9502535080973522, -0.15843159227073192, -1.0190283814683585, 0, 9.994822260566917, 0.6684610252602663, -4.540196598982296, 1]
+      ],
+      "responseInstances": [
+        { "id": "beach-rocks-1:rock:0", "instanceIndex": 0, "kind": "rock", "position": [3131.521894474258, 6.415405182483143, -2479.643927017659], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-1:rock:1", "instanceIndex": 1, "kind": "rock", "position": [3128.374756325508, 6.415405182483143, -2470.368367327881], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-1:rock:2", "instanceIndex": 2, "kind": "rock", "position": [3092.3459982070967, 6.415405182483143, -2450.082505435598], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-1:rock:3", "instanceIndex": 3, "kind": "rock", "position": [3116.9915253834006, 6.415405182483143, -2497.430892449853], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-1:rock:4", "instanceIndex": 4, "kind": "rock", "position": [3095.7755040323723, 6.415405182483143, -2474.3087064390293], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-1:rock:5", "instanceIndex": 5, "kind": "rock", "position": [3109.9948222605667, 6.415405182483143, -2484.540196598982], "responseGroupId": "beachhead-rocks" }
+      ]
+    },
+    {
+      "id": "beach-rocks-2",
+      "matrices": [
+        [-0.8347644050394873, 0.1530616974852794, 0.44019607994937826, 0, 0.1970292554539916, 0.7585945336230234, 0.10986295514169991, 0, -0.41538515957605254, 0.2337383354739602, -0.8689880474054966, 0, 5.270662607457783, 0.31358744640599895, 1.0652038805031434, 1],
+        [-0.20622387307625234, -0.49341919134405365, 1.534834163665685, 0, -0.05002720752500024, 1.2074466329833946, 0.38144872625489457, 0, -2.006096683063079, 0.0018478077827467191, -0.26894976258469794, 0, -24.11826075643224, 0.515198388852618, 2.092853414231579, 1],
+        [-1.172782494473141, -0.28392196891468596, -0.015314830149044821, 0, -0.13772102344331127, 0.5752262755923266, -0.11770103258422382, 0, 0.08529142269183755, -0.27455012191703526, -1.4415750005965013, 0, -10.66241647022693, 0.4030658871264199, 22.490154596787594, 1],
+        [1.3499100256275722, 0.8284396304319673, -1.6665349782141268, 0, -0.29170685532052615, 1.888665108920825, 0.7025757224473986, 0, 1.5782806473413424, -0.1956255060196877, 1.181177096744449, 0, 19.776912245192698, 0.6758033891512545, 1.6619699965805925, 1],
+        [-2.885050542828394, 0.07785507732130775, 0.23064044429737748, 0, 0.06720055146847645, 1.926225014883611, 0.19038547273989118, 0, -0.17489974298441432, 0.2300149265769071, -2.265441475033493, 0, -18.89476327845978, 0.6671615148733313, -24.54106321215878, 1],
+        [1.3763039445711431, 0.07045764502464497, -0.5088870121913804, 0, -0.16079032042209657, 1.133751689638602, -0.2778905233642682, 0, 0.33799205584456643, 0.2815443837545398, 0.9530932060011844, 0, 0.3735488905173432, 0.3258010779920765, -31.656308466729122, 1]
+      ],
+      "responseInstances": [
+        { "id": "beach-rocks-2:rock:0", "instanceIndex": 0, "kind": "rock", "position": [3805.270662607458, 11.494744118687542, -2498.9347961194967], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-2:rock:1", "instanceIndex": 1, "kind": "rock", "position": [3775.8817392435676, 11.494744118687542, -2497.9071465857683], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-2:rock:2", "instanceIndex": 2, "kind": "rock", "position": [3789.337583529773, 11.494744118687542, -2477.5098454032122], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-2:rock:3", "instanceIndex": 3, "kind": "rock", "position": [3819.7769122451928, 11.494744118687542, -2498.3380300034196], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-2:rock:4", "instanceIndex": 4, "kind": "rock", "position": [3781.10523672154, 11.494744118687542, -2524.541063212159], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-2:rock:5", "instanceIndex": 5, "kind": "rock", "position": [3800.373548890517, 11.494744118687542, -2531.656308466729], "responseGroupId": "beachhead-rocks" }
+      ]
+    },
+    {
+      "id": "beach-rocks-3",
+      "matrices": [
+        [-2.1221696834498847, 0.2967636388548205, 2.732555159164251, 0, -0.009290109092590725, 1.7043512708755484, -0.19231255813508583, 0, -2.0933237847438777, -0.19249233392733514, -1.6048216020280903, 0, 22.5375970831297, 1.1537217672700428, 5.670179557210834, 1],
+        [-1.7958482023416054, 0.38718442666789626, -0.6451936148847124, 0, 0.2416241567210029, 1.580871318177682, 0.27614725775992716, 0, 0.5749443877427048, 0.17348219341077736, -1.496207059881993, 0, 8.622354212670118, 0.6047728852648183, 3.143997733464264, 1],
+        [-2.9095530955595814, -0.5867438200360061, 0.3146360826975198, 0, -0.5315355739641683, 2.300529886973363, -0.6251961915850639, 0, -0.1357455317171933, -0.7552635744769556, -2.6637283926666595, 0, 0.9546893185999392, 0.8700020374148845, 27.039408888586646, 1],
+        [0.196858070600947, 0.044567712179319985, 1.0385839570046136, 0, -0.027248959187192313, 0.5803569509474661, -0.019739380606982257, 0, -1.1570308374453364, -0.04679744284834615, 0.22131721917967112, 0, -30.774847118598796, 0.2844912460519043, 2.0833912047319587, 1],
+        [1.3225782924314435, -0.05046849263826755, -2.637564405600809, 0, 0.09102708221508081, 1.5681041555666475, 0.015639652189039004, 0, 2.6334270206513866, -0.16607002305220656, 1.323681313160769, 0, -0.7336276790599491, 0.7219371650638591, -25.53118043160032, 1],
+        [1.0362543728487483, -0.053076783725685465, 0.4662588686595972, 0, 0.06881151322357222, 0.8699586580105746, -0.05390058104631841, 0, -0.5311646214382718, 0.11597311940344299, 1.1937084294923523, 0, 29.859238594459192, 0.30299727719605773, 8.351814153318182, 1]
+      ],
+      "responseInstances": [
+        { "id": "beach-rocks-3:rock:0", "instanceIndex": 0, "kind": "rock", "position": [4492.53759708313, 64.78520942562277, -2344.3298204427892], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-3:rock:1", "instanceIndex": 1, "kind": "rock", "position": [4478.62235421267, 64.78520942562277, -2346.8560022665356], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-3:rock:2", "instanceIndex": 2, "kind": "rock", "position": [4470.9546893186, 64.78520942562277, -2322.9605911114136], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-3:rock:3", "instanceIndex": 3, "kind": "rock", "position": [4439.225152881401, 64.78520942562277, -2347.916608795268], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-3:rock:4", "instanceIndex": 4, "kind": "rock", "position": [4469.26637232094, 64.78520942562277, -2375.5311804316], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-3:rock:5", "instanceIndex": 5, "kind": "rock", "position": [4499.859238594459, 64.78520942562277, -2341.648185846682], "responseGroupId": "beachhead-rocks" }
+      ]
+    },
+    {
+      "id": "beach-rocks-4",
+      "matrices": [
+        [-0.9120490453679783, 0.7766650158971248, 3.2776111912648096, 0, -0.006552457280762305, 2.3277097996090754, -0.5533990534811009, 0, -3.6411301912794314, -0.23773963152473082, -0.9568692188621496, 0, 17.500694914311133, 1.0591062120639971, -25.086354032063106, 1],
+        [-3.1674819813710355, -0.298074726867122, -1.264101690030244, 0, -0.1062581713427285, 2.7803348102008716, -0.38934897400261553, 0, 1.5974487349536797, -0.48351586847729416, -3.88874270358727, 0, 26.641427062522958, 1.0877901348185959, -14.920603075119422, 1],
+        [3.048622344539961, -0.17496387981239245, 1.9010713059708226, 0, -0.005368155447760355, 2.835683571677333, 0.26958887689181743, 0, -1.9666038296153534, -0.30091394944041555, 3.126018096782882, 0, 5.444686520960913, 1.1402570833952184, -20.80941909575464, 1],
+        [-2.2075545599428974, 0.9817273990658, 1.8845907602488496, 0, 0.1861828459696421, 1.5713522840359941, -0.6004650049700477, 0, -2.1583705772037423, -0.5924561618674333, -2.219627969708251, 0, 20.26883581768038, 0.810175524251139, 21.68449692462109, 1],
+        [1.583401945760836, 0.2978358512002475, -1.606499658637973, 0, -0.12659301425093836, 1.5126760328510034, 0.15566858505388798, 0, 1.301611181172639, -0.02266043990708444, 1.2786959364972015, 0, 11.833648175685521, 0.7119554099765517, -20.69949025763738, 1],
+        [1.8476320470475402, 0.4505463495357814, 3.0966030622334912, 0, -0.28817755280279345, 2.519559225265852, -0.19464300637545112, 0, -3.6428807364722005, -0.24597909575196963, 2.20936556556808, 0, 17.948062402573616, 1.009906720278985, 20.482121076158933, 1]
+      ],
+      "responseInstances": [
+        { "id": "beach-rocks-4:rock:0", "instanceIndex": 0, "kind": "rock", "position": [5367.500694914311, 63.21852270367134, -2385.086354032063], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-4:rock:1", "instanceIndex": 1, "kind": "rock", "position": [5376.641427062523, 63.21852270367134, -2374.9206030751193], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-4:rock:2", "instanceIndex": 2, "kind": "rock", "position": [5355.444686520961, 63.21852270367134, -2380.8094190957545], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-4:rock:3", "instanceIndex": 3, "kind": "rock", "position": [5370.26883581768, 63.21852270367134, -2338.3155030753787], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-4:rock:4", "instanceIndex": 4, "kind": "rock", "position": [5361.833648175685, 63.21852270367134, -2380.6994902576375], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-4:rock:5", "instanceIndex": 5, "kind": "rock", "position": [5367.948062402574, 63.21852270367134, -2339.517878923841], "responseGroupId": "beachhead-rocks" }
+      ]
+    },
+    {
+      "id": "beach-rocks-5",
+      "matrices": [
+        [-1.7187124764462487, 0.18640667749112652, 0.970159798105636, 0, 0.1315036882832318, 1.4106876292298385, -0.03808090611837197, 0, -0.9320054693703494, 0.042091575199328296, -1.659206640132252, 0, 8.834238418135419, 0.44902048806494244, 14.343260853602349, 1],
+        [3.1128092574494985, 0.07212388141989598, 1.7616699870685988, 0, 0.10359755299247189, 2.095944697641191, -0.26886255218978816, 0, -1.4708277254650273, 0.40395856645728, 2.5823628338955533, 0, 10.027488891342779, 1.141889306286974, -13.903471913805044, 1],
+        [-3.43129569318593, 0.9176076580644293, -0.22873457461561453, 0, 0.7389179973796407, 2.8871819929500284, 0.4977566907917796, 0, 0.3873701627289752, 0.5336262742791937, -3.670289096558723, 0, -11.004074514151394, 0.88229935298079, 18.837389426647245, 1],
+        [2.388644619991776, 0.0057378421884893924, -1.61665643831328, 0, -0.258180371781094, 2.179187512358302, -0.3737326668044142, 0, 1.7646571275813991, 0.6566259322702184, 2.609649316898422, 0, 3.41148561802962, 0.6984758243145275, 17.457655125421805, 1],
+        [-2.2547003657023934, -0.26729423022696697, -0.7985814235458034, 0, -0.20263331719218822, 1.8130539587357917, -0.034738408715227855, 0, 0.9833995049444614, 0.0563484053347769, -2.7953728464487235, 0, -6.912726094367677, 0.7068736892622841, 17.047719206779153, 1],
+        [-2.9917529889386048, 0.863984024100964, 1.9805877200786075, 0, 0.6816534802185023, 2.9726702359466897, -0.2670928182334085, 0, -2.4761546950964832, 0.22299271524104747, -3.837600968911774, 0, 24.732818715084107, 0.9143661790396037, -18.669808888375993, 1]
+      ],
+      "responseInstances": [
+        { "id": "beach-rocks-5:rock:0", "instanceIndex": 0, "kind": "rock", "position": [6108.834238418135, 58.64350178507159, -2485.6567391463977], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-5:rock:1", "instanceIndex": 1, "kind": "rock", "position": [6110.027488891343, 58.64350178507159, -2513.903471913805], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-5:rock:2", "instanceIndex": 2, "kind": "rock", "position": [6088.995925485849, 58.64350178507159, -2481.1626105733526], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-5:rock:3", "instanceIndex": 3, "kind": "rock", "position": [6103.4114856180295, 58.64350178507159, -2482.5423448745782], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-5:rock:4", "instanceIndex": 4, "kind": "rock", "position": [6093.087273905632, 58.64350178507159, -2482.952280793221], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-5:rock:5", "instanceIndex": 5, "kind": "rock", "position": [6124.732818715084, 58.64350178507159, -2518.669808888376], "responseGroupId": "beachhead-rocks" }
+      ]
+    },
+    {
+      "id": "beach-rocks-6",
+      "matrices": [
+        [0.8506478526386608, -0.22534413670789905, -1.7747824088730317, 0, -0.03687380716705199, 0.9786175310738285, -0.14192858027720776, 0, 1.6083725799678423, 0.1692869856375119, 0.7493937539096543, 0, -29.53638912361989, 0.5084868935237827, -4.993196251832915, 1],
+        [0.8235205728879694, 0.6086108910024575, -1.9451171523968545, 0, -0.20849260655855353, 1.7782351102106506, 0.468123630969542, 0, 1.8374415299375082, 0.009832215193352888, 0.7810094588696996, 0, -21.556401733355518, 0.5721131780815062, 0.5697402353817654, 1],
+        [0.09995986868560025, -0.1946755319672614, -1.5114400457105872, 0, -0.00356469856653839, 1.0486234087779958, -0.13529987333480498, 0, 1.5400525480080705, 0.01807645521073862, 0.09952389931739396, 0, 5.453357314605502, 0.35580907694444797, 14.029955702259231, 1],
+        [0.818353310121606, -0.6495432595077304, 0.7521060471271256, 0, 0.19764333628715328, 0.8135879466577735, 0.48758880439135316, 0, -1.1171499844741521, -0.30120374053147925, 0.9554218198893522, 0, 1.8236683676232743, 0.32891718584426205, 16.31978027470512, 1],
+        [0.10566876007285825, 1.0341674043082625, 2.546486128258785, 0, -0.014620343930438491, 1.9240130050329973, -0.7807647564193982, 0, -2.5785729002839983, 0.02045536374305977, 0.09869299027989928, 0, 7.801303025050822, 0.6589460960945318, 8.823728619232893, 1],
+        [-2.7935545777974986, -0.05933273598634634, 0.1684088700276104, 0, -0.06972902203941143, 2.0789649596130317, -0.4242125111239252, 0, -0.1703265094652553, -0.6273261680228746, -3.046379790194238, 0, 28.188093971770087, 0.8122243237763311, 2.879749752613267, 1]
+      ],
+      "responseInstances": [
+        { "id": "beach-rocks-6:rock:0", "instanceIndex": 0, "kind": "rock", "position": [6420.46361087638, 20.331093123874734, -2734.993196251833], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-6:rock:1", "instanceIndex": 1, "kind": "rock", "position": [6428.443598266645, 20.331093123874734, -2729.4302597646183], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-6:rock:2", "instanceIndex": 2, "kind": "rock", "position": [6455.4533573146055, 20.331093123874734, -2715.970044297741], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-6:rock:3", "instanceIndex": 3, "kind": "rock", "position": [6451.823668367623, 20.331093123874734, -2713.680219725295], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-6:rock:4", "instanceIndex": 4, "kind": "rock", "position": [6457.80130302505, 20.331093123874734, -2721.176271380767], "responseGroupId": "beachhead-rocks" },
+        { "id": "beach-rocks-6:rock:5", "instanceIndex": 5, "kind": "rock", "position": [6478.18809397177, 20.331093123874734, -2727.1202502473866], "responseGroupId": "beachhead-rocks" }
+      ]
+    }
+  ]
+}
