@@ -146,7 +146,10 @@ function PairedGun({ side, elevation, destroyed, settled }: PairedGunProps) {
 export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevation = Math.PI / 10, firedTubeCount = 0, wheelTravelMeters, steeringRadians = 0, stabilizerDeployment = 1, radarDeployment = 1, destroyed = false, destructionAge = 0, ...groupProps }: PantsirModelProps) {
   const age = Math.max(0, destructionAge)
   const settled = destroyed ? clamp01(age / 1.2) : 0
-  const impactRock = destroyed ? Math.sin(age * 18) * Math.exp(-age * 2.8) * 0.06 : 0
+  // Preserve scripted arithmetic; reduce only the late periodic phase before
+  // multiplication so a finite observation age cannot overflow into NaN.
+  const rockingPhase = age <= 180 ? age * 18 : (age % ((Math.PI * 2) / 18)) * 18
+  const impactRock = destroyed ? Math.sin(rockingPhase) * Math.exp(-age * 2.8) * 0.06 : 0
   const elevation = Math.max(-0.12, Math.min(1.15, launcherElevation))
   const fired = Math.max(0, Math.min(12, Math.floor(firedTubeCount)))
   const bodyMaterial = destroyed ? MATERIALS.scorchedOlive : MATERIALS.body

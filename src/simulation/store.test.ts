@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { deriveSimulationWorldState } from './derive'
+import { deriveRuntimeWorldState } from './runtime'
 import { createSimulationStore, getSimulationWorldState } from './store'
 
 describe('simulation store', () => {
-  it('plays, pauses, changes speed, and clamps at the active scripted endpoint', () => {
+  it('plays, pauses, changes speed, and continues beyond the scripted boundary', () => {
     const store = createSimulationStore()
     const actions = store.getState()
 
@@ -22,8 +22,8 @@ describe('simulation store', () => {
 
     store.getState().play()
     store.getState().tick(100)
-    expect(store.getState().timeSeconds).toBe(180)
-    expect(store.getState().isPlaying).toBe(false)
+    expect(store.getState().timeSeconds).toBe(208)
+    expect(store.getState().isPlaying).toBe(true)
   })
 
   it('seeks directly and restarts with no accumulated event or effect state', () => {
@@ -32,7 +32,7 @@ describe('simulation store', () => {
     store.getState().seek(43.2)
     const firstSeek = getSimulationWorldState(store)
     const firstResetVersion = store.getState().transientResetVersion
-    expect(firstSeek).toEqual(deriveSimulationWorldState(43.2))
+    expect(firstSeek).toEqual(deriveRuntimeWorldState(43.2))
     expect(firstSeek.reachedEvents).toHaveLength(10)
 
     store.getState().seek(43.2)
@@ -55,7 +55,7 @@ describe('simulation store', () => {
     expect(restarted.stage3.industrial.fuelCascade.reached).toBe(false)
   })
 
-  it('preserves playback state on an in-range seek and pauses at the endpoint', () => {
+  it('preserves playback state on finite seeks including the scripted boundary', () => {
     const store = createSimulationStore({ isPlaying: true, speed: 0.5 })
     store.getState().seek(24)
     expect(store.getState().isPlaying).toBe(true)
@@ -69,6 +69,6 @@ describe('simulation store', () => {
     store.getState().seek(176)
     expect(store.getState().isPlaying).toBe(true)
     store.getState().seek(180)
-    expect(store.getState().isPlaying).toBe(false)
+    expect(store.getState().isPlaying).toBe(true)
   })
 })

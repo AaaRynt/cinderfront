@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import type { Stage3Vec3 } from '../stage3/types.ts'
 
+import { periodicAngle } from '../aftermath/effectClocks'
 import { AnalyticalDebris } from '../stage3/AnalyticalDebris.tsx'
 import { DustShockFront } from '../stage3/BlastLayers.tsx'
 import { CinematicFuelSmokeField, type CinematicFuelSmokeSource } from './CinematicFuelSmokeField.tsx'
@@ -78,8 +79,13 @@ export function Stage4AFuelDisaster({ surfaceHeightAt, timeSeconds }: Stage4AFue
 
   const hero = eventById.get('central-bund-hero-cascade')!
   const westernFlashover = eventById.get('tank-04-shell-flashover')!
-  const heroFireLight = sampleStage4AFuelFireIntensity(STAGE4A_FUEL_HERO_TIME_SECONDS + 0.25, timeSeconds, 0.7)
-  const secondaryFireLight = sampleStage4AFuelFireIntensity(95.32, timeSeconds, 2.1)
+  const fireLight = (eventTime: number, phase: number) => {
+    if (timeSeconds <= 180) return sampleStage4AFuelFireIntensity(eventTime, timeSeconds, phase)
+    const age = timeSeconds - eventTime
+    return 0.82 + Math.sin(periodicAngle(age, 4.7, phase)) * 0.1 + Math.sin(periodicAngle(age, 8.9, phase * 0.37)) * 0.04
+  }
+  const heroFireLight = fireLight(STAGE4A_FUEL_HERO_TIME_SECONDS + 0.25, 0.7)
+  const secondaryFireLight = fireLight(95.32, 2.1)
 
   return (
     <group name="ash-harbor-stage4a-fuel-disaster">

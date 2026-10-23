@@ -3,6 +3,7 @@ import { DynamicDrawUsage, InstancedMesh, Object3D } from 'three'
 
 import type { Stage3Vec3 } from './types.ts'
 
+import { cyclicEmissionAge } from '../aftermath/effectClocks'
 import { STAGE3_WIND_XZ, createSmokePuffs, cyclicParticleEnvelope } from './effectMath.ts'
 import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
 
@@ -13,10 +14,11 @@ export interface BoundedSmokeColumnProps {
   readonly profile?: 'fuel' | 'ammunition' | 'local'
   readonly puffCount?: number
   readonly seed?: number | string
+  readonly emissionEndAgeSeconds?: number
 }
 
 /** A fixed-size smoke pool whose transforms are a pure function of source age. */
-export function BoundedSmokeColumn({ ageSeconds, heightM, origin, profile = 'fuel', puffCount, seed = 'ash-harbor-stage3-smoke' }: BoundedSmokeColumnProps) {
+export function BoundedSmokeColumn({ ageSeconds, emissionEndAgeSeconds, heightM, origin, profile = 'fuel', puffCount, seed = 'ash-harbor-stage3-smoke' }: BoundedSmokeColumnProps) {
   const coreRef = useRef<InstancedMesh>(null)
   const edgeRef = useRef<InstancedMesh>(null)
   const resolvedCount = puffCount ?? (profile === 'fuel' ? 30 : profile === 'ammunition' ? 22 : 8)
@@ -36,7 +38,8 @@ export function BoundedSmokeColumn({ ageSeconds, heightM, origin, profile = 'fue
       for (const descriptor of descriptors) {
         const emittedAge = ageSeconds - descriptor.delaySeconds
         if (emittedAge < 0) continue
-        const cycleAge = emittedAge % descriptor.lifetimeSeconds
+        const cycleAge = emissionEndAgeSeconds === undefined ? emittedAge % descriptor.lifetimeSeconds : cyclicEmissionAge(ageSeconds, descriptor.delaySeconds, descriptor.lifetimeSeconds, emissionEndAgeSeconds)
+        if (cycleAge === null) continue
         const progress = cycleAge / descriptor.lifetimeSeconds
         const cycleEnvelope = cyclicParticleEnvelope(progress)
         const curl = Math.sin(cycleAge * 0.72 + descriptor.phase) * descriptor.curl * (8 + progress * 18)
@@ -66,7 +69,7 @@ export function BoundedSmokeColumn({ ageSeconds, heightM, origin, profile = 'fue
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
     }
-  }, [ageSeconds, descriptors, origin, resolvedHeight, scratchObject])
+  }, [ageSeconds, descriptors, emissionEndAgeSeconds, origin, resolvedHeight, scratchObject])
 
   const material = profile === 'local' ? STAGE3_MATERIALS.smokeLocal : undefined
   return (

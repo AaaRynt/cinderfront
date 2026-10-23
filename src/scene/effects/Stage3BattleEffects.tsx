@@ -4,11 +4,14 @@ import { BoxGeometry, DynamicDrawUsage, InstancedMesh, MeshStandardMaterial, Obj
 import type { SimulationWorldState, Vector3 } from '@/simulation'
 
 import { AIR_GROUND_STRIKE_BY_ID, AMMUNITION_COOKOFF_SCHEDULE, deriveMolniyaState, transformLocalOffsetByPose } from '@/simulation'
+import { getMolniyaRuntimePresentation } from '@/simulation/aftermathSurvivors'
 
 import type { AmmunitionCookoffBurstDescriptor, GroundFireDescriptor, Stage3Vec3 } from './stage3/index.ts'
 
 import { AMMUNITION_BUNKERS, FUEL_TANKS, HARBOR_FEATURES } from '../world/stage2/stage2Data.ts'
 import { getTerrainHeight } from '../world/stage2/terrainModel.ts'
+import { periodicAngle } from './aftermath/effectClocks'
+import { IndustrialSecondaryActivity } from './aftermath/IndustrialSecondaryActivity'
 import { ImpactEffect } from './BattleEffects.tsx'
 import { AMMUNITION_EFFECT_POSITIONS, AmmunitionCookoffEffect, BlastResponseField, BoundedSmokeColumn, GuidedBomb, PersistentBlastDamage, PersistentGroundFires, createBlastResponseLayout } from './stage3/index.ts'
 import { Stage4AFuelDisaster } from './stage4a/index.ts'
@@ -131,8 +134,8 @@ function HarborFloatingDebris({ count, origin, timeSeconds }: { count: number; o
       const angle = index * 2.17 + 0.4
       const driftAge = Math.max(0, timeSeconds - (index < 2 ? 48 : index < 5 ? 72 : 115))
       const distance = 18 + index * 7 + Math.min(50, driftAge * (0.08 + (index % 3) * 0.025))
-      object.position.set(origin[0] + Math.sin(angle) * distance, 0.34 + Math.sin(timeSeconds * 0.4 + index) * 0.08, origin[2] + Math.cos(angle) * distance)
-      object.rotation.set(0.08 * Math.sin(index), angle + timeSeconds * 0.015, 0.06 * Math.cos(index * 1.7))
+      object.position.set(origin[0] + Math.sin(angle) * distance, 0.34 + Math.sin(periodicAngle(timeSeconds, 0.4, index)) * 0.08, origin[2] + Math.cos(angle) * distance)
+      object.rotation.set(0.08 * Math.sin(index), periodicAngle(timeSeconds, 0.015, angle), 0.06 * Math.cos(index * 1.7))
       object.scale.set(3 + (index % 4) * 1.7, 0.35 + (index % 2) * 0.2, 1.4 + (index % 3) * 0.9)
       object.updateMatrix()
       mesh.setMatrixAt(index, object.matrix)
@@ -166,6 +169,8 @@ function IndustrialIndicatorLights({ blackoutFraction }: { blackoutFraction: num
 function HarborDamage({ world }: { world: SimulationWorldState }) {
   const time = world.timeSeconds
   const { harbor, molniya, talwar } = world.stage3
+  const molniyaPresentation = getMolniyaRuntimePresentation(time)
+  const molniyaEmissionEnd = time <= 180 ? undefined : molniyaPresentation.emissionEndSeconds
   const talwarDeckFire = tuple(transformLocalOffsetByPose(talwar.pose, TALWAR_DECK_FIRE_LOCAL))
   const talwarHangarFire = tuple(transformLocalOffsetByPose(talwar.pose, TALWAR_HANGAR_FIRE_LOCAL))
   const talwarSmoke = tuple(transformLocalOffsetByPose(talwar.pose, TALWAR_FUNNEL_SMOKE_LOCAL))
@@ -209,8 +214,8 @@ function HarborDamage({ world }: { world: SimulationWorldState }) {
       <ImpactEffect impactTime={128} persistent={false} position={MOLNIYA_IMPACT} time={time} variant="vehicle-kill" />
       {molniya.damaged ? (
         <>
-          <PersistentGroundFires descriptors={LOCAL_FIRE} eventTimeSeconds={128} origin={molniyaFire} timeSeconds={time} />
-          <BoundedSmokeColumn ageSeconds={time - 128.1} heightM={64} origin={molniyaSmoke} profile="local" puffCount={10} seed="molniya-fragment-damage" />
+          <PersistentGroundFires descriptors={LOCAL_FIRE} emissionEndSeconds={molniyaEmissionEnd} eventTimeSeconds={128} origin={molniyaFire} timeSeconds={time} />
+          <BoundedSmokeColumn ageSeconds={time - 128.1} emissionEndAgeSeconds={molniyaEmissionEnd === undefined ? undefined : molniyaEmissionEnd - 128.1} heightM={64} origin={molniyaSmoke} profile="local" puffCount={10} seed="molniya-fragment-damage" />
         </>
       ) : null}
     </group>
@@ -232,6 +237,7 @@ export function Stage3BattleEffects({ world }: { world: SimulationWorldState }) 
       {time >= 78 ? <Stage4AFuelDisaster surfaceHeightAt={getTerrainHeight} timeSeconds={time} /> : null}
       <BlastResponseField descriptors={RESPONSE_LAYOUT} origin={FUEL_RESPONSE_ORIGIN} seed={52_730} surfaceHeightAt={getTerrainHeight} timeSeconds={time} />
       <IndustrialIndicatorLights blackoutFraction={world.stage3.industrial.blackoutFraction} />
+      <IndustrialSecondaryActivity time={time} />
       {time >= 116 ? (
         <AmmunitionCookoffEffect cookoffPositions={AMMO_POSITIONS} groundFirePositions={AMMO_POSITIONS} preliminaryBursts={AMMO_COOKOFF_BURSTS} primaryPosition={AMMO_PRIMARY_POSITION} secondaryPositions={AMMO_SECONDARY_POSITIONS} seed={52_730} surfaceHeightAt={getTerrainHeight} timeSeconds={time} />
       ) : null}

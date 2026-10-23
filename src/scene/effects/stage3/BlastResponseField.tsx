@@ -3,6 +3,7 @@ import { BufferGeometry, DynamicDrawUsage, InstancedMesh, Material, Object3D, Qu
 
 import type { BlastResponseDescriptor, Stage3BlastObjectKind, Stage3Vec3 } from './types.ts'
 
+import { periodicAngle } from '../aftermath/effectClocks'
 import { FUEL_HERO_TIME_SECONDS, FUEL_RESPONSE_RADIUS_M, createBlastResponseLayout, cyclicParticleEnvelope, sampleBlastResponse, smoothstep01 } from './effectMath.ts'
 import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
 
@@ -107,18 +108,18 @@ function ResponseIgnitionPool({ blastTimeSeconds, descriptors, responseRadiusM, 
     for (const descriptor of burnable) {
       const sample = sampleBlastResponse(descriptor, timeSeconds, blastTimeSeconds, responseRadiusM)
       if (!sample.ignitionActive) continue
-      const flicker = 0.86 + Math.sin(timeSeconds * 9.4 + descriptor.phase) * 0.12
+      const flicker = 0.86 + Math.sin(periodicAngle(timeSeconds, 9.4, descriptor.phase)) * 0.12
       const ignitionGrowth = smoothstep01(sample.ignitionAgeSeconds / 0.24)
       const base = (descriptor.kind === 'scrub' ? 2.7 : 1.35) * ignitionGrowth
 
       object.position.set(...descriptor.position)
-      object.rotation.set(0, descriptor.phase + timeSeconds * 0.13, 0)
+      object.rotation.set(0, periodicAngle(timeSeconds, 0.13, descriptor.phase), 0)
       object.scale.set(base, base * 4.1 * flicker, base)
       object.updateMatrix()
       flame.setMatrixAt(activeCount, object.matrix)
 
       object.position.set(descriptor.position[0], descriptor.position[1] + 0.12, descriptor.position[2])
-      object.rotation.y = -descriptor.phase + timeSeconds * 0.19
+      object.rotation.set(0, periodicAngle(timeSeconds, 0.19, -descriptor.phase), 0)
       object.scale.set(base * 0.52, base * 2.8 * flicker, base * 0.52)
       object.updateMatrix()
       ember.setMatrixAt(activeCount, object.matrix)

@@ -91,7 +91,8 @@ describe('Stage 5B measured approach and contact', () => {
     expect(SIMULATION_EVENTS.filter((e) => /lav_|scripted_phase_complete/.test(e.id))).toHaveLength(4)
     const store = createSimulationStore({ timeSeconds: 174, isPlaying: true })
     store.getState().tick(10)
-    expect(store.getState()).toMatchObject({ timeSeconds: 180, isPlaying: false })
+    expect(store.getState()).toMatchObject({ timeSeconds: 184, isPlaying: true })
+    expect(getSimulationWorldState(store).runtime).toMatchObject({ observationSeconds: 184, scriptedSeconds: 180, aftermathSeconds: 4, phase: 'aftermath' })
     expect(getSimulationWorldState(store).landing.operationalPayloadCount).toBe(8)
   })
   it('measures both authored approaches, the full skirt crossing and ramp landing', () => {

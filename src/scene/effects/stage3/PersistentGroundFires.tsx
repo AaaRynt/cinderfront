@@ -3,6 +3,7 @@ import { DynamicDrawUsage, InstancedMesh, Object3D } from 'three'
 
 import type { GroundFireDescriptor, Stage3Vec3 } from './types.ts'
 
+import { cyclicEmissionAge, periodicAngle } from '../aftermath/effectClocks'
 import { cyclicParticleEnvelope } from './effectMath.ts'
 import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
 
@@ -13,6 +14,7 @@ export interface PersistentGroundFiresProps {
   readonly positions?: readonly Stage3Vec3[]
   readonly surfaceHeightAt?: (x: number, z: number) => number
   readonly timeSeconds: number
+  readonly emissionEndSeconds?: number
 }
 
 function resolveFirePosition(descriptor: GroundFireDescriptor, index: number, origin: Stage3Vec3, positions: readonly Stage3Vec3[] | undefined, surfaceHeightAt: PersistentGroundFiresProps['surfaceHeightAt']): Stage3Vec3 {
@@ -24,7 +26,7 @@ function resolveFirePosition(descriptor: GroundFireDescriptor, index: number, or
 }
 
 /** A fixed pool of varied fires and soot plumes that survives timeline seeking. */
-export function PersistentGroundFires({ descriptors, eventTimeSeconds, origin, positions, surfaceHeightAt, timeSeconds }: PersistentGroundFiresProps) {
+export function PersistentGroundFires({ descriptors, emissionEndSeconds, eventTimeSeconds, origin, positions, surfaceHeightAt, timeSeconds }: PersistentGroundFiresProps) {
   const innerRef = useRef<InstancedMesh>(null)
   const outerRef = useRef<InstancedMesh>(null)
   const smokeRef = useRef<InstancedMesh>(null)
@@ -45,27 +47,29 @@ export function PersistentGroundFires({ descriptors, eventTimeSeconds, origin, p
       if (age < 0) continue
 
       const position = resolveFirePosition(descriptor, index, origin, positions, surfaceHeightAt)
-      const flicker = 0.86 + Math.sin(age * 8.2 + descriptor.phase) * 0.1 + Math.sin(age * 13.7 + descriptor.phase * 0.4) * 0.04
-      const baseRadius = 3.2 * descriptor.scale
-      const height = 8.5 * descriptor.scale * flicker
+      const tailScale = emissionEndSeconds === undefined ? 1 : Math.max(0, 1 - Math.max(0, timeSeconds - emissionEndSeconds) / 1.5)
+      const flicker = 0.86 + Math.sin(periodicAngle(age, 8.2, descriptor.phase)) * 0.1 + Math.sin(periodicAngle(age, 13.7, descriptor.phase * 0.4)) * 0.04
+      const baseRadius = 3.2 * descriptor.scale * tailScale
+      const height = 8.5 * descriptor.scale * flicker * tailScale
 
       object.position.set(...position)
-      object.rotation.set(0, descriptor.phase + age * 0.16, 0)
+      object.rotation.set(0, periodicAngle(age, 0.16, descriptor.phase), 0)
       object.scale.set(baseRadius, height, baseRadius)
       object.updateMatrix()
       outer.setMatrixAt(activeCount, object.matrix)
 
       object.position.set(position[0], position[1] + 0.25, position[2])
-      object.rotation.y = -descriptor.phase + age * 0.22
+      object.rotation.set(0, periodicAngle(age, 0.22, -descriptor.phase), 0)
       object.scale.set(baseRadius * 0.55, height * 0.72, baseRadius * 0.55)
       object.updateMatrix()
       inner.setMatrixAt(activeCount, object.matrix)
 
-      const smokeCycle = age % 5.6
-      const smokeEnvelope = cyclicParticleEnvelope(smokeCycle / 5.6, 0.12, 0.22)
-      const smokeScale = Math.max(0.001, (2.8 + smokeCycle * 1.25) * descriptor.scale * smokeEnvelope)
-      object.position.set(position[0] + smokeCycle * 1.1, position[1] + height * 0.72 + smokeCycle * 3.3, position[2] + smokeCycle * 1.15)
-      object.rotation.set(descriptor.phase * 0.2, descriptor.phase + smokeCycle * 0.18, 0)
+      const smokeCycle = emissionEndSeconds === undefined ? age % 5.6 : cyclicEmissionAge(age, 0, 5.6, emissionEndSeconds - eventTimeSeconds - descriptor.delaySeconds)
+      const resolvedCycle = smokeCycle ?? 0
+      const smokeEnvelope = smokeCycle === null ? 0 : cyclicParticleEnvelope(smokeCycle / 5.6, 0.12, 0.22)
+      const smokeScale = smokeCycle === null ? 0 : Math.max(0.001, (2.8 + resolvedCycle * 1.25) * descriptor.scale * smokeEnvelope)
+      object.position.set(position[0] + resolvedCycle * 1.1, position[1] + height * 0.72 + resolvedCycle * 3.3, position[2] + resolvedCycle * 1.15)
+      object.rotation.set(descriptor.phase * 0.2, descriptor.phase + resolvedCycle * 0.18, 0)
       object.scale.set(smokeScale * 0.78, smokeScale, smokeScale * 0.8)
       object.updateMatrix()
       smoke.setMatrixAt(activeCount, object.matrix)
@@ -77,7 +81,7 @@ export function PersistentGroundFires({ descriptors, eventTimeSeconds, origin, p
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
     }
-  }, [descriptors, eventTimeSeconds, origin, positions, scratchObject, surfaceHeightAt, timeSeconds])
+  }, [descriptors, emissionEndSeconds, eventTimeSeconds, origin, positions, scratchObject, surfaceHeightAt, timeSeconds])
 
   const capacity = Math.max(1, descriptors.length)
   return (

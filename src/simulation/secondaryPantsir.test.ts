@@ -467,7 +467,9 @@ describe('absolute-time secondary Pantsir reconstruction', () => {
       }
       expect(store.getState().isPlaying).toBe(true)
       store.getState().tick((180 - store.getState().timeSeconds) / speed)
-      expect(store.getState().isPlaying).toBe(false)
+      expect(store.getState()).toMatchObject({ timeSeconds: 180, isPlaying: true })
+      expect(getSimulationWorldState(store).secondaryPantsir).toEqual(deriveSecondaryPantsirState(180))
+      expect(getSimulationWorldState(store).runtime).toMatchObject({ scriptedSeconds: 180, aftermathSeconds: 0, phase: 'aftermath' })
       store.getState().seek(119.6)
       store.getState().pause()
       const paused = getSimulationWorldState(store).secondaryPantsir

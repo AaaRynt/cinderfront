@@ -4,6 +4,7 @@ import { Color, DoubleSide, MeshStandardMaterial, ShaderMaterial } from 'three'
 
 import { simulationStore } from '@/simulation/store'
 
+import { coastalShaderTime } from '../../effects/aftermath/effectClocks'
 import { createLandingFoamLayout } from '../landing/landingReservations'
 import { applyLandingSurface } from '../landing/landingTerrain'
 import { createCoastalWaterGeometry, createFoamGeometry, createWetShoreGeometry, FOAM_ALPHA_GLSL, FOAM_SHAPE_GLSL, WATER_NORMAL_GLSL, WETNESS_GLSL } from './coastalWater'
@@ -11,7 +12,7 @@ import { createCoastalWaterGeometry, createFoamGeometry, createWetShoreGeometry,
 export function CoastalWater() {
   const timeRef = useRef<{ value: number } | null>(null)
   const resources = useMemo(() => {
-    const time = { value: simulationStore.getState().timeSeconds }
+    const time = { value: coastalShaderTime(simulationStore.getState().timeSeconds) }
     const water = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.42, metalness: 0.045, side: DoubleSide })
     water.onBeforeCompile = (shader) => {
       shader.uniforms.uCoastalTime = time
@@ -58,7 +59,7 @@ export function CoastalWater() {
     timeRef.current = resources.time
   }, [resources])
   useFrame(() => {
-    if (timeRef.current) timeRef.current.value = simulationStore.getState().timeSeconds
+    if (timeRef.current) timeRef.current.value = coastalShaderTime(simulationStore.getState().timeSeconds)
   })
   useEffect(
     () => () => {

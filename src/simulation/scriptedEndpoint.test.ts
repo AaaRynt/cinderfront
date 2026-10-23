@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { sampleCoastalMotion } from '../scene/world/stage4c/coastalWater'
 import { SCRIPTED_DURATION_SECONDS, SIMULATION_DURATION_SECONDS, STAGE1_DURATION_SECONDS, STAGE3_DURATION_SECONDS, STAGE4B2C_DURATION_SECONDS } from './constants'
 import { deriveSimulationWorldState, deriveStage1WorldState, deriveWaspState } from './derive'
+import { deriveRuntimeWorldState } from './runtime'
 import { createSimulationStore, getSimulationWorldState } from './store'
 import { clampSimulationTime, clampStage1Time, formatLocalTime, formatSimulationTime, quantizeSimulationTime } from './time'
 
@@ -12,7 +13,7 @@ function finite(value: unknown): boolean {
   if (value && typeof value === 'object') return Object.values(value).every(finite)
   return true
 }
-describe('complete finite scripted timeline and pending aftermath', () => {
+describe('historical finite APIs and active runtime handoff', () => {
   it('keeps historical durations/APIs frozen and admits exact 176/180 boundaries and invalid input cases', () => {
     expect([STAGE1_DURATION_SECONDS, STAGE3_DURATION_SECONDS, STAGE4B2C_DURATION_SECONDS]).toEqual([48, 172, 176])
     expect(SCRIPTED_DURATION_SECONDS).toBe(180)
@@ -28,28 +29,29 @@ describe('complete finite scripted timeline and pending aftermath', () => {
     expect(formatSimulationTime(180)).toBe('T+03:00')
     expect(formatLocalTime(180)).toBe('05:30:00 LOCAL')
   })
-  it.each([0.5, 1, 2] as const)('passes 176 normally, pauses on overshoot at 180, and reconstructs controls at %s×', (speed) => {
+  it.each([0.5, 1, 2] as const)('passes 176 and 180 with overshoot, and reconstructs controls at %s×', (speed) => {
     const store = createSimulationStore({ timeSeconds: 175.9, isPlaying: true, speed })
     store.getState().tick(0.2 / speed)
     expect(store.getState().timeSeconds).toBeCloseTo(176.1)
     expect(store.getState().isPlaying).toBe(true)
     store.getState().tick(100)
-    expect(store.getState()).toMatchObject({ timeSeconds: 180, isPlaying: false })
+    expect(store.getState().timeSeconds).toBeCloseTo(176.1 + 100 * speed)
+    expect(store.getState().isPlaying).toBe(true)
     const endpoint = getSimulationWorldState(store)
     expect(endpoint.reachedEvents.at(-1)?.id).toBe('scripted_phase_complete')
     store.getState().play()
     store.getState().tick(100)
-    expect(getSimulationWorldState(store)).toEqual(endpoint)
+    expect(getSimulationWorldState(store).timeSeconds).toBeCloseTo(endpoint.timeSeconds + 100 * speed)
     for (const time of [179.9, 176, 165.9, 160.1, 0, 180, 159.9, 166.1, 175.9]) {
       store.getState().seek(time)
-      expect(getSimulationWorldState(store)).toEqual(deriveSimulationWorldState(time))
+      expect(getSimulationWorldState(store)).toEqual(deriveRuntimeWorldState(time))
       store.getState().pause()
       const paused = getSimulationWorldState(store)
       for (const dt of [0.2, 1, NaN, Infinity, -1, 0]) store.getState().tick(dt)
       expect(getSimulationWorldState(store)).toEqual(paused)
     }
     store.getState().restart()
-    expect(getSimulationWorldState(store)).toEqual(deriveSimulationWorldState(0))
+    expect(getSimulationWorldState(store)).toEqual(deriveRuntimeWorldState(0))
     expect(store.getState().isPlaying).toBe(false)
   })
   it('continues survivors/effects through the new four seconds with stable losses and a terminal Wasp tangent', () => {

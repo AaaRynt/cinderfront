@@ -1,10 +1,11 @@
 import { Camera, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship, Warehouse, Waves } from 'lucide-react'
+import { useState } from 'react'
 
 import type { CameraPreset } from '@/scene/camera/cameraStore'
 import type { SimulationEvent, SimulationSpeed } from '@/simulation'
 
 import { useCameraStore } from '@/scene/camera/cameraStore'
-import { SIMULATION_EVENTS } from '@/simulation'
+import { formatRuntimeTime, quantizeRuntimeTime, SIMULATION_EVENTS } from '@/simulation'
 
 interface TimelineEventView {
   code: SimulationEvent['id']
@@ -97,6 +98,7 @@ function formatTimelineBound(timeSeconds: number) {
 }
 
 export function SimulationHud({ battlefieldStatus, duration, latestEvent, localTime, onRestart, onSeek, onSpeedChange, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
+  const [observationDraft, setObservationDraft] = useState<string | null>(null)
   const activePreset = useCameraStore((state) => state.preset)
   const requestPreset = useCameraStore((state) => state.requestPreset)
 
@@ -108,7 +110,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
             CF
           </div>
           <div>
-            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 6A</p>
+            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 6B</p>
             <h1>Ash Harbor</h1>
           </div>
         </div>
@@ -199,7 +201,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
         </div>
 
         <div className="timeline-control">
-          <input aria-label="Seek simulation time" data-testid="timeline-slider" max={duration} min={0} onInput={(event) => onSeek(Number(event.currentTarget.value))} step={0.1} type="range" value={time} />
+          <input aria-label="Seek simulation time" data-testid="timeline-slider" max={duration} min={0} onInput={(event) => onSeek(Number(event.currentTarget.value))} step={0.1} type="range" value={Math.min(time, duration)} />
           <div aria-hidden="true" className="timeline-markers">
             {EVENT_TIMES.map((eventTime) => (
               <span key={eventTime} style={{ left: `${(eventTime / duration) * 100}%` }} />
@@ -212,6 +214,41 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
         </div>
 
         <div className="transport-controls">
+          <form
+            className="flex items-center gap-1.5 font-mono text-[9px] text-(--muted)"
+            onSubmit={(event) => {
+              event.preventDefault()
+              if (observationDraft !== null && observationDraft.trim() !== '') {
+                const value = Number(observationDraft)
+                if (Number.isFinite(value)) onSeek(quantizeRuntimeTime(value))
+              }
+              setObservationDraft(null)
+            }}
+          >
+            <label className="max-[760px]:sr-only" htmlFor="observation-time">
+              Observe s
+            </label>
+            <input
+              aria-label="Observation time in seconds"
+              className="w-[76px] border border-(--hud-edge) bg-[#071116] px-1.5 py-2 text-(--ink)"
+              id="observation-time"
+              min="0"
+              onChange={(event) => setObservationDraft(event.currentTarget.value)}
+              onFocus={() => setObservationDraft(String(quantizeRuntimeTime(time)))}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                  setObservationDraft(null)
+                  event.currentTarget.blur()
+                }
+              }}
+              step="0.1"
+              type="number"
+              value={observationDraft ?? quantizeRuntimeTime(time)}
+            />
+            <button aria-label="Seek observation time" className="transport-button" type="submit">
+              Go
+            </button>
+          </form>
           <button aria-label={playing ? 'Pause simulation' : 'Play simulation'} className="transport-button transport-primary" data-testid="play-pause" onClick={onTogglePlayback} type="button">
             {playing ? <Pause aria-hidden="true" size={18} /> : <Play aria-hidden="true" size={18} />}
             <span>{playing ? 'Pause' : 'Play'}</span>
@@ -234,7 +271,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
         <span />
       </div>
       <div className="absolute bottom-[102px] left-[220px] font-mono text-[9px] tracking-[0.15em] text-[#c2d1c088] uppercase max-[1100px]:bottom-[156px] max-[760px]:hidden">
-        {time >= duration ? 'Script complete · aftermath pending Stage 6' : `LAV deployment · 51 events · T+00:00—${formatTimelineBound(duration).slice(2)}`}
+        {time >= duration ? `AFTERMATH OBSERVATION · elapsed ${formatRuntimeTime(time - duration).slice(2)} · 51 scripted events complete` : `LAV deployment · 51 events · T+00:00—${formatTimelineBound(duration).slice(2)}`}
       </div>
     </div>
   )

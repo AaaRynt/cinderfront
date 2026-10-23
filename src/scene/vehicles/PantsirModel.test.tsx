@@ -152,6 +152,26 @@ describe('shared Pantsir transport, deployed and wreck geometry', () => {
     expect(fingerprint(model({ ...props, destructionAge: 55 }))).toBe(fingerprint(model({ ...props, destructionAge: 55 })))
   })
 
+  it('preserves scripted wreck rocking exactly and keeps late rendered transforms finite', () => {
+    for (let tick = 0; tick <= 1800; tick++) {
+      const age = tick / 10
+      const body = PantsirModel({ destroyed: true, destructionAge: age }).props.children
+      const settled = Math.max(0, Math.min(1, age / 1.2))
+      expect(body.props.rotation[2]).toBe(Math.sin(age * 18) * Math.exp(-age * 2.8) * 0.06 - settled * 0.035)
+    }
+    for (const age of [180.0001, 240, 7200, Number.MAX_VALUE / 2, Number.MAX_VALUE]) {
+      const root = model({ destroyed: true, destructionAge: age })
+      root.traverse((object) => {
+        expect(object.matrixWorld.elements.every(Number.isFinite)).toBe(true)
+        expect([object.rotation.x, object.rotation.y, object.rotation.z].every(Number.isFinite)).toBe(true)
+      })
+      const bounds = new THREE.Box3().setFromObject(root, true)
+      expect(bounds.min.y).toBeGreaterThan(-0.11)
+      expect(bounds.max.y).toBeLessThan(5.9)
+    }
+    expect(fingerprint(model({ destroyed: true, destructionAge: Number.MAX_VALUE }))).toBe(fingerprint(model({ destroyed: true, destructionAge: 7200 })))
+  })
+
   it('keeps two complete six-tube banks and opens only the fixed expended mouths', () => {
     for (const expenditure of [0, 1, 2, 6, 12, 20]) {
       const root = model({ firedTubeCount: expenditure })

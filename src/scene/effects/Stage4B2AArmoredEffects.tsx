@@ -2,6 +2,9 @@ import { BoxGeometry, CircleGeometry, ConeGeometry, MeshBasicMaterial, MeshStand
 
 import type { SimulationWorldState, T72GroundVehicleState } from '@/simulation'
 
+import { AftermathGroundDust } from './aftermath/AftermathGroundDust'
+import { legacyDustScale, periodicAngle } from './aftermath/effectClocks'
+
 const DUST = new SphereGeometry(1, 8, 5)
 const FLASH = new SphereGeometry(1, 12, 8)
 const FIREBALL = new SphereGeometry(1, 9, 6)
@@ -36,7 +39,8 @@ const FRAGMENTS = [
 ] as const
 
 function TankMovementDust({ order, timeSeconds, vehicle }: { order: number; timeSeconds: number; vehicle: T72GroundVehicleState }) {
-  if (vehicle.dustIntensity <= 0.001) return null
+  const fade = legacyDustScale(timeSeconds)
+  if (vehicle.dustIntensity <= 0.001 || fade <= 0) return null
   const { pose, routeTangent } = vehicle
   const motionYaw = Math.atan2(-routeTangent.x, -routeTangent.z)
   return (
@@ -44,7 +48,7 @@ function TankMovementDust({ order, timeSeconds, vehicle }: { order: number; time
       {([-1, 1] as const).flatMap((side) =>
         Array.from({ length: 4 }, (_, index) => {
           const progress = (timeSeconds * 0.62 + index / 4 + order * 0.173 + (side > 0 ? 0.11 : 0)) % 1
-          const radius = (0.38 + progress * 1.3) * (0.8 + vehicle.dustIntensity)
+          const radius = (0.38 + progress * 1.3) * (0.8 + vehicle.dustIntensity) * fade
           return <mesh key={`${side}:${index}`} geometry={DUST} material={MATERIALS.dust} position={[side * 1.42 + Math.sin(index * 2.1) * 0.18, -1.04 + progress * 0.54, 2.05 + progress * 4.8]} scale={[radius * 1.45, radius * 0.52, radius]} />
         }),
       )}
@@ -57,7 +61,7 @@ function LeadTankKill({ timeSeconds, vehicle }: { timeSeconds: number; vehicle: 
   if (damage.causeEventId !== 't72_lead_destroyed') return null
   const age = damage.ageSeconds
   const fireballProgress = Math.min(1, Math.max(0, age / 0.92))
-  const firePulse = 0.93 + Math.sin(timeSeconds * 8.3) * 0.07
+  const firePulse = 0.93 + Math.sin(periodicAngle(timeSeconds, 8.3)) * 0.07
 
   return (
     <group name="stage4b2a-t72-lead-kill" position={[pose.position.x, pose.position.y, pose.position.z]} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z]}>
@@ -138,6 +142,7 @@ export function Stage4B2AArmoredEffects({ world }: { world: SimulationWorldState
       {group.orderedVehicleIds.map((id, order) => (
         <TankMovementDust key={id} order={order} timeSeconds={world.timeSeconds} vehicle={group.vehicles[id]} />
       ))}
+      <AftermathGroundDust family="t72" ids={group.orderedVehicleIds} time={world.timeSeconds} />
       <LeadTankKill timeSeconds={world.timeSeconds} vehicle={lead} />
     </group>
   )

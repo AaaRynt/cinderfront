@@ -4,6 +4,9 @@ import type { SupportConvoyWorldState } from '@/simulation/supportConvoyTypes'
 
 import { getSupportPresentationSurfaceHeight, sampleSupportRoute } from '@/simulation/supportConvoy'
 
+import { AftermathGroundDust } from './aftermath/AftermathGroundDust'
+import { legacyDustScale, periodicAngle } from './aftermath/effectClocks'
+
 const SPHERE = new THREE.SphereGeometry(1, 12, 8)
 const ROCK = new THREE.DodecahedronGeometry(1, 0)
 const BOX = new THREE.BoxGeometry(1, 1, 1)
@@ -27,11 +30,12 @@ export function SupportConvoyEffects({ state, time }: { state: SupportConvoyWorl
   const { bridge, convoy } = state
   const p = bridge.position
   const age = bridge.ageSeconds
+  const legacyFade = legacyDustScale(time)
   return (
     <group name="stage4b2c-support-effects" dispose={null}>
       {convoy.orderedVehicleIds.map((id) => {
         const vehicle = convoy.vehicles[id]
-        if (vehicle.dustIntensity < 0.005) return null
+        if (vehicle.dustIntensity < 0.005 || legacyFade <= 0) return null
         return (
           <group key={id} name={`${id}-wheel-dust`}>
             {[0, 1, 2, 3].map((slot) => {
@@ -41,16 +45,25 @@ export function SupportConvoyEffects({ state, time }: { state: SupportConvoyWorl
               const side = slot % 2 === 0 ? -1 : 1
               const x = sample.x - sample.tangentZ * side
               const z = sample.z + sample.tangentX * side
-              return <DustPuff key={slot} position={[x, getSupportPresentationSurfaceHeight(x, z) + 0.25 + life * 0.6, z]} scale={[0.45 + life, 0.28 + life * 0.4, 0.5 + life]} opacity={vehicle.dustIntensity * (1 - life / 1.2) * 0.4} />
+              return <DustPuff key={slot} position={[x, getSupportPresentationSurfaceHeight(x, z) + 0.25 + life * 0.6, z]} scale={[(0.45 + life) * legacyFade, (0.28 + life * 0.4) * legacyFade, (0.5 + life) * legacyFade]} opacity={vehicle.dustIntensity * (1 - life / 1.2) * 0.4} />
             })}
           </group>
         )
       })}
+      <AftermathGroundDust family="support" ids={convoy.orderedVehicleIds} time={time} />
       {state.visibilityIntensity > 0 ? (
         <group name="rescue-corridor-visibility-haze">
           {[0, 1, 2, 3, 4, 5, 6].map((slot) => {
             const lead = convoy.vehicles.defender_support_fire_01.pose.position
-            return <DustPuff key={slot} smoke position={[lead.x + (slot - 2) * 21 + Math.sin(time * 0.21 + slot) * 3, getSupportPresentationSurfaceHeight(lead.x, lead.z) + 5 + (slot % 3) * 2, lead.z + (slot - 2) * 9]} scale={[17 + (slot % 3) * 3, 6 + (slot % 2) * 2, 12]} opacity={state.visibilityIntensity * 0.22} />
+            return (
+              <DustPuff
+                key={slot}
+                smoke
+                position={[lead.x + (slot - 2) * 21 + Math.sin(periodicAngle(time, 0.21, slot)) * 3, getSupportPresentationSurfaceHeight(lead.x, lead.z) + 5 + (slot % 3) * 2, lead.z + (slot - 2) * 9]}
+                scale={[17 + (slot % 3) * 3, 6 + (slot % 2) * 2, 12]}
+                opacity={state.visibilityIntensity * 0.22}
+              />
+            )
           })}
         </group>
       ) : null}

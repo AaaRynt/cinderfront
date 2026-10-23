@@ -5,6 +5,7 @@ import type { SimulationWorldState } from '@/simulation'
 
 import { deriveSecondaryPantsirState, SECONDARY_PANTSIR_TIMING } from '@/simulation/secondaryPantsir'
 
+import { periodicAngle } from './aftermath/effectClocks'
 import { createSecondaryPantsirScorch } from './secondaryPantsirSurface'
 
 type SecondaryPantsirState = SimulationWorldState['secondaryPantsir']
@@ -92,7 +93,7 @@ export function SecondaryPantsirEffects({ state, time }: { state: SecondaryPants
   const scorch = useMemo(() => createSecondaryPantsirScorch({ x: ground.x, y: ground.y, z: ground.z }, IMPACT_YAW), [ground.x, ground.y, ground.z])
   useEffect(() => () => scorch.dispose(), [scorch])
   const age = destruction.ageSeconds
-  const firePulse = 0.94 + Math.sin(time * 8.3) * 0.06
+  const firePulse = 0.94 + Math.sin(periodicAngle(time, 8.3)) * 0.06
   return (
     <group name="secondary-pantsir-effects" dispose={null}>
       {state.defensiveShots.map((shot) => (

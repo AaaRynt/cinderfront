@@ -2,6 +2,8 @@ import { BoxGeometry, ConeGeometry, CylinderGeometry, MeshBasicMaterial, MeshSta
 
 import type { GroundVehicleState, SimulationWorldState } from '@/simulation'
 
+import { AftermathGroundDust } from './aftermath/AftermathGroundDust'
+import { legacyDustScale, periodicAngle } from './aftermath/effectClocks'
 import { AMMUNITION_PRIMARY_EFFECT_POSITION } from './stage3/index.ts'
 
 const DUST_GEOMETRY = new SphereGeometry(1, 8, 5)
@@ -35,13 +37,14 @@ function quadraticArc(start: readonly [number, number, number], control: readonl
 }
 
 function VehicleDust({ order, timeSeconds, vehicle }: { order: number; timeSeconds: number; vehicle: GroundVehicleState }) {
-  if (vehicle.dustIntensity <= 0.001) return null
+  const fade = legacyDustScale(timeSeconds)
+  if (vehicle.dustIntensity <= 0.001 || fade <= 0) return null
   const { pose } = vehicle
   return (
     <group name={`${vehicle.id}-movement-dust`} position={[pose.position.x, pose.position.y, pose.position.z]} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z]}>
       {Array.from({ length: 5 }, (_, index) => {
         const progress = (timeSeconds * 0.72 + index / 5 + order * 0.137) % 1
-        const radius = (0.42 + progress * 1.45) * (0.72 + vehicle.dustIntensity)
+        const radius = (0.42 + progress * 1.45) * (0.72 + vehicle.dustIntensity) * fade
         const side = (((index * 1.73 + order * 0.61) % 2) - 1) * 1.05
         return <mesh key={index} geometry={DUST_GEOMETRY} material={MATERIALS.asphaltDust} position={[side, -1.08 + progress * 0.72, 2.2 + progress * 5.8]} scale={[radius * 1.35, radius * 0.58, radius]} />
       })}
@@ -96,7 +99,7 @@ function LeadLossEffect({ lead, timeSeconds }: { lead: GroundVehicleState; timeS
   const age = damage.ageSeconds
   const flashScale = Math.max(0.01, damage.flashIntensity * 3.2)
   const pressureAge = Math.min(1, age / 1.15)
-  const firePulse = 0.92 + Math.sin(timeSeconds * 8.7) * 0.08
+  const firePulse = 0.92 + Math.sin(periodicAngle(timeSeconds, 8.7)) * 0.08
 
   return (
     <group name="stage4b-btr-01-local-loss" position={[pose.position.x, pose.position.y, pose.position.z]} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z]}>
@@ -163,6 +166,7 @@ export function Stage4BGroundVehicleEffects({ world }: { world: SimulationWorldS
       {group.orderedVehicleIds.map((id, order) => (
         <VehicleDust key={id} order={order} timeSeconds={world.timeSeconds} vehicle={group.vehicles[id]} />
       ))}
+      <AftermathGroundDust family="btr" ids={group.orderedVehicleIds} time={world.timeSeconds} />
       <SecondaryAmmunitionDebris lead={lead} timeSeconds={world.timeSeconds} />
       <LeadLossEffect lead={lead} timeSeconds={world.timeSeconds} />
     </group>

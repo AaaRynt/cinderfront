@@ -365,6 +365,10 @@ function kinematics(index: number, slot: number, time: number) {
   }
 }
 
+// Stage 6B reuses the unchanged finite near-craft solution through a measured
+// station-72 handoff. Historical callers and all solver operations stay exact.
+export const deriveLavNearKinematics = kinematics
+
 export function deriveLavPayload(craft: LandingCraftState, id: LavId, slot: number, time: number): EmbarkedLavState {
   const index = craft.id === 'attacker_lcac_01' ? 0 : 1,
     departureAtSeconds = lavDepartureAt(index, slot),

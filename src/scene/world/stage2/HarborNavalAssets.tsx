@@ -1,11 +1,13 @@
-import type { Group } from 'three'
+import type { Group, Material, Mesh } from 'three'
 
 import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { BufferGeometry, DoubleSide, Float32BufferAttribute, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 
 import { deriveMolniyaState, deriveTalwarState, simulationStore } from '@/simulation'
+import { deriveRuntimeMolniyaState, getMolniyaRuntimePresentation } from '@/simulation/aftermathSurvivors'
 
+import { periodicAngle } from '../../effects/aftermath/effectClocks'
 import { MolniyaModel, TalwarModel } from '../../vehicles/index.ts'
 import { SegmentCylinder } from './Stage2Structures.tsx'
 
@@ -40,31 +42,71 @@ const INITIAL_TALWAR_STATE = deriveTalwarState(0)
 const INITIAL_MOLNIYA_STATE = deriveMolniyaState(0)
 const MOLNIYA_STERN_WAKE_OFFSET_METERS = 27
 const INITIAL_MOLNIYA_WAKE_POSITION = [INITIAL_MOLNIYA_STATE.pose.position.x + Math.sin(INITIAL_MOLNIYA_STATE.pose.rotation.y) * MOLNIYA_STERN_WAKE_OFFSET_METERS, 0.035, INITIAL_MOLNIYA_STATE.pose.position.z + Math.cos(INITIAL_MOLNIYA_STATE.pose.rotation.y) * MOLNIYA_STERN_WAKE_OFFSET_METERS] as const
+function fadeMaterials(materials: readonly Material[], opacity: number) {
+  for (const material of materials) {
+    const transparent = opacity < 1
+    if (material.transparent !== transparent) {
+      material.transparent = transparent
+      material.needsUpdate = true
+    }
+    material.opacity = opacity
+  }
+}
 
 export function HarborNavalAssets() {
   const talwarMotion = useRef<Group>(null)
   const molniyaMotion = useRef<Group>(null)
   const molniyaMoorings = useRef<Group>(null)
   const molniyaWake = useRef<Group>(null)
+  const molniyaMaterials = useRef<Material[]>([])
+  useLayoutEffect(() => {
+    const copies = new Map<Material, Material>()
+    const root = molniyaMotion.current
+    root?.traverse((object) => {
+      const mesh = object as Mesh
+      if (!mesh.isMesh) return
+      const clone = (material: Material) => {
+        let copy = copies.get(material)
+        if (!copy) {
+          copy = material.clone()
+          copies.set(material, copy)
+        }
+        return copy
+      }
+      mesh.material = Array.isArray(mesh.material) ? mesh.material.map(clone) : clone(mesh.material)
+    })
+    molniyaMaterials.current = [...copies.values()]
+    return () => {
+      const originals = new Map([...copies].map(([original, copy]) => [copy, original]))
+      root?.traverse((object) => {
+        const mesh = object as Mesh
+        if (mesh.isMesh) mesh.material = Array.isArray(mesh.material) ? mesh.material.map((m) => originals.get(m) ?? m) : (originals.get(mesh.material) ?? mesh.material)
+      })
+      copies.forEach((material) => material.dispose())
+    }
+  }, [])
 
   useFrame(() => {
     const timeSeconds = simulationStore.getState().timeSeconds
-    const talwarState = deriveTalwarState(timeSeconds)
-    const molniyaState = deriveMolniyaState(timeSeconds)
+    const talwarState = deriveTalwarState(Math.min(timeSeconds, 180))
+    const molniyaState = deriveRuntimeMolniyaState(timeSeconds)
+    const presentation = getMolniyaRuntimePresentation(timeSeconds)
 
     if (talwarMotion.current) {
       const bobStrength = 1 - talwarState.floodingProgress * 0.55
-      const bob = Math.sin(timeSeconds * 0.38) * 0.11 * bobStrength
-      const roll = Math.sin(timeSeconds * 0.23 + 0.7) * 0.0018 * bobStrength
+      const bob = Math.sin(periodicAngle(timeSeconds, 0.38)) * 0.11 * bobStrength
+      const roll = Math.sin(periodicAngle(timeSeconds, 0.23, 0.7)) * 0.0018 * bobStrength
       talwarMotion.current.position.set(talwarState.pose.position.x, talwarState.pose.position.y + bob, talwarState.pose.position.z)
       talwarMotion.current.rotation.set(talwarState.pose.rotation.x, talwarState.pose.rotation.y, talwarState.pose.rotation.z + roll)
     }
 
     if (molniyaMotion.current) {
-      const bob = Math.sin(timeSeconds * 0.55 + 1.4) * 0.08
-      const roll = Math.sin(timeSeconds * 0.31 + 0.2) * 0.0025
+      const bob = Math.sin(periodicAngle(timeSeconds, 0.55, 1.4)) * 0.08
+      const roll = Math.sin(periodicAngle(timeSeconds, 0.31, 0.2)) * 0.0025
       molniyaMotion.current.position.set(molniyaState.pose.position.x, molniyaState.pose.position.y + bob, molniyaState.pose.position.z)
       molniyaMotion.current.rotation.set(molniyaState.pose.rotation.x, molniyaState.pose.rotation.y, molniyaState.pose.rotation.z + roll)
+      molniyaMotion.current.visible = presentation.visible
+      fadeMaterials(molniyaMaterials.current, presentation.opacity)
     }
 
     if (molniyaMoorings.current) {
@@ -73,7 +115,7 @@ export function HarborNavalAssets() {
 
     if (molniyaWake.current) {
       const wakeStrength = molniyaState.wakeStrength
-      const wakePulse = 0.92 + Math.sin(timeSeconds * 2.4) * 0.08
+      const wakePulse = 0.92 + Math.sin(periodicAngle(timeSeconds, 2.4)) * 0.08
       const yaw = molniyaState.pose.rotation.y
       molniyaWake.current.visible = wakeStrength > 0.01
       molniyaWake.current.position.set(molniyaState.pose.position.x + Math.sin(yaw) * MOLNIYA_STERN_WAKE_OFFSET_METERS, 0.035, molniyaState.pose.position.z + Math.cos(yaw) * MOLNIYA_STERN_WAKE_OFFSET_METERS)

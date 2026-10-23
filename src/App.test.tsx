@@ -14,7 +14,7 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
-describe('Stage 6A spectator interface', () => {
+describe('Stage 6B spectator interface', () => {
   it('retains all 22 existing cameras and adds two LAV group presets', () => {
     render(<App />)
     const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
@@ -46,7 +46,7 @@ describe('Stage 6A spectator interface', () => {
     ])
     fireEvent.click(cameras.getByRole('button', { name: 'Air reinforcement' }))
     expect(cameras.getByRole('button', { name: 'Air reinforcement' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByText('Cinderfront / Stage 6A')).toBeInTheDocument()
+    expect(screen.getByText('Cinderfront / Stage 6B')).toBeInTheDocument()
     expect(screen.getByText('Su-30MKK pair')).toBeInTheDocument()
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('routine transit')
     fireEvent.click(cameras.getByRole('button', { name: 'Support convoy' }))
@@ -112,6 +112,144 @@ describe('Stage 6A spectator interface', () => {
       expect(screen.getByRole('button', { name: `${speed}×` })).toHaveAttribute('aria-pressed', 'true')
     }
   })
+
+  it('seeks observation time directly while pinning the scripted slider and final event', () => {
+    render(<App />)
+    const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' })
+    const slider = screen.getByRole('slider', { name: 'Seek simulation time' })
+    const timeline = screen.getByRole('region', { name: 'Simulation timeline' })
+    expect(observation).toHaveAttribute('min', '0')
+    expect(observation).toHaveAttribute('step', '0.1')
+    for (const time of [180, 188, 240.1, 360, 600, 1800, 3600, 7200]) {
+      fireEvent.change(observation, { target: { value: String(time) } })
+      expect(simulationStore.getState().timeSeconds).not.toBe(time)
+      fireEvent.click(screen.getByRole('button', { name: 'Seek observation time' }))
+      expect(simulationStore.getState().timeSeconds).toBe(time)
+      expect(simulationStore.getState().isPlaying).toBe(false)
+      expect(observation).toHaveValue(time)
+      expect(slider).toHaveValue('180')
+      expect(slider).toHaveAttribute('max', '180')
+      expect(timeline).toHaveTextContent('Event scripted_phase_complete')
+      expect(screen.getByText(/AFTERMATH OBSERVATION/)).toBeInTheDocument()
+    }
+    expect(screen.getByTestId('mission-clock')).toHaveTextContent('T+120:00')
+    expect(screen.getByLabelText('Landing craft status')).toHaveTextContent('0 aboard / 0 transferring / 8 ashore')
+    fireEvent.input(slider, { target: { value: '179' } })
+    expect(simulationStore.getState().timeSeconds).toBe(179)
+    expect(observation).toHaveValue(179)
+    expect(slider).toHaveValue('179')
+    expect(screen.queryByText(/AFTERMATH OBSERVATION/)).not.toBeInTheDocument()
+    expect(timeline).toHaveTextContent('Event lav_inland_spread')
+  })
+
+  it('preserves playback on direct and scripted seeks and restarts paused at zero', () => {
+    render(<App />)
+    const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' })
+    const slider = screen.getByRole('slider', { name: 'Seek simulation time' })
+    fireEvent.click(screen.getByRole('button', { name: 'Play simulation' }))
+    for (const time of [180, 240.1, 7200, 160]) {
+      fireEvent.change(observation, { target: { value: String(time) } })
+      fireEvent.click(screen.getByRole('button', { name: 'Seek observation time' }))
+      expect(simulationStore.getState().timeSeconds).toBe(time)
+      expect(simulationStore.getState().isPlaying).toBe(true)
+      expect(screen.getByRole('button', { name: 'Pause simulation' })).toBeInTheDocument()
+    }
+    fireEvent.input(slider, { target: { value: '180' } })
+    expect(simulationStore.getState().isPlaying).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Pause simulation' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Play simulation' }))
+    expect(simulationStore.getState().timeSeconds).toBe(180)
+    expect(simulationStore.getState().isPlaying).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Restart simulation' }))
+    expect(simulationStore.getState().timeSeconds).toBe(0)
+    expect(simulationStore.getState().isPlaying).toBe(false)
+    expect(observation).toHaveValue(0)
+    expect(slider).toHaveValue('0')
+    expect(screen.getByRole('region', { name: 'Simulation timeline' })).toHaveTextContent('Event scenario_begin')
+    expect(screen.getByLabelText('Landing craft status')).toHaveTextContent('8 aboard / 0 transferring / 0 ashore')
+  })
+
+  it('reports aircraft and naval departures and completed support holds only after the scripted interval', () => {
+    render(<App />)
+    const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' }),
+      operational = within(screen.getByRole('complementary', { name: 'Operational status' })),
+      status = (label: string) => operational.getByText(label).closest('.status-row')!
+    const seek = (time: number) => {
+      fireEvent.change(observation, { target: { value: String(time) } })
+      fireEvent.click(screen.getByRole('button', { name: 'Seek observation time' }))
+    }
+    seek(180)
+    const originalAircraft = status('F-35B 01').textContent,
+      originalMolniya = status('Molniya').textContent
+    expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('withdrawal in progress')
+    seek(188)
+    expect(status('F-35B 01')).toHaveTextContent('egress')
+    expect(status('F-35B 02')).toHaveTextContent('departed')
+    expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('withdrawal in progress')
+    seek(7200)
+    expect(status('F-35B 01')).toHaveTextContent('departed')
+    expect(status('F-35B 02')).toHaveTextContent('departed')
+    expect(status('Molniya')).toHaveTextContent('departed · damaged survivor')
+    expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('withdrawal complete · holding')
+    expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('6 hold / 0 reposition / 0 withdrawing')
+    seek(180)
+    expect(status('F-35B 01').textContent).toBe(originalAircraft)
+    expect(status('Molniya').textContent).toBe(originalMolniya)
+    expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('withdrawal in progress')
+  })
+
+  it('steps the runtime with keyboard shortcuts across the scripted boundary', () => {
+    simulationStore.getState().seek(179.9)
+    render(<App />)
+    fireEvent.keyDown(window, { code: 'Space', key: ' ' })
+    expect(simulationStore.getState().isPlaying).toBe(true)
+    fireEvent.keyDown(window, { code: 'ArrowRight', key: 'ArrowRight' })
+    expect(simulationStore.getState().timeSeconds).toBe(180.9)
+    fireEvent.keyDown(window, { code: 'ArrowRight', key: 'ArrowRight', shiftKey: true })
+    expect(simulationStore.getState().timeSeconds).toBe(190.9)
+    fireEvent.keyDown(window, { code: 'ArrowLeft', key: 'ArrowLeft' })
+    expect(simulationStore.getState().timeSeconds).toBe(189.9)
+    fireEvent.keyDown(window, { code: 'End', key: 'End' })
+    expect(simulationStore.getState().timeSeconds).toBe(180)
+    expect(simulationStore.getState().isPlaying).toBe(true)
+    fireEvent.keyDown(window, { code: 'Home', key: 'Home' })
+    expect(simulationStore.getState().timeSeconds).toBe(0)
+    fireEvent.keyDown(window, { code: 'ArrowLeft', key: 'ArrowLeft', shiftKey: true })
+    expect(simulationStore.getState().timeSeconds).toBe(0)
+    fireEvent.keyDown(window, { code: 'Space', key: ' ' })
+    expect(simulationStore.getState().isPlaying).toBe(false)
+  })
+
+  it('keeps playback shortcuts out of observation editing and cancels the draft with Escape', () => {
+    simulationStore.getState().seek(240)
+    render(<App />)
+    const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' })
+    observation.focus()
+    fireEvent.change(observation, { target: { value: '360.1' } })
+    for (const [code, key] of [
+      ['Space', ' '],
+      ['ArrowLeft', 'ArrowLeft'],
+      ['ArrowRight', 'ArrowRight'],
+      ['Home', 'Home'],
+      ['End', 'End'],
+    ]) {
+      expect(fireEvent.keyDown(observation, { code, key })).toBe(true)
+      expect(simulationStore.getState().timeSeconds).toBe(240)
+      expect(simulationStore.getState().isPlaying).toBe(false)
+    }
+    expect(observation).toHaveValue(360.1)
+    fireEvent.keyDown(observation, { code: 'Escape', key: 'Escape' })
+    expect(observation).toHaveValue(240)
+    expect(observation).not.toHaveFocus()
+    expect(simulationStore.getState().timeSeconds).toBe(240)
+    fireEvent.keyDown(window, { code: 'Space', key: ' ', repeat: true })
+    fireEvent.keyDown(window, { code: 'Home', key: 'Home', ctrlKey: true })
+    fireEvent.keyDown(window, { code: 'End', key: 'End', altKey: true })
+    fireEvent.keyDown(window, { code: 'ArrowRight', key: 'ArrowRight', metaKey: true })
+    expect(simulationStore.getState().timeSeconds).toBe(240)
+    expect(simulationStore.getState().isPlaying).toBe(false)
+  })
+
   it('reports craft phases and actual deck, transfer and ashore counts', () => {
     render(<App />)
     const slider = screen.getByRole('slider', { name: 'Seek simulation time' }),

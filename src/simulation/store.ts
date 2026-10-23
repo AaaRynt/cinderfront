@@ -3,11 +3,11 @@ import type { StoreApi } from 'zustand/vanilla'
 import { useStore } from 'zustand'
 import { createStore } from 'zustand/vanilla'
 
-import type { SimulationSpeed, SimulationWorldState } from './types'
+import type { RuntimeWorldState } from './runtime'
+import type { SimulationSpeed } from './types'
 
-import { SIMULATION_DURATION_SECONDS } from './constants'
-import { deriveSimulationWorldState } from './derive'
-import { clampSimulationTime } from './time'
+import { deriveRuntimeWorldState } from './runtime'
+import { normalizeRuntimeTime } from './runtimeTime'
 
 export interface SimulationStoreState {
   readonly timeSeconds: number
@@ -32,16 +32,15 @@ export interface SimulationStoreInitialState {
 export type SimulationStore = StoreApi<SimulationStoreState>
 
 export function createSimulationStore(initialState: SimulationStoreInitialState = {}): SimulationStore {
-  const initialTime = clampSimulationTime(initialState.timeSeconds ?? 0)
+  const initialTime = normalizeRuntimeTime(initialState.timeSeconds ?? 0)
 
   return createStore<SimulationStoreState>()((set, get) => ({
     timeSeconds: initialTime,
-    isPlaying: initialTime < SIMULATION_DURATION_SECONDS && (initialState.isPlaying ?? false),
+    isPlaying: initialState.isPlaying ?? false,
     speed: initialState.speed ?? 1,
     transientResetVersion: 0,
 
     play: () => {
-      if (get().timeSeconds >= SIMULATION_DURATION_SECONDS) return
       set({ isPlaying: true })
     },
 
@@ -56,10 +55,10 @@ export function createSimulationStore(initialState: SimulationStoreInitialState 
 
     seek: (timeSeconds) =>
       set((state) => {
-        const nextTime = clampSimulationTime(timeSeconds)
+        const nextTime = normalizeRuntimeTime(timeSeconds, state.timeSeconds)
         return {
           timeSeconds: nextTime,
-          isPlaying: nextTime >= SIMULATION_DURATION_SECONDS ? false : state.isPlaying,
+          isPlaying: state.isPlaying,
           transientResetVersion: state.transientResetVersion + 1,
         }
       }),
@@ -70,11 +69,9 @@ export function createSimulationStore(initialState: SimulationStoreInitialState 
       const state = get()
       if (!state.isPlaying || !Number.isFinite(realDeltaSeconds) || realDeltaSeconds <= 0) return
 
-      const nextTime = clampSimulationTime(state.timeSeconds + realDeltaSeconds * state.speed)
-      set({
-        timeSeconds: nextTime,
-        isPlaying: nextTime < SIMULATION_DURATION_SECONDS,
-      })
+      const nextTime = state.timeSeconds + realDeltaSeconds * state.speed
+      if (!Number.isFinite(nextTime)) return
+      set({ timeSeconds: nextTime })
     },
   }))
 }
@@ -85,10 +82,10 @@ export function useSimulationStore<Selection>(selector: (state: SimulationStoreS
   return useStore(simulationStore, selector)
 }
 
-export function getSimulationWorldState(store: SimulationStore = simulationStore): SimulationWorldState {
-  return deriveSimulationWorldState(store.getState().timeSeconds)
+export function getSimulationWorldState(store: SimulationStore = simulationStore): RuntimeWorldState {
+  return deriveRuntimeWorldState(store.getState().timeSeconds)
 }
 
-export function selectSimulationWorldState(state: SimulationStoreState): SimulationWorldState {
-  return deriveSimulationWorldState(state.timeSeconds)
+export function selectSimulationWorldState(state: SimulationStoreState): RuntimeWorldState {
+  return deriveRuntimeWorldState(state.timeSeconds)
 }

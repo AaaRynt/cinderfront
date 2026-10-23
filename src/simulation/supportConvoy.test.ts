@@ -232,6 +232,11 @@ describe('Stage 4B.2C support convoy authority', () => {
   })
 
   it('reconstructs full world state on direct seeks, pauses, restarts and all playback speeds', () => {
+    const expectHistoricalWorld = (store: ReturnType<typeof createSimulationStore>, time: number) => {
+      const { runtime, ...historical } = getSimulationWorldState(store)
+      expect(historical).toEqual(deriveSimulationWorldState(time))
+      expect(runtime).toMatchObject({ observationSeconds: time, scriptedSeconds: time, aftermathSeconds: 0, phase: time < 180 ? 'scripted' : 'aftermath' })
+    }
     for (const time of BOUNDARIES) expect(deriveSimulationWorldState(time)).toEqual(deriveSimulationWorldState(time))
     for (const speed of [0.5, 1, 2] as const) {
       const store = createSimulationStore({ speed })
@@ -239,17 +244,18 @@ describe('Stage 4B.2C support convoy authority', () => {
       for (const target of BOUNDARIES) {
         const remaining = target - store.getState().timeSeconds
         store.getState().tick(remaining / speed)
-        expect(getSimulationWorldState(store)).toEqual(deriveSimulationWorldState(target))
+        expectHistoricalWorld(store, target)
       }
       expect(store.getState().isPlaying).toBe(true)
       store.getState().tick((180 - store.getState().timeSeconds) / speed)
-      expect(store.getState().isPlaying).toBe(false)
+      expect(store.getState()).toMatchObject({ timeSeconds: 180, isPlaying: true })
+      expectHistoricalWorld(store, 180)
       store.getState().seek(124.9)
       expect(getSimulationWorldState(store).stage4b2c.bridge.blocked).toBe(false)
       store.getState().seek(176)
-      expect(getSimulationWorldState(store)).toEqual(deriveSimulationWorldState(176))
+      expectHistoricalWorld(store, 176)
       store.getState().restart()
-      expect(getSimulationWorldState(store)).toEqual(deriveSimulationWorldState(0))
+      expectHistoricalWorld(store, 0)
     }
   })
 

@@ -7,7 +7,7 @@ import { Vector3 } from 'three'
 
 import type { Vec3 } from '@/scene/effects/BattleEffects'
 
-import { deriveSimulationWorldState, simulationStore } from '@/simulation'
+import { deriveRuntimeWorldState, simulationStore } from '@/simulation'
 
 import type { CameraPreset } from './cameraStore'
 
@@ -101,6 +101,15 @@ function setVector(target: Vector3, source: Vec3) {
   target.set(source[0], source[1], source[2])
 }
 
+/** Retain the original scripted view, then translate it with the patrol.
+ * Applying only displacement deltas preserves the spectator's manual offsets. */
+function setWaspAftermathOffset(target: Vector3) {
+  const time = simulationStore.getState().timeSeconds
+  if (time <= 180) return target.set(0, 0, 0)
+  const position = deriveRuntimeWorldState(time).wasp.pose.position
+  return target.set(position.x - CAMERA_PRESETS.wasp.target[0], 0, position.z - CAMERA_PRESETS.wasp.target[2])
+}
+
 function useStableVector3() {
   const vector = useRef<Vector3 | null>(null)
   if (vector.current === null) vector.current = new Vector3()
@@ -124,7 +133,7 @@ function directionFromYaw(direction: Vector3, yawRadians: number) {
 
 function deterministicFollowDirection(preset: FollowPreset, direction: Vector3, t72HullYawRadians?: number) {
   if (preset === 't72' && t72HullYawRadians !== undefined) return directionFromYaw(direction, t72HullYawRadians)
-  const world = deriveSimulationWorldState(simulationStore.getState().timeSeconds)
+  const world = deriveRuntimeWorldState(simulationStore.getState().timeSeconds)
   const yaw =
     preset === 'lav-west'
       ? world.landing.payload.attacker_lav_01.pose.rotation.y
@@ -229,6 +238,8 @@ export function CameraRig({
   const observationScratch = useStableVector3()
   const followCameraOffset = useStableVector3()
   const followTargetOffset = useStableVector3()
+  const lastWaspOffset = useStableVector3()
+  const waspOffsetScratch = useStableVector3()
   const observationsInitialized = useRef(false)
   const lastSimulationTime = useRef(simulationStore.getState().timeSeconds)
   btrPositionRef.current = btrPosition
@@ -337,6 +348,11 @@ export function CameraRig({
       const selected = CAMERA_PRESETS[preset]
       setVector(camera.position, selected.position)
       setVector(orbitControls.target, selected.target)
+      if (preset === 'wasp') {
+        setWaspAftermathOffset(lastWaspOffset)
+        camera.position.add(lastWaspOffset)
+        orbitControls.target.add(lastWaspOffset)
+      }
     }
     camera.updateProjectionMatrix()
     orbitControls.update()
@@ -349,6 +365,7 @@ export function CameraRig({
     followRightScratch,
     lastFollowDirection,
     lastFollowPosition,
+    lastWaspOffset,
     lcacWestDirection,
     lcacEastDirection,
     molniyaDirection,
@@ -381,6 +398,15 @@ export function CameraRig({
     directionFromYaw(secondaryPantsirDirection, secondaryPantsirYawRadians)
     directionFromYaw(lcacWestDirection, lcacWestYawRadians)
     directionFromYaw(lcacEastDirection, lcacEastYawRadians)
+
+    if (preset === 'wasp' && controls.current) {
+      const offset = setWaspAftermathOffset(waspOffsetScratch)
+      const delta = followDeltaScratch.copy(offset).sub(lastWaspOffset)
+      camera.position.add(delta)
+      controls.current.target.add(delta)
+      lastWaspOffset.copy(offset)
+      return
+    }
 
     if (!isFollowPreset(preset) || !controls.current) return
     const targetPosition =

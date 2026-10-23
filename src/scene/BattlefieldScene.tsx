@@ -6,11 +6,12 @@ import { ACESFilmicToneMapping, BackSide, DoubleSide, RingGeometry } from 'three
 
 import type { F35AircraftState, SimulationWorldState } from '@/simulation'
 
-import { deriveAircraftState, deriveSimulationWorldState, simulationStore, useSimulationStore } from '@/simulation'
+import { deriveAircraftState, deriveRuntimeWorldState, simulationStore, useSimulationStore } from '@/simulation'
 
 import type { Vec3 } from './effects/BattleEffects'
 
 import { CameraRig } from './camera/CameraRig'
+import { periodicAngle } from './effects/aftermath/effectClocks'
 import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effects/BattleEffects'
 import { Stage3BattleEffects } from './effects/Stage3BattleEffects'
 import { Stage4B2AArmoredEffects } from './effects/Stage4B2AArmoredEffects'
@@ -160,12 +161,12 @@ function DownwashDisturbance({ aircraft, time, waspDeckY }: { aircraft: F35Aircr
 function AircraftEntity({ aircraft, time, waspDeckY }: { aircraft: F35AircraftState; time: number; waspDeckY: number }) {
   const { mechanical, pose } = aircraft
   const enginePower = aircraft.launched ? Math.max(0.42, mechanical.heatHazeStrength) : 0.12
-  const enginePulse = enginePower * (0.97 + Math.sin(time * 17 + aircraft.launchAtSeconds) * 0.03)
+  const enginePulse = enginePower * (0.97 + Math.sin(periodicAngle(time, 17, aircraft.launchAtSeconds)) * 0.03)
 
   return (
     <>
       <group name={aircraft.id} position={[pose.position.x, pose.position.y, pose.position.z]} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z]}>
-        <F35BModel enginePower={enginePulse} fanRotationRadians={time * enginePulse * 26} gearDeployment={1 - mechanical.landingGearRetraction} liftFanDoor={mechanical.liftFanDoor} nozzleDeflection={mechanical.rearNozzleDeflectionDegrees / 90} />
+        <F35BModel enginePower={enginePulse} fanRotationRadians={time <= 180 ? time * enginePulse * 26 : periodicAngle(time, enginePulse * 26)} gearDeployment={1 - mechanical.landingGearRetraction} liftFanDoor={mechanical.liftFanDoor} nozzleDeflection={mechanical.rearNozzleDeflectionDegrees / 90} />
         <StovlExhaust doorOpen={mechanical.liftFanDoor} enginePower={enginePulse} nozzleDeflection={mechanical.rearNozzleDeflectionDegrees / 90} time={time} />
       </group>
       <DownwashDisturbance aircraft={aircraft} time={time} waspDeckY={waspDeckY} />
@@ -228,7 +229,7 @@ function RadarHillEngagement({ world }: { world: SimulationWorldState }) {
 
 function DynamicBattlefield() {
   const time = useSimulationStore((state) => state.timeSeconds)
-  const world = useMemo(() => deriveSimulationWorldState(time), [time])
+  const world = useMemo(() => deriveRuntimeWorldState(time), [time])
   const f35Primary = world.aircraft.attacker_f35_01
   const f35Secondary = world.aircraft.attacker_f35_02
   const su30Primary = world.aircraft.defender_su30_01.pose.position
@@ -241,8 +242,12 @@ function DynamicBattlefield() {
   return (
     <>
       <WaspEntity world={world} />
-      <AircraftEntity aircraft={f35Primary} time={time} waspDeckY={deckY} />
-      <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
+      <group visible={world.runtime.aircraft?.attacker_f35_01.visible ?? true}>
+        <AircraftEntity aircraft={f35Primary} time={time} waspDeckY={deckY} />
+      </group>
+      <group visible={world.runtime.aircraft?.attacker_f35_02.visible ?? true}>
+        <AircraftEntity aircraft={f35Secondary} time={time} waspDeckY={deckY} />
+      </group>
       <Su30MkkGroup group={world.stage4b2b} />
       <RadarHillEngagement world={world} />
       <SecondaryPantsir state={world.secondaryPantsir} time={time} />

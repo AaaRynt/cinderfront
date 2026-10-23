@@ -2,6 +2,8 @@ import { Line } from '@react-three/drei'
 import { useMemo } from 'react'
 import { Color, QuadraticBezierCurve3, Vector3 } from 'three'
 
+import { periodicAngle } from './aftermath/effectClocks'
+
 export type Vec3 = readonly [number, number, number]
 
 type ImpactVariant = 'near-hit' | 'vehicle-kill' | 'radar-hit' | 'boundary-hit'
@@ -112,7 +114,7 @@ function DustBurst({ age, position, scale }: { age: number; position: Vec3; scal
 
 function PersistentFire({ age, position, scale }: { age: number; position: Vec3; scale: number }) {
   if (age < 0) return null
-  const pulse = 0.84 + Math.sin(age * 8.2) * 0.12 + Math.sin(age * 3.7) * 0.07
+  const pulse = 0.84 + Math.sin(periodicAngle(age, 8.2)) * 0.12 + Math.sin(periodicAngle(age, 3.7)) * 0.07
 
   return (
     <group position={position}>
@@ -300,7 +302,7 @@ export function UnderwayWake({ time }: { time: number }) {
   return (
     <group position={[0, 0.16, 112]} rotation={[-Math.PI / 2, 0, 0]}>
       {[0, 1, 2].map((index) => {
-        const pulse = 1 + Math.sin(time * 0.7 + index * 1.8) * 0.08
+        const pulse = 1 + Math.sin(periodicAngle(time, 0.7, index * 1.8)) * 0.08
         return (
           <mesh key={index} position={[(index - 1) * 10, 20 + index * 17, 0]} scale={[pulse, pulse, 1]}>
             <ringGeometry args={[8 + index * 7, 10 + index * 8, 36, 1, 0.25, Math.PI * 0.72]} />

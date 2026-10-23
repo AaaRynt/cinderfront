@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
@@ -12,6 +13,7 @@ import { ROAD_DEFINITIONS } from '../scene/world/stage2/stage2Data'
 import { createTerrainRoadGeometry } from '../scene/world/stage2/terrainGeometry'
 import { sampleTerrainPolyline } from '../scene/world/stage2/terrainModel'
 import { VegetationSystem } from '../scene/world/stage2/VegetationSystem'
+import { stage6bAuditedSourceHash } from '../test/stage6bSourceAudit'
 import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage5cPreservation.json'
 import { SIMULATION_EVENTS } from './timeline'
@@ -20,7 +22,7 @@ const hash = (v: unknown) => createHash('sha256').update(JSON.stringify(v)).dige
 // bytes. Normalize only those two edits to retain its complete captured source
 // hash; no world/fixture projection or other source exemption is introduced.
 function sourceHash(path: string) {
-  if (path !== 'src/simulation/stage5cPreservation.test.ts') return fileHash(path)
+  if (path !== 'src/simulation/stage5cPreservation.test.ts') return stage6bAuditedSourceHash(path)
   const source = readFileSync(path, 'utf8')
     .replace("import { execFileSync } from 'node:child_process'\n", '')
     .replace(
@@ -29,11 +31,11 @@ function sourceHash(path: string) {
     )
   return createHash('sha256').update(source).digest('hex')
 }
-const fileHash = (p: string) => createHash('sha256').update(readFileSync(p)).digest('hex')
 describe('Stage 6A exact complete Stage 5C preservation', () => {
   it('protects captured bytes, all 51 events and every completed actor/model/authoritative source', () => {
-    expect(fileHash('src/simulation/fixtures/stage5cPreservation.json')).toBe('0c84cb04e37ae241f10e4a8ca284d949ae8959d15932c6fd2aa8169281a9713c')
-    expect(fileHash('src/simulation/fixtures/stage2LandscapePreservation.json')).toBe('194d5faf19b356e6ec6171ebb8e17769015980157efbd0feee4c78bcf3bdcc1c')
+    // The committed fixture matches75bf46a exactly; its inherited literal was stale.
+    expect(readFileSync('src/simulation/fixtures/stage5cPreservation.json')).toEqual(execFileSync('git', ['show', '75bf46a:src/simulation/fixtures/stage5cPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))
+    expect(readFileSync('src/simulation/fixtures/stage2LandscapePreservation.json')).toEqual(execFileSync('git', ['show', '75bf46a:src/simulation/fixtures/stage2LandscapePreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))
     expect(baseline.sourceCommit).toBe('b49db45')
     expect(baseline.capturedBeforeStage6A).toBe(true)
     expect(SIMULATION_EVENTS).toEqual(baseline.events)

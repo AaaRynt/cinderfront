@@ -22,7 +22,7 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
-Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A, 5B and 5C are complete. Parent Stage 5 is COMPLETE for the finite T+0–180 scripted operation: all 51 official events, two operational LCACs, eight operational LAV-25s, staggered deployment and direct joins to both inland roads. At 180 five payloads are ashore, two are transferring and one remains deck-supported. The endpoint explicitly states “Script complete · aftermath pending Stage 6”; free spectator controls and backward seeking remain available. Stage 6 is IN PROGRESS. Stage 6A is COMPLETE: upgraded rooted grass/scrub, fractured and embedded rocks, 32 sparse dryland trees and visual ground transitions, with exact scripted-state/terrain/layout preservation. Stage 6B is next for indefinite aftermath; Stage 6C remains planned for remaining presentation and final performance integration. The English next-round contract is in `prompt.md`; completed Stage 5 measurements remain in `STAGE5_INTEGRATION_READINESS.md`.
+Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A, 5B and 5C are COMPLETE. Parent Stage 5 is COMPLETE for the authored T+0–180 scripted operation, and Stage 6A landscape is COMPLETE. Stage 6B is COMPLETE; parent Stage 6 remains IN PROGRESS and Stage 6C remains PLANNED. Stage 6B now implements one continuing observation clock, the three remaining LAV unloads, full authored road travel and safe holds, bounded survivor continuation and persistent battlefield activity. At exactly 180 the original five ashore / two transferring / one aboard state remains exact; playback continues into **AFTERMATH OBSERVATION**, all eight LAVs are ashore by T+187.558071982, and the last LAV formation hold begins at T+344.103063449. Fresh final automated, browser, rendered-state and warmed-resource verification passes. Current implementation and measured browser results are recorded in the Stage 6B section below; dated Stage 5C/6A finite-endpoint records remain historical. Completed Stage 5 measurements and the current integration summary are in `STAGE5_INTEGRATION_READINESS.md`.
 
 The intended sequence is:
 
@@ -515,7 +515,7 @@ Complete the amphibious theater and integrate the full authoritative 180-second 
 
 ## Execution Rounds
 
-All three rounds and full-operation verification are complete for finite scripted operation. Stage 6 remains planned.
+All three rounds and full-operation verification are complete for the authored scripted operation. Stage 6 proceeds separately: 6A and 6B are complete; 6C remains planned.
 
 ### Stage 5A — Secondary Air-Defense Reaction and Landing Readiness
 
@@ -643,7 +643,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The next-round contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Fresh Stage 6A delivery and verification are recorded below; parent Stage 6 remains in progress.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Fresh Stage 6A delivery and verification are recorded below; parent Stage 6 remains in progress. The Stage 6B implementation contract in `prompt.md` starts from Stage 6A commit `75bf46a`; current results follow the dated Stage 6A record.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -662,7 +662,7 @@ Make a visible improvement to the ground landscape at close, medium and wide vie
 - use shared resources, bounded instancing and measured shadow/detail budgets; any optional wind follows absolute simulation time and freezes when paused
 - demonstrate the result with matched regional wide/close captures, actual clearance tests and stable warmed resources
 
-This round keeps 51 events, all 24 camera IDs, the finite 180-second runtime and the existing pending-aftermath endpoint. Only the stage label needs to change in the HUD. No new camera, actor, clock, dependency or authoritative map/scenario rewrite is required. Rendering targets and the preservation/verification contract are specified in `prompt.md`.
+Stage 6A retained 51 events, all 24 camera IDs, the finite 180-second runtime and the pending-aftermath endpoint, with only a stage-label change in the HUD. Its scope required no new camera, actor, clock, dependency or authoritative map/scenario rewrite. The landscape implementation prompt and its rendering/preservation contract are preserved in commit `75bf46a`.
 
 ### Verified Stage 6A delivery — 2026-10-19
 
@@ -689,13 +689,215 @@ This round keeps 51 events, all 24 camera IDs, the finite 180-second runtime and
 
 All 17 matched views stay within +80 calls / +15% triangles: changes range from **-2 to +21 calls** and **+2.63% to +12.38% triangles**. Same camera transforms, time, 1280×720 viewport and DPR 1 use Chrome/ANGLE Metal Apple M4. Unique scene material counts rise by two and matched uploaded geometry counts by nine; textures remain three. Approximately 16.7 ms display-capped RAF observations are not GPU execution timings or proof that the landscape is free.
 
-Paired captures, low views, chronological landing sheets, recordings, console/test logs and raw numbers are indexed in ignored `stage6a-review.local/README.md`; full comparison data is `stage6a-review.local/comparison.json`. The procedural faceting, broad existing preset framing and underlying terrain boundaries remain visible. Stage 6B remains PLANNED for indefinite aftermath/continued unloading and longer road support; Stage 6C remains PLANNED for remaining presentation and final performance work. The 51-event/180-second endpoint, 5 ashore / 2 transferring / 1 aboard counts and pending-aftermath wording remain unchanged.
+Paired captures, low views, chronological landing sheets, recordings, console/test logs and raw numbers are indexed in ignored `stage6a-review.local/README.md`; full comparison data is `stage6a-review.local/comparison.json`. The procedural faceting, broad existing preset framing and underlying terrain boundaries remain visible. At the Stage 6A delivery, Stage 6B remained PLANNED for indefinite aftermath/continued unloading and longer road support, and Stage 6C remained PLANNED for remaining presentation and final performance work. That delivery retained the 51-event/180-second endpoint, 5 ashore / 2 transferring / 1 aboard counts and pending-aftermath wording. Stage 6B supersedes that active endpoint behavior below while preserving the scripted state.
 
 ### Stage 6B — Indefinite Aftermath and Continued Movement
 
-**Status:** PLANNED
+**Status:** COMPLETE — parent Stage 6 IN PROGRESS; Stage 6C PLANNED
 
-Implement the existing no-freeze aftermath contract with explicit runtime/scripted-progress clocks, seek/reset behavior and bounded persistent resources. Continue the three remaining LAV unloads and inland travel, surviving vehicle/ship movement, machinery, fire, smoke and other authored aftermath activity. Extend route/support coverage before allowing travel beyond the current LAV support tables at carrier-forward stations -12…90 m. Preserve the complete scripted history through 180; simply removing clamping is insufficient.
+The 2026-10-19 implementation contract starts from completed Stage 6A commit `75bf46a`. Its inherited 440 passing tests across 40 files, 51 events, 24 cameras and finite T+180 endpoint are historical starting measurements. The implementation below supersedes active endpoint behavior without rewriting completed Stage 5C/6A history or claiming parent Stage 6 is finished.
+
+#### Runtime, controls and camera/HUD integration
+
+One authoritative nonnegative observation clock drives the active scene, HUD, cameras and effects. `runtimeTime.ts` derives scripted progress `min(runtime,180)`, aftermath elapsed `max(runtime-180,0)` and aftermath phase from 180; `runtime.ts` combines focused landing/survivor/aircraft continuation anchored to the exact historical boundary. `SCRIPTED_DURATION_SECONDS = 180`, historical finite APIs and all 51 official event records retain their established meanings. No old event or major attack repeats.
+
+Playback crosses 180 without pausing or losing tick overshoot at 0.5×/1×/2×. Pause freezes runtime-driven actors, wheels, radar, fans, water, particles, smoke, fire and lights while spectator controls remain free. Restart returns to paused T+0. Direct finite observation seeking reconstructs state without playing intervening frames, preserves play/pause state, and restores original scripted cargo attachments/events on backward seeks. Negative finite seeks clamp to zero; nonfinite seek/tick inputs retain current store time, overflowing ticks are rejected, and standalone invalid derivation normalizes to zero. Local labels wrap the day; only periodic presentation phases wrap, never runtime itself.
+
+The slider stays 0–180 and pins at 180 during aftermath. A compact accessible observation-seconds input has 0.1 s resolution. Arrow stepping uses observation time, Home seeks zero, End seeks 180, and text inputs isolate playback shortcuts. The Stage 6B HUD reports **AFTERMATH OBSERVATION**, elapsed aftermath/continuing observation/local time, truthful cargo counts, aircraft/naval departures and completed support holds. All 24 camera IDs remain; Wasp's existing view is exact through 180, then translates with patrol displacement while preserving manual offsets. Departed Molniya/F-35 targets keep finite terminal framing.
+
+Only one latest runtime-world result is retained. Finite road/support tables and eviction-only recent effect caches bound direct-seek work independently of elapsed observation or seek count. Historical static landscape placement/reservation loops retain finite derivations and one-way dependencies.
+
+#### Exact late unloading and attachment/occupancy transitions
+
+The original eight IDs, origin groups/carriers, two ramp lanes and offsets `[0,3,6,9]` persist. Each LAV has one visible root. `carrierId` remains its manifest origin; current `attachedToCarrierId` is independent of origin: it is retained only during all-deck support, then clears on the first non-deck contact while occupancy becomes transferring. Last deck contact, all wheels on ground and full-envelope ashore clearance are separate later transitions. First/all tire ground contact is deliberately distinct from full hull/wheel/cannon clearance. All values below are observation seconds.
+
+| LAV             | Departure | First ramp contact | Last deck contact | First ground contact | All wheels ground | Full envelope clear / ashore |
+| --------------- | --------: | -----------------: | ----------------: | -------------------: | ----------------: | ---------------------------: |
+| attacker_lav_04 |       169 |      176.126953042 |     178.182594074 |        179.070655573 |     181.181001586 |                181.590506511 |
+| attacker_lav_07 |       172 |      179.150043384 |     181.179154124 |        182.043905546 |     184.153289922 |                184.558404222 |
+| attacker_lav_08 |       175 |      182.150043388 |     184.179154144 |        185.043755404 |     187.152230168 |                187.558071982 |
+
+At exactly 180 counts remain 1 aboard / 2 transferring / 5 ashore. Counts reach 0 / 0 / 8 at T+187.5580719821155. The recorded values are measured continuations, replacing the former beyond-endpoint estimates. Both LCACs remain at their exact grounded shoreline poses, bow ramps open/grounded and stern ramps closed. Fan/navigation phases continue from runtime; settled spray creates no new births.
+
+Raw evidence: `lav-unloading-attacker_lav_{04,07,08}.json`.
+
+#### LAV road coverage, handoff and safe terminal formations
+
+The old near-craft solver remains authoritative through remaining transfer. Road handoff is carrier-forward station **72 m**; its maximum support/filter look-ahead is **76.445 m**, inside the old station-90 limit. The only `lavDeployment.ts` change exports the unchanged near solver. Four finite road/lane contexts use both complete authored roads, two lanes at ±1.8 m, 14 m quintic corner fillets and 0.5 m finite support/arc grids. The unchanged rendered 10 m road remains support authority.
+
+Vehicles retain 4.5 m/s inland pace, signed wheel phase, quaternion support and independent suspension. An 8 s C1 speed ramp brakes over 18 m at approximately 0.84375 m/s² maximum deceleration. Same-lane holds are staggered 22 m and across-lane holds 8 m; they remain at least 140 m west / 270 m east before the finite route ends/junctions. No ground route loops or extends beyond known support.
+
+| LAV | Road handoff T+ | Brake starts T+ |      Holds T+ | Route-relative hold station m | Remaining route m |
+| --- | --------------: | --------------: | ------------: | ----------------------------: | ----------------: |
+| 01  |   181.328059763 |   324.557600595 | 332.557600595 |                 662.532933745 |               140 |
+| 02  |   184.328059173 |   325.587703853 | 333.587703853 |                 653.668401062 |               148 |
+| 03  |   191.328059763 |   329.668711706 | 337.668711706 |                 640.532933745 |               162 |
+| 04  |   194.328059173 |   330.698814964 | 338.698814964 |                 631.668401062 |               170 |
+| 05  |   187.310224568 |   329.513926573 | 337.513926573 |                 657.916659022 |               270 |
+| 06  |   190.310039990 |   330.991952338 | 338.991952338 |                 651.068605564 |               278 |
+| 07  |   197.310224568 |   334.625037684 | 342.625037684 |                 635.916659022 |               292 |
+| 08  |   200.310039990 |   336.103063449 | 344.103063449 |                 629.068605564 |               300 |
+
+Route lengths after station 72 are 802.532933745 / 801.668401062 m west and 927.916659022 / 929.068605564 m east. Every hold lies after the last authored bend; leader last-bend margins are 83.582277173 / 68.630746001 m. Handoff samples at ±0.5 ms differ in position by approximately 0.004500 m, the expected travel over 1 ms. Measured velocity discrepancy is 0.00441870215 m/s west / 0.01433896079 m/s east; this is not a position teleport.
+
+#### Contact, motion and full-model clearance
+
+| Measurement                                                           | Measured Stage 6B result                                                                                     |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Analytic finite-cylinder contact error, all eight LAVs                | maximum 0.00001008575709116 m (about 0.0101 mm)                                                              |
+| Wheel-center reconstruction error                                     | maximum 1.01685×10⁻¹² m                                                                                      |
+| Faceted rendered tire mesh penetration                                | maximum 0.006109127088155475 m (about 6.109 mm); distinguish polygon faceting from analytic cylinder support |
+| Suspension displacement                                               | maximum 0.16101538561427875 m                                                                                |
+| Yaw / pitch / roll rate                                               | maximum 0.160103368083 / 0.213832689396 / 0.128193282296 rad/s                                               |
+| Steering / steering rate                                              | maximum 0.124435113448 rad / 0.063718648813 rad/s                                                            |
+| Motion-sampled belly / barrel clearance                               | minimum 0.372531873184 / 2.061937079475 m                                                                    |
+| Full-envelope hull clearance west / east                              | minimum 0.465126635637 / 0.389179983895 m                                                                    |
+| Full-envelope barrel clearance west / east                            | minimum 2.082010100858 / 2.061538709699 m                                                                    |
+| Same-lane center spacing west / east                                  | minimum 22.0000209945 / 22.0001735267 m                                                                      |
+| Conservative all-lane complete vehicle-box separating gap west / east | minimum 1.00091029855 / 0.99372475626 m                                                                      |
+| Tire-center road distance                                             | maximum 4.555132597 m within 5 m road half-width; body vertices checked separately                           |
+
+The motion and full-envelope belly/barrel rows use different sample sets. Pitch across motion samples ranges approximately −0.0100071…+0.2367554 rad; roll −0.0975154…+0.0926659 rad.
+
+| Complete-model sweep            |          West |          East |
+| ------------------------------- | ------------: | ------------: |
+| Vertex samples                  |       758,784 |       784,016 |
+| Maximum sampled movement step m |   1.125100696 |   1.128007128 |
+| Maximum LAV horizontal radius m |   3.991183127 |   4.094311214 |
+| Open grounded LCAC radius m     |  16.501170310 |  16.422098620 |
+| Active scenery gap m            |  43.108389934 |   5.616554903 |
+| Tree-crown gap m                | 225.369850574 | 151.409832421 |
+| Open LCAC/tree gap m            | 485.507007196 | 434.460957546 |
+| Infrastructure gap m            | 608.902230426 | 429.273185089 |
+
+The scenery inventory contains 5,748 records: 3,783 active envelopes and 1,965 preserved unmounted legacy vegetation records, with all 32 static trees also retained in the protected inventory. `VegetationSystem` remains unmounted in `WorldShell`; legacy records are preserved rather than treated as rendered obstacles. Static landscape identity/layout was not rerolled.
+
+Raw evidence: per-ID `lav-motion-*`, `lav-handoff-*`, `lav-envelopes-*`, `lav-spacing-{0,1}.json` and `lav-cache-bounds.json`.
+
+#### Existing survivor continuation and terminal behavior
+
+All continuation starts from the exact T+180 state. Coordinates in this table are XZ meters unless identified otherwise. The same runtime drives continuing presentation; capped scripted progress retains irreversible events/outcomes. Full exact per-actor grounded poses, rotations, wheels and terminal fields are in `survivor-motion.json`, with exact grounded anchors and terminal positions in the second table below.
+
+| Family                                                 | T+180 anchor / velocity                                                                           | Permitted aftermath path or hold                                                                                                                                                         | Terminal behavior / effect clock                                                                                                                                                      |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Wasp                                                   | [−4800,−2700], heading −2.214297435588181 rad; forward [0.8,0.6], 11.219742096979383 m/s          | Tangent-continuous clockwise offshore circle, radius 850 m, center [−4290,−3380], period 476.00982847373035 s                                                                            | Continuous seam and bounded periodic bob/roll/pitch; wake and machinery use runtime                                                                                                   |
+| Molniya                                                | [−5670.424269280591,3337.9575730719407], 15.128111600428808 m/s; tangent [−400,−40]/hypot(400,40) | One finite outgoing water segment; conservative fade starts 266.34954649286414 and completes 270.3026501000303                                                                           | Departed presence retains damaged survivor identity; finite terminal at T+274.9692774893056, X=−7100, speed 0; no respawn/new births after cutoff; existing finite smoke tails finish |
+| Talwar                                                 | Exact heavily listed, flooded, burning final pose/state                                           | Fixed historical wreck/outcome with periodic presentation                                                                                                                                | No further sinking, strike or resurrection; runtime fire/smoke                                                                                                                        |
+| BTR-02/03/04                                           | Existing withdrawing anchors; 16 m/s forward                                                      | Immediate 7.5 s C1 braking along known straight withdrawal; extra 60 m                                                                                                                   | Hold from T+187.5, speed/dust/wheel advance zero; runtime dust expires                                                                                                                |
+| Disabled BTR-01                                        | Exact disabled historical pose                                                                    | Fixed                                                                                                                                                                                    | Damage age and persistent effects continue with runtime                                                                                                                               |
+| T-72-02/03                                             | Existing reverse anchors; −4.5 / −4 m/s                                                           | Immediate 2 s C1 braking; extra reverse 4.5 / 4 m                                                                                                                                        | Hold from T+182; rear 03 retains 0.908888889 m complete rear-hull route margin; wheels/tracks stop                                                                                    |
+| Destroyed T-72-01                                      | Exact destroyed historical pose                                                                   | Fixed wreck                                                                                                                                                                              | Runtime damage age and persistent fire/smoke; no repeated strike                                                                                                                      |
+| Support lead fire engine                               | Existing hold, zero speed                                                                         | Exact pose retained                                                                                                                                                                      | Holds throughout; runtime beacons and follow centroid                                                                                                                                 |
+| Support engineering/recovery                           | Existing reverse anchors; −0.9 m/s                                                                | 6 s C1 braking; extra reverse 2.7 m                                                                                                                                                      | Hold from T+186; runtime beacons, finite dust tails                                                                                                                                   |
+| Support rear fire/logistics vehicles                   | Existing reverse anchors; −3 m/s                                                                  | 38 s reverse cruise then 6 s C1 braking; extra reverse 123 m                                                                                                                             | Hold from T+224, all six convoy vehicles survived; runtime beacons                                                                                                                    |
+| Primary/secondary Pantsir, radar/infrastructure wrecks | Exact historical fixed wreck/obstruction state                                                    | Fixed; no new actor or outcome                                                                                                                                                           | Surviving secondary radar phase accelerates smoothly over 2 s to 0.34 rad/s; other established machinery/effects use bounded runtime phases                                           |
+| LCACs                                                  | Exact grounded shoreline poses, open grounded bow ramps/closed stern                              | Fixed craft; finish original eight-ID manifest unloading                                                                                                                                 | Runtime fans/nav lights; settled spray has no new births                                                                                                                              |
+| LAVs                                                   | Exact 5/2/1 cargo state; unchanged signed wheels and near support                                 | Remaining transfers, finite road/lane handoffs and holds above                                                                                                                           | All eight ashore by 187.558071982; final hold by 344.103063449; dust settles and wheels stop                                                                                          |
+| Already departed Su-30s                                | Exact hidden baseline                                                                             | Remain departed                                                                                                                                                                          | No re-entry or new sortie                                                                                                                                                             |
+| F-35-01/02                                             | Exact existing final pose and measured velocity retained                                          | Continue existing outgoing vector to finite off-map anchors; F-35-02 was already beyond the former boundary and now continues at least 250 m rather than snapping immediately to speed 0 | Render departure 210.23960396042338 / 180.4; finite camera targets; no new sorties or re-entry                                                                                        |
+
+F-35-01 terminal XYZ = [186.5544554470007,2000.6138613861385,−5200]; F-35-02 = [−7574.754901960785,1268.9705882352941,−5579.411764705883]. Measured full rendered body gaps beyond the map at render departure are 14.153820531 / 377.152764658 m (264 envelope vertices each).
+
+| Actor                             | Exact T+180 XZ                            | T+180 signed speed m/s | Finite terminal/hold XZ                  |
+| --------------------------------- | ----------------------------------------- | ---------------------: | ---------------------------------------- |
+| `defender_btr_01`                 | [720.6153395068284, 1331.0768424749122]   |                      0 | [720.6153395068284, 1331.0768424749122]  |
+| `defender_btr_02`                 | [1105.8650581213433, 1111.8552075831458]  |                     16 | [1157.9596268568878, 1082.0868366458974] |
+| `defender_btr_03`                 | [1133.425564527547, 1094.378695155525]    |                     16 | [1185.5201332630913, 1064.6103242182762] |
+| `defender_btr_04`                 | [1162.2760336743836, 1079.159614039767]   |                     16 | [1214.370602409928, 1049.3912431025183]  |
+| `defender_t72_01`                 | [6075, 250]                               |                      0 | [6075, 250]                              |
+| `defender_t72_02`                 | [5997.875, 254.5]                         |                   -4.5 | [5993.375, 254.5]                        |
+| `defender_t72_03`                 | [5975.3388888888885, 246.5]               |                     -4 | [5971.3388888888885, 246.5]              |
+| `defender_support_fire_01`        | [3241.1862367208355, -240.5531634859688]  |                      0 | [3241.1862367208355, -240.5531634859688] |
+| `defender_support_engineering_01` | [3265.5074666638543, -230.52965117446786] |                   -0.9 | [3267.995882176727, -229.48189727431105] |
+| `defender_support_recovery_01`    | [3291.692582885277, -219.0703279627522]   |                   -0.9 | [3294.1809983981493, -218.0225740625953] |
+| `defender_support_fire_02`        | [3328.5601807114253, -203.92688860673465] |                     -3 | [3441.921331853409, -156.19587759958765] |
+| `defender_support_logistics_01`   | [3352.5260959637662, -193.51046858267492] |                     -3 | [3465.88724710575, -145.77945757552786]  |
+| `defender_support_logistics_02`   | [3376.6666368661326, -183.50878447742724] |                     -3 | [3490.027788008116, -135.77777347028024] |
+
+#### Survivor route and model measurements
+
+- Ground routes: 353 samples at 0.125 s against 5,748 preserved scenery/tree records, using conservative complete hull/gun/wheel/suspension envelopes plus 2 m. Minimum active scenery clearance is 52.030675733 m overall (BTR 77.698156176 m, T-72 162.743184162 m, support 52.030675733 m). Minimum complete actor-envelope gap is 6.726103719 m; infrastructure gap 25.292433757 m after sweeping buildings, bunds, bridge, substation, radar/equipment, fences/rails, pipes and barriers.
+- Maximum wheel/track presentation contact error is 0.103766525059 m, pitch 0.036461668585 rad and roll 0.030607398519 rad. These historical survivor models retain their established support tolerance, independently of the finer LAV cylinder-contact results.
+- Actual rendered horizontal model radii: BTR 4.0776985578 m from 368 bounding-box corners; T-72 6.0919221454 m from 976 corners including the memoized turret/body; support 4.6047680202 m from 360 corners. Molniya inspection includes missile instance matrices.
+- Maximum ground continuation speed 16 m/s and acceleration 3.375 m/s²; straight-route yaw rate is effectively zero. Finite-difference speed and wheel-integral error is approximately 0.00137109376 m/s.
+- Wasp: 1,441 complete-model samples / 264 corners including wake. Minimum coast gap 1,695.635510675 m, map gap 698.325934508 m and other-vessel gap 5,733.317960997 m; maximum yaw rate 0.013199696585 rad/s and analytic speed error 8.31×10⁻⁹ m/s. Periodic finite-state tests extend through `Number.MAX_VALUE`.
+- Molniya: 328 complete-model corners. Actual maximum X extent 28.82292577409 m is below conservative 29.75310083021568 m; actual first/full body crossing is T+266.41164552893565 / T+270.24056218654437, inside the conservative fade window. Fade completion and finite terminal anchoring are separate moments.
+
+Raw evidence: `survivor-motion.json`, `survivor-clearance.json`, `survivor-contact.json`, `survivor-model-envelopes.json`, `wasp-clearance.json`, `molniya-clearance.json`, `aircraft-departure.json`.
+
+#### Persistent effects, bounded phases and fixed resource contracts
+
+- Existing fuel/ammunition/vehicle/ship fire and smoke, harbor sheen/burning fuel/debris, water and appropriate fans/navigation/beacon activity use runtime. Major scripted blasts, shockwaves, weapon releases and losses remain capped and never restart.
+- Ground dust uses six slots per actor, 0.24 s births, 1.4 s lives, moving ground contacts only and a shared eviction-only cache capped at 128 births. Current renderer rosters provide fixed capacities of 24 BTR, 18 T-72 and 36 support slots, including nonemitting wreck/hold IDs. Legacy dust fades over 180…180.6 as recent-contact runtime dust fades in. Stops leave only finite tails.
+- LAV dust uses eight slots per actor, 0.18 s births, 1.35 s lives and a separate eviction-only birth cache capped at 128. It reconstructs a fixed recent window, follows extended road poses and settles after holds. No per-frame emission history is retained.
+- Sparse industrial secondary activity uses two existing damaged sites: `fuel-manifold` [400,2025], first cycle 213; `ammunition-remains` [1300,1800], first cycle 261. Site/cycle-index hash, 96 s cycles, 0…7 s deterministic jitter and 25% omission yield short 3.4 s bursts with 0.24 s flash. At most one burst per site uses two fixed flash and six puff slots in total, reusing resources. Quiet-interval tests require at least 37 s after the previous lifetime. These are not official events, attributed strikes, actor losses, global shocks, new debris launches or propagation.
+- Molniya stops new wake/smoke births at conservative departure cutoff. Already born particles finish their finite lives; local fire tail is 1.5 s, local smoke tail 5.6 s, and the smoke column remains ten fixed puffs. The cutoff prevents new births while existing finite tails remain visible.
+- Water shader time reduces only its equivalent π×200 s period, preserving the established 0.31/0.56/0.92 rad/s phases. Original inputs/arithmetic remain exact through 180. Other ongoing periodic phases are bounded after 180; fuel point lights and Pantsir wreck rocking also remain finite through extreme finite observation times.
+- Permanent wear uses capped scripted progress for irreversible cutoffs so the old 1000 sentinel does not erase existing patches during longer observation. Historical terrain/coast/road/sea level/support and static Stage 6A material/layout/upload identities are preserved.
+- Finite LAV data: four lane routes, two road centerlines; measured support sample counts `[1329,1311,1319,1306]`, bounded by `[1607,1605,1857,1860]`; wheel-arc sample counts `[1327,1309,1317,1304]`; dust cache 128. These bounds depend on authored route length, not elapsed runtime or seek count.
+- Molniya cloned materials have explicit ownership/disposal. Existing geometry/materials are shared and actor roots remain stable; the final warmed-resource and actual-render checks below pass independently of these fixed-capacity contracts.
+
+#### Exact historical preservation and source-checksum treatment
+
+The pre-edit fixture `src/simulation/fixtures/stage6aRuntimePreservation.json` records fixed source commit `75bf46a` and `capturedBeforeStage6B: true`. Its immutable SHA-256 is `edbd3d182f1fe99132ae8201cc7437525dcf813daa8c35d7f1f4adebf89634f1`; tree-layout hash is `433ee4468e8373957bd05bd9ad96e19bee188350f07846522ba5e5fb01eac4ba`. Historical fixture bytes and stored world hashes are unchanged.
+
+`stage6bPreservation.test.ts` compares every captured complete-world hash against both the legacy finite world and the active runtime world, projecting only additive `runtime` metadata. It omits no actor family or existing actor/weapon/event/contact field. It also checks fixture bytes against fixed `75bf46a`, the tree hash, source hashes and the exact reasoned exception list.
+
+`src/test/stage6bSourceAudit.ts` enumerates exactly 30 file-level exceptions below. For only those exact paths the historical checksum audit reads `git show 75bf46a:<path>`; unrelated source checks still hash current working bytes. Current behavior is covered separately by active-runtime full-world comparisons and focused controls/effects/rendered-transform tests. This preserves the historical audit without replacing stored hashes with newly generated current output or exempting a directory. `derive.ts` and `types.ts` are not exceptions.
+
+| Exact changed path                                   | Reason for fixed-Git historical audit / current behavior coverage                                                 |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `src/App.tsx`                                        | active runtime, keyboard, truthful deployment readouts                                                            |
+| `src/App.test.tsx`                                   | Stage6B label and active observation controls                                                                     |
+| `src/ui/SimulationHud.tsx`                           | fixed scripted slider and accessible observation seek                                                             |
+| `src/scene/BattlefieldScene.tsx`                     | single runtime world and departed aircraft visibility                                                             |
+| `src/scene/camera/CameraRig.tsx`                     | runtime follow headings                                                                                           |
+| `src/scene/vehicles/PantsirModel.tsx`                | bound only late wreck rocking phase to prevent finite runtime overflow; scripted arithmetic preserved             |
+| `src/scene/vehicles/PantsirModel.test.tsx`           | exact scripted rocking and finite actual rendered wreck transforms through extreme late observations              |
+| `src/simulation/store.ts`                            | one nonnegative observation clock without endpoint pause                                                          |
+| `src/simulation/store.test.ts`                       | active unbounded store assertions                                                                                 |
+| `src/simulation/landingCraft.test.ts`                | active store crosses 180 without pausing; retain all finite landing actor and timeline assertions                 |
+| `src/simulation/secondaryPantsir.test.ts`            | active store remains playing at 180; retain exact finite Pantsir boundary, pause, seek and restart assertions     |
+| `src/simulation/supportConvoy.test.ts`               | omit only additive runtime metadata from exact historical world comparisons and assert continuing playback at 180 |
+| `src/simulation/scriptedEndpoint.test.ts`            | legacy finite APIs and active runtime handoff                                                                     |
+| `src/simulation/index.ts`                            | focused active runtime exports                                                                                    |
+| `src/simulation/lavDeployment.ts`                    | export unchanged near-craft solver for bounded road handoff                                                       |
+| `src/simulation/stage6aPreservation.test.ts`         | fixed-Git historical audit for precisely enumerated runtime source changes                                        |
+| `src/scene/effects/BattleEffects.tsx`                | bounded periodic phases after180                                                                                  |
+| `src/scene/effects/SecondaryPantsirEffects.tsx`      | bounded periodic phases after180                                                                                  |
+| `src/scene/effects/Stage3BattleEffects.tsx`          | persistent runtime effects and fixed minor secondary pool                                                         |
+| `src/scene/effects/Stage4B2AArmoredEffects.tsx`      | recent-contact runtime dust                                                                                       |
+| `src/scene/effects/Stage4BGroundVehicleEffects.tsx`  | recent-contact runtime dust                                                                                       |
+| `src/scene/effects/SupportConvoyEffects.tsx`         | recent-contact runtime dust                                                                                       |
+| `src/scene/effects/stage3/BlastResponseField.tsx`    | bounded periodic ignition phases                                                                                  |
+| `src/scene/effects/stage3/BoundedSmoke.tsx`          | finite departure emitter cutoff                                                                                   |
+| `src/scene/effects/stage3/PersistentGroundFires.tsx` | finite departure emitter cutoff and bounded periodic phases                                                       |
+| `src/scene/effects/stage4a/LayeredFuelFireField.tsx` | bounded periodic flame phases                                                                                     |
+| `src/scene/effects/stage4a/Stage4AFuelDisaster.tsx`  | preserve scripted fuel lighting and bound late periodic light phases before multiplication                        |
+| `src/scene/world/stage2/HarborNavalAssets.tsx`       | runtime Molniya transform/departure and bounded machinery phases                                                  |
+| `src/scene/world/stage4c/CoastalWater.tsx`           | bounded equivalent GPU water phase                                                                                |
+| `src/scene/world/stage4c/SurfaceHistory.tsx`         | permanent scripted wear survives observation beyond sentinel1000                                                  |
+
+Two inherited checksum literals in `stage6aPreservation.test.ts` were stale: `stage5cPreservation.json` (SHA-256 `c20c6478b832eea94b29b01262ea546e14c51dd8410cdb13f580bff00df39e6e`) and `stage2LandscapePreservation.json` (`7c021356f387a005d96282c13ef7be44b4f481bcc56c2a00227046aa3da61e63`). Both assertions now compare unchanged fixture bytes directly with their fixed `75bf46a` Git blobs. No fixture bytes or stored world hashes were rewritten; the historical byte audit and current behavioral coverage remain intact.
+
+The 32 trees, 3,574 historical regional records, legacy identities, fitted rock/plant geometry, movement reservations, terrain/coast/road surfaces, sea level, wear/equipment/foam and static resource contracts remain protected. No unbounded runtime derivation enters historical landscape placement loops.
+
+#### Browser acceptance recorded during Stage 6B integration — 2026-10-23
+
+- One uninterrupted 1× playback starts with restart/play at T+0 and records 398 chronological samples from T+0.166667 through T+198.033333 in 199.53 s wall time. It crosses 180 automatically, finishes all three late unloads and continues inland. Accepted evidence is `full-playback.json` plus chronological `full-*.png`. The encoder failed to stop after falling more than 500 ms behind, so `full-script-into-aftermath-1x.webm` may be partial and is not a complete recording. An earlier run interrupted by hot reload near T+55.5 is excluded.
+- Sustained aftermath runs for **614.178 real seconds** at 2×, from T+286.767 to T+1499.633, with 79 interval snapshots. This is actual uninterrupted playback evidence rather than a substitute based on late direct seeks.
+- Seventeen matched scripted views retain identical renderer calls and triangles. Existing scenes and histories remain visually comparable at matched time, camera transform, 1280×720 viewport and DPR.
+- Browser controls cover all 24 presets, 0.5×/1×/2×, direct observation seeks through 7200 and backward into the scripted interval, pause/restart/keyboard/text-input behavior, and 1280×720 / 1280×540 HUD layouts.
+
+Fresh final validation passes **544 tests across 50 files** in 91.12 s, both application/node TypeScript no-emit checks, lint with **zero errors / 13 warnings**, and `git diff --check`. The warnings concern React camera/ref patterns and an existing useMemo warning; they are not all characterized as pre-existing. Original test timeout limits remain.
+
+The actual rendered audit covers **98 timestamps, 20 captures and 33 persistent actor IDs**, with zero root-position error and maximum wheel-center error **9.095×10⁻¹³ m**. Actual GPU water and representative fire/smoke/fan/light inputs advance during aftermath and freeze under Pause while spectator controls remain free. Five warmed equal-time seek/restart/camera cycles stay flat at T+360: **1,331 calls, 664,356 triangles, 962 geometries, 302 materials, 3 textures and 127 programs**. Actor roots and static upload identities/versions remain stable. Active route/support cache counts are `[1329,1311,1319,1306]`, wheel-arc counts `[1327,1309,1317,1304]`, four lane routes/two centerlines and 78 cached LAV dust births within the 128-entry bound. No JavaScript errors occur; the existing Three.js Clock warning remains.
+
+Raw measurements, captures and logs are indexed in ignored `stage6b-review.local/README.md`; `docs-draft.md` is working review material rather than acceptance authority. Renderer counts are matched-view/warmed development measurements; display-capped RAF cadence is not GPU execution timing.
+
+#### Scope and remaining Stage 6C work
+
+Stage 6C remains PLANNED for remaining presentation, broad preset framing, procedural faceting and final rendering-cost/performance refinement. Stage 6B provides deterministic bounded authored continuation with indefinite observation: finite ground routes truthfully end in holds while other battlefield activity continues. It adds no endless road network, general combat AI, new actor/strike/loss/sortie, physical ocean/rigid-body simulation, audio, vegetation change or visible humans/occupants. Approximate support/model tolerances above remain explicit. No build, dependency/version/framework change, authoritative reference edit or broad formatting is required.
 
 ### Stage 6C — Remaining Presentation and Final Performance Integration
 

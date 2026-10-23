@@ -3,6 +3,7 @@ import { DynamicDrawUsage, InstancedMesh, Object3D } from 'three'
 
 import type { Stage3Vec3 } from '../stage3/types.ts'
 
+import { periodicAngle } from '../aftermath/effectClocks'
 import { cyclicParticleEnvelope } from '../stage3/effectMath.ts'
 import { sampleStage4AFuelFireIntensity } from './fuelDisasterMath.ts'
 import { STAGE4A_FUEL_GEOMETRIES, STAGE4A_FUEL_MATERIALS } from './sharedResources.ts'
@@ -40,18 +41,18 @@ export function LayeredFuelFireField({ sources, timeSeconds }: LayeredFuelFireFi
     for (const source of sources) {
       const age = timeSeconds - source.eventTimeSeconds
       if (age < 0) continue
-      const intensity = sampleStage4AFuelFireIntensity(source.eventTimeSeconds, timeSeconds, source.phase)
+      const intensity = timeSeconds <= 180 ? sampleStage4AFuelFireIntensity(source.eventTimeSeconds, timeSeconds, source.phase) : 0.82 + Math.sin(periodicAngle(age, 4.7, source.phase)) * 0.1 + Math.sin(periodicAngle(age, 8.9, source.phase * 0.37)) * 0.04
       const radius = 4.15 * source.scale * (0.9 + intensity * 0.1)
       const height = 11.5 * source.scale * intensity
 
       object.position.set(...source.position)
-      object.rotation.set(0, source.phase + age * 0.14, 0)
+      object.rotation.set(0, periodicAngle(age, 0.14, source.phase), 0)
       object.scale.set(radius, Math.max(0.001, height), radius)
       object.updateMatrix()
       outer.setMatrixAt(activeCount, object.matrix)
 
       object.position.set(source.position[0], source.position[1] + 0.35, source.position[2])
-      object.rotation.y = -source.phase + age * 0.19
+      object.rotation.set(0, periodicAngle(age, 0.19, -source.phase), 0)
       object.scale.set(radius * 0.54, Math.max(0.001, height * 0.72), radius * 0.54)
       object.updateMatrix()
       inner.setMatrixAt(activeCount, object.matrix)

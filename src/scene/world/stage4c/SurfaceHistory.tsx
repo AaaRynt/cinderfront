@@ -4,6 +4,7 @@ import { MeshStandardMaterial } from 'three'
 
 import { simulationStore } from '@/simulation/store'
 
+import { surfaceHistoryTime } from '../../effects/aftermath/effectClocks'
 import { createLandingSurfaceHistory } from '../landing/landingReservations'
 import { createWearGeometry, type WearKind } from './surfaceHistory'
 
@@ -18,7 +19,7 @@ export function SurfaceHistory() {
   const timeRef = useRef<{ value: number } | null>(null)
   const resources = useMemo(() => {
     const patches = createLandingSurfaceHistory()
-    const time = { value: simulationStore.getState().timeSeconds }
+    const time = { value: surfaceHistoryTime(simulationStore.getState().timeSeconds) }
     const pools = (Object.keys(WEAR_MATERIALS) as WearKind[]).map((kind) => {
       const [color, opacity] = WEAR_MATERIALS[kind]
       const material = new MeshStandardMaterial({ color, opacity, transparent: true, depthWrite: false, roughness: 0.98, polygonOffset: true, polygonOffsetFactor: -1 })
@@ -42,7 +43,7 @@ export function SurfaceHistory() {
     timeRef.current = resources.time
   }, [resources])
   useFrame(() => {
-    if (timeRef.current) timeRef.current.value = simulationStore.getState().timeSeconds
+    if (timeRef.current) timeRef.current.value = surfaceHistoryTime(simulationStore.getState().timeSeconds)
   })
   useEffect(
     () => () =>

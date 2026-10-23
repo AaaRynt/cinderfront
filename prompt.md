@@ -1,196 +1,244 @@
-# Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
+# Stage 6B — Indefinite Aftermath and Continued Movement
 
 Work directly in the existing Cinderfront repository.
 
-Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. The viewer observes an authored scenario through spectator cameras and timeline controls.
+Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. The viewer observes authored events and their aftermath through spectator cameras and time controls.
 
-This is an implementation task. Inspect the repository and actual application, complete the bounded landscape pass below, run permitted checks, inspect the result in a browser, fix visible defects, and deliver a reviewable result. Do not stop at planning or at adding a few scattered props.
+This is an implementation task. Inspect the current repository, implement the complete bounded continuation contract below, run permitted checks, inspect the actual application in a browser, fix problems found, and deliver a reviewable result. Do not stop after planning or after removing a time clamp.
 
-## 1. Starting point and next-round priority
+## 1. Verified starting point
 
-Stage 5C is complete in commit `b49db45`. Parent Stage 5 is complete for the finite T+0–180 scripted operation. Its recorded baseline is 421 passing tests across 37 files, 51 official events, and 24 spectator cameras.
+Stage 6A is complete in commit `75bf46a`; Stage 5C is complete in `b49db45`. The recorded Stage 6A baseline is 440 passing tests across 40 files, 51 official events, 24 spectator presets, and a finite T+180 runtime. These are previous results, not fresh validation for this task.
 
-Both LCACs and all eight LAV-25s are implemented. At T+180 there are five LAVs ashore, two transferring, and one still deck-supported. Playback pauses with "Script complete · aftermath pending Stage 6".
+Stage 6A delivered rooted grass/scrub, fitted rocks, 32 static dryland trees, visual surface breakup and movement reservations. Preserve that landscape, its static uploads/resources, all historical layout records and the complete scripted history.
 
-The next priority, following the project discussion, is a dedicated ground-landscape pass: more convincing dry grass, scrub, rocks, sparse small trees, and natural ground transitions. Stage 4C already supplies basic cover and placement rules; improve the visible landscape built on that foundation.
+At T+180, five LAV-25s are ashore, two are transferring, and one remains deck-supported. Playback currently pauses with "Script complete · aftermath pending Stage 6".
 
-Stage 6 is split into:
+This round must make T+180 a continuous handoff into **AFTERMATH OBSERVATION**: finish the remaining unloading, continue authored survivor activity and ongoing environmental effects, and allow observation to continue without a fixed runtime endpoint. Stage 6C remains responsible for remaining presentation and final performance refinement.
 
-- **6A:** ground landscape and its rendering efficiency — this task;
-- **6B:** indefinite aftermath, continued unloading/inland movement, and clock/seek semantics;
-- **6C:** remaining camera, lighting/effects/material polish and final performance integration.
+## 2. Read before editing
 
-Keep the finite 180-second runtime, all 51 event records, completed actor behavior, and current endpoint semantics unchanged in this round.
+Read `AGENTS.md`, `ITERATION_PLAN.md`, the current/historical distinctions in `STAGE5_INTEGRATION_READINESS.md`, and Stage 5C/6A `changelog.md` records.
 
-## 2. Read and inspect before editing
-
-Read `AGENTS.md`, the Stage 4C/5C/6 sections of `ITERATION_PLAN.md`, the completed Stage 5C section of `STAGE5_INTEGRATION_READINESS.md`, and the corresponding `changelog.md` records.
+Read the scenario's T+180 event, aftermath requirements, and narrative chapters 29/30 in `assets/scenario/scenario-spec.yaml` and `scenario-timeline.md`. Read relevant map/vehicle references and the existing roads, boundaries, damage locations, sea level and factions.
 
 Inspect:
 
-- `assets/map/map-spec.yaml` and `assets/map/map-layout.svg`, especially climate, vegetation, regions, roads, operational ground, and landing grades;
-- `assets/scenario/scenario-spec.yaml` and `scenario-timeline.md` for damage, moving actors, and the future aftermath contract;
-- `src/scene/world/stage4c/regionalLayout.ts`, `coverGeometry.ts`, `RegionalCover.tsx`, `spatialReservations.ts`, `surfaceHistory.ts`, and their tests;
-- `src/scene/world/stage2/VegetationSystem.tsx` and `environment/SparseVegetation.tsx`, `seededLayout.ts`, `EnvironmentPrimitives.tsx`, and `responseGroups.ts`;
-- `src/scene/effects/stage3/BlastResponseField.tsx` and the existing environment-response ownership;
-- terrain/material/render integration under `src/scene/world/stage2/`;
-- `src/scene/world/landing/landingTerrain.ts`, `landingSiteData.ts`, and `landingReservations.ts`;
-- current `lavDeployment.ts`, LCAC contact/path modules, secondary Pantsir and other vehicle motion needed for clearance checks;
-- `src/simulation/stage5cPreservation.test.ts`, all historical fixture/projection contracts, and existing coastal/environment tests;
-- camera presets, HUD, package scripts, and resource ownership/disposal conventions.
+- `src/simulation/constants.ts`, `time.ts`, `store.ts`, `derive.ts`, `timeline.ts`, `types.ts`, and endpoint/store/preservation tests;
+- `landingCraft.ts`, `landingCraftContact.ts`, `landingCraftPaths.ts`, `landingCraftTypes.ts`, and `lavDeployment.ts`;
+- `groundVehicles.ts`, `groundVehicleRoutes.ts`, `supportConvoy.ts`, `secondaryPantsir.ts`, `stage3.ts`, and aircraft derivation;
+- `src/scene/world/landing/landingTerrain.ts` and its actual uploaded road/support surfaces;
+- `src/scene/world/landscape/`, especially static layouts, fitted models, tree envelopes and completed movement/road reservations;
+- all active effect renderers, particle caches/pools, coastal/wear shader uniforms, machinery and navigation lights;
+- `src/scene/BattlefieldScene.tsx`, camera derivation/follow logic, playback/keyboard integration, `src/App.tsx`, and `src/ui/SimulationHud.tsx`;
+- historical fixture/source-checksum contracts and current package scripts.
 
-Before implementation, inspect representative wide and close browser views and save matched baseline captures/renderer measurements. Use the current app, not only old screenshots or text descriptions.
+Before implementation, capture representative views and the exact T+180 state. Audit every current time consumer rather than assuming changing the store will animate the whole scene.
 
-## 3. Visual direction
+## 3. Scope and invariants
 
-Preserve the authoritative **dry, semi-arid coastal mainland** character: sparse low scrub and dry grass, exposed soil, rocky slopes, gravel, and sandy shore. Dense forest and tropical vegetation are explicitly disallowed by the map.
+Implement one coherent aftermath runtime, continued unloading and road travel, surviving vehicle/ship continuation, persistent effects/machinery, direct aftermath seeking, and long-running verification.
 
-The deliverable should make the terrain read as a coherent place at three scales:
+Keep:
 
-- close: recognizable blades/twigs, branching trees, fractured rock surfaces, grounded roots/bases;
-- medium: irregular patches, varied silhouettes, convincing rock groups and open ground;
-- wide: distinct regional character with readable roads, vehicles, facilities, and battle events.
+- the scripted duration exactly 180 seconds;
+- all 51 official event records unchanged and reached exactly once;
+- all existing actor identities, ownership, survival/destruction outcomes and model dimensions;
+- exact scripted actor/weapon/contact histories through T+180;
+- all 24 camera IDs, free spectator controls, and the completed Stage 6A landscape;
+- authoritative map/scenario/vehicle assets, terrain/coast/road geometry, support heights and historical fixture bytes.
 
-Do not substitute a green carpet, uniformly repeated bushes, spherical tree crowns, rows of identical cones, or random decoration everywhere. Retain broad bare areas and the established restrained diorama style.
+Do not add new major strikes, combat AI, weapons, actors, losses, aircraft sorties, pathfinding, fluid/rigid-body simulation, audio, vegetation changes or a general timeline framework.
 
-Use repository-native procedural geometry and existing Three.js facilities. Inspect any existing reusable landscape assets before creating new ones. No dependency additions, remote asset downloads, purchased asset packs, framework upgrades, or image-generation work is needed.
+Never create, model, render, animate, or imply visible humans, occupants, crews, casualties, articulated bodies, or humanoid silhouettes. Hatches and glazing remain closed/opaque.
 
-## 4. Regional composition
+Do not run build commands, change dependency versions, add dependencies, or upgrade frameworks. Preserve unrelated user changes.
 
-| Region           | Required character                                                                                       | Keep clear/readable                                                                     |
-| ---------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Radar Hill       | exposed layered/fractured rock, dry tufts in pockets, low wind-shaped scrub                              | radar/AAA/SAM pads, antennas, damage and surviving equipment                            |
-| Convoy corridor  | uneven dry grass/scrub patches along sheltered ground and wash banks, occasional sparse trees            | complete vehicle/gun sweeps, reverse paths, bridge, service yard, road shoulders        |
-| Remote beach     | low dune grass, coastal scrub, embedded weathered rock; only a few trees well inland in sheltered ground | both LCAC approaches, grades, ramps, actual LAV lanes and full inland-road reservations |
-| Harbor edges     | sparse growth in unused land pockets and restrained rock/gravel transitions                              | quays, water, working aprons, warehouses, ship silhouettes and access routes            |
-| Industrial edges | sparse dry cover and weathered gravel outside operating/firebreak areas                                  | containment, pipes, storage compounds, emergency access, fire/smoke/scorch visibility   |
+## 4. Time model: one running clock and capped scripted progress
 
-Use existing region boundaries and suitable terrain/aspect/shelter cues. Avoid placing new trees on exposed radar crests, active industrial ground, harbor paving, open beach strand, or operational landing areas.
+Use one authoritative nonnegative observation/runtime clock. Derive:
 
-## 5. Improve existing grass and scrub
+- scripted progress = min(runtime, 180);
+- aftermath elapsed = max(runtime - 180, 0);
+- phase = scripted before 180, aftermath from 180 onward.
 
-There are two existing vegetation layers: Stage 2 sparse cover with response metadata, and Stage 4C regional cover. Inspect both. Improving only one while leaving conspicuous old cones/faceted blobs beside it is not sufficient.
+This requires distinct meanings, not two independently ticking stores. Rendering, HUD, cameras, effects and controls must read the same runtime.
 
-Replace visibly primitive grass silhouettes with small irregular clumps of tapered/bent blades or stems. Improve scrub with branching structure and broken foliage masses, believable negative space, restrained dry/olive variation, and nonuniform height/lean.
+During playback, crossing 180 must neither pause nor lose the part of a tick beyond 180. A tick from 179.9 to 180.4 must yield runtime 180.4 and aftermath elapsed 0.4 at the selected playback speed.
 
-Reuse a small set of meaningful geometric variants and deterministic per-instance color/shape variation. Prefer better silhouettes and placement composition over simply raising polygon counts or population density.
+The event list remains capped at the completed 51 records. No new official event, replay of old events, repeated endpoint emission or event-handler-driven actor spawning is needed.
 
-Preserve existing layout IDs, seeds, base transforms, instance ordering, and response metadata. The current Stage 4C layout has 3,574 instances. Do not reroll or relocate those records to obtain a better screenshot.
+Keep `SCRIPTED_DURATION_SECONDS = 180`, historical constants, and explicitly bounded legacy derivation/time APIs. Add a focused runtime derivation/time layer instead of redefining every historical helper as unbounded. Names such as `deriveRuntimeWorldState` and runtime-specific normalization/formatting are suitable; inspect the existing interfaces first.
 
-Account for the different existing geometry-origin conventions: Stage 2 vegetation is positioned using a half-height offset, while Stage 4C cover is rooted around its ground datum. A shared replacement must not float or sink because those conventions were ignored.
+For runtime <= 180, the active runtime-derived world must reproduce every existing scripted actor/weapon field exactly. Historical finite APIs can remain compatible, but the application's active path must also be tested against the complete baseline.
 
-New optional infill patches use a separate seed namespace and placement layer. They must avoid existing vegetation overlap and obey the full reservation rules below. Do not alter the historical layout generator to make room.
+Preserve pose, velocity, heading, signed wheel travel, effect ages, damage and machinery phase at the handoff. Do not map post-180 time back into the opening scenario or rebuild the world at 180.
 
-## 6. Rocks, outcrops, and ground contact
+Runtime/local labels continue beyond T+03:00; local clock formatting wraps the day correctly. Only periodic phases may be reduced modulo their period for numerical stability. Never modulo the overall runtime to replay the scenario.
 
-Improve the existing repeated rock forms into a small coherent family: fractured slabs/outcrops, irregular embedded boulders, and lower rubble/gravel groups. Use larger exposed forms on the ridge and smaller weathered forms near the beach.
+Normalize invalid time inputs deliberately: negative finite seeks clamp to zero; nonfinite seek/tick inputs must not corrupt state or jump to infinity. Document and test the runtime policy separately from unchanged legacy finite-time behavior.
 
-Inspect both Stage 4C rocks and visible Stage 2 `RockCluster` instances. Preserve their identity, placement contracts, and authored response metadata while improving the rendered geometry/materials within safe bounds.
+## 5. Playback, seeking and user interface
 
-Give rocks a convincing base and orientation relative to the actual slope. Break repetition through bounded silhouette/aspect changes, mineral/color variation, and grouping. Avoid faceted balls resting on a single point, unsupported overhangs, stretched noise, or a continuous decorative wall.
+Use these concrete semantics:
 
-Keep upgraded geometry inside the existing instance's reserved horizontal footprint. New protrusions require actual envelope checks, not just a smaller nominal radius. Use partially buried bases and terrain-aware render details to seat large forms; do not modify terrain height or actor support to fit a rock.
+- Play continues naturally into aftermath; Play at runtime 180 or later resumes observation.
+- Pause freezes actor motion, wheels, fans, radar animation, water, smoke, fire, particles and lights while spectator movement remains free.
+- Restart returns to paused T+0 and clears transient observation state without rerolling scenery.
+- Direct seek reconstructs any supported finite observation time without simulating every intervening frame.
+- Seeking backward from aftermath restores the original scripted world, cargo attachments and event coverage.
+- In-range seek preserves the user's current playing/paused state.
 
-Sample the actual uploaded surface across each new rock/root footprint, including slopes and grade boundaries. Preserve base layout records; any derived render-only fitting data must be deterministic and separately testable.
+Keep the existing scripted slider at 0–180. Its displayed value pins at 180 during aftermath; dragging it seeks back into the scripted interval. Do not continually rescale its historical event markers or pass an out-of-range runtime as its value.
 
-## 7. Add sparse small trees
+Provide a compact accessible observation-time input, in seconds with 0.1 s resolution, to seek directly beyond 180. Arrow-key time stepping uses runtime; Home seeks 0 and End seeks the scripted boundary 180. Keep Space/playback shortcuts and text-input editing from interfering with each other.
 
-Trees are a required new visual category in this round, not a rename of existing scrub.
+Show `AFTERMATH OBSERVATION`, elapsed aftermath time, and the continuing observation/local time. Replace the pending-aftermath message with truthful active phase and deployment readouts. The last official event remains `scripted_phase_complete`.
 
-Add a limited set of small dryland trees with recognizable trunks, tapered branching, asymmetric crowns, and restrained foliage. Use several silhouette variants across two compatible forms, such as an upright open crown and a wind-shaped low crown. Avoid palms, lush tropical crowns, dense woodland, or excessive dead-tree repetition.
+Use existing Tailwind utilities and visual style. Preserve a usable 1280×540 layout. No debug panel, HUD redesign, or additional camera preset is required.
 
-Start with approximately 24–48 trees across eligible inland corridor, sheltered ridge-foot, and inland beach pockets. This is an authoring budget, not a quota to fill unsafe ground. Report final counts, heights, crown spans, regional distribution, and reasons for any substantial reduction. Deliver visible trees at multiple suitable locations.
+## 6. Complete the existing unloading
 
-Use roughly 3–7 m heights as the initial visual range, measured in world meters against existing vehicles. Account for the entire crown/branch/root envelope and any wind displacement when checking clearance and batch bounds.
+Reuse the eight persistent IDs, manifests, departure offsets [0,3,6,9], current two ramp lanes, finite-radius tire support, full quaternion poses, suspension, wheel travel and bounded ground dust.
 
-Keep tree placement deterministic, independent of camera/time, and separate from historical grass/scrub layouts. Trunks must meet the terrain; foliage must not float as disconnected balls or hide the branches completely. Avoid canopies touching one another enough to create a forest.
+At exactly 180 retain 1 aboard / 2 transferring / 5 ashore. Continue vehicles 04/07/08 smoothly from their actual deck/ramp states.
 
-Do not add tree destruction, falling trees, fire propagation, collisions, or new official events. Place new intact trees outside existing damage/response envelopes.
+The previous schedule estimated full clearance at approximately:
 
-## 8. Ground transitions without changing terrain geometry
+- `attacker_lav_04`: 181.591;
+- `attacker_lav_07`: 184.558;
+- `attacker_lav_08`: 187.558.
 
-Improve how existing soil, sand, gravel, exposed rock, vegetation bases, and road shoulders meet. Use restrained world-space color/roughness breakup and/or narrowly bounded terrain-draped detail layers.
+These were estimates beyond the former endpoint. Preserve the established ramp pace and measure the actual new results. By roughly 188, all eight should be fully ashore if those profiles are retained. Report exact measured clearance and attachment/occupancy transitions.
 
-Preserve all terrain/coast/road positions, indices, normals, existing vertex attributes, grade profiles, height/contact samplers, coastline, water polygons, and sea level. This is a visual material/detail pass, not terrain remodeling.
+Keep both LCACs at their completed shoreline poses with open grounded ramps and closed stern ramps. Navigation/fan activity can continue; cushion spray/dust must settle once its authored births end. Do not relaunch or move the craft to avoid a contact problem.
 
-Do not create displacement, raised collision surfaces, duplicate terrain sheets, invisible support ramps, or modified road heights. Keep both LCAC grades and every LAV support/contact result exact.
+Each LAV remains visible exactly once throughout unloading and continuation. Keep origin carrier/group identity separate from current attachment. Do not reset wheels, hide vehicles at the handoff, duplicate deck/ground models, or claim ashore status from a center-point test alone.
 
-New detail overlays must follow the actual triangles, use controlled depth ordering, and avoid z-fighting, dark rectangular stamps, large transparent overlapping sheets, or visible seams. Do not cover existing wear, scorch, wreck contact, wet sand, industrial damage, or water/foam.
+## 7. Extend LAV road/support coverage correctly
 
-Preserve the existing 404 wear records, service equipment, coastal motion values, and 37-record foam layout. Add independent landscape detail only where it is compatible with those layers.
+The current deployment solver is a carrier-forward straight profile with fixed support coverage from -12 to 90 m. Its height/arc lookup clamps outside that range. Removing the global time clamp would eventually continue straight off the actual road and misreport tire travel.
 
-## 9. Reservations and complete movement clearance
+Retain that exact near-craft solution through the scripted interval and remaining ramp transfer. Introduce a measured handoff safely inside its valid support range, including wheel-radius, axle and chassis-filter look-ahead. A station near 70–75 m is a useful starting candidate; choose and verify the exact station.
 
-Reuse existing fixed/damage/road/landing reservations, but recognize their historical limits:
+Join continuously to each actual road:
 
-- Stage 4C vehicle sweeps stop at T+176 and omit later actor families;
-- its raw LCAC routes are historical seed masks, not the actual approaches;
-- Stage 5B adds actual smoothed-route and grade exclusions;
-- Stage 5C now has eight moving LAVs and a full 180-second operation.
+- west `road_beach_exit`: [4300,-2920] → [4250,-2700] → [4200,-2480] → [4200,-2280] → [4100,-2080];
+- east `road_beach_access_east`: [5450,-2860] → [5550,-2680] → [5700,-2480] → [5750,-2280] → [6000,-2050].
 
-Create a focused additional reservation layer for the new landscape using the actual completed actor data through T+180. Include secondary Pantsir, actual LCAC/cargo/ramp envelopes, all eight LAV paths, and the final four seconds of existing vehicle movement.
+Use the complete rendered road/support geometry, not an extended straight ray or flat height sampled at station 90. Author smooth turns contained within the existing 10 m roads and reserved shoulders.
 
-Keep historical reservation inputs unchanged so existing layouts/fixtures do not reroll. Do not call the complete world derivation repeatedly from rendering or create dependency cycles between environment placement and simulation.
+Keep two offset lanes where they fit safely. Match position, orientation, speed, wheel phase and support at the handoff, with continuous velocity/heading and bounded pitch/roll/steering/suspension. Verify every tire and the full hull/barrel at bends and changes of grade.
 
-Measure the full moving envelope: wheels, hull, gun/barrel, suspension, payload, deployed ramp, canopy/branches, and any wind reach. Cover turns and transitions with sufficient sampling and conservative interpolation margins.
+Continue near the proven 4.5 m/s inland pace, with measured acceleration/braking/turn-rate limits. No rush to finish both approximately 875/1,002 m roads. Maintain same-lane following distance through turns and terminal braking without generalized traffic AI.
 
-Reserve both full inland roads and their existing shoulders for future Stage 6B continuation even though current LAV travel covers only their starts. No invented post-180 actor motion or expanded simulation clock is needed to reserve known road corridors.
+Author safe terminal formation holds before the ends/junctions of the known roads, staggered by lane/order. Brake smoothly, set speed and wheel travel consistently, and let dust expire. Do not loop land vehicles back onto the beach, teleport to another road, drive indefinitely beyond known terrain, or keep spinning wheels against a clamped position.
 
-Protect operational yards, landing sites, pipes, fences, lights, facilities, wrecks, firebreaks, damage response zones, and water edges. Check new scenery against existing cover/equipment too.
+Indefinite observation does not require every vehicle to travel forever. A finished finite route can end in a truthful deployed/holding state while other battlefield activity continues. Use focused runtime metadata/types if a new terminal activity is needed, without changing historical payload fields.
 
-Keep key camera views legible without view-dependent spawning: no tree trunk or crown permanently blocking a principal vehicle, landing ramp, radar installation, or major explosion from its existing preset. Small partial occlusion is natural; loss of the subject is not.
+## 8. Other survivors and bounded route completion
 
-## 10. Time, response behavior, and architecture
+Build an explicit continuation table for the existing actor families, recording their T+180 anchor/velocity, permitted activity, path or hold, terminal behavior, and effect-clock source.
 
-Most of this landscape is static. Keep placement and resources outside React timeline subscriptions and reconstruct the same world on every mount/seek/restart.
+Required behavior:
 
-Preserve Stage 2 environment-response group IDs, instance indices, metadata and authored blast/deformation behavior when replacing its rendered geometry. Do not detach legacy vegetation/rocks from the existing blast response or add competing response controllers.
+| Family                      | Aftermath contract                                                                                                                |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Wasp                        | Continues underway on a bounded safe offshore patrol, with wake and machinery                                                     |
+| Molniya                     | Continues damaged withdrawal toward open water; may depart beyond the observation boundary as a survivor                          |
+| Talwar                      | Remains heavily listed, partially flooded and burning; no further sinking, new strike or resurrection                             |
+| BTR/T-72 survivors          | Continue the established withdrawal along known clear routes, then brake to safe holds or a verified departure                    |
+| Support convoy              | Lead retains its hold; engineering/recovery complete limited reposition; rear vehicles continue a bounded safe reverse withdrawal |
+| Radar/air-defense survivors | Wrecks remain fixed; surviving equipment/antennas may keep their established machinery activity                                   |
+| LCACs/LAVs                  | Open grounded craft, completed unloading and authored inland travel/holds                                                         |
+| Aircraft                    | Already departed aircraft remain departed; no re-entry, new strike or repeated sortie                                             |
 
-Optional subtle vegetation motion may be added only after static visual goals are met. If used, derive bounded wind from absolute simulation time, use a consistent coastal direction, keep roots anchored, and include maximum displacement in culling/clearance bounds. Pause must freeze it; seeking must reconstruct it. Wall-clock animation and camera-seeded changes are prohibited. Static vegetation is an acceptable documented choice for this round.
+Preserve the specific existing roster/outcomes. The destroyed primary/secondary Pantsir, disabled BTR, destroyed T-72 and radar/infrastructure damage remain fixed.
 
-Keep new work in focused landscape geometry/layout/material/render modules, reusing existing helpers. Avoid a general biome engine, world editor, terrain framework, new weather system, or changes to simulation state merely to hold static scenery.
+Wasp's old polyline is closed in position but has different start/end tangents. Do not use runtime % 180 to make it snap or turn instantly at the loop seam. Anchor a continuous safe post-180 path to its existing final pose/velocity, and verify the complete hull stays offshore and clear of the map/other vessels. A repeatable patrol is permitted only with a continuous seam.
 
-No visible humans, occupants, crews, casualties, articulated characters, or humanoid silhouettes may be created or implied.
+For Molniya, use an explicitly bounded outgoing water segment and a measured full-hull boundary crossing. If it leaves the observation area, fade/render departure coherently, retain its survivor identity/outcome and a finite terminal pose, stop new wake/smoke births there, and never respawn it. Cameras must retain a valid target/final framing.
 
-## 11. Rendering cost and resource ownership
+For ground survivors, do not blindly extrapolate existing station/reverse formulas forever. Validate route ends, braking, spacing, buildings, bridge obstruction, roads and the completed landscape before committing continuation. Vehicles may hold when their authored movement is complete.
 
-Use shared geometry/materials, regional or spatially bounded instancing, and a small number of material families. Avoid one React component/draw call per grass clump, rock fragment, tree branch, or leaf.
+## 9. Persistent effects, water and small secondary activity
 
-Keep distant detail inexpensive. Use simple bounded geometry and, where measurement justifies it, a small deterministic distance-based LOD strategy. Camera changes may choose render detail but must never regenerate placement, change IDs, or change simulation state. Avoid conspicuous popping and unstable shadows.
+Audit all time consumers: some currently receive clamped derived-world time, while others read the store directly. The active runtime must reach ongoing shader uniforms, smoke/fire ages, lights, fans, water and machinery.
 
-Do not make every grass blade or distant canopy cast shadows. Use a limited, measured shadow policy for rocks/trees and preserve existing scene lighting, exposure, water, smoke, and explosion presentation.
+Keep irreversible scripted state and cutoffs based on capped scripted progress. Use runtime for continuing periodic motion and bounded effect birth/age reconstruction. Preserve the original major effects through 180.
 
-Own and dispose new resources explicitly. No per-frame geometry/material creation, repeated shader compilation, unbounded caches, or rebuilding instance matrices during paused camera motion.
+Existing major explosions, shockwaves, debris launches and weapon releases must not restart. Continue persistent fuel/ammunition/vehicle/ship fire and smoke, harbor sheen/burning fuel/debris, and appropriate surviving machinery/water motion from their existing phases.
 
-Use matched-view performance targets as working budgets: aim for no more than 80 additional submitted draw calls and 15% additional submitted triangles in each agreed baseline view, including existing shadow submissions. These are project targets, not hardware guarantees. If a view exceeds them, first reduce redundant geometry, shadows, or submissions; document any remaining justified exception with actual numbers and visible benefit.
+Reuse fixed-capacity pools and analytic/cyclic presentations where suitable. Dust depends on actual moving ground contacts, follows the extended road paths, and fades when vehicles stop. Old trails must not remain as immortal particles.
 
-Compare GPU timing only if it can actually be measured. Stable display-capped RAF cadence alone is not evidence that the added scenery is free.
+Include the source's occasional minor industrial secondary detonations as sparse deterministic site/cycle-indexed small flashes/puffs in existing damaged areas. Begin after 180, leave quiet intervals of tens of seconds, and use short lifetimes and fixed slots with at most one active burst per site. They add no official event, attribution, actor loss, major hero explosion, global shock or fire-propagation system. Test birth/lifetime boundaries and direct-seek reconstruction.
 
-## 12. Preservation contract
+Do not accumulate emission history, retain every birth forever, or integrate every frame from zero on direct seek. Bound caches by finite route tables or fixed recent windows. Runtime 7200 should cost about as much to derive/render as another comparable active view, not depend on having played the preceding two hours.
 
-Capture a pre-edit Stage 5C baseline through T+180, including full simulation state, all 51 events, LAV deployment/contact/mechanics, environmental metadata/layouts, and relevant source/geometry checks. Historical fixtures stay byte-identical.
+Use bounded/modular shader phase inputs where long runtimes would lose precision, preserving visible continuity and the original scripted output. Do not use wall-clock time or uncontrolled randomness.
 
-Require exact preservation of:
+## 10. Landscape, contact and post-180 clearances
 
-- all existing simulation actor/weapon/event values, including LAV motion and endpoint counts;
-- LCAC/vehicle models, trajectories, deployment timing, wheel/contact results, and destruction outcomes;
-- terrain/coast/road uploaded attributes and support heights;
-- authoritative map/scenario/vehicle files;
-- historical cover layout records and Stage 2 response identities/order;
-- existing wear/equipment/foam/coastal values;
-- all 24 camera IDs and playback, seek, pause, restart, speed, keyboard and endpoint behavior.
+Keep all 32 trees, 3,574 historical regional records, legacy response identities, fitted rock/plant geometry, materials, instance uploads, wear/equipment/foam, terrain/coast/roads and sea level unchanged.
 
-Allowed visual differences are improved cover/rock mesh shapes within tested envelopes, landscape materials, separately seeded trees/infill, compatible visual ground detail, and optional bounded vegetation wind. These do not authorize moving protected actors, rewriting terrain, or rerolling seeded history.
+Stage 6A protected motion through 180 and reserved both full LAV roads. These are useful inputs, not proof that every post-180 patrol/reverse route is clear.
 
-Old environment layout hashes must still pass. Test new layers separately. Update only genuinely obsolete assertions about the deliberately changed landscape rendering, keeping identity, grounding, reservations and response guarantees at least as strong. Do not remove whole-world preservation, regenerate historical fixtures, or weaken timeouts to obtain green tests.
+Add focused continuation-envelope tests against existing scenery, infrastructure and actors. Include wheels/guns, full hulls, suspension, open ramps and tree crowns. Keep paths inside verified clear space; do not reroll/delete scenery to gain room.
 
-Change only the stage label to Stage 6A in the ordinary UI; retain the pending-aftermath endpoint wording and all deployment readouts. Use installed Tailwind utilities for any touched DOM styling. No new camera presets or HUD redesign are needed.
+Do not feed newly unbounded derivations into Stage 6A's historical static placement loops. Preserve one-way dependencies, cached static reservations and fixed layout identities. New verification/route data belongs in focused aftermath modules.
 
-## 13. Verification and visible acceptance
+The complete grounded road and ramp geometry stays the support authority. No contact-height rewrite, invisible bridge, terrain smoothing, map rescaling or authoritative reference edit is needed.
 
-Automated checks should prove deterministic layout/variants, actual generated bounds, nondegenerate finite geometry, root/base grounding, full movement clearances through 180, future road reservations, preserved response metadata, unchanged simulation/terrain/layout baselines, and bounded stable resources. If wind or LOD is added, test the shared inputs/bounds and inspect actual rendered behavior.
+## 11. Architecture and exact scripted preservation
 
-Run permitted checks:
+Add focused runtime clock/derivation, continuation data/path, ongoing effects and tests. Avoid putting the entire aftermath into `derive.ts`, `store.ts`, or a monolithic render component.
+
+There must be one active world/time source. Update the scene, HUD, follow cameras, keyboard controls, store selectors and render-time readers together. Do not leave a finite historical store driving effects while a second unbounded store drives the HUD.
+
+Before editing, capture a Stage 6A baseline from `75bf46a` through 180, including complete actor/weapon/event/contact state, landscape layouts/resources and relevant render inputs. Keep all historical fixture bytes and stored world hashes unchanged.
+
+Test both:
+
+1. historical bounded APIs retain their defined behavior;
+2. the actual runtime derivation, projected only to omit genuinely additive runtime metadata, matches every old actor/weapon/event/contact field through 180.
+
+Do not compare only an unused frozen API or discard whole actor families from the active comparison. At exactly 180 the five/two/one LAV state and all mechanical values remain exact. The intended changes there are playback continuation and UI phase, not actor teleportation.
+
+Existing preservation tests include whole-file hashes for runtime/store/type/test sources that this round may legitimately need to edit. Handle those conflicts explicitly: enumerate the exact files and reasons; retain the captured historical bytes/hash audit against its fixed Git baseline; and add stronger current-source behavioral comparisons for the active runtime. Preserve unrelated source checks.
+
+Do not update historical fixture contents to bless changes, whitelist entire directories, normalize arbitrary edits, replace historical checks with hashes generated from current files, or weaken assertion coverage/timeouts. If refactoring an existing pure helper is necessary, its old-domain output still needs exact preservation tests.
+
+Update finite-endpoint active-store/UI assertions to the new semantics and retain finite behavior only where the legacy contract actually applies. No source change is allowed to silently alter scripted movement, damage, effects or landscape.
+
+## 12. Camera/HUD and resource ownership
+
+Preserve all 24 preset IDs and paused orbit/pan/zoom. Existing LAV and vehicle follows must track the runtime poses through extended routes and safe holds. Retain stable framing if a survivor leaves the view; never target NaN/infinite coordinates or reset the spectator unexpectedly at 180.
+
+Use Stage 6B labeling, active aftermath/readout semantics from section 5, and accurate payload counts. Avoid broader visual redesign.
+
+Share existing geometry/materials and keep actor roots stable across the handoff and seeks. Fixed route/support tables may be precomputed or lazily cached with explicit finite bounds. Direct late seeks must not allocate a new persistent copy per visited time.
+
+Maintain explicit ownership/disposal and stable warmed shader/resource counts. Time advancement can update dynamic buffers/uniforms, but static landscape uploads must stay unchanged. Separate active-timestamp count differences from actual resource growth.
+
+## 13. Automated verification
+
+Add meaningful tests for:
+
+- exact 180 boundary/overshoot at 0.5×/1×/2×, pause/resume/restart, finite-input normalization and one-clock synchronization;
+- runtime/scripted/aftermath formatting, local-day rollover, scripted slider and accessible observation-time seeking;
+- all 51 event records unchanged with no replay/duplicate endpoint after arbitrary seeks;
+- full active scripted preservation through 180 and the continuous immediate post-180 handoff;
+- actual 04/07/08 clearance, stable IDs/attachments/counts and eight operational ashore vehicles afterward;
+- old-profile/new-road support handoffs, all wheels/belly/barrel at every road bend, continuous signed wheel travel/steering, speed/turn/braking and terminal formation spacing;
+- bounded ship patrol/departure and ground survivor routes, valid terminal poses/headings/visibility and fixed wreck outcomes;
+- fixed-capacity deterministic smoke/fire/dust/secondary effects, no reborn major explosions and stable static scenery;
+- direct seeks in different orders to 180/188/240/360/600/1800/3600/7200, repeated identical results, and bounded route/effect caches;
+- continuing motion/effect variation at late times, with finite state/resources rather than a global late freeze;
+- actual rendered transforms, camera targets, shader time inputs and unchanged landscape geometry/uploads.
+
+Retain the original timeout limits; avoid concurrent heavy browser profiling and full tests if contention causes timeouts.
+
+Run:
 
 - `pnpm exec tsc -p tsconfig.app.json --noEmit`;
 - `pnpm exec tsc -p tsconfig.node.json --noEmit`;
@@ -199,38 +247,39 @@ Run permitted checks:
 - `git diff --check`;
 - the existing development server for actual browser verification.
 
-Do not run builds, `tsc -b`, combined `pnpm check`, or repository-wide formatting. Do not change dependency/framework versions or add dependencies. Keep heavy browser profiling and full tests separate if contention causes timeouts.
+Do not run builds, `tsc -b`, combined `pnpm check`, repository-wide formatting, dependency/version changes or framework upgrades.
 
-Save matched before/after views at the same camera transforms, viewport, DPR and times. Cover all five regions, with at least six close/medium comparisons and wide views showing the surrounding composition.
+## 14. Actual browser and long-running acceptance
 
-Required visual acceptance:
+Capture the unchanged scripted views before editing. Verify matched scripted appearance after implementation at the same transforms/times/viewport/DPR.
 
-- older cone/blob cover no longer dominates inspected foregrounds;
-- grass, scrub, rocks and new trees have distinct readable silhouettes;
-- roots/rock bases sit naturally on slopes, with no obvious floating or hard overlay seams;
-- sparse trees improve regional composition without forming woodland;
-- roads, moving vehicles, ramps, major facilities and damage remain visible and unobstructed;
-- no obvious doubled vegetation from overlapping Stage 2/4C/new layers;
-- landscape appearance is stable under backseek/restart and paused camera movement.
+Watch an uninterrupted 1× crossing from before 180 through all three remaining ramp clearances and into road travel. Inspect low-angle hinge/toe support, 179.9/180/180.1, measured 04/07/08 clearance boundaries and the old/new road-profile handoffs.
 
-Inspect T+0, radar damage, fuel/ammunition disasters, bridge/T-72/Pantsir reactions, both complete LCAC approaches and both LAV unloading sequences through 180. For unchanged simulation tracks, use focused visual regressions plus the exact automated baseline; replay complete landing/unloading continuously at 1× to check new scenery clearance.
+Inspect both groups at their first bends, later bends, terminal braking and holds, plus every continued survivor family. Use close ground/vehicle and wide scene views. Confirm actual rendered positions/wheels agree with runtime state.
 
-Inspect all 24 cameras, close low-angle terrain contacts, wide regional views, camera movement across any LOD thresholds, all speeds, pause, repeated backward/forward seeks, restart, and 1280×720 / 1280×540 HUDs. Check console output.
+Run one complete T+0–180 playback that continues into aftermath without user intervention. Replay representative older radar, fuel/ammunition, bridge/T-72/Pantsir, aircraft/naval and landing sequences.
 
-Measure representative ridge/corridor/beach views and a busy industrial-disaster view before/after. Record submitted calls/triangles, geometry/material/texture/program counts and observed frame cadence under matched conditions. Run at least five warmed seek/restart/camera cycles and verify flat resource counts and stable actor/resource identities.
+Check direct observation seeks to 240/360/600/1800/3600/7200 and backward to 179/160/0; pause while moving the camera; restart; all speeds; keyboard/text-input behavior; all 24 presets; 1280×720 and 1280×540 layouts; and the console.
 
-Do not claim completion from passing tests or object counts alone. The final paired captures must demonstrate a visible improvement at the intended viewing distances.
+Run at least ten real minutes of uninterrupted aftermath playback, at 2× if useful, with resource snapshots at intervals. In addition, compare equal warmed late timestamps across at least five seek/restart/camera cycles. Very late direct seeks do not replace sustained-playback evidence.
 
-## 14. Documentation and handoff
+Measure matched scripted views and busy aftermath views: renderer calls/triangles, geometry/material/texture/program counts, dynamic pool/cache bounds, stable actor roots and static landscape upload versions. Confirm no growth tied to elapsed playback, number of seeks or number of emitted particles.
+
+Check actual GPU water time and representative fire/smoke/fan/light motion: they advance during aftermath and freeze under Pause. Do not infer active observation from a changing text clock alone, or a GPU improvement from display-capped RAF cadence.
+
+Save local captures, continuous recordings/chronological frames, raw measurements and logs. Report only checks actually performed and explain any measured limitation.
+
+## 15. Documentation and final handoff
 
 After implementation and fresh verification:
 
-- mark Stage 6A COMPLETE and parent Stage 6 IN PROGRESS;
-- keep Stage 6B and Stage 6C PLANNED, and preserve Stage 5 completion records;
-- update `ITERATION_PLAN.md` and append an accurate `changelog.md` entry;
-- record the landscape variant/count/distribution data, extra reservations, geometry/material changes, actual clearances, optional motion/LOD decisions, measurements, and local comparison artifact paths;
-- keep the Stage 5 integration report's completed actor/contact measurements intact; update only a next-stage pointer if needed.
+- mark Stage 6B COMPLETE, parent Stage 6 IN PROGRESS, and Stage 6C PLANNED;
+- preserve completed Stage 4/5/6A history;
+- update `ITERATION_PLAN.md`, `STAGE5_INTEGRATION_READINESS.md`, and `changelog.md` with the actual runtime contract, continuation/terminal table, unloading/road results and evidence;
+- distinguish historical finite T+180 measurements from current post-180 results;
+- record any narrowly changed source-checksum assertions and their replacement behavioral coverage;
+- state remaining Stage 6C presentation/performance work without claiming the entire project is finished.
 
-Report the visible regional improvements, tree count/scale, preserved simulation/terrain/layout guarantees, fresh automated/browser results, paired image paths, matched rendering cost and warmed resource stability. Identify remaining visual limits honestly.
+Report the clock/controls contract, exact late unloading times, all survivor paths/holds/departures, road-support/clearance measurements, effect/cache bounds, scripted preservation, camera/HUD changes, fresh tests/browser results, artifact paths and sustained resource measurements.
 
-Do not claim indefinite aftermath, completed post-180 unloading, terrain remodeling, new combat, a forest biome, or visible personnel.
+Do not claim an endless road network, physical ocean/vehicle simulation, new combat or visible personnel. The deliverable is deterministic indefinite observation with bounded authored continuation and persistent battlefield activity.
