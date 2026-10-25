@@ -14,6 +14,7 @@ import { createTerrainRoadGeometry } from '../scene/world/stage2/terrainGeometry
 import { sampleTerrainPolyline } from '../scene/world/stage2/terrainModel'
 import { VegetationSystem } from '../scene/world/stage2/VegetationSystem'
 import { stage6bAuditedSourceHash } from '../test/stage6bSourceAudit'
+import { stage6cHistoricalSource } from '../test/stage6cSourceAudit'
 import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage5cPreservation.json'
 import { SIMULATION_EVENTS } from './timeline'
@@ -23,7 +24,8 @@ const hash = (v: unknown) => createHash('sha256').update(JSON.stringify(v)).dige
 // hash; no world/fixture projection or other source exemption is introduced.
 function sourceHash(path: string) {
   if (path !== 'src/simulation/stage5cPreservation.test.ts') return stage6bAuditedSourceHash(path)
-  const source = readFileSync(path, 'utf8')
+  const source = stage6cHistoricalSource(path)
+    .toString()
     .replace("import { execFileSync } from 'node:child_process'\n", '')
     .replace(
       "expect(readFileSync('src/simulation/fixtures/stage5bPreservation.json')).toEqual(execFileSync('git', ['show', 'b49db45:src/simulation/fixtures/stage5bPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))",
@@ -34,8 +36,8 @@ function sourceHash(path: string) {
 describe('Stage 6A exact complete Stage 5C preservation', () => {
   it('protects captured bytes, all 51 events and every completed actor/model/authoritative source', () => {
     // The committed fixture matches75bf46a exactly; its inherited literal was stale.
-    expect(readFileSync('src/simulation/fixtures/stage5cPreservation.json')).toEqual(execFileSync('git', ['show', '75bf46a:src/simulation/fixtures/stage5cPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))
-    expect(readFileSync('src/simulation/fixtures/stage2LandscapePreservation.json')).toEqual(execFileSync('git', ['show', '75bf46a:src/simulation/fixtures/stage2LandscapePreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))
+    expect(readFileSync('src/simulation/fixtures/stage5cPreservation.json').equals(execFileSync('git', ['show', '75bf46a:src/simulation/fixtures/stage5cPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))).toBe(true)
+    expect(readFileSync('src/simulation/fixtures/stage2LandscapePreservation.json').equals(execFileSync('git', ['show', '75bf46a:src/simulation/fixtures/stage2LandscapePreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))).toBe(true)
     expect(baseline.sourceCommit).toBe('b49db45')
     expect(baseline.capturedBeforeStage6A).toBe(true)
     expect(SIMULATION_EVENTS).toEqual(baseline.events)

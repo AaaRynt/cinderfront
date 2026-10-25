@@ -98,7 +98,7 @@ function SimulationInterface() {
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
       const target = event.target
-      if (target instanceof HTMLElement && (target.isContentEditable || target.closest('input, textarea, select, button, [role=textbox]'))) return
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest('input, textarea, select, button, summary, [role=textbox], [data-hud-scroll]'))) return
       if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return
       const state = simulationStore.getState()
       if (event.code === 'Space' || event.code === 'Enter') {
@@ -133,7 +133,7 @@ function SimulationInterface() {
     molniya: world.runtime.survivors?.molniya.mapPresence === 'departed' ? 'departed · damaged survivor' : phaseLabel(world.stage3.molniya.phase),
     btrGroup: btrGroupStatus(world.stage4b.btrGroup),
     t72Group: t72GroupStatus(world.stage4b.t72Group),
-    su30Group: world.stage4b2b.status,
+    su30Group: world.stage4b2b.survivorCount === 2 && Object.values(world.stage4b2b.aircraft).every((aircraft) => !aircraft.visible) ? `2 departed · ${world.stage4b2b.damagedCount} damaged` : world.stage4b2b.status,
     supportPhase: time > 180 && world.stage4b2c.convoy.holdingCount === 6 ? 'withdrawal complete · holding' : world.stage4b2c.convoy.phase.replaceAll('_', ' '),
     supportOutcome: world.stage4b2c.convoy.outcome === 'survived' ? `6 survived · ${world.stage4b2c.convoy.holdingCount} hold / ${world.stage4b2c.convoy.repositioningCount} reposition / ${world.stage4b2c.convoy.withdrawingCount} withdrawing` : '6 operational · 2 fire / 1 engineering / 1 recovery / 2 logistics',
     industrial: world.stage3.industrial.ammunitionCompoundDestroyed ? 'fuel and ammunition sites destroyed' : world.stage3.industrial.blackoutFraction > 0 ? 'partial blackout / fires active' : world.stage3.industrial.pipelineIgnited ? 'fuel-transfer fire active' : 'operational',

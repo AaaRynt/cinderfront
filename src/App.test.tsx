@@ -1,12 +1,24 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import App from './App'
 import { useCameraStore } from './scene/camera/cameraStore'
-import { simulationStore } from './simulation'
+import { deriveRuntimeWorldState, simulationStore } from './simulation'
 
 vi.mock('./scene/BattlefieldScene', () => ({ BattlefieldScene: () => null }))
 
+beforeAll(() => {
+  deriveRuntimeWorldState(0)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(188)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(210)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(240)
+})
 beforeEach(() => {
   simulationStore.getState().restart()
   simulationStore.getState().setSpeed(1)
@@ -14,51 +26,93 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
-describe('Stage 6B spectator interface', () => {
-  it('retains all 22 existing cameras and adds two LAV group presets', () => {
+function renderWithStatus() {
+  render(<App />)
+  fireEvent.click(screen.getByText('Operational details'))
+}
+
+describe('Stage 6C spectator interface', () => {
+  it('starts compact with all statuses keyboard-accessible and without truncation', () => {
     render(<App />)
+    const details = screen.getByText('Operational details').closest('details')!
+    expect(details.open).toBe(false)
+    expect(screen.getByLabelText('Deployment summary')).toHaveTextContent('8 operational LAV-25s')
+    expect(screen.getByLabelText('Spectator camera')).toHaveValue('overview')
+    fireEvent.click(screen.getByText('Operational details'))
+    expect(details.open).toBe(true)
+    const summary = screen.getByText('Operational details')
+    expect(fireEvent.keyDown(summary, { code: 'Space', key: ' ' })).toBe(true)
+    expect(simulationStore.getState().isPlaying).toBe(false)
+    expect(fireEvent.keyDown(screen.getByLabelText('Full operational details'), { code: 'End', key: 'End' })).toBe(true)
+    expect(simulationStore.getState().timeSeconds).toBe(0)
+    expect(
+      within(screen.getByRole('complementary', { name: 'Operational status' }))
+        .getByText('Industrial')
+        .closest('.status-row')!
+        .querySelector('strong'),
+    ).not.toHaveClass('truncate')
+    const select = screen.getByRole('combobox')
+    fireEvent.keyDown(select, { code: 'Space', key: ' ' })
+    expect(simulationStore.getState().isPlaying).toBe(false)
+    fireEvent.change(select, { target: { value: 'lav-east' } })
+    expect(useCameraStore.getState().preset).toBe('lav-east')
+    const request = useCameraStore.getState().requestId
+    fireEvent.click(screen.getByRole('button', { name: 'Recenter selected camera' }))
+    expect(useCameraStore.getState().requestId).toBe(request + 1)
+    fireEvent.click(screen.getByText('Operational details'))
+    expect(details.open).toBe(false)
+  })
+  it('retains all 22 existing cameras and adds two LAV group presets', () => {
+    renderWithStatus()
     const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
-    expect(cameras.getAllByRole('button').map((button) => button.textContent)).toEqual([
-      'Overview',
-      'Wasp',
-      'Harbor',
-      'Talwar',
-      'Molniya',
-      'Industrial',
-      'Fuel storage',
-      'Ammunition',
-      'Radar Hill',
-      'Search radar',
-      'Convoy corridor',
-      'BTR focus',
-      'T-72 focus',
-      'Beach inland',
-      'Beach offshore',
-      'F-35B 01',
-      'F-35B 02',
-      'Air reinforcement',
-      'Support convoy',
-      'Pantsir 02',
-      'LCAC 01',
-      'LCAC 02',
-      'LAV west',
-      'LAV east',
-    ])
-    fireEvent.click(cameras.getByRole('button', { name: 'Air reinforcement' }))
-    expect(cameras.getByRole('button', { name: 'Air reinforcement' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByText('Cinderfront / Stage 6B')).toBeInTheDocument()
+    expect(
+      cameras
+        .getAllByRole('option')
+        .map((option) => option.textContent)
+        .sort(),
+    ).toEqual(
+      [
+        'Overview',
+        'Wasp',
+        'Harbor',
+        'Talwar',
+        'Molniya',
+        'Industrial',
+        'Fuel storage',
+        'Ammunition',
+        'Radar Hill',
+        'Search radar',
+        'Convoy corridor',
+        'BTR focus',
+        'T-72 focus',
+        'Beach inland',
+        'Beach offshore',
+        'F-35B 01',
+        'F-35B 02',
+        'Air reinforcement',
+        'Support convoy',
+        'Pantsir 02',
+        'LCAC 01',
+        'LCAC 02',
+        'LAV west',
+        'LAV east',
+      ].sort(),
+    )
+    fireEvent.change(cameras.getByRole('combobox'), { target: { value: 'su30' } })
+    expect(cameras.getByRole('combobox')).toHaveValue('su30')
+    expect(screen.getByText('Cinderfront / Stage 6C')).toBeInTheDocument()
     expect(screen.getByText('Su-30MKK pair')).toBeInTheDocument()
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('routine transit')
-    fireEvent.click(cameras.getByRole('button', { name: 'Support convoy' }))
-    expect(cameras.getByRole('button', { name: 'Support convoy' })).toHaveAttribute('aria-pressed', 'true')
-    fireEvent.click(cameras.getByRole('button', { name: 'Pantsir 02' }))
-    expect(cameras.getByRole('button', { name: 'Pantsir 02' })).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.change(cameras.getByRole('combobox'), { target: { value: 'support-convoy' } })
+    expect(cameras.getByRole('combobox')).toHaveValue('support-convoy')
+    fireEvent.change(cameras.getByRole('combobox'), { target: { value: 'secondary-pantsir' } })
+    expect(cameras.getByRole('combobox')).toHaveValue('secondary-pantsir')
     expect(screen.getByText('Pantsir 01')).toBeInTheDocument()
     expect(screen.getByLabelText('Secondary Pantsir status')).toHaveTextContent('reserve')
   })
 
   it('reconstructs exact event readouts on forward/backward UI seeks and restart', () => {
-    render(<App />)
+    renderWithStatus()
     const slider = screen.getByRole('slider', { name: 'Seek simulation time' })
     const timeline = screen.getByRole('region', { name: 'Simulation timeline' })
     expect(slider).toHaveAttribute('max', '180')
@@ -101,7 +155,7 @@ describe('Stage 6B spectator interface', () => {
   })
 
   it('preserves play/pause and all three playback speeds', () => {
-    render(<App />)
+    renderWithStatus()
     fireEvent.click(screen.getByRole('button', { name: 'Play simulation' }))
     expect(simulationStore.getState().isPlaying).toBe(true)
     fireEvent.click(screen.getByRole('button', { name: 'Pause simulation' }))
@@ -114,7 +168,7 @@ describe('Stage 6B spectator interface', () => {
   })
 
   it('seeks observation time directly while pinning the scripted slider and final event', () => {
-    render(<App />)
+    renderWithStatus()
     const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' })
     const slider = screen.getByRole('slider', { name: 'Seek simulation time' })
     const timeline = screen.getByRole('region', { name: 'Simulation timeline' })
@@ -143,7 +197,7 @@ describe('Stage 6B spectator interface', () => {
   })
 
   it('preserves playback on direct and scripted seeks and restarts paused at zero', () => {
-    render(<App />)
+    renderWithStatus()
     const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' })
     const slider = screen.getByRole('slider', { name: 'Seek simulation time' })
     fireEvent.click(screen.getByRole('button', { name: 'Play simulation' }))
@@ -170,7 +224,7 @@ describe('Stage 6B spectator interface', () => {
   })
 
   it('reports aircraft and naval departures and completed support holds only after the scripted interval', () => {
-    render(<App />)
+    renderWithStatus()
     const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' }),
       operational = within(screen.getByRole('complementary', { name: 'Operational status' })),
       status = (label: string) => operational.getByText(label).closest('.status-row')!
@@ -190,6 +244,7 @@ describe('Stage 6B spectator interface', () => {
     expect(status('F-35B 01')).toHaveTextContent('departed')
     expect(status('F-35B 02')).toHaveTextContent('departed')
     expect(status('Molniya')).toHaveTextContent('departed · damaged survivor')
+    expect(status('Su-30MKK pair')).toHaveTextContent('2 departed · 1 damaged')
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('withdrawal complete · holding')
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('6 hold / 0 reposition / 0 withdrawing')
     seek(180)
@@ -200,7 +255,7 @@ describe('Stage 6B spectator interface', () => {
 
   it('steps the runtime with keyboard shortcuts across the scripted boundary', () => {
     simulationStore.getState().seek(179.9)
-    render(<App />)
+    renderWithStatus()
     fireEvent.keyDown(window, { code: 'Space', key: ' ' })
     expect(simulationStore.getState().isPlaying).toBe(true)
     fireEvent.keyDown(window, { code: 'ArrowRight', key: 'ArrowRight' })
@@ -222,7 +277,7 @@ describe('Stage 6B spectator interface', () => {
 
   it('keeps playback shortcuts out of observation editing and cancels the draft with Escape', () => {
     simulationStore.getState().seek(240)
-    render(<App />)
+    renderWithStatus()
     const observation = screen.getByRole('spinbutton', { name: 'Observation time in seconds' })
     observation.focus()
     fireEvent.change(observation, { target: { value: '360.1' } })
@@ -251,7 +306,7 @@ describe('Stage 6B spectator interface', () => {
   })
 
   it('reports craft phases and actual deck, transfer and ashore counts', () => {
-    render(<App />)
+    renderWithStatus()
     const slider = screen.getByRole('slider', { name: 'Seek simulation time' }),
       status = screen.getByLabelText('Landing craft status'),
       timeline = screen.getByRole('region', { name: 'Simulation timeline' })
@@ -272,8 +327,8 @@ describe('Stage 6B spectator interface', () => {
     expect(status).toHaveTextContent('3 aboard / 2 transferring / 3 ashore')
     const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
     for (const name of ['LCAC 01', 'LCAC 02']) {
-      fireEvent.click(cameras.getByRole('button', { name }))
-      expect(cameras.getByRole('button', { name })).toHaveAttribute('aria-pressed', 'true')
+      fireEvent.change(cameras.getByRole('combobox'), { target: { value: name === 'LCAC 01' ? 'lcac-west' : 'lcac-east' } })
+      expect(cameras.getByRole('combobox')).toHaveValue(name === 'LCAC 01' ? 'lcac-west' : 'lcac-east')
     }
     fireEvent.click(screen.getByRole('button', { name: 'Restart simulation' }))
     expect(status).toHaveTextContent('holding')

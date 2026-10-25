@@ -6,6 +6,7 @@ import type { BlastResponseDescriptor, Stage3BlastObjectKind, Stage3Vec3 } from 
 import { periodicAngle } from '../aftermath/effectClocks'
 import { FUEL_HERO_TIME_SECONDS, FUEL_RESPONSE_RADIUS_M, createBlastResponseLayout, cyclicParticleEnvelope, sampleBlastResponse, smoothstep01 } from './effectMath.ts'
 import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
+import { SOFT_SMOKE_GEOMETRY } from './softParticles'
 
 const UP = new Vector3(0, 1, 0)
 
@@ -71,6 +72,7 @@ function ResponseKindInstances({ blastTimeSeconds, descriptors, geometry, kind, 
     for (const mesh of [normal, charred]) {
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
+      if (mesh.geometry === SOFT_SMOKE_GEOMETRY) mesh.computeBoundingSphere()
     }
   }, [blastTimeSeconds, kindDescriptors, origin, responseRadiusM, scratch, timeSeconds])
 
@@ -139,6 +141,7 @@ function ResponseIgnitionPool({ blastTimeSeconds, descriptors, responseRadiusM, 
       mesh.count = activeCount
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
+      if (mesh.geometry === SOFT_SMOKE_GEOMETRY) mesh.computeBoundingSphere()
     }
   }, [blastTimeSeconds, burnable, responseRadiusM, scratchObject, timeSeconds])
 
@@ -147,7 +150,7 @@ function ResponseIgnitionPool({ blastTimeSeconds, descriptors, responseRadiusM, 
     <group name="stage3-blast-response-persistent-ignitions">
       <instancedMesh ref={flameRef} args={[STAGE3_GEOMETRIES.fire, STAGE3_MATERIALS.fireOuter, capacity]} dispose={null} frustumCulled={false} />
       <instancedMesh ref={emberRef} args={[STAGE3_GEOMETRIES.fire, STAGE3_MATERIALS.fireInner, capacity]} dispose={null} frustumCulled={false} />
-      <instancedMesh ref={smokeRef} args={[STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.smokeLocal, capacity]} dispose={null} frustumCulled={false} renderOrder={3} />
+      <instancedMesh ref={smokeRef} args={[SOFT_SMOKE_GEOMETRY, STAGE3_MATERIALS.smokeLocal, capacity]} dispose={null} frustumCulled renderOrder={3} />
     </group>
   )
 }

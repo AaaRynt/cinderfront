@@ -97,7 +97,7 @@ function createSheenGeometry() {
 }
 
 function HarborFuelSheen({ center, progress, surfaceFireVisible, timeSeconds }: { center: Stage3Vec3; progress: number; surfaceFireVisible: boolean; timeSeconds: number }) {
-  const geometry = useMemo(createSheenGeometry, [])
+  const geometry = useMemo(() => createSheenGeometry(), [])
   useEffect(() => () => geometry.dispose(), [geometry])
   const radius = Math.max(0.01, progress * 170)
   const firePositions = useMemo<readonly Stage3Vec3[]>(

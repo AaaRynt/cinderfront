@@ -1,6 +1,7 @@
 import { DoubleSide, MeshStandardMaterial } from 'three'
 
 import { applyLandscapeSurface } from '../landscape/landscapeMaterial'
+import { applyRoadShoulder } from '../landscape/roadShoulder'
 import { applyConcreteHistory, applyIndustrialWeathering } from '../stage4c/weathering'
 
 export function createStage2Materials() {
@@ -15,8 +16,8 @@ export function createStage2Materials() {
     shallowWater: new MeshStandardMaterial({ color: '#477b7d', metalness: 0.02, opacity: 0.72, roughness: 0.52, transparent: true }),
     intertidalWater: new MeshStandardMaterial({ color: '#6e8176', metalness: 0.01, opacity: 0.55, roughness: 0.68, transparent: true }),
     sand: applyLandscapeSurface(new MeshStandardMaterial({ color: '#917e55', ...matte }), 0.2),
-    asphalt: new MeshStandardMaterial({ color: '#3f4543', metalness: 0.02, roughness: 0.88 }),
-    gravel: applyLandscapeSurface(new MeshStandardMaterial({ color: '#746e60', ...matte }), 0.2),
+    asphalt: applyRoadShoulder(applyLandscapeSurface(new MeshStandardMaterial({ color: '#494c45', metalness: 0.02, roughness: 0.92 }), 0.16)),
+    gravel: applyRoadShoulder(applyLandscapeSurface(new MeshStandardMaterial({ color: '#746e60', ...matte }), 0.2)),
     hardstand: new MeshStandardMaterial({ color: '#656860', metalness: 0.01, roughness: 0.9 }),
     concrete: applyConcreteHistory(new MeshStandardMaterial({ color: '#656861', metalness: 0.01, roughness: 0.86 })),
     weatheredConcrete: applyConcreteHistory(new MeshStandardMaterial({ color: '#5a5c55', metalness: 0, roughness: 0.96 })),

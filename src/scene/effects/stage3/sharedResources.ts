@@ -3,6 +3,7 @@ import { AdditiveBlending, BoxGeometry, ConeGeometry, CylinderGeometry, DoubleSi
 import type { Stage3Vec3 } from './types.ts'
 
 import { createGrassGeometry, createScrubGeometry } from '../../world/landscape/landscapeGeometry'
+import { createSoftSmokeMaterial, createSoftFlameMaterial } from './softParticles'
 
 const SEGMENT_UP = new Vector3(0, 1, 0)
 
@@ -52,11 +53,13 @@ export const STAGE3_MATERIALS = {
   antenna: new MeshStandardMaterial({ color: '#4b5451', metalness: 0.52, roughness: 0.58 }),
   bombBody: new MeshStandardMaterial({ color: '#252b2a', metalness: 0.62, roughness: 0.48 }),
   bombFin: new MeshStandardMaterial({ color: '#353c3a', metalness: 0.52, roughness: 0.56 }),
-  charred: new MeshStandardMaterial({ color: '#211f1a', metalness: 0.2, roughness: 0.94, flatShading: true }),
+  charred: new MeshStandardMaterial({ color: '#34352e', metalness: 0.2, roughness: 0.94, flatShading: true }),
   debris: new MeshStandardMaterial({ color: '#2b302e', metalness: 0.42, roughness: 0.72, flatShading: true }),
   dust: new MeshBasicMaterial({ color: '#8f7759', depthWrite: false, opacity: 0.15, transparent: true }),
   ember: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#ffc45b', depthWrite: false, opacity: 0.82, toneMapped: false, transparent: true }),
   fence: new MeshStandardMaterial({ color: '#555b57', metalness: 0.38, roughness: 0.7 }),
+  softFireInner: createSoftFlameMaterial('#ffd06c', 0.9),
+  softFireOuter: createSoftFlameMaterial('#ed4912', 0.88),
   fireInner: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#ffd067', depthWrite: false, opacity: 0.78, toneMapped: false, transparent: true }),
   fireOuter: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#e74b16', depthWrite: false, opacity: 0.64, toneMapped: false, transparent: true }),
   flame: new MeshBasicMaterial({ blending: AdditiveBlending, color: '#ff641c', depthWrite: false, opacity: 0.72, toneMapped: false, transparent: true }),
@@ -64,9 +67,9 @@ export const STAGE3_MATERIALS = {
   lightPole: new MeshStandardMaterial({ color: '#5e6662', metalness: 0.46, roughness: 0.56 }),
   scorch: new MeshBasicMaterial({ color: '#1b1712', depthWrite: false, opacity: 0.74, transparent: true }),
   scrub: new MeshStandardMaterial({ color: '#61613d', side: DoubleSide, vertexColors: true, flatShading: true, metalness: 0, roughness: 1 }),
-  smokeCore: new MeshBasicMaterial({ color: '#101415', depthWrite: false, opacity: 0.28, transparent: true }),
-  smokeEdge: new MeshBasicMaterial({ color: '#303638', depthWrite: false, opacity: 0.16, transparent: true }),
-  smokeLocal: new MeshBasicMaterial({ color: '#252a29', depthWrite: false, opacity: 0.19, transparent: true }),
+  smokeCore: createSoftSmokeMaterial('#22282a', 0.58),
+  smokeEdge: createSoftSmokeMaterial('#394144', 0.34),
+  smokeLocal: createSoftSmokeMaterial('#303737', 0.4),
 } as const
 
 export function setSegmentMatrix(target: Matrix4, start: Stage3Vec3, end: Stage3Vec3, radius: number) {

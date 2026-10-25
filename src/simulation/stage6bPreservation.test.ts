@@ -4,14 +4,14 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 import { createTreeLayout } from '../scene/world/landscape/treeLayout'
-import { STAGE6B_SOURCE_CHANGES, stage6bAuditedSourceHash, sha256 } from '../test/stage6bSourceAudit'
+import { STAGE6B_SOURCE_CHANGES, stage6bAuditedSourceHash } from '../test/stage6bSourceAudit'
 import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage6aRuntimePreservation.json'
 import { deriveRuntimeWorldState } from './runtime'
 const hash = (v: unknown) => createHash('sha256').update(JSON.stringify(v)).digest('hex')
 describe('Stage6B active runtime exact Stage6A preservation', () => {
   it('retains immutable capture and historical tree layout', () => {
-    expect(sha256(readFileSync('src/simulation/fixtures/stage6aRuntimePreservation.json'))).toBe('edbd3d182f1fe99132ae8201cc7437525dcf813daa8c35d7f1f4adebf89634f1')
+    expect(readFileSync('src/simulation/fixtures/stage6aRuntimePreservation.json').equals(execFileSync('git', ['show', '5f940b5:src/simulation/fixtures/stage6aRuntimePreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))).toBe(true)
     expect(baseline.sourceCommit).toBe('75bf46a')
     expect(baseline.capturedBeforeStage6B).toBe(true)
     expect(hash(createTreeLayout())).toBe(baseline.trees)
@@ -29,7 +29,7 @@ describe('Stage6B active runtime exact Stage6A preservation', () => {
     for (const [i, path] of Object.keys(baseline.files)
       .filter((p) => p.includes('/fixtures/'))
       .entries())
-      if (i % 4 === partition) expect(readFileSync(path), path).toEqual(execFileSync('git', ['show', `75bf46a:${path}`], { maxBuffer: 32 * 1024 * 1024 }))
+      if (i % 4 === partition) expect(readFileSync(path).equals(execFileSync('git', ['show', `75bf46a:${path}`], { maxBuffer: 32 * 1024 * 1024 })), path).toBe(true)
   })
   it.each([0, 1, 2, 3, 4, 5, 6, 7])('compares every old active world field without removing actor families, partition%s', (partition) => {
     for (let i = partition; i < baseline.samples.length; i += 8) {

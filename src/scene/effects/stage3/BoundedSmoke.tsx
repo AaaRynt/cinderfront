@@ -5,7 +5,8 @@ import type { Stage3Vec3 } from './types.ts'
 
 import { cyclicEmissionAge } from '../aftermath/effectClocks'
 import { STAGE3_WIND_XZ, createSmokePuffs, cyclicParticleEnvelope } from './effectMath.ts'
-import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
+import { STAGE3_MATERIALS } from './sharedResources.ts'
+import { SOFT_SMOKE_GEOMETRY } from './softParticles'
 
 export interface BoundedSmokeColumnProps {
   readonly ageSeconds: number
@@ -68,14 +69,15 @@ export function BoundedSmokeColumn({ ageSeconds, emissionEndAgeSeconds, heightM,
     for (const mesh of [core, edge]) {
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
+      mesh.computeBoundingSphere()
     }
   }, [ageSeconds, descriptors, emissionEndAgeSeconds, origin, resolvedHeight, scratchObject])
 
   const material = profile === 'local' ? STAGE3_MATERIALS.smokeLocal : undefined
   return (
     <group name={`stage3-${profile}-bounded-smoke`}>
-      <instancedMesh ref={coreRef} args={[STAGE3_GEOMETRIES.puff, material ?? STAGE3_MATERIALS.smokeCore, Math.max(1, descriptors.length)]} dispose={null} frustumCulled={false} renderOrder={4} />
-      <instancedMesh ref={edgeRef} args={[STAGE3_GEOMETRIES.puff, material ?? STAGE3_MATERIALS.smokeEdge, Math.max(1, descriptors.length)]} dispose={null} frustumCulled={false} renderOrder={3} />
+      <instancedMesh ref={coreRef} args={[SOFT_SMOKE_GEOMETRY, material ?? STAGE3_MATERIALS.smokeCore, Math.max(1, descriptors.length)]} dispose={null} frustumCulled renderOrder={4} />
+      <instancedMesh ref={edgeRef} args={[SOFT_SMOKE_GEOMETRY, material ?? STAGE3_MATERIALS.smokeEdge, Math.max(1, descriptors.length)]} dispose={null} frustumCulled renderOrder={3} />
     </group>
   )
 }

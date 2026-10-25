@@ -49,11 +49,10 @@ function AttachedPresentation({ aircraft }: { aircraft: Su30AircraftState }) {
 }
 
 function Su30Aircraft({ aircraft }: { aircraft: Su30AircraftState }) {
-  if (!aircraft.visible) return null
   const { pose } = aircraft
   return (
-    <>
-      <group name={aircraft.id} position={tuple(pose.position)} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z, 'YXZ']}>
+    <group name={`${aircraft.id}-presentation`} visible={aircraft.visible}>
+      <group name={aircraft.id} visible={aircraft.visible} position={tuple(pose.position)} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z, 'YXZ']}>
         <Su30MkkModel damaged={aircraft.damage.surfaceDarkened} />
         <AttachedPresentation aircraft={aircraft} />
       </group>
@@ -68,7 +67,7 @@ function Su30Aircraft({ aircraft }: { aircraft: Su30AircraftState }) {
           <mesh key={index} geometry={EFFECT_SPHERE} material={EFFECT_MATERIALS.spark} position={tuple(sample.position)} scale={sample.radius * Math.sqrt(sample.opacity)} />
         ))}
       </group>
-    </>
+    </group>
   )
 }
 

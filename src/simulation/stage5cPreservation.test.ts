@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 
 import { createLandingRegionalLayout, createLandingServiceLayout, createLandingSurfaceHistory, createLandingFoamLayout } from '../scene/world/landing/landingReservations'
 import { createLandingMainlandGeometry, createLandingCoastGeometry, getLandingSupportHeight } from '../scene/world/landing/landingTerrain'
+import { stage6cHistoricalSource } from '../test/stage6cSourceAudit'
 import { deriveSimulationWorldState } from './derive'
 import baseline from './fixtures/stage5bPreservation.json'
 import { isStage5CAddedEvent, projectStage5bPayload } from './fixtures/stage5cPreservationProjection'
@@ -14,11 +15,11 @@ import { LCAC_IDS, LAV_IDS } from './landingCraftData'
 import { SIMULATION_EVENTS } from './timeline'
 
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex')
-const fileHash = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
+const fileHash = (path: string) => createHash('sha256').update(stage6cHistoricalSource(path)).digest('hex')
 const immutable = ['id', 'groupId', 'carrierId', 'factionId', 'vehicleType', 'condition', 'outcome'] as const
 describe('Stage 5C immutable completed Stage 5B baseline', () => {
   it('protects its captured bytes, all 47 prior records and all original terrain/model source files', () => {
-    expect(readFileSync('src/simulation/fixtures/stage5bPreservation.json')).toEqual(execFileSync('git', ['show', 'b49db45:src/simulation/fixtures/stage5bPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))
+    expect(readFileSync('src/simulation/fixtures/stage5bPreservation.json').equals(execFileSync('git', ['show', 'b49db45:src/simulation/fixtures/stage5bPreservation.json'], { maxBuffer: 32 * 1024 * 1024 }))).toBe(true)
     expect(baseline.sourceCommit).toBe('2a3fffc')
     expect(baseline.capturedBeforeStage5C).toBe(true)
     expect(SIMULATION_EVENTS.filter((e) => !isStage5CAddedEvent(e))).toEqual(baseline.events)

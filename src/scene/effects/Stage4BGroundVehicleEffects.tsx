@@ -1,28 +1,29 @@
-import { BoxGeometry, ConeGeometry, CylinderGeometry, MeshBasicMaterial, MeshStandardMaterial, Quaternion, RingGeometry, SphereGeometry, Vector3 as ThreeVector3 } from 'three'
+import { BoxGeometry, CylinderGeometry, MeshBasicMaterial, MeshStandardMaterial, Quaternion, RingGeometry, SphereGeometry, Vector3 as ThreeVector3 } from 'three'
 
 import type { GroundVehicleState, SimulationWorldState } from '@/simulation'
 
 import { AftermathGroundDust } from './aftermath/AftermathGroundDust'
 import { legacyDustScale, periodicAngle } from './aftermath/effectClocks'
 import { AMMUNITION_PRIMARY_EFFECT_POSITION } from './stage3/index.ts'
+import { createSoftSmokeMaterial, createSoftFlameMaterial, SOFT_SMOKE_GEOMETRY, SOFT_CENTERED_FLAME_GEOMETRY } from './stage3/softParticles'
 
 const DUST_GEOMETRY = new SphereGeometry(1, 8, 5)
-const SMOKE_GEOMETRY = new SphereGeometry(1, 9, 6)
+const SMOKE_GEOMETRY = SOFT_SMOKE_GEOMETRY
 const FLASH_GEOMETRY = new SphereGeometry(1, 12, 8)
 const SPARK_GEOMETRY = new BoxGeometry(0.06, 0.06, 1)
 const DEBRIS_STREAK_GEOMETRY = new CylinderGeometry(0.055, 0.12, 1, 6)
-const FIRE_GEOMETRY = new ConeGeometry(1, 1, 8)
+const FIRE_GEOMETRY = SOFT_CENTERED_FLAME_GEOMETRY
 const SCORCH_GEOMETRY = new RingGeometry(0.18, 1, 28)
 const PRESSURE_RING_GEOMETRY = new RingGeometry(0.82, 1, 32)
 
 const MATERIALS = {
   asphaltDust: new MeshBasicMaterial({ color: '#8f8167', depthWrite: false, opacity: 0.075, transparent: true }),
   blastDust: new MeshBasicMaterial({ color: '#98856a', depthWrite: false, opacity: 0.13, transparent: true }),
-  smoke: new MeshBasicMaterial({ color: '#202420', depthWrite: false, opacity: 0.2, transparent: true }),
-  smokeSoft: new MeshBasicMaterial({ color: '#353932', depthWrite: false, opacity: 0.12, transparent: true }),
+  smoke: createSoftSmokeMaterial('#293033', 0.48),
+  smokeSoft: createSoftSmokeMaterial('#414944', 0.28),
   flash: new MeshBasicMaterial({ color: '#ffd29a', depthWrite: false, opacity: 0.72, toneMapped: false, transparent: true }),
-  fire: new MeshBasicMaterial({ color: '#ff7b2d', depthWrite: false, opacity: 0.78, toneMapped: false, transparent: true }),
-  fireCore: new MeshBasicMaterial({ color: '#ffd36f', depthWrite: false, opacity: 0.84, toneMapped: false, transparent: true }),
+  fire: createSoftFlameMaterial('#ed651f', 0.8),
+  fireCore: createSoftFlameMaterial('#ffd16b', 0.88),
   spark: new MeshBasicMaterial({ color: '#ffb358', depthWrite: false, toneMapped: false }),
   debris: new MeshStandardMaterial({ color: '#d26e2c', emissive: '#ff8a35', emissiveIntensity: 1.6, metalness: 0.42, roughness: 0.48 }),
   scorch: new MeshBasicMaterial({ color: '#171916', depthWrite: false, opacity: 0.62, transparent: true }),

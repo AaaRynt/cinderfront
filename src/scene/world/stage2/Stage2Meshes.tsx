@@ -5,6 +5,7 @@ import { useEffect, useMemo } from 'react'
 import type { WorldPosition, XZPoint } from '../worldData.ts'
 
 import { applyLandingSurface } from '../landing/landingTerrain'
+import { addRoadShoulder } from '../landscape/roadShoulder'
 import { createPolygonPrismGeometry, createPolygonSurfaceGeometry, createRoadRibbonGeometry } from '../worldGeometry.ts'
 import { createTerrainRoadGeometry, createTerrainSurfaceGeometry } from './terrainGeometry.ts'
 import { getTerrainHeight, sampleTerrainPolyline } from './terrainModel.ts'
@@ -40,7 +41,7 @@ export function RoadRibbon({ material, name, points, widthM }: { material: Mater
 export function TerrainRoad({ material, name, points, spacingM = 75, widthM, yOffset = 0.3 }: { material: Material; name?: string; points: readonly XZPoint[]; spacingM?: number; widthM: number; yOffset?: number }) {
   const terrainPoints = useMemo(() => sampleTerrainPolyline(points, spacingM, yOffset), [points, spacingM, yOffset])
   const terrainXZ = useMemo(() => terrainPoints.map(([x, , z]) => [x, z] as XZPoint), [terrainPoints])
-  const geometry = useMemo(() => applyLandingSurface(createTerrainRoadGeometry(terrainXZ, widthM, yOffset + 0.18), yOffset + 0.18, name), [terrainXZ, widthM, yOffset, name])
+  const geometry = useMemo(() => addRoadShoulder(applyLandingSurface(createTerrainRoadGeometry(terrainXZ, widthM, yOffset + 0.18), yOffset + 0.18, name), terrainXZ, widthM), [terrainXZ, widthM, yOffset, name])
   useGeometryDisposal(geometry)
   return <mesh frustumCulled geometry={geometry} material={material} name={name} receiveShadow />
 }

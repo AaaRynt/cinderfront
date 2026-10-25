@@ -7,13 +7,14 @@ import { deriveSecondaryPantsirState, SECONDARY_PANTSIR_TIMING } from '@/simulat
 
 import { periodicAngle } from './aftermath/effectClocks'
 import { createSecondaryPantsirScorch } from './secondaryPantsirSurface'
+import { createSoftSmokeMaterial, createSoftFlameMaterial, SOFT_SMOKE_GEOMETRY, SOFT_CENTERED_FLAME_GEOMETRY } from './stage3/softParticles'
 
 type SecondaryPantsirState = SimulationWorldState['secondaryPantsir']
 type DefensiveShot = SecondaryPantsirState['defensiveShots'][number]
 
 const PUFF = new SphereGeometry(1, 9, 6)
 const FLASH = new SphereGeometry(1, 12, 8)
-const FIRE = new ConeGeometry(1, 1, 8)
+const FIRE = SOFT_CENTERED_FLAME_GEOMETRY
 const FRAGMENT = new BoxGeometry(0.2, 0.1, 0.42)
 const SPARK = new BoxGeometry(0.04, 0.04, 0.7)
 const MISSILE = new CylinderGeometry(0.095, 0.12, 2.1, 8)
@@ -24,12 +25,14 @@ const IMPACT_YAW = deriveSecondaryPantsirState(SECONDARY_PANTSIR_TIMING.destroye
 
 // Shared immutable resources serve fixed slots; seeks never create a particle pool.
 const MATERIALS = {
+  softFire: createSoftFlameMaterial('#ee6424', 0.8),
+  softFireCore: createSoftFlameMaterial('#ffd079', 0.88),
   dust: new MeshBasicMaterial({ color: '#a08e70', depthWrite: false, opacity: 0.13, transparent: true }),
   flash: new MeshBasicMaterial({ color: '#fff0c6', depthWrite: false, opacity: 0.88, toneMapped: false, transparent: true }),
   fire: new MeshBasicMaterial({ color: '#ee6424', depthWrite: false, opacity: 0.78, toneMapped: false, transparent: true }),
   fireCore: new MeshBasicMaterial({ color: '#ffd079', depthWrite: false, opacity: 0.8, toneMapped: false, transparent: true }),
-  smoke: new MeshBasicMaterial({ color: '#252b29', depthWrite: false, opacity: 0.17, transparent: true }),
-  smokeSoft: new MeshBasicMaterial({ color: '#424740', depthWrite: false, opacity: 0.11, transparent: true }),
+  smoke: createSoftSmokeMaterial('#303735', 0.4),
+  smokeSoft: createSoftSmokeMaterial('#48504a', 0.26),
   fragment: new MeshStandardMaterial({ color: '#30382d', metalness: 0.42, roughness: 0.86 }),
   spark: new MeshBasicMaterial({ color: '#ffc078', toneMapped: false }),
   missile: new MeshStandardMaterial({ color: '#d2d4c5', metalness: 0.22, roughness: 0.72 }),
@@ -157,8 +160,8 @@ export function SecondaryPantsirEffects({ state, time }: { state: SecondaryPants
             : null}
           {destruction.fireIntensity > 0.001 ? (
             <group name="secondary-pantsir-local-fire" position={[impact.x, Math.max(impact.y, ground.y + 2.8), impact.z]} scale={destruction.fireIntensity * firePulse}>
-              <mesh geometry={FIRE} material={MATERIALS.fire} position={[0.32, 1, 0.1]} scale={[0.95, 3, 0.85]} />
-              <mesh geometry={FIRE} material={MATERIALS.fireCore} position={[-0.1, 0.65, 0.24]} scale={[0.55, 1.9, 0.55]} />
+              <mesh geometry={FIRE} material={MATERIALS.softFire} position={[0.32, 1, 0.1]} scale={[0.95, 3, 0.85]} />
+              <mesh geometry={FIRE} material={MATERIALS.softFireCore} position={[-0.1, 0.65, 0.24]} scale={[0.55, 1.9, 0.55]} />
             </group>
           ) : null}
           {SMOKE_SLOTS.map((slot) => {
@@ -171,7 +174,7 @@ export function SecondaryPantsirEffects({ state, time }: { state: SecondaryPants
               <mesh
                 key={slot}
                 name="secondary-pantsir-bounded-smoke"
-                geometry={PUFF}
+                geometry={SOFT_SMOKE_GEOMETRY}
                 material={slot % 3 === 0 ? MATERIALS.smokeSoft : MATERIALS.smoke}
                 position={[impact.x + progress * 4.4 + Math.sin(slot * 2.1) * progress * 0.85, impact.y + 1 + progress * 13, impact.z + progress * 4.4 + Math.cos(slot * 1.7) * progress * 0.85]}
                 scale={[size, size * 1.1, size]}

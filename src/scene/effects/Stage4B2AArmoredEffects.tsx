@@ -1,17 +1,18 @@
-import { BoxGeometry, CircleGeometry, ConeGeometry, MeshBasicMaterial, MeshStandardMaterial, SphereGeometry } from 'three'
+import { BoxGeometry, CircleGeometry, MeshBasicMaterial, MeshStandardMaterial, SphereGeometry } from 'three'
 
 import type { SimulationWorldState, T72GroundVehicleState } from '@/simulation'
 
 import { AftermathGroundDust } from './aftermath/AftermathGroundDust'
 import { legacyDustScale, periodicAngle } from './aftermath/effectClocks'
+import { createSoftSmokeMaterial, createSoftFlameMaterial, SOFT_SMOKE_GEOMETRY, SOFT_CENTERED_FLAME_GEOMETRY } from './stage3/softParticles'
 
 const DUST = new SphereGeometry(1, 8, 5)
 const FLASH = new SphereGeometry(1, 12, 8)
 const FIREBALL = new SphereGeometry(1, 9, 6)
 const SPARK = new BoxGeometry(0.055, 0.055, 1)
 const FRAGMENT = new BoxGeometry(0.34, 0.18, 0.72)
-const FIRE = new ConeGeometry(1, 1, 8)
-const SMOKE = new SphereGeometry(1, 9, 6)
+const FIRE = SOFT_CENTERED_FLAME_GEOMETRY
+const SMOKE = SOFT_SMOKE_GEOMETRY
 const SCORCH = new CircleGeometry(1, 28)
 
 const MATERIALS = {
@@ -22,10 +23,10 @@ const MATERIALS = {
   fireballCore: new MeshBasicMaterial({ color: '#ffd071', depthWrite: false, opacity: 0.86, toneMapped: false, transparent: true }),
   spark: new MeshBasicMaterial({ color: '#ffbd66', depthWrite: false, toneMapped: false }),
   fragment: new MeshStandardMaterial({ color: '#30342d', metalness: 0.52, roughness: 0.7 }),
-  fire: new MeshBasicMaterial({ color: '#ff6f25', depthWrite: false, opacity: 0.78, toneMapped: false, transparent: true }),
-  fireCore: new MeshBasicMaterial({ color: '#ffd16b', depthWrite: false, opacity: 0.84, toneMapped: false, transparent: true }),
-  smoke: new MeshBasicMaterial({ color: '#171c1c', depthWrite: false, opacity: 0.2, transparent: true }),
-  smokeSoft: new MeshBasicMaterial({ color: '#303532', depthWrite: false, opacity: 0.13, transparent: true }),
+  fire: createSoftFlameMaterial('#ed651f', 0.8),
+  fireCore: createSoftFlameMaterial('#ffd16b', 0.88),
+  smoke: createSoftSmokeMaterial('#293033', 0.48),
+  smokeSoft: createSoftSmokeMaterial('#414944', 0.28),
   scorch: new MeshBasicMaterial({ color: '#161713', depthWrite: false, opacity: 0.66, transparent: true }),
 } as const
 

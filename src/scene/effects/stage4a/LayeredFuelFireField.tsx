@@ -77,13 +77,14 @@ export function LayeredFuelFireField({ sources, timeSeconds }: LayeredFuelFireFi
     inner.instanceMatrix.needsUpdate = true
     outer.instanceMatrix.needsUpdate = true
     soot.instanceMatrix.needsUpdate = true
+    for (const mesh of [inner, outer, soot]) mesh.computeBoundingSphere()
   }, [scratchObject, sources, timeSeconds])
 
   return (
     <group name="stage4a-bounded-liquid-fuel-fire-field">
-      <instancedMesh ref={outerRef} args={[STAGE4A_FUEL_GEOMETRIES.fire, STAGE4A_FUEL_MATERIALS.fireOuter, capacity]} dispose={null} frustumCulled={false} />
-      <instancedMesh ref={innerRef} args={[STAGE4A_FUEL_GEOMETRIES.fire, STAGE4A_FUEL_MATERIALS.fireInner, capacity]} dispose={null} frustumCulled={false} />
-      <instancedMesh ref={sootRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.hotSoot, capacity]} dispose={null} frustumCulled={false} renderOrder={4} />
+      <instancedMesh ref={outerRef} args={[STAGE4A_FUEL_GEOMETRIES.fire, STAGE4A_FUEL_MATERIALS.fireOuter, capacity]} dispose={null} frustumCulled />
+      <instancedMesh ref={innerRef} args={[STAGE4A_FUEL_GEOMETRIES.fire, STAGE4A_FUEL_MATERIALS.fireInner, capacity]} dispose={null} frustumCulled />
+      <instancedMesh ref={sootRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.hotSoot, capacity]} dispose={null} frustumCulled renderOrder={4} />
     </group>
   )
 }

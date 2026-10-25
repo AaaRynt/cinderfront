@@ -8,12 +8,13 @@ import { coastalShaderTime } from '../../effects/aftermath/effectClocks'
 import { createLandingFoamLayout } from '../landing/landingReservations'
 import { applyLandingSurface } from '../landing/landingTerrain'
 import { createCoastalWaterGeometry, createFoamGeometry, createWetShoreGeometry, FOAM_ALPHA_GLSL, FOAM_SHAPE_GLSL, WATER_NORMAL_GLSL, WETNESS_GLSL } from './coastalWater'
+import { createDistantSeaGeometry } from './distantSea'
 
 export function CoastalWater() {
   const timeRef = useRef<{ value: number } | null>(null)
   const resources = useMemo(() => {
     const time = { value: coastalShaderTime(simulationStore.getState().timeSeconds) }
-    const water = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.42, metalness: 0.045, side: DoubleSide })
+    const water = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.68, metalness: 0.015, side: DoubleSide })
     water.onBeforeCompile = (shader) => {
       shader.uniforms.uCoastalTime = time
       shader.uniforms.uDeepColor = { value: new Color('#294955') }
@@ -25,17 +26,20 @@ export function CoastalWater() {
       shader.fragmentShader = shader.fragmentShader
         .replace('#include <common>', '#include <common>\nuniform float uCoastalTime;\nuniform vec3 uDeepColor;\nuniform vec3 uShallowColor;\nuniform vec3 uHarborColor;\nvarying vec3 vCoastalRegion;\nvarying vec2 vCoastalXZ;\nvarying float vCoastalAttenuation;')
         .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb = mix(mix(uDeepColor, uHarborColor, vCoastalRegion.x), uShallowColor, vCoastalRegion.y * 0.75 + vCoastalRegion.z * 0.2);')
-        .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = 0.42 + vCoastalRegion.x * 0.12 + vCoastalRegion.z * 0.08;')
+        .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = 0.68 + vCoastalRegion.x * 0.08 + vCoastalRegion.z * 0.04;')
         .replace(
           '#include <normal_fragment_maps>',
           `#include <normal_fragment_maps>
           vec2 slope = vec2(0.0);
           ${WATER_NORMAL_GLSL}
-          slope *= vCoastalAttenuation;
+          // Preserve the harmonic normal field close to shore; filter it at distance
+          // where broad grazing highlights otherwise form repetitive bands.
+          float distanceFilter = 1.0 - .88 * smoothstep(120.0, 3200.0, length(cameraPosition.xz-vCoastalXZ));
+          slope *= vCoastalAttenuation * distanceFilter;
           normal = normalize(mat3(viewMatrix) * vec3(-slope.x, 1.0, -slope.y));`,
         )
     }
-    water.customProgramCacheKey = () => 'stage4c-coastal-normal-v1'
+    water.customProgramCacheKey = () => 'stage6c-coastal-filter-v1'
     const foam = new ShaderMaterial({
       uniforms: { uCoastalTime: time },
       transparent: true,
@@ -53,7 +57,7 @@ export function CoastalWater() {
         .replace('#include <alphamap_fragment>', `#include <alphamap_fragment>\ndiffuseColor.a *= (1.0-smoothstep(0.15,1.0,vWetEdge)) * (${WETNESS_GLSL});`)
     }
     wet.customProgramCacheKey = () => 'stage4c-wet-shore-v1'
-    return { time, water, foam, wet, oceanGeometry: createCoastalWaterGeometry(), foamGeometry: createFoamGeometry(createLandingFoamLayout()), wetGeometry: applyLandingSurface(createWetShoreGeometry(), 0.018) }
+    return { time, water, foam, wet, farGeometry: createDistantSeaGeometry(), oceanGeometry: createCoastalWaterGeometry(), foamGeometry: createFoamGeometry(createLandingFoamLayout()), wetGeometry: applyLandingSurface(createWetShoreGeometry(), 0.018) }
   }, [])
   useLayoutEffect(() => {
     timeRef.current = resources.time
@@ -63,6 +67,7 @@ export function CoastalWater() {
   })
   useEffect(
     () => () => {
+      resources.farGeometry.dispose()
       resources.oceanGeometry.dispose()
       resources.foamGeometry.dispose()
       resources.wetGeometry.dispose()
@@ -74,6 +79,7 @@ export function CoastalWater() {
   )
   return (
     <group name="stage4c-coastal-water">
+      <mesh geometry={resources.farGeometry} material={resources.water} name="6c-distant-sea-visual-only" dispose={null} />
       <mesh geometry={resources.oceanGeometry} material={resources.water} name="4c-continuous-sea" dispose={null} receiveShadow />
       <mesh geometry={resources.foamGeometry} material={resources.foam} name="4c-broken-shore-foam" dispose={null} renderOrder={1} />
       <mesh geometry={resources.wetGeometry} material={resources.wet} name="4c-wet-dry-shore" dispose={null} receiveShadow renderOrder={1} />

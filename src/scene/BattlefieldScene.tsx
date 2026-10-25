@@ -11,6 +11,7 @@ import { deriveAircraftState, deriveRuntimeWorldState, simulationStore, useSimul
 import type { Vec3 } from './effects/BattleEffects'
 
 import { CameraRig } from './camera/CameraRig'
+import { FocusedSun } from './camera/FocusedSun'
 import { periodicAngle } from './effects/aftermath/effectClocks'
 import { ImpactEffect, MissileFlight, StovlExhaust, TracerBurst } from './effects/BattleEffects'
 import { Stage3BattleEffects } from './effects/Stage3BattleEffects'
@@ -58,10 +59,6 @@ const FIXED_AAA_PATHS = AAA_BURST_STARTS.map((start) => {
   return { end, shotTimes: [start, start + 0.2, start + 0.4] as const, start }
 })
 
-function vectorTuple(vector: { readonly x: number; readonly y: number; readonly z: number }): Vec3 {
-  return [vector.x, vector.y, vector.z]
-}
-
 function SimulationDriver() {
   const accumulatedDelta = useRef(0)
 
@@ -106,7 +103,7 @@ function DawnEnvironment() {
             void main() {
               vec3 skyDirection = normalize(vSkyPosition);
               float height = skyDirection.y;
-              vec3 horizon = vec3(0.075, 0.115, 0.155);
+              vec3 horizon = vec3(0.075, 0.115, 0.145);
               vec3 zenith = vec3(0.009, 0.027, 0.052);
               vec3 warm = vec3(0.20, 0.105, 0.038);
               float verticalMix = smoothstep(-0.08, 0.72, height);
@@ -128,11 +125,9 @@ function DawnEnvironment() {
           `}
         />
       </mesh>
-      <hemisphereLight color="#b1c8d3" groundColor="#4b514a" intensity={1.08} />
-      <ambientLight color="#91adb9" intensity={0.42} />
-      <directionalLight castShadow color="#ffd4a3" intensity={2.65} position={[-6_800, 3_900, -5_900]} shadow-bias={-0.00018} shadow-mapSize-height={1_024} shadow-mapSize-width={1_024} shadow-normalBias={18}>
-        <orthographicCamera attach="shadow-camera" args={[-7_500, 7_500, 6_000, -6_000, 50, 22_000]} />
-      </directionalLight>
+      <hemisphereLight color="#b1c8d3" groundColor="#4b514a" intensity={1.25} />
+      <ambientLight color="#91adb9" intensity={0.5} />
+      <FocusedSun />
       <directionalLight color="#789aaa" intensity={0.48} position={[4_000, 6_000, 2_000]} />
     </>
   )
@@ -232,12 +227,7 @@ function DynamicBattlefield() {
   const world = useMemo(() => deriveRuntimeWorldState(time), [time])
   const f35Primary = world.aircraft.attacker_f35_01
   const f35Secondary = world.aircraft.attacker_f35_02
-  const su30Primary = world.aircraft.defender_su30_01.pose.position
-  const su30Secondary = world.aircraft.defender_su30_02.pose.position
-  const su30Separation = Math.hypot(su30Primary.x - su30Secondary.x, su30Primary.y - su30Secondary.y, su30Primary.z - su30Secondary.z)
   const deckY = world.wasp.pose.position.y + 13.2
-  const t72Vehicles = world.stage4b.t72Group.orderedVehicleIds.map((id) => world.stage4b.t72Group.vehicles[id])
-  const t72Position: Vec3 = [t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.x, 0) / t72Vehicles.length, t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.y, 0) / t72Vehicles.length, t72Vehicles.reduce((sum, vehicle) => sum + vehicle.pose.position.z, 0) / t72Vehicles.length]
 
   return (
     <>
@@ -259,30 +249,7 @@ function DynamicBattlefield() {
       <Stage3BattleEffects world={world} />
       <Stage4BGroundVehicleEffects world={world} />
       <Stage4B2AArmoredEffects world={world} />
-      <CameraRig
-        btrPosition={vectorTuple(world.stage4b.btrGroup.vehicles.defender_btr_03.pose.position)}
-        f35Position={vectorTuple(f35Primary.pose.position)}
-        f35SecondaryPosition={vectorTuple(f35Secondary.pose.position)}
-        molniyaPosition={vectorTuple(world.stage3.molniya.pose.position)}
-        su30Position={vectorTuple(world.stage4b2b.anchor.position)}
-        su30FramingScale={Math.sqrt(1 + (su30Separation / 310) ** 2)}
-        su30YawRadians={world.stage4b2b.anchor.rotation.y}
-        t72HullYawRadians={world.stage4b.t72Group.vehicles.defender_t72_02.pose.rotation.y}
-        t72Position={t72Position}
-        supportPosition={vectorTuple(world.stage4b2c.camera.anchor.position)}
-        supportYawRadians={world.stage4b2c.camera.anchor.rotation.y}
-        supportFramingScale={world.stage4b2c.camera.framingScale}
-        secondaryPantsirPosition={vectorTuple(world.secondaryPantsir.pose.position)}
-        secondaryPantsirYawRadians={world.secondaryPantsir.pose.rotation.y}
-        lavWestPosition={vectorTuple(world.landing.payload.attacker_lav_01.pose.position)}
-        lavWestYawRadians={world.landing.payload.attacker_lav_01.pose.rotation.y}
-        lavEastPosition={vectorTuple(world.landing.payload.attacker_lav_05.pose.position)}
-        lavEastYawRadians={world.landing.payload.attacker_lav_05.pose.rotation.y}
-        lcacWestPosition={vectorTuple(world.landing.crafts.attacker_lcac_01.pose.position)}
-        lcacWestYawRadians={world.landing.crafts.attacker_lcac_01.pose.rotation.y}
-        lcacEastPosition={vectorTuple(world.landing.crafts.attacker_lcac_02.pose.position)}
-        lcacEastYawRadians={world.landing.crafts.attacker_lcac_02.pose.rotation.y}
-      />
+      <CameraRig />
     </>
   )
 }

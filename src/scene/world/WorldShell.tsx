@@ -20,7 +20,7 @@ export type WorldShellProps = Pick<ThreeElements['group'], 'visible'>
 
 /** Static Ash Harbor districts and environmental presentation in map meters. */
 export function WorldShell({ visible = true }: WorldShellProps) {
-  const materials = useMemo(createStage2Materials, [])
+  const materials = useMemo(() => createStage2Materials(), [])
   const rocks = useMemo(() => createLegacyRockResources(), [])
   useEffect(() => () => rocks.dispose(), [rocks])
 

@@ -3,6 +3,7 @@ import { DynamicDrawUsage, InstancedMesh, Object3D } from 'three'
 
 import { getTerrainHeight } from '../../world/stage2/terrainModel'
 import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from '../stage3/sharedResources'
+import { SOFT_SMOKE_GEOMETRY } from '../stage3/softParticles'
 import { INDUSTRIAL_SECONDARY_SITES, sampleIndustrialSecondary, SECONDARY_PUFFS_PER_SITE } from './industrialSecondary'
 
 /** Fixed slots reuse existing industrial effect resources. Short local flashes
@@ -10,7 +11,7 @@ import { INDUSTRIAL_SECONDARY_SITES, sampleIndustrialSecondary, SECONDARY_PUFFS_
 export function IndustrialSecondaryActivity({ time }: { time: number }) {
   const resources = useMemo(() => {
     const flash = new InstancedMesh(STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.fireInner, INDUSTRIAL_SECONDARY_SITES.length)
-    const puff = new InstancedMesh(STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.smokeLocal, INDUSTRIAL_SECONDARY_SITES.length * SECONDARY_PUFFS_PER_SITE)
+    const puff = new InstancedMesh(SOFT_SMOKE_GEOMETRY, STAGE3_MATERIALS.smokeLocal, INDUSTRIAL_SECONDARY_SITES.length * SECONDARY_PUFFS_PER_SITE)
     for (const mesh of [flash, puff]) {
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.frustumCulled = false
@@ -59,6 +60,8 @@ export function IndustrialSecondaryActivity({ time }: { time: number }) {
     puff.visible = puffs > 0
     flash.instanceMatrix.needsUpdate = true
     puff.instanceMatrix.needsUpdate = true
+    puff.computeBoundingSphere()
+    puff.frustumCulled = true
   }, [resources, time])
   useEffect(
     () => () => {

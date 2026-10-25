@@ -1,8 +1,6 @@
-import type { ComponentProps } from 'react'
-
 import { act, cleanup, render } from '@testing-library/react'
 import { PerspectiveCamera, Vector3 } from 'three'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { deriveRuntimeWorldState, simulationStore } from '@/simulation'
 
@@ -10,10 +8,14 @@ import { CameraRig } from './CameraRig'
 import { useCameraStore, type CameraPreset } from './cameraStore'
 
 const harness = vi.hoisted(() => ({ frame: undefined as (() => void) | undefined, camera: undefined as PerspectiveCamera | undefined, controls: undefined as { target: Vector3; update: () => void } | undefined }))
+function getHarnessState() {
+  return { camera: harness.camera!, size: { width: 1280, height: 720 } }
+}
+
 vi.mock('@react-three/fiber', () => ({
-  useThree: (selector: (state: { camera: PerspectiveCamera }) => unknown) => selector({ camera: harness.camera! }),
+  useThree: (selector: (state: { camera: PerspectiveCamera }) => unknown) => selector({ camera: harness.camera!, get: getHarnessState } as never),
   useFrame: (frame: () => void) => {
-    harness.frame = frame
+    harness.frame = () => (frame as unknown as (state: unknown, delta: number) => void)({ camera: harness.camera!, size: { width: 1280, height: 720 } }, 1 / 30)
   },
 }))
 vi.mock('@react-three/drei', async () => {
@@ -26,7 +28,7 @@ vi.mock('@react-three/drei', async () => {
   }
 })
 const tuple = (v: { x: number; y: number; z: number }): [number, number, number] => [v.x, v.y, v.z]
-function propsAt(time: number): ComponentProps<typeof CameraRig> {
+function propsAt(time: number) {
   const w = deriveRuntimeWorldState(time),
     tanks = Object.values(w.stage4b.t72Group.vehicles),
     tankCenter = tanks.reduce((p, v) => ({ x: p.x + v.pose.position.x / 3, y: p.y + v.pose.position.y / 3, z: p.z + v.pose.position.z / 3 }), { x: 0, y: 0, z: 0 })
@@ -55,6 +57,18 @@ function propsAt(time: number): ComponentProps<typeof CameraRig> {
     lcacEastYawRadians: w.landing.crafts.attacker_lcac_02.pose.rotation.y,
   }
 }
+beforeAll(() => {
+  deriveRuntimeWorldState(0)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(188)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(210)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(240)
+})
 beforeEach(() => {
   simulationStore.getState().restart()
   harness.camera = new PerspectiveCamera(42, 16 / 9, 0.1, 30000)
@@ -89,21 +103,23 @@ const presets: CameraPreset[] = [
   'lav-east',
 ]
 describe('Stage 6B aftermath spectator targets', () => {
-  it('retains the exact static Wasp view through the scripted boundary', () => {
-    const view = render(<CameraRig {...propsAt(0)} />)
+  it('keeps the moving Wasp framed throughout the scripted patrol', () => {
+    const view = render(<CameraRig />)
     for (const time of [0, 60, 160, 179.9, 180]) {
       act(() => simulationStore.getState().seek(time))
-      view.rerender(<CameraRig {...propsAt(time)} />)
+      view.rerender(<CameraRig />)
       act(() => useCameraStore.getState().requestPreset('wasp'))
+      for (let i = 0; i < 10; i++) act(() => harness.frame!())
       act(() => harness.frame!())
-      expect(harness.camera!.position.toArray()).toEqual([-4540, 130, -3020])
-      expect(harness.controls!.target.toArray()).toEqual([-4800, 18, -2700])
+      const p = deriveRuntimeWorldState(time).wasp.pose.position
+      expect(harness.camera!.position.distanceTo(new Vector3(p.x + 260, 130, p.z - 320))).toBeLessThan(1e-9)
+      expect(harness.controls!.target.distanceTo(new Vector3(p.x, 18, p.z))).toBeLessThan(1e-9)
     }
   })
   it('keeps the Wasp patrol framed across the handoff and direct seeks with free paused offsets', () => {
     act(() => simulationStore.getState().seek(180))
     useCameraStore.getState().requestPreset('wasp')
-    const view = render(<CameraRig {...propsAt(180)} />)
+    const view = render(<CameraRig />)
     harness.camera!.position.add(new Vector3(7, 4, -3))
     harness.controls!.target.add(new Vector3(-2, 1, 3))
     const initial = new Vector3(-4800, 0, -2700),
@@ -111,10 +127,10 @@ describe('Stage 6B aftermath spectator targets', () => {
       targetOffset = harness.controls!.target.clone().sub(initial)
     for (const time of [180.001, 188, 240, 600, 7200, 180, 179, 0, 7200]) {
       act(() => simulationStore.getState().seek(time))
-      view.rerender(<CameraRig {...propsAt(time)} />)
+      view.rerender(<CameraRig />)
       act(() => harness.frame!())
       const w = deriveRuntimeWorldState(time).wasp.pose.position,
-        anchor = time > 180 ? new Vector3(w.x, 0, w.z) : initial
+        anchor = new Vector3(w.x, 0, w.z)
       expect(harness.camera!.position.distanceTo(anchor.clone().add(cameraOffset))).toBeLessThan(1e-9)
       expect(harness.controls!.target.distanceTo(anchor.clone().add(targetOffset))).toBeLessThan(1e-9)
       const camera = harness.camera!.position.toArray(),
@@ -124,15 +140,16 @@ describe('Stage 6B aftermath spectator targets', () => {
       expect(harness.controls!.target.toArray()).toEqual(target)
     }
     act(() => useCameraStore.getState().requestPreset('wasp'))
+    for (let i = 0; i < 10; i++) act(() => harness.frame!())
     const p = deriveRuntimeWorldState(7200).wasp.pose.position
     expect(harness.controls!.target.distanceTo(new Vector3(p.x, 18, p.z))).toBeLessThan(1e-9)
   })
   it('keeps every existing preset finite through direct late seeks and backward restoration', () => {
-    const view = render(<CameraRig {...propsAt(0)} />)
+    const view = render(<CameraRig />)
     expect(presets).toHaveLength(24)
     for (const time of [180, 188, 240, 360, 600, 1800, 3600, 7200, 179, 160, 0]) {
       act(() => simulationStore.getState().seek(time))
-      view.rerender(<CameraRig {...propsAt(time)} />)
+      view.rerender(<CameraRig />)
       for (const preset of presets) {
         act(() => useCameraStore.getState().requestPreset(preset))
         act(() => harness.frame!())
@@ -145,7 +162,7 @@ describe('Stage 6B aftermath spectator targets', () => {
   it.each(['f35-01', 'f35-02', 'molniya'] as const)('retains finite final framing and free paused offsets after %s departs', (preset) => {
     act(() => simulationStore.getState().seek(180))
     useCameraStore.getState().requestPreset(preset)
-    const view = render(<CameraRig {...propsAt(180)} />)
+    const view = render(<CameraRig />)
     harness.camera!.position.add(new Vector3(7, 4, -3))
     harness.controls!.target.add(new Vector3(-2, 1, 3))
     const key = preset === 'f35-01' ? 'f35Position' : preset === 'f35-02' ? 'f35SecondaryPosition' : 'molniyaPosition'
@@ -154,7 +171,7 @@ describe('Stage 6B aftermath spectator targets', () => {
       targetDistance = harness.controls!.target.distanceTo(initial)
     for (const time of [181, 188, 240, 360, 600, 1800, 3600, 7200, 180, 179, 160, 0, 7200]) {
       act(() => simulationStore.getState().seek(time))
-      view.rerender(<CameraRig {...propsAt(time)} />)
+      view.rerender(<CameraRig />)
       act(() => harness.frame!())
       const anchor = new Vector3(...propsAt(time)[key])
       expect(harness.camera!.position.distanceTo(anchor)).toBeCloseTo(distance, 7)

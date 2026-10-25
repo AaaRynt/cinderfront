@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+
+import { stage6cHistoricalSource } from './stage6cSourceAudit'
 
 /** Exact file-level Stage6B exceptions, never a directory exemption. Historical
  * bytes still come from fixed75bf46a, and active behavior is checked separately. */
@@ -38,7 +39,7 @@ export const STAGE6B_SOURCE_CHANGES: Readonly<Record<string, string>> = {
 }
 const historical = new Map<string, string>()
 export function stage6bHistoricalSource(path: string): string {
-  if (!(path in STAGE6B_SOURCE_CHANGES)) return readFileSync(path, 'utf8')
+  if (!(path in STAGE6B_SOURCE_CHANGES)) return stage6cHistoricalSource(path).toString()
   let source = historical.get(path)
   if (source === undefined) {
     source = execFileSync('git', ['show', `75bf46a:${path}`], { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 })
@@ -48,5 +49,5 @@ export function stage6bHistoricalSource(path: string): string {
 }
 export const sha256 = (bytes: string | Buffer) => createHash('sha256').update(bytes).digest('hex')
 export function stage6bAuditedSourceHash(path: string): string {
-  return path in STAGE6B_SOURCE_CHANGES ? sha256(stage6bHistoricalSource(path)) : sha256(readFileSync(path))
+  return path in STAGE6B_SOURCE_CHANGES ? sha256(stage6bHistoricalSource(path)) : sha256(stage6cHistoricalSource(path))
 }

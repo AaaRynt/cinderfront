@@ -9,6 +9,7 @@ import { BoundedSmokeColumn } from './BoundedSmoke.tsx'
 import { AMMUNITION_COOKOFF_OFFSETS_SECONDS, AMMUNITION_COOKOFF_START_SECONDS, AMMUNITION_PRIMARY_TIME_SECONDS, AMMUNITION_SECONDARY_OFFSETS_SECONDS, clamp01, createBallisticFragments, createGroundFires, createStage3Random, cyclicParticleEnvelope, smoothstep01 } from './effectMath.ts'
 import { PersistentGroundFires } from './PersistentGroundFires.tsx'
 import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
+import { SOFT_SMOKE_GEOMETRY } from './softParticles'
 
 export interface AmmunitionCookoffBurstDescriptor {
   readonly diameterM: number
@@ -122,6 +123,7 @@ function CookoffBurstPool({ bursts, timeSeconds }: CookoffBurstPoolProps) {
     for (const mesh of [debris, dust, flame, spark, smoke]) {
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
+      if (mesh.geometry === SOFT_SMOKE_GEOMETRY) mesh.computeBoundingSphere()
     }
   }, [bursts, scratchObject, timeSeconds])
 
@@ -133,7 +135,7 @@ function CookoffBurstPool({ bursts, timeSeconds }: CookoffBurstPoolProps) {
       <instancedMesh ref={dustRef} args={[STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.dust, capacity]} dispose={null} frustumCulled={false} renderOrder={2} />
       <instancedMesh ref={flameRef} args={[STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.fireOuter, capacity]} dispose={null} frustumCulled={false} />
       <instancedMesh ref={sparkRef} args={[STAGE3_GEOMETRIES.emberTrail, STAGE3_MATERIALS.ember, capacity]} dispose={null} frustumCulled={false} />
-      <instancedMesh ref={smokeRef} args={[STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.smokeCore, capacity]} dispose={null} frustumCulled={false} renderOrder={3} />
+      <instancedMesh ref={smokeRef} args={[SOFT_SMOKE_GEOMETRY, STAGE3_MATERIALS.smokeCore, capacity]} dispose={null} frustumCulled renderOrder={3} />
     </group>
   )
 }

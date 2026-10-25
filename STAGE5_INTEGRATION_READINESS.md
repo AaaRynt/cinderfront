@@ -1,12 +1,24 @@
 # Stage 5 Amphibious Integration Readiness
 
-Stages 5A, 5B and 5C and parent Stage 5 are COMPLETE for the authored T+0–180 scripted operation. Stage 6A landscape and Stage 6B are COMPLETE; parent Stage 6 remains IN PROGRESS and Stage 6C remains PLANNED. The current Stage 6B implementation continues into **AFTERMATH OBSERVATION** with the original 51 events, two LCACs, eight LAV-25s and 24 camera IDs. Exact scripted state through 180 is preserved; all eight LAVs finish unloading by T+187.558071982 and then complete finite road travel into safe holds. Current measurements appear first below. The dated Stage 5C/6A finite-endpoint results, original Stage 5A feasibility estimates and completed Stage 5B records remain historical rather than fresh Stage 6B validation.
+Stages 5A, 5B and 5C and parent Stage 5 are COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope after fresh integration acceptance. The original 51 events, two LCACs, eight LAV-25s, 24 camera IDs and complete runtime history remain exact. Current Stage 6C results appear first; dated Stage 5C/6A/6B records retain their historical measurements.
 
 **The human approved nearer staging, revised final approaches and local shore grading on 2026-10-09, retaining the key event times.** Rounding the original routes does not resolve their speed conflict. The approved package is now implemented and measured below. Stage 5B reference edits were limited to its recorded staging/approach/nearshore meanings, local contact grades and associated reservations/masks. Stage 5C adds the direct-join clarification recorded separately below; unrelated authoritative content remains exact.
 
-## Current Stage 6B integration — 2026-10-23
+## Current Stage 6C integration — 2026-10-25
 
-**Status:** COMPLETE — parent Stage 6 IN PROGRESS; Stage 6C PLANNED
+**Status:** COMPLETE — Stage 6C and parent Stage 6
+
+Camera composition/terrain sight lines, soft shared smoke/fire, compact complete HUD text, dawn shadow/contact coverage, distant sea and road shoulders are implemented. All 24 IDs and runtime controls remain. Exact fixed-pose comparisons reduce busy Fuel calls 40.16% and Harbor triangles 36.24%; all 31 pairs improve calls/triangles at unchanged viewport/DPR/AA. Actual GPU timing is mixed, with Harbor's pooled increase and first-use shader/resource stalls explicitly reported.
+
+Fresh validation passes 618 tests / 55 files in 86.00 s with the optional review directory absent, both TypeScript no-emit checks, lint with zero errors/warnings and whitespace checks. Immutable 1547-world pre-edit preservation plus fixed-commit supplements for 98 late boundaries and 120 samples around all 40 exact LAV contact transitions retain every actor/contact/runtime/effect field. Historical fixtures/authorities/layouts remain exact, with 32 precise source exceptions audited from fixed Git bytes.
+
+One uninterrupted 1× replay reaches T+206.0333 in 215.0484 real seconds, completing all late unloads. All 35 persistent actor roots and 64 LAV wheels agree at 98 late plus 120 all-LAV transfer samples, with zero root position error, ≤5.162×10⁻⁸ rad quaternion error and ≤9.095×10⁻¹³ m wheel-center error. Five warmed seek/restart/all-camera cycles stay flat at T+360/LAV west: 261 calls / 372946 triangles / 982 geometries / 316 materials / 3 textures / 214 programs. All 910 fixed world mesh upload records remain stable; 26 existing blast-response pipe/fence matrix buffers legitimately update on damage seeks.
+
+The fresh sustained 2× aftermath run passes for 605.0074 real seconds, T+360–1569.7333, with 1186 samples and no pause, seek, restart or reload. All 35 actor roots and all 936 world mesh/resource/upload records stay fixed. Materials/textures/programs remain 316/3/250 and uploaded geometries stay within 1014–1024. Mean/P95/max observed RAF is 22.63/64.60/166.70 ms, separate from GPU timings. All pools/caches stay bounded; the final console has zero JavaScript errors and only the existing Clock deprecation. Final no-emit/lint/whitespace checks pass. [STAGE6C_ACCEPTANCE.md](STAGE6C_ACCEPTANCE.md) contains the current camera-role audit, paired evidence, exact preservation/source contracts, measured costs, cadence and remaining limits. No build, deployment, dependency/framework change, new combat/actors, audio or visible people are included.
+
+## Completed Stage 6B integration — 2026-10-23
+
+**Historical delivery status (2026-10-23):** COMPLETE — parent Stage 6 IN PROGRESS; Stage 6C PLANNED
 
 One observation clock drives the active scene, HUD, cameras and ongoing effects. Scripted progress remains `min(runtime,180)`, aftermath elapsed is `max(runtime-180,0)`, and the original 51 events remain capped at `scripted_phase_complete`. Playback crosses 180 without pausing or losing overshoot at 0.5×/1×/2×. Pause freezes world activity while spectator movement stays free; restart returns to paused zero. Absolute finite observation seeks reconstruct directly, preserve play/pause state and restore original attachments/counts on backward seeks. Negative finite seeks clamp to zero; nonfinite seek/tick inputs retain current time, overflowing ticks are rejected, and standalone invalid derivation normalizes to zero. Local labels wrap the day, while runtime never loops.
 
@@ -102,6 +114,14 @@ Raw measurements, captures and logs are indexed in ignored `stage6b-review.local
 
 Stage 6B is COMPLETE; parent Stage 6 remains IN PROGRESS. Stage 6C remains PLANNED for presentation/framing/faceting and final rendering-cost refinement. This is bounded authored continuation with indefinite observation, without endless roads, new combat/actors/sorties, general AI, physical ocean/rigid-body simulation, audio, vegetation changes or visible humans.
 
+## Historical Stage 6C preparation — 2026-10-24
+
+The current English `prompt.md` starts from completed commit `5f940b5`. Its baseline is the recorded 544 tests across 50 files, zero lint errors / 13 warnings, 51 events, 24 presets and verified indefinite observation. At that preparation, Stage 6C was PLANNED and no implementation or fresh validation was claimed; the current implementation record is above.
+
+The bounded delivery improves existing camera composition/terrain sight lines and usable HUD space, cohesive smoke/fire, status/event readability, evidenced water/material/contact presentation and measured rendering cost. Accepted Stage 6B images show foreground-obstructed beach framing, tiny subjects, discrete faceted smoke puffs and truncated HUD text. These are presentation problems to verify/fix, not reasons to retime actors or alter support geometry.
+
+Keep every completed actor/contact/runtime/event value and landscape layout exact. Intentional camera/material/effect-mesh/HUD changes need active render tests and narrow source audits rather than new world-state projections or rewritten fixtures. Measure performance at fixed old camera transforms/resolution/DPR separately from new default preset composition, and repeat sustained aftermath/resource verification. `ITERATION_PLAN.md` records the acceptance scope; a verified implementation will create `STAGE6C_ACCEPTANCE.md` with actual results before marking Stage 6 complete.
+
 ## Completed Stage 5C — 2026-10-17
 
 Stage 5C and parent Stage 5 are **COMPLETE for scripted operation through T+180**. At that delivery Stage 6 was PLANNED; Stage 6A has since completed and parent Stage 6 is now IN PROGRESS. Exactly two LCACs and the original eight LAV-25s remained operational, with 51 unique official event records and 24 spectator presets. The Stage 5C application paused at exactly 180 and said **“Script complete · aftermath pending Stage 6”**; backward seeking and free spectator controls remained available. This dated endpoint behavior is superseded by the current Stage 6B implementation above, while its scripted actor/contact history remains exact.
@@ -183,7 +203,7 @@ Extend the existing -12…90 m carrier-forward support coverage before admitting
 
 The human selected: nearer offshore staging, revised terminal routes and local shoreline slopes, preserving the key event times. This supersedes the pending choice among cinematic compression, nearer staging and longer transit. Do not request that same decision again.
 
-The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C prompt is preserved in `b49db45` and the Stage 6A prompt in `75bf46a`; the current `prompt.md` targets Stage 6B.
+The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C prompt is preserved in `b49db45`, the Stage 6A prompt in `75bf46a` and the Stage 6B prompt in `5f940b5`; the current `prompt.md` targets Stage 6C.
 
 - replace the LCAC staging descriptions/feature references and approach paths with nearshore holding positions in `region_e_remote_beachhead`;
 - preserve departure at T+110, final-nearshore gates at T+140/T+148 and beaching at T+155/T+162, along with all official event IDs and other timestamps;

@@ -1,0 +1,399 @@
+{
+  "sourceCommit": "5f940b5",
+  "fixedCommitSupplement": true,
+  "note": "Full active worlds at all 98 Stage6B render-acceptance boundary timestamps, reconstructed from unchanged fixed-commit source. The separate 1547-time pre-edit capture remains byte-identical.",
+  "samples": [
+    {
+      "time": 176.12595304160564,
+      "world": "5b25d999af9821b2d80d4dadcb5c7af0d45ebb97cfa8b1d114e0a3e8e9130076"
+    },
+    {
+      "time": 176.12795304160565,
+      "world": "9790e78e7567e853531ca65097c4e2ee0708ce7c1b7d0fb3ad792c4f243d75e1"
+    },
+    {
+      "time": 178.18159407415507,
+      "world": "ded11a9aac99e0b856159d424108756f4cb28c97c6e45760a5aba8ec7ef014c6"
+    },
+    {
+      "time": 178.18359407415508,
+      "world": "ec900c5348432b158397932a1bf4ff8d13f5f6ae9e532518e371921a71a94430"
+    },
+    {
+      "time": 179.0696555730283,
+      "world": "6860ebc3db6c736fe14d419d56e13160d78e0fb2cee8f8e3a22f297697f20a5f"
+    },
+    {
+      "time": 179.07165557302832,
+      "world": "e21f6955450d62e3c1e5da566cc4342baffc98dac849ce709f75102aeac284ab"
+    },
+    {
+      "time": 179.14904338448858,
+      "world": "bae3888bc4f980731b9b80b2239de04a5791355492f08c3f53c64d20db480a40"
+    },
+    {
+      "time": 179.1510433844886,
+      "world": "ecdb5d479b69965aeae4489b12aad196840fb9b4801a0f59df005e4b8ef78046"
+    },
+    {
+      "time": 179.9,
+      "world": "7fed2b7d0b5192634b5a365b6ee11e35bed514c4dbfe13f886e1b03a0a2290e3"
+    },
+    {
+      "time": 180,
+      "world": "9e2ef6f6ed662a00cc91f839421665d7e218c9ca285f87c86d53527abcca5c12"
+    },
+    {
+      "time": 180.1,
+      "world": "a8d84fef8d3a725947b9fbc9058e71843fe7aae49b110ac423dddf080d7baeea"
+    },
+    {
+      "time": 181.17815412396735,
+      "world": "f99b66b11f489c997034ccd02d28c675a4c839f1ca528304d416af04d719ddc5"
+    },
+    {
+      "time": 181.18000158573045,
+      "world": "3ff37e50a8daf454beb0fbd9e42ecee55bfa439f01e7b4f2486407917ada420c"
+    },
+    {
+      "time": 181.18015412396736,
+      "world": "dcb36e1f017d4bd2cbd1efc5948f8ef35747194f10411ed89f0b3f027094492b"
+    },
+    {
+      "time": 181.1820015857305,
+      "world": "4f54341f6bb43f8c5e290a831315cec0a3920a5d0c2d3e926870fa4a90f29a92"
+    },
+    {
+      "time": 181.32705976250932,
+      "world": "4c0904b8653552bbff8acbb9e713f268c83cbf43d361e811de13735fc2faeacf"
+    },
+    {
+      "time": 181.32905976250933,
+      "world": "504154969a5e6142191060f491c81208aaf4bef1742abeef33e64e47cb14de3b"
+    },
+    {
+      "time": 181.58950651080903,
+      "world": "b15d7405ab7c561f56c9830dbe6fc7afa9f04bfdad8bfad271ec4c78368e7219"
+    },
+    {
+      "time": 181.59150651080907,
+      "world": "5bf53c14c2e91181a860ccab9ba81cebcbf1efaf33ee3892d03810804de52e7e"
+    },
+    {
+      "time": 182.04290554603696,
+      "world": "6231cacea641a591220e60a253260de910f739f2c91cefc6e205868cc648c53d"
+    },
+    {
+      "time": 182.04490554603697,
+      "world": "d9d9144d48a4071c15159a6a75bef37afccdea1107bc3d16b345e7ac6cd41814"
+    },
+    {
+      "time": 182.1490433875591,
+      "world": "e124bfb5926ada5b20cd241d5ab5458674fcc204dd0086df2c4477d7658d014b"
+    },
+    {
+      "time": 182.1510433875591,
+      "world": "6ddd03e67f5e48fecbda500530ac5c5b3a614b252717464b0b26a25fce1e538a"
+    },
+    {
+      "time": 184.1522899220922,
+      "world": "12e8fe626dfae0cbbb1a0488b2d3355588b46e9112596ee712b974399c97baaa"
+    },
+    {
+      "time": 184.1542899220922,
+      "world": "c59bbd905f4ca67940b44146ee1c9e839647df0087cb79dbdd25e56fe7c74d83"
+    },
+    {
+      "time": 184.17815414381903,
+      "world": "ca105edfa8d04be81a92640d09244aa231684b327d71ca3f058207c41881cd17"
+    },
+    {
+      "time": 184.18015414381904,
+      "world": "f809a8a9f7f14bbf73a83278f0df211b56ad4ae079d59bf48e818c3e95b1fd61"
+    },
+    {
+      "time": 184.3270591726717,
+      "world": "36947f6bcee8e17f8da592edb3f57ac1cc10a93e0f3ab159b080d1f014fc550b"
+    },
+    {
+      "time": 184.32905917267172,
+      "world": "87baa255b75faf912c439fcc43f148e559dbc3cf420ffa5e758651759dfb1d71"
+    },
+    {
+      "time": 184.55740422213077,
+      "world": "8296e47f3801106a9c4db59063a64f03c973261c546c42554d96465bbc7c20b2"
+    },
+    {
+      "time": 184.5594042221308,
+      "world": "cdeab9b2e4b81d4778cf5d6eddefe4ad010bc5c20fc204b71fa123034b26a53e"
+    },
+    {
+      "time": 185.04275540377097,
+      "world": "de098e13e8e53adf9a968055b832179019afa31df3c0cb590f507dad22e90706"
+    },
+    {
+      "time": 185.04475540377095,
+      "world": "b3424dd9127067ce29136e0491c3df3c911d215edba4a55a077922faddd510a5"
+    },
+    {
+      "time": 187.1512301680431,
+      "world": "eec079fe4ab7c6c6b439aa9e3ff64ab6ac71ed6c93a1d844899273562111b4c2"
+    },
+    {
+      "time": 187.1532301680431,
+      "world": "c8a6911fed4a4f20d0e213da99f2474e903d2350968296e8b4090f8a12ebe0e3"
+    },
+    {
+      "time": 187.30922456785044,
+      "world": "20d54a1acfc2558a5a577c58ded763096a57ea61f372ccb99cdc57fd42c021c1"
+    },
+    {
+      "time": 187.31122456785045,
+      "world": "a907ae4981e1246bde5338da61c984ef9c07334ba42ce604e1b92a1e654663d8"
+    },
+    {
+      "time": 187.5570719821155,
+      "world": "5b06451c354d8152d9883ce5bf6f8a499d460a9f0c702908dcbc37903a9b7f92"
+    },
+    {
+      "time": 187.5590719821155,
+      "world": "b23b885fb5980cbe6238cfe63a557858d26ae6db5e88cedf92da18d3964685e5"
+    },
+    {
+      "time": 188,
+      "world": "f74f8c6316ae6fa0203f942726ad5ee9f401837e376e90202c12e4894a8a0449"
+    },
+    {
+      "time": 190.30903999006415,
+      "world": "e55b5a61d33b0124a179d8cff7062ddfa9f672f875b7e899eb3e04525d2e4538"
+    },
+    {
+      "time": 190.31103999006416,
+      "world": "a404ef716ef60f3887462a5a747e0323fadf6ec7682fcb40b3fd542f83625e22"
+    },
+    {
+      "time": 191.32705976250932,
+      "world": "6f73206cc57aa344a3bcc6989ef83b59b8aa9ed9a32b8d3d47fd2d8faadcd14f"
+    },
+    {
+      "time": 191.32905976250933,
+      "world": "889900386e8e65944093e8ed14f72577b5d2279498c520cdd509c5d7e5c2e5cf"
+    },
+    {
+      "time": 194.3270591726717,
+      "world": "7da4ef213dcfbfc3c64a90cb815d9cd9cea87765c9631452fa3b37ca6ecfa070"
+    },
+    {
+      "time": 194.32905917267172,
+      "world": "65c5e99b4ef227845dfe08cc07ea9909d0e1bcf62d2db93fbb1779008ed5cc04"
+    },
+    {
+      "time": 197.30922456785044,
+      "world": "468c05d58cc04f3db2290e17e8bbea9241127bdf7ba08f5f59a577afd041d37b"
+    },
+    {
+      "time": 197.31122456785045,
+      "world": "4e8d95e8f37d595ecf2683680518575943f48e3ef1a9337cd8fa0a1f0de42aec"
+    },
+    {
+      "time": 200.30903999006415,
+      "world": "fcbd54c7052dde27cd4dc75d3f5591adf8ba25ac4c2dccf7a1ed5d6ee5839b1d"
+    },
+    {
+      "time": 200.31103999006416,
+      "world": "cdd95127a4072e8275e8533535e5086579ae54013ab540c40807c039c0a20635"
+    },
+    {
+      "time": 215.46296152099416,
+      "world": "5b2a766f8511587a42c80db895caaebfe9dbe9583e228bb2716965fde62891df"
+    },
+    {
+      "time": 217.01290780859557,
+      "world": "d738863c482e451e3fbaaa35bccdaf325a7a70c62cbaee9ad05cbbfadd730051"
+    },
+    {
+      "time": 218.4629791815564,
+      "world": "88ef5fe1c822108c1c33b0df9984ef41458b73bbfdad8ee010b4e544225c63ea"
+    },
+    {
+      "time": 220.06731888553617,
+      "world": "7ec08e291e0ab310af3c7c36da59e76648e8fd9a28182614e1a589d43b4c0a1d"
+    },
+    {
+      "time": 225.46296152099416,
+      "world": "c302a47db1ff384979e4704bf5ee6f7a876ae87fdda91a07a995e1cd5d74be49"
+    },
+    {
+      "time": 227.01290780859557,
+      "world": "08984aa3a15de677b843783005a2b7bf182852eb6c923845dae00f7a68e0691d"
+    },
+    {
+      "time": 228.4629791815564,
+      "world": "81dd08ec56a01453b1ff06d010de5389772b825e283c44c1c6e5872df952f693"
+    },
+    {
+      "time": 230.06731888553617,
+      "world": "b9776ecc0ae44db8e9c1b4caee179025b9f33aeb569fdee56d2439508a514156"
+    },
+    {
+      "time": 240,
+      "world": "6cd4f8f6496e984e441ebcf38e22e9005e6a96b644f68e1ba07277ccf4be1a57"
+    },
+    {
+      "time": 265.543914117908,
+      "world": "23de4d0db49e6075b4bf68752405bdd851fb5dab976a9204a55e513247e297ac"
+    },
+    {
+      "time": 268.6333224076649,
+      "world": "8aa25b60cfbe6c43be107f8b494e932f9019cd04827380ffff087892fb06cf72"
+    },
+    {
+      "time": 272.585585969611,
+      "world": "bcdda6f43c8c35a8c4acdfccb15662189c96353fd6bf51fed259a720c85eb527"
+    },
+    {
+      "time": 275.5351491720442,
+      "world": "2de1242275dec4cbde9b51b6ce4c8d77524e0fce0e5ddb4b4042f62d6dbd1e9b"
+    },
+    {
+      "time": 275.543914117908,
+      "world": "4b0747b1420b3976bee73c12fe08142c1e1205c3a43443f98a64da64082f0d5e"
+    },
+    {
+      "time": 278.6333224076649,
+      "world": "99f5ac2b9692874fe3c77cbb6e7ea4c85db4919ae36a273ff892c08da0c54aa6"
+    },
+    {
+      "time": 280,
+      "world": "9b403f5e12df1e7253a8f661d98f906c8f48da3315975e9627067a85c1e7c4f0"
+    },
+    {
+      "time": 282.585585969611,
+      "world": "e9d83abc4f713895bc5f77df47865220cb36d4c6bc5da731695cf76aeb9f6e3e"
+    },
+    {
+      "time": 285.5351491720442,
+      "world": "583bbdfb76c609ed7007ee0ae9e1c74319b360649ed709f4bf4cfc739a708b38"
+    },
+    {
+      "time": 309.98376122307695,
+      "world": "81044dd132823e13c5dd57ef37f357bae28218a234f7d79fb78bb8fb13c3716e"
+    },
+    {
+      "time": 312.9771012006363,
+      "world": "ff532a38e5f5eb86b5fe1980d6746779beffb14af1775455d98747fa8d4699ad"
+    },
+    {
+      "time": 318.2626496836267,
+      "world": "54edd2394c06bbea3fc7c252c5e2d9a87767f618c6a4b6d2fc0fe41283590559"
+    },
+    {
+      "time": 319.98376122307695,
+      "world": "45d6767d366da04de9d8a6dee703f57a2c5792cbe4d24f13026bef2288ffaace"
+    },
+    {
+      "time": 320,
+      "world": "771f115702bff289b864685936ccd41c6ca85506ce63e1fa428a84791945707d"
+    },
+    {
+      "time": 321.2856285993293,
+      "world": "aeca98abed3ff5b40d9409fbd0610bfdcd97552524da9f876c6823c92bb44daa"
+    },
+    {
+      "time": 322.9771012006363,
+      "world": "36ca790eafd4c902351a36d592b9ff3595c26f39c53008e57d27926a555f5fcd"
+    },
+    {
+      "time": 324.5576005948029,
+      "world": "e1263c8781b8ad16fbe48a9f9330a0a754e479c6484ec90e5f1e5ab82b737f77"
+    },
+    {
+      "time": 325.5877038531946,
+      "world": "a414c40de2783cfd78341a6a51bb09a87837624258618bfebdde0a765777e8f4"
+    },
+    {
+      "time": 328.2626496836267,
+      "world": "16247aa69fb0376744f3c2a185bba64059a779affec9801e53ab6606e843711d"
+    },
+    {
+      "time": 329.51392657267604,
+      "world": "ec94300ac6a7a8b055d2aba819cb037290ae2466de030dd0945f629acad16531"
+    },
+    {
+      "time": 329.668711705914,
+      "world": "b59cceab4f42fa4bbb6eef85d5cf195aa1a9e257142f6f9d79efeaa501b7944f"
+    },
+    {
+      "time": 330.6988149643057,
+      "world": "9724d059d5e2809da811483b5b3d91d79efe87e133d1c104bc6c38b7392d23d0"
+    },
+    {
+      "time": 330.9919523375919,
+      "world": "c506aaa5104ba99df27e3ccb02a916110a971a518f49a630297b8fb0283e3ace"
+    },
+    {
+      "time": 331.2856285993293,
+      "world": "6ac6f7b573b14081e7c80a1f9aa7b8e776879fda49d401bbff5a036c42b794bc"
+    },
+    {
+      "time": 332.5576005948029,
+      "world": "4b4263b3ae63b7e9c149248d860f298f6f3192cb220cd010a47c008c02a3b105"
+    },
+    {
+      "time": 333.5877038531946,
+      "world": "34fefd9cdfd7d1a6b8af837abb4f59c097cf7001e690e4a84fedd29f9bdff1a6"
+    },
+    {
+      "time": 334.6250376837871,
+      "world": "1ce60f29422054899ef61fcb4ac21f27758fd0cde5413aa0e8e7501e846f19dd"
+    },
+    {
+      "time": 336.103063448703,
+      "world": "b80e09e5b6ace85e14c33a5c970a2bfbc0cbf70dbce2cd49bc0df5ebb0fe472b"
+    },
+    {
+      "time": 337.51392657267604,
+      "world": "6a7b90332c00cbed20ee10d1fe18646cfc1f63c851cc375344d5b18a6b0ab292"
+    },
+    {
+      "time": 337.668711705914,
+      "world": "5dfc17b596f379db025657ed011df4341af3e5b8d21ae0256e853e74d61a4373"
+    },
+    {
+      "time": 338.6988149643057,
+      "world": "d99f99bd18e70190e00bb1a2466ec0df044c07f8bb76103e2dccf44fc630075a"
+    },
+    {
+      "time": 338.9919523375919,
+      "world": "ba80cc871915f69e321c2be5037b153fda152e8d58a5a4d3b95b2aa9b2da6501"
+    },
+    {
+      "time": 342.6250376837871,
+      "world": "a2370a788660435bdcf23601b35d449d1e115b16b35c9b1e128449e7f2e4a02a"
+    },
+    {
+      "time": 344.103063448703,
+      "world": "0b181a490812155965a4a7057b66ffdc100c9e21bf79bfe21718dad1ca4035b5"
+    },
+    {
+      "time": 360,
+      "world": "9603c76362bbd44b670929d8ad90aec725f5b5c1f15e3f611b7b20a082d57371"
+    },
+    {
+      "time": 600,
+      "world": "9a7a50f8df139df543e8fd35422dd50819c6c65cbc449b80cc42609f972603c6"
+    },
+    {
+      "time": 1800,
+      "world": "943027724eb2c33e36a1e776666fe8bd996d0b5cc33a2028edeb76f6a6ae24bb"
+    },
+    {
+      "time": 3600,
+      "world": "a41f7c905ce49a4891a5434c7660a8e46da82747fd3b6f666262792554f8bd51"
+    },
+    {
+      "time": 7200,
+      "world": "e30f16f9c1799b91e3c400437e041901594bb384ee5a2fdc0c8427d569db944c"
+    }
+  ]
+}

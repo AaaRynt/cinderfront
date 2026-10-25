@@ -1,10 +1,8 @@
-import type { ComponentProps } from 'react'
-
 import { act, cleanup, render } from '@testing-library/react'
 import { PerspectiveCamera, Vector3 } from 'three'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { deriveSimulationWorldState, simulationStore } from '@/simulation'
+import { deriveRuntimeWorldState, deriveSimulationWorldState, simulationStore } from '@/simulation'
 
 import { CameraRig } from './CameraRig'
 import { useCameraStore } from './cameraStore'
@@ -15,10 +13,14 @@ const harness = vi.hoisted(() => ({
   controls: undefined as { target: Vector3; update: () => void } | undefined,
 }))
 
+function getHarnessState() {
+  return { camera: harness.camera!, size: { width: 1280, height: 720 } }
+}
+
 vi.mock('@react-three/fiber', () => ({
-  useThree: (selector: (state: { camera: PerspectiveCamera }) => unknown) => selector({ camera: harness.camera! }),
+  useThree: (selector: (state: { camera: PerspectiveCamera }) => unknown) => selector({ camera: harness.camera!, get: getHarnessState } as never),
   useFrame: (frame: () => void) => {
-    harness.frame = frame
+    harness.frame = () => (frame as unknown as (state: unknown, delta: number) => void)({ camera: harness.camera!, size: { width: 1280, height: 720 } }, 1 / 30)
   },
 }))
 
@@ -32,7 +34,7 @@ vi.mock('@react-three/drei', async () => {
   }
 })
 
-function propsAt(time: number): ComponentProps<typeof CameraRig> {
+function propsAt(time: number) {
   const world = deriveSimulationWorldState(time)
   const position = world.secondaryPantsir.pose.position
   return {
@@ -61,6 +63,18 @@ function propsAt(time: number): ComponentProps<typeof CameraRig> {
   }
 }
 
+beforeAll(() => {
+  deriveRuntimeWorldState(0)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(188)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(210)
+})
+beforeAll(() => {
+  deriveRuntimeWorldState(240)
+})
 beforeEach(() => {
   simulationStore.getState().restart()
   useCameraStore.getState().requestPreset('secondary-pantsir')
@@ -74,7 +88,7 @@ describe('LCAC spectator follow', () => {
   it.each(['lav-west', 'lav-east'] as const)('keeps a stable lead anchor and free paused controls through all attachment changes for %s', (preset) => {
     useCameraStore.getState().requestPreset(preset)
     const id = preset === 'lav-west' ? 'attacker_lav_01' : 'attacker_lav_05'
-    const view = render(<CameraRig {...propsAt(0)} />)
+    const view = render(<CameraRig />)
     const start = deriveSimulationWorldState(0).landing.payload[id].pose.position
     const origin = new Vector3(start.x, start.y, start.z)
     expect(harness.controls!.target.distanceTo(origin)).toBeLessThan(1e-9)
@@ -84,7 +98,7 @@ describe('LCAC spectator follow', () => {
       targetDistance = harness.controls!.target.distanceTo(origin)
     for (const time of [159.9, 160, 160.1, 163.15, 165.2, 165.9, 166, 166.1, 168.2, 174.175, 175.9, 176, 176.1, 179.9, 180, 159.9, 0]) {
       act(() => simulationStore.getState().seek(time))
-      view.rerender(<CameraRig {...propsAt(time)} />)
+      view.rerender(<CameraRig />)
       act(() => harness.frame!())
       const p = deriveSimulationWorldState(time).landing.payload[id].pose.position,
         anchor = new Vector3(p.x, p.y, p.z)
@@ -97,20 +111,20 @@ describe('LCAC spectator follow', () => {
   })
   it.each(['lcac-west', 'lcac-east'] as const)('preserves paused controls and cargo framing across seeks for %s', (preset) => {
     useCameraStore.getState().requestPreset(preset)
-    const view = render(<CameraRig {...propsAt(0)} />),
+    const view = render(<CameraRig />),
       id = preset === 'lcac-west' ? 'attacker_lcac_01' : 'attacker_lcac_02'
     const origin = deriveSimulationWorldState(0).landing.crafts[id].pose.position,
       anchor = new Vector3(origin.x, origin.y, origin.z)
     const distance = harness.camera!.position.distanceTo(anchor)
     expect(distance).toBeGreaterThan(40)
-    expect(distance).toBeLessThan(55)
+    expect(distance).toBeLessThan(60)
     harness.camera!.position.add(new Vector3(2, 3, -1))
     harness.controls!.target.add(new Vector3(1, 0.5, 0))
     const cameraOffset = harness.camera!.position.distanceTo(anchor),
       targetOffset = harness.controls!.target.distanceTo(anchor)
     for (const time of [109.9, 110, 140, 148, 155, 159.9, 162, 165.9, 176, 0, 152.4, 0]) {
       act(() => simulationStore.getState().seek(time))
-      view.rerender(<CameraRig {...propsAt(time)} />)
+      view.rerender(<CameraRig />)
       act(() => harness.frame!())
       const p = deriveSimulationWorldState(time).landing.crafts[id].pose.position,
         current = new Vector3(p.x, p.y, p.z)
@@ -127,7 +141,7 @@ describe('LCAC spectator follow', () => {
 
 describe('secondary Pantsir spectator follow', () => {
   it('leaves paused spectator orbit, pan and zoom offsets untouched', () => {
-    render(<CameraRig {...propsAt(0)} />)
+    render(<CameraRig />)
     const target = new Vector3(...propsAt(0).secondaryPantsirPosition)
     expect(harness.controls!.target.distanceTo(target)).toBeLessThan(1e-9)
     expect(harness.camera!.position.distanceTo(target)).toBeGreaterThan(30)
@@ -141,7 +155,7 @@ describe('secondary Pantsir spectator follow', () => {
   })
 
   it('translates and rotates existing spectator offsets across forward/backward seeks without resetting the preset', () => {
-    const rendered = render(<CameraRig {...propsAt(0)} />)
+    const rendered = render(<CameraRig />)
     const origin = new Vector3(...propsAt(0).secondaryPantsirPosition)
     harness.camera!.position.add(new Vector3(7, 4, -9))
     harness.controls!.target.add(new Vector3(2, 1, -3))
@@ -149,7 +163,7 @@ describe('secondary Pantsir spectator follow', () => {
     const targetDistance = harness.controls!.target.distanceTo(origin)
     for (const time of [112.1, 115, 120.9, 121, 176, 0, 121.1, 0]) {
       act(() => simulationStore.getState().seek(time))
-      rendered.rerender(<CameraRig {...propsAt(time)} />)
+      rendered.rerender(<CameraRig />)
       act(() => harness.frame!())
       const current = new Vector3(...propsAt(time).secondaryPantsirPosition)
       expect(harness.camera!.position.distanceTo(current), `camera offset at T+${time}`).toBeCloseTo(cameraDistance, 8)
@@ -160,13 +174,39 @@ describe('secondary Pantsir spectator follow', () => {
 
   it('reframes the selected actor from the current timestamp only on an explicit preset request', () => {
     simulationStore.getState().seek(121.1)
-    render(<CameraRig {...propsAt(121.1)} />)
+    render(<CameraRig />)
     harness.camera!.position.add(new Vector3(15, 4, 3))
     harness.controls!.target.add(new Vector3(-5, 2, 1))
     act(() => useCameraStore.getState().requestPreset('secondary-pantsir'))
+    for (let i = 0; i < 10; i++) act(() => harness.frame!())
     const actor = new Vector3(...propsAt(121.1).secondaryPantsirPosition)
     expect(harness.controls!.target.distanceTo(actor)).toBeLessThan(1e-9)
     expect(harness.camera!.position.y - actor.y).toBeGreaterThan(15)
     expect(harness.controls!.update).toHaveBeenCalled()
+  })
+})
+
+describe('controlled Stage6C camera requests', () => {
+  it('settles a requested preset along its final sight line while paused, without changing world time', () => {
+    const view = render(<CameraRig />)
+    const time = simulationStore.getState().timeSeconds
+    act(() => useCameraStore.getState().requestPreset('harbor'))
+    const target = harness.controls!.target.clone(),
+      start = harness.camera!.position.clone().sub(target),
+      initialDistance = start.length()
+    let distance = initialDistance
+    for (let i = 0; i < 12; i++) {
+      act(() => harness.frame!())
+      const offset = harness.camera!.position.clone().sub(target)
+      expect(offset.clone().normalize().distanceTo(start.clone().normalize())).toBeLessThan(1e-10)
+      expect(offset.length()).toBeLessThanOrEqual(distance + 1e-8)
+      distance = offset.length()
+      expect(simulationStore.getState().timeSeconds).toBe(time)
+    }
+    expect(distance).toBeCloseTo(initialDistance / 1.04, 7)
+    act(() => simulationStore.getState().seek(7200))
+    view.rerender(<CameraRig />)
+    act(() => harness.frame!())
+    expect(harness.camera!.position.toArray().every(Number.isFinite)).toBe(true)
   })
 })

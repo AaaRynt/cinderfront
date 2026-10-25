@@ -22,7 +22,9 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
-Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A, 5B and 5C are COMPLETE. Parent Stage 5 is COMPLETE for the authored T+0–180 scripted operation, and Stage 6A landscape is COMPLETE. Stage 6B is COMPLETE; parent Stage 6 remains IN PROGRESS and Stage 6C remains PLANNED. Stage 6B now implements one continuing observation clock, the three remaining LAV unloads, full authored road travel and safe holds, bounded survivor continuation and persistent battlefield activity. At exactly 180 the original five ashore / two transferring / one aboard state remains exact; playback continues into **AFTERMATH OBSERVATION**, all eight LAVs are ashore by T+187.558071982, and the last LAV formation hold begins at T+344.103063449. Fresh final automated, browser, rendered-state and warmed-resource verification passes. Current implementation and measured browser results are recorded in the Stage 6B section below; dated Stage 5C/6A finite-endpoint records remain historical. Completed Stage 5 measurements and the current integration summary are in `STAGE5_INTEGRATION_READINESS.md`.
+Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A, 5B and 5C are COMPLETE. Parent Stage 5 is COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B indefinite aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope, with fresh automated, visual, preservation and sustained resource acceptance. The 51 events, 24 camera IDs and complete active runtime remain exact. All eight LAVs are ashore by T+187.558071982 and the last formation hold begins at T+344.103063449. Current Stage 6C evidence is in `STAGE6C_ACCEPTANCE.md`; historical Stage 5C/6A/6B measurements remain dated below and in `STAGE5_INTEGRATION_READINESS.md`.
+
+Historical preparation — 2026-10-24: the English `prompt.md` was prepared from completed Stage 6B commit `5f940b5` for Stage 6C camera framing, usable scene space, cohesive smoke/fire, HUD readability, water/material/contact improvements and measured rendering optimization. That preparation was documentation-only; the implementation and fresh verification are now recorded separately.
 
 The intended sequence is:
 
@@ -635,7 +637,7 @@ The complete three-minute scenario plays continuously and pauses at the explicit
 
 # Stage 6 — Ground Landscape + Aftermath + Visual Polish + Performance
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE — agreed visual, scripted and bounded-aftermath scope
 
 ## Goal
 
@@ -643,7 +645,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Fresh Stage 6A delivery and verification are recorded below; parent Stage 6 remains in progress. The Stage 6B implementation contract in `prompt.md` starts from Stage 6A commit `75bf46a`; current results follow the dated Stage 6A record.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B prompt is preserved in `5f940b5`; current `prompt.md` is the Stage 6C implementation contract.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -693,7 +695,7 @@ Paired captures, low views, chronological landing sheets, recordings, console/te
 
 ### Stage 6B — Indefinite Aftermath and Continued Movement
 
-**Status:** COMPLETE — parent Stage 6 IN PROGRESS; Stage 6C PLANNED
+**Historical delivery status (2026-10-23):** COMPLETE — parent Stage 6 IN PROGRESS; Stage 6C PLANNED
 
 The 2026-10-19 implementation contract starts from completed Stage 6A commit `75bf46a`. Its inherited 440 passing tests across 40 files, 51 events, 24 cameras and finite T+180 endpoint are historical starting measurements. The implementation below supersedes active endpoint behavior without rewriting completed Stage 5C/6A history or claiming parent Stage 6 is finished.
 
@@ -895,15 +897,42 @@ The actual rendered audit covers **98 timestamps, 20 captures and 33 persistent 
 
 Raw measurements, captures and logs are indexed in ignored `stage6b-review.local/README.md`; `docs-draft.md` is working review material rather than acceptance authority. Renderer counts are matched-view/warmed development measurements; display-capped RAF cadence is not GPU execution timing.
 
-#### Scope and remaining Stage 6C work
+#### Historical Stage 6B handoff scope
 
-Stage 6C remains PLANNED for remaining presentation, broad preset framing, procedural faceting and final rendering-cost/performance refinement. Stage 6B provides deterministic bounded authored continuation with indefinite observation: finite ground routes truthfully end in holds while other battlefield activity continues. It adds no endless road network, general combat AI, new actor/strike/loss/sortie, physical ocean/rigid-body simulation, audio, vegetation change or visible humans/occupants. Approximate support/model tolerances above remain explicit. No build, dependency/version/framework change, authoritative reference edit or broad formatting is required.
+At the Stage 6B handoff, Stage 6C was PLANNED for remaining presentation, broad preset framing, procedural faceting and final rendering-cost/performance refinement. Stage 6B provides deterministic bounded authored continuation with indefinite observation: finite ground routes truthfully end in holds while other battlefield activity continues. It adds no endless road network, general combat AI, new actor/strike/loss/sortie, physical ocean/rigid-body simulation, audio, vegetation change or visible humans/occupants. Approximate support/model tolerances above remain explicit. No build, dependency/version/framework change, authoritative reference edit or broad formatting is required.
 
 ### Stage 6C — Remaining Presentation and Final Performance Integration
 
-**Status:** PLANNED
+**Status:** COMPLETE — parent Stage 6 COMPLETE
+
+Implemented 2026-10-25 against `5f940b5`: all 24 existing cameras have viewport-aware subject framing and seek-safe controls; shared soft smoke/fire replaces hard puff geometry; compact accessible HUDs preserve complete statuses; focused single-map shadows, water/horizon and road-material refinements preserve support data. Two measured rendering optimizations reduce busy Fuel calls 40.16% and Harbor triangles 36.24% at exact old poses/quality. All 31 fixed pairs reduce both submission counts.
+
+Fresh checks pass 618 tests across 55 files, including a full run with the optional review directory absent, app/node no-emit, lint with zero errors/warnings (13-warning starting point), and whitespace checks. Full active-world equality uses the immutable 1547-sample pre-edit capture plus fixed-commit supplements for 98 late samples and 120 samples around all 40 exact LAV contact transitions; exactly 32 presentation-source exceptions retain fixed-Git audits. The complete 1× replay reaches T+206.0333 in 215.0484 real seconds. Five warmed all-camera seek/restart cycles retain 261 calls / 372946 triangles / 982 geometries / 316 materials / 3 textures / 214 programs at T+360/LAV west, all 35 actor identities and all 910 fixed world upload records.
+
+A fresh 605.0074-real-second 2× aftermath session passes at T+360–1569.7333 with 1186 samples, no pause/seek/restart/reload, all 35 actor roots and all 936 world resource/upload records stable. Materials/textures/programs stay 316/3/250; uploaded geometries range 1014–1024. Final self-contained validation passes 618/55 tests in 86.00 s, both no-emit checks, zero lint warnings/errors and whitespace checks. Actual rendered agreement covers 98 late plus 120 all-LAV transfer samples. Only the existing Clock deprecation remains in the browser console. Full paired-view, GPU/cadence, preservation, camera-role and resource details are in [STAGE6C_ACCEPTANCE.md](STAGE6C_ACCEPTANCE.md). Mixed GPU results and first-use shader/resource hitches remain explicit limits; no production build, deployment, audio, new combat/actors or visible people are part of this delivery.
+
+#### Historical prepared contract — 2026-10-24
 
 Refine remaining camera framing/transitions, lighting, atmosphere, water/effect/material presentation and visual hierarchy where browser evidence identifies a need. Preserve the established landscape and aftermath semantics. Add camera presets only for a demonstrated gap in the existing 24, then verify full playback, long-running aftermath, resource lifetime, LOD/shadows and rendering cost together.
+
+Next-round contract prepared 2026-10-24 from Stage 6B commit `5f940b5`. Its recorded starting checks are 544 tests across 50 files, app/node no-emit checks, zero lint errors and 13 current warnings. These are inherited Stage 6B results; Stage 6C requires fresh evidence.
+
+The existing accepted images identify concrete presentation priorities: Beach inland is dominated by foreground terrain with tiny distant craft; some other presets leave excessive sky/empty ground; fuel smoke exposes separate faceted puffs; sea boundaries/bands and abrupt material edges remain visible; long HUD statuses/event labels truncate and panels consume useful scene area. Confirm each issue in the current browser before implementation.
+
+- audit and improve all 24 existing preset roles, target visibility, terrain sight lines and HUD-aware framing at 1280×720, 1280×540 and 1440×900; preserve IDs and manual spectator controls, while allowing intentional camera-parameter changes
+- improve cohesive smoke/fire rendering with bounded shared resources while retaining exact emitter/age/lifetime state, chronology and aftermath clocks
+- refine dawn lighting, shadow/contact cues and at least one evidenced sea/horizon/material issue without changing terrain/support geometry, actor anchors or coastal query data
+- make camera selection, active status and complete event/status information legible and accessible using the existing Tailwind/UI style; retain runtime controls and truthful deployment/departure labels
+- profile actual bottlenecks and implement at least two focused rendering optimizations; working targets are approximately 15% fewer calls in a busy fixed view and 10% fewer triangles in a geometry-heavy fixed view, or a documented better measured improvement
+- compare rendering cost at identical old camera transforms/time/resolution/DPR/quality, separately from the improved preset-composition images; do not count reframing or reduced resolution as an optimization
+- preserve the complete active world through 180 and representative aftermath/contact/route boundaries through 7200, all 51 events, source authorities, fixture bytes, 32 trees and historical environmental layouts
+- handle only explicitly identified presentation-source checksum changes with historical fixed-Git audits and stronger active rendering/behavior coverage; keep unrelated checks and timeout limits
+- reduce warnings in touched camera/render paths without disabling rules, introduce no new warnings, and report the actual result against the 13-warning baseline
+- create fresh paired regional/close/busy views, a complete scripted-to-aftermath playback, ten real minutes of sustained aftermath and at least five warmed equal-time resource cycles
+
+Create `STAGE6C_ACCEPTANCE.md` only during verified implementation, with actual paired-view references, changes, measurements, checks and limitations. The full implementation contract is in `prompt.md`. This preparation update does not claim visual fixes, optimization or new test results.
+
+After all required visual, rendering-cost and integration acceptance passes, mark Stage 6C and parent Stage 6 COMPLETE for the agreed visual/scripted/aftermath scope. Keep status truthful if a required item remains unmet. Audio stays outside the current core plan; no production-build or deployment claim is implied by permitted development/no-emit checks.
 
 ## Aftermath Contract — Stage 6B
 
@@ -931,7 +960,7 @@ No global freeze occurs at T+03:00.
 
 ## Camera — Stage 6C
 
-Expand spectator presets to include:
+Audit and improve the existing presets across these subjects; add a new preset only for a demonstrated gap:
 
 - Overview
 - Harbor

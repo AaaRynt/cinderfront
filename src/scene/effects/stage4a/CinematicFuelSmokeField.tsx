@@ -94,13 +94,14 @@ export function CinematicFuelSmokeField({ sources, timeSeconds }: CinematicFuelS
     body.instanceMatrix.needsUpdate = true
     core.instanceMatrix.needsUpdate = true
     edge.instanceMatrix.needsUpdate = true
+    for (const mesh of [body, core, edge]) mesh.computeBoundingSphere()
   }, [layouts, scratchObject, timeSeconds])
 
   return (
     <group name="stage4a-layered-fuel-smoke-field">
-      <instancedMesh ref={coreRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.smokeCore, capacity]} dispose={null} frustumCulled={false} renderOrder={5} />
-      <instancedMesh ref={bodyRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.smokeBody, capacity]} dispose={null} frustumCulled={false} renderOrder={4} />
-      <instancedMesh ref={edgeRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.smokeEdge, capacity]} dispose={null} frustumCulled={false} renderOrder={3} />
+      <instancedMesh ref={coreRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.smokeCore, capacity]} dispose={null} frustumCulled renderOrder={5} />
+      <instancedMesh ref={bodyRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.smokeBody, capacity]} dispose={null} frustumCulled renderOrder={4} />
+      <instancedMesh ref={edgeRef} args={[STAGE4A_FUEL_GEOMETRIES.smoke, STAGE4A_FUEL_MATERIALS.smokeEdge, capacity]} dispose={null} frustumCulled renderOrder={3} />
     </group>
   )
 }

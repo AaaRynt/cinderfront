@@ -20,7 +20,7 @@ export function TerrainAndWater({ materials }: { materials: Stage2Materials }) {
   return (
     <group name="stage2-terrain-and-water">
       <CoastalWater />
-      <mesh castShadow geometry={terrainGeometry} material={materials.terrain} name="continuous-mainland-terrain" receiveShadow />
+      <mesh geometry={terrainGeometry} material={materials.terrain} name="continuous-mainland-terrain" receiveShadow />
       <mesh geometry={coastGeometry} material={materials.coastRock} name="exact-mainland-coastline" receiveShadow />
     </group>
   )

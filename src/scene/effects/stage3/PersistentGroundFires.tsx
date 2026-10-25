@@ -5,7 +5,8 @@ import type { GroundFireDescriptor, Stage3Vec3 } from './types.ts'
 
 import { cyclicEmissionAge, periodicAngle } from '../aftermath/effectClocks'
 import { cyclicParticleEnvelope } from './effectMath.ts'
-import { STAGE3_GEOMETRIES, STAGE3_MATERIALS } from './sharedResources.ts'
+import { STAGE3_MATERIALS } from './sharedResources.ts'
+import { SOFT_SMOKE_GEOMETRY, SOFT_FLAME_GEOMETRY } from './softParticles'
 
 export interface PersistentGroundFiresProps {
   readonly descriptors: readonly GroundFireDescriptor[]
@@ -80,15 +81,16 @@ export function PersistentGroundFires({ descriptors, emissionEndSeconds, eventTi
       mesh.count = activeCount
       mesh.instanceMatrix.setUsage(DynamicDrawUsage)
       mesh.instanceMatrix.needsUpdate = true
+      mesh.computeBoundingSphere()
     }
   }, [descriptors, emissionEndSeconds, eventTimeSeconds, origin, positions, scratchObject, surfaceHeightAt, timeSeconds])
 
   const capacity = Math.max(1, descriptors.length)
   return (
     <group name="stage3-persistent-ground-fires">
-      <instancedMesh ref={outerRef} args={[STAGE3_GEOMETRIES.fire, STAGE3_MATERIALS.fireOuter, capacity]} dispose={null} frustumCulled={false} />
-      <instancedMesh ref={innerRef} args={[STAGE3_GEOMETRIES.fire, STAGE3_MATERIALS.fireInner, capacity]} dispose={null} frustumCulled={false} />
-      <instancedMesh ref={smokeRef} args={[STAGE3_GEOMETRIES.puff, STAGE3_MATERIALS.smokeLocal, capacity]} dispose={null} frustumCulled={false} renderOrder={3} />
+      <instancedMesh ref={outerRef} args={[SOFT_FLAME_GEOMETRY, STAGE3_MATERIALS.softFireOuter, capacity]} dispose={null} frustumCulled />
+      <instancedMesh ref={innerRef} args={[SOFT_FLAME_GEOMETRY, STAGE3_MATERIALS.softFireInner, capacity]} dispose={null} frustumCulled />
+      <instancedMesh ref={smokeRef} args={[SOFT_SMOKE_GEOMETRY, STAGE3_MATERIALS.smokeLocal, capacity]} dispose={null} frustumCulled renderOrder={3} />
     </group>
   )
 }
