@@ -1,10 +1,20 @@
 # Stage 5 Amphibious Integration Readiness
 
-Stages 5A, 5B and 5C and parent Stage 5 are COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope after fresh integration acceptance. The original 51 events, two LCACs, eight LAV-25s, 24 camera IDs and complete runtime history remain exact. Current Stage 6C results appear first; dated Stage 5C/6A/6B records retain their historical measurements.
+Stages 5A, 5B and 5C and parent Stage 5 are COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope after fresh integration acceptance. Post-core Stage 7A is COMPLETE with documented local cadence/GPU limitations. The original 51 events, two LCACs, eight LAV-25s, 24 camera IDs and complete runtime history remain exact. Current Stage 7A results appear first; dated Stage 5C/6A/6B/6C records retain their historical measurements.
 
 **The human approved nearer staging, revised final approaches and local shore grading on 2026-10-09, retaining the key event times.** Rounding the original routes does not resolve their speed conflict. The approved package is now implemented and measured below. Stage 5B reference edits were limited to its recorded staging/approach/nearshore meanings, local contact grades and associated reservations/masks. Stage 5C adds the direct-join clarification recorded separately below; unrelated authoritative content remains exact.
 
-## Current Stage 6C integration — 2026-10-25
+## Current post-core Stage 7A — 2026-10-28
+
+**Status:** COMPLETE, with explicit local cadence/GPU limits
+
+Nine renderer preparation units complete before Play, with truthful progress, a 12 s cooperative budget, retry and generation-safe cancellation/context recovery. The final three fresh first plays add 0.748–0.934 s after first scene draw, reduce compile/link calls about 90%, and achieve 16.8–17.5 ms P95 versus 33.4–50.1 ms in the fixed `1bc6bdc` reference cohort. A retained 283.4 ms scheduling gap misses the 250 ms aspiration; no after application stall reaches 500 ms. Initial synchronous terrain construction remains separate from readiness.
+
+Exact terminal LAV caching and stable model subtrees reduce the matched aftermath world-miss mean 3.449→0.252 ms and scene React mean 15.166→9.596 ms. Short busy-window P95 still ranges 33.5–50.5 ms; these React/runtime workload limits and mixed actual GPU costs remain explicit. The separate 600.0144 real-second 2× run records 17.86/33.30/83.40 ms mean/P95/max RAF, T+360→1560, with no pause/seek/restart/reload and all 936 world upload records unchanged.
+
+Fresh checks pass 707 tests / 62 files, both app/node no-emit commands, zero-warning lint and whitespace checks. All 4,963 complete-world samples through 7200, 25 complete RGB comparisons, 227 rendered checkpoints, 35 actor roots, 64 wheels, all controls/three layouts, five warmed all-camera cycles and actual retry/context recovery pass. The fixed-step driver and historical fixtures/authorities remain exact. [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) contains the current report; optional raw evidence is indexed in `stage7a-review.local/README.md`. No build, deployment, dependency/framework change, new combat/content, audio or visible people are included.
+
+## Completed Stage 6C integration — 2026-10-25
 
 **Status:** COMPLETE — Stage 6C and parent Stage 6
 
@@ -15,6 +25,14 @@ Fresh validation passes 618 tests / 55 files in 86.00 s with the optional review
 One uninterrupted 1× replay reaches T+206.0333 in 215.0484 real seconds, completing all late unloads. All 35 persistent actor roots and 64 LAV wheels agree at 98 late plus 120 all-LAV transfer samples, with zero root position error, ≤5.162×10⁻⁸ rad quaternion error and ≤9.095×10⁻¹³ m wheel-center error. Five warmed seek/restart/all-camera cycles stay flat at T+360/LAV west: 261 calls / 372946 triangles / 982 geometries / 316 materials / 3 textures / 214 programs. All 910 fixed world mesh upload records remain stable; 26 existing blast-response pipe/fence matrix buffers legitimately update on damage seeks.
 
 The fresh sustained 2× aftermath run passes for 605.0074 real seconds, T+360–1569.7333, with 1186 samples and no pause, seek, restart or reload. All 35 actor roots and all 936 world mesh/resource/upload records stay fixed. Materials/textures/programs remain 316/3/250 and uploaded geometries stay within 1014–1024. Mean/P95/max observed RAF is 22.63/64.60/166.70 ms, separate from GPU timings. All pools/caches stay bounded; the final console has zero JavaScript errors and only the existing Clock deprecation. Final no-emit/lint/whitespace checks pass. [STAGE6C_ACCEPTANCE.md](STAGE6C_ACCEPTANCE.md) contains the current camera-role audit, paired evidence, exact preservation/source contracts, measured costs, cadence and remaining limits. No build, deployment, dependency/framework change, new combat/actors, audio or visible people are included.
+
+## Historical preparation — Post-Core Stage 7A, 2026-10-25
+
+Stages 1–6 remain COMPLETE for their agreed scope. The current English `prompt.md` starts a separate planned readiness/frame-pacing follow-up from Stage 6C commit `1bc6bdc`, whose recorded checks are 618 tests / 55 files and zero lint errors/warnings. It preserves all current actors, contacts, runtime, visual quality and historical acceptance.
+
+The motivation is the explicit Stage 6C limit: up to 3.35 s first-use stalls, 49.0 ms first-replay P95 RAF and 64.60 ms sustained 2× P95 RAF. These are historical observations; the next task must attribute shader/resource/CPU/React/GPU versus recording/development overhead under identical low-overhead baseline/after measurements. It introduces bounded truthful preparation, targeted warm-up and measured repeated-work reductions without lowering quality or changing the simulation-driver policy.
+
+At that preparation date Stage 7A was PLANNED. `ITERATION_PLAN.md` and `prompt.md` defined its preparation budget, cold/first-play/warmed comparisons, exact-state/visual preservation and sustained resource acceptance. That was documentation-only preparation, with no new performance or implementation claim; the Stage 6C results above and in `STAGE6C_ACCEPTANCE.md` remain the completed core record. Fresh Stage 7A delivery is recorded separately at the top of this report.
 
 ## Completed Stage 6B integration — 2026-10-23
 
@@ -203,7 +221,7 @@ Extend the existing -12…90 m carrier-forward support coverage before admitting
 
 The human selected: nearer offshore staging, revised terminal routes and local shoreline slopes, preserving the key event times. This supersedes the pending choice among cinematic compression, nearer staging and longer transit. Do not request that same decision again.
 
-The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C prompt is preserved in `b49db45`, the Stage 6A prompt in `75bf46a` and the Stage 6B prompt in `5f940b5`; the current `prompt.md` targets Stage 6C.
+The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C prompt is preserved in `b49db45`, the Stage 6A prompt in `75bf46a`, the Stage 6B prompt in `5f940b5` and the Stage 6C prompt in `1bc6bdc`; the current `prompt.md` targets post-core Stage 7A.
 
 - replace the LCAC staging descriptions/feature references and approach paths with nearshore holding positions in `region_e_remote_beachhead`;
 - preserve departure at T+110, final-nearshore gates at T+140/T+148 and beaching at T+155/T+162, along with all official event IDs and other timestamps;

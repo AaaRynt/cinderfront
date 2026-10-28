@@ -1,5 +1,6 @@
 import type { ThreeElements } from '@react-three/fiber'
 
+import { memo } from 'react'
 import * as THREE from 'three'
 
 import { clamp01, createPrismGeometryXZ, createSectionedBodyGeometry } from './modelGeometry'
@@ -151,34 +152,12 @@ export function F35BModel({ liftFanDoor = 0, nozzleDeflection = 0, gearDeploymen
 
   return (
     <group {...groupProps} dispose={null}>
-      <mesh geometry={FUSELAGE} material={MATERIALS.airframe} castShadow receiveShadow />
-      <mesh geometry={LEFT_WING} material={MATERIALS.airframe} castShadow />
-      <mesh geometry={RIGHT_WING} material={MATERIALS.airframe} castShadow />
-      <mesh geometry={LEFT_STABILIZER} material={MATERIALS.airframeLight} castShadow />
-      <mesh geometry={RIGHT_STABILIZER} material={MATERIALS.airframeLight} castShadow />
-
-      {/* Twin tails share a tapered profile and cant outward from the centerline. */}
-      <group position={[1.36, 0.38, 0]} rotation={[0, 0, -0.22]}>
-        <mesh geometry={VERTICAL_FIN} material={MATERIALS.airframeLight} rotation={[0, 0, Math.PI / 2]} castShadow />
-      </group>
-      <group position={[-1.36, 0.38, 0]} rotation={[0, 0, 0.22]}>
-        <mesh geometry={VERTICAL_FIN} material={MATERIALS.airframeLight} rotation={[0, 0, Math.PI / 2]} castShadow />
-      </group>
-
-      {/* The opaque reflective canopy intentionally contains no cockpit or occupant. */}
-      <mesh geometry={CANOPY} material={MATERIALS.canopy} position={[0, 0.78, -3.75]} scale={[0.9, 0.86, 1.62]} castShadow />
-
-      {/* Deep contrasting side intakes preserve the broad-shouldered front silhouette. */}
-      {([-1, 1] as const).map((side) => (
-        <mesh key={side} geometry={UNIT_BOX} material={MATERIALS.dark} position={[side * 1.32, 0.04, -2.28]} rotation={[0, side * 0.18, side * 0.08]} scale={[0.28, 0.62, 1.45]} />
-      ))}
+      {STATIC_AIRFRAME}
 
       {/* Visible lift fan and blades under a door hinged at its aft edge. */}
       <mesh geometry={FAN_DISC} material={MATERIALS.dark} position={[0, 0.91, -0.28]} />
       <group position={[0, 0.99, -0.28]} rotation={[0, fanRotationRadians, 0]}>
-        {FAN_BLADES.map((angle) => (
-          <mesh key={angle} geometry={UNIT_BOX} material={MATERIALS.fan} position={[Math.cos(angle) * 0.36, 0, Math.sin(angle) * 0.36]} rotation={[0, -angle, 0]} scale={[0.58, 0.045, 0.12]} />
-        ))}
+        {STATIC_FAN_BLADES}
       </group>
       <group position={[0, 1.04, 0.62]} rotation={[fanDoor * 1.18, 0, 0]}>
         <mesh geometry={UNIT_BOX} material={MATERIALS.airframeLight} position={[0, 0.05, -0.9]} scale={[1.72, 0.1, 1.82]} castShadow />
@@ -192,7 +171,42 @@ export function F35BModel({ liftFanDoor = 0, nozzleDeflection = 0, gearDeploymen
         </mesh>
       </group>
 
-      <LandingGear deployment={gear} />
+      <StableLandingGear deployment={gear} />
     </group>
   )
 }
+
+const STATIC_AIRFRAME = (
+  <>
+    <mesh geometry={FUSELAGE} material={MATERIALS.airframe} castShadow receiveShadow />
+    <mesh geometry={LEFT_WING} material={MATERIALS.airframe} castShadow />
+    <mesh geometry={RIGHT_WING} material={MATERIALS.airframe} castShadow />
+    <mesh geometry={LEFT_STABILIZER} material={MATERIALS.airframeLight} castShadow />
+    <mesh geometry={RIGHT_STABILIZER} material={MATERIALS.airframeLight} castShadow />
+
+    {/* Twin tails share a tapered profile and cant outward from the centerline. */}
+    <group position={[1.36, 0.38, 0]} rotation={[0, 0, -0.22]}>
+      <mesh geometry={VERTICAL_FIN} material={MATERIALS.airframeLight} rotation={[0, 0, Math.PI / 2]} castShadow />
+    </group>
+    <group position={[-1.36, 0.38, 0]} rotation={[0, 0, 0.22]}>
+      <mesh geometry={VERTICAL_FIN} material={MATERIALS.airframeLight} rotation={[0, 0, Math.PI / 2]} castShadow />
+    </group>
+
+    {/* The opaque reflective canopy intentionally contains no cockpit or occupant. */}
+    <mesh geometry={CANOPY} material={MATERIALS.canopy} position={[0, 0.78, -3.75]} scale={[0.9, 0.86, 1.62]} castShadow />
+
+    {/* Deep contrasting side intakes preserve the broad-shouldered front silhouette. */}
+    {([-1, 1] as const).map((side) => (
+      <mesh key={side} geometry={UNIT_BOX} material={MATERIALS.dark} position={[side * 1.32, 0.04, -2.28]} rotation={[0, side * 0.18, side * 0.08]} scale={[0.28, 0.62, 1.45]} />
+    ))}
+  </>
+)
+const STATIC_FAN_BLADES = (
+  <>
+    {FAN_BLADES.map((angle) => (
+      <mesh key={angle} geometry={UNIT_BOX} material={MATERIALS.fan} position={[Math.cos(angle) * 0.36, 0, Math.sin(angle) * 0.36]} rotation={[0, -angle, 0]} scale={[0.58, 0.045, 0.12]} />
+    ))}
+  </>
+)
+
+const StableLandingGear = memo(LandingGear)

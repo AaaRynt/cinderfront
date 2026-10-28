@@ -28,6 +28,11 @@ function appendElement(parent: THREE.Object3D, node: ReactNode) {
     appendElement(parent, (node.type as (props: ObjectProps) => ReactNode)(node.props))
     return
   }
+  const elementType: unknown = node.type
+  if (typeof elementType === 'object' && elementType !== null && 'type' in elementType && typeof elementType.type === 'function') {
+    appendElement(parent, (elementType.type as (props: ObjectProps) => ReactNode)(node.props))
+    return
+  }
   if (typeof node.type !== 'string') {
     appendElement(parent, node.props.children)
     return

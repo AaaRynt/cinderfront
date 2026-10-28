@@ -1,6 +1,6 @@
 import { Line } from '@react-three/drei'
-import { useMemo } from 'react'
-import { Color, QuadraticBezierCurve3, Vector3 } from 'three'
+import { memo, useMemo } from 'react'
+import { Color, ConeGeometry, QuadraticBezierCurve3, Vector3 } from 'three'
 
 import { periodicAngle } from './aftermath/effectClocks'
 
@@ -39,6 +39,10 @@ interface StovlExhaustProps {
   nozzleDeflection: number
   time: number
 }
+
+const FIRE_CONE = new ConeGeometry(1, 1, 7)
+
+const StableLine = memo(Line)
 
 const WIND_X = 0.7
 const WIND_Z = 0.71
@@ -123,8 +127,7 @@ function PersistentFire({ age, position, scale }: { age: number; position: Vec3;
         const offset = (index - 1) * 2.2 * scale
         const height = (5.5 + index * 1.4) * scale * pulse
         return (
-          <mesh key={index} position={[offset, height * 0.42, index % 2 ? -1.1 * scale : 1.1 * scale]}>
-            <coneGeometry args={[(2.4 - index * 0.3) * scale, height, 7]} />
+          <mesh key={index} geometry={FIRE_CONE} scale={[(2.4 - index * 0.3) * scale, height, (2.4 - index * 0.3) * scale]} position={[offset, height * 0.42, index % 2 ? -1.1 * scale : 1.1 * scale]}>
             <meshBasicMaterial color={index === 1 ? '#ffd166' : '#ff5c1a'} depthWrite={false} opacity={0.74} toneMapped={false} transparent />
           </mesh>
         )
@@ -229,22 +232,40 @@ export function ImpactEffect({ impactTime, persistent = true, position, time, va
 export function MissileFlight({ control, duration, end, launchTime, origin, time, tone = 'air-defense' }: MissileFlightProps) {
   const curve = useMemo(() => new QuadraticBezierCurve3(toVector(origin), toVector(control), toVector(end)), [control, end, origin])
   const age = time - launchTime
-  if (age < 0 || age > duration) return null
+  const active = age >= 0 && age <= duration
 
   const progress = clamp01(age / duration)
-  const head = curve.getPoint(progress)
-  const trailStart = Math.max(0, progress - (tone === 'strike' ? 0.12 : 0.24))
-  const points = Array.from({ length: 15 }, (_, index) => curve.getPoint(trailStart + (progress - trailStart) * (index / 14)))
+  const head = useMemo(() => curve.getPoint(progress), [curve, progress])
+  const points = useMemo(() => {
+    const trailStart = Math.max(0, progress - (tone === 'strike' ? 0.12 : 0.24))
+    return Array.from({ length: 15 }, (_, index) => curve.getPoint(trailStart + (progress - trailStart) * (index / 14)))
+  }, [curve, progress, tone])
   const color = tone === 'strike' ? '#ffb450' : '#e7eee8'
 
   return (
-    <group>
-      <Line color={color} lineWidth={tone === 'strike' ? 1.6 : 2.1} opacity={0.7} points={points} transparent />
+    <group visible={active}>
+      <StableLine color={color} lineWidth={tone === 'strike' ? 1.6 : 2.1} opacity={0.7} points={points} transparent />
       <mesh position={head} scale={tone === 'strike' ? 1.35 : 1}>
         <sphereGeometry args={[1.3, 10, 8]} />
         <meshBasicMaterial color="#fff5d8" toneMapped={false} />
       </mesh>
-      <pointLight color="#ffb15c" decay={2} distance={45} intensity={55} position={head} />
+      <pointLight color="#ffb15c" decay={2} distance={45} intensity={55} position={head} visible={active} />
+    </group>
+  )
+}
+
+function TracerShot({ endVector, originVector, shotTime, index, time }: { endVector: Vector3; originVector: Vector3; shotTime: number; index: number; time: number }) {
+  const age = time - shotTime
+  const lifetime = 1.25
+  const progress = clamp01(age / lifetime)
+  const points = useMemo(() => {
+    const deviation = new Vector3((seededNoise(index, 30) - 0.5) * 90, (seededNoise(index, 31) - 0.5) * 55, (seededNoise(index, 32) - 0.5) * 90)
+    const target = endVector.clone().add(deviation)
+    return [originVector.clone().lerp(target, Math.max(0, progress - 0.035)), originVector.clone().lerp(target, progress)]
+  }, [endVector, originVector, index, progress])
+  return (
+    <group visible={age >= 0 && age <= lifetime}>
+      <StableLine color={index % 3 === 0 ? '#ffcf6b' : '#ff8d3d'} lineWidth={1.5} opacity={0.82} points={points} transparent />
     </group>
   )
 }
@@ -252,20 +273,11 @@ export function MissileFlight({ control, duration, end, launchTime, origin, time
 export function TracerBurst({ end, origin, shotTimes, time }: TracerBurstProps) {
   const originVector = useMemo(() => toVector(origin), [origin])
   const endVector = useMemo(() => toVector(end), [end])
-
   return (
     <group>
-      {shotTimes.map((shotTime, index) => {
-        const age = time - shotTime
-        const lifetime = 1.25
-        if (age < 0 || age > lifetime) return null
-        const progress = clamp01(age / lifetime)
-        const deviation = new Vector3((seededNoise(index, 30) - 0.5) * 90, (seededNoise(index, 31) - 0.5) * 55, (seededNoise(index, 32) - 0.5) * 90)
-        const target = endVector.clone().add(deviation)
-        const head = originVector.clone().lerp(target, progress)
-        const tail = originVector.clone().lerp(target, Math.max(0, progress - 0.035))
-        return <Line key={`${shotTime}-${index}`} color={index % 3 === 0 ? '#ffcf6b' : '#ff8d3d'} lineWidth={1.5} opacity={0.82} points={[tail, head]} transparent />
-      })}
+      {shotTimes.map((shotTime, index) => (
+        <TracerShot key={`${shotTime}-${index}`} endVector={endVector} originVector={originVector} shotTime={shotTime} index={index} time={time} />
+      ))}
     </group>
   )
 }

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { MeshBasicMaterial, SphereGeometry } from 'three'
 
 import type { Su30AircraftState, Su30ReinforcementState, Vector3 } from '@/simulation'
@@ -53,7 +54,7 @@ function Su30Aircraft({ aircraft }: { aircraft: Su30AircraftState }) {
   return (
     <group name={`${aircraft.id}-presentation`} visible={aircraft.visible}>
       <group name={aircraft.id} visible={aircraft.visible} position={tuple(pose.position)} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z, 'YXZ']}>
-        <Su30MkkModel damaged={aircraft.damage.surfaceDarkened} />
+        <StableSu30MkkModel damaged={aircraft.damage.surfaceDarkened} />
         <AttachedPresentation aircraft={aircraft} />
       </group>
       {/* Historic emitted positions deliberately live outside the rotating actor. */}
@@ -80,3 +81,5 @@ export function Su30MkkGroup({ group }: { group: Su30ReinforcementState }) {
     </group>
   )
 }
+
+const StableSu30MkkModel = memo(Su30MkkModel)

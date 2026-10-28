@@ -1,3 +1,5 @@
+import { memo, type ReactNode } from 'react'
+
 import type { SupportLightingState, SupportSubtype } from '@/simulation/supportConvoyTypes'
 
 import { SUPPORT_DIMENSIONS, SUPPORT_WHEEL_RADIUS_METERS } from '@/simulation/supportConvoy'
@@ -9,20 +11,8 @@ export function SupportVehicleModel({ subtype, alternateLoad, wheelRotationRadia
   const parts = alternateLoad && subtype === 'logistics_truck' ? ALTERNATE_CARGO_PARTS : MODEL_PARTS[subtype]
   return (
     <group dispose={null}>
-      {parts.map((part) => (
-        <mesh key={part.name} name={part.name} castShadow receiveShadow geometry={part.geometry ?? BOX} material={part.material} position={part.position} rotation={part.rotation} scale={part.scale} />
-      ))}
-      {([-1, 1] as const).flatMap((side) =>
-        SUPPORT_AXLE_Z.map((z, axle) => (
-          <group key={`${side}-${axle}`} position={[side * (width / 2 - 0.15), SUPPORT_WHEEL_RADIUS_METERS - height / 2, z]} rotation={[0, axle === 0 ? steeringRadians : 0, 0]}>
-            <group rotation={[-wheelRotationRadians, 0, 0]}>
-              <mesh castShadow geometry={TIRE} material={SUPPORT_MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} />
-              <mesh geometry={HUB} material={SUPPORT_MATERIALS.equipment} rotation={[0, 0, Math.PI / 2]} />
-              <mesh geometry={BOX} material={SUPPORT_MATERIALS.chassis} position={[side * 0.16, 0.31, 0]} scale={[0.025, 0.18, 0.05]} />
-            </group>
-          </group>
-        )),
-      )}
+      {stableBody(parts)}
+      <StableWheels width={width} height={height} steeringRadians={steeringRadians} wheelRotationRadians={wheelRotationRadians} />
       {([-1, 1] as const).map((side) => (
         <group key={side}>
           <mesh geometry={BOX} position={[side * 0.86, 1.46 - height / 2, -length / 2 + 0.03]} scale={[0.36, 0.21, 0.055]}>
@@ -42,3 +32,33 @@ export function SupportVehicleModel({ subtype, alternateLoad, wheelRotationRadia
     </group>
   )
 }
+
+// Parts are finite module-owned descriptors, independent of wheel/light time.
+const bodies = new WeakMap<(typeof MODEL_PARTS)[SupportSubtype], ReactNode>()
+function stableBody(parts: (typeof MODEL_PARTS)[SupportSubtype]) {
+  let body = bodies.get(parts)
+  if (!body) {
+    body = parts.map((part) => <mesh key={part.name} name={part.name} castShadow receiveShadow geometry={part.geometry ?? BOX} material={part.material} position={part.position} rotation={part.rotation} scale={part.scale} />)
+    bodies.set(parts, body)
+  }
+  return body
+}
+
+function SupportWheels({ width, height, steeringRadians, wheelRotationRadians }: { width: number; height: number; steeringRadians: number; wheelRotationRadians: number }) {
+  return (
+    <>
+      {([-1, 1] as const).flatMap((side) =>
+        SUPPORT_AXLE_Z.map((z, axle) => (
+          <group key={`${side}-${axle}`} position={[side * (width / 2 - 0.15), SUPPORT_WHEEL_RADIUS_METERS - height / 2, z]} rotation={[0, axle === 0 ? steeringRadians : 0, 0]}>
+            <group rotation={[-wheelRotationRadians, 0, 0]}>
+              <mesh castShadow geometry={TIRE} material={SUPPORT_MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} />
+              <mesh geometry={HUB} material={SUPPORT_MATERIALS.equipment} rotation={[0, 0, Math.PI / 2]} />
+              <mesh geometry={BOX} material={SUPPORT_MATERIALS.chassis} position={[side * 0.16, 0.31, 0]} scale={[0.025, 0.18, 0.05]} />
+            </group>
+          </group>
+        )),
+      )}
+    </>
+  )
+}
+const StableWheels = memo(SupportWheels)

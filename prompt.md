@@ -1,180 +1,186 @@
-# Stage 6C — Camera Framing, Visual Finish, and Final Performance Integration
+# Post-Core Stage 7A — First-Use Readiness and Frame Pacing
 
 Work directly in the existing Cinderfront repository.
 
 Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. The viewer follows an authored operation and indefinite aftermath through spectator cameras and time controls.
 
-This is an implementation task. Inspect the actual application, implement the focused presentation and rendering improvements below, run permitted checks, inspect the final browser result, fix issues found, and deliver measured visual and performance evidence. Do not stop after an audit or a list of recommendations.
+This is an implementation task. Establish a reproducible performance baseline, implement focused readiness and frame-pacing improvements, run permitted checks, inspect the actual application, and deliver measured evidence. Do not stop after profiling or merely move all playback stalls into an unbounded loading screen.
 
-## 1. Starting point
+## 1. Completed core and reason for this follow-up
 
-Stage 6B is complete in commit `5f940b5`, after Stage 6A `75bf46a` and Stage 5C `b49db45`. Parent Stage 6 is IN PROGRESS; Stage 6C is the remaining planned round.
+Stage 6C is complete in commit `1bc6bdc`. Stages 1–6 remain complete for the agreed visual, scripted and bounded-aftermath scope. This is a separate post-acceptance hardening round, not a reopening of Stage 6.
 
-The documented starting validation is **544 tests across 50 files**, both TypeScript no-emit checks, lint with **zero errors and 13 warnings**, 51 official events and 24 spectator camera IDs. These are inherited results, not fresh verification for this task. The warnings include current React ref/immutability/useMemo issues; do not label them all pre-existing.
+The recorded Stage 6C baseline is **618 passing tests across 55 files**, both TypeScript no-emit checks, lint with zero errors/warnings, 51 official events and 24 camera IDs. These are inherited results, not fresh checks for this task.
 
-The full scripted history through 180 and indefinite aftermath already work. All eight LAVs are ashore by T+187.558071982; the last formation hold begins at T+344.103063449. Ships, survivor holds/departures, fire/smoke, minor secondary activity, water and machinery have bounded authored continuation.
+`STAGE6C_ACCEPTANCE.md` explicitly records:
 
-Stage 6A's rooted cover, fitted rocks, 32 sparse dryland trees and visual terrain breakup are complete. Improve how the existing world is viewed and rendered while retaining its simulation and authored composition.
+- first-use playback stalls up to 3.35 s, with other >0.5 s gaps near important event boundaries;
+- first replay mean/P95 RAF of 21.76/49.0 ms;
+- sustained 2× aftermath mean/P95/max RAF of 22.63/64.60/166.70 ms;
+- mixed GPU timings despite substantial draw/triangle reductions.
 
-## 2. Read and inspect first
+Those observations motivate this round. They do not establish that every stall is shader compilation or that the warm P95 is entirely application work. Measure and attribute the actual causes, including development-server and capture/profiling overhead.
 
-Read `AGENTS.md`, the current sequencing and Stage 6 records in `ITERATION_PLAN.md`, the current Stage 6B section of `STAGE5_INTEGRATION_READINESS.md`, and Stage 6A/6B `changelog.md` records.
+Deliver a responsive, truthful preparation phase and smoother first-use/steady playback at the existing visual quality. Preserve the completed scene, cameras, runtime and exact authored state.
 
-Inspect the map/scenario/vehicle authorities and existing visual references relevant to any touched asset. Read current package scripts and project usage documentation.
+## 2. Read and inspect before editing
 
-Relevant implementation areas:
+Read `AGENTS.md`, `ITERATION_PLAN.md`, `STAGE6C_ACCEPTANCE.md`, the current summary in `STAGE5_INTEGRATION_READINESS.md`, and the Stage 6B/6C `changelog.md` records.
 
-- `src/scene/BattlefieldScene.tsx`: Canvas, lighting, sky/fog, tone mapping and active runtime scene;
-- `src/scene/camera/CameraRig.tsx`, `cameraStore.ts`, camera tests and paused controls;
-- `src/ui/SimulationHud.tsx`, `src/App.tsx`, `src/index.css` and UI/keyboard tests;
-- `src/scene/effects/stage3/`, `stage4a/`, `aftermath/` and their shared geometry/materials;
-- `src/scene/world/stage4c/CoastalWater.tsx`, `coastalWater.ts`, terrain/road materials, and landscape rendering;
-- static world structures, instancing/batches, shadow casters and resource ownership;
-- `src/simulation/runtime.ts`, `runtimeTime.ts`, `store.ts`, aftermath paths/contact and preservation tests;
-- `src/test/stage6bSourceAudit.ts`, historical fixture contracts and actual model/render-envelope tests.
+Inspect:
 
-When available, inspect `stage6b-review.local/README.md`, `after-wide-beach.png`, `after-busy-fuel.png`, `hud-540-aftermath.png`, fixed-view metrics and rendered-state evidence. These ignored files are optional local evidence, not required test inputs.
+- `src/scene/BattlefieldScene.tsx`: Canvas/renderer setup, fixed-step `SimulationDriver`, environment and dynamic scene;
+- `src/simulation/runtime.ts`, `runtimeTime.ts`, `store.ts`, landing/aftermath derivations, caches and preservation tests;
+- `src/scene/camera/CameraRig.tsx`, `cameraFraming.ts`, `shadowCoverage.ts` and camera tests;
+- `src/App.tsx`, `src/ui/SimulationHud.tsx`, keyboard/control integration and existing UI tests;
+- shared effect/model resources, material/light variants, conditional effect mounting, shadow work, geometry uploads and per-frame instance/bounds updates;
+- current source-audit helpers and historical fixture byte contracts;
+- installed Three.js/React Three Fiber APIs and package scripts before choosing a warm-up mechanism.
 
-Open the current app and establish fresh baseline captures/measurements before editing. Distinguish accepted final evidence from superseded logs or the partial Stage 6B video.
+Optional accepted evidence is indexed in `stage6c-review.local/README.md`. Its chronology, GPU and sustained reports are historical evidence; default checks must not require those ignored files.
 
-## 3. Concrete presentation problems to solve
+Do not assume repeated calls are duplicate full derivations: `deriveRuntimeWorldState` already retains one shared exact-time result. Measure cache hits, timestamp order and actual work before changing that design.
 
-Prior accepted images reveal these starting issues; confirm them in the current browser and record the actual views/times:
+## 3. Scope and invariants
 
-| Area                   | Observed problem                                                                                          | Required improvement                                                                                  |
-| ---------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Beach overview         | Near terrain occupies much of the image; distant LCACs are tiny and the view does not explain the landing | A clear regional overview plus useful existing LCAC/LAV close follows, with unobstructed shore/action |
-| Other regional presets | Large sky/empty-ground areas and broad framing weaken subject readability                                 | Intentional scale, useful terrain context and visible principal subjects                              |
-| Fuel/fire aftermath    | Individual dark faceted smoke puffs read as separate balls; small flames and black shapes lose structure  | Cohesive layered smoke/fire with softer edges and readable damaged structures                         |
-| Sea/horizon            | Finite sea boundary and broad repetitive surface bands can read as a rectangular sheet                    | Coherent distant sea/sky transition and restrained coastal surface appearance                         |
-| Ground/materials       | Abrupt road/terrain color boundaries and flat shading reduce depth/contact                                | Better material transitions, lighting and contact cues without changing support geometry              |
-| HUD                    | Panels consume substantial scene area; status/event text truncates at 720/540 px heights                  | Legible compact hierarchy with complete information accessible and useful scene space                 |
+Implement:
 
-This round must visibly improve camera composition, smoke/fire presentation and HUD readability, plus at least one evidenced water/material/contact issue. It must also deliver a measured rendering optimization. Merely changing the stage label, exposure or screenshot angles is insufficient.
+- a bounded, cancellable first-use preparation/readiness lifecycle;
+- warm-up or early preparation for the measured costly shader/resource paths;
+- focused reduction of measured repeated CPU/React/GPU-submission/allocation work;
+- reproducible cold/first-play/warm/sustained measurements;
+- exact preservation and actual browser verification.
 
-Preserve the dry semi-arid coastal diorama style. Refine its deliberate stylization; do not attempt a photorealistic asset replacement.
+Keep unchanged:
 
-## 4. Scope and hard boundaries
+- every active-world actor/weapon/contact/effect/runtime field through the script and aftermath;
+- all 51 events, routes, deaths, holds, fades, unload timing and 24 camera roles/IDs;
+- Stage 6C framing/manual controls, visual materials/effect envelopes, shadows, horizon, lighting and HUD information;
+- terrain/support/query outputs, all historical layouts, 32 trees, source authorities and fixture bytes;
+- selected DPR, antialiasing, resolution, shadow quality, effect populations and visual detail in the comparisons.
 
-Allowed changes include camera parameters/transitions, viewport-aware framing, UI layout/readability, lighting/shadows, visual materials, smoke/fire rendering, a cosmetic far-sea/horizon treatment, and measured batching/culling/geometry/material optimizations.
+Do not add combat, actors, audio, assets, new quality presets, a visual redesign, broad infrastructure, dependencies or framework upgrades.
 
-Preserve exactly:
+Never create or imply visible humans, occupants, crew, casualties, articulated characters or humanoid silhouettes. Keep existing sealed vehicle presentation.
 
-- all 51 event records, scripted timing and active runtime semantics;
-- every existing actor/weapon pose, speed, wheel/contact/suspension value, route, damage/outcome, departure/hold/fade schedule and effect-clock meaning;
-- actor identities, model dimensions, contact envelopes and established terrain/road/coast/support data;
-- landscape/tree positions, seeds, identities and operational reservations;
-- authoritative map/scenario/vehicle assets and historical fixture bytes.
+Do not run builds or change package/dependency versions. Preserve unrelated user edits.
 
-Visual effect mesh/material presentation may change, but emitter IDs, authored anchors, birth/age/lifetime state, bounded capacities, chronology and outcomes remain protected.
+## 4. Establish an honest baseline
 
-Do not add new actors, strikes, losses, sorties, weapons, major simulation features, terrain remodeling, vegetation populations, audio, general AI/physics, dependencies or framework upgrades. No deployment, publishing or unrelated refactor is part of this task.
+Before implementation, measure fixed commit `1bc6bdc` under the same controlled development-server configuration, browser/device, viewport, DPR and capture policy planned for the after run.
 
-Never create, model, render, animate, or imply visible humans, crew, occupants, casualties, articulated characters, or humanoid silhouettes. Keep hatches closed and glazing dark/opaque.
+Define four separate intervals:
 
-## 5. Camera composition and transitions
+1. navigation/mount to first usable UI and first rendered scene;
+2. mount to declared readiness, including all visible preparation work;
+3. first playback after readiness, including first appearances of major actors/effects;
+4. warmed playback, seeking/camera changes and sustained aftermath.
 
-Keep all 24 existing preset IDs and controls. Reframe their position/target/FOV where evidence requires it; exact old camera transforms are intentionally not a preservation requirement for this presentation round.
+For the baseline with no readiness mechanism, identify its equivalent first playable scene explicitly. Do not compare an already warmed after page to a fresh baseline page.
 
-Retain distinct overview and focus roles. A regional view should explain the geography and action; a focus view should make the selected craft, vehicle, installation or damage state recognizable at useful size.
+Use a fresh owned test page/WebGL context for each cold application run. State whether browser/HTTP/driver caches were reset or retained; a fresh context is not a claim that every system cache is cold. Do not clear the user's browser data.
 
-For every preset, identify its subject and relevant time range. Inspect the rendered subject bounds, terrain sight lines and actual unobscured viewport. Do not assume looking toward a world coordinate makes the subject visible.
+Collect low-overhead timing first. Separate screenshot/video/large scene-inventory runs from frame-pacing measurements. Re-run baseline and after with identical instrumentation; do not attribute a lighter recorder's improvement to application changes.
 
-Account for HUD occupancy when framing. Keep important subjects, smoke tops, ramps and moving groups out from beneath panels, with sensible margins at 1280×720, 1280×540 and 1440×900. Use a small shared viewport/framing helper if useful, not a general layout engine.
+Record frame gaps, long tasks where supported, CPU derivation/render/commit work, shader/program activity, geometry/material uploads and actual GPU timings where available. Correlate gaps with events near 13/36/48/104/121, initial road support creation, camera changes and late effects.
 
-Specifically repair Beach inland's terrain-obstructed/tiny-subject composition. Test both beach presets during holding, approach, beaching, unloading, inland turns and final holds. Keep both landing lanes and enough context visible; use the existing LCAC/LAV follow presets for close inspection.
+Distinguish application work from dev-server reloads, encoder stalls, background tabs, competing viewers and OS interruption. Exclude invalid runs with a concrete reason rather than silently discarding slow frames.
 
-Inspect fuel/ammunition/harbor/radar/convoy framing before and after damage, and Wasp/Molniya/aircraft framing during movement/departure. Departed targets retain finite useful framing; preset switching must not reset the simulation.
+## 5. Preparation lifecycle and user-facing readiness
 
-Make requested preset transitions short and controlled, without crossing terrain or ending inside a model. Camera-only easing may use presentation-frame time while paused; world effects still freeze. Direct seeking must immediately produce the correct target, not chase an old position across the map.
+Add a small explicit readiness lifecycle separate from authored world state: preparing, ready, and a truthful recoverable failure/cancellation path.
 
-Preserve manual orbit/pan/zoom offsets during playback and aftermath until an explicit preset/recenter request. Use deterministic runtime pose/headings for follow targets; avoid movement-history drift and yaw flips at reverse, stop, seek or patrol seams.
+Initial preparation runs with observation paused at T+0. It must not tick, seek, replay the scenario invisibly, emit official events, move actors, change the camera selection, or leave future damage/effects in the visible world.
 
-Prefer improving the existing presets. Add a preset only if the final audit proves a genuine uncovered subject, retain all existing IDs, and document the reason.
+Show concise preparation status in the existing Tailwind HUD. If progress is displayed, derive it from actual known work units; otherwise use an indeterminate label. No fake percentage or developer dashboard.
 
-## 6. Smoke, fire and effect readability
+Keep the UI responsive and render the available paused scene during preparation. Gate user Play consistently for mouse and keyboard until required initial preparation is ready; explain that state on the control. Do not claim playing while secretly holding the clock, lose a queued intent silently, or auto-start without user intent.
 
-Improve the active smoke/fire render paths, including fuel, ammunition, damaged ships and vehicle wrecks where their shared presentation is visibly weak.
+Preserve the existing paused camera/inspection controls wherever safe. Any temporary renderer preparation state must restore the latest user selection/pose, not an obsolete snapshot.
 
-Reduce hard polygon/ball edges and disconnected dark puff stacks. Use cohesive core/body/edge treatment, controlled opacity gradients and appropriate overlap at the existing emitter/lifetime samples. Keep smoke anchored above its actual fire source and visible against both sky and terrain.
+Choose a measured critical warm-up set and a bounded preparation budget. Report time-to-ready and added startup work alongside reduced playback hitches. Preparing every possible thing with a long blocking task is not an acceptable result.
 
-Use the existing fixed-capacity instancing and shared resources. Procedural shading, better normals or bounded camera-facing/render geometry are appropriate where they materially improve the image. Do not multiply puff counts as the primary solution.
+Restart/seek/preset changes on an already ready renderer must not repeat full startup preparation. Preparation is scoped to the actual renderer/resource generation and relevant material configuration.
 
-Control transparency sorting, overdraw, depth write/test, render order and near-ground intersections. Smoke must not become a uniform black wall, cover the entire scene, flicker between layers, clip abruptly at the camera, or disappear when viewed from the opposite side.
+Cleanly cancel/ignore stale jobs on unmount, renderer replacement or context loss. Dispose temporary owned resources once; do not keep stale ready flags across a new context. Provide a clear retry/fallback status if a necessary preparation operation fails.
 
-Keep flames, damaged tank/ship structure and ground contact readable. Preserve the established priority of fuel/ammunition/Talwar hero effects without excessive bloom, white clipping or global exposure pumping.
+## 6. Warm the actual resource and shader paths
 
-Do not replay blasts, change source attribution, introduce new damage, or alter active smoke/fire/dust birth schedules. Preserve minor-secondary timing and all aftermath pause/seek/phase behavior.
+Use installed renderer capabilities after inspecting their real API/behavior. Asynchronous compilation and incremental preparation are options, not assumptions of availability or completion.
 
-Any new visual envelope must have valid culling bounds and remain within an explicitly tested presentation budget. Test actual shared render inputs and inspect the real GPU output; pure state tests alone cannot establish smoke quality.
+Warm the actual mounted renderer, material/light/shadow configurations and resources that will be used. Compiling unused clones or a different WebGL context does not establish first-play readiness.
 
-## 7. Dawn lighting, shadows, materials and horizon
+Cover the measured first appearances, including launch/defense, radar/harbor damage, fuel/ammunition effects, reinforcement, Pantsir 02 wreck, landing transfer and aftermath variants. Include transparency/fade and active light/shadow variants where tracing shows they trigger compilation.
 
-Refine cold dawn fill, warm directional light, depth separation and restrained haze. Compare quiet and busy scenes. Vehicles should retain readable volume, wrecks retain structure, and flame highlights should not wash out the scene.
+Keep work incremental and cancellable; yield between bounded jobs where appropriate. A resolved JavaScript promise is not automatically proof that the costly GPU work has completed. Verify the later first real draws.
 
-The current single 1024 shadow map spans approximately 15 km × 12 km, with normal bias 18 world meters. Audit its actual benefit/cost and contact artifacts. Improve shadow coverage/bias or use focused inexpensive contact cues with measured bounds. Do not blindly increase global resolution, enable every object as a caster, or alter grounding to fix a detached shadow.
+Reuse resident resources and fixed-capacity pools. Prefer stable shader/material configuration with uniform updates where appearance is unchanged, rather than repeatedly setting `needsUpdate` or creating variants during playback.
 
-Improve obvious material banding/flatness on the actual inspected ground/roads/rocks/vehicles, retaining the established palette and existing shape/contact anchors. Better normal/material treatment or bounded render-only detail is allowed; do not expand collision silhouettes or rewrite uploaded terrain/support attributes.
+Preparing finite immutable route/support tables is allowed when measured useful, but must remain bounded and preserve exact candidate ordering and numerical output. Do not precompute a world at every future timestamp or introduce an O(runtime) cache.
 
-Soften road/soil/gravel visual transitions without inventing a different road width/height or obscuring existing wear/scorch. Preserve all 404 wear records, equipment, 37 foam records and permanent damage.
+Any temporary offscreen/staging render must preserve renderer target, viewport/scissor, camera, visibility, shadows, uniforms and visible runtime state. Test restoration under cancellation and overlapping user input. Do not flash future explosions or render them under a loading overlay.
 
-Retain the existing coastal normal field, mean sea level -0.12 m, sampler/query outputs, time phases, water classification and landing contact. Improve perceived banding through material/roughness/color/distance filtering and lighting rather than silently changing physical/support data.
+Avoid new textures, external services or a persistent browser-cache scheme. This task should use current application resources and dependencies.
 
-Address the visible finite water edge. If necessary, add a purely visual distant sea/horizon extension outside the existing sea mesh, with coherent fog/color/depth and bounded owned geometry. It must not cover land, change water polygons/support queries, move ships, or create a new simulated ocean.
+## 7. Reduce the measured steady-state work
 
-Use installed rendering facilities and existing assets. Do not add an expensive stack of AO/reflections/DOF/bloom effects without a demonstrated visual benefit and measured cost. No remote asset or texture acquisition is required.
+Implement focused changes supported by the profiles. Useful areas to inspect include:
 
-## 8. HUD readability and scene space
+- repeated camera-fit projection/allocation when actual actor bounds and viewport are unchanged;
+- unnecessary React reconciliation or DOM updates when formatted HUD values did not change;
+- repeated bounds calculation, instance uploads or material invalidation despite unchanged data;
+- resource construction at first damage/visibility changes;
+- duplicate derivation at genuinely different consumer timestamps or avoidable allocation/GC;
+- shadow/submission work repeated without an actual changed input.
 
-Retain the established military-observation visual style, time controls, fixed 0–180 scripted slider, direct observation-time input, all speeds, keyboard/text-input isolation, runtime/local labels and active aftermath phase.
+Preserve the existing exact-time runtime cache semantics. Share a consistent current snapshot where useful; do not quantize actor time, reuse stale worlds, mutate a cached snapshot, or keep an unbounded map keyed by observation time.
 
-Improve the camera selector and status hierarchy so users can see the action without first collapsing several large panels. Compact/grouped selection and collapsible status details are appropriate; all 24 presets and all status information remain accessible.
+Render-only caches need explicit finite ownership/keys, correct viewport/seek invalidation and bounded capacity. Reused vectors/buffers must not mutate previously returned camera frames or historical snapshots.
 
-Keep the active subject, phase, operational/deployment counts and essential time controls easy to find. Make event names and long statuses readable through layout, concise display labels or accessible expansion. Do not rely on inaccessible ellipsis or tiny text as the solution.
+Do not remove dynamic bounds updates unless a tested conservative bound covers the full current smoke/fire/actor envelope. Culling and low upload counts must not cause missing effects when the camera turns.
 
-UI display labels may be improved without changing event IDs/codes, faction mappings or underlying values. Keep truthful departed/holding/deployed states and the eight-vehicle count semantics.
+Keep 35 persistent actor roots, 64 LAV wheels, response metadata, departure material ownership, soft effect quality and static uploads intact. Per-frame optimizations must match actual rendered transforms and effect phases.
 
-Use Tailwind utilities for touched ordinary DOM layout, spacing, type, colors, focus, and responsive sizing. Retain specialized CSS where needed. Do not run a repository-wide CSS migration.
+Do not change the 30 Hz fixed-step driver, its existing delta/overshoot policy, playback speeds or absolute-time formulas to make cadence charts look better. Clock-policy redesign is outside this round. Report real wall-time versus simulated-time progression rather than skipping ticks or replay intervals.
 
-Check keyboard focus, labels, text contrast and pointer reach. No control may be hidden beneath another panel or outside the viewport at 1280×540.
+Do not reduce resolution, DPR, antialiasing, shadow quality, lighting, smoke populations or scene content. The goal is responsiveness at the accepted presentation.
 
-## 9. Profile and implement a real rendering optimization
+## 8. Performance targets and acceptance reasoning
 
-Profile main/shadow submissions, static meshes, material sharing, transparent overdraw, dynamic buffer work and repeated runtime derivation before choosing changes. Separate CPU/world derivation cost from GPU/rendering cost.
+Use the same local hardware/environment and representative views as the new baseline. Working targets after declared readiness are:
 
-Select and implement at least two focused optimizations justified by the measured bottlenecks. Suitable candidates include static batching/instancing, unnecessary shadow submissions, regional culling/bounds, geometry/material reuse, effect overdraw/detail or duplicate derivation.
+- no application-attributable >=500 ms first-use playback/camera/seek stall at the prescribed checkpoints;
+- aim for worst first-use frame gap <=250 ms;
+- aim for warmed and sustained P95 frame interval <=33.3 ms at 1280×720, DPR 1, at both 1× and 2× in the measured busy cases;
+- demonstrate lower first-play hitch cost and lower measured dominant steady-state cost without a visual-quality regression.
 
-Preserve semantic actor roots and actual rendered transforms/contact. Batching must not destroy identity, response metadata, departure fade ownership or useful test hooks. Do not hide distant actors/events merely to lower counts.
+These are local engineering targets, not a universal 60 fps or cross-device guarantee. Fix or explicitly attribute every remaining threshold miss. If a required hitch/steady-state improvement is unverified or unmet, keep Stage 7A's completion status truthful.
 
-Working targets are approximately 15% fewer submitted calls in at least one busy matched view and 10% fewer submitted triangles in a geometry-heavy matched view. If profiling shows another dominant bottleneck, document a better measured improvement instead. No numeric target justifies removing required content or lowering benchmark resolution.
+Report startup/preparation time and responsiveness separately. A reduction achieved only by hiding the same work in an excessive pre-Play freeze is insufficient.
 
-Keep other matched views close to their original cost; investigate increases above 5% and explicitly justify any remaining increase by visible benefit. Include shadow and transparency work and any newly added far-sea/effect rendering.
+If the lightweight baseline already meets a target and earlier acceptance gaps came from capture overhead, report that finding and compare the actual application costs under the same method. Do not invent a speedup. The round still needs a concrete justified readiness/performance improvement to claim implementation completion.
 
-Use small deterministic LOD/detail policies only where measurement supports them. Keep smooth stable transitions, valid bounds and consistent shadows. Camera movement may select render detail but must not regenerate layouts or change simulation state.
+Use GPU queries only when supported/non-disjoint, with controlled ordering and idle comparison pages. GPU, CPU and RAF/long-task metrics answer different questions; report them separately.
 
-Do not lower DPR, disable antialiasing, remove the HUD, change camera transforms or reduce smoke/fire content in the benchmark to manufacture an improvement. Any optional quality settings must be documented and measured at the same selected setting before/after.
+## 9. Exact preservation and source-audit treatment
 
-Fix React ref/immutability/useMemo warnings in the touched paths without disabling rules or changing runtime behavior. Introduce no new warnings; report the actual final count against the 13-warning baseline. Do not patch installed dependencies to suppress the existing Clock deprecation message.
+Capture the completed Stage 6C state from `1bc6bdc` before editing, including scripted history and representative aftermath through 7200, all-LAV transfer/handoff/bend/brake/hold and vessel/departure boundaries.
 
-## 10. Preservation and source audits
+Require full unprojected active-world equality. Readiness/profiling metadata belongs outside the authored world. Preparation must leave time/event/actor state exactly unchanged and cold/warm paths must derive identical values.
 
-Capture a pre-edit baseline from `5f940b5` covering the full active world through 180 and representative aftermath times through 7200. Include all LAV transfer/handoff/bend/brake/hold boundaries, vessel patrol/departure and survivor/effect samples.
+Keep historical fixtures and authorities byte-identical, original timeouts and unrelated source checks. Never regenerate old hashes or omit actor/runtime/effect families to make tests pass.
 
-Require exact current active-world state equality at those samples. This is a rendering/presentation round; do not project away actor, weapon, contact, runtime, effect-state or outcome fields.
+For intentional performance/readiness source changes, enumerate the exact files/reasons, preserve fixed-Git historical byte audits, and add current behavioral/render/resource tests. Do not whitelist directories or validate only an unused legacy derivation.
 
-Keep all historical fixtures byte-identical and all existing terrain/support/layout/sampler guarantees. Camera transforms, visual materials/meshes and intended HUD composition may differ; distinguish these explicit visual changes from simulation changes.
+Preserve Stage 6C visual acceptance: fixed camera transform/time/viewport/DPR/quality scene captures must match, allowing only controlled preparation-status UI differences. Use explicit narrowly justified image tolerances where GPU output is not bit-identical.
 
-Historical preservation tests hash many render/camera/UI files. Enumerate only the exact intentionally edited presentation files with reasons, retain their fixed-Git historical byte audit, and add current rendering/behavior tests for the replacement. Preserve unrelated live checks.
+Retain current zero lint errors/warnings without disabling rules. Preserve accurate existing warnings/limits in historical records rather than relabeling them.
 
-Do not extend a prior source exception list to exempt whole directories, regenerate fixture/world hashes, normalize arbitrary edits, or validate only an unused legacy derivation. New tests must cover the actual active scene/time/camera path.
+## 10. Automated and browser verification
 
-Retain actual actor root/wheel/quaternion agreement with runtime data. New render batching and material ownership can change resource counts, but after warm-up their identities/counts must remain stable across playback, seeks and restart.
+Add meaningful coverage for readiness gating/status, actual work accounting, successful completion, failure/retry, cancellation/unmount and stale-job isolation. Test restart/context-generation behavior without requiring ignored browser evidence or a live GPU in ordinary unit tests.
 
-## 11. Verification and comparisons
-
-Add meaningful tests for revised framing/sight lines and viewport margins, seek-safe follows/transitions/manual offsets, responsive accessible HUD behavior, valid generated render bounds, preserved runtime, fixed pool limits and resource ownership.
-
-Keep exact world/terrain/layout preservation and original timeout limits. Default checks must work without ignored review artifacts or measurement exports.
+Test full state preservation before/after preparation, exact optimized helper results, cache bounds/invalidation, render restoration, resource disposal and absence of future-event leakage.
 
 Run permitted checks:
 
@@ -185,35 +191,34 @@ Run permitted checks:
 - `git diff --check`;
 - the existing development server for actual browser verification.
 
-Do not run builds, `tsc -b`, combined `pnpm check`, repository-wide formatting, dependency/version changes or framework upgrades. Report that these are development/no-emit checks; do not claim production-build verification.
+Do not run builds, `tsc -b`, combined `pnpm check`, repository-wide formatting, dependency changes or framework upgrades. These are development/no-emit results, not production-build verification.
 
-Capture two distinct comparison sets:
+Use at least three independent fresh-context application runs for baseline and after. Report each run, preparation cost, first-play gaps, long-task counts/durations, mean/P95/max RAF and time-to-206 rather than only the best run.
 
-1. **Fixed baseline poses:** exact old camera transform, time, viewport, DPR and quality setting before/after, for rendering cost and material/effect comparisons.
-2. **Revised preset composition:** old/new preset views at equal scenario time and viewport, showing improved subject framing and HUD space.
+Run the complete first 1× T+0→206 playback after readiness without prior manual timeline rehearsal. Include normal preset requests and all first-use event boundaries. Then measure warmed repeats separately.
 
-Do not mix changed default camera views into a claim of rendering optimization. Separate after-only showcase images from paired evidence.
+Exercise all 24 cameras at representative scripted/aftermath states; pause/orbit/pan/zoom; 0.5×/1×/2×; direct seeks through 7200 and back to 0; restart/recenter; keyboard/text/disclosure isolation; and 1280×720 / 1280×540 / 1440×900 layouts.
 
-Cover all five regions, quiet/busy scenes, LCAC approach/ramp/unloading, LAV road movement/holds, Wasp patrol, Molniya departure and late industrial aftermath. Use at least twelve useful paired views, including close smoke/ground contact and a broad sea/horizon.
+Verify actual GPU water/fire/smoke/fan/light pause behavior, 35 actor roots and 64 wheel transforms, scenery identity/upload stability, fixed effect pools and bounded route/birth caches after warm-up.
 
-Inspect all 24 original presets at relevant times and viewport sizes. Watch requested camera transitions while playing and paused; verify actual subjects remain visible and controls do not drift or clip.
+Run a fresh ten-real-minute low-overhead sustained aftermath session at 2× and at least five warmed equal-time seek/restart/all-camera resource cycles. Capture image/inventory evidence separately so profiling overhead is visible.
 
-Replay T+0 through the scripted/aftermath handoff continuously at 1×, including the late unloads. Review representative radar/fuel/ammunition/bridge/T-72/Pantsir/aircraft/naval events and all revised effect lifetimes.
+No hot reloads, competing viewers or encoder failures may be hidden in accepted timing runs. Chronological logs and sparse frames can substantiate uninterrupted playback; do not claim a partial video is complete.
 
-Check direct seeks through 7200 and back into the script, pause/orbit/pan/zoom, restart, every speed, keyboard/text input, and 1280×720 / 1280×540 / 1440×900 layouts. Confirm actual smoke/fire/water/machinery freezes under Pause while camera movement stays free.
+Save optional local profiling/evidence in `stage7a-review.local/`. Diagnostics must be opt-in and bounded, not a permanently growing production log or a visible profiling dashboard.
 
-Run a fresh ten-real-minute sustained aftermath session, at 2× if useful, plus at least five warmed equal-time seek/restart/all-camera resource cycles. Rendering changes require fresh stability evidence, not copied Stage 6B results.
+## 11. Documentation and handoff
 
-Record calls/triangles, geometry/material/texture/program counts, pool/cache bounds, actor root identities, static uploads and actual observed frame cadence. Use GPU timings only if truly measured. Display-capped ~16.7 ms RAF is not proof of GPU speed.
+Create a concise tracked `STAGE7A_ACCEPTANCE.md` with:
 
-Save optional local evidence in `stage6c-review.local/`: before/after images, original/revised camera values, raw measurements, console/check logs and chronological playback samples. A failed/partial video is not a complete recording; low-overhead chronological samples and frames can substantiate uninterrupted playback.
+- actual causes and measurements, distinguishing shader/resource/CPU/React/GPU and capture overhead;
+- the readiness lifecycle, real preparation budget and user behavior;
+- implemented optimizations and preserved exact/visual contracts;
+- all cold first-run and warmed/sustained before/after results under the same settings;
+- fresh automated/browser/resource evidence and explicit remaining limitations.
 
-## 12. Final acceptance and documentation
+Update `ITERATION_PLAN.md`, append `changelog.md`, and update the current pointer in `STAGE5_INTEGRATION_READINESS.md`. Keep `STAGE6C_ACCEPTANCE.md` and all Stage 1–6 completion records as dated historical acceptance, not rewritten new performance results.
 
-Create a concise tracked `STAGE6C_ACCEPTANCE.md` recording the starting problems, implemented improvements, paired image references, exact preserved contracts, fresh checks, fixed-view rendering costs, sustained resource results and honest remaining limits. Tests must not depend on its ignored local image/log targets.
+Mark only post-core Stage 7A COMPLETE after its measured readiness/performance and preservation acceptance passes. Do not invent additional roadmap rounds or add audio as part of this task.
 
-Update `ITERATION_PLAN.md`, append `changelog.md`, and update the current pointer in `STAGE5_INTEGRATION_READINESS.md`. Preserve historical measurements rather than rewriting them as current results.
-
-Only after the required visual fixes, measured optimization and full integration acceptance pass, mark Stage 6C and parent Stage 6 COMPLETE for the agreed visual/scripted/aftermath scope. Audio remains outside the current core plan. If a required acceptance item is still unmet, leave its status truthful and identify the exact remaining work.
-
-The handoff should lead with the visible changes and measured rendering benefit, then provide fresh test/browser results, comparison/report paths, resource stability and limitations. Do not claim photorealism, physical ocean/vehicle simulation, cross-device performance guarantees, new combat, visible personnel, production-build verification or deployment.
+The final handoff should lead with first-play/steady-state responsiveness and preparation cost, then fresh verification, report/evidence paths and remaining limits. Do not claim hardware-independent frame rates, production-build validation, deployment, new combat or visible personnel.

@@ -2,6 +2,7 @@ import { Camera, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship
 import { useState } from 'react'
 
 import type { CameraPreset } from '@/scene/camera/cameraStore'
+import type { ReadinessState } from '@/scene/readiness/readinessStore'
 import type { SimulationEvent, SimulationSpeed } from '@/simulation'
 
 import { useCameraStore } from '@/scene/camera/cameraStore'
@@ -35,6 +36,7 @@ interface BattlefieldStatus {
 }
 
 interface SimulationHudProps {
+  readiness: ReadinessState
   battlefieldStatus: BattlefieldStatus
   duration: number
   latestEvent: TimelineEventView
@@ -97,7 +99,7 @@ function formatTimelineBound(timeSeconds: number) {
   return `T+${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }
 
-export function SimulationHud({ battlefieldStatus, duration, latestEvent, localTime, onRestart, onSeek, onSpeedChange, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
+export function SimulationHud({ readiness, battlefieldStatus, duration, latestEvent, localTime, onRestart, onSeek, onSpeedChange, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
   const [observationDraft, setObservationDraft] = useState<string | null>(null)
   const activePreset = useCameraStore((state) => state.preset)
   const requestPreset = useCameraStore((state) => state.requestPreset)
@@ -225,8 +227,22 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
           <span className="shrink-0 font-mono text-[10px] text-(--amber)">{formatTimelineBound(latestEvent.time)}</span>
         </div>
 
+        {readiness.phase !== 'ready' && (
+          <div className="col-span-full row-start-3 flex items-center gap-3 text-[11px] text-(--amber) max-[900px]:row-start-4" id="scene-preparation-status" role="status" aria-live="polite">
+            <span>
+              {readiness.message}
+              {readiness.phase === 'preparing' && readiness.total > 0 ? ` · ${readiness.completed}/${readiness.total}` : ''}
+            </span>
+            {(readiness.phase === 'failed' || readiness.phase === 'cancelled') && (
+              <button className="border border-(--hud-edge) px-2 py-1" onClick={readiness.retry} type="button">
+                Retry preparation
+              </button>
+            )}
+          </div>
+        )}
+
         <div className="timeline-control col-span-full row-start-2 max-[900px]:row-start-3">
-          <input aria-label="Seek simulation time" data-testid="timeline-slider" max={duration} min={0} onInput={(event) => onSeek(Number(event.currentTarget.value))} step={0.1} type="range" value={Math.min(time, duration)} />
+          <input disabled={readiness.phase !== 'ready'} aria-label="Seek simulation time" data-testid="timeline-slider" max={duration} min={0} onInput={(event) => onSeek(Number(event.currentTarget.value))} step={0.1} type="range" value={Math.min(time, duration)} />
           <div aria-hidden="true" className="timeline-markers">
             {EVENT_TIMES.map((eventTime) => (
               <span key={eventTime} style={{ left: `${(eventTime / duration) * 100}%` }} />
@@ -254,6 +270,7 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
               Observe s
             </label>
             <input
+              disabled={readiness.phase !== 'ready'}
               aria-label="Observation time in seconds"
               className="w-[76px] border border-(--hud-edge) bg-[#071116] px-1.5 py-2 text-(--ink)"
               id="observation-time"
@@ -270,11 +287,20 @@ export function SimulationHud({ battlefieldStatus, duration, latestEvent, localT
               type="number"
               value={observationDraft ?? quantizeRuntimeTime(time)}
             />
-            <button aria-label="Seek observation time" className="inline-flex min-h-9 items-center justify-center gap-2 border border-(--hud-edge) px-2 text-[10px] text-(--muted) hover:bg-(--hud-soft)" type="submit">
+            <button disabled={readiness.phase !== 'ready'} aria-label="Seek observation time" className="inline-flex min-h-9 items-center justify-center gap-2 border border-(--hud-edge) px-2 text-[10px] text-(--muted) hover:bg-(--hud-soft)" type="submit">
               Go
             </button>
           </form>
-          <button aria-label={playing ? 'Pause simulation' : 'Play simulation'} className="inline-flex min-h-9 items-center gap-2 border border-[#e9a94d70] bg-[#e9a94d20] px-3 text-[11px] text-(--amber-bright)" data-testid="play-pause" onClick={onTogglePlayback} type="button">
+          <button
+            disabled={!playing && readiness.phase !== 'ready'}
+            aria-describedby={readiness.phase !== 'ready' ? 'scene-preparation-status' : undefined}
+            title={readiness.phase !== 'ready' ? readiness.message : undefined}
+            aria-label={playing ? 'Pause simulation' : 'Play simulation'}
+            className="inline-flex min-h-9 items-center gap-2 border border-[#e9a94d70] bg-[#e9a94d20] px-3 text-[11px] text-(--amber-bright)"
+            data-testid="play-pause"
+            onClick={onTogglePlayback}
+            type="button"
+          >
             {playing ? <Pause aria-hidden="true" size={18} /> : <Play aria-hidden="true" size={18} />}
             <span>{playing ? 'Pause' : 'Play'}</span>
           </button>

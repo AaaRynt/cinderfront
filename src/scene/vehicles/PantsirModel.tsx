@@ -1,5 +1,6 @@
 import type { ThreeElements } from '@react-three/fiber'
 
+import { memo } from 'react'
 import * as THREE from 'three'
 
 import { clamp01 } from './modelGeometry'
@@ -150,6 +151,40 @@ export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevati
   // multiplication so a finite observation age cannot overflow into NaN.
   const rockingPhase = age <= 180 ? age * 18 : (age % ((Math.PI * 2) / 18)) * 18
   const impactRock = destroyed ? Math.sin(rockingPhase) * Math.exp(-age * 2.8) * 0.06 : 0
+
+  return (
+    <group {...groupProps} dispose={null}>
+      <group rotation={[0, 0, impactRock - settled * 0.035]}>
+        <StableMechanics
+          turretYaw={turretYaw}
+          radarRotation={radarRotation}
+          launcherElevation={launcherElevation}
+          firedTubeCount={firedTubeCount}
+          wheelTravelMeters={wheelTravelMeters}
+          steeringRadians={steeringRadians}
+          stabilizerDeployment={stabilizerDeployment}
+          radarDeployment={radarDeployment}
+          destroyed={destroyed}
+          settled={settled}
+        />
+      </group>
+    </group>
+  )
+}
+
+interface MechanicsProps {
+  turretYaw: number
+  radarRotation: number
+  launcherElevation: number
+  firedTubeCount: number
+  wheelTravelMeters?: number
+  steeringRadians: number
+  stabilizerDeployment: number
+  radarDeployment: number
+  destroyed: boolean
+  settled: number
+}
+function PantsirMechanics({ turretYaw, radarRotation, launcherElevation, firedTubeCount, wheelTravelMeters, steeringRadians, stabilizerDeployment, radarDeployment, destroyed, settled }: MechanicsProps) {
   const elevation = Math.max(-0.12, Math.min(1.15, launcherElevation))
   const fired = Math.max(0, Math.min(12, Math.floor(firedTubeCount)))
   const bodyMaterial = destroyed ? MATERIALS.scorchedOlive : MATERIALS.body
@@ -165,65 +200,65 @@ export function PantsirModel({ turretYaw = 0, radarRotation = 0, launcherElevati
   const radarMastY = radar === 1 ? 4.42 : 3.795 + radarMastLength / 2
 
   return (
-    <group {...groupProps} dispose={null}>
-      <group rotation={[0, 0, impactRock - settled * 0.035]}>
-        {/* 10.30 m chassis: cab front -5.15, equipment-body rear +5.15. */}
-        <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.bodyDark} position={[0, 0.82, 0]} scale={[2.65, 0.36, 10.3]} castShadow />
-        <mesh geometry={UNIT_BOX} material={bodyMaterial} position={[0, 1.85, -3.75]} scale={[2.5, 2.18, 2.8]} castShadow />
-        <mesh geometry={UNIT_BOX} material={bodyMaterial} position={[0, 1.87, 1.4]} scale={[2.55, 1.82, 7.5]} castShadow />
+    <>
+      {/* 10.30 m chassis: cab front -5.15, equipment-body rear +5.15. */}
+      <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.bodyDark} position={[0, 0.82, 0]} scale={[2.65, 0.36, 10.3]} castShadow />
+      <mesh geometry={UNIT_BOX} material={bodyMaterial} position={[0, 1.85, -3.75]} scale={[2.5, 2.18, 2.8]} castShadow />
+      <mesh geometry={UNIT_BOX} material={bodyMaterial} position={[0, 1.87, 1.4]} scale={[2.55, 1.82, 7.5]} castShadow />
 
-        {/* Opaque cab glazing carries no interior or occupants. */}
-        {([-1, 1] as const).map((side) => (
-          <mesh key={`front-${side}`} geometry={UNIT_BOX} material={MATERIALS.glass} position={[side * 0.62, 2.25, -5.16]} scale={[1.05, 0.65, 0.04]} />
-        ))}
-        {([-1, 1] as const).map((side) => (
-          <mesh key={`side-${side}`} geometry={UNIT_BOX} material={MATERIALS.glass} position={[side * 1.255, 2.25, -4.08]} scale={[0.04, 0.62, 0.86]} />
-        ))}
-        <mesh geometry={UNIT_BOX} material={MATERIALS.bodyDark} position={[0, 1.46, -5.17]} scale={[1.72, 0.32, 0.05]} />
+      {/* Opaque cab glazing carries no interior or occupants. */}
+      {([-1, 1] as const).map((side) => (
+        <mesh key={`front-${side}`} geometry={UNIT_BOX} material={MATERIALS.glass} position={[side * 0.62, 2.25, -5.16]} scale={[1.05, 0.65, 0.04]} />
+      ))}
+      {([-1, 1] as const).map((side) => (
+        <mesh key={`side-${side}`} geometry={UNIT_BOX} material={MATERIALS.glass} position={[side * 1.255, 2.25, -4.08]} scale={[0.04, 0.62, 0.86]} />
+      ))}
+      <mesh geometry={UNIT_BOX} material={MATERIALS.bodyDark} position={[0, 1.46, -5.17]} scale={[1.72, 0.32, 0.05]} />
 
-        {/* Exactly four wheels on each side, arranged as two forward and two rear axles. */}
-        {([-1, 1] as const).flatMap((side) => AXLE_Z.map((_, axleIndex) => <Wheel key={`${side}-${axleIndex}`} axleIndex={axleIndex} side={side} steeringRadians={steering} wheelTravelMeters={wheelTravelMeters} />))}
+      {/* Exactly four wheels on each side, arranged as two forward and two rear axles. */}
+      {([-1, 1] as const).flatMap((side) => AXLE_Z.map((_, axleIndex) => <Wheel key={`${side}-${axleIndex}`} axleIndex={axleIndex} side={side} steeringRadians={steering} wheelTravelMeters={wheelTravelMeters} />))}
 
-        {/* Four deployed stabilizer legs and pads. */}
-        {STABILIZER_POSITIONS.map(([x, z]) => (
-          <group name="pantsir-stabilizer" key={`${x}-${z}`} position={[x, legCenterY, z]}>
-            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} scale={[0.075, legLength, 0.075]} />
-            <mesh name="pantsir-stabilizer-pad" geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, padRelativeY, 0]} scale={[0.24, 0.06, 0.24]} />
-          </group>
-        ))}
+      {/* Four deployed stabilizer legs and pads. */}
+      {STABILIZER_POSITIONS.map(([x, z]) => (
+        <group name="pantsir-stabilizer" key={`${x}-${z}`} position={[x, legCenterY, z]}>
+          <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} scale={[0.075, legLength, 0.075]} />
+          <mesh name="pantsir-stabilizer-pad" geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, padRelativeY, 0]} scale={[0.24, 0.06, 0.24]} />
+        </group>
+      ))}
 
-        {/* Whole combat module tracks in azimuth while launchers and guns elevate. */}
-        <group position={[0, 0, 0.7]} rotation={[0, turretYaw, destroyed ? settled * 0.05 : 0]}>
-          <mesh geometry={UNIT_CYLINDER} material={weaponMaterial} position={[0, 2.83, 0]} scale={[0.86, 0.42, 0.86]} />
-          <mesh geometry={UNIT_BOX} material={weaponMaterial} position={[0, 3.22, 0.12]} scale={[1.34, 0.75, 1.52]} castShadow />
+      {/* Whole combat module tracks in azimuth while launchers and guns elevate. */}
+      <group position={[0, 0, 0.7]} rotation={[0, turretYaw, destroyed ? settled * 0.05 : 0]}>
+        <mesh geometry={UNIT_CYLINDER} material={weaponMaterial} position={[0, 2.83, 0]} scale={[0.86, 0.42, 0.86]} />
+        <mesh geometry={UNIT_BOX} material={weaponMaterial} position={[0, 3.22, 0.12]} scale={[1.34, 0.75, 1.52]} castShadow />
 
-          <LauncherBank bankIndex={0} side={-1} elevation={elevation} firedTubeCount={fired} destroyed={destroyed} settled={settled} />
-          <LauncherBank bankIndex={1} side={1} elevation={elevation} firedTubeCount={fired} destroyed={destroyed} settled={settled} />
-          <PairedGun side={-1} elevation={elevation} destroyed={destroyed} settled={settled} />
-          <PairedGun side={1} elevation={elevation} destroyed={destroyed} settled={settled} />
+        <LauncherBank bankIndex={0} side={-1} elevation={elevation} firedTubeCount={fired} destroyed={destroyed} settled={settled} />
+        <LauncherBank bankIndex={1} side={1} elevation={elevation} firedTubeCount={fired} destroyed={destroyed} settled={settled} />
+        <PairedGun side={-1} elevation={elevation} destroyed={destroyed} settled={settled} />
+        <PairedGun side={1} elevation={elevation} destroyed={destroyed} settled={settled} />
 
-          {/* Circular front tracking radar and central electro-optical housing. */}
-          <mesh geometry={TRACKING_RADAR} material={destroyed ? MATERIALS.wreck : MATERIALS.radar} position={[0, 3.42, -0.75]} rotation={[Math.PI / 2, 0, 0]} castShadow />
-          <mesh geometry={UNIT_BOX} material={MATERIALS.glass} position={[0, 3.55, -1.0]} scale={[0.28, 0.23, 0.2]} />
+        {/* Circular front tracking radar and central electro-optical housing. */}
+        <mesh geometry={TRACKING_RADAR} material={destroyed ? MATERIALS.wreck : MATERIALS.radar} position={[0, 3.42, -0.75]} rotation={[Math.PI / 2, 0, 0]} castShadow />
+        <mesh geometry={UNIT_BOX} material={MATERIALS.glass} position={[0, 3.55, -1.0]} scale={[0.28, 0.23, 0.2]} />
 
-          {/* Independently rotating raised rectangular search radar, top at 5.65 m. */}
-          <group name="pantsir-search-radar" position={[0, 0, 0.05]} rotation={[0, radarRotation, destroyed ? settled * 0.18 : 0]}>
-            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, radarMastY, 0.22]} scale={[0.1, radarMastLength, 0.1]} />
-            <group position={[0, radarPivotY, 0.22]} rotation={[((1 - radar) * Math.PI) / 2, 0, 0]}>
-              <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.radar} position={[0, 0.5, 0]} scale={[2.12, 1.0, 0.16]} castShadow />
-              <mesh geometry={UNIT_BOX} material={MATERIALS.metal} position={[0, 0.5, -0.09]} scale={[1.82, 0.7, 0.04]} />
-            </group>
+        {/* Independently rotating raised rectangular search radar, top at 5.65 m. */}
+        <group name="pantsir-search-radar" position={[0, 0, 0.05]} rotation={[0, radarRotation, destroyed ? settled * 0.18 : 0]}>
+          <mesh geometry={UNIT_CYLINDER} material={MATERIALS.metal} position={[0, radarMastY, 0.22]} scale={[0.1, radarMastLength, 0.1]} />
+          <group position={[0, radarPivotY, 0.22]} rotation={[((1 - radar) * Math.PI) / 2, 0, 0]}>
+            <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.radar} position={[0, 0.5, 0]} scale={[2.12, 1.0, 0.16]} castShadow />
+            <mesh geometry={UNIT_BOX} material={MATERIALS.metal} position={[0, 0.5, -0.09]} scale={[1.82, 0.7, 0.04]} />
           </group>
         </group>
-
-        {/* Damage overlays leave the complete vehicle silhouette readable as a wreck. */}
-        {destroyed && (
-          <>
-            <mesh geometry={UNIT_BOX} material={MATERIALS.wreck} position={[0.7, 2.82, 1.2]} rotation={[0.18, 0.32, 0.12]} scale={[1.1, 0.08, 1.45]} />
-            <mesh geometry={UNIT_CYLINDER} material={MATERIALS.ember} position={[0.45, 2.86, 1.12]} scale={[0.2 + settled * 0.1, 0.28 + settled * 0.12, 0.2 + settled * 0.1]} />
-          </>
-        )}
       </group>
-    </group>
+
+      {/* Damage overlays leave the complete vehicle silhouette readable as a wreck. */}
+      {destroyed && (
+        <>
+          <mesh geometry={UNIT_BOX} material={MATERIALS.wreck} position={[0.7, 2.82, 1.2]} rotation={[0.18, 0.32, 0.12]} scale={[1.1, 0.08, 1.45]} />
+          <mesh geometry={UNIT_CYLINDER} material={MATERIALS.ember} position={[0.45, 2.86, 1.12]} scale={[0.2 + settled * 0.1, 0.28 + settled * 0.12, 0.2 + settled * 0.1]} />
+        </>
+      )}
+    </>
   )
 }
+// The exact impact-rock envelope remains on the outer group every tick.
+const StableMechanics = memo(PantsirMechanics)

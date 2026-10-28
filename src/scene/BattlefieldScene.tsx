@@ -1,7 +1,7 @@
 import type { Mesh } from 'three'
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useMemo, useRef } from 'react'
+import { memo, useMemo, useRef } from 'react'
 import { ACESFilmicToneMapping, BackSide, DoubleSide, RingGeometry } from 'three'
 
 import type { F35AircraftState, SimulationWorldState } from '@/simulation'
@@ -19,6 +19,7 @@ import { Stage4B2AArmoredEffects } from './effects/Stage4B2AArmoredEffects'
 import { Stage4BGroundVehicleEffects } from './effects/Stage4BGroundVehicleEffects'
 import { SupportConvoyEffects } from './effects/SupportConvoyEffects'
 import { FixedAaa, PrimarySearchRadar, TrackingRadar } from './installations/RadarInstallations'
+import { SceneReadiness } from './readiness/SceneReadiness'
 import { Btr80Group, F35BModel, PantsirModel, T72BGroup, WaspModel } from './vehicles'
 import { LandingCrafts } from './vehicles/LandingCrafts'
 import { SecondaryPantsir } from './vehicles/SecondaryPantsir'
@@ -173,7 +174,7 @@ function WaspEntity({ world }: { world: SimulationWorldState }) {
   const { pose, wakeStrength } = world.wasp
   return (
     <group name="attacker_wasp_01" position={[pose.position.x, pose.position.y, pose.position.z]} rotation={[pose.rotation.x, pose.rotation.y, pose.rotation.z]}>
-      <WaspModel wakeStrength={wakeStrength} />
+      <StableWaspModel wakeStrength={wakeStrength} />
     </group>
   )
 }
@@ -272,7 +273,10 @@ export function BattlefieldScene() {
         <WorldShell />
         <HarborNavalAssets />
         <DynamicBattlefield />
+        <SceneReadiness />
       </Canvas>
     </div>
   )
 }
+
+const StableWaspModel = memo(WaspModel)

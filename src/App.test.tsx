@@ -3,6 +3,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vite
 
 import App from './App'
 import { useCameraStore } from './scene/camera/cameraStore'
+import { readinessStore } from './scene/readiness/readinessStore'
 import { deriveRuntimeWorldState, simulationStore } from './simulation'
 
 vi.mock('./scene/BattlefieldScene', () => ({ BattlefieldScene: () => null }))
@@ -20,6 +21,7 @@ beforeAll(() => {
   deriveRuntimeWorldState(240)
 })
 beforeEach(() => {
+  readinessStore.setState({ phase: 'ready' })
   simulationStore.getState().restart()
   simulationStore.getState().setSpeed(1)
   useCameraStore.getState().requestPreset('overview')

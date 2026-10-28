@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+
+import { stage7aHistoricalSource } from './stage7aSourceAudit'
 
 /** Exact presentation edits. Each keeps a fixed-Git historical byte audit and
  * has replacement camera, HUD, rendered-pool or material/geometry coverage. */
@@ -40,7 +41,7 @@ export const STAGE6C_SOURCE_CHANGES: Readonly<Record<string, string>> = {
 }
 const cache = new Map<string, string>()
 export function stage6cHistoricalSource(path: string): string | Buffer {
-  if (!(path in STAGE6C_SOURCE_CHANGES)) return readFileSync(path)
+  if (!(path in STAGE6C_SOURCE_CHANGES)) return stage7aHistoricalSource(path)
   let bytes = cache.get(path)
   if (bytes === undefined) {
     bytes = execFileSync('git', ['show', `5f940b5:${path}`], { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 })

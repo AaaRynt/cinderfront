@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
 
 import type { EmbarkedLavState, LandingCraftState, LandingWorldState, LavWheelState } from '@/simulation/landingCraftTypes'
 
@@ -10,14 +10,7 @@ export function Lav25Model({ resources, wheels }: { resources: LandingModelResou
   const { geometry: g, material: m } = resources
   return (
     <group name="lav25-model" dispose={null}>
-      <mesh name="lav25-hull" geometry={g.hull} material={m.lav} castShadow receiveShadow />
-      <mesh geometry={g.box} material={m.lavDark} position={[0, 0.78, 0]} scale={[2.3, 0.4, 5.55]} />
-      <mesh geometry={g.box} material={m.lavDark} position={[0, 1.16, -2.62]} rotation={[-0.7, 0, 0]} scale={[1.9, 0.04, 1.4]} />
-      <mesh name="lav25-turret" geometry={g.turret} material={m.lav} position={[0, 2.02, -0.02]} castShadow />
-      <mesh geometry={g.box} material={m.lavDark} position={[0, 2.35, -0.45]} scale={[0.48, 0.34, 0.56]} />
-      <mesh name="lav25-cannon" geometry={g.cannon} material={m.metal} position={[0, 2.37, -1.85]} rotation={[Math.PI / 2, 0, 0]} />
-      <mesh name="lav25-closed-hatch" geometry={g.cylinder} material={m.lavDark} position={[0.25, 2.64, 0.25]} scale={[0.32, 0.1, 0.32]} />
-      <mesh name="lav25-opaque-optics" geometry={g.box} material={m.glass} position={[-0.43, 2.38, -0.53]} scale={[0.22, 0.16, 0.13]} />
+      {stableParts(resources).lavBody}
       {[-1, 1].map((side) => (
         <group key={side}>
           <mesh geometry={g.box} material={m.lavDark} position={[side * 1.17, 1.07, 0.3]} scale={[0.15, 0.1, 5.35]} />
@@ -26,9 +19,7 @@ export function Lav25Model({ resources, wheels }: { resources: LandingModelResou
             return (
               <group key={axle} name={`lav25-wheel-${side}-${axle}`} position={[side * LAV_DIMENSIONS.wheelCentersX, LAV_DIMENSIONS.wheelRadius + (wheel?.suspensionMeters ?? 0), z]} rotation={[0, wheel?.steeringRadians ?? 0, 0]}>
                 <group name="lav25-wheel-roll" rotation={[wheel?.rotationRadians ?? 0, 0, 0]}>
-                  <mesh geometry={g.wheel} material={m.tire} rotation={[0, 0, Math.PI / 2]} castShadow />
-                  <mesh geometry={g.cylinder} material={m.lavDark} rotation={[0, 0, Math.PI / 2]} scale={[0.23, 0.34, 0.23]} />
-                  <mesh name="lav25-wheel-marker" geometry={g.box} material={m.metal} position={[side * 0.165, 0.27, 0]} scale={[0.012, 0.16, 0.045]} />
+                  {stableParts(resources).wheels[side > 0 ? 1 : 0]}
                 </group>
               </group>
             )
@@ -47,7 +38,7 @@ export function LandingPayloadModel({ payload, resources }: { payload: EmbarkedL
   const { position: p, rotation: r } = payload.pose
   return (
     <group name={payload.id} position={[p.x, p.y, p.z]} rotation={[r.x, r.y, r.z, 'YXZ']}>
-      <Lav25Model resources={resources} wheels={payload.wheels} />
+      <StableLav25Model resources={resources} wheels={payload.wheels} />
     </group>
   )
 }
@@ -90,11 +81,7 @@ export function LcacModel({ mechanics, resources, children }: { mechanics: Landi
             <group name={`lcac-fan-${side}`} position={[side * 4.75, 3.2, 10.5]}>
               <mesh name="lcac-fan-duct" geometry={g.fan} material={m.machinery} castShadow />
               <group name="lcac-fan-rotor" rotation={[0, 0, mechanics.fanRotationRadians * side]}>
-                {[0, 1, 2, 3, 4].map((blade) => (
-                  <group key={blade} rotation={[0, 0, (blade * Math.PI * 2) / 5]}>
-                    <mesh geometry={g.box} material={m.metal} position={[0, 1.06, 0]} rotation={[0, 0.15, 0.07]} scale={[0.36, 1.77, 0.1]} />
-                  </group>
-                ))}
+                {stableParts(resources).fanBlades}
               </group>
               <mesh geometry={g.cylinder} material={m.metal} rotation={[Math.PI / 2, 0, 0]} scale={[0.26, 0.55, 0.26]} />
               <mesh geometry={g.box} material={m.metal} position={[0, -1.67, 0]} scale={[0.16, 1.25, 0.16]} />
@@ -104,12 +91,7 @@ export function LcacModel({ mechanics, resources, children }: { mechanics: Landi
             <mesh name="lcac-navigation-light" geometry={g.box} material={side > 0 ? m.green : m.red} position={[side * 6.82, 1.4, -6.5]} scale={[0.12, 0.2, 0.21]} visible={mechanics.navigationLight > 0.6} />
           </group>
         ))}
-        <group name="lcac-sealed-control-cabin" position={[5.55, 1.75, -6.25]}>
-          <mesh geometry={g.box} material={m.machinery} scale={[2.45, 2.4, 3.75]} castShadow />
-          <mesh name="lcac-opaque-forward-glazing" geometry={g.box} material={m.glass} position={[0, 0.52, -1.885]} scale={[2.05, 0.88, 0.025]} />
-          <mesh name="lcac-opaque-side-glazing" geometry={g.box} material={m.glass} position={[1.24, 0.52, -0.65]} scale={[0.025, 0.88, 1.8]} />
-          <mesh geometry={g.box} material={m.platform} position={[0, 1.25, 0]} scale={[2.6, 0.1, 3.9]} />
-        </group>
+        {stableParts(resources).cabin}
         <group name="lcac-bow-ramp-hinge" position={[0, 0, LCAC_RAMP.hingeZ]} rotation={[mechanics.bowRampAngleRadians, 0, 0]}>
           <mesh name="lcac-bow-ramp-panel" geometry={g.box} material={m.platform} position={[0, -LCAC_RAMP.thickness / 2, -LCAC_RAMP.length / 2]} scale={[LCAC_RAMP.width, LCAC_RAMP.thickness, LCAC_RAMP.length]} receiveShadow />
           {[-3, -1, 1, 3].map((x) => (
@@ -122,3 +104,69 @@ export function LcacModel({ mechanics, resources, children }: { mechanics: Landi
     </group>
   )
 }
+
+// Render-only ownership follows the existing resource set, with two finite trees.
+const partsByResources = new WeakMap<LandingModelResources, { lavBody: ReactNode; cabin: ReactNode; wheels: ReactNode[]; fanBlades: ReactNode }>()
+function stableParts(resources: LandingModelResources) {
+  let parts = partsByResources.get(resources)
+  if (!parts) {
+    const { geometry: g, material: m } = resources
+    parts = {
+      wheels: [-1, 1].map((side) => (
+        <>
+          <mesh geometry={g.wheel} material={m.tire} rotation={[0, 0, Math.PI / 2]} castShadow />
+          <mesh geometry={g.cylinder} material={m.lavDark} rotation={[0, 0, Math.PI / 2]} scale={[0.23, 0.34, 0.23]} />
+          <mesh name="lav25-wheel-marker" geometry={g.box} material={m.metal} position={[side * 0.165, 0.27, 0]} scale={[0.012, 0.16, 0.045]} />
+        </>
+      )),
+      fanBlades: (
+        <>
+          {[0, 1, 2, 3, 4].map((blade) => (
+            <group key={blade} rotation={[0, 0, (blade * Math.PI * 2) / 5]}>
+              <mesh geometry={g.box} material={m.metal} position={[0, 1.06, 0]} rotation={[0, 0.15, 0.07]} scale={[0.36, 1.77, 0.1]} />
+            </group>
+          ))}
+        </>
+      ),
+      lavBody: (
+        <>
+          <mesh name="lav25-hull" geometry={g.hull} material={m.lav} castShadow receiveShadow />
+          <mesh geometry={g.box} material={m.lavDark} position={[0, 0.78, 0]} scale={[2.3, 0.4, 5.55]} />
+          <mesh geometry={g.box} material={m.lavDark} position={[0, 1.16, -2.62]} rotation={[-0.7, 0, 0]} scale={[1.9, 0.04, 1.4]} />
+          <mesh name="lav25-turret" geometry={g.turret} material={m.lav} position={[0, 2.02, -0.02]} castShadow />
+          <mesh geometry={g.box} material={m.lavDark} position={[0, 2.35, -0.45]} scale={[0.48, 0.34, 0.56]} />
+          <mesh name="lav25-cannon" geometry={g.cannon} material={m.metal} position={[0, 2.37, -1.85]} rotation={[Math.PI / 2, 0, 0]} />
+          <mesh name="lav25-closed-hatch" geometry={g.cylinder} material={m.lavDark} position={[0.25, 2.64, 0.25]} scale={[0.32, 0.1, 0.32]} />
+          <mesh name="lav25-opaque-optics" geometry={g.box} material={m.glass} position={[-0.43, 2.38, -0.53]} scale={[0.22, 0.16, 0.13]} />
+        </>
+      ),
+      cabin: (
+        <>
+          <group name="lcac-sealed-control-cabin" position={[5.55, 1.75, -6.25]}>
+            <mesh geometry={g.box} material={m.machinery} scale={[2.45, 2.4, 3.75]} castShadow />
+            <mesh name="lcac-opaque-forward-glazing" geometry={g.box} material={m.glass} position={[0, 0.52, -1.885]} scale={[2.05, 0.88, 0.025]} />
+            <mesh name="lcac-opaque-side-glazing" geometry={g.box} material={m.glass} position={[1.24, 0.52, -0.65]} scale={[0.025, 0.88, 1.8]} />
+            <mesh geometry={g.box} material={m.platform} position={[0, 1.25, 0]} scale={[2.6, 0.1, 3.9]} />
+          </group>
+        </>
+      ),
+    }
+    partsByResources.set(resources, parts)
+  }
+  return parts
+}
+
+// Each prop affecting the eight visible wheel transforms is compared exactly.
+const StableLav25Model = memo(
+  Lav25Model,
+  (a, b) =>
+    a.resources === b.resources &&
+    (a.wheels === b.wheels ||
+      (!!a.wheels &&
+        !!b.wheels &&
+        a.wheels.length === b.wheels.length &&
+        a.wheels.every((wheel, i) => {
+          const other = b.wheels![i]!
+          return wheel.side === other.side && wheel.axle === other.axle && wheel.suspensionMeters === other.suspensionMeters && wheel.steeringRadians === other.steeringRadians && wheel.rotationRadians === other.rotationRadians
+        }))),
+)

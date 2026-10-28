@@ -7,7 +7,7 @@ import type { Pose3, Vector3 } from './types'
 import { getLandingSupportHeight } from '../scene/world/landing/landingTerrain'
 import { ROAD_DEFINITIONS } from '../scene/world/stage2/stage2Data'
 import { landingQuaternion } from './landingCraftContact'
-import { LCAC_CARGO_CENTERS, LAV_DIMENSIONS } from './landingCraftData'
+import { LCAC_CARGO_CENTERS, LAV_DIMENSIONS, LAV_IDS } from './landingCraftData'
 import { deriveLavNearKinematics, deriveLavPayload, lavDeploymentTiming, LAV_DUST_INTERVAL, LAV_DUST_LIFETIME, LAV_DUST_SLOTS } from './lavDeployment'
 import { clamp, smoothstep } from './math'
 
@@ -47,6 +47,13 @@ const roadContexts = new Map<string, RoadContext>()
 const handoffTimes = new Map<string, number>()
 const handoffStates = new Map<string, EmbarkedLavState>()
 const birthStates = new Map<string, RuntimeLavState>()
+// At most one terminal record per authored LAV. No timestamp keys or moving
+// snapshots: every field is constant only after the hold and final dust expiry.
+const settledPayloads = new Map<LavId, { slot: number; carrierId: string; poseKey: string; state: RuntimeLavState }>()
+const carrierPoseKey = (craft: LandingCraftState) => {
+  const { position: p, rotation: r } = craft.pose
+  return `${p.x},${p.y},${p.z},${r.x},${r.y},${r.z}`
+}
 const radius = LAV_DIMENSIONS.wheelRadius
 const anchors = ([-1, 1] as const).flatMap((side) => LAV_DIMENSIONS.axleZ.map((z, axle) => ({ side, axle, point: new V3(side * LAV_DIMENSIONS.wheelCentersX, radius, z) })))
 const wrap = (v: number) => Math.atan2(Math.sin(v), Math.cos(v))
@@ -364,10 +371,15 @@ function movingState(craft: LandingCraftState, id: LavId, slot: number, time: nu
 }
 export function deriveRuntimeLavPayload(craft: LandingCraftState, id: LavId, slot: number, time: number): RuntimeLavState {
   if (time <= 180) return deriveLavPayload(craft, id, slot, time)
+  const held = settledPayloads.get(id)
+  if (held && held.slot === slot && held.carrierId === craft.id && held.poseKey === carrierPoseKey(craft) && time >= held.state.roadHoldAtSeconds! + LAV_DUST_LIFETIME) return held.state
   const state = movingState(craft, id, slot, time),
     dust: LandingParticle[] = [],
     tick = Math.floor((time - state.departureAtSeconds) / LAV_DUST_INTERVAL)
-  if (state.roadHoldAtSeconds !== undefined && time >= state.roadHoldAtSeconds + LAV_DUST_LIFETIME) return state
+  if (state.roadHoldAtSeconds !== undefined && time >= state.roadHoldAtSeconds + LAV_DUST_LIFETIME) {
+    if (LAV_IDS.includes(id)) settledPayloads.set(id, { slot, carrierId: craft.id, poseKey: carrierPoseKey(craft), state })
+    return state
+  }
   for (let n = 0; n < LAV_DUST_SLOTS; n++) {
     const birthIndex = tick - n,
       birth = state.departureAtSeconds + birthIndex * LAV_DUST_INTERVAL,
@@ -403,6 +415,7 @@ export function getLavRoadCacheBounds() {
     maximumSupportSamples: Array.from(roadContexts.values(), (c) => Math.ceil(c.length / LAV_ROAD_GRID_METERS) + 1),
     wheelArcSamples: Array.from(roadContexts.values(), (c) => c.wheelArc[0]!.length),
     births: birthStates.size,
+    settledPayloads: settledPayloads.size,
   }
 }
 export function getLavRoadMeasurement(index: number, slot: number, craft: LandingCraftState) {

@@ -20,6 +20,11 @@ export function appendModel(parent: THREE.Object3D, node: ReactNode) {
     appendModel(parent, (node.type as (p: Props) => ReactNode)(node.props))
     return
   }
+  const elementType: unknown = node.type
+  if (typeof elementType === 'object' && elementType !== null && 'type' in elementType && typeof elementType.type === 'function') {
+    appendModel(parent, (elementType.type as (p: Props) => ReactNode)(node.props))
+    return
+  }
   if (typeof node.type !== 'string') {
     appendModel(parent, node.props.children)
     return

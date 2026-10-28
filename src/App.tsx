@@ -4,6 +4,7 @@ import type { Btr80GroundVehicleGroupState, SimulationEvent, SimulationSpeed, T7
 import type { LavGroupState } from '@/simulation/landingCraftTypes'
 
 import { BattlefieldScene } from '@/scene/BattlefieldScene'
+import { playbackReady, useReadiness } from '@/scene/readiness/readinessStore'
 import { deriveRuntimeWorldState, simulationStore, SIMULATION_DURATION_SECONDS, useSimulationStore } from '@/simulation'
 import { SimulationHud } from '@/ui/SimulationHud'
 
@@ -89,7 +90,7 @@ function SimulationInterface() {
   const time = useSimulationStore((state) => state.timeSeconds)
   const playing = useSimulationStore((state) => state.isPlaying)
   const speed = useSimulationStore((state) => state.speed)
-  const play = useSimulationStore((state) => state.play)
+  const readiness = useReadiness((state) => state)
   const pause = useSimulationStore((state) => state.pause)
   const restart = useSimulationStore((state) => state.restart)
   const seek = useSimulationStore((state) => state.seek)
@@ -101,10 +102,14 @@ function SimulationInterface() {
       if (target instanceof HTMLElement && (target.isContentEditable || target.closest('input, textarea, select, button, summary, [role=textbox], [data-hud-scroll]'))) return
       if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return
       const state = simulationStore.getState()
+      if (!playbackReady() && ['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.code)) {
+        event.preventDefault()
+        return
+      }
       if (event.code === 'Space' || event.code === 'Enter') {
         event.preventDefault()
         if (state.isPlaying) state.pause()
-        else state.play()
+        else if (playbackReady()) state.play()
       } else if (event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
         event.preventDefault()
         state.seek(state.timeSeconds + (event.code === 'ArrowRight' ? 1 : -1) * (event.shiftKey ? 10 : 1))
@@ -150,9 +155,15 @@ function SimulationInterface() {
       }}
       localTime={world.localTimeLabel}
       onRestart={restart}
-      onSeek={seek}
+      onSeek={(time) => {
+        if (playbackReady()) seek(time)
+      }}
       onSpeedChange={(nextSpeed: SimulationSpeed) => setSpeed(nextSpeed)}
-      onTogglePlayback={() => (playing ? pause() : play())}
+      onTogglePlayback={() => {
+        if (playing) pause()
+        else if (playbackReady()) simulationStore.getState().play()
+      }}
+      readiness={readiness}
       playing={playing}
       relativeTime={world.relativeTimeLabel}
       speed={speed}
