@@ -44,17 +44,22 @@ function stableBody(parts: (typeof MODEL_PARTS)[SupportSubtype]) {
   return body
 }
 
+// Two module-owned child lists; moving steering/roll groups still update.
+const WHEEL_PARTS = [-1, 1].map((side) => (
+  <>
+    <mesh castShadow geometry={TIRE} material={SUPPORT_MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} />
+    <mesh geometry={HUB} material={SUPPORT_MATERIALS.equipment} rotation={[0, 0, Math.PI / 2]} />
+    <mesh geometry={BOX} material={SUPPORT_MATERIALS.chassis} position={[side * 0.16, 0.31, 0]} scale={[0.025, 0.18, 0.05]} />
+  </>
+))
+
 function SupportWheels({ width, height, steeringRadians, wheelRotationRadians }: { width: number; height: number; steeringRadians: number; wheelRotationRadians: number }) {
   return (
     <>
       {([-1, 1] as const).flatMap((side) =>
         SUPPORT_AXLE_Z.map((z, axle) => (
           <group key={`${side}-${axle}`} position={[side * (width / 2 - 0.15), SUPPORT_WHEEL_RADIUS_METERS - height / 2, z]} rotation={[0, axle === 0 ? steeringRadians : 0, 0]}>
-            <group rotation={[-wheelRotationRadians, 0, 0]}>
-              <mesh castShadow geometry={TIRE} material={SUPPORT_MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} />
-              <mesh geometry={HUB} material={SUPPORT_MATERIALS.equipment} rotation={[0, 0, Math.PI / 2]} />
-              <mesh geometry={BOX} material={SUPPORT_MATERIALS.chassis} position={[side * 0.16, 0.31, 0]} scale={[0.025, 0.18, 0.05]} />
-            </group>
+            <group rotation={[-wheelRotationRadians, 0, 0]}>{WHEEL_PARTS[side > 0 ? 1 : 0]}</group>
           </group>
         )),
       )}

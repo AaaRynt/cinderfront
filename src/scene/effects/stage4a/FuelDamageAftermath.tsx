@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { memo, useLayoutEffect, useMemo, useRef } from 'react'
 import { DynamicDrawUsage, InstancedMesh, Object3D } from 'three'
 
 import type { Stage3Vec3 } from '../stage3/types.ts'
@@ -180,29 +180,36 @@ function CentralBundBreach({ surfaceHeightAt, timeSeconds }: Pick<FuelDamageAfte
   )
 }
 
-/** Persistent scorch, tank shell failures, ruptured pipes, and bund/rack collapse. */
-export function FuelDamageAftermath({ surfaceHeightAt, timeSeconds }: FuelDamageAftermathProps) {
-  const rupturePositions = useMemo(
-    () => [
-      { eventTimeSeconds: 78, position: [-1_450, surfaceHeightAt(-1_450, 2_500) + 5.8, 2_500] as Stage3Vec3, yawRadians: 0.72 },
-      { eventTimeSeconds: 81.2, position: [-1_200, surfaceHeightAt(-1_200, 2_300) + 3.2, 2_300] as Stage3Vec3, yawRadians: 0.08 },
-      { eventTimeSeconds: 88.6, position: [-670, surfaceHeightAt(-670, 2_050) + 2.4, 2_050] as Stage3Vec3, yawRadians: 0 },
-      { eventTimeSeconds: 105.6, position: [-300, surfaceHeightAt(-300, 2_300) + 3.2, 2_300] as Stage3Vec3, yawRadians: 0.06 },
-    ],
-    [surfaceHeightAt],
-  )
+// Every use of time in this persistent assembly is one of these exact tests.
+// Live smoke/fire remain outside this boundary; backseeks compare both sides.
+const DAMAGE_BOUNDARIES = [...STAGE4A_FUEL_ESCALATION_SCHEDULE.map((event) => event.atSeconds), ...TANK_DAMAGE.flatMap((tank) => [tank.eventTimeSeconds, tank.collapseAtSeconds]), 78, 81.2, 88.6, 105.6, 97.6, 92]
 
-  return (
-    <group name="stage4a-persistent-fuel-damage-aftermath">
-      <ScorchedFuelFootprint surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
-      {TANK_DAMAGE.map((damage) => (
-        <DamagedTank key={damage.id} {...damage} surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
-      ))}
-      {rupturePositions.map((rupture) => (
-        <RupturedPipeCluster key={rupture.eventTimeSeconds} {...rupture} timeSeconds={timeSeconds} />
-      ))}
-      <TransferRackCollapse surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
-      <CentralBundBreach surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
-    </group>
-  )
-}
+/** Persistent scorch, tank shell failures, ruptured pipes, and bund/rack collapse. */
+export const FuelDamageAftermath = memo(
+  function FuelDamageAftermath({ surfaceHeightAt, timeSeconds }: FuelDamageAftermathProps) {
+    const rupturePositions = useMemo(
+      () => [
+        { eventTimeSeconds: 78, position: [-1_450, surfaceHeightAt(-1_450, 2_500) + 5.8, 2_500] as Stage3Vec3, yawRadians: 0.72 },
+        { eventTimeSeconds: 81.2, position: [-1_200, surfaceHeightAt(-1_200, 2_300) + 3.2, 2_300] as Stage3Vec3, yawRadians: 0.08 },
+        { eventTimeSeconds: 88.6, position: [-670, surfaceHeightAt(-670, 2_050) + 2.4, 2_050] as Stage3Vec3, yawRadians: 0 },
+        { eventTimeSeconds: 105.6, position: [-300, surfaceHeightAt(-300, 2_300) + 3.2, 2_300] as Stage3Vec3, yawRadians: 0.06 },
+      ],
+      [surfaceHeightAt],
+    )
+
+    return (
+      <group name="stage4a-persistent-fuel-damage-aftermath">
+        <ScorchedFuelFootprint surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
+        {TANK_DAMAGE.map((damage) => (
+          <DamagedTank key={damage.id} {...damage} surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
+        ))}
+        {rupturePositions.map((rupture) => (
+          <RupturedPipeCluster key={rupture.eventTimeSeconds} {...rupture} timeSeconds={timeSeconds} />
+        ))}
+        <TransferRackCollapse surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
+        <CentralBundBreach surfaceHeightAt={surfaceHeightAt} timeSeconds={timeSeconds} />
+      </group>
+    )
+  },
+  (a, b) => a.surfaceHeightAt === b.surfaceHeightAt && DAMAGE_BOUNDARIES.every((time) => a.timeSeconds >= time === b.timeSeconds >= time),
+)

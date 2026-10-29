@@ -24,7 +24,11 @@ The scenario and map specifications should not be casually rewritten during impl
 
 Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A, 5B and 5C are COMPLETE. Parent Stage 5 is COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B indefinite aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope, with fresh automated, visual, preservation and sustained resource acceptance. The 51 events, 24 camera IDs and complete active runtime remain exact. All eight LAVs are ashore by T+187.558071982 and the last formation hold begins at T+344.103063449. Current Stage 6C evidence is in `STAGE6C_ACCEPTANCE.md`; historical Stage 5C/6A/6B measurements remain dated below and in `STAGE5_INTEGRATION_READINESS.md`.
 
-Current post-core delivery — 2026-10-28: **Stage 7A is COMPLETE**, with explicit local cadence/GPU limitations in [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md). Bounded renderer preparation, lower first-play hitch/steady CPU cost, 707 passing tests, exact visual/runtime preservation, native context recovery and a fresh 600.0144 s 2× resource run pass. Short busy-window P95 still exceeds 33.3 ms and one unexplained 283.4 ms first-play gap remains; completion does not claim every aspiration passed. Stages 1–6 remain COMPLETE.
+Current post-core delivery — 2026-10-29: **Stage 7B is COMPLETE for the focused CPU and preservation scope**, with explicit target/context limits in [STAGE7B_ACCEPTANCE.md](STAGE7B_ACCEPTANCE.md). Median P95 Fuel scene React falls 27.0% at both speeds; moving-Landing world work falls 32.6%/30.4%. All 12 accepted busy runs have 16.8–17.4 ms RAF P95, at the reference display floor. The primary Landing scene target is missed, one aftermath repetition reaches 66.6 ms P95, and an initial slow after context retains >500 ms first-use tasks without an established cause. Fresh checks pass 739 tests/66 files, both no-emit checks and zero-warning lint. Exact full-world/contact data, 25 full-viewport pixel-identical pairs, 613 rendered checkpoints per side, native controls/recovery and a 600.0001 s 2× resource run pass. Stages 1–6 and Stage 7A remain COMPLETE; their dated acceptance files are unchanged.
+
+Completed post-core delivery — 2026-10-28: **Stage 7A is COMPLETE**, with explicit local cadence/GPU limitations in [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md). Bounded renderer preparation, lower first-play hitch/steady CPU cost, 707 passing tests, exact visual/runtime preservation, native context recovery and a fresh 600.0144 s 2× resource run pass. Short busy-window P95 still exceeds 33.3 ms and one unexplained 283.4 ms first-play gap remains; completion does not claim every aspiration passed. Stages 1–6 remain COMPLETE.
+
+Historical preparation — 2026-10-28: the English `prompt.md` targeted **Post-Core Stage 7B — Busy-Scene CPU Cost and Moving-Vehicle Frame Pacing**, starting from completed Stage 7A commit `62edc66`. Stage 7B was PLANNED. It focused on the measured remaining Fuel/React and moving-LAV/contact costs at the accepted quality, preserving Stage 7A readiness and all completed core behavior. That preparation update changed documentation only; the verified delivery is recorded separately above and below.
 
 Historical preparation — 2026-10-25: the English `prompt.md` targeted **Post-Core Stage 7A — First-Use Readiness and Frame Pacing**, starting from completed Stage 6C commit `1bc6bdc`. Stage 7A was PLANNED. It addressed the explicitly recorded first-use stalls and frame-cadence limits at the accepted visual quality; Stages 1–6 remained COMPLETE. That preparation update changed documentation only and claimed no new performance result.
 
@@ -38,6 +42,7 @@ The intended sequence is:
 4. integrate the outstanding air-defense, amphibious operation, and full timeline through Stage 5A, Stage 5B, and Stage 5C;
 5. refine the ground landscape in Stage 6A, implement indefinite aftermath in Stage 6B, and finish remaining camera/visual/performance work in Stage 6C.
 6. harden first-use readiness and frame pacing in the separate post-core Stage 7A, preserving the completed visual/runtime scope.
+7. reduce the remaining measured busy-scene reconciliation and moving-vehicle CPU work in post-core Stage 7B, with exact state and visual preservation.
 
 This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
 
@@ -650,7 +655,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B prompt is preserved in `5f940b5` and the Stage 6C prompt in `1bc6bdc`; the current `prompt.md` targets the separate post-core Stage 7A.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66`; the current `prompt.md` targets post-core Stage 7B.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1041,7 +1046,39 @@ Delivered 2026-10-28: preparing/ready/failed/cancelled renderer generations, nin
 
 Three fresh complete first plays per side reduce compile/link calls about 90% and first-play P95 from 33–50 ms to 17–18 ms, with 0.748–0.934 s added post-scene preparation. The matched aftermath world-miss mean falls 3.449→0.252 ms. All 4,963 full-world states through 7200 and 25 complete RGB images remain exact; 227 rendered checkpoints retain 35 roots/64 wheels. Five warmed all-camera resource cycles stay flat, and a separate 600.0144 real-second 2× run retains all 936 world upload records. Both no-emit checks, zero-warning lint, 707 tests / 62 files and whitespace checks pass. No build ran.
 
-The full English contract remains in `prompt.md`; [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) records every fresh/warm/sustained run, actual causes, recovery, source exceptions and remaining limits. Short busy-window P95 aspirations and one 283.4 ms raw first-play interval remain explicit; actual GPU timings are mixed. `STAGE6C_ACCEPTANCE.md` stays byte-identical as dated core acceptance. The 2026-10-25 preparation itself was documentation only; these are separate fresh delivery results. Audio, production builds/deployment and new gameplay/content remain outside this round.
+The Stage 7A English contract is preserved in commit `62edc66`; [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) records every fresh/warm/sustained run, actual causes, recovery, source exceptions and remaining limits. Short busy-window P95 aspirations and one 283.4 ms raw first-play interval remain explicit; actual GPU timings are mixed. `STAGE6C_ACCEPTANCE.md` stays byte-identical as dated core acceptance. The 2026-10-25 preparation itself was documentation only; these are separate fresh delivery results. Audio, production builds/deployment and new gameplay/content remain outside that round. The current `prompt.md` targets Stage 7B.
+
+# Post-Core Stage 7B — Busy-Scene CPU Cost and Moving-Vehicle Frame Pacing
+
+**Status:** COMPLETE — 2026-10-29, focused CPU/preservation delivery with recorded target and first-use-context limits
+
+Prepared 2026-10-28 from completed Stage 7A commit `62edc66`. The inherited baseline is 707 tests across 62 files, zero-warning lint, app/node no-emit checks, 51 events, 24 camera IDs and the verified readiness/context-recovery flow. Stages 1–6 and Stage 7A remain COMPLETE.
+
+## Verified delivery
+
+- Targeted status/vehicle/machinery/radar/damage reuse reduces median-of-three P95 Fuel scene React **14.8/15.2→10.8/11.1 ms (27.0%/27.0%)** at 1×/2×. Exact moving support arithmetic, direct compact-cell traversal, shared road pose and bit-identical within-wheel tire reuse reduce moving-Landing world P95 **4.3/4.6→2.9/3.2 ms (32.6%/30.4%)**. Terrain queries fall about 12.8%, temporary cell views disappear and road-pose calls halve. Dynamic scene/LCAC parents and moving wheel updates remain live.
+- All 12 accepted busy windows record **16.8–17.4 ms RAF P95**, equal to the fresh reference display floor. Primary Landing scene targets remain missed (**14.1/14.5→14.0/13.9 ms**); a third aftermath run has 66.6 ms P95. The retained initial after context has >500 ms first-use tasks, with no proven external cause. The clean fresh after replay records 16.67/16.80/17.80 ms mean/P95/max, while those failed-context limits remain explicit.
+- A compact pre-edit fixed-`62edc66` capture adds **386 full worlds and 242,561 exact support queries** to the existing 4,963-world preservation suite. All 25 **complete 1280×720 lossless RGB pairs** match exactly. Both versions pass **613 rendered checkpoints**, preserving 35 actor roots, 64 wheels and 65 landscape batches. Earlier panel-cropped images are retained as diagnostics and replaced with full-viewport captures.
+- New **600.0001 real seconds at 2×** reach T+1560, with 16.67/16.80/33.70 ms RAF, zero long tasks/compile/link calls, no truncation and all 936 world rows unchanged. One warm reference cycle plus five repeated restart/seek/all-camera cycles remain flat at **261 calls / 372946 triangles / 989 geometries / 340 materials / 3 textures / 319 programs**. All 910 fixed uploads, 26 legitimate response buffers, 231 pool capacities and existing caches retain their contracts. Four support owners add a bounded **15.62 MiB** of Float64 constants; no readiness job or arbitrary-time cache is added.
+- All native controls, paused camera/effects, 7200/backseeks, three layouts, failure/retry and actual context recovery pass. Normal operations keep the same nine-job readiness generation; failure/loss gates playback and recovery preserves time/latest camera without autoplay. Fresh validation passes **739 tests / 66 files in 92.33 s**, app/node TypeScript no-emit, zero-warning lint and whitespace checks. Default tests pass with ignored review evidence physically absent.
+
+[STAGE7B_ACCEPTANCE.md](STAGE7B_ACCEPTANCE.md) records all paired runs, failed diagnostics, exact preservation, counts, GPU results, resource bounds and limits. `STAGE6C_ACCEPTANCE.md` and `STAGE7A_ACCEPTANCE.md` remain byte-identical. No build, dependency/framework change, new combat/content, audio or visible human was introduced. No further stage is created by this delivery.
+
+## Historical prepared evidence and goals — 2026-10-28
+
+Stage 7A's accepted warm Fuel T+78–104 P95 remains 49.90 ms at 1× / 50.50 ms at 2×; moving Landing T+176–206 is 33.50 / 50.00 ms. These windows have no compile/link calls. Recorded slow intervals include 84.2 ms combined React render in Fuel and 19.4 ms world / 75.3 ms combined React render in late Landing; the nested timings must not be added as independent costs. The new round targets these attributable live costs, not another settled-only cache improvement.
+
+- profile the same Fuel/landing windows and 90-real-second Fuel aftermath window under the same visible, isolated development/StrictMode setup and low-overhead instrumentation
+- narrow measured scene/HUD/effect/vehicle invalidation while preserving every transform, wheel/mechanical input, light/phase, visibility and status boundary
+- reduce exact moving support/road/query/allocation work without changing finite-radius contact, candidate ordering, sampling, wheel integration, suspension or active-time arithmetic
+- retain the shared exact-time world cache and at-most-eight terminal payload cache; new caches need complete exact input keys, bounded ownership and correct backseek behavior
+- preserve nine-job readiness, the 12 s cooperative budget, all Play/keyboard/time gates, retry, cancellation and native context recovery; any justified immutable preparation tradeoff must be measured and accounted for
+- retain accepted picture quality, all state/geometry/layout/source/fixture guarantees, 35 actor roots, 64 wheels, static uploads and fixed effect populations
+- demonstrate a reproducible CPU/reconciliation reduction in both Fuel and moving Landing; working targets are at least 25% lower P95 of the measured dominant application CPU component and RAF P95 <=33.3 ms where locally achievable
+- compare at least three repetitions of each prescribed warm window, retaining all raw gaps and real/simulated progression; idle-only, best-run, lower-quality or lighter-recorder gains do not satisfy the goal
+- verify full exact state, complete fixed-pose RGB images, existing rendered checkpoints, a fresh first 1× playback, all controls/viewports, ten real minutes of 2× aftermath and five warmed resource cycles
+
+The full English contract is in `prompt.md`. Initial synchronous terrain construction, the unproven cause of the historical 283.4 ms gap, audio/new content, a GPU/quality redesign, production builds and deployment were outside this bounded round. The preparation required a fresh `STAGE7B_ACCEPTANCE.md` and preserved dated Stage 6C/7A acceptance. That preparation itself was documentation only and made no optimization or performance claim; the later verified implementation is recorded above.
 
 # Out of Current Core Plan
 

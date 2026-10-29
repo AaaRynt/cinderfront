@@ -253,9 +253,8 @@ function roadPose(c: RoadContext, s: number): Pose3 {
     fade = 1 - smoothstep(0, 24, s)
   return { position: { x: h.x, y: support.height + c.offsetHeight * fade, z: h.z }, rotation: { x: support.pitch + c.offsetPitch * fade, y: h.yaw + c.offsetYaw * fade, z: support.roll + c.offsetRoll * fade } }
 }
-function roadWheels(c: RoadContext, s: number) {
-  const pose = roadPose(c, s),
-    q = landingQuaternion(pose),
+function roadWheels(c: RoadContext, s: number, pose: Pose3) {
+  const q = landingQuaternion(pose),
     up = new V3(0, 1, 0).applyQuaternion(q)
   const a = horizontal(c, s - 0.1),
     b = horizontal(c, s + 0.1),
@@ -265,10 +264,17 @@ function roadWheels(c: RoadContext, s: number) {
     const axis = new V3(1, 0, 0).applyAxisAngle(new V3(0, 1, 0), steeringRadians).applyQuaternion(q),
       anchor = w.point.clone().applyQuaternion(q).add(point(pose.position))
     let suspension = 0,
-      support = tireSupport(anchor, axis)
+      support = tireSupport(anchor, axis),
+      supportCenter = anchor.clone()
     for (let n = 0; n < 3; n++) {
       suspension = clamp(suspension + (support.height - anchor.y - up.y * suspension) / up.y, -0.4, 0.4)
-      support = tireSupport(anchor.clone().addScaledVector(up, suspension), axis)
+      const nextCenter = anchor.clone().addScaledVector(up, suspension)
+      // Reuse only a bit-identical center within this wheel's three iterations.
+      // Axis is unchanged; no record or arbitrary-time cache escapes this call.
+      if (!Object.is(nextCenter.x, supportCenter.x) || !Object.is(nextCenter.y, supportCenter.y) || !Object.is(nextCenter.z, supportCenter.z)) {
+        support = tireSupport(nextCenter, axis)
+        supportCenter = nextCenter
+      }
     }
     const center = anchor.addScaledVector(up, suspension)
     return { side: w.side, axle: w.axle, steeringRadians, suspensionMeters: suspension, center: { x: center.x, y: center.y, z: center.z }, contact: { x: support.contact.x, y: support.contact.y, z: support.contact.z }, surface: 'ground' as const }
@@ -329,7 +335,7 @@ function movingState(craft: LandingCraftState, id: LavId, slot: number, time: nu
     timing = lavRoadTiming(index, slot, craft),
     m = roadMotion(time, timing),
     pose = roadPose(c, m.station),
-    raw = roadWheels(c, m.station),
+    raw = roadWheels(c, m.station, pose),
     arcs = includeTravel ? wheelTravel(c, m.station, raw) : raw.map(() => 0)
   const key = `${index}:${slot}`
   let original = handoffStates.get(key)

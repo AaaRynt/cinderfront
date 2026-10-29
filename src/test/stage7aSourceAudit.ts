@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+
+import { stage7bHistoricalSource } from './stage7bSourceAudit'
 
 /** Exact existing-file exceptions, with independent 1bc6bdc byte audits. */
 export const STAGE7A_SOURCE_CHANGES: Readonly<Record<string, string>> = {
@@ -24,7 +25,7 @@ export const STAGE7A_SOURCE_CHANGES: Readonly<Record<string, string>> = {
 }
 const bytes = new Map<string, Buffer>()
 export function stage7aHistoricalSource(path: string): Buffer {
-  if (!(path in STAGE7A_SOURCE_CHANGES)) return readFileSync(path)
+  if (!(path in STAGE7A_SOURCE_CHANGES)) return stage7bHistoricalSource(path)
   let source = bytes.get(path)
   if (!source) {
     source = execFileSync('git', ['show', `1bc6bdc:${path}`], { maxBuffer: 32 * 1024 * 1024 })

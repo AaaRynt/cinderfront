@@ -70,22 +70,16 @@ export function LcacModel({ mechanics, resources, children }: { mechanics: Landi
       <mesh name="lcac-low-platform" geometry={g.platform} material={m.platform} position={[0, 0.36 - 0.22 * mechanics.skirtCompression, 0]} receiveShadow />
       <mesh name="lcac-flexible-skirt" geometry={g.skirt} material={m.skirt} scale={[1, 1 - mechanics.skirtCompression * 0.4, 1]} receiveShadow />
       <group name="lcac-deck-module" position={[0, deck, 0]}>
-        <mesh name="lcac-cargo-deck" geometry={g.box} material={m.deck} position={[0, -0.14, 0]} scale={[8.2, 0.28, 20.4]} receiveShadow />
+        {stableParts(resources).cargoDeck}
         {[-1, 1].map((side) => (
           <group key={side}>
-            <mesh name="lcac-side-machinery" geometry={g.box} material={m.platform} position={[side * 5.55, 0.57, 0.8]} scale={[2.5, 1.35, 18]} castShadow receiveShadow />
-            <mesh geometry={g.box} material={m.machinery} position={[side * 5.55, 1.36, 1.8]} scale={[2.3, 0.55, 7.6]} />
-            {[-1.4, -0.7, 0, 0.7, 1.4].map((z) => (
-              <mesh key={z} geometry={g.box} material={m.metal} position={[side * 5.55, 1.65, 1.8 + z]} scale={[1.8, 0.06, 0.14]} />
-            ))}
+            {stableParts(resources).machinery[side > 0 ? 1 : 0]}
             <group name={`lcac-fan-${side}`} position={[side * 4.75, 3.2, 10.5]}>
-              <mesh name="lcac-fan-duct" geometry={g.fan} material={m.machinery} castShadow />
+              {stableParts(resources).fanDuct}
               <group name="lcac-fan-rotor" rotation={[0, 0, mechanics.fanRotationRadians * side]}>
                 {stableParts(resources).fanBlades}
               </group>
-              <mesh geometry={g.cylinder} material={m.metal} rotation={[Math.PI / 2, 0, 0]} scale={[0.26, 0.55, 0.26]} />
-              <mesh geometry={g.box} material={m.metal} position={[0, -1.67, 0]} scale={[0.16, 1.25, 0.16]} />
-              <mesh name="lcac-rudder" geometry={g.box} material={m.platform} position={[0, 0, 0.65]} scale={[0.12, 3.5, 0.85]} />
+              {stableParts(resources).fanHousing}
             </group>
             <mesh geometry={g.box} material={m.platform} position={[side * 5.2, 1.1, 10.25]} scale={[2, 0.7, 1.9]} />
             <mesh name="lcac-navigation-light" geometry={g.box} material={side > 0 ? m.green : m.red} position={[side * 6.82, 1.4, -6.5]} scale={[0.12, 0.2, 0.21]} visible={mechanics.navigationLight > 0.6} />
@@ -93,12 +87,9 @@ export function LcacModel({ mechanics, resources, children }: { mechanics: Landi
         ))}
         {stableParts(resources).cabin}
         <group name="lcac-bow-ramp-hinge" position={[0, 0, LCAC_RAMP.hingeZ]} rotation={[mechanics.bowRampAngleRadians, 0, 0]}>
-          <mesh name="lcac-bow-ramp-panel" geometry={g.box} material={m.platform} position={[0, -LCAC_RAMP.thickness / 2, -LCAC_RAMP.length / 2]} scale={[LCAC_RAMP.width, LCAC_RAMP.thickness, LCAC_RAMP.length]} receiveShadow />
-          {[-3, -1, 1, 3].map((x) => (
-            <mesh key={x} geometry={g.box} material={m.deck} position={[x, 0.006, -3]} scale={[0.075, 0.012, 5.8]} />
-          ))}
+          {stableParts(resources).ramp}
         </group>
-        <mesh name="lcac-stern-ramp-closed" geometry={g.box} material={m.platform} position={[0, 0.7, 10.5]} rotation={[-Math.PI / 3, 0, 0]} scale={[5.2, 0.12, 1.6]} />
+        {stableParts(resources).sternRamp}
       </group>
       {children}
     </group>
@@ -106,12 +97,51 @@ export function LcacModel({ mechanics, resources, children }: { mechanics: Landi
 }
 
 // Render-only ownership follows the existing resource set, with two finite trees.
-const partsByResources = new WeakMap<LandingModelResources, { lavBody: ReactNode; cabin: ReactNode; wheels: ReactNode[]; fanBlades: ReactNode }>()
+const partsByResources = new WeakMap<LandingModelResources, { lavBody: ReactNode; cabin: ReactNode; wheels: ReactNode[]; fanBlades: ReactNode; machinery: ReactNode[]; fanDuct: ReactNode; fanHousing: ReactNode; ramp: ReactNode; sternRamp: ReactNode; cargoDeck: ReactNode }>()
 function stableParts(resources: LandingModelResources) {
   let parts = partsByResources.get(resources)
   if (!parts) {
     const { geometry: g, material: m } = resources
     parts = {
+      machinery: [-1, 1].map((side) => (
+        <>
+          <mesh name="lcac-side-machinery" geometry={g.box} material={m.platform} position={[side * 5.55, 0.57, 0.8]} scale={[2.5, 1.35, 18]} castShadow receiveShadow />
+          <mesh geometry={g.box} material={m.machinery} position={[side * 5.55, 1.36, 1.8]} scale={[2.3, 0.55, 7.6]} />
+          {[-1.4, -0.7, 0, 0.7, 1.4].map((z) => (
+            <mesh key={z} geometry={g.box} material={m.metal} position={[side * 5.55, 1.65, 1.8 + z]} scale={[1.8, 0.06, 0.14]} />
+          ))}
+        </>
+      )),
+      fanDuct: (
+        <>
+          <mesh name="lcac-fan-duct" geometry={g.fan} material={m.machinery} castShadow />
+        </>
+      ),
+      fanHousing: (
+        <>
+          <mesh geometry={g.cylinder} material={m.metal} rotation={[Math.PI / 2, 0, 0]} scale={[0.26, 0.55, 0.26]} />
+          <mesh geometry={g.box} material={m.metal} position={[0, -1.67, 0]} scale={[0.16, 1.25, 0.16]} />
+          <mesh name="lcac-rudder" geometry={g.box} material={m.platform} position={[0, 0, 0.65]} scale={[0.12, 3.5, 0.85]} />
+        </>
+      ),
+      ramp: (
+        <>
+          <mesh name="lcac-bow-ramp-panel" geometry={g.box} material={m.platform} position={[0, -LCAC_RAMP.thickness / 2, -LCAC_RAMP.length / 2]} scale={[LCAC_RAMP.width, LCAC_RAMP.thickness, LCAC_RAMP.length]} receiveShadow />
+          {[-3, -1, 1, 3].map((x) => (
+            <mesh key={x} geometry={g.box} material={m.deck} position={[x, 0.006, -3]} scale={[0.075, 0.012, 5.8]} />
+          ))}
+        </>
+      ),
+      sternRamp: (
+        <>
+          <mesh name="lcac-stern-ramp-closed" geometry={g.box} material={m.platform} position={[0, 0.7, 10.5]} rotation={[-Math.PI / 3, 0, 0]} scale={[5.2, 0.12, 1.6]} />
+        </>
+      ),
+      cargoDeck: (
+        <>
+          <mesh name="lcac-cargo-deck" geometry={g.box} material={m.deck} position={[0, -0.14, 0]} scale={[8.2, 0.28, 20.4]} receiveShadow />
+        </>
+      ),
       wheels: [-1, 1].map((side) => (
         <>
           <mesh geometry={g.wheel} material={m.tire} rotation={[0, 0, Math.PI / 2]} castShadow />

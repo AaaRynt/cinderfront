@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { BoxGeometry, CylinderGeometry, MeshStandardMaterial } from 'three'
 
 import { AAA_SITE, RADAR_SEARCH_SITE, RADAR_TRACKING_SITE } from '@/scene/world'
@@ -37,7 +38,7 @@ const MATERIALS = {
   }),
 }
 
-function RadarLattice({ damaged }: { damaged: boolean }) {
+const RadarLattice = memo(function RadarLattice({ damaged }: { damaged: boolean }) {
   return (
     <group rotation={[0, 0, damaged ? -0.17 : 0]}>
       {([-1, 1] as const).map((side) => (
@@ -51,40 +52,43 @@ function RadarLattice({ damaged }: { damaged: boolean }) {
       ))}
     </group>
   )
-}
+})
 
-export function PrimarySearchRadar({ destroyed, rotation, time }: PrimarySearchRadarProps) {
-  const [x, y, z] = RADAR_SEARCH_SITE.position
-  const finalTilt = destroyed ? 0.58 : 0
-  const warningPulse = 0.6 + Math.sin(time * 3.2) * 0.22
+export const PrimarySearchRadar = memo(
+  function PrimarySearchRadar({ destroyed, rotation, time }: PrimarySearchRadarProps) {
+    const [x, y, z] = RADAR_SEARCH_SITE.position
+    const finalTilt = destroyed ? 0.58 : 0
+    const warningPulse = 0.6 + Math.sin(time * 3.2) * 0.22
 
-  return (
-    <group name="primary-search-radar" position={[x, y, z]}>
-      <mesh geometry={UNIT_CYLINDER} material={MATERIALS.concrete} position={[0, 1.1, 0]} scale={[13, 2.2, 13]} receiveShadow />
-      <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.equipment} position={[0, 3.6, 0]} scale={[10, 5, 8]} castShadow />
-      <RadarLattice damaged={destroyed} />
-      <group position={[0, 20, 0]} rotation={[0, rotation, finalTilt]}>
-        <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.radarFace} position={[0, 3.8, 0]} scale={[28, 8.5, 0.75]} castShadow />
+    return (
+      <group name="primary-search-radar" position={[x, y, z]}>
+        <mesh geometry={UNIT_CYLINDER} material={MATERIALS.concrete} position={[0, 1.1, 0]} scale={[13, 2.2, 13]} receiveShadow />
+        <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.equipment} position={[0, 3.6, 0]} scale={[10, 5, 8]} castShadow />
+        <RadarLattice damaged={destroyed} />
+        <group position={[0, 20, 0]} rotation={[0, rotation, finalTilt]}>
+          <mesh geometry={UNIT_BOX} material={destroyed ? MATERIALS.wreck : MATERIALS.radarFace} position={[0, 3.8, 0]} scale={[28, 8.5, 0.75]} castShadow />
+          {!destroyed && (
+            <>
+              {[-10.5, -7, -3.5, 0, 3.5, 7, 10.5].map((offset) => (
+                <mesh key={offset} geometry={UNIT_BOX} material={MATERIALS.equipmentDark} position={[offset, 3.8, -0.48]} scale={[0.16, 8, 0.12]} />
+              ))}
+              <mesh geometry={UNIT_BOX} material={MATERIALS.equipmentDark} position={[0, 3.8, -0.54]} scale={[27.6, 0.17, 0.13]} />
+            </>
+          )}
+          <mesh geometry={UNIT_CYLINDER} material={destroyed ? MATERIALS.wreck : MATERIALS.equipmentDark} position={[0, -0.5, 0]} scale={[0.8, 5.2, 0.8]} />
+        </group>
         {!destroyed && (
-          <>
-            {[-10.5, -7, -3.5, 0, 3.5, 7, 10.5].map((offset) => (
-              <mesh key={offset} geometry={UNIT_BOX} material={MATERIALS.equipmentDark} position={[offset, 3.8, -0.48]} scale={[0.16, 8, 0.12]} />
-            ))}
-            <mesh geometry={UNIT_BOX} material={MATERIALS.equipmentDark} position={[0, 3.8, -0.54]} scale={[27.6, 0.17, 0.13]} />
-          </>
+          <mesh geometry={UNIT_CYLINDER} material={MATERIALS.lamp} position={[0, 30.2, 0]} scale={[0.58, 1, 0.58]}>
+            <meshStandardMaterial color="#d49b45" emissive="#d4751e" emissiveIntensity={warningPulse} roughness={0.55} />
+          </mesh>
         )}
-        <mesh geometry={UNIT_CYLINDER} material={destroyed ? MATERIALS.wreck : MATERIALS.equipmentDark} position={[0, -0.5, 0]} scale={[0.8, 5.2, 0.8]} />
       </group>
-      {!destroyed && (
-        <mesh geometry={UNIT_CYLINDER} material={MATERIALS.lamp} position={[0, 30.2, 0]} scale={[0.58, 1, 0.58]}>
-          <meshStandardMaterial color="#d49b45" emissive="#d4751e" emissiveIntensity={warningPulse} roughness={0.55} />
-        </mesh>
-      )}
-    </group>
-  )
-}
+    )
+  },
+  (a, b) => a.destroyed === b.destroyed && a.rotation === b.rotation && (a.destroyed || a.time === b.time),
+)
 
-function TrackingDish() {
+const TrackingDish = memo(function TrackingDish() {
   return (
     <group rotation={[-0.28, 0, 0]}>
       <mesh material={MATERIALS.radarFace} scale={[7.5, 5.4, 1.35]}>
@@ -97,7 +101,7 @@ function TrackingDish() {
       <mesh geometry={UNIT_BOX} material={MATERIALS.equipmentDark} position={[0, -0.2, -6.1]} scale={[1.2, 1.2, 1.4]} />
     </group>
   )
-}
+})
 
 export function TrackingRadar({ rotation, tracking }: TrackingRadarProps) {
   const [x, y, z] = RADAR_TRACKING_SITE.position
@@ -115,7 +119,7 @@ export function TrackingRadar({ rotation, tracking }: TrackingRadarProps) {
   )
 }
 
-export function FixedAaa({ firing, turretYaw }: FixedAaaProps) {
+export const FixedAaa = memo(function FixedAaa({ firing, turretYaw }: FixedAaaProps) {
   const [x, y, z] = AAA_SITE.position
   return (
     <group name="fixed-aaa" position={[x, y, z]}>
@@ -137,4 +141,4 @@ export function FixedAaa({ firing, turretYaw }: FixedAaaProps) {
       </group>
     </group>
   )
-}
+})

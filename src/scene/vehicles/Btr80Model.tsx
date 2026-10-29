@@ -1,5 +1,6 @@
 import type { ThreeElements } from '@react-three/fiber'
 
+import { memo } from 'react'
 import * as THREE from 'three'
 
 import { clamp01 } from './modelGeometry'
@@ -129,11 +130,7 @@ function Wheel({ axleIndex, disabled, side, steeringRadians, wheelRotationRadian
   const collapsed = disabled && axleIndex === 0 && side === 1
   return (
     <group position={[side * 1.255, -0.585, AXLE_Z[axleIndex]]} rotation={[0, axleIndex < 2 ? steeringRadians : 0, 0]} scale={[1, collapsed ? 0.78 : 1, collapsed ? 0.84 : 1]}>
-      <group rotation={[wheelRotationRadians, 0, 0]}>
-        <mesh castShadow geometry={TIRE} material={MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} />
-        <mesh geometry={HUB} material={disabled ? MATERIALS.char : MATERIALS.hub} rotation={[0, 0, Math.PI / 2]} />
-        <mesh geometry={HUB_MARKER} material={MATERIALS.oliveLight} position={[side * 0.208, 0.28, 0]} />
-      </group>
+      <group rotation={[wheelRotationRadians, 0, 0]}>{WHEEL_PARTS[disabled ? 1 : 0]![side > 0 ? 1 : 0]}</group>
     </group>
   )
 }
@@ -141,11 +138,24 @@ function Wheel({ axleIndex, disabled, side, steeringRadians, wheelRotationRadian
 /** Meter-scale BTR-80 approximation with a centered origin and local -Z forward. */
 export function Btr80Model({ wheelRotationRadians = 0, steeringRadians = 0, turretYawRadians = 0, disabled = false, damageProgress = 0, ...groupProps }: Btr80ModelProps) {
   const damage = clamp01(damageProgress)
-  const bodyMaterial = disabled ? MATERIALS.scorched : MATERIALS.olive
-  const detailMaterial = disabled ? MATERIALS.char : MATERIALS.oliveDark
 
   return (
     <group {...groupProps} dispose={null}>
+      <StaticFront disabled={disabled} />
+
+      {/* Eight tires: paired forward and rear axle groups with a larger center gap. */}
+      {([-1, 1] as const).flatMap((side) => AXLE_Z.map((_, axleIndex) => <Wheel key={`${side}:${axleIndex}`} axleIndex={axleIndex} disabled={disabled} side={side} steeringRadians={steeringRadians} wheelRotationRadians={-wheelRotationRadians} />))}
+
+      <StaticRear disabled={disabled} damage={damage} turretYawRadians={turretYawRadians} />
+    </group>
+  )
+}
+
+const StaticFront = memo(function StaticFront({ disabled }: { disabled: boolean }) {
+  const bodyMaterial = disabled ? MATERIALS.scorched : MATERIALS.olive
+  const detailMaterial = disabled ? MATERIALS.char : MATERIALS.oliveDark
+  return (
+    <>
       <mesh castShadow geometry={BTR_HULL} material={bodyMaterial} receiveShadow />
 
       {/* Raised rear engine deck and grouped armored grilles. */}
@@ -163,10 +173,14 @@ export function Btr80Model({ wheelRotationRadians = 0, steeringRadians = 0, turr
       {([-1, 1] as const).map((side) => (
         <mesh key={`side-optic-${side}`} geometry={UNIT_BOX} material={MATERIALS.optics} position={[side * 1.185, 0.42, -2.76]} rotation={[0, 0, side * -0.18]} scale={[0.035, 0.18, 0.4]} />
       ))}
-
-      {/* Eight tires: paired forward and rear axle groups with a larger center gap. */}
-      {([-1, 1] as const).flatMap((side) => AXLE_Z.map((_, axleIndex) => <Wheel key={`${side}:${axleIndex}`} axleIndex={axleIndex} disabled={disabled} side={side} steeringRadians={steeringRadians} wheelRotationRadians={-wheelRotationRadians} />))}
-
+    </>
+  )
+})
+const StaticRear = memo(function StaticRear({ disabled, damage, turretYawRadians }: { disabled: boolean; damage: number; turretYawRadians: number }) {
+  const bodyMaterial = disabled ? MATERIALS.scorched : MATERIALS.olive
+  const detailMaterial = disabled ? MATERIALS.char : MATERIALS.oliveDark
+  return (
+    <>
       {/* Compact central heavy-machine-gun turret. */}
       <group position={[0, 0, -0.22]} rotation={[disabled ? damage * 0.035 : 0, turretYawRadians, disabled ? damage * -0.025 : 0]}>
         <mesh castShadow geometry={TURRET_RING} material={detailMaterial} position={[0, 0.68, 0]} />
@@ -189,6 +203,16 @@ export function Btr80Model({ wheelRotationRadians = 0, steeringRadians = 0, turr
           <mesh geometry={UNIT_BOX} material={MATERIALS.char} position={[-0.58, 0.65, 0.18]} rotation={[-0.08, -0.32, 0.06]} scale={[0.72, 0.04, 0.84]} />
         </>
       ) : null}
-    </group>
+    </>
   )
-}
+})
+
+const WHEEL_PARTS = [false, true].map((disabled) =>
+  [-1, 1].map((side) => (
+    <>
+      <mesh castShadow geometry={TIRE} material={MATERIALS.tire} rotation={[0, 0, Math.PI / 2]} />
+      <mesh geometry={HUB} material={disabled ? MATERIALS.char : MATERIALS.hub} rotation={[0, 0, Math.PI / 2]} />
+      <mesh geometry={HUB_MARKER} material={MATERIALS.oliveLight} position={[side * 0.208, 0.28, 0]} />
+    </>
+  )),
+)

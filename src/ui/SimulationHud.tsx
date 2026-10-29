@@ -1,5 +1,5 @@
 import { Camera, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship, Warehouse, Waves } from 'lucide-react'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 import type { CameraPreset } from '@/scene/camera/cameraStore'
 import type { ReadinessState } from '@/scene/readiness/readinessStore'
@@ -93,6 +93,111 @@ function StatusRow({ label, value }: { label: string; value: string }) {
   )
 }
 
+const CameraMenu = memo(function CameraMenu() {
+  const activePreset = useCameraStore((state) => state.preset)
+  const requestPreset = useCameraStore((state) => state.requestPreset)
+  return (
+    <nav className="ml-auto flex items-center gap-2" aria-label="Camera presets">
+      <label className="font-mono text-[10px] text-(--muted) max-[760px]:sr-only" htmlFor="camera-select">
+        Spectator camera
+      </label>
+      <select
+        id="camera-select"
+        aria-label="Spectator camera"
+        className="min-h-9 w-[190px] border border-(--hud-edge) bg-[#101e24] px-2 text-[12px] text-(--amber-bright) focus-visible:outline-2 focus-visible:outline-(--amber-bright) max-[760px]:w-[140px]"
+        value={activePreset}
+        onChange={(event) => requestPreset(event.target.value as CameraPreset)}
+      >
+        {[
+          ['Regional overview', ['overview', 'harbor', 'industrial', 'radar-hill', 'corridor', 'beachhead', 'beach-offshore']],
+          ['Naval focus', ['wasp', 'talwar', 'molniya']],
+          ['Sites and ground vehicles', ['fuel-storage', 'ammunition', 'search-radar', 'btr', 't72', 'support-convoy', 'secondary-pantsir']],
+          ['Landing focus', ['lcac-west', 'lcac-east', 'lav-west', 'lav-east']],
+          ['Aircraft', ['f35-01', 'f35-02', 'su30']],
+        ].map(([label, ids]) => (
+          <optgroup key={label as string} label={label as string}>
+            {(ids as string[]).map((id) => {
+              const item = CAMERA_PRESETS.find((item) => item.id === id)!
+              return (
+                <option key={id} value={id}>
+                  {item.label}
+                </option>
+              )
+            })}
+          </optgroup>
+        ))}
+      </select>
+      <button type="button" aria-label="Recenter selected camera" title="Recenter selected camera" className="grid size-9 place-items-center border border-(--hud-edge) text-(--muted) hover:text-(--amber-bright)" onClick={() => requestPreset(activePreset)}>
+        <RotateCcw size={15} aria-hidden="true" />
+      </button>
+    </nav>
+  )
+})
+
+const OperationalStatus = memo(function OperationalStatus(battlefieldStatus: BattlefieldStatus) {
+  return (
+    <aside className="absolute top-[82px] right-3 w-[300px] max-[760px]:w-[260px]" aria-label="Operational status">
+      <p className="hud-panel m-0 mb-2 px-3 py-2 font-mono text-[11px] leading-4 text-(--ink)" aria-label="Deployment summary">
+        {battlefieldStatus.embarkedPayload}
+      </p>
+      <details className="hud-panel group">
+        <summary className="cursor-pointer px-3 py-2 font-mono text-[11px] text-(--ink) marker:text-(--amber-bright)">
+          Operational details <span className="float-right text-(--amber-bright)">8 LAV-25s</span>
+        </summary>
+        <div className="max-h-[calc(100dvh-310px)] overflow-y-auto overscroll-contain border-t border-(--hud-edge) px-3 py-2" tabIndex={0} data-hud-scroll aria-label="Full operational details">
+          <div className="faction-block faction-landings-attacker">
+            <p className="my-2 font-mono text-[10px] tracking-wider text-(--landings) uppercase">landings_attacker</p>
+            <StatusRow label="F-35B 01" value={battlefieldStatus.aircraft01} />
+            <StatusRow label="F-35B 02" value={battlefieldStatus.aircraft02} />
+            <div aria-label="Landing craft status" className="mt-2 border-t border-(--hud-edge) pt-2">
+              <div className="flex justify-between gap-3 py-1 text-[10px] text-[#a7b5b1]">
+                <span>LCAC 01</span>
+                <strong className="font-mono text-[11px] text-(--ink) uppercase">{battlefieldStatus.lcacWest}</strong>
+              </div>
+              <div className="flex justify-between gap-3 py-1 text-[10px] text-[#a7b5b1]">
+                <span>LCAC 02</span>
+                <strong className="font-mono text-[11px] text-(--ink) uppercase">{battlefieldStatus.lcacEast}</strong>
+              </div>
+              <p className="my-1 font-mono text-[11px] leading-4 text-(--ink)" aria-label="West LAV group">
+                West · {battlefieldStatus.lavWest}
+              </p>
+              <p className="my-1 font-mono text-[11px] leading-4 text-(--ink)" aria-label="East LAV group">
+                East · {battlefieldStatus.lavEast}
+              </p>
+              <p className="my-1 font-mono text-[11px] leading-4 text-(--ink)">{battlefieldStatus.embarkedPayload}</p>
+            </div>
+          </div>
+          <div className="my-2 border-t border-(--hud-edge)" />
+          <div className="faction-block faction-island-defender">
+            <p className="my-2 font-mono text-[10px] tracking-wider text-(--island) uppercase">island_defender</p>
+            <StatusRow label="Pantsir 01" value={battlefieldStatus.pantsir} />
+            <div aria-label="Secondary Pantsir status" className="flex items-center justify-between gap-4 py-[3px] text-[10px] text-[#a7b5b1]">
+              <span className="shrink-0">Pantsir 02</span>
+              <strong className="text-right font-mono text-[10px] leading-4 font-medium break-words text-(--ink) uppercase" title={battlefieldStatus.secondaryPantsir}>
+                {battlefieldStatus.secondaryPantsir}
+              </strong>
+            </div>
+            <StatusRow label="Search radar" value={battlefieldStatus.primaryRadar} />
+            <StatusRow label="Talwar" value={battlefieldStatus.talwar} />
+            <StatusRow label="Molniya" value={battlefieldStatus.molniya} />
+            <StatusRow label="BTR-80 group" value={battlefieldStatus.btrGroup} />
+            <StatusRow label="T-72B group" value={battlefieldStatus.t72Group} />
+            <StatusRow label="Su-30MKK pair" value={battlefieldStatus.su30Group} />
+            <div aria-label="Support convoy status" className="mt-2 border-t border-(--hud-edge) pt-2">
+              <div className="flex items-start justify-between gap-3 text-[10px] text-[#a7b5b1]">
+                <span className="shrink-0">Support convoy</span>
+                <strong className="text-right font-mono text-[11px] leading-4 font-medium tracking-wide text-(--ink) uppercase">{battlefieldStatus.supportPhase}</strong>
+              </div>
+              <p className="mt-1 mb-1 font-mono text-[11px] leading-4 text-(--island)">{battlefieldStatus.supportOutcome}</p>
+            </div>
+            <StatusRow label="Industrial" value={battlefieldStatus.industrial} />
+          </div>
+        </div>
+      </details>
+    </aside>
+  )
+})
+
 function formatTimelineBound(timeSeconds: number) {
   const minutes = Math.floor(timeSeconds / 60)
   const seconds = Math.floor(timeSeconds % 60)
@@ -101,8 +206,6 @@ function formatTimelineBound(timeSeconds: number) {
 
 export function SimulationHud({ readiness, battlefieldStatus, duration, latestEvent, localTime, onRestart, onSeek, onSpeedChange, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
   const [observationDraft, setObservationDraft] = useState<string | null>(null)
-  const activePreset = useCameraStore((state) => state.preset)
-  const requestPreset = useCameraStore((state) => state.requestPreset)
 
   return (
     <div className="hud-shell">
@@ -116,105 +219,14 @@ export function SimulationHud({ readiness, battlefieldStatus, duration, latestEv
             <h1 className="m-0 mt-1 text-[15px] leading-none font-semibold tracking-wider uppercase">Ash Harbor</h1>
           </div>
         </div>
-        <nav className="ml-auto flex items-center gap-2" aria-label="Camera presets">
-          <label className="font-mono text-[10px] text-(--muted) max-[760px]:sr-only" htmlFor="camera-select">
-            Spectator camera
-          </label>
-          <select
-            id="camera-select"
-            aria-label="Spectator camera"
-            className="min-h-9 w-[190px] border border-(--hud-edge) bg-[#101e24] px-2 text-[12px] text-(--amber-bright) focus-visible:outline-2 focus-visible:outline-(--amber-bright) max-[760px]:w-[140px]"
-            value={activePreset}
-            onChange={(event) => requestPreset(event.target.value as CameraPreset)}
-          >
-            {[
-              ['Regional overview', ['overview', 'harbor', 'industrial', 'radar-hill', 'corridor', 'beachhead', 'beach-offshore']],
-              ['Naval focus', ['wasp', 'talwar', 'molniya']],
-              ['Sites and ground vehicles', ['fuel-storage', 'ammunition', 'search-radar', 'btr', 't72', 'support-convoy', 'secondary-pantsir']],
-              ['Landing focus', ['lcac-west', 'lcac-east', 'lav-west', 'lav-east']],
-              ['Aircraft', ['f35-01', 'f35-02', 'su30']],
-            ].map(([label, ids]) => (
-              <optgroup key={label as string} label={label as string}>
-                {(ids as string[]).map((id) => {
-                  const item = CAMERA_PRESETS.find((item) => item.id === id)!
-                  return (
-                    <option key={id} value={id}>
-                      {item.label}
-                    </option>
-                  )
-                })}
-              </optgroup>
-            ))}
-          </select>
-          <button type="button" aria-label="Recenter selected camera" title="Recenter selected camera" className="grid size-9 place-items-center border border-(--hud-edge) text-(--muted) hover:text-(--amber-bright)" onClick={() => requestPreset(activePreset)}>
-            <RotateCcw size={15} aria-hidden="true" />
-          </button>
-        </nav>
+        <CameraMenu />
         <div className="flex shrink-0 flex-col border-l border-(--hud-edge) pl-4 text-right font-mono max-[760px]:hidden" data-testid="mission-clock">
           <span className="text-[17px] text-(--amber-bright)">{relativeTime}</span>
           <strong className="text-[10px] font-normal text-(--muted)">{localTime}</strong>
         </div>
       </header>
 
-      <aside className="absolute top-[82px] right-3 w-[300px] max-[760px]:w-[260px]" aria-label="Operational status">
-        <p className="hud-panel m-0 mb-2 px-3 py-2 font-mono text-[11px] leading-4 text-(--ink)" aria-label="Deployment summary">
-          {battlefieldStatus.embarkedPayload}
-        </p>
-        <details className="hud-panel group">
-          <summary className="cursor-pointer px-3 py-2 font-mono text-[11px] text-(--ink) marker:text-(--amber-bright)">
-            Operational details <span className="float-right text-(--amber-bright)">8 LAV-25s</span>
-          </summary>
-          <div className="max-h-[calc(100dvh-310px)] overflow-y-auto overscroll-contain border-t border-(--hud-edge) px-3 py-2" tabIndex={0} data-hud-scroll aria-label="Full operational details">
-            <div className="faction-block faction-landings-attacker">
-              <p className="my-2 font-mono text-[10px] tracking-wider text-(--landings) uppercase">landings_attacker</p>
-              <StatusRow label="F-35B 01" value={battlefieldStatus.aircraft01} />
-              <StatusRow label="F-35B 02" value={battlefieldStatus.aircraft02} />
-              <div aria-label="Landing craft status" className="mt-2 border-t border-(--hud-edge) pt-2">
-                <div className="flex justify-between gap-3 py-1 text-[10px] text-[#a7b5b1]">
-                  <span>LCAC 01</span>
-                  <strong className="font-mono text-[11px] text-(--ink) uppercase">{battlefieldStatus.lcacWest}</strong>
-                </div>
-                <div className="flex justify-between gap-3 py-1 text-[10px] text-[#a7b5b1]">
-                  <span>LCAC 02</span>
-                  <strong className="font-mono text-[11px] text-(--ink) uppercase">{battlefieldStatus.lcacEast}</strong>
-                </div>
-                <p className="my-1 font-mono text-[11px] leading-4 text-(--ink)" aria-label="West LAV group">
-                  West · {battlefieldStatus.lavWest}
-                </p>
-                <p className="my-1 font-mono text-[11px] leading-4 text-(--ink)" aria-label="East LAV group">
-                  East · {battlefieldStatus.lavEast}
-                </p>
-                <p className="my-1 font-mono text-[11px] leading-4 text-(--ink)">{battlefieldStatus.embarkedPayload}</p>
-              </div>
-            </div>
-            <div className="my-2 border-t border-(--hud-edge)" />
-            <div className="faction-block faction-island-defender">
-              <p className="my-2 font-mono text-[10px] tracking-wider text-(--island) uppercase">island_defender</p>
-              <StatusRow label="Pantsir 01" value={battlefieldStatus.pantsir} />
-              <div aria-label="Secondary Pantsir status" className="flex items-center justify-between gap-4 py-[3px] text-[10px] text-[#a7b5b1]">
-                <span className="shrink-0">Pantsir 02</span>
-                <strong className="text-right font-mono text-[10px] leading-4 font-medium break-words text-(--ink) uppercase" title={battlefieldStatus.secondaryPantsir}>
-                  {battlefieldStatus.secondaryPantsir}
-                </strong>
-              </div>
-              <StatusRow label="Search radar" value={battlefieldStatus.primaryRadar} />
-              <StatusRow label="Talwar" value={battlefieldStatus.talwar} />
-              <StatusRow label="Molniya" value={battlefieldStatus.molniya} />
-              <StatusRow label="BTR-80 group" value={battlefieldStatus.btrGroup} />
-              <StatusRow label="T-72B group" value={battlefieldStatus.t72Group} />
-              <StatusRow label="Su-30MKK pair" value={battlefieldStatus.su30Group} />
-              <div aria-label="Support convoy status" className="mt-2 border-t border-(--hud-edge) pt-2">
-                <div className="flex items-start justify-between gap-3 text-[10px] text-[#a7b5b1]">
-                  <span className="shrink-0">Support convoy</span>
-                  <strong className="text-right font-mono text-[11px] leading-4 font-medium tracking-wide text-(--ink) uppercase">{battlefieldStatus.supportPhase}</strong>
-                </div>
-                <p className="mt-1 mb-1 font-mono text-[11px] leading-4 text-(--island)">{battlefieldStatus.supportOutcome}</p>
-              </div>
-              <StatusRow label="Industrial" value={battlefieldStatus.industrial} />
-            </div>
-          </div>
-        </details>
-      </aside>
+      <OperationalStatus {...battlefieldStatus} />
 
       <section className="hud-panel absolute right-3 bottom-3 left-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-5 gap-y-2 px-3 py-2 max-[900px]:grid-cols-1" aria-label="Simulation timeline">
         <div aria-atomic="true" aria-live="polite" className="flex min-w-0 items-start justify-between gap-3">

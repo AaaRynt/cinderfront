@@ -109,9 +109,7 @@ function TrackAssembly({ destroyed, roadWheelRotationRadians, side, trackTravelM
 
       {ROAD_WHEEL_Z.map((z) => (
         <group key={z} position={[0, -0.68, z]} rotation={[-roadWheelRotationRadians, 0, 0]}>
-          <mesh castShadow geometry={ROAD_WHEEL} material={destroyed ? MATERIALS.char : MATERIALS.wheel} rotation={[0, 0, Math.PI / 2]} />
-          <mesh geometry={ROAD_WHEEL_HUB} material={destroyed ? MATERIALS.char : MATERIALS.armorDark} rotation={[0, 0, Math.PI / 2]} />
-          <mesh geometry={ROAD_WHEEL_MARKER} material={MATERIALS.armorLight} position={[side * 0.105, 0.25, 0]} />
+          {WHEEL_PARTS[destroyed ? 1 : 0]![side > 0 ? 1 : 0]}
         </group>
       ))}
 
@@ -189,3 +187,13 @@ export function T72BModel({ damageProgress = 0, destroyed = false, roadWheelRota
     </group>
   )
 }
+
+const WHEEL_PARTS = [false, true].map((destroyed) =>
+  [-1, 1].map((side) => (
+    <>
+      <mesh castShadow geometry={ROAD_WHEEL} material={destroyed ? MATERIALS.char : MATERIALS.wheel} rotation={[0, 0, Math.PI / 2]} />
+      <mesh geometry={ROAD_WHEEL_HUB} material={destroyed ? MATERIALS.char : MATERIALS.armorDark} rotation={[0, 0, Math.PI / 2]} />
+      <mesh geometry={ROAD_WHEEL_MARKER} material={MATERIALS.armorLight} position={[side * 0.105, 0.25, 0]} />
+    </>
+  )),
+)

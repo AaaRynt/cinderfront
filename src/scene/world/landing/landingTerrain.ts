@@ -7,6 +7,7 @@ import { createCoastSkirtGeometry, createContinuousMainlandGeometry, createTerra
 import { getTerrainHeight, pointInPolygon, sampleTerrainPolyline } from '../stage2/terrainModel'
 import { MAINLAND_POLYGON_XZ } from '../worldData'
 import { LANDING_COAST_POINTS, LANDING_GRADE_GRID_METERS, LANDING_SEA_LEVEL, LANDING_SITES, inLandingGrade, type LandingSite } from './landingSiteData'
+import { indexSurface, sampleSurface, type SurfaceIndex } from './landingSupportIndex'
 
 type Vertex = Record<string, number[]>
 type Triangle = readonly [Vertex, Vertex, Vertex]
@@ -152,93 +153,6 @@ function refine(geometry: BufferGeometry, height: (x: number, z: number) => numb
   }
   return emit(geometry, faces)
 }
-interface SurfaceCells {
-  readonly minX: number
-  readonly minZ: number
-  readonly width: number
-  readonly height: number
-  readonly offsets: Uint32Array
-  readonly triangles: Uint32Array
-}
-interface SurfaceIndex {
-  readonly geometry: BufferGeometry
-  readonly cells: SurfaceCells
-  readonly exteriorCells?: SurfaceCells
-}
-/** A compact, immutable row index replaces hundreds of thousands of string
- * keys and per-cell arrays. Candidate triangle order is exactly the historical
- * insertion order, so barycentric selection and every support value stay exact. */
-function surfaceCells(ranges: readonly (readonly [number, number, number, number, number])[]): SurfaceCells {
-  if (!ranges.length) return { minX: 0, minZ: 0, width: 0, height: 0, offsets: new Uint32Array(1), triangles: new Uint32Array() }
-  let minX = Infinity,
-    maxX = -Infinity,
-    minZ = Infinity,
-    maxZ = -Infinity
-  for (const [, x0, x1, z0, z1] of ranges) {
-    minX = Math.min(minX, x0)
-    maxX = Math.max(maxX, x1)
-    minZ = Math.min(minZ, z0)
-    maxZ = Math.max(maxZ, z1)
-  }
-  const width = maxX - minX + 1,
-    height = maxZ - minZ + 1,
-    offsets = new Uint32Array(width * height + 1)
-  for (const [, x0, x1, z0, z1] of ranges) for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) offsets[(x - minX) * height + z - minZ + 1]!++
-  for (let i = 1; i < offsets.length; i++) offsets[i]! += offsets[i - 1]!
-  const triangles = new Uint32Array(offsets[offsets.length - 1]!),
-    cursor = offsets.slice(0, -1)
-  for (const [triangle, x0, x1, z0, z1] of ranges) for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) triangles[cursor[(x - minX) * height + z - minZ]!++] = triangle
-  return { minX, minZ, width, height, offsets, triangles }
-}
-function cellTriangles(cells: SurfaceCells, x: number, z: number): Uint32Array {
-  const ix = x - cells.minX,
-    iz = z - cells.minZ
-  if (!Number.isFinite(ix) || !Number.isFinite(iz) || ix < 0 || ix >= cells.width || iz < 0 || iz >= cells.height) return cells.triangles.subarray(0, 0)
-  const index = ix * cells.height + iz
-  return cells.triangles.subarray(cells.offsets[index]!, cells.offsets[index + 1]!)
-}
-function indexSurface(geometry: BufferGeometry, localOnly = true): SurfaceIndex {
-  const p = geometry.getAttribute('position'),
-    count = geometry.index?.count ?? p.count
-  const local: (readonly [number, number, number, number, number])[] = [],
-    exterior: (readonly [number, number, number, number, number])[] = []
-  const vertexIndex = (n: number) => geometry.index?.getX(n) ?? n
-  for (let i = 0; i < count; i += 3) {
-    const ids = [vertexIndex(i), vertexIndex(i + 1), vertexIndex(i + 2)],
-      xs = ids.map((k) => p.getX(k)),
-      zs = ids.map((k) => p.getZ(k))
-    const range = (step: number): readonly [number, number, number, number, number] => [i, Math.floor(Math.min(...xs) / step), Math.floor(Math.max(...xs) / step), Math.floor(Math.min(...zs) / step), Math.floor(Math.max(...zs) / step)]
-    if (ids.some((k) => inLandingGrade(p.getX(k), p.getZ(k), 2))) local.push(range(2))
-    if (!localOnly) exterior.push(range(64))
-  }
-  return { geometry, cells: surfaceCells(local), exteriorCells: localOnly ? undefined : surfaceCells(exterior) }
-}
-function sampleSurface(surface: SurfaceIndex, x: number, z: number): number | undefined {
-  const { geometry } = surface,
-    exterior = !inLandingGrade(x, z) && surface.exteriorCells,
-    step = exterior ? 64 : 2,
-    cells = exterior || surface.cells,
-    p = geometry.getAttribute('position'),
-    ids = cellTriangles(cells, Math.floor(x / step), Math.floor(z / step))
-  for (const i of ids) {
-    const a = geometry.index?.getX(i) ?? i,
-      b = geometry.index?.getX(i + 1) ?? i + 1,
-      c = geometry.index?.getX(i + 2) ?? i + 2
-    const ax = p.getX(a),
-      az = p.getZ(a),
-      bx = p.getX(b),
-      bz = p.getZ(b),
-      cx = p.getX(c),
-      cz = p.getZ(c),
-      den = (bz - cz) * (ax - cx) + (cx - bx) * (az - cz)
-    if (Math.abs(den) < 1e-10) continue
-    const wa = ((bz - cz) * (x - cx) + (cx - bx) * (z - cz)) / den,
-      wb = ((cz - az) * (x - cx) + (ax - cx) * (z - cz)) / den,
-      wc = 1 - wa - wb
-    if (wa >= -1e-6 && wb >= -1e-6 && wc >= -1e-6) return wa * p.getY(a) + wb * p.getY(b) + wc * p.getY(c)
-  }
-  return undefined
-}
 let mainland: SurfaceIndex | undefined
 function mainlandSurface() {
   if (!mainland) {
@@ -286,10 +200,23 @@ function supportSurfaces() {
   }
   return supports
 }
+/** Finite immutable index ownership; inspection never initializes new surfaces. */
+export function getLandingSupportIndexBounds() {
+  return [mainland, ...(supports ?? [])]
+    .filter((surface): surface is SurfaceIndex => !!surface)
+    .map((surface) => ({
+      triangles: surface.constants.length / 10,
+      constantBytes: surface.constants.byteLength,
+      cellBytes: surface.cells.offsets.byteLength + surface.cells.triangles.byteLength + (surface.exteriorCells ? surface.exteriorCells.offsets.byteLength + surface.exteriorCells.triangles.byteLength : 0),
+    }))
+}
+
 export function getLandingSupportHeight(x: number, z: number) {
   if (!pointInPolygon(x, z, MAINLAND_POLYGON_XZ)) return LANDING_SEA_LEVEL
   const ground = inLandingGrade(x, z) ? getLandingGroundHeight(x, z) : getTerrainHeight(x, z)
-  return Math.max(ground, ...supportSurfaces().map((s) => sampleSurface(s, x, z) ?? ground))
+  let height = ground
+  for (const surface of supportSurfaces()) height = Math.max(height, sampleSurface(surface, x, z) ?? ground)
+  return height
 }
 export function createLandingCoastGeometry(bottomY = -3) {
   const base = createCoastSkirtGeometry(bottomY),
