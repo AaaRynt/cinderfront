@@ -1,0 +1,1871 @@
+{
+  "reference": "9c0208bc65ed402fec44c8935d4708505c566f46",
+  "roads": [
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 329,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3948,
+          "sha256": "63d274c1d7f2820527c6b4d96fd8267583570af3b49068e6166432b13f8b9a62"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 329,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3948,
+          "sha256": "2e25d5cd8770ace990fa76a21f0600938e047766aec72430f345e81b1da272b4"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 329,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 1316,
+          "sha256": "bcada8267d15666056d1784b30faf2de99d35381b16b622f0faf276962a6a629"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1128,
+        "bytes": 2256,
+        "sha256": "bf1c9a2d66bbc679a325369ee0aed66c68fe726462de3c51b3bb854bc0f08bee"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-3200.8486328125, 7.863040447235107, 2394.000244140625],
+        "max": [-1298.5447998046875, 37.58855056762695, 2855.82080078125]
+      },
+      "boundingSphere": {
+        "center": [-2249.6967163085938, 22.72579550743103, 2624.9105224609375],
+        "radius": 976.1996128978298
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1278,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 15336,
+          "sha256": "979fa18c7a435939935367b39c4131afd6f7780a2c1af0d8de4de6ed148f6bef"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1278,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 15336,
+          "sha256": "76c48e18cebdca434ad9a2af9c6f8e322666bb02f680b1fcabe5eb36310800b4"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 1278,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 5112,
+          "sha256": "a00a0a82ad6c7bff69b2b4ee017a202103b73a154a57a2854045e7603c792a4c"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 4314,
+        "bytes": 8628,
+        "sha256": "71e417fef738f9ca1813ec05296c2eae1519dd374b3ece992075db6d9446b725"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-4301.12451171875, 7.382379531860352, 2445],
+        "max": [-2295, 9.642515182495117, 4704.9951171875]
+      },
+      "boundingSphere": {
+        "center": [-3298.062255859375, 8.512447357177734, 3574.99755859375],
+        "radius": 1438.3273657275088
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1439,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 17268,
+          "sha256": "8779a83a8184f94579e69beba74f9c8b4a810c5b656267cf9b6af769f5ab71e4"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1439,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 17268,
+          "sha256": "40c3095efb89f8353aab150751661ba5486c02ffb0630d311d015fd5eaab3bf8"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 1439,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 5756,
+          "sha256": "e0c9dd68ea2ec7a723f37fecbaa940aa79cfba9dd035b7144cfa2c134aca29c6"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 5388,
+        "bytes": 10776,
+        "sha256": "253f1a602302595337d71beb2a51b24cfc6100e971777f0d45c34ed977b76661"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1404.5, 34.25878143310547, 1295.5],
+        "max": [604.5, 41.607112884521484, 2954.5]
+      },
+      "boundingSphere": {
+        "center": [-400, 37.93294715881348, 2125],
+        "radius": 1300.8813955690664
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 425,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 5100,
+          "sha256": "329b1775c50703aab327947f1301c28686bb7e6a38eb3c3c245fc4106dbdda0a"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 425,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 5100,
+          "sha256": "13d9ec3df37667bea25c9ebbb37003a158287ae832503105918685309dede7b4"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 425,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 1700,
+          "sha256": "047ade437f02c81dbf65a12d600162826119055c63242ee375ddd3291e45f2e7"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1563,
+        "bytes": 3126,
+        "sha256": "63e8753848e94b676555fe85ac62bfbac70d7bf2eaadc43a4e53ff33cef5b3d4"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1400, 35.13624954223633, 1642.55126953125],
+        "max": [534, 38.43461990356445, 2319]
+      },
+      "boundingSphere": {
+        "center": [-433, 36.78543472290039, 1980.775634765625],
+        "radius": 1024.444569433371
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 235,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2820,
+          "sha256": "1e2fe67c573d8ddb3ae4f29ba4fbdec2e8c3d838130aa504d345d02ec4293f0a"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 235,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2820,
+          "sha256": "82603b3e89921eceda3f48941194927ef477e79281759dc911ea47ce8ab7c871"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 235,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 940,
+          "sha256": "7871d77c1fa4de2ddeb4768b9f0a03db2aaeec8a12c5a35caff42d36af53e34f"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 822,
+        "bytes": 1644,
+        "sha256": "859a3bbe9e5007e62b66e44a0ad14c55c6b833e69b30e39d9f02955337be3ac4"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [600, 38.72430419921875, 1395],
+        "max": [2200, 48.748130798339844, 1504.9736328125]
+      },
+      "boundingSphere": {
+        "center": [1400, 43.7362174987793, 1449.98681640625],
+        "radius": 801.9031545351452
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 892,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 10704,
+          "sha256": "25d737f911cddcee829e5e7add00d887aa5f3d0077fb08ea30331bbc96a79066"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 892,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 10704,
+          "sha256": "e99fbb5d92439232e41d8c1c8ea551877c58b790939eb9026b54336057ca7dc5"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 892,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3568,
+          "sha256": "9dbca3f911e1f84fab17fbe6122d64c5958eb516abcfca572ed10524697360e9"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 3342,
+        "bytes": 6684,
+        "sha256": "3109dd8e9968522f686465a78bcfcc1e92690a4c47dd97f6ff52e2c64c5f32a7"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1081, 44.10499954223633, 1496],
+        "max": [2544, 106.78387451171875, 2602.59716796875]
+      },
+      "boundingSphere": {
+        "center": [1812.5, 75.44443702697754, 2049.298583984375],
+        "radius": 916.8638135039408
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1041,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 12492,
+          "sha256": "0769674b0999097bc6a70499cb3d72ebcf74a52060c568168a8256f6b3a69656"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1041,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 12492,
+          "sha256": "e50ec2620cdbca2a5a54d94ac9b394be1507a0083dff3bc41b43d3e41c2dc779"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 1041,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4164,
+          "sha256": "cbc367b6bcd74fbc17314635705bcf8117e829793fdb4e40fabb7c8297098750"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 3534,
+        "bytes": 7068,
+        "sha256": "8ca2b15320821774d5f9219ef9935aa694b49cc73b062804d6fc8be7d30887ac"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [297.17156982421875, 33.988037109375, 2746.02734375],
+        "max": [4550.56591796875, 219.68858337402344, 4103.9599609375]
+      },
+      "boundingSphere": {
+        "center": [2423.8687438964844, 126.83831024169922, 3424.99365234375],
+        "radius": 2232.435017481937
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1632,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 19584,
+          "sha256": "5e3273d55a9ef0ab80d604727e3745350349348b6a28fcb2f131d6958beb4d13"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1632,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 19584,
+          "sha256": "19ece54c29fbcbd50110213274b246f7a938095ec19d8198205069ad5472749d"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 1632,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6528,
+          "sha256": "222c142c515167e3c95a69dad0ac7c4805ffc44cf868966c41604f4a5c8b9e4c"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 5406,
+        "bytes": 10812,
+        "sha256": "d191042b387758b050d03f9c2e3ae3dcf4e7f8de94f6b5d6fb19240beaead409"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [2896.505615234375, 122.12999725341797, 2996.50048828125],
+        "max": [4703.11767578125, 201.27377319335938, 4553.46484375]
+      },
+      "boundingSphere": {
+        "center": [3799.8116455078125, 161.70188522338867, 3774.982666015625],
+        "radius": 999.746192589009
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1327,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 15924,
+          "sha256": "174a7625ff6cf03b227cf6a7d9df4d10046110d52a047eb48fd059329a791187"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1327,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 15924,
+          "sha256": "fc8690defb20247d6a1a28d3869e3237fb506d3a8d312560acda02742bd6d0d9"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 1327,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 5308,
+          "sha256": "ad2b181603851df6a52957a3d0d3129047ee9afeb71b250531371e20e3ec1670"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 4416,
+        "bytes": 8832,
+        "sha256": "18b1fa91869fba80141083dda909259767550f18eec1541aa3a28b51f5cc2dc5"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [596.5270385742188, 38.57614517211914, -1906.864013671875],
+        "max": [6051.9228515625, 48.84201431274414, 1406.0777587890625]
+      },
+      "boundingSphere": {
+        "center": [3324.2249450683594, 43.70907974243164, -250.39312744140625],
+        "radius": 3185.342981807659
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 687,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 8244,
+          "sha256": "9c04d611d259021939dd23fbbde9a98d024dde2f7d9294a8dd1becfef1b62bf2"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 687,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 8244,
+          "sha256": "9332d0d4bc5209243a943945a140c381c16ac70efc00871a19fcfeac82d8adb0"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 687,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2748,
+          "sha256": "8faaf4ca3e878ab7d06cb32957dd0835203764fcd34a097321e2147e9a09b430"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 2274,
+        "bytes": 4548,
+        "sha256": "95d4e0aefdb96bd444994da61862dd8ea36982feaf591715b3d08920a84ecd7e"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [3097.86572265625, 39.18134307861328, -305.0690002441406],
+        "max": [6300.2197265625, 47.957759857177734, 455.43988037109375]
+      },
+      "boundingSphere": {
+        "center": [4699.042724609375, 43.56955146789551, 75.18544006347656],
+        "radius": 1643.401597227635
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 3147,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 37764,
+          "sha256": "2e6303cd4f06922df30c127e41eb5981ea270afcfed186b27377351acb33e380"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 3147,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 37764,
+          "sha256": "253fb6512f08aba9e844f26474938ecdd63a5c521c14ef0b002a1747326baa5d"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 3147,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 12588,
+          "sha256": "e2dc5ecb45f65773dd54dcc3b2f5ebde67bae4d66e8a4e41a3cfbd67b1a4fe15"
+        }
+      },
+      "index": null,
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [4095.52783203125, 4.480771541595459, -2921.108154296875],
+        "max": [4304.87548828125, 47.841304779052734, -2077.763916015625]
+      },
+      "boundingSphere": {
+        "center": [4200.20166015625, 26.161038160324097, -2499.43603515625],
+        "radius": 432.943415552265
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 2871,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 34452,
+          "sha256": "c43b06277df28e148a196e58840c9dafdc2914d266b5860876b841a070468abe"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 2871,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 34452,
+          "sha256": "60fa171259d809f904449f0d607168bacb76c33d27e604e3f8bbec66708fd531"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 2871,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 11484,
+          "sha256": "cccd1f00d6ab0aae1d9175123f1d3a70c4a9cb1edcb4e38120a05bfdae0bfcb6"
+        }
+      },
+      "index": null,
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [5445.62939453125, 3.060868740081787, -2862.42822265625],
+        "max": [6003.38525390625, 45.758731842041016, -2046.3203125]
+      },
+      "boundingSphere": {
+        "center": [5724.50732421875, 24.4098002910614, -2454.374267578125],
+        "radius": 490.8861232245204
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 83,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 996,
+          "sha256": "7f00ed0ecd1df629ac2a87fdc95633c863cfd3dc3b86ef3fe56103ae7b27ef23"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 83,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 996,
+          "sha256": "d8632ec99514ae13b8827276e6e1e98e7480b2e6891acdbcd0381d39616a979c"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 83,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 332,
+          "sha256": "4a558845e0c373841be3e153d641f64d3d316c481354bb763eab3b20ca06803a"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 252,
+        "bytes": 504,
+        "sha256": "a9dc0bfd4a59bd86b966f12fc0f6d504c863ff301055ff74f0c00c808057770f"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [5996.67041015625, 44.67034912109375, -2053.027099609375],
+        "max": [6204.47265625, 47.76078796386719, -1597.541748046875]
+      },
+      "boundingSphere": {
+        "center": [6100.571533203125, 46.21556854248047, -1825.284423828125],
+        "radius": 247.6376471579719
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 50,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 600,
+          "sha256": "664d328184c7a7c3976d3fb25b910d29c3419127ebf769f014ebbb36f5f806dd"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 50,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 600,
+          "sha256": "44e0af7c927838ac454b4eeef9afcbe02c85b130db636bb8ab06564ebdd7eb0f"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 50,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 200,
+          "sha256": "1d24b69b1563fd3eca332110bebe89b94a249599226cd597c071c5b92d1abe65"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 174,
+        "bytes": 348,
+        "sha256": "8c23a0ab4871b14f9ccc604dcf3b038285cc8981df383de10ff7030b752c0535"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1296.5, 48.20647048950195, 2450],
+        "max": [1303.5, 49.25481414794922, 2593]
+      },
+      "boundingSphere": {
+        "center": [1300, 48.730642318725586, 2521.5],
+        "radius": 71.58753212750494
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 43,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 516,
+          "sha256": "bfb716629eb90b3c1a0861c8dd8135b5eed07ff7bbd2eb37f59739b3fdb7a29f"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 43,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 516,
+          "sha256": "6628325b88668e49756b111ac9d3062853d985f9a9ba3774a116791bc2562224"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 43,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 172,
+          "sha256": "e548fdfc73b27aa2860903a18fb6b7c01d13a27abbce1c8093fa199cea32623c"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 150,
+        "bytes": 300,
+        "sha256": "349c84a295171ec08f33bded17bf456d93831f8da6ec819fac6687ee9e7da11a"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1796.5, 47.2116584777832, 2450],
+        "max": [1803.5, 47.728736877441406, 2575]
+      },
+      "boundingSphere": {
+        "center": [1800, 47.470197677612305, 2512.5],
+        "radius": 62.59845718959732
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 37,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 444,
+          "sha256": "83135b53da605909fd044eecae842e980fcae296d461d9e20e7a44bcf4c7f804"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 37,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 444,
+          "sha256": "0c191a7c7785648fab17df081e6e8e3777fa13b754648c444364d3c1090e47e0"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 37,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 148,
+          "sha256": "058b18d1afc711220a06b76607a12c115c93227690169f62dcab96a4f1385ccf"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 126,
+        "bytes": 252,
+        "sha256": "0b0128fa937efeb55fa0c2370ca447a9bacd1d8f31fe73ea1c9ee418862f2750"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [2296.5, 84.07762908935547, 2450],
+        "max": [2303.5, 106.35745239257812, 2558]
+      },
+      "boundingSphere": {
+        "center": [2300, 95.2175407409668, 2504],
+        "radius": 55.248055455424904
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 696,
+          "sha256": "a0e9db7aa0a33f38db161897ed2987c9db71a1bec66415f0dd57ef61bec7dbb2"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 696,
+          "sha256": "8b75bea020c90fe9120b22634ddeba9045615d370f79d60fbd9018634d85e83d"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 232,
+          "sha256": "019d9d745f41e8388e4f4890e842657429546e0af93930de78436c5391903547"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 204,
+        "bytes": 408,
+        "sha256": "591413ccc4afd2d4d3a71c04aa8a407b4500e6a8fb53fcd0f75c7605f84a11a9"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1296.5, 47.31845474243164, 1500],
+        "max": [1303.5, 47.5930290222168, 1700]
+      },
+      "boundingSphere": {
+        "center": [1300, 47.45574188232422, 1600],
+        "radius": 100.06131813920867
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 696,
+          "sha256": "77c7a164f5a592da5a9908bf6508f40220e6bccc71c6ce3f51fee80156c56369"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 696,
+          "sha256": "4c72216b4b1643f7de52440373e7832a3bf4dd595df96e85a0230b2f18f1da21"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 232,
+          "sha256": "fdecb449c724e1ec63a93d97cb1e5270e3885ab743140e81ac1eb6491a8db729"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 204,
+        "bytes": 408,
+        "sha256": "591413ccc4afd2d4d3a71c04aa8a407b4500e6a8fb53fcd0f75c7605f84a11a9"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1796.5, 44.10499954223633, 1500],
+        "max": [1803.5, 46.661285400390625, 1700]
+      },
+      "boundingSphere": {
+        "center": [1800, 45.38314247131348, 1600],
+        "radius": 100.0693941689823
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 696,
+          "sha256": "7761a86659ce9283b8248c98672d983c153ed830509476e7a352e57b50c4c8ba"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 696,
+          "sha256": "98ad7596c836227b2eecea4e84a83c6be30ea04b5df1ae1cd9d5d47336ec36c0"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 58,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 232,
+          "sha256": "3d117de5976117b4e84d5b65190a0509775ccb44cd3ed9ff91e6c4925626b9b2"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 204,
+        "bytes": 408,
+        "sha256": "591413ccc4afd2d4d3a71c04aa8a407b4500e6a8fb53fcd0f75c7605f84a11a9"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [2296.5, 44.10499954223633, 1500],
+        "max": [2303.5, 48.83234405517578, 1700]
+      },
+      "boundingSphere": {
+        "center": [2300, 46.468671798706055, 1600],
+        "radius": 100.08914499852621
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 508,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6096,
+          "sha256": "50f328f8dcff6b393bb6152f843f162cafdc4c7b99d21387f40e7be3b74ee987"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 508,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6096,
+          "sha256": "6c9358087e7aa5c57ebd76320b00372bfc90689b7b75c9664b35a32439af4185"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 508,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2032,
+          "sha256": "34471d4d06bfd5c01a2b1130bc6e2255dca8cf0ae9f193c7a719f99e784a989b"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1650,
+        "bytes": 3300,
+        "sha256": "794f05887001fb42ed54b3c3c71b5b72bdb9959c62e2f2f225f9902f7b519ae6"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1300.349609375, 35.521881103515625, 993.0097045898438],
+        "max": [2750.367919921875, 49.41069412231445, 1156.9912109375]
+      },
+      "boundingSphere": {
+        "center": [725.0091552734375, 42.46628761291504, 1075.0004577636719],
+        "radius": 2026.5081996657193
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 2486,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 29832,
+          "sha256": "42e88fb750a91b4eb93210e1e3d04354f6a4365891b97925636409d0c9067725"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 2486,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 29832,
+          "sha256": "062cd47261beec67222289577adb823cd7fc5bd5e7e7076e9827dfedf109e536"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 2486,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 9944,
+          "sha256": "eb9acc9dfbcdc4b52f04134a47b711c489526954f7de2255acaa37e10f9cb457"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 12216,
+        "bytes": 24432,
+        "sha256": "eb749d3c88ddbbbb4fb8555b4e1c0b54b7b72fd471aa28eab7f513a62273ba99"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1800.693603515625, 2.4200000762939453, -2776.549560546875],
+        "max": [4595.876953125, 47.26134490966797, 1732.1138916015625]
+      },
+      "boundingSphere": {
+        "center": [3198.2852783203125, 24.840672492980957, -522.2178344726562],
+        "radius": 2607.4883467026407
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 363,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4356,
+          "sha256": "42e7f2c6442302223656be3d7bd0c4ba232426b542f983959e5f45a85cbcef98"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 363,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4356,
+          "sha256": "0acfd21e8ab3a02373760391c334182b7003e12f385f599b496b7ea3d456c02c"
+        },
+        "roadShoulder": {
+          "type": "Float32Array",
+          "itemSize": 1,
+          "count": 363,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 1452,
+          "sha256": "1cfa17647eda0fe3094054715c8a6db50a898ced28975506e1f90af13e8e2b24"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1260,
+        "bytes": 2520,
+        "sha256": "52b3068e2a754642dc84556f70a13c63e0d63a191c2ab11b9642bcd7cee2375e"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [5967, 46.183746337890625, 243],
+        "max": [6132.76123046875, 47.55880355834961, 416.58966064453125]
+      },
+      "boundingSphere": {
+        "center": [6049.880615234375, 46.87127494812012, 329.7948303222656],
+        "radius": 120.01254787683361
+      }
+    }
+  ],
+  "surfaces": [
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 819,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 9828,
+          "sha256": "a9dcdad052b449974af02dd9265764f0d2f72d3280b2bda97b4a8d6675d234e2"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 819,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 9828,
+          "sha256": "151d8e414863f13edc148ee9be191a92c59a389d81ee264865b928d241ebabb9"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 4260,
+        "bytes": 8520,
+        "sha256": "e8c9028110c8922e67614295f8316ea2d44d409eeb2a17563ba244c6aa0dac4f"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-4300, 8.039806365966797, 4110],
+        "max": [-2870, 9.287796974182129, 4540]
+      },
+      "boundingSphere": {
+        "center": [-3585, 8.663801670074463, 4325],
+        "radius": 729.5547337949178
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 549,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6588,
+          "sha256": "4793ab1c652100f3bb1789890b630f9dfd72caef9331dca2db69e5e73caf0677"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 549,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6588,
+          "sha256": "23c92e012da6ee42f0d2f5b327d23a38315d9aca76af74ecc2bb9fcbed17c652"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 2784,
+        "bytes": 5568,
+        "sha256": "889c108c83fc1eca9a03dcc41e5a11fdce8f422ac0ff4fae93fe8025d5b46d53"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-3150, 8.235368728637695, 2620],
+        "max": [-2450, 9.06254768371582, 2980]
+      },
+      "boundingSphere": {
+        "center": [-2800, 8.648958206176758, 2800],
+        "radius": 384.83768042719555
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 540,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6480,
+          "sha256": "3969cdb230ec39e9a17b7a12530ad51f776499b5af336897ada0ef3a1540a81c"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 540,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6480,
+          "sha256": "fa2d091ffd530a3ad67b3f586c8c8fa56915be43ccd073450df15ffa2a8b7bdd"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 2964,
+        "bytes": 5928,
+        "sha256": "6c85e7615a5902a3d9d4fb6b3ee14127ceddac95a14818d3f8a9d201f1197995"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1270, 36.09749984741211, 2330],
+        "max": [180, 36.09749984741211, 2780]
+      },
+      "boundingSphere": {
+        "center": [-545, 36.09749984741211, 2555],
+        "radius": 759.1113225344488
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 324,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3888,
+          "sha256": "c9c4dda62a18c1b75203106ed9247ae0234c66f4396970f9fdf066231b4f9378"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 324,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3888,
+          "sha256": "30580bf05a0bc1cbedd0f0a7c79ea21b29aa132b0cf6452242225a2fb71d24b7"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1716,
+        "bytes": 3432,
+        "sha256": "2f4a8db7342ae6958ab5498c750b1ea585c3d174f1ffe0cbfa91f3240016f637"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1270, 36.09749984741211, 1830],
+        "max": [180, 36.09749984741211, 2270]
+      },
+      "boundingSphere": {
+        "center": [-545, 36.09749984741211, 2050],
+        "radius": 757.6443756803055
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 324,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3888,
+          "sha256": "1dd65747bcfc9bdf5e233e8c56a9f8d7fce6dbec72c32532c9ae8c6fc48009b7"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 324,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3888,
+          "sha256": "30580bf05a0bc1cbedd0f0a7c79ea21b29aa132b0cf6452242225a2fb71d24b7"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1734,
+        "bytes": 3468,
+        "sha256": "99eae2e19ffc799bac998ca1edf2552c32a7a7445e440afd8ca0baa993e0ff5c"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1100, 36.09749984741211, 1390],
+        "max": [20, 36.09749984741211, 1780]
+      },
+      "boundingSphere": {
+        "center": [-540, 36.09749984741211, 1585],
+        "radius": 592.9797635670209
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 70,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 840,
+          "sha256": "9a2e0832758d9450b25949b05e250db1e823b9ada6feaf6fbdf1c1a173b3e694"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 70,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 840,
+          "sha256": "2e58d0a4d06fa63d85d49fbe4fc72b5a6222ad2554243602b5aaef7f0b9357c7"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 324,
+        "bytes": 648,
+        "sha256": "79fe83ba21307db7d2685ac863ee8c80d9b81897b7110db59d81670bad1bee7f"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [300, 34.9162483215332, 1550],
+        "max": [520, 34.9162483215332, 1740]
+      },
+      "boundingSphere": {
+        "center": [410, 34.9162483215332, 1645],
+        "radius": 145.34441853748632
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 30,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 360,
+          "sha256": "267769a4f04da6f0044a6fc037427d7dab1bc3c177e8f839d91f52a231da6af7"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 30,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 360,
+          "sha256": "392560eb18add4e58d035a77ccf4c589c5940c33f44a922e412738b55a7e8e2c"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 120,
+        "bytes": 240,
+        "sha256": "e92af6b03fa2479fdcec111a9ac855080a8b05c8d85d8637cfb9221f7c5dd717"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [300, 34.8962516784668, 1900],
+        "max": [500, 34.8962516784668, 2150]
+      },
+      "boundingSphere": {
+        "center": [400, 34.8962516784668, 2025],
+        "radius": 160.0781059358212
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 3181,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 38172,
+          "sha256": "aad4dbb36fdb42a334e3636733ceeae93eb9dde009ef41c9eb4167293b43b0ce"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 3181,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 38172,
+          "sha256": "faeec35ded21e4102dd83267be4fe698f4e3fb0440c49f9363c5226c39275b08"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 17832,
+        "bytes": 35664,
+        "sha256": "f150a327090ea8c34dfe047f5dfc8ad0dcf64e468b5d77894ccf9c2f253680f2"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [-1450, 34.07164001464844, 1250],
+        "max": [600, 38.931941986083984, 3000]
+      },
+      "boundingSphere": {
+        "center": [-425, 36.50179100036621, 2125],
+        "radius": 1347.685054455113
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1855,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 22260,
+          "sha256": "43b520195b8cc70a8dbb0d3dc51e7c70b74e11227377d1f6948718ec60d8ca34"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1855,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 22260,
+          "sha256": "440f2cda305ca4ddfd045aa0b041c342f68b02d252764e0afb13d51760723e6d"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 10140,
+        "bytes": 20280,
+        "sha256": "c0dbd6327535d887fce39ac54518f97e20ee5ebefddeb5704e44abcb789bd189"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1050, 43.94499969482422, 1380],
+        "max": [2580, 106.7590560913086, 2700]
+      },
+      "boundingSphere": {
+        "center": [1815, 75.3520278930664, 2040],
+        "radius": 1010.75926997106
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 176,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2112,
+          "sha256": "0a8725e53164ca9786cb3b2af302855fac31a83a7be2f73ea7d53b721d62a7bf"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 176,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2112,
+          "sha256": "71c930afb08ad8db831ba08a7d445b82c5fa56d78706d3760ffc6f7bc7d31fea"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 900,
+        "bytes": 1800,
+        "sha256": "97ba14a682f4e03089de11ee8b99b45e4ebd9dfb494a81c1185cfef934802693"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [1420, 43.8650016784668, 1335],
+        "max": [2180, 43.8650016784668, 1565]
+      },
+      "boundingSphere": {
+        "center": [1800, 43.8650016784668, 1450],
+        "radius": 397.0201506221063
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 415,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4980,
+          "sha256": "3052366782fd1c464afd72b941ed6ef47b72280898bb5ba5bc3f6964752d4e27"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 415,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4980,
+          "sha256": "ebc8ae30f63330bd149771db16be2f313a9eebe50b0abaed2e8fc74f53c724e8"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1908,
+        "bytes": 3816,
+        "sha256": "b7a6054b33fee81e66980525c272d4e58cd771f60d03bfed5961f93bdba07489"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [3250, 10.887127876281738, -2600],
+        "max": [4050, 15.506672859191895, -2450]
+      },
+      "boundingSphere": {
+        "center": [3650, 13.196900367736816, -2525],
+        "radius": 403.76793284862316
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 328,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3936,
+          "sha256": "c10cd2f156d0b41eb527b1ef9b8b7175d2359b8acd83e160189ed075569965f9"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 328,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 3936,
+          "sha256": "8d323c844e5e9ad1f401d8c898122acfe4d7c7f149d087eee0aef36b16da3a02"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1608,
+        "bytes": 3216,
+        "sha256": "384ff07b8cd15c5ee82163fe1c4c675c3701807bbed2e38719ed4002b1511a60"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [4050, 14.29471492767334, -2650],
+        "max": [4450, 17.5385684967041, -2440]
+      },
+      "boundingSphere": {
+        "center": [4250, 15.91664171218872, -2545],
+        "radius": 213.6006067068555
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1809,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 21708,
+          "sha256": "a05488637e6433a80efe42600cf3fb83f5562b34891d9897e74e7867b9362edd"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 1809,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 21708,
+          "sha256": "2c8b7826f3e22368cb9056c143e201a9f7f7b3b611fd3dec0a985ec81647077c"
+        }
+      },
+      "index": null,
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [5400, 11.663249015808105, -2880],
+        "max": [6100, 21.445608139038086, -2450]
+      },
+      "boundingSphere": {
+        "center": [5750, 16.554428577423096, -2665],
+        "radius": 410.7711333052325
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 394,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4728,
+          "sha256": "d016d5a709ba407170ff3760695529063e89f10ec3645e885908c5d424b3deb5"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 394,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 4728,
+          "sha256": "8c84f0d206fc4ca3099556ce666dc449da466fc004ed0cd7355b0c0d2de2456c"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1908,
+        "bytes": 3816,
+        "sha256": "34078f3b8f6903e6796c8d967e7d1711ad5a02ffd2173dd4b7d35723683effce"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [4470, 4.330284118652344, -2940],
+        "max": [5350, 4.853562831878662, -2720]
+      },
+      "boundingSphere": {
+        "center": [4910, 4.591923475265503, -2830],
+        "radius": 453.54164212264106
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 523,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6276,
+          "sha256": "815eaf7f3db2273dbde93a86afe68114e17db77154af7a632b640afc0fc55495"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 523,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 6276,
+          "sha256": "fbf9f0a8bd63f6c9d23808f64701ec0987602d2cfb15eafbbf0fb67fa3a88710"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 2664,
+        "bytes": 5328,
+        "sha256": "3ed8a101ecbc9177112d05c0d078fc9dc27f361e58af31bdb49ea537d97665ae"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [4470, 4.372972011566162, -2740],
+        "max": [5350, 64.41001892089844, -2500]
+      },
+      "boundingSphere": {
+        "center": [4910, 34.3914954662323, -2620],
+        "radius": 457.0377145341528
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 196,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2352,
+          "sha256": "d60d166751c3e697c415b063f1374f235f0a20f510331e4d1ce5a732dfd0124c"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 196,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2352,
+          "sha256": "fbfe14acf230c8a398011b8e8fbb716e9d664a80162f6e6dc0496eb3d5421ee5"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 846,
+        "bytes": 1692,
+        "sha256": "08286445f14ac190c9af5427d314b706055caf0185046e5d8749f0cc78e8388b"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [4235, 43.56623458862305, -1495],
+        "max": [4665, 46.13700866699219, -1345]
+      },
+      "boundingSphere": {
+        "center": [4450, 44.85162162780762, -1420],
+        "radius": 227.70957867389
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 96,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 1152,
+          "sha256": "1c77ad4831a0761ea4d47c9fe42ab17b06046a7dbba3330d4e9aa801eef33a58"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 96,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 1152,
+          "sha256": "88cf9c02df03d34700326c6fa834ecc26a8055ba237160a11a3cfad03d277d12"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 390,
+        "bytes": 780,
+        "sha256": "6fb447663b56fd9da7dc3addc761590a3789216fc3f672d2337d89989631e440"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [5200, 43.6139030456543, -1835],
+        "max": [5700, 46.23058319091797, -1665]
+      },
+      "boundingSphere": {
+        "center": [5450, 44.92224311828613, -1750],
+        "radius": 264.05661163071676
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 232,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2784,
+          "sha256": "bf4e999b60b5e687f1ec95c19a3534a4c701e650a163c75404f5abe3e4d331c8"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 232,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 2784,
+          "sha256": "01182a49e828c455c0ad646c9987e074624fe279c15768cca91a141e0293dfe5"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 1098,
+        "bytes": 2196,
+        "sha256": "3d3942625f81b4debd0062ba8aa073e53c44559cdd08c976e833cea472fbf71a"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [5425, 45.14884567260742, 70],
+        "max": [6075, 47.82802200317383, 430]
+      },
+      "boundingSphere": {
+        "center": [5750, 46.488433837890625, 250],
+        "radius": 371.51931980049716
+      }
+    },
+    {
+      "attributes": {
+        "position": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 78,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 936,
+          "sha256": "2b1c4d8696a391c97caf61d2757138246c007c00e1a64f0c158124cceb4e7938"
+        },
+        "normal": {
+          "type": "Float32Array",
+          "itemSize": 3,
+          "count": 78,
+          "normalized": false,
+          "usage": 35044,
+          "bytes": 936,
+          "sha256": "db56e96ee2c43081d02c35688cf2836c0324ce7ac8c2b2e230e8fe5881e7702e"
+        }
+      },
+      "index": {
+        "type": "Uint16Array",
+        "count": 312,
+        "bytes": 624,
+        "sha256": "c0dfec75500680ef2018c5a349447c965084e85bda64717d00bb966d3703da74"
+      },
+      "groups": [],
+      "drawRange": {
+        "start": 0,
+        "count": "Infinity"
+      },
+      "boundingBox": {
+        "min": [6030, 45.612159729003906, 530],
+        "max": [6370, 48.0414924621582, 770]
+      },
+      "boundingSphere": {
+        "center": [6200, 46.826826095581055, 650],
+        "radius": 208.09006563116387
+      }
+    }
+  ]
+}

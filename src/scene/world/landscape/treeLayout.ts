@@ -2,6 +2,7 @@ import { Matrix4, Quaternion, Vector3 } from 'three'
 
 import type { Region } from '../stage4c/regionalLayout'
 
+import { finishConstruction, runConstruction, type Construction, type ConstructionOptions } from '../../../initialization/cooperative'
 import { inLandingGrade } from '../landing/landingSiteData'
 import { getLandingSupportHeight } from '../landing/landingTerrain'
 import { createDeterministicRandom } from '../stage2/environment/seededLayout'
@@ -9,7 +10,7 @@ import { pointInPolygon } from '../stage2/terrainModel'
 import { REGIONAL_BOUNDS } from '../stage4c/regionalLayout'
 import { intersectsReservation } from '../stage4c/spatialReservations'
 import { createTreeGeometry, type TreeForm } from './landscapeGeometry'
-import { createExistingLandscapeEnvelopes, isNewLandscapeAllowed } from './landscapeReservations'
+import { createExistingLandscapeEnvelopes, isNewLandscapeAllowed, prepareLandscapeMovementReservations } from './landscapeReservations'
 
 export interface LandscapeTree {
   readonly id: string
@@ -36,45 +37,62 @@ export const TREE_POCKETS = [
   { region: 'beach', center: [3880, -2550], radius: 120, count: 4 },
   { region: 'beach', center: [5900, -2570], radius: 125, count: 4 },
 ] as const
-export function createTreeLayout(seed = 'cinderfront:6a:dryland-trees'): readonly LandscapeTree[] {
+const DEFAULT_TREE_SEED = 'cinderfront:6a:dryland-trees'
+let preparedTrees: readonly LandscapeTree[] | undefined
+function* treeLayoutWork(seed: string): Construction<readonly LandscapeTree[]> {
   const resources = (['upright', 'wind'] as const).flatMap((form) => [0, 1].map((variant) => ({ form, variant, ...createTreeGeometry(form, variant) })))
-  const envelopes = resources.map((r) => {
-    const vertices = [r.wood, r.leaves].flatMap((g) => {
-      const p = g.getAttribute('position')
-      return Array.from({ length: p.count }, (_, i) => new Vector3().fromBufferAttribute(p, i))
+  try {
+    const envelopes = resources.map((r) => {
+      const vertices = [r.wood, r.leaves].flatMap((g) => {
+        const p = g.getAttribute('position')
+        return Array.from({ length: p.count }, (_, i) => new Vector3().fromBufferAttribute(p, i))
+      })
+      return { radius: Math.max(...vertices.map((v) => Math.hypot(v.x, v.z))), height: Math.max(...vertices.map((v) => v.y)), span: Math.max(...vertices.map((v) => v.x)) - Math.min(...vertices.map((v) => v.x)) }
     })
-    return { radius: Math.max(...vertices.map((v) => Math.hypot(v.x, v.z))), height: Math.max(...vertices.map((v) => v.y)), span: Math.max(...vertices.map((v) => v.x)) - Math.min(...vertices.map((v) => v.x)) }
-  })
-  const existing = createExistingLandscapeEnvelopes(),
-    trees: LandscapeTree[] = []
-  for (const [pocketIndex, pocket] of TREE_POCKETS.entries()) {
-    const random = createDeterministicRandom(`${seed}:${pocketIndex}`)
-    let accepted = 0
-    for (let attempt = 0; accepted < pocket.count && attempt < 1200; attempt++) {
-      const a = random() * Math.PI * 2,
-        r = Math.sqrt(random()) * pocket.radius,
-        x = pocket.center[0] + Math.cos(a) * r,
-        z = pocket.center[1] + Math.sin(a) * r * 0.65
-      const index = Math.floor(random() * 4),
-        resource = resources[index]!,
-        envelope = envelopes[index]!,
-        scale = 3.6 + random() * 2.1,
-        radius = envelope.radius * scale + 0.15,
-        yaw = random() * Math.PI * 2
-      if (!pointInPolygon(x, z, REGIONAL_BOUNDS[pocket.region]) || inLandingGrade(x, z, radius + 10) || !isNewLandscapeAllowed(x, z, radius + 2)) continue
-      if (existing.some((e) => intersectsReservation(x, z, radius + 1, e)) || trees.some((t) => Math.hypot(t.position[0] - x, t.position[2] - z) < radius + t.radius + 8)) continue
-      const y = getLandingSupportHeight(x, z),
-        slope = Math.hypot(getLandingSupportHeight(x + 2, z) - getLandingSupportHeight(x - 2, z), getLandingSupportHeight(x, z + 2) - getLandingSupportHeight(x, z - 2)) / 4
-      if (slope > 0.28 || (pocket.region === 'radar' && y > 170) || (pocket.region === 'beach' && z < -2800)) continue
-      trees.push({ id: `6a:${pocket.region}:tree:${pocketIndex}:${accepted}`, region: pocket.region, form: resource.form, variant: resource.variant, position: [x, y, z], scale, yaw, radius, height: envelope.height * scale, crownSpan: envelope.span * scale, colorMix: random() })
-      accepted++
+    yield
+    const existing = createExistingLandscapeEnvelopes(),
+      trees: LandscapeTree[] = []
+    for (const [pocketIndex, pocket] of TREE_POCKETS.entries()) {
+      const random = createDeterministicRandom(`${seed}:${pocketIndex}`)
+      let accepted = 0
+      for (let attempt = 0; accepted < pocket.count && attempt < 1200; attempt++) {
+        if (attempt % 8 === 0) yield
+        const a = random() * Math.PI * 2,
+          r = Math.sqrt(random()) * pocket.radius,
+          x = pocket.center[0] + Math.cos(a) * r,
+          z = pocket.center[1] + Math.sin(a) * r * 0.65
+        const index = Math.floor(random() * 4),
+          resource = resources[index]!,
+          envelope = envelopes[index]!,
+          scale = 3.6 + random() * 2.1,
+          radius = envelope.radius * scale + 0.15,
+          yaw = random() * Math.PI * 2
+        if (!pointInPolygon(x, z, REGIONAL_BOUNDS[pocket.region]) || inLandingGrade(x, z, radius + 10) || !isNewLandscapeAllowed(x, z, radius + 2)) continue
+        if (existing.some((e) => intersectsReservation(x, z, radius + 1, e)) || trees.some((t) => Math.hypot(t.position[0] - x, t.position[2] - z) < radius + t.radius + 8)) continue
+        const y = getLandingSupportHeight(x, z),
+          slope = Math.hypot(getLandingSupportHeight(x + 2, z) - getLandingSupportHeight(x - 2, z), getLandingSupportHeight(x, z + 2) - getLandingSupportHeight(x, z - 2)) / 4
+        if (slope > 0.28 || (pocket.region === 'radar' && y > 170) || (pocket.region === 'beach' && z < -2800)) continue
+        trees.push({ id: `6a:${pocket.region}:tree:${pocketIndex}:${accepted}`, region: pocket.region, form: resource.form, variant: resource.variant, position: [x, y, z], scale, yaw, radius, height: envelope.height * scale, crownSpan: envelope.span * scale, colorMix: random() })
+        accepted++
+      }
     }
+    return trees
+  } finally {
+    resources.forEach((r) => {
+      r.wood.dispose()
+      r.leaves.dispose()
+    })
   }
-  resources.forEach((r) => {
-    r.wood.dispose()
-    r.leaves.dispose()
-  })
-  return trees
+}
+export function createTreeLayout(seed = DEFAULT_TREE_SEED): readonly LandscapeTree[] {
+  return seed === DEFAULT_TREE_SEED && preparedTrees ? preparedTrees : finishConstruction(treeLayoutWork(seed))
+}
+export async function prepareTreeLayout(options: ConstructionOptions) {
+  if (preparedTrees) return
+  await prepareLandscapeMovementReservations(options)
+  const trees = await runConstruction(treeLayoutWork(DEFAULT_TREE_SEED), options)
+  if (options.signal.aborted) throw options.signal.reason
+  preparedTrees ??= trees
 }
 export function treeBaseMatrix(tree: LandscapeTree) {
   return new Matrix4().compose(new Vector3(...tree.position), new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), tree.yaw), new Vector3(tree.scale, tree.scale, tree.scale))

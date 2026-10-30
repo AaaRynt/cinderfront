@@ -2,6 +2,7 @@ import { BufferGeometry, Color, Float32BufferAttribute, Shape, ShapeUtils, Vecto
 
 import type { XZPoint } from '../worldData.ts'
 
+import { finishConstruction, type Construction } from '../../../initialization/cooperative'
 import { MAINLAND_POLYGON_XZ } from '../worldData.ts'
 import { TERRAIN_GRID_X_VALUES, TERRAIN_GRID_Z_VALUES, getTerrainColor, getTerrainHeight, pointInPolygon } from './terrainModel.ts'
 
@@ -86,7 +87,14 @@ function createAxisValues(minimum: number, maximum: number, spacingM: number, ex
   return values.filter((value, index) => index === 0 || value - values[index - 1]! > 1e-4)
 }
 
-function buildClippedGrid(polygon: readonly XZPoint[], spacingM: number, constraintPoints: readonly XZPoint[] = [], sharedAxes?: { readonly xs: readonly number[]; readonly zs: readonly number[] }, alignTerrainDiagonals = false, robustConcaveClipping = false) {
+function* buildClippedGridWork(
+  polygon: readonly XZPoint[],
+  spacingM: number,
+  constraintPoints: readonly XZPoint[] = [],
+  sharedAxes?: { readonly xs: readonly number[]; readonly zs: readonly number[] },
+  alignTerrainDiagonals = false,
+  robustConcaveClipping = false,
+): Construction<{ triangles: TerrainTriangle[]; vertices: TerrainVertex[] }> {
   const xValues = polygon.map((point) => point[0])
   const zValues = polygon.map((point) => point[1])
   const xMin = Math.min(...xValues)
@@ -132,6 +140,7 @@ function buildClippedGrid(polygon: readonly XZPoint[], spacingM: number, constra
     const cellXMin = xs[xIndex - 1]!
     const cellXMax = xs[xIndex]!
     for (let zIndex = 1; zIndex < zs.length; zIndex += 1) {
+      if (zIndex % 8 === 0) yield
       const cellZMin = zs[zIndex - 1]!
       const cellZMax = zs[zIndex]!
       const corners: XZPoint[] = [
@@ -184,9 +193,11 @@ function terrainAxisWindow(values: readonly number[], minimum: number, maximum: 
   return values.slice(lowerIndex, Math.min(values.length, upperIndex + 1))
 }
 
-function orientTrianglesUp(vertices: readonly TerrainVertex[], triangles: readonly TerrainTriangle[]) {
+function* orientTrianglesUpWork(vertices: readonly TerrainVertex[], triangles: readonly TerrainTriangle[]): Construction<number[]> {
+  let visited = 0
   const indices: number[] = []
   for (const [a, b, c] of triangles) {
+    if (++visited % 256 === 0) yield
     const av = vertices[a]!
     const bv = vertices[b]!
     const cv = vertices[c]!
@@ -203,48 +214,67 @@ function orientTrianglesUp(vertices: readonly TerrainVertex[], triangles: readon
   return indices
 }
 
-export function createContinuousMainlandGeometry() {
+export function* createContinuousMainlandGeometryWork(): Construction<BufferGeometry> {
   // Concave shoreline cells can contain disconnected clipped pieces. Clip the
   // triangulated authoritative footprint only at those boundary cells while
   // retaining the compact two-triangle topology for fully interior cells.
-  const { triangles, vertices } = buildClippedGrid(MAINLAND_POLYGON_XZ, 75, [], { xs: TERRAIN_GRID_X_VALUES, zs: TERRAIN_GRID_Z_VALUES }, true, true)
+  const { triangles, vertices } = yield* buildClippedGridWork(MAINLAND_POLYGON_XZ, 75, [], { xs: TERRAIN_GRID_X_VALUES, zs: TERRAIN_GRID_Z_VALUES }, true, true)
 
   const positions: number[] = []
   const colors: number[] = []
   const color = new Color()
+  let preparedVertices = 0
   for (const [x, z] of vertices) {
+    if (++preparedVertices % 64 === 0) yield
     const height = getTerrainHeight(x, z)
     positions.push(x, height, z)
     getTerrainColor(x, z, height, color)
     colors.push(color.r, color.g, color.b)
   }
 
+  const indices = yield* orientTrianglesUpWork(vertices, triangles)
   const geometry = new BufferGeometry()
-  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
-  geometry.setAttribute('color', new Float32BufferAttribute(colors, 3))
-  geometry.setIndex(orientTrianglesUp(vertices, triangles))
-  geometry.computeVertexNormals()
-  geometry.computeBoundingBox()
-  geometry.computeBoundingSphere()
-  return geometry
+  try {
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+    geometry.setAttribute('color', new Float32BufferAttribute(colors, 3))
+    geometry.setIndex(indices)
+    geometry.computeVertexNormals()
+    geometry.computeBoundingBox()
+    geometry.computeBoundingSphere()
+    return geometry
+  } catch (error) {
+    geometry.dispose()
+    throw error
+  }
 }
 
-export function createTerrainSurfaceGeometry(points: readonly XZPoint[], yOffset = 0.25, _gridSpacingM = 45) {
+export function* createTerrainSurfaceGeometryWork(points: readonly XZPoint[], yOffset = 0.25, _gridSpacingM = 45): Construction<BufferGeometry> {
   const xMin = Math.min(...points.map((point) => point[0]))
   const xMax = Math.max(...points.map((point) => point[0]))
   const zMin = Math.min(...points.map((point) => point[1]))
   const zMax = Math.max(...points.map((point) => point[1]))
   const surfaceXs = terrainAxisWindow(TERRAIN_GRID_X_VALUES, xMin, xMax)
   const surfaceZs = terrainAxisWindow(TERRAIN_GRID_Z_VALUES, zMin, zMax)
-  const { triangles, vertices } = buildClippedGrid(points, 75, [], { xs: surfaceXs, zs: surfaceZs }, true)
-  const positions = vertices.flatMap(([x, z]) => [x, getTerrainHeight(x, z) + yOffset, z])
+  const { triangles, vertices } = yield* buildClippedGridWork(points, 75, [], { xs: surfaceXs, zs: surfaceZs }, true)
+  const positions: number[] = []
+  for (let i = 0; i < vertices.length; i++) {
+    if (i % 64 === 0) yield
+    const [x, z] = vertices[i]!
+    positions.push(x, getTerrainHeight(x, z) + yOffset, z)
+  }
+  const indices = yield* orientTrianglesUpWork(vertices, triangles)
   const geometry = new BufferGeometry()
-  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
-  geometry.setIndex(orientTrianglesUp(vertices, triangles))
-  geometry.computeVertexNormals()
-  geometry.computeBoundingBox()
-  geometry.computeBoundingSphere()
-  return geometry
+  try {
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+    geometry.setIndex(indices)
+    geometry.computeVertexNormals()
+    geometry.computeBoundingBox()
+    geometry.computeBoundingSphere()
+    return geometry
+  } catch (error) {
+    geometry.dispose()
+    throw error
+  }
 }
 
 function createRibbonCrossSections(points: readonly XZPoint[], widthM: number) {
@@ -272,10 +302,9 @@ function createRibbonCrossSections(points: readonly XZPoint[], widthM: number) {
  * used by the mainland. This keeps the complete ribbon, not only its edges,
  * at one constant clearance above the rendered terrain planes.
  */
-export function createTerrainRoadGeometry(points: readonly XZPoint[], widthM: number, terrainClearanceM: number) {
-  const geometry = new BufferGeometry()
+export function* createTerrainRoadGeometryWork(points: readonly XZPoint[], widthM: number, terrainClearanceM: number): Construction<BufferGeometry> {
   const crossSections = createRibbonCrossSections(points, widthM)
-  if (crossSections.length < 2) return geometry
+  if (crossSections.length < 2) return new BufferGeometry()
 
   const closed = points.length > 2 && Math.hypot(points[0]![0] - points[points.length - 1]![0], points[0]![1] - points[points.length - 1]![1]) <= 1e-4
   const segmentCount = closed ? crossSections.length : crossSections.length - 1
@@ -302,18 +331,30 @@ export function createTerrainRoadGeometry(points: readonly XZPoint[], widthM: nu
     const zMax = Math.max(...quad.map((point) => point[1]))
     const surfaceXs = terrainAxisWindow(TERRAIN_GRID_X_VALUES, xMin, xMax)
     const surfaceZs = terrainAxisWindow(TERRAIN_GRID_Z_VALUES, zMin, zMax)
-    const segment = buildClippedGrid(quad, 75, [], { xs: surfaceXs, zs: surfaceZs }, true)
+    const segment = yield* buildClippedGridWork(quad, 75, [], { xs: surfaceXs, zs: surfaceZs }, true)
     const localIndices = segment.vertices.map(vertexIndex)
     for (const [a, b, c] of segment.triangles) triangles.push([localIndices[a]!, localIndices[b]!, localIndices[c]!])
   }
 
-  const positions = vertices.flatMap(([x, z]) => [x, getTerrainHeight(x, z) + terrainClearanceM, z])
-  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
-  geometry.setIndex(orientTrianglesUp(vertices, triangles))
-  geometry.computeVertexNormals()
-  geometry.computeBoundingBox()
-  geometry.computeBoundingSphere()
-  return geometry
+  const positions: number[] = []
+  for (let i = 0; i < vertices.length; i++) {
+    if (i % 64 === 0) yield
+    const [x, z] = vertices[i]!
+    positions.push(x, getTerrainHeight(x, z) + terrainClearanceM, z)
+  }
+  const indices = yield* orientTrianglesUpWork(vertices, triangles)
+  const geometry = new BufferGeometry()
+  try {
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+    geometry.setIndex(indices)
+    geometry.computeVertexNormals()
+    geometry.computeBoundingBox()
+    geometry.computeBoundingSphere()
+    return geometry
+  } catch (error) {
+    geometry.dispose()
+    throw error
+  }
 }
 
 export function createCoastSkirtGeometry(bottomY = -3) {
@@ -352,4 +393,14 @@ export function createPolygonShape(points: readonly XZPoint[]) {
   }
   shape.closePath()
   return shape
+}
+
+export function createContinuousMainlandGeometry() {
+  return finishConstruction(createContinuousMainlandGeometryWork())
+}
+export function createTerrainSurfaceGeometry(points: readonly XZPoint[], yOffset = 0.25, gridSpacingM = 45) {
+  return finishConstruction(createTerrainSurfaceGeometryWork(points, yOffset, gridSpacingM))
+}
+export function createTerrainRoadGeometry(points: readonly XZPoint[], widthM: number, terrainClearanceM: number) {
+  return finishConstruction(createTerrainRoadGeometryWork(points, widthM, terrainClearanceM))
 }

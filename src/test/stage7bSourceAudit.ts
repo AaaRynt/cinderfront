@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+
+import { stage7cHistoricalSource } from './stage7cSourceAudit'
 
 /** Only these existing paths changed; every other captured source is read live. */
 export const STAGE7B_SOURCE_CHANGES: Readonly<Record<string, string>> = {
@@ -17,7 +18,7 @@ export const STAGE7B_SOURCE_CHANGES: Readonly<Record<string, string>> = {
 }
 const bytes = new Map<string, Buffer>()
 export function stage7bHistoricalSource(path: string): Buffer {
-  if (!(path in STAGE7B_SOURCE_CHANGES)) return readFileSync(path)
+  if (!(path in STAGE7B_SOURCE_CHANGES)) return stage7cHistoricalSource(path)
   let source = bytes.get(path)
   if (!source) {
     source = execFileSync('git', ['show', `62edc66:${path}`], { maxBuffer: 32 * 1024 * 1024 })

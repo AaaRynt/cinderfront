@@ -16,7 +16,7 @@ export const readinessStore = createStore<ReadinessState>()((set) => ({
   generation: 0,
   completed: 0,
   total: 0,
-  message: 'Preparing scene · playback will be available shortly',
+  message: 'Preparing graphics · playback will be available shortly',
   retryVersion: 0,
   retry: () => set((s) => ({ retryVersion: s.retryVersion + 1 })),
 }))

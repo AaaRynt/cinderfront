@@ -17,7 +17,7 @@ export function SceneReadiness() {
   useEffect(() => {
     simulationStore.getState().pause()
     const ownerGeneration = readinessStore.getState().generation + 1
-    readinessStore.setState({ generation: ownerGeneration, phase: 'preparing', completed: 0, total: 0, message: 'Preparing scene · playback will be available shortly' })
+    readinessStore.setState({ generation: ownerGeneration, phase: 'preparing', completed: 0, total: 0, message: 'Preparing graphics · playback will be available shortly' })
     let operation: ReturnType<typeof startPreparation> | undefined
     let abandoned = false
     // A frame lets the existing paused scene and HUD become usable before jobs.

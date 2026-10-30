@@ -241,10 +241,8 @@ export function SimulationHud({ readiness, battlefieldStatus, duration, latestEv
 
         {readiness.phase !== 'ready' && (
           <div className="col-span-full row-start-3 flex items-center gap-3 text-[11px] text-(--amber) max-[900px]:row-start-4" id="scene-preparation-status" role="status" aria-live="polite">
-            <span>
-              {readiness.message}
-              {readiness.phase === 'preparing' && readiness.total > 0 ? ` · ${readiness.completed}/${readiness.total}` : ''}
-            </span>
+            <span>{readiness.message}</span>
+            {readiness.phase === 'preparing' && <progress aria-label="Graphics preparation" value={readiness.total > 0 ? readiness.completed : undefined} max={readiness.total > 0 ? readiness.total : undefined} className="w-24 accent-(--amber-bright)" />}
             {(readiness.phase === 'failed' || readiness.phase === 'cancelled') && (
               <button className="border border-(--hud-edge) px-2 py-1" onClick={readiness.retry} type="button">
                 Retry preparation

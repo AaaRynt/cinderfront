@@ -44,7 +44,7 @@ export function startPreparation({ jobs, dispose, budgetMs = 12_000, yieldWork =
     if (current()) readinessStore.setState(patch)
   }
   // Publish the new generation before the current-generation guard is used.
-  readinessStore.setState({ generation, phase: 'preparing', completed: 0, total: jobs.length, message: 'Preparing scene · playback will be available shortly' })
+  readinessStore.setState({ generation, phase: 'preparing', completed: 0, total: jobs.length, message: 'Preparing graphics · playback will be available shortly' })
   const timer = setTimeout(() => controller.abort(new Error('Preparation took too long. Retry scene preparation.')), budgetMs)
   const done = (async () => {
     try {

@@ -1,5 +1,6 @@
 import type { XZPoint } from '../worldData'
 
+import { finishConstruction, runConstruction, type Construction, type ConstructionOptions } from '../../../initialization/cooperative'
 import { deriveBtr80GroupState, deriveT72GroupState, BTR80_DIMENSIONS_METERS, T72_DIMENSIONS_METERS } from '../../../simulation/groundVehicles'
 import { deriveLandingWorldState } from '../../../simulation/landingCraft'
 import { deriveSecondaryPantsirState } from '../../../simulation/secondaryPantsir'
@@ -17,8 +18,7 @@ export const LANDSCAPE_SWEEP_STEP = 0.25
 // suspension/cant and cargo + the complete deployed panel, plus >= 1 m margin.
 export const LANDSCAPE_ACTOR_RADII = { lcac: 23, lav: 6.2, pantsir: 9 } as const
 let completedSweeps: readonly Reservation[] | undefined
-export function getLandscapeMovementReservations(): readonly Reservation[] {
-  if (completedSweeps) return completedSweeps
+function* landscapeMovementWork(): Construction<readonly Reservation[]> {
   const tracks = new Map<string, { points: XZPoint[]; radius: number }>()
   function append(id: string, x: number, z: number, radius: number) {
     let track = tracks.get(id)
@@ -32,6 +32,7 @@ export function getLandscapeMovementReservations(): readonly Reservation[] {
   // Focused actor derivations once at static layout creation. Never derive the
   // complete world from scenery/rendering; the dependency remains one-way.
   for (let tick = 0; tick <= 180 / LANDSCAPE_SWEEP_STEP; tick++) {
+    yield
     const t = tick * LANDSCAPE_SWEEP_STEP
     for (const v of Object.values(deriveBtr80GroupState(t, () => 0).vehicles)) {
       const p = v.pose.position
@@ -52,12 +53,21 @@ export function getLandscapeMovementReservations(): readonly Reservation[] {
     for (const c of Object.values(landing.crafts)) append(c.id, c.pose.position.x, c.pose.position.z, LANDSCAPE_ACTOR_RADII.lcac)
     for (const v of Object.values(landing.payload)) append(v.id, v.pose.position.x, v.pose.position.z, LANDSCAPE_ACTOR_RADII.lav)
   }
-  completedSweeps = [
+  return [
     ...Array.from(tracks, ([id, t]) => reservePath(id, t.points, t.radius)),
     ...ROAD_DEFINITIONS.filter((r) => ['road_beach_exit', 'road_beach_access_east'].includes(r.id)).map((r) => reservePath(`6b-full-${r.id}`, r.points, r.widthM / 2 + 7)),
     { id: 'secondary-pantsir-damage', kind: 'circle', center: [5432, -1749.8], radius: 55 },
   ]
-  return completedSweeps
+}
+export function getLandscapeMovementReservations(): readonly Reservation[] {
+  return (completedSweeps ??= finishConstruction(landscapeMovementWork()))
+}
+export async function prepareLandscapeMovementReservations(options: ConstructionOptions) {
+  if (completedSweeps) return
+  options.onProgress?.({ message: 'Preparing surroundings' })
+  const result = await runConstruction(landscapeMovementWork(), options)
+  if (options.signal.aborted) throw options.signal.reason
+  completedSweeps ??= result
 }
 export const LEGACY_ROCK_SPECS = [
   ...[

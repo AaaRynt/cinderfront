@@ -2,15 +2,16 @@ import { useEffect, useMemo } from 'react'
 
 import type { Stage2Materials } from './stage2Materials.ts'
 
-import { createLandingCoastGeometry, createLandingMainlandGeometry } from '../landing/landingTerrain'
+import { createLandingCoastGeometry, createLandingMainlandGeometry, getPreparedTerrainMeshes } from '../landing/landingTerrain'
 import { CoastalWater } from '../stage4c/CoastalWater.tsx'
 
 export function TerrainAndWater({ materials }: { materials: Stage2Materials }) {
-  const terrainGeometry = useMemo(() => createLandingMainlandGeometry(), [])
-  const coastGeometry = useMemo(() => createLandingCoastGeometry(-3), [])
+  const resources = useMemo(() => getPreparedTerrainMeshes() ?? { terrain: createLandingMainlandGeometry(), coast: createLandingCoastGeometry(-3) }, [])
+  const { terrain: terrainGeometry, coast: coastGeometry } = resources
 
   useEffect(
     () => () => {
+      if (getPreparedTerrainMeshes()?.terrain === terrainGeometry) return
       coastGeometry.dispose()
       terrainGeometry.dispose()
     },

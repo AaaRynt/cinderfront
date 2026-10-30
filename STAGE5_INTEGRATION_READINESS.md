@@ -1,10 +1,34 @@
 # Stage 5 Amphibious Integration Readiness
 
-Stages 5A, 5B and 5C and parent Stage 5 are COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope after fresh integration acceptance. Post-core Stages 7A and 7B are COMPLETE with their documented performance/context limitations. The original 51 events, two LCACs, eight LAV-25s, 24 camera IDs and complete runtime history remain exact. Current Stage 7B results appear first; earlier dated records retain their historical measurements.
+Stages 5A, 5B and 5C and parent Stage 5 are COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope after fresh integration acceptance. Post-core Stages 7A and 7B are COMPLETE with their documented performance/context limitations. The original 51 events, two LCACs, eight LAV-25s, 24 camera IDs and complete runtime history remain exact. Stage 7C is COMPLETE for responsive deterministic startup and ownership/recovery, with residual mount, warm-regression and playback-context limits. The latest completed results are Stage 7C; earlier dated records retain their historical measurements.
 
 **The human approved nearer staging, revised final approaches and local shore grading on 2026-10-09, retaining the key event times.** Rounding the original routes does not resolve their speed conflict. The approved package is now implemented and measured below. Stage 5B reference edits were limited to its recorded staging/approach/nearshore meanings, local contact grades and associated reservations/masks. Stage 5C adds the direct-join clarification recorded separately below; unrelated authoritative content remains exact.
 
-## Current post-core Stage 7B — 2026-10-29
+## Current post-core Stage 7C — 2026-10-30
+
+**Status:** COMPLETE, with explicit residual mount and playback-context limits
+
+Delivered 2026-10-30: an early accessible shell precedes scene/simulation imports and prepares exact terrain, support indexes, coast, authored ground meshes and the finite landscape layout through shared deterministic kernels. Selected construction P95 is **8.4–8.7 ms**, maximum **31.9 ms**. The largest startup application task falls **2558→519 ms (79.7%)**; median ready time is **3812.3→3750.6 ms**, meeting the fixed wall-time limit. The residual 510–519 ms React scene mount remains an application limitation.
+
+Three alternating pairs retain all six natural first plays and thirty warm windows. No changed first-play application task reaches 500 ms, but reference B3 records a 528 ms task near T+113; a separate sampled replay does not reproduce it, and its complete cause remains unresolved. Warm Landing 1× world P95 regresses **10.3→13.4 ms (+30.1%)** and other context variability remains explicit. This startup delivery does not claim a steady-state or universal first-use fix.
+
+All historical world/query/fixture/source contracts and **25 complete pixel-identical 1280×720 RGB pairs** pass; both versions pass **613 rendered checkpoints**, retaining 35 roots, 64 wheels and 65 landscape batches. Native CPU cancellation/unmount, construction/import failure, shortened and full 20-second deadline, rapid Retry and late abandoned import completion pass. Graphics failure/Retry and actual loss during Play and active preparation retain latest time/camera, reuse CPU resources, complete nine jobs and never autoplay. The existing graphics budget remains 12 seconds.
+
+A fresh **600.082-real-second 2×** aftermath run preserves all 936 world upload/resource records; five warmed restart/seek/all-camera cycles preserve 910 fixed rows, 26 legitimate response buffers, 231 pool capacities/9528 slots and existing caches. New CPU preparation retains finite actual mounted geometry rather than duplicate templates and avoids the former 21,819,456-byte mainland clone. All staging/active-owner counts return to zero. Cadence remains variable: the sustained run has 83.3 ms RAF P95.
+
+Fresh validation passes **766 tests / 70 files in 91.10 s**, with all ten optional review folders physically absent and viewers closed, both TypeScript no-emit checks, zero-warning lint and whitespace checks. Original timeouts and task-start prompt/AGENTS/package/lock/dated Stage 6C/7A/7B acceptance remain exact. [STAGE7C_ACCEPTANCE.md](STAGE7C_ACCEPTANCE.md) records every paired run, diagnostics, memory/resource bounds and limits; optional evidence is indexed in `stage7c-review.local/README.md`. No build, dependency/framework upgrade, deployment, new content/audio or visible human is included.
+
+## Historical preparation — Post-Core Stage 7C, prepared 2026-10-30
+
+**Status at preparation:** PLANNED — documentation preparation only
+
+The English `prompt.md` starts from completed Stage 7B commit `9c0208b` and its recorded 739 tests/66 files, no-emit checks and zero-warning lint. Stage 7C targets the remaining synchronous initial terrain/scene construction: paint an accessible loading shell before heavy work, prepare exact immutable resources in bounded units, show truthful progress and own cancellation/failure/retry safely.
+
+The existing nine renderer jobs and 12 s cooperative budget remain; CPU and current graphics readiness both gate playback. Preserve complete ready-state pixels, geometry/support bytes, runtime/contact/effect values, all actors/events/cameras and context recovery without autoplay. Measure total loading time and peak memory rather than hiding cost in another phase.
+
+`ITERATION_PLAN.md` and `prompt.md` define paired startup/first-play evidence, chunk/responsiveness targets, exact preservation and resource acceptance. Stage 7B's slow first-use context remains unexplained and must not be erased by a fast rerun. This preparation reports no implementation, fresh checks or optimization. Dated Stage 6C/7A/7B acceptance remains unchanged.
+
+## Completed post-core Stage 7B — 2026-10-29
 
 **Status:** COMPLETE for focused CPU/preservation delivery, with explicit target/context limits
 
@@ -16,7 +40,7 @@ Fresh checks pass **739 tests / 66 files in 92.33 s**, both no-emit checks, zero
 
 The new **600.0001 real-second 2×** run reaches T+1560 with **16.67/16.80/33.70 ms RAF**, zero long tasks/compile/link calls and unchanged 936 world upload rows. Five warmed equal-time restart/seek/all-camera cycles stay at **261 calls / 372946 triangles / 989 geometries / 340 materials / 3 textures / 319 programs**. All actor roots, 910 fixed uploads, 26 legitimate response buffers, 231 pool capacities and cache bounds remain intact. Four immutable support owners add **15.62 MiB** of Float64 constants; no new preparation job or arbitrary-time cache is added.
 
-[STAGE7B_ACCEPTANCE.md](STAGE7B_ACCEPTANCE.md) is the current report, with every paired run, failed/cropped diagnostics, complete pixel/render checks, separate GPU timings and remaining limits. Optional evidence is indexed in `stage7b-review.local/README.md`; default checks require none of it. Dated Stage 6C/7A acceptance and task-start prompt/package/lock/AGENTS bytes remain exact. No build, deployment, dependency/framework change, new combat/content, audio or visible human is included.
+[STAGE7B_ACCEPTANCE.md](STAGE7B_ACCEPTANCE.md) records the dated Stage 7B result, with every paired run, failed/cropped diagnostics, complete pixel/render checks, separate GPU timings and remaining limits. Optional evidence is indexed in `stage7b-review.local/README.md`; default checks require none of it. Dated Stage 6C/7A acceptance and task-start prompt/package/lock/AGENTS bytes remain exact. No build, deployment, dependency/framework change, new combat/content, audio or visible human is included.
 
 ## Historical preparation — Post-Core Stage 7B, 2026-10-28
 
@@ -243,7 +267,7 @@ Extend the existing -12…90 m carrier-forward support coverage before admitting
 
 The human selected: nearer offshore staging, revised terminal routes and local shoreline slopes, preserving the key event times. This supersedes the pending choice among cinematic compression, nearer staging and longer transit. Do not request that same decision again.
 
-The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C/6A/6B/6C/7A prompts are preserved in `b49db45` / `75bf46a` / `5f940b5` / `1bc6bdc` / `62edc66`; the current `prompt.md` targets post-core Stage 7B.
+The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C/6A/6B/6C/7A/7B prompts are preserved in `b49db45` / `75bf46a` / `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b`; the current `prompt.md` targets post-core Stage 7C.
 
 - replace the LCAC staging descriptions/feature references and approach paths with nearshore holding positions in `region_e_remote_beachhead`;
 - preserve departure at T+110, final-nearshore gates at T+140/T+148 and beaching at T+155/T+162, along with all official event IDs and other timestamps;
