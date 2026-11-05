@@ -1,168 +1,155 @@
-# Post-Core Stage 7C — Responsive Startup and Deterministic Scene Initialization
+# Post-Core Stage 7D — Warm Playback Stability and Regression Recovery
 
 Work directly in the existing Cinderfront repository.
 
-Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber, and Tailwind CSS. The viewer observes an authored operation and indefinite aftermath through spectator cameras and time controls.
+Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber and Tailwind CSS. The viewer observes an authored operation and indefinite aftermath through spectator cameras and time controls.
 
-This is an implementation task. Make initial scene construction visibly responsive, give initialization truthful progress and safe ownership, and verify that the completed scene and runtime remain exact. Deliver the implementation and measured acceptance.
+This is a focused implementation and verification task. Establish why measured warm playback varies so widely, correct reproducible application or measurement faults, and verify the result against a fixed current reference. Preserve the responsive startup and the exact accepted scene/runtime.
 
-## 1. Starting point and purpose
+## 1. Starting point and bounded purpose
 
-Start from completed Stage 7B commit `9c0208b`. Stages 1–6 and post-core Stages 7A/7B retain their dated completion and explicit limitations.
+Start from completed Stage 7C commit `e817b1c`. Stages 1–6 and post-core Stages 7A/7B/7C retain their dated completion and explicit limitations.
 
-The recorded starting checks are **739 passing tests across 66 files**, both TypeScript no-emit checks and zero lint errors/warnings. Preserve 51 events, 24 camera IDs, 35 persistent actor roots, 64 LAV wheels and 65 landscape batches.
+The recorded starting checks are **766 tests across 70 files**, both TypeScript no-emit checks and zero lint errors/warnings. Preserve 51 events, 24 camera IDs, 35 persistent actor roots, 64 LAV wheels and 65 landscape batches.
 
-Stage 7B reduced Fuel scene React P95 by 27.0% at both speeds and moving-Landing world P95 by 32.6%/30.4%. Its 12 accepted busy runs already have 16.8–17.4 ms RAF P95. Do not reopen a general steady-state optimization round or chase a higher frame rate at the same display floor.
+Stage 7C completed responsive deterministic CPU preparation: selected slices have 8.4–8.7 ms P95 and 31.9 ms maximum, median ready time is 3750.6 ms, and the shell handles input before heavy construction finishes. Keep its shared exact kernels, finite resource ownership, cancellation, retry and graphics handoff.
 
-The remaining startup problem is separate: synchronous terrain/coast construction still blocks the main thread before renderer preparation can help. The current entry point eagerly imports App, which imports the scene and simulation; the HUD also derives a world on its first render. A loading message added after those imports or calculations may appear too late.
+Its playback evidence remains materially inconsistent:
 
-Stage 7B also retained an initial after-context first play with 878/596/549 ms long tasks and no established cause. A later clean context does not invalidate that evidence. Recheck first-use consistency, but do not claim that startup scheduling fixes these playback stalls without attribution.
+| Recorded Stage 7C comparison | Fixed 7B reference → completed 7C |
+| --- | --- |
+| Moving Landing 1× actual-world P95, median of three | 10.3 → 13.4 ms (+30.1%) |
+| Moving Landing 1× scene React P95 | 60.9 → 63.3 ms (+3.9%) |
+| Moving Landing 1× HUD React P95 | 15.4 → 19.1 ms (+24.0%) |
+| Fuel aftermath scene React P95 | 45.7 → 48.1 ms (+5.3%) |
+| Changed 600.082-real-second 2× aftermath RAF | 32.72 / 83.30 / 400.10 ms mean/P95/max; 4385 long tasks |
 
-The primary deliverable is an early usable loading shell and bounded, cancellable construction of the same exact scene. The accepted ready-state appearance, simulation and picture quality remain unchanged.
+Both sides contain fast and slow contexts. A3 is near the display floor; A1/A2 and several reference windows are slow. These observations establish a problem to investigate, not proof that Stage 7C source changes caused every slowdown. The historical Stage 7B display-floor cohort cannot substitute for a fresh matched reference.
 
-## 2. Read and trace before editing
+The primary scope is **live playback cost and trustworthy regression recovery**. Residual 510–519 ms initial React mounting and 200–246 ms first-draw work remain recorded but are outside a separate startup rewrite in this round. No new content, scenery, events, audio or quality redesign.
 
-Read `AGENTS.md`, `ITERATION_PLAN.md`, `STAGE7B_ACCEPTANCE.md`, `STAGE7A_ACCEPTANCE.md`, `STAGE6C_ACCEPTANCE.md`, the integration summary and relevant changelog records.
+## 2. Read and trace first
 
-Trace the actual startup dependency graph, including:
+Read `AGENTS.md`, `ITERATION_PLAN.md`, `STAGE7C_ACCEPTANCE.md`, `STAGE7B_ACCEPTANCE.md`, `STAGE7A_ACCEPTANCE.md`, `STAGE6C_ACCEPTANCE.md`, the integration summary and relevant changelog records.
 
-- `index.html`, `src/main.tsx`, `src/App.tsx`, CSS and barrel imports;
-- `src/scene/BattlefieldScene.tsx`, the first HUD/world derivation and camera initialization;
-- `src/scene/world/stage2/terrainGeometry.ts`, `terrainModel.ts` and `TerrainAndWater.tsx`;
-- `src/scene/world/landing/landingTerrain.ts`, `landingSupportIndex.ts` and their synchronous consumers;
-- landscape layout/reservation generation, coast, road, surface-history and instance construction;
-- `src/scene/readiness/`, resource disposal and StrictMode lifecycle;
-- current geometry/support fingerprints, full-world preservation fixtures and source-audit chain.
+Inspect:
 
-Inspect real call stacks before deciding which work to split, defer or reuse. Terrain refinement, index creation, coast generation and deterministic landscape preparation are candidates, not assumed equal contributors.
+- `src/scene/BattlefieldScene.tsx`, `src/App.tsx`, `src/ui/SimulationHud.tsx` and camera subscriptions;
+- `src/simulation/runtime.ts`, `lavDeployment.ts`, `lavAftermath.ts`, terrain/support samplers and their exact-input caches;
+- active LCAC/LAV/support-wheel models, smoke/fire/effect subtrees, instance updates and renderer submission;
+- `src/initialization/`, generator drain paths, terrain/presentation/layout owners and `src/scene/readiness/`;
+- the fixed-reference fixture/source-audit chain and current resource-bound diagnostics.
 
-Optional prior evidence is indexed in `stage7b-review.local/README.md`. Default tests must not depend on ignored evidence.
+Review the optional `stage7c-review.local/README.md` and actual measurement helpers, especially the controlled Vite runner, probe installation/reset, React/world wrappers and warm-window schedule. Inspect older Stage 7B helpers when comparing the historic evidence. Default checks must remain independent of optional evidence.
 
-## 3. Fix a startup comparison before implementation
+## 3. Fix the experiment and audit measurement overhead
 
-Create an immutable reference from `9c0208b`, sharing the existing installed dependencies without changing them. Use the same controlled development configuration, StrictMode, visible browser, viewport/drawing buffer, DPR, antialiasing, shadows and recorder on both versions. Use only one visible owned renderer at a time.
+Use an immutable archive of **`e817b1c` as the primary before reference**, with the existing installed dependencies. Record the served source identity and exact opt-in transforms for every viewer, including the changed working tree.
 
-Record a pre-edit startup trace that separates:
+Keep the same development/StrictMode setup, browser, visible owned viewer, device, CSS/drawing-buffer size, DPR 1, antialiasing, shadows and schedule. Only one owned renderer may run during measurement. Record actual visibility, CPU emulation, refresh cadence, active profiler state and module/browser/driver-cache conditions per context.
 
-- navigation/module fetching and evaluation;
-- first visible loading interface and its first handled interaction;
-- terrain generation/refinement, coast, road/apron and support-index construction;
-- deterministic landscape/reservation/layout work;
-- first complete scene draw;
-- all nine existing renderer preparation jobs;
-- ready-to-play time and the first natural playback.
+Before implementation:
 
-Report wall time, main-thread task distributions, longest attributed application task, progress/heartbeat gaps and CPU-memory/resource peaks. Parent and child timings overlap; do not add them as independent costs.
+1. Run an A/A repeat of unchanged `e817b1c` for moving Landing 1× and 90-real-second aftermath to estimate context/recorder variation.
+2. Compare a minimal bounded RAF/Long Task recorder with the fuller low-overhead React/world recorder under the same workload. Quantify observer cost. Detailed sampled profiles, native GPU queries, screenshots and full inventories remain separate.
+3. Verify single installation/cleanup of wrappers, subscriptions, observers and timers; reset/export ownership and bounded buffers; no hidden per-frame scene traversal, repeated development reload, lingering CPU sampling or accumulating callbacks.
+4. Verify that completed CPU preparation has zero active/staging owners and no pending construction channels/tickers, and that graphics jobs are complete throughout warm playback.
+5. Use `9c0208b` only as a separately labelled historical-control checkout if needed to test a suspected Stage 7C change. Do not compare new measurements to archived fast numbers as if they were paired.
 
-Before editing, record the selected construction hotspots, exact preservation oracle, work-unit/ownership design and numerical startup goals in a short implementation note. Keep baseline and goals fixed when reporting results.
+Freeze the measurement contract, comparison order, selected workload, source/harness hashes and numerical acceptance before changing application code. A harness correction must be applied identically to both primary versions and followed by a new complete fixed cohort; preserve the earlier flawed evidence and its specific defect.
 
-## 4. Show truthful progress before expensive work
+Do not repeatedly create contexts until one is fast, force collection between selected runs, disable StrictMode, reduce recording only on the changed side, clear unrelated browser data or silently omit slow runs.
 
-Mount a small accessible loading shell before the selected heavy application imports, first world derivation or scene construction can block it. Trace imports to prove that the shell does not indirectly trigger the same work.
+## 4. Establish causes before selecting fixes
 
-Use plain product language such as “Preparing terrain” and “Preparing graphics.” Reuse the current Tailwind design. Keep implementation counters, cache terminology and profiling details out of the product UI.
+Reproduce the five warm windows:
 
-Allow the browser to paint the shell before beginning construction. A single deferred callback followed by the original multi-second synchronous job is insufficient.
+- Fuel T+78→104 at 1×;
+- Landing T+176→206 at 1×;
+- Fuel T+78→104 at 2×;
+- Landing T+176→206 at 2×;
+- Fuel aftermath from T+360 at 2× for 90 real seconds.
 
-Progress must reflect completed deterministic work or named phases. Show an indeterminate phase when its total is unknown; do not advance a timer-based percentage or report ready while required work remains.
+Separate actual world cache misses, shared exact-time cache hits, contact/query counts, allocation work, scene/HUD render, commit-effect callbacks, uploads, renderer CPU, native queries and RAF/Long Tasks. World derivation is nested in React; do not add overlapping timings.
 
-During initialization, playback and time-editing mouse/keyboard paths must stay gated. Do not derive a full live world just to populate a loading HUD. After ready, retain the existing controls, labels, precision and layout.
+The exact-time shared world cache already exists. Measure its callers before alleging duplicate full derivations. The Stage 7B terminal cache is already effective after hold/dust expiry; another settled-only cache does not explain moving Landing.
 
-Never autoplay or queue an earlier Play intent. Preserve the current selected time/camera on retry or context recovery; initial load stays paused at T+0.
+For slow and fast contexts, compare actual call/render/query/update counts at equal logical samples, not just elapsed totals from different amounts of simulated progress. Record whether the same work becomes slower or additional work appears.
 
-## 5. Construct exact resources in bounded units
+Use a bounded sampled profile in a separate reproduction of the affected window. If a spike does not recur, its cause remains unresolved; stacks from another ordinary interval cannot explain the original complete task.
 
-Use the simplest measured approach that meets the responsiveness goal. Cooperative deterministic chunking and finite reuse are appropriate. A dedicated worker is optional only if profiling justifies its serialization, memory and ownership cost; no new dependency is authorized.
+A regression claim needs a controlled change that reproduces or removes the effect. Test one suspected application/harness/initialization difference at a time. Do not assign OS, GC, thermal, driver or browser causes without evidence. A long RAF gap with no matching task is still an unexplained gap.
 
-Split the expensive loops themselves where necessary. Preserve arithmetic, iteration order, vertex/index insertion order, random-stream consumption, clipping/triangulation decisions, Float32 rounding, normals, attributes and bounds.
+## 5. Implement the smallest proven correction
 
-Yield to actual browser tasks/paint between bounded units. Chained resolved promises alone do not provide a responsive loading interface. Check cancellation/deadlines inside long loops, not only between whole multi-second phases.
+Correct actual defects found in measurement lifecycle or application work. If a recorder defect explains the apparent release regression and clean controls establish that, deliver the corrected optional recorder and evidence without manufacturing an application rewrite.
 
-Build into private staging storage and publish complete immutable results atomically. Never expose partially built terrain/support data to simulation, camera, layout or rendering consumers.
+Where a live application hotspot is established, reduce that work in the existing architecture. Candidates include time-driven scene/HUD invalidation, unchanged model/effect subtrees, allocation-heavy support paths and redundant uploads. Existing memoization and exact support optimizations must be measured before extending them.
 
-All synchronous public samplers and geometry APIs must retain their existing ready-state values and behavior. Keep a shared exact construction kernel or another independently checked equivalence path; do not create diverging synchronous and asynchronous terrain authorities.
+Keep comparisons/selectors complete for every visible primitive input, boundary, resource identity and clock dependency. Backward seeks, alternating actors, scene recovery and newly visible views must invalidate correctly. Do not leave stale state behind camera visibility or memo boundaries.
 
-If work crosses a worker boundary, transfer only owned buffers and preserve typed-array types/order/bytes. Do not detach published buffers, clone the entire scene, or move WebGL ownership without a demonstrated need.
+If an existing R3F ref/update path is used, prove same-frame agreement with the logical world and camera. Preserve paused inspection, all mechanical/effect clocks, update ordering and persistent roots. Do not move all rendering into a new imperative framework or spread a broad state-management migration across the app.
 
-Existing finite deterministic landscape reservation sweeps may be reorganized without changing their sample order, results or simulation-store isolation. Do not add future-world playback rehearsal, simulate the scenario to warm it up, or publish sampled future states.
+Any cache needs finite ownership, complete exact input keys and immutable returned snapshots. Keep route tables, support-cell ordering, finite-radius tire math, suspension iterations, signed wheel travel and station-72 handoff exact. No time quantization, lower update rate, approximate contact math or skipped simulation samples.
 
-Account for peak staging memory and disposal. Keep the four immutable support owners and Stage 7B's 15.62 MiB constant-storage tradeoff bounded; do not retain duplicate full geometry/index owners after publication.
+For an application optimization, select a named live CPU component before editing and target at least **20% lower median-of-three P95** in its affected window, supported by reduced work/call/allocation counts or an independently verified cheaper exact kernel. Do not relabel a missed target after measuring. A demonstrated measurement-fault correction follows the independent proof path above and is not claimed as an application CPU speedup.
 
-## 6. Own cancellation, failure, retry and renderer handoff
+## 6. Preserve accepted startup, state and picture quality
 
-Give CPU initialization explicit bounded work, deadline and ownership rules. State its deadline before implementation, report combined bootstrap-to-ready wall time, and retain the renderer preparation's existing **12-second cooperative budget**. Adding a new phase must not hide extra loading time.
+Keep the complete fixed-step driver and cap/overshoot policy byte-identical. Preserve every active actor/weapon/contact/runtime field, event/outcome, route, hold, dust/fade/light schedule, source attribution and observation through 7200/backseeks.
 
-Handle StrictMode mount/cleanup/re-entry, unmount during a chunk, failed import/build, timeout and rapid retries. An abandoned generation cannot publish progress, readiness or resources into a newer owner.
+Retain all authoritative files and historical fixtures, tree/landscape layout, geometry/index/attribute/bounds/support bytes, all 51 events and 24 camera IDs. No visible humans, occupants, crew, casualties, articulated characters or humanoid silhouettes.
 
-Dispose incomplete owned geometry/buffers/listeners and terminate owned workers as applicable. Release each owned resource once. Shared completed immutable data may be reused only under a documented lifetime and cannot be disposed by a stale owner.
+Keep DPR/resolution, antialiasing, shadow quality, materials, effects, lights, geometry, draw visibility and actor populations. No lower-quality configuration or disabling StrictMode to meet timing targets.
 
-Retry must run the failed/invalid work honestly, without reusing a partial result. A deadline cannot interrupt synchronous JavaScript by itself; demonstrate that the selected work actually yields and checks cancellation.
+Preserve the early shell, shared deterministic CPU kernels, atomic publication, synchronous ready-state API values, browser sampler gate and finite actual mounted geometry owners. CPU initialization keeps its 20-second deadline and bounded yielding; graphics preparation keeps nine jobs and its 12-second cooperative budget.
 
-Start renderer preparation only after the complete required scene is mounted. Preserve the existing nine graphics jobs and truthful native program completion. Ready-to-play requires both CPU initialization and the current renderer/context generation to be ready.
+Preserve failure/timeout/retry, stale-owner cancellation and graphics-only CPU reuse. Normal camera changes, restart and seeks do not reconstruct the scene or repeat preparation. Actual context loss retains latest time/camera and stays paused after recovery; no autoplay or queued intent.
 
-Native context loss still pauses playback, cancels invalid graphics work, retains time/latest camera and restores without autoplay. Reuse valid CPU data on graphics-only recovery. Ordinary seeks, restart and camera changes must not rebuild terrain or repeat preparation.
+Do not change dependency versions, add dependencies, upgrade frameworks, build or deploy. Preserve task-start `prompt.md`, `AGENTS.md`, package/lock bytes and all four dated Stage 6C/7A/7B/7C acceptance files during implementation.
 
-## 7. Exact preservation contract
+## 7. Exact tests and rendered verification
 
-Preserve every active world value, contact/road/tire result, support-cell candidate order, source/outcome, wheel/suspension/rotation, event boundary, ramp/fan/light/effect schedule and indefinite aftermath behavior.
+Run all current golden/source/ownership tests with their original assertions and timeouts. Preserve the 4,963-world golden, Stage 7B's 386-world/242,561-query supplement and Stage 7C construction/presentation/source captures.
 
-Keep the fixed-step driver and its cap/overshoot policy byte-identical. Keep the exact-time last-world cache, finite route/support tables, recent-cache bounds and at-most-eight post-hold/post-dust payload records.
+Add focused tests for the actual corrected fault: wrapper/listener ownership, selector invalidation, retained snapshot mutation, exact hot-kernel equivalence or another demonstrated behavioral risk. Avoid flaky wall-clock performance assertions in default tests.
 
-Preserve authoritative map/scenario/vehicle files, all historical fixture bytes, landscape/tree placement, 51 events and 24 camera IDs. No new actors, combat, routes, effects, audio or visual assets.
+Use exact file-level source exceptions with reasons and fixed Git references. No folder whitelist, golden regeneration or broad fixture duplication. Capture a compact independent `e817b1c` supplement only for a demonstrated gap.
 
-Do not lower resolution/DPR, antialiasing, shadows, geometry, effects, lights or update rates, disable StrictMode, or use a lower-quality/loading proxy as the ready scene.
+Repeat **25 complete lossless RGB pairs** at fixed time/camera/viewport, including all 24 ready-state roles and late Fuel. Require pixel identity with no masks or relaxed thresholds. Use the stable complete viewport capture method documented by Stage 7C.
 
-Never create, render or imply visible humans, crew, occupants, casualties, articulated characters or humanoid silhouettes. Keep glazing sealed/dark as before.
+Repeat **613 actual rendered checkpoints** with 35 roots, 64 wheels, 65 landscape batches and the existing mechanical/effect/GPU-clock agreement. Default tests must pass while optional review evidence is physically absent.
 
-Do not change dependency versions, add dependencies, upgrade frameworks, run production builds or deploy.
+## 8. Paired playback acceptance
 
-Preserve `STAGE6C_ACCEPTANCE.md`, `STAGE7A_ACCEPTANCE.md`, `STAGE7B_ACCEPTANCE.md`, task-start `prompt.md`, `AGENTS.md`, package and lock bytes during implementation.
+Collect at least **three alternating paired contexts per primary version**, with no replacement of slow contexts. Use the same warm visits, 24 paused RAF bookends and five-window schedule from Stage 7C.
 
-## 8. Focused tests and exact scene verification
+Each context first completes startup and one natural first **1× T+0→206** playback with the same camera schedule, before rehearsal. Report startup/interface/first-draw/ready times and all first-play gaps. Keep the responsive shell and selected CPU chunk bounds; median ready time must not regress beyond the greater of 10% or 500 ms versus the fresh current reference.
 
-Run the existing full preservation suite, including the 4,963-world golden and Stage 7B's 386-world/242,561-query supplement. Reuse existing captures; add a compact fixed-reference supplement only for uncovered construction outputs.
+For every warm run report complete RAF mean/P95/max, Long Task count/total/max, real/simulated progression, actual world-miss and scene/HUD/renderer CPU distributions, hit/miss/work counts and recording capacity. Commit-effect callback timings are not total commit wall time.
 
-Compare the completed changed geometry against independently captured `9c0208b` geometry: every typed-array attribute/index byte, groups/draw ranges, bounds and support-index constants/cell ordering. Include mainland, coast, roads/apron and any other changed construction path.
+Primary recovery criteria:
 
-Test several chunk budgets, shuffled/cancelled/retried runs and synchronous-versus-prepared results. Assert that no partial resource is published, old snapshots remain unchanged, disposed generations cannot win, and synchronous consumers cannot accidentally bypass the browser's initialization gate.
+- the claimed application or measurement cause is independently reproduced and its correction verified; an unexplained fast rerun alone does not pass;
+- any application optimization meets its predeclared live-component target with exact behavior, and no primary window has a reproducible application CPU regression exceeding the greater of **10% or 1 ms** in world-miss, scene/HUD or renderer P95;
+- the moving-Landing and aftermath outcomes are assessed separately; an idle-only or Fuel-only gain cannot close a demonstrated moving-work regression;
+- observed variance is reported against A/A controls; overlapping/noisy results are labelled inconclusive rather than proven gains.
 
-Keep source exceptions limited to exact changed paths with reasons and fixed Git references. Do not whitelist whole folders, regenerate historical goldens or relax assertions/timeouts to accommodate changes.
+The local cadence goal is **RAF P95 ≤33.3 ms** in each controlled warm window and the sustained run. Report every miss, even if aggregate medians pass. Separate CPU, GPU and display cadence; no universal frame-rate or GPU improvement may be inferred.
 
-Repeat the 25 full-viewport lossless RGB pairs for all 24 ready-state camera roles plus late Fuel, at the same fixed poses and complete UI. Require bit-identical ready-state images. Loading-shell screenshots are separate evidence, not a mask for ready-state changes.
+For any new ≥500 ms application task, retain its surrounding timeline and causal evidence. Historical Stage 7B first-use stalls, the Stage 7C reference 528 ms task and 1949 ms unexplained RAF gap retain their dated unresolved status unless directly explained.
 
-Repeat the existing 613 rendered checkpoints, 35-root/64-wheel/65-landscape agreement and current paused effects/mechanical clocks. Default tests must pass with optional evidence physically absent.
+## 9. Sustained playback, resources and recovery
 
-## 9. Measured startup and first-play acceptance
+Run a fresh uninterrupted **ten-real-minute 2× aftermath** session after the fixed warm schedule, with no screenshots/full traversal/CPU sampling during pacing. Report simulated progression, per-minute RAF/CPU/Long Task distributions and the complete aggregate; a resource-stable slow run is not a smoothness pass.
 
-Use at least **three paired fresh page/WebGL contexts per version**, alternating order and retaining every run. “Fresh context” does not mean a cold driver/module cache; report the actual cache and development-server conditions. Do not clear unrelated browser data.
+Run five warmed equal-time restart/seek/all-24-camera cycles, comparing the same exposure path and endpoint. Preserve 35 resident roots, all 936 world records, 910 fixed uploads, 26 legitimate response buffers and 231 pools/9528 capacity. Record actual finite CPU owners, cache bounds, listener/observer/channel counts and memory tradeoffs.
 
-For each, capture startup and one natural first 1× play from T+0 through T+206 with the same camera schedule, before time rehearsal or warm visits. Keep CPU emulation, visibility, viewport/DPR and diagnostic overhead identical.
+Exercise CPU cancellation/retry, graphics failure/Retry, actual WebGL loss during Play and during preparation, retained latest camera/time, no autoplay, and complete zero-staging cleanup.
 
-Primary startup targets on the matched local setup:
+Check all 24 presets, three speeds, paused orbit/pan/zoom/recenter, direct 7200/backward seeks, restart, native focus/keyboard behavior and complete 1280×720, 1280×540 and 1440×900 layouts. No new product-facing diagnostic panel or performance controls.
 
-- the loading shell paints before selected heavy work and processes an actual accessible control/input while construction is still running;
-- the selected startup workload's P95 uninterrupted application chunk is at most **50 ms**, with no selected application chunk over **100 ms**;
-- the longest attributable construction task is at least **75% shorter** than the fresh reference, without dropping or postponing required work until after ready;
-- median bootstrap-to-ready time is no more than the reference median plus **the greater of 10% or 500 ms**; report both total CPU and wall-time tradeoffs;
-- progress remains truthful, cancellation/retry is observed between bounded chunks, and all exact-output checks pass.
-
-Treat unavoidable native/driver calls separately and retain their durations. Do not call a long selected construction loop “external.” If a target is missed, report it and keep the affected acceptance incomplete.
-
-For first playback, report every RAF mean/P95/max, long task, real/simulated progression, world miss versus hit, scene/HUD React and renderer CPU. Reproduce/attribute any ≥500 ms application stall; no universal all-context fix may be inferred from a clean rerun. If the historical slowdown cannot be reproduced, label its cause unresolved and keep its dated evidence intact.
-
-Use low-overhead recording for acceptance. CPU stacks, screenshots, full inventories and GPU queries run separately. Preserve failed runs and exact exclusion reasons; restarting into a fast context is not an acceptance method.
-
-Check the same five warm windows from Stage 7B at unchanged quality: Fuel 78→104 at 1×/2×, Landing 176→206 at 1×/2×, and 90 real seconds of Fuel aftermath from 360 at 2×. Report three paired repetitions and any material CPU/RAF regression. No new 25% steady-state target is introduced.
-
-## 10. Integration and resource lifetime
-
-Exercise real initialization cancellation/failure/timeout/retry and native WebGL loss/restoration, including loss during graphics preparation and during Play. Verify retained latest camera/time, correct gates and no autoplay.
-
-Check all 24 camera options, all three speeds, paused orbit/pan/zoom/recenter, seek to 7200 and back, restart and native focus/keyboard behavior. Check complete layouts at 1280×720, 1280×540 and 1440×900.
-
-After loading, run one fresh uninterrupted **ten-real-minute 2× aftermath** session and five warmed restart/seek/all-camera cycles. Include repeated initialization cancellation/retry ownership inventories separately.
-
-Preserve resident actor IDs, 910 fixed world uploads, 26 legitimate response buffers, all 231 pool capacities and existing cache bounds. Record any bounded initialization-owner memory cost explicitly. No accumulating workers, staging buffers, geometries, listeners or readiness jobs.
+## 10. Permitted checks and delivery
 
 Allowed checks:
 
@@ -175,12 +162,10 @@ Allowed checks:
 
 Do not run `pnpm build`, `vite build`, `tsc -b`, the combined `pnpm check`, repository-wide formatting, dependency installation or framework upgrades.
 
-## 11. Delivery and completion
+Create `STAGE7D_ACCEPTANCE.md` with the fixed current reference, A/A and recorder-overhead controls, predeclared targets, causal experiments, smallest correction, every primary run, sustained/per-minute results, exact preservation, ownership/recovery and unresolved limits. Keep helpers optional, bounded and reproducible without tracked bulk traces.
 
-Create `STAGE7C_ACCEPTANCE.md` with the fixed reference, selected causes, import/bootstrap trace, ownership/progress design, exact-output checks, all paired startup/first-play/warm results, failed diagnostics, memory/resource bounds, recovery, permitted checks and remaining limits.
+Update `ITERATION_PLAN.md`, `STAGE5_INTEGRATION_READINESS.md` and `changelog.md` from verified results. Preserve all dated acceptance and original evidence.
 
-Update `ITERATION_PLAN.md`, `STAGE5_INTEGRATION_READINESS.md` and `changelog.md` with the verified result. Preserve earlier dated acceptance. Evidence helpers should be bounded, optional and independent of default checks.
+Mark Stage 7D COMPLETE only when causal correction/recovery, exact preservation and ownership acceptance pass. If the cause or a required target remains unresolved, retain an honest partial status instead of treating recorded regressions as resolved.
 
-Mark Stage 7C COMPLETE only when responsive-startup, exact scene/runtime preservation and ownership/recovery acceptance pass. An unresolved historical playback slowdown may remain explicitly unresolved; any newly observed first-play application stall still needs an honest account and cannot be silently excluded.
-
-Finish with a concise report of what became responsive, measured startup cost/tradeoffs, validation and remaining limitations. Do not invent Stage 7D, add content/audio, or expand into a general rendering/state-framework rewrite.
+Finish with a concise report distinguishing verified application gains, measurement corrections, observed cadence and remaining limits. Do not invent Stage 7E, add content/audio, or expand into a new rendering/state framework.

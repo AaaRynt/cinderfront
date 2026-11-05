@@ -22,9 +22,13 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
+Current post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
+
+Historical preparation — 2026-10-30: the English `prompt.md` targets **Post-Core Stage 7D — Warm Playback Stability and Regression Recovery**, starting from completed Stage 7C commit `e817b1c`. Stage 7D was **PLANNED**. It investigates the recorded live-playback regressions and wide context variation through unchanged-version and recorder-overhead controls, then implements the smallest proven application or measurement correction. Preserve Stage 7C's responsive initialization and all accepted ready-state behavior. This preparation changes documents only; the recorded 766-test/70-file baseline and dated acceptance remain inherited results.
+
 Current post-core delivery — 2026-10-30: **Stage 7C is COMPLETE for responsive deterministic startup, exact preservation and ownership/recovery**, with residual mount and playback limits in [STAGE7C_ACCEPTANCE.md](STAGE7C_ACCEPTANCE.md). Selected work has 8.4–8.7 ms P95 / 31.9 ms maximum slices; the largest startup task falls 79.7%, and median ready time is 3.75 s versus 3.81 s. Exact pixels/world/rendering, native CPU/graphics lifecycle, ten-minute resource acceptance and 766 tests/70 files pass. Warm regressions and unresolved reference and historical first-use stalls remain explicit.
 
-Historical preparation — 2026-10-30: the English `prompt.md` targets **Post-Core Stage 7C — Responsive Startup and Deterministic Scene Initialization**, starting from completed Stage 7B commit `9c0208b`. Stage 7C was **PLANNED**. It addressed synchronous startup construction with an early loading shell, bounded exact work, truthful progress and safe cancellation/retry, preserving the accepted ready scene and runtime. Initial first-play variability is rechecked without claiming an established cause. This update changes documentation only; the 739-test/66-file baseline and dated Stage 6C/7A/7B acceptance remain inherited results.
+Historical preparation — 2026-10-30: the English `prompt.md` targeted **Post-Core Stage 7C — Responsive Startup and Deterministic Scene Initialization**, starting from completed Stage 7B commit `9c0208b`. Stage 7C was **PLANNED**. It addressed synchronous startup construction with an early loading shell, bounded exact work, truthful progress and safe cancellation/retry, preserving the accepted ready scene and runtime. Initial first-play variability is rechecked without claiming an established cause. That preparation changed documentation only; the 739-test/66-file baseline and dated Stage 6C/7A/7B acceptance remain inherited results.
 
 Stages 4B, 4B.2A, 4B.2B, 4B.2C, 4C, 5A, 5B and 5C are COMPLETE. Parent Stage 5 is COMPLETE for the authored T+0–180 operation. Stage 6A landscape and Stage 6B indefinite aftermath are COMPLETE. Stage 6C and parent Stage 6 are COMPLETE for the agreed visual, scripted and bounded-aftermath scope, with fresh automated, visual, preservation and sustained resource acceptance. The 51 events, 24 camera IDs and complete active runtime remain exact. All eight LAVs are ashore by T+187.558071982 and the last formation hold begins at T+344.103063449. Current Stage 6C evidence is in `STAGE6C_ACCEPTANCE.md`; historical Stage 5C/6A/6B measurements remain dated below and in `STAGE5_INTEGRATION_READINESS.md`.
 
@@ -48,6 +52,7 @@ The intended sequence is:
 6. harden first-use readiness and frame pacing in the separate post-core Stage 7A, preserving the completed visual/runtime scope.
 7. reduce the remaining measured busy-scene reconciliation and moving-vehicle CPU work in post-core Stage 7B, with exact state and visual preservation.
 8. make initial terrain/scene construction visibly responsive in post-core Stage 7C, preserving exact completed resources, runtime, graphics preparation and recovery.
+9. reproduce and correct live-playback regressions or measurement faults in post-core Stage 7D, with controlled evidence and exact startup/runtime/render preservation.
 
 This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
 
@@ -660,7 +665,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b`; the current `prompt.md` targets post-core Stage 7C.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the current `prompt.md` targets post-core Stage 7D.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1051,7 +1056,7 @@ Delivered 2026-10-28: preparing/ready/failed/cancelled renderer generations, nin
 
 Three fresh complete first plays per side reduce compile/link calls about 90% and first-play P95 from 33–50 ms to 17–18 ms, with 0.748–0.934 s added post-scene preparation. The matched aftermath world-miss mean falls 3.449→0.252 ms. All 4,963 full-world states through 7200 and 25 complete RGB images remain exact; 227 rendered checkpoints retain 35 roots/64 wheels. Five warmed all-camera resource cycles stay flat, and a separate 600.0144 real-second 2× run retains all 936 world upload records. Both no-emit checks, zero-warning lint, 707 tests / 62 files and whitespace checks pass. No build ran.
 
-The Stage 7A English contract is preserved in commit `62edc66`; [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) records every fresh/warm/sustained run, actual causes, recovery, source exceptions and remaining limits. Short busy-window P95 aspirations and one 283.4 ms raw first-play interval remain explicit; actual GPU timings are mixed. `STAGE6C_ACCEPTANCE.md` stays byte-identical as dated core acceptance. The 2026-10-25 preparation itself was documentation only; these are separate fresh delivery results. Audio, production builds/deployment and new gameplay/content remain outside that round. The Stage 7B contract is preserved in `9c0208b`; the current `prompt.md` targets Stage 7C.
+The Stage 7A English contract is preserved in commit `62edc66`; [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) records every fresh/warm/sustained run, actual causes, recovery, source exceptions and remaining limits. Short busy-window P95 aspirations and one 283.4 ms raw first-play interval remain explicit; actual GPU timings are mixed. `STAGE6C_ACCEPTANCE.md` stays byte-identical as dated core acceptance. The 2026-10-25 preparation itself was documentation only; these are separate fresh delivery results. Audio, production builds/deployment and new gameplay/content remain outside that round. The Stage 7B/7C contracts are preserved in `9c0208b` / `e817b1c`; the current `prompt.md` targets Stage 7D.
 
 # Post-Core Stage 7B — Busy-Scene CPU Cost and Moving-Vehicle Frame Pacing
 
@@ -1103,7 +1108,7 @@ A fresh **600.082-real-second 2×** aftermath run preserves all 936 world upload
 
 Fresh validation passes **766 tests / 70 files in 91.10 s**, with all ten optional review folders physically absent and viewers closed, both TypeScript no-emit checks, zero-warning lint and whitespace checks. Original timeouts and task-start prompt/AGENTS/package/lock/dated Stage 6C/7A/7B acceptance remain exact. [STAGE7C_ACCEPTANCE.md](STAGE7C_ACCEPTANCE.md) records every paired run, diagnostics, memory/resource bounds and limits; optional evidence is indexed in `stage7c-review.local/README.md`. No build, dependency/framework upgrade, deployment, new content/audio or visible human is included.
 
-## Motivation and bounded scope
+## Historical motivation and bounded scope — Stage 7C preparation
 
 Initial terrain/coast construction still runs synchronously before the existing renderer preparation can help. The entry point eagerly imports App/scene/simulation, and the HUD derives a world on first render, so an added loading message can appear after the blocking work. Stage 7B's retained slow first-use context also has 878/596/549 ms long tasks without an established cause; a clean rerun does not explain them.
 
@@ -1122,7 +1127,42 @@ Selected application construction targets are P95 uninterrupted chunks ≤50 ms,
 
 Require exact completed geometry/index/attribute/bounds/support comparisons, all existing world/query goldens, 25 complete pixel-identical ready-state images and 613 rendered checkpoints. Verify real cancellation/failure/retry/context recovery, controls/three layouts, three paired repetitions of the existing five warm windows, a fresh ten-real-minute 2× resource run and five warmed cycles. No new steady-state 25% target, quality reduction, content/audio, dependency change, build or deployment.
 
-The full English contract is in task-start `prompt.md`; dated Stage 6C/7A/7B acceptance is unchanged. The 2026-10-30 preparation above was documentation only and claimed no implementation or measured gain. The later verified delivery is recorded separately above and in `STAGE7C_ACCEPTANCE.md`.
+The Stage 7C English contract is preserved in commit `e817b1c`; dated Stage 6C/7A/7B acceptance is unchanged. The 2026-10-30 preparation above was documentation only and claimed no implementation or measured gain. The later verified delivery is recorded separately above and in `STAGE7C_ACCEPTANCE.md`.
+
+# Post-Core Stage 7D — Warm Playback Stability and Regression Recovery
+
+**Status:** PARTIAL — verified 2026-11-06; prompt prepared 2026-10-30
+
+Start from completed Stage 7C commit `e817b1c`, with its recorded 766 tests/70 files, both no-emit checks and zero-warning lint. Stages 1–6 and post-core Stages 7A/7B/7C remain COMPLETE with their dated limits.
+
+## Motivation and bounded scope
+
+Stage 7C's paired cohort records moving-Landing 1× world P95 **10.3→13.4 ms (+30.1%)**, HUD **15.4→19.1 ms (+24.0%)**, and aftermath scene P95 **45.7→48.1 ms (+5.3%)**. Its 600.082-real-second 2× aftermath run has **83.3 ms RAF P95** and 4385 Long Tasks. Both reference and changed contexts vary widely; these measurements do not independently establish which source, observer or environment difference caused the variation.
+
+- use unchanged-version A/A and minimal-versus-full recorder controls, verify served source identity and remove duplicated/leaked observer work
+- fix the current before reference at `e817b1c`; historical `9c0208b` is a separately labelled diagnostic control, not an archived-number substitute
+- reproduce the five existing warm windows, distinguish actual world misses from shared hits, and compare work counts at equal logical samples
+- establish controlled causal evidence, then correct the smallest proven application or measurement fault; do not manufacture an application rewrite if the fault is in recording
+- where a live application hotspot is selected, reduce its exact work with complete invalidation/input keys and preserve same-frame actor/camera/effect behavior
+- retain Stage 7C's early shell, atomic exact CPU owners, 20 s CPU deadline, nine graphics jobs, 12 s graphics budget, retry/cancellation and context recovery
+
+Residual initial React mounting/first-draw blocking remains a recorded separate limit. This round adds no new scenario content, scenery, audio, quality changes, dependencies, builds or deployment.
+
+## Verified Stage 7D delivery
+
+An unchanged-reference minimal recorder also enters a slow state, so the full recorder is not a sufficient explanation. Deterministic controls prove legacy repeated attachment, mutable snapshot and teardown defects. The corrected optional recorder is applied identically to the six primary viewers. Separate debug-hook controls quantify development overhead but do not reproduce and remove the historical very slow state. No application optimization or CPU gain is claimed.
+
+Fresh ready medians are 4990.6→4950.3 ms; the 20-second CPU deadline, nine graphics jobs and 12-second graphics budget are preserved. Actual slice P95 is 8.6–10.5 ms and maximum is 42.6 ms, so the earlier observed bounds are not re-established. Warm results remain context dependent on both sides. All 613 rendered checkpoints per side pass, but four of 25 full PNG pairs differ by at most two channel levels. An unchanged paused reference independently reproduces capture variability. No exact threshold is relaxed.
+
+The fresh sustained run, five equal-time resource cycles and native cancel/retry, graphics recovery, controls and three layouts pass within their documented scope. With optional evidence physically absent, 776 of 777 tests pass across 71 files; the same raw construction-fixture assertion fails on immutable `e817b1c`. Fixtures, assertions and dated acceptance files are unchanged. See [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) for every primary run, distributions and remaining limits.
+
+## Prepared acceptance
+
+Fix recorder overhead, comparison order, causal experiments and numerical targets before application edits. Require three alternating paired primary contexts, each with fresh startup/natural first 1× playback through T+206 and the same five warm windows; preserve every fast and slow run. An application optimization targets ≥20% lower median-of-three P95 of its preselected live component. Primary application CPU distributions must have no reproducible regression exceeding the greater of 10% or 1 ms. A proven measurement-fault correction requires an independent clean-control result and is not claimed as application CPU speedup.
+
+The local warm/sustained RAF P95 goal is ≤33.3 ms, with all misses and per-minute sustained distributions explicit. Require exact historical world/query/construction/source contracts, 25 complete pixel-identical ready-state pairs, 613 rendered checkpoints, controls/three layouts, actual lifecycle/recovery, a new ten-real-minute 2× run and five warmed resource cycles. Preserve all actor roots, static uploads, response buffers, pool/caches and completed CPU-owner bounds.
+
+The full English contract is in `prompt.md`. Create `STAGE7D_ACCEPTANCE.md` only during verified implementation and preserve dated Stage 6C/7A/7B/7C acceptance. Completion requires demonstrated causal correction/recovery and exact preservation; unresolved required targets retain an honest partial status. This documentation preparation makes no fix, new check, causal attribution or performance claim.
 
 # Out of Current Core Plan
 
