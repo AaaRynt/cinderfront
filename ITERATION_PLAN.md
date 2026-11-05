@@ -22,7 +22,9 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
-Current post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
+**Stage 7D remains PARTIAL after the November 6 follow-up.** Both fixture byte guards and the written startup criteria pass. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+
+Original post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
 
 Historical preparation — 2026-10-30: the English `prompt.md` targets **Post-Core Stage 7D — Warm Playback Stability and Regression Recovery**, starting from completed Stage 7C commit `e817b1c`. Stage 7D was **PLANNED**. It investigates the recorded live-playback regressions and wide context variation through unchanged-version and recorder-overhead controls, then implements the smallest proven application or measurement correction. Preserve Stage 7C's responsive initialization and all accepted ready-state behavior. This preparation changes documents only; the recorded 766-test/70-file baseline and dated acceptance remain inherited results.
 
@@ -1162,7 +1164,21 @@ Fix recorder overhead, comparison order, causal experiments and numerical target
 
 The local warm/sustained RAF P95 goal is ≤33.3 ms, with all misses and per-minute sustained distributions explicit. Require exact historical world/query/construction/source contracts, 25 complete pixel-identical ready-state pairs, 613 rendered checkpoints, controls/three layouts, actual lifecycle/recovery, a new ten-real-minute 2× run and five warmed resource cycles. Preserve all actor roots, static uploads, response buffers, pool/caches and completed CPU-owner bounds.
 
-The full English contract is in `prompt.md`. Create `STAGE7D_ACCEPTANCE.md` only during verified implementation and preserve dated Stage 6C/7A/7B/7C acceptance. Completion requires demonstrated causal correction/recovery and exact preservation; unresolved required targets retain an honest partial status. This documentation preparation makes no fix, new check, causal attribution or performance claim.
+The original contract and its outstanding criteria are recorded in [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md). Completion requires demonstrated causal correction, exact preservation and closure of the documented open criteria.
+
+## Stage 7D follow-up prepared 2026-11-06
+
+The current English `prompt.md` continues Stage 7D from the corrected recorder and the November 6 acceptance report. A read-only check found that both original Stage 7C captures match the pinned SHA-256 values and differ from the tracked fixtures only in JSON whitespace outside strings. The next implementation can restore those exact bytes and rerun the existing guards.
+
+The follow-up then isolates paused capture variation with unchanged-source controls and investigates cadence before WebGL separately from the historical severe slow state. It carries forward the 33.3 ms goal, exact 25-pair RGB criterion, warm non-regression and startup evidence. Keep Stage 7D PARTIAL while required criteria remain open. The existing November evidence stays dated and each new result is recorded in a separate follow-up section.
+
+## Verified Stage 7D follow-up — 2026-11-06
+
+Restored both Stage 7C captures to their pinned bytes. The tracked fixtures differ from `e817b1c` only in JSON whitespace. The targeted 12 tests and all 777 tests across 71 files pass with optional evidence absent. The matched ready median is 3,780.20→3,769.35 ms. All recorded slices pass the written 50 ms P95 and 100 ms maximum, with the earlier 31.9 ms observation kept separate. CPU preparation retains its 20-second deadline, and graphics completes nine jobs within its 12-second budget.
+
+Eight natural playback windows meet 33.3 ms P95 and the two matched windows stay within the CPU non-regression bound. A disposable Chrome profile reproduces 16.7→33.3→16.7 ms cadence with an Energy Saver reversal before WebGL and at ready idle. Live diagnostics reproduce the slower cadence with zero Long Tasks in the enabled windows. None of the eight natural windows triggers the severe-state profile. The original profile settings, severe cause, 17 primary cadence misses and all-window CPU non-regression remain open.
+
+Both native capture methods still vary with exact paused state and matching canvas readbacks. The frozen A/A sequence stopped before any replacement pairs. The original 21/25 exact RGB pairs and the separate 613 exact rendered checkpoints per side remain the primary results. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
 
 # Out of Current Core Plan
 

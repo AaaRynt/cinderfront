@@ -349,3 +349,9 @@ Fresh validation passes **766 tests / 70 files in 91.10 s**, with all ten option
 Retained all six natural first plays and 30 warm windows, including 17 cadence misses. The new uninterrupted 600.016-second 2× aftermath reaches T+1560 at 16.8 ms RAF P95 with zero Long Tasks. Fresh median ready meets its limit; the older slice bounds are not re-established. Both versions pass 613 rendered checkpoints. Exactly 21 of 25 full RGB pairs match; capture variance also occurs in a fixed paused reference, and all four mismatches remain explicit.
 
 Five warmed resource cycles, native CPU and graphics cancellation/retry, both actual context-loss cases, controls and three layouts pass. Both no-emit checks and zero-warning lint pass. The full suite with eleven optional evidence folders absent has 776 passes and one inherited fixture-byte failure, reproduced on the immutable reference. See [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md). No build, dependency, quality or content change is included.
+
+## Post-Core Stage 7D follow-up — Fixture Integrity, Capture Stability and Playback Diagnosis (2026-11-06)
+
+Restored the original Stage 7C construction and presentation fixture bytes. Both pinned SHA-256 guards, all 777 tests across 71 files with optional evidence absent, both TypeScript no-emit checks and lint pass. The written startup slice and ready-time criteria pass, with the historical measured slice maxima recorded separately.
+
+Both calibrated full-viewport methods still vary on the unchanged reference with exact canvas readbacks. A disposable Chrome profile reproduces and reverses 30 Hz cadence through Energy Saver, including before WebGL. The eight natural playback windows have zero Long Tasks and never trigger the historical severe-state capture. Stage 7D remains **PARTIAL** with exact RGB, original playback causality, warm cadence and full non-regression open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).

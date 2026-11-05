@@ -1,171 +1,70 @@
-# Post-Core Stage 7D — Warm Playback Stability and Regression Recovery
+# Post-Core Stage 7D Follow-up — Fixture Integrity, Capture Stability and Playback Diagnosis
 
-Work directly in the existing Cinderfront repository.
+Continue Stage 7D in the existing Cinderfront repository. Work from the reviewed tree that includes the corrected optional recorder and its 11 tests. Use `e817b1c` as the immutable application reference. Record the working tree and Git index at task start and preserve existing staged changes.
 
-Cinderfront is a deterministic 3D battlefield visualization built with React, TypeScript, Three.js, React Three Fiber and Tailwind CSS. The viewer observes an authored operation and indefinite aftermath through spectator cameras and time controls.
+Read `AGENTS.md`, `STAGE7D_ACCEPTANCE.md`, `STAGE7C_ACCEPTANCE.md`, the current plan and `tools/playback-review/README.md`. The November 6 report is the evidence for this handoff. Keep its original runs, exact criteria and dated findings intact.
 
-This is a focused implementation and verification task. Establish why measured warm playback varies so widely, correct reproducible application or measurement faults, and verify the result against a fixed current reference. Preserve the responsive startup and the exact accepted scene/runtime.
+Stage 7D is **PARTIAL**. The verified work covers recorder attachment, cleanup and snapshot ownership, 613 rendered checkpoints on each side, native controls and recovery, and five warmed resource cycles. The ten-minute run reached T+1560 at **16.8 ms RAF P95** with zero Long Tasks. The remaining work covers the fixture byte guard, capture stability, playback causality and warm non-regression, and startup slice evidence.
 
-## 1. Starting point and bounded purpose
+## 1. Restore both original fixture captures
 
-Start from completed Stage 7C commit `e817b1c`. Stages 1–6 and post-core Stages 7A/7B/7C retain their dated completion and explicit limitations.
+The independently captured Stage 7C reference files are available in the local evidence directory. Both have the exact SHA-256 already pinned by `src/initialization/stage7cConstruction.test.ts`.
 
-The recorded starting checks are **766 tests across 70 files**, both TypeScript no-emit checks and zero lint errors/warnings. Preserve 51 events, 24 camera IDs, 35 persistent actor roots, 64 LAV wheels and 65 landscape batches.
+| Original capture                                   | Tracked fixture                                                | Expected SHA-256                                                   |
+| -------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `stage7c-review.local/construction-reference.json` | `src/simulation/fixtures/stage7cConstructionPreservation.json` | `8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8` |
+| `stage7c-review.local/presentation-reference.json` | `src/simulation/fixtures/stage7cPresentationPreservation.json` | `b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3` |
 
-Stage 7C completed responsive deterministic CPU preparation: selected slices have 8.4–8.7 ms P95 and 31.9 ms maximum, median ready time is 3750.6 ms, and the shell handles input before heavy construction finishes. Keep its shared exact kernels, finite resource ownership, cancellation, retry and graphics handoff.
+A read-only handoff check verified both capture hashes. The tracked versions equal the corresponding `e817b1c` blobs. Each tracked fixture has the same parsed JSON and the same non-whitespace JSON tokens as its original capture. The byte difference is JSON whitespace outside strings.
 
-Its playback evidence remains materially inconsistent:
+Recheck these facts before restoring the exact original bytes of both files. Preserve the pinned hashes and every test assertion. Treat the restoration as a provenance repair of the original independent captures. If either original cannot be located or verified, retain the failing guard and record the missing evidence. Use an independently archived copy only if its bytes match the pinned SHA-256.
 
-| Recorded Stage 7C comparison | Fixed 7B reference → completed 7C |
-| --- | --- |
-| Moving Landing 1× actual-world P95, median of three | 10.3 → 13.4 ms (+30.1%) |
-| Moving Landing 1× scene React P95 | 60.9 → 63.3 ms (+3.9%) |
-| Moving Landing 1× HUD React P95 | 15.4 → 19.1 ms (+24.0%) |
-| Fuel aftermath scene React P95 | 45.7 → 48.1 ms (+5.3%) |
-| Changed 600.082-real-second 2× aftermath RAF | 32.72 / 83.30 / 400.10 ms mean/P95/max; 4385 long tasks |
+Run the targeted Stage 7C construction tests, including the presentation hash and subsequent assertions previously hidden by the first failure. Run the full suite with the optional review folders absent and viewers closed. Verify that the restored fixtures are tracked, require no local evidence at test time and still match their pinned hashes after all checks. Keep the fixture diff limited to the verified serialization change.
 
-Both sides contain fast and slow contexts. A3 is near the display floor; A1/A2 and several reference windows are slow. These observations establish a problem to investigate, not proof that Stage 7C source changes caused every slowdown. The historical Stage 7B display-floor cohort cannot substitute for a fresh matched reference.
+## 2. Stabilize the full viewport capture
 
-The primary scope is **live playback cost and trustworthy regression recovery**. Residual 510–519 ms initial React mounting and 200–246 ms first-draw work remain recorded but are outside a separate startup rewrite in this round. No new content, scenery, events, audio or quality redesign.
+The original 25-pair comparison matched exactly in 21 cases. Preserve those files and the four failed pairs.
 
-## 2. Read and trace first
+| Preset and time        | Changed pixels | Maximum channel difference |
+| ---------------------- | -------------: | -------------------------: |
+| Overview at T+0        |              3 |                          1 |
+| F-35B 02 at T+20.1     |             81 |                          2 |
+| Radar Hill at T+36.1   |            222 |                          2 |
+| Fuel Storage at T+7200 |              3 |                          1 |
 
-Read `AGENTS.md`, `ITERATION_PLAN.md`, `STAGE7C_ACCEPTANCE.md`, `STAGE7B_ACCEPTANCE.md`, `STAGE7A_ACCEPTANCE.md`, `STAGE6C_ACCEPTANCE.md`, the integration summary and relevant changelog records.
+Same-source paused repeats already reproduce several of these differences. Separate viewport capture and compositing from scene rendering before changing application code.
 
-Inspect:
+1. Reproduce the four poses in a fixed A/A capture sequence with repeated captures in the same paused context and repeats in a fresh context. Include one previously exact pose as a control.
+2. Confirm exact camera, viewport, drawing buffer, DPR, focus, font readiness, simulation time and paused mechanical/effect state. Verify served stylesheet parity. The report records an extra unused generated `.blur` rule in one root, which needs a controlled check before any attribution.
+3. Compare the location and bounds of differences in the full screenshot, and use separate canvas and DOM/compositing diagnostics where supported. Keep these diagnostics separate from the full viewport comparison. Test one capture condition at a time.
+4. Freeze a repeatable capture method and the designated capture for each pose before the new paired run. Keep native lossless 1280×720, DPR 1, full viewport, complete HUD, the existing antialiasing and shadow configuration, and the verified device-metrics override. Require 25 of 25 exact RGB pairs with zero differing pixels. Preserve every repeat. Masking, tolerance, rescaling and selecting the closest repeat invalidate the exact check.
 
-- `src/scene/BattlefieldScene.tsx`, `src/App.tsx`, `src/ui/SimulationHud.tsx` and camera subscriptions;
-- `src/simulation/runtime.ts`, `lavDeployment.ts`, `lavAftermath.ts`, terrain/support samplers and their exact-input caches;
-- active LCAC/LAV/support-wheel models, smoke/fire/effect subtrees, instance updates and renderer submission;
-- `src/initialization/`, generator drain paths, terrain/presentation/layout owners and `src/scene/readiness/`;
-- the fixed-reference fixture/source-audit chain and current resource-bound diagnostics.
+If A/A remains unstable after the predefined trials, report the reproduced difference and keep exact RGB open. Keep the rendered checkpoint result separate from the screenshot result.
 
-Review the optional `stage7c-review.local/README.md` and actual measurement helpers, especially the controlled Vite runner, probe installation/reset, React/world wrappers and warm-window schedule. Inspect older Stage 7B helpers when comparing the historic evidence. Default checks must remain independent of optional evidence.
+## 3. Separate the two playback observations
 
-## 3. Fix the experiment and audit measurement overhead
+In the November cohort, **17 of 30** warm windows exceed the fixed **33.3 ms** RAF P95 goal, with observed misses between **33.4 and 34.3 ms** and zero warm Long Tasks. The older severe slow state also occurred with minimal recording and produced P95 near 100 ms or above with many Long Tasks. Track these as separate observations. The 33.3 ms criterion remains exact at the documented measurement precision.
 
-Use an immutable archive of **`e817b1c` as the primary before reference**, with the existing installed dependencies. Record the served source identity and exact opt-in transforms for every viewer, including the changed working tree.
+The November report observes the roughly 33.3 ms median interval before the first WebGL context in several pages. Make that the first causal probe. Use a lightweight RAF-only control and the existing startup-to-ready recorder under matched headed browser conditions. Compare timestamp distributions before WebGL, at ready idle and during live playback. Log focus and visibility, context creation, presentation cadence when available, cumulative thread CPU, actual work counts and Long Tasks. If a page changes cadence within a run, retain the transition and its timeline.
 
-Keep the same development/StrictMode setup, browser, visible owned viewer, device, CSS/drawing-buffer size, DPR 1, antialiasing, shadows and schedule. Only one owned renderer may run during measurement. Record actual visibility, CPU emulation, refresh cadence, active profiler state and module/browser/driver-cache conditions per context.
+Predeclare a bounded diagnostic sequence and stop rules before measuring. Reuse the corrected recorder with one owned renderer and opt-in instrumentation. Start with moving Landing 1× and the 90-second aftermath window at 2×. Keep measured application code, browser configuration, actual served inputs, instrumentation and exposure matched. Apply one independently observable variable at a time. Use a same-context reversal where feasible to establish whether it reproduces and removes the effect. Preserve all attempts.
 
-Before implementation:
+For the severe slow state, arm a bounded capture with a predeclared trigger tied to the older slow RAF/Long Task signature. Collect a separate sampled profile only when the trigger occurs. If it never occurs, record the attempt count and leave the original cause unresolved. Reuse the recorded attachment audit and React development diagnostics as evidence with their existing limits. A fast profile from another context cannot attribute the severe state.
 
-1. Run an A/A repeat of unchanged `e817b1c` for moving Landing 1× and 90-real-second aftermath to estimate context/recorder variation.
-2. Compare a minimal bounded RAF/Long Task recorder with the fuller low-overhead React/world recorder under the same workload. Quantify observer cost. Detailed sampled profiles, native GPU queries, screenshots and full inventories remain separate.
-3. Verify single installation/cleanup of wrappers, subscriptions, observers and timers; reset/export ownership and bounded buffers; no hidden per-frame scene traversal, repeated development reload, lingering CPU sampling or accumulating callbacks.
-4. Verify that completed CPU preparation has zero active/staging owners and no pending construction channels/tickers, and that graphics jobs are complete throughout warm playback.
-5. Use `9c0208b` only as a separately labelled historical-control checkout if needed to test a suspected Stage 7C change. Do not compare new measurements to archived fast numbers as if they were paired.
+Compare world misses, HUD and scene work, and renderer submission at equal logical samples. World CPU overlaps React timing. Use the recorded A/A spread and report reproducible CPU differences greater than the larger of **10% or 1 ms**. Select an application hotspot for correction only when the causal control identifies actionable work. The original **20%** target applies to any selected live component optimization. Record any measurement correction separately from product performance.
 
-Freeze the measurement contract, comparison order, selected workload, source/harness hashes and numerical acceptance before changing application code. A harness correction must be applied identically to both primary versions and followed by a new complete fixed cohort; preserve the earlier flawed evidence and its specific defect.
+## 4. Recheck startup and the affected acceptance
 
-Do not repeatedly create contexts until one is fast, force collection between selected runs, disable StrictMode, reduce recording only on the changed side, clear unrelated browser data or silently omit slow runs.
+Retain the early loading shell, exact CPU preparation kernels and finite owners, 20-second CPU deadline, nine graphics jobs and 12-second graphics budget. Compare the Stage 7C observed slice distribution of **8.4–8.7 ms P95 and 31.9 ms maximum** with the November observations of **8.6–10.5 ms P95 and 42.6 ms maximum**. Report these observations separately from the original Stage 7C fixed slice targets and Stage 7D ready-time budget. Recheck the November report's open slice criterion against the written contracts and current matched evidence. Keep any unresolved requirement visible.
 
-## 4. Establish causes before selecting fixes
+Use the existing November evidence for passed checks whose inputs and method stay identical. Revalidate the affected checks after each verified correction. A timing or runtime change that warrants a new primary comparison requires the original three alternating paired contexts, natural first 1× play through T+206, five warm windows, and a fresh uninterrupted ten-minute 2× run. Retain every complete and interrupted run. A capture-method correction requires a fresh complete 25-pair comparison. A fixture-only restoration requires the targeted and full default checks.
 
-Reproduce the five warm windows:
+For any application change, require exact world, geometry, support, construction and source audits, the 613 actual rendered checkpoints and fresh ownership, resource and native recovery checks. Preserve the fixed-step driver, 51 events, 24 cameras, 35 persistent actor roots, 64 LAV wheels, 65 landscape batches, exact ready-state visual quality, and restart, seek and pause behavior. Keep all human-visibility constraints from `AGENTS.md`. Limit scope to the recorded Stage 7D open criteria.
 
-- Fuel T+78→104 at 1×;
-- Landing T+176→206 at 1×;
-- Fuel T+78→104 at 2×;
-- Landing T+176→206 at 2×;
-- Fuel aftermath from T+360 at 2× for 90 real seconds.
+## 5. Checks and reporting
 
-Separate actual world cache misses, shared exact-time cache hits, contact/query counts, allocation work, scene/HUD render, commit-effect callbacks, uploads, renderer CPU, native queries and RAF/Long Tasks. World derivation is nested in React; do not add overlapping timings.
+Use the existing development server and installed browser tooling. The permitted automated checks are the two TypeScript no-emit checks, `pnpm lint`, the relevant Vitest tests, `pnpm test:run --maxWorkers=2` and `git diff --check`. Repository rules prohibit builds and dependency-version changes. Keep existing dependencies and framework versions.
 
-The exact-time shared world cache already exists. Measure its callers before alleging duplicate full derivations. The Stage 7B terminal cache is already effective after hold/dust expiry; another settled-only cache does not explain moving Landing.
+Append a dated follow-up to `STAGE7D_ACCEPTANCE.md` with the fixture provenance and test outcome, capture controls, every new timing attempt, causal evidence, and the status of each original open criterion. Preserve earlier acceptance reports and original artifacts. Update the iteration plan, integration notes and changelog from verified results.
 
-For slow and fast contexts, compare actual call/render/query/update counts at equal logical samples, not just elapsed totals from different amounts of simulated progress. Record whether the same work becomes slower or additional work appears.
-
-Use a bounded sampled profile in a separate reproduction of the affected window. If a spike does not recur, its cause remains unresolved; stacks from another ordinary interval cannot explain the original complete task.
-
-A regression claim needs a controlled change that reproduces or removes the effect. Test one suspected application/harness/initialization difference at a time. Do not assign OS, GC, thermal, driver or browser causes without evidence. A long RAF gap with no matching task is still an unexplained gap.
-
-## 5. Implement the smallest proven correction
-
-Correct actual defects found in measurement lifecycle or application work. If a recorder defect explains the apparent release regression and clean controls establish that, deliver the corrected optional recorder and evidence without manufacturing an application rewrite.
-
-Where a live application hotspot is established, reduce that work in the existing architecture. Candidates include time-driven scene/HUD invalidation, unchanged model/effect subtrees, allocation-heavy support paths and redundant uploads. Existing memoization and exact support optimizations must be measured before extending them.
-
-Keep comparisons/selectors complete for every visible primitive input, boundary, resource identity and clock dependency. Backward seeks, alternating actors, scene recovery and newly visible views must invalidate correctly. Do not leave stale state behind camera visibility or memo boundaries.
-
-If an existing R3F ref/update path is used, prove same-frame agreement with the logical world and camera. Preserve paused inspection, all mechanical/effect clocks, update ordering and persistent roots. Do not move all rendering into a new imperative framework or spread a broad state-management migration across the app.
-
-Any cache needs finite ownership, complete exact input keys and immutable returned snapshots. Keep route tables, support-cell ordering, finite-radius tire math, suspension iterations, signed wheel travel and station-72 handoff exact. No time quantization, lower update rate, approximate contact math or skipped simulation samples.
-
-For an application optimization, select a named live CPU component before editing and target at least **20% lower median-of-three P95** in its affected window, supported by reduced work/call/allocation counts or an independently verified cheaper exact kernel. Do not relabel a missed target after measuring. A demonstrated measurement-fault correction follows the independent proof path above and is not claimed as an application CPU speedup.
-
-## 6. Preserve accepted startup, state and picture quality
-
-Keep the complete fixed-step driver and cap/overshoot policy byte-identical. Preserve every active actor/weapon/contact/runtime field, event/outcome, route, hold, dust/fade/light schedule, source attribution and observation through 7200/backseeks.
-
-Retain all authoritative files and historical fixtures, tree/landscape layout, geometry/index/attribute/bounds/support bytes, all 51 events and 24 camera IDs. No visible humans, occupants, crew, casualties, articulated characters or humanoid silhouettes.
-
-Keep DPR/resolution, antialiasing, shadow quality, materials, effects, lights, geometry, draw visibility and actor populations. No lower-quality configuration or disabling StrictMode to meet timing targets.
-
-Preserve the early shell, shared deterministic CPU kernels, atomic publication, synchronous ready-state API values, browser sampler gate and finite actual mounted geometry owners. CPU initialization keeps its 20-second deadline and bounded yielding; graphics preparation keeps nine jobs and its 12-second cooperative budget.
-
-Preserve failure/timeout/retry, stale-owner cancellation and graphics-only CPU reuse. Normal camera changes, restart and seeks do not reconstruct the scene or repeat preparation. Actual context loss retains latest time/camera and stays paused after recovery; no autoplay or queued intent.
-
-Do not change dependency versions, add dependencies, upgrade frameworks, build or deploy. Preserve task-start `prompt.md`, `AGENTS.md`, package/lock bytes and all four dated Stage 6C/7A/7B/7C acceptance files during implementation.
-
-## 7. Exact tests and rendered verification
-
-Run all current golden/source/ownership tests with their original assertions and timeouts. Preserve the 4,963-world golden, Stage 7B's 386-world/242,561-query supplement and Stage 7C construction/presentation/source captures.
-
-Add focused tests for the actual corrected fault: wrapper/listener ownership, selector invalidation, retained snapshot mutation, exact hot-kernel equivalence or another demonstrated behavioral risk. Avoid flaky wall-clock performance assertions in default tests.
-
-Use exact file-level source exceptions with reasons and fixed Git references. No folder whitelist, golden regeneration or broad fixture duplication. Capture a compact independent `e817b1c` supplement only for a demonstrated gap.
-
-Repeat **25 complete lossless RGB pairs** at fixed time/camera/viewport, including all 24 ready-state roles and late Fuel. Require pixel identity with no masks or relaxed thresholds. Use the stable complete viewport capture method documented by Stage 7C.
-
-Repeat **613 actual rendered checkpoints** with 35 roots, 64 wheels, 65 landscape batches and the existing mechanical/effect/GPU-clock agreement. Default tests must pass while optional review evidence is physically absent.
-
-## 8. Paired playback acceptance
-
-Collect at least **three alternating paired contexts per primary version**, with no replacement of slow contexts. Use the same warm visits, 24 paused RAF bookends and five-window schedule from Stage 7C.
-
-Each context first completes startup and one natural first **1× T+0→206** playback with the same camera schedule, before rehearsal. Report startup/interface/first-draw/ready times and all first-play gaps. Keep the responsive shell and selected CPU chunk bounds; median ready time must not regress beyond the greater of 10% or 500 ms versus the fresh current reference.
-
-For every warm run report complete RAF mean/P95/max, Long Task count/total/max, real/simulated progression, actual world-miss and scene/HUD/renderer CPU distributions, hit/miss/work counts and recording capacity. Commit-effect callback timings are not total commit wall time.
-
-Primary recovery criteria:
-
-- the claimed application or measurement cause is independently reproduced and its correction verified; an unexplained fast rerun alone does not pass;
-- any application optimization meets its predeclared live-component target with exact behavior, and no primary window has a reproducible application CPU regression exceeding the greater of **10% or 1 ms** in world-miss, scene/HUD or renderer P95;
-- the moving-Landing and aftermath outcomes are assessed separately; an idle-only or Fuel-only gain cannot close a demonstrated moving-work regression;
-- observed variance is reported against A/A controls; overlapping/noisy results are labelled inconclusive rather than proven gains.
-
-The local cadence goal is **RAF P95 ≤33.3 ms** in each controlled warm window and the sustained run. Report every miss, even if aggregate medians pass. Separate CPU, GPU and display cadence; no universal frame-rate or GPU improvement may be inferred.
-
-For any new ≥500 ms application task, retain its surrounding timeline and causal evidence. Historical Stage 7B first-use stalls, the Stage 7C reference 528 ms task and 1949 ms unexplained RAF gap retain their dated unresolved status unless directly explained.
-
-## 9. Sustained playback, resources and recovery
-
-Run a fresh uninterrupted **ten-real-minute 2× aftermath** session after the fixed warm schedule, with no screenshots/full traversal/CPU sampling during pacing. Report simulated progression, per-minute RAF/CPU/Long Task distributions and the complete aggregate; a resource-stable slow run is not a smoothness pass.
-
-Run five warmed equal-time restart/seek/all-24-camera cycles, comparing the same exposure path and endpoint. Preserve 35 resident roots, all 936 world records, 910 fixed uploads, 26 legitimate response buffers and 231 pools/9528 capacity. Record actual finite CPU owners, cache bounds, listener/observer/channel counts and memory tradeoffs.
-
-Exercise CPU cancellation/retry, graphics failure/Retry, actual WebGL loss during Play and during preparation, retained latest camera/time, no autoplay, and complete zero-staging cleanup.
-
-Check all 24 presets, three speeds, paused orbit/pan/zoom/recenter, direct 7200/backward seeks, restart, native focus/keyboard behavior and complete 1280×720, 1280×540 and 1440×900 layouts. No new product-facing diagnostic panel or performance controls.
-
-## 10. Permitted checks and delivery
-
-Allowed checks:
-
-- `pnpm exec tsc -p tsconfig.app.json --noEmit`
-- `pnpm exec tsc -p tsconfig.node.json --noEmit`
-- `pnpm lint`
-- `pnpm test:run --maxWorkers=2`
-- `git diff --check`
-- the existing development server and actual browser inspection.
-
-Do not run `pnpm build`, `vite build`, `tsc -b`, the combined `pnpm check`, repository-wide formatting, dependency installation or framework upgrades.
-
-Create `STAGE7D_ACCEPTANCE.md` with the fixed current reference, A/A and recorder-overhead controls, predeclared targets, causal experiments, smallest correction, every primary run, sustained/per-minute results, exact preservation, ownership/recovery and unresolved limits. Keep helpers optional, bounded and reproducible without tracked bulk traces.
-
-Update `ITERATION_PLAN.md`, `STAGE5_INTEGRATION_READINESS.md` and `changelog.md` from verified results. Preserve all dated acceptance and original evidence.
-
-Mark Stage 7D COMPLETE only when causal correction/recovery, exact preservation and ownership acceptance pass. If the cause or a required target remains unresolved, retain an honest partial status instead of treating recorded regressions as resolved.
-
-Finish with a concise report distinguishing verified application gains, measurement corrections, observed cadence and remaining limits. Do not invent Stage 7E, add content/audio, or expand into a new rendering/state framework.
+Stage 7D may be marked **COMPLETE** only when its outstanding causal, warm cadence and non-regression, exact RGB, startup and fixture criteria are supported. Close any individually verified item and retain **PARTIAL** for unresolved criteria. The next implementation is this Stage 7D follow-up.

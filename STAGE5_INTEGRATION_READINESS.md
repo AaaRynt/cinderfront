@@ -12,6 +12,16 @@ All six natural first plays and thirty warm windows are retained. Seventeen warm
 
 Five warmed cycles preserve 35 actor roots, 936 world records, 910 fixed rows, 26 authored response buffers and 231 pools/9,528 capacity. Native CPU cancel/retry, graphics failure/retry, actual context loss during Play/preparation, latest time/camera, no autoplay, controls and three layouts pass. Fresh default checks with all eleven optional evidence folders absent give 776 passed / one inherited fixture-hash failure across 71 files. Both no-emit checks and lint pass. The immutable reference reproduces that assertion failure. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records complete measured results and open criteria.
 
+### Follow-up prepared 2026-11-06
+
+The current English `prompt.md` continues Stage 7D. Both retained Stage 7C reference captures match the hashes pinned by the fixture guard, and their tracked counterparts differ only in JSON whitespace. The follow-up starts with exact fixture restoration, then addresses paused capture repeatability and the separate cadence observations. The November verification remains the starting evidence and Stage 7D is **PARTIAL**.
+
+### Follow-up verification — 2026-11-06
+
+Both fixture byte guards pass with the original captures restored. The targeted 12 tests and full 777 tests across 71 files pass with all 12 optional evidence folders physically absent. The written startup slice limits, ready budget, 20-second CPU deadline and nine-job graphics budget pass. The original 613 rendered checkpoints per side, ten-minute run, resource cycles and native recovery continue to supply acceptance for the identical runtime.
+
+The unchanged-reference capture trial finds exact canvas readbacks and variable full-viewport RGB even with a held frame. The primary 21/25 exact screenshot result remains open. A controlled Chrome Energy Saver reversal reproduces 30 Hz before WebGL and during live playback, with zero Long Tasks in its enabled windows. Its historical setting was unrecorded, and none of the eight natural windows triggers the severe-state signature. The original warm cadence and CPU non-regression gates remain open. Stage 7D remains **PARTIAL**. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+
 ## Historical preparation — Post-Core Stage 7D, prepared 2026-10-30
 
 **Status at preparation:** PLANNED — documentation preparation only
