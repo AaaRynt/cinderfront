@@ -113,7 +113,7 @@ describe('Stage 6C spectator interface', () => {
     ])
     fireEvent.change(cameras.getByRole('combobox'), { target: { value: 'su30' } })
     expect(cameras.getByRole('combobox')).toHaveValue('su30')
-    expect(screen.getByText('Cinderfront / Stage 6C')).toBeInTheDocument()
+    expect(screen.getByText('Cinderfront')).toBeInTheDocument()
     expect(screen.getByText('Su-30MKK pair')).toBeInTheDocument()
     expect(screen.getByLabelText('Support convoy status')).toHaveTextContent('routine transit')
     fireEvent.change(cameras.getByRole('combobox'), { target: { value: 'support-convoy' } })

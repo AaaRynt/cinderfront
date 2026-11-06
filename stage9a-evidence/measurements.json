@@ -1,0 +1,1715 @@
+{
+  "referenceCommit": "94df448",
+  "contract": "stage9a-evidence/cue-sheet.json",
+  "renderer": {
+    "before": {
+      "viewport": [1280, 720],
+      "buffer": [1280, 720],
+      "dpr": 1,
+      "antialias": true,
+      "shadows": [true, 1],
+      "toneMapping": [4, 1.12],
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+      "visible": "visible",
+      "focused": true,
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+    },
+    "after": {
+      "viewport": [1280, 720],
+      "buffer": [1280, 720],
+      "dpr": 1,
+      "antialias": true,
+      "shadows": [true, 1],
+      "toneMapping": [4, 1.12],
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+      "visible": "visible",
+      "focused": true,
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+    }
+  },
+  "source": {
+    "appManifestSha256": {
+      "before": "a915bfd3cef9a1d644ccdab0fbb608f1ebc7a4342edb72ca2bafa45299c5616d",
+      "after": "1fe4ef0746c802af18a35ec55b548f8b42a75068316d8bbd127dc5d87ac30a95"
+    },
+    "changedRuntimePaths": ["src/App.tsx", "src/scene/camera/CameraRig.tsx", "src/scene/camera/cameraStore.ts", "src/scene/camera/observationCues.ts", "src/ui/SimulationHud.tsx"]
+  },
+  "startup": {
+    "before": {
+      "readyMs": 4002,
+      "graphicsJobs": 9,
+      "mode": "manual",
+      "time": 0,
+      "playing": false
+    },
+    "after": {
+      "readyMs": 4035.300000011921,
+      "graphicsJobs": 9,
+      "mode": "manual",
+      "time": 0,
+      "playing": false
+    }
+  },
+  "continuous1x": {
+    "start": {
+      "time": 0,
+      "speed": 1,
+      "isPlaying": false,
+      "reset": 0,
+      "preset": "overview",
+      "request": 0,
+      "guide": null
+    },
+    "end": {
+      "time": 189.0666666666585,
+      "speed": 1,
+      "isPlaying": false,
+      "reset": 0,
+      "preset": "lcac-east",
+      "request": 10,
+      "guide": {
+        "atSeconds": 173,
+        "preset": "lcac-east",
+        "title": "Final ramp transfers",
+        "subject": "LCAC 02 and the remaining LAVs ashore"
+      }
+    },
+    "cameraRequests": [
+      {
+        "at": 0,
+        "wall": 4107.299999982119,
+        "request": 1,
+        "preset": "wasp",
+        "cueAt": 0,
+        "title": "Offshore opening"
+      },
+      {
+        "at": 11.033333333333305,
+        "wall": 15272,
+        "request": 2,
+        "preset": "f35-02",
+        "cueAt": 11,
+        "title": "Second aircraft departs"
+      },
+      {
+        "at": 21.500000000000227,
+        "wall": 25746.69999998808,
+        "request": 3,
+        "preset": "radar-hill",
+        "cueAt": 21.5,
+        "title": "Radar Hill engagement"
+      },
+      {
+        "at": 53.033333333332884,
+        "wall": 57270.89999997616,
+        "request": 4,
+        "preset": "inspection-bay",
+        "cueAt": 53,
+        "title": "Inspection bay pass"
+      },
+      {
+        "at": 64.03333333333227,
+        "wall": 68276.79999998212,
+        "request": 5,
+        "preset": "support-convoy",
+        "cueAt": 64,
+        "title": "Convoy continues inland"
+      },
+      {
+        "at": 90.03333333333079,
+        "wall": 94272.89999997616,
+        "request": 6,
+        "preset": "fuel-shock",
+        "cueAt": 90,
+        "title": "Fuel shock"
+      },
+      {
+        "at": 115.03333333332937,
+        "wall": 119273.09999999404,
+        "request": 7,
+        "preset": "ammunition",
+        "cueAt": 115,
+        "title": "Ammunition cook-off"
+      },
+      {
+        "at": 152.03333333332728,
+        "wall": 156275.39999997616,
+        "request": 8,
+        "preset": "shore-break",
+        "cueAt": 152,
+        "title": "Shore break"
+      },
+      {
+        "at": 164.0333333333266,
+        "wall": 168277.5,
+        "request": 9,
+        "preset": "lav-east",
+        "cueAt": 164,
+        "title": "LAV deployment"
+      },
+      {
+        "at": 173.03333333332608,
+        "wall": 177274.89999997616,
+        "request": 10,
+        "preset": "lcac-east",
+        "cueAt": 173,
+        "title": "Final ramp transfers"
+      }
+    ],
+    "ticks": 5672,
+    "stepRangeSeconds": [0.03333333333333144, 0.03333333333334565],
+    "seeksOrRestarts": 0,
+    "wallSeconds": 189.089,
+    "visibleFocused": true
+  },
+  "interactions": {
+    "keyboard": {
+      "initial": {
+        "time": 92.9,
+        "speed": 2,
+        "playing": false,
+        "reset": 1,
+        "preset": "overview",
+        "cue": null,
+        "request": 0
+      },
+      "guide": {
+        "time": 92.9,
+        "speed": 2,
+        "playing": false,
+        "reset": 1,
+        "preset": "fuel-shock",
+        "cue": 90,
+        "request": 1
+      },
+      "recenter": {
+        "time": 92.9,
+        "speed": 2,
+        "playing": false,
+        "reset": 1,
+        "preset": "fuel-shock",
+        "cue": 90,
+        "request": 2
+      },
+      "focusedSequence": ["Guided view", "Highlights", "Inspection bay pass", "Highlights", "Recenter selected camera"]
+    },
+    "backwardAndLate": {
+      "landing": {
+        "time": 188.2,
+        "speed": 2,
+        "playing": false,
+        "reset": 2,
+        "preset": "lcac-east",
+        "cue": 173,
+        "request": 3
+      },
+      "late": {
+        "time": 7200,
+        "speed": 2,
+        "playing": false,
+        "reset": 3,
+        "preset": "lcac-east",
+        "cue": 173,
+        "request": 3
+      },
+      "latePaused": {
+        "time": 7200.133333333333,
+        "speed": 2,
+        "playing": false,
+        "reset": 3,
+        "preset": "lcac-east",
+        "cue": 173,
+        "request": 3
+      },
+      "backward": {
+        "time": 24.8,
+        "speed": 2,
+        "playing": false,
+        "reset": 4,
+        "preset": "radar-hill",
+        "cue": 21.5,
+        "request": 4
+      },
+      "opening": {
+        "time": 0,
+        "speed": 2,
+        "playing": false,
+        "reset": 5,
+        "preset": "wasp",
+        "cue": 0,
+        "request": 5
+      }
+    },
+    "speedCrossings": [
+      {
+        "speed": 0.5,
+        "before": {
+          "time": 89.9,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 6,
+          "preset": "support-convoy",
+          "cue": 64,
+          "request": 6
+        },
+        "after": {
+          "time": 90.18333333333332,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 6,
+          "preset": "fuel-shock",
+          "cue": 90,
+          "request": 7
+        },
+        "cuts": [[90, "fuel-shock", 7]]
+      },
+      {
+        "speed": 2,
+        "before": {
+          "time": 151.8,
+          "speed": 2,
+          "playing": false,
+          "reset": 7,
+          "preset": "ammunition",
+          "cue": 115,
+          "request": 8
+        },
+        "after": {
+          "time": 152.26666666666665,
+          "speed": 2,
+          "playing": false,
+          "reset": 7,
+          "preset": "shore-break",
+          "cue": 152,
+          "request": 9
+        },
+        "cuts": [[152, "shore-break", 9]]
+      }
+    ],
+    "previews": [
+      {
+        "label": "T+00:53\nInspection bay pass\nSix convoy trucks pass the roadside bay",
+        "before": {
+          "time": 176.05000000000004,
+          "speed": 0.5,
+          "playing": true,
+          "reset": 8,
+          "preset": "lcac-east",
+          "cue": 173,
+          "request": 10
+        },
+        "after": {
+          "time": 53,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 9,
+          "preset": "inspection-bay",
+          "cue": null,
+          "request": 11
+        },
+        "afterPlayPause": {
+          "time": 53.05,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 9,
+          "preset": "inspection-bay",
+          "cue": null,
+          "request": 11
+        }
+      },
+      {
+        "label": "T+01:30\nFuel shock\nThe T+92 front reaches two groups of trees",
+        "before": {
+          "time": 176.05000000000004,
+          "speed": 0.5,
+          "playing": true,
+          "reset": 10,
+          "preset": "lcac-east",
+          "cue": 173,
+          "request": 13
+        },
+        "after": {
+          "time": 90,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 11,
+          "preset": "fuel-shock",
+          "cue": null,
+          "request": 14
+        },
+        "afterPlayPause": {
+          "time": 90.06666666666666,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 11,
+          "preset": "fuel-shock",
+          "cue": null,
+          "request": 14
+        }
+      },
+      {
+        "label": "T+02:32\nShore break\nThe crest breaks beside the east landing craft",
+        "before": {
+          "time": 176.05000000000004,
+          "speed": 0.5,
+          "playing": true,
+          "reset": 12,
+          "preset": "lcac-east",
+          "cue": 173,
+          "request": 16
+        },
+        "after": {
+          "time": 152,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 13,
+          "preset": "shore-break",
+          "cue": null,
+          "request": 17
+        },
+        "afterPlayPause": {
+          "time": 152.05000000000004,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 13,
+          "preset": "shore-break",
+          "cue": null,
+          "request": 17
+        }
+      },
+      {
+        "label": "T+02:44\nLAV deployment\nThe lead east LAV rolls down the bow ramp",
+        "before": {
+          "time": 176.05000000000004,
+          "speed": 0.5,
+          "playing": true,
+          "reset": 14,
+          "preset": "lcac-east",
+          "cue": 173,
+          "request": 19
+        },
+        "after": {
+          "time": 164,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 15,
+          "preset": "lav-east",
+          "cue": null,
+          "request": 20
+        },
+        "afterPlayPause": {
+          "time": 164.05000000000004,
+          "speed": 0.5,
+          "playing": false,
+          "reset": 15,
+          "preset": "lav-east",
+          "cue": null,
+          "request": 20
+        }
+      }
+    ],
+    "manualPreset": {
+      "before": {
+        "time": 89.5,
+        "speed": 1,
+        "playing": true,
+        "reset": 16,
+        "preset": "support-convoy",
+        "cue": 64,
+        "request": 21
+      },
+      "manual": {
+        "time": 90.23333333333329,
+        "speed": 1,
+        "playing": true,
+        "reset": 16,
+        "preset": "harbor",
+        "cue": null,
+        "request": 22
+      },
+      "reentered": {
+        "time": 90.26666666666662,
+        "speed": 1,
+        "playing": true,
+        "reset": 16,
+        "preset": "fuel-shock",
+        "cue": 90,
+        "request": 23
+      },
+      "reset": {
+        "time": 0,
+        "speed": 1,
+        "playing": false,
+        "reset": 17,
+        "preset": "fuel-shock",
+        "cue": null,
+        "request": 23
+      }
+    },
+    "gestures": {
+      "clickRetainedGuide": true,
+      "records": [
+        {
+          "gesture": "orbit",
+          "before": {
+            "time": 92.9,
+            "speed": 1,
+            "playing": false,
+            "reset": 18,
+            "preset": "fuel-shock",
+            "cue": 90,
+            "request": 24,
+            "position": [-549, 58.000000000000014, 1709],
+            "aim": [-399, 35.5, 1819]
+          },
+          "after": {
+            "time": 92.9,
+            "speed": 1,
+            "playing": false,
+            "reset": 18,
+            "preset": "fuel-shock",
+            "cue": null,
+            "request": 24,
+            "position": [-505.7909320578209, 82.33810185061935, 1672.3434657260282],
+            "aim": [-399, 35.5, 1819]
+          }
+        },
+        {
+          "gesture": "pan",
+          "before": {
+            "time": 92.9,
+            "speed": 1,
+            "playing": false,
+            "reset": 18,
+            "preset": "fuel-shock",
+            "cue": 90,
+            "request": 25,
+            "position": [-548.4662604502157, 58.360083620477525, 1708.3496336929104],
+            "aim": [-399, 35.5, 1819]
+          },
+          "after": {
+            "time": 92.9,
+            "speed": 1,
+            "playing": false,
+            "reset": 18,
+            "preset": "fuel-shock",
+            "cue": null,
+            "request": 25,
+            "position": [-541.40176093629, 63.7549941046955, 1699.9532009804793],
+            "aim": [-392.31464505218827, 40.64054726552365, 1811.0612755055986]
+          }
+        },
+        {
+          "gesture": "zoom",
+          "before": {
+            "time": 92.9,
+            "speed": 1,
+            "playing": false,
+            "reset": 18,
+            "preset": "fuel-shock",
+            "cue": 90,
+            "request": 26,
+            "position": [-548.8994804207623, 58.0770288139836, 1708.8805828863208],
+            "aim": [-398.5657895488869, 35.83375300917727, 1818.484694150021]
+          },
+          "after": {
+            "time": 92.9,
+            "speed": 1,
+            "playing": false,
+            "reset": 18,
+            "preset": "fuel-shock",
+            "cue": null,
+            "request": 26,
+            "position": [-542.4196111190699, 57.17885358179216, 1713.4778612777427],
+            "aim": [-398.50120223978746, 35.88339761978326, 1818.4080441796482]
+          }
+        }
+      ]
+    },
+    "repeatedCycles": {
+      "records": [
+        {
+          "request": 32,
+          "reset": 24,
+          "scene": {
+            "lights": 13,
+            "nodes": 4151,
+            "meshes": 2951,
+            "geometries": 1175,
+            "materials": 369
+          },
+          "gpu": {
+            "geometries": 1064,
+            "textures": 4,
+            "programs": 394
+          },
+          "ownerCount": 34
+        },
+        {
+          "request": 35,
+          "reset": 27,
+          "scene": {
+            "lights": 13,
+            "nodes": 4151,
+            "meshes": 2951,
+            "geometries": 1175,
+            "materials": 369
+          },
+          "gpu": {
+            "geometries": 1064,
+            "textures": 4,
+            "programs": 394
+          },
+          "ownerCount": 34
+        },
+        {
+          "request": 38,
+          "reset": 30,
+          "scene": {
+            "lights": 13,
+            "nodes": 4151,
+            "meshes": 2951,
+            "geometries": 1175,
+            "materials": 369
+          },
+          "gpu": {
+            "geometries": 1064,
+            "textures": 4,
+            "programs": 394
+          },
+          "ownerCount": 34
+        },
+        {
+          "request": 41,
+          "reset": 33,
+          "scene": {
+            "lights": 13,
+            "nodes": 4151,
+            "meshes": 2951,
+            "geometries": 1175,
+            "materials": 369
+          },
+          "gpu": {
+            "geometries": 1064,
+            "textures": 4,
+            "programs": 394
+          },
+          "ownerCount": 34
+        },
+        {
+          "request": 44,
+          "reset": 36,
+          "scene": {
+            "lights": 13,
+            "nodes": 4151,
+            "meshes": 2951,
+            "geometries": 1175,
+            "materials": 369
+          },
+          "gpu": {
+            "geometries": 1064,
+            "textures": 4,
+            "programs": 394
+          },
+          "ownerCount": 34
+        }
+      ],
+      "stableOwnerCount": 34
+    },
+    "shortViewport": {
+      "states": [
+        {
+          "cue": "inspection-bay",
+          "viewport": [1024, 430],
+          "buffer": [1024, 430],
+          "dpr": 1,
+          "aim": [512.00000000001, 215.00000000000063],
+          "header": {
+            "x": 12,
+            "y": 12,
+            "width": 1000,
+            "height": 58.5
+          },
+          "timeline": {
+            "x": 12,
+            "y": 316,
+            "width": 1000,
+            "height": 102
+          },
+          "scroll": [1024, 430]
+        },
+        {
+          "cue": "fuel-shock",
+          "viewport": [1024, 430],
+          "buffer": [1024, 430],
+          "dpr": 1,
+          "aim": [511.99999999999943, 215],
+          "header": {
+            "x": 12,
+            "y": 12,
+            "width": 1000,
+            "height": 58.5
+          },
+          "timeline": {
+            "x": 12,
+            "y": 316,
+            "width": 1000,
+            "height": 102
+          },
+          "scroll": [1024, 430]
+        },
+        {
+          "cue": "shore-break",
+          "viewport": [1024, 430],
+          "buffer": [1024, 430],
+          "dpr": 1,
+          "aim": [512.000000000003, 214.99999999999926],
+          "header": {
+            "x": 12,
+            "y": 12,
+            "width": 1000,
+            "height": 58.5
+          },
+          "timeline": {
+            "x": 12,
+            "y": 316,
+            "width": 1000,
+            "height": 102
+          },
+          "scroll": [1024, 430]
+        },
+        {
+          "cue": "lav-east",
+          "viewport": [1024, 430],
+          "buffer": [1024, 430],
+          "dpr": 1,
+          "aim": [512, 215.00000000000352],
+          "header": {
+            "x": 12,
+            "y": 12,
+            "width": 1000,
+            "height": 58.5
+          },
+          "timeline": {
+            "x": 12,
+            "y": 316,
+            "width": 1000,
+            "height": 102
+          },
+          "scroll": [1024, 430]
+        }
+      ],
+      "dropdown": {
+        "x": 194.9140625,
+        "y": 67.25,
+        "width": 304,
+        "height": 229,
+        "timeline": 316,
+        "buttons": [144.25, 187.25, 246.25, 289.25]
+      }
+    },
+    "contextRecovery": {
+      "beforeGeneration": 2,
+      "afterGeneration": 4,
+      "lost": {
+        "time": 92.06666666666665,
+        "speed": 1,
+        "playing": false,
+        "reset": 41,
+        "preset": "fuel-shock",
+        "cue": 90,
+        "request": 50
+      },
+      "restored": {
+        "time": 92.06666666666665,
+        "speed": 1,
+        "playing": false,
+        "reset": 41,
+        "preset": "fuel-shock",
+        "cue": 90,
+        "request": 50
+      },
+      "disabledHighlights": 4,
+      "completedGraphicsJobs": 9
+    },
+    "logs": [
+      ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+      ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."]
+    ]
+  },
+  "matchedRenderer": {
+    "count": 24,
+    "allCanvasRgbaSignaturesMatch": true,
+    "allCameraPosesMatch": true,
+    "allSubmissionAndOwnerCountsMatch": true,
+    "gpuGeometryCounterDelta": {
+      "opening": -1,
+      "first-launch": -1,
+      "second-lead-in": -1,
+      "second-launch": -1,
+      "radar-lead-in": -1,
+      "radar-engagement": -1,
+      "bay-lead-in": -1,
+      "bay-pass": -1,
+      "convoy-follow": -1,
+      "fuel-lead-in": -1,
+      "fuel-near": -1,
+      "fuel-far": -1,
+      "ammunition-lead-in": -1,
+      "ammunition-peak": -1,
+      "shore-lead-in": -1,
+      "shore-crest": -1,
+      "shore-landing": -1,
+      "deployment-lead-in": -1,
+      "deployment": -1,
+      "final-cut": -1,
+      "handoff": -1,
+      "last-transfer": -1,
+      "all-ashore": -1,
+      "late-observation": -1
+    },
+    "compositedDifferencesOverOneLevelBoundsPx": [11, 23, 1268, 152],
+    "compositedFringePixelsBelowY155": {
+      "opening": 0,
+      "first-launch": 2,
+      "second-lead-in": 1,
+      "second-launch": 3,
+      "radar-lead-in": 0,
+      "radar-engagement": 2,
+      "bay-lead-in": 0,
+      "bay-pass": 2,
+      "convoy-follow": 0,
+      "fuel-lead-in": 3,
+      "fuel-near": 0,
+      "fuel-far": 0,
+      "ammunition-lead-in": 0,
+      "ammunition-peak": 3,
+      "shore-lead-in": 0,
+      "shore-crest": 3,
+      "shore-landing": 0,
+      "deployment-lead-in": 10,
+      "deployment": 10,
+      "final-cut": 4,
+      "handoff": 4,
+      "last-transfer": 11,
+      "all-ashore": 8,
+      "late-observation": 0
+    },
+    "checkpoints": {
+      "opening": {
+        "pose": {
+          "time": 0,
+          "preset": "wasp",
+          "position": [-4540, 130.00000000000003, -3020],
+          "target": [-4800, 18, -2700],
+          "quaternion": [-0.04424183734598555, 0.9340927095287734, 0.12461063382924935, 0.33164085962094386],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["a4d5e49a", "3d9ab576"],
+        "submitted": [151, 248440, 0, 0],
+        "shadow": [24, 688, 0, 0],
+        "scene": {
+          "nodes": 4037,
+          "lights": 7,
+          "meshes": 2871,
+          "casters": 1252,
+          "instanceSlots": 8832,
+          "geometries": 1166,
+          "materials": 299
+        },
+        "gpu": {
+          "geometries": 984,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 0
+      },
+      "first-launch": {
+        "pose": {
+          "time": 7.2,
+          "preset": "wasp",
+          "position": [-4467.746254665678, 130.00000000000003, -3056.126872667161],
+          "target": [-4727.746254665678, 18, -2736.126872667161],
+          "quaternion": [-0.04424183734598555, 0.9340927095287734, 0.12461063382924935, 0.33164085962094386],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["4d74e31e", "c16c79ba"],
+        "submitted": [161, 248952, 0, 0],
+        "shadow": [24, 688, 0, 0],
+        "scene": {
+          "nodes": 4044,
+          "lights": 8,
+          "meshes": 2875,
+          "casters": 1252,
+          "instanceSlots": 8832,
+          "geometries": 1168,
+          "materials": 303
+        },
+        "gpu": {
+          "geometries": 985,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 0
+      },
+      "second-lead-in": {
+        "pose": {
+          "time": 11,
+          "preset": "f35-02",
+          "position": [-4779.055052617, 44.2994033709647, -2750.7216972864962],
+          "target": [-4699.003819022508, 15.29940337096468, -2756.0882604324956],
+          "quaternion": [-0.12602896099914135, -0.6728029690350955, -0.11786297693274317, 0.7194172534180626],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["d1481983", "faba1339"],
+        "submitted": [1367, 586988, 0, 0],
+        "shadow": [24, 688, 0, 0],
+        "scene": {
+          "nodes": 4044,
+          "lights": 8,
+          "meshes": 2875,
+          "casters": 1252,
+          "instanceSlots": 8832,
+          "geometries": 1168,
+          "materials": 303
+        },
+        "gpu": {
+          "geometries": 985,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 11
+      },
+      "second-launch": {
+        "pose": {
+          "time": 14.7,
+          "preset": "f35-02",
+          "position": [-4741.924655709084, 43.95300976754962, -2769.2868957404544],
+          "target": [-4661.873422114591, 14.95300976754961, -2774.653458886454],
+          "quaternion": [-0.12602896099914132, -0.6728029690350955, -0.11786297693274313, 0.7194172534180626],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["fc2f8e34", "a85736fe"],
+        "submitted": [1356, 585566, 0, 0],
+        "shadow": [14, 380, 0, 0],
+        "scene": {
+          "nodes": 4047,
+          "lights": 9,
+          "meshes": 2876,
+          "casters": 1252,
+          "instanceSlots": 8832,
+          "geometries": 1169,
+          "materials": 304
+        },
+        "gpu": {
+          "geometries": 986,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 11
+      },
+      "radar-lead-in": {
+        "pose": {
+          "time": 21.5,
+          "preset": "radar-hill",
+          "position": [3800, 1500, 2050],
+          "target": [3800, 165, 3750],
+          "quaternion": [0, 0.9451134450288439, 0.3267423694988308, 0],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["6d23f37c", "9f4a37aa"],
+        "submitted": [261, 445676, 0, 0],
+        "shadow": [78, 25692, 0, 0],
+        "scene": {
+          "nodes": 4040,
+          "lights": 8,
+          "meshes": 2872,
+          "casters": 1252,
+          "instanceSlots": 8832,
+          "geometries": 1167,
+          "materials": 300
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 21.5
+      },
+      "radar-engagement": {
+        "pose": {
+          "time": 24.8,
+          "preset": "radar-hill",
+          "position": [3800, 1500, 2050],
+          "target": [3800, 165, 3750],
+          "quaternion": [0, 0.9451134450288439, 0.3267423694988308, 0],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["5bf1904", "1a49975a"],
+        "submitted": [262, 445760, 0, 0],
+        "shadow": [78, 25692, 0, 0],
+        "scene": {
+          "nodes": 4037,
+          "lights": 7,
+          "meshes": 2871,
+          "casters": 1252,
+          "instanceSlots": 8832,
+          "geometries": 1166,
+          "materials": 300
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 392
+        },
+        "guidedCue": 21.5
+      },
+      "bay-lead-in": {
+        "pose": {
+          "time": 53,
+          "preset": "inspection-bay",
+          "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+          "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+          "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["c0100d63", "ce53d133"],
+        "submitted": [1536, 569279, 0, 0],
+        "shadow": [134, 10242, 0, 0],
+        "scene": {
+          "nodes": 4100,
+          "lights": 10,
+          "meshes": 2917,
+          "casters": 1252,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 352
+        },
+        "gpu": {
+          "geometries": 1157,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 53
+      },
+      "bay-pass": {
+        "pose": {
+          "time": 58,
+          "preset": "inspection-bay",
+          "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+          "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+          "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["3b810b0f", "87f5104b"],
+        "submitted": [1554, 570625, 0, 0],
+        "shadow": [134, 10242, 0, 0],
+        "scene": {
+          "nodes": 4100,
+          "lights": 10,
+          "meshes": 2917,
+          "casters": 1252,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 352
+        },
+        "gpu": {
+          "geometries": 1157,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 53
+      },
+      "convoy-follow": {
+        "pose": {
+          "time": 64,
+          "preset": "support-convoy",
+          "position": [4368.490317405617, 180.73744782106237, 433.9633822009182],
+          "target": [4291.56633327481, 45.7374478210624, 184.54866598424582],
+          "quaternion": [-0.233767519252763, 0.1447994626014782, 0.035230290996765626, 0.960804188775744],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["c4343f75", "957b07af"],
+        "submitted": [481, 437592, 0, 0],
+        "shadow": [134, 10242, 0, 0],
+        "scene": {
+          "nodes": 4100,
+          "lights": 10,
+          "meshes": 2917,
+          "casters": 1252,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 352
+        },
+        "gpu": {
+          "geometries": 1157,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 64
+      },
+      "fuel-lead-in": {
+        "pose": {
+          "time": 90,
+          "preset": "fuel-shock",
+          "position": [-549, 58.000000000000014, 1709],
+          "target": [-399, 35.5, 1819],
+          "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["4fabc86b", "ce70536f"],
+        "submitted": [604, 491331, 0, 0],
+        "shadow": [77, 9028, 0, 0],
+        "scene": {
+          "nodes": 4136,
+          "lights": 12,
+          "meshes": 2940,
+          "casters": 1241,
+          "instanceSlots": 9722,
+          "geometries": 1177,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1154,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 90
+      },
+      "fuel-near": {
+        "pose": {
+          "time": 92.95,
+          "preset": "fuel-shock",
+          "position": [-549, 58.000000000000014, 1709],
+          "target": [-399, 35.5, 1819],
+          "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["72d2c47c", "69216c64"],
+        "submitted": [610, 494783, 0, 0],
+        "shadow": [78, 9040, 0, 0],
+        "scene": {
+          "nodes": 4151,
+          "lights": 13,
+          "meshes": 2951,
+          "casters": 1243,
+          "instanceSlots": 9776,
+          "geometries": 1175,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1152,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 90
+      },
+      "fuel-far": {
+        "pose": {
+          "time": 93.44,
+          "preset": "fuel-shock",
+          "position": [-549, 58.000000000000014, 1709],
+          "target": [-399, 35.5, 1819],
+          "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["ea8d9c9e", "42019f8c"],
+        "submitted": [607, 494659, 0, 0],
+        "shadow": [78, 9040, 0, 0],
+        "scene": {
+          "nodes": 4147,
+          "lights": 13,
+          "meshes": 2948,
+          "casters": 1243,
+          "instanceSlots": 9752,
+          "geometries": 1175,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1152,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 90
+      },
+      "ammunition-lead-in": {
+        "pose": {
+          "time": 115,
+          "preset": "ammunition",
+          "position": [1800.0000000000002, 1000, 949.9999999999998],
+          "target": [1800, 85, 2100],
+          "quaternion": [-3.259877751232533e-17, 0.9440671864859412, 0.32975316131997734, 9.332870698115635e-17],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["beb2125e", "ac50437c"],
+        "submitted": [420, 494319, 0, 0],
+        "shadow": [190, 27520, 0, 0],
+        "scene": {
+          "nodes": 4030,
+          "lights": 13,
+          "meshes": 2853,
+          "casters": 1170,
+          "instanceSlots": 9688,
+          "geometries": 1055,
+          "materials": 385
+        },
+        "gpu": {
+          "geometries": 1020,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 115
+      },
+      "ammunition-peak": {
+        "pose": {
+          "time": 132.65,
+          "preset": "ammunition",
+          "position": [1800.0000000000002, 1000, 949.9999999999998],
+          "target": [1800, 85, 2100],
+          "quaternion": [-3.259877751232533e-17, 0.9440671864859412, 0.32975316131997734, 9.332870698115635e-17],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["887c633a", "8db0d59e"],
+        "submitted": [432, 497535, 0, 0],
+        "shadow": [190, 27520, 0, 0],
+        "scene": {
+          "nodes": 4022,
+          "lights": 13,
+          "meshes": 2844,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1050,
+          "materials": 356
+        },
+        "gpu": {
+          "geometries": 1020,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 115
+      },
+      "shore-lead-in": {
+        "pose": {
+          "time": 152,
+          "preset": "shore-break",
+          "position": [5540, 12.499999999999995, -2987],
+          "target": [5501, 0.3, -2925],
+          "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["1de499ed", "8052898d"],
+        "submitted": [1952, 695313, 0, 0],
+        "shadow": [51, 6314, 0, 0],
+        "scene": {
+          "nodes": 4118,
+          "lights": 13,
+          "meshes": 2934,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 377
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 152
+      },
+      "shore-crest": {
+        "pose": {
+          "time": 157.25,
+          "preset": "shore-break",
+          "position": [5540, 12.499999999999995, -2987],
+          "target": [5501, 0.3, -2925],
+          "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["d68c18ef", "5f78d913"],
+        "submitted": [2069, 700139, 0, 0],
+        "shadow": [51, 6314, 0, 0],
+        "scene": {
+          "nodes": 4118,
+          "lights": 13,
+          "meshes": 2934,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 377
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 152
+      },
+      "shore-landing": {
+        "pose": {
+          "time": 163.5,
+          "preset": "shore-break",
+          "position": [5540, 12.499999999999995, -2987],
+          "target": [5501, 0.3, -2925],
+          "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["68640311", "8d7e4fd5"],
+        "submitted": [2064, 695123, 0, 0],
+        "shadow": [51, 6314, 0, 0],
+        "scene": {
+          "nodes": 4107,
+          "lights": 13,
+          "meshes": 2924,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 382
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 152
+      },
+      "deployment-lead-in": {
+        "pose": {
+          "time": 164,
+          "preset": "lav-east",
+          "position": [5480.6952224905235, 18.070762628417697, -2849.70170812369],
+          "target": [5453.499218344519, 5.070762628417699, -2857.471995022548],
+          "quaternion": [-0.17064718614712446, 0.5882777818475755, 0.1287194135933334, 0.779897494423949],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["9f3109a3", "d1d878fd"],
+        "submitted": [314, 406546, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "nodes": 4107,
+          "lights": 13,
+          "meshes": 2924,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 382
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 164
+      },
+      "deployment": {
+        "pose": {
+          "time": 168.75,
+          "preset": "lav-east",
+          "position": [5482.3907773276815, 18.316522037936533, -2846.6497094168058],
+          "target": [5455.194773181677, 5.316522037936536, -2854.419996315664],
+          "quaternion": [-0.17064718614712446, 0.5882777818475755, 0.1287194135933334, 0.779897494423949],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["bc845836", "bb447252"],
+        "submitted": [315, 412946, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "nodes": 4125,
+          "lights": 13,
+          "meshes": 2940,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1052,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 164
+      },
+      "final-cut": {
+        "pose": {
+          "time": 173,
+          "preset": "lcac-east",
+          "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+          "target": [5450, 3.640845913585453, -2860],
+          "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["5ae7e9e3", "a4c0edb5"],
+        "submitted": [313, 407390, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "nodes": 4125,
+          "lights": 13,
+          "meshes": 2940,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1052,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 173
+      },
+      "handoff": {
+        "pose": {
+          "time": 180,
+          "preset": "lcac-east",
+          "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+          "target": [5450, 3.640845913585453, -2860],
+          "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["8cdab50e", "8f57f9e"],
+        "submitted": [275, 405990, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "nodes": 4102,
+          "lights": 13,
+          "meshes": 2912,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1053,
+          "materials": 384
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 173
+      },
+      "last-transfer": {
+        "pose": {
+          "time": 186.75,
+          "preset": "lcac-east",
+          "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+          "target": [5450, 3.640845913585453, -2860],
+          "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["41c19d4f", "7125af87"],
+        "submitted": [239, 406510, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "nodes": 4041,
+          "lights": 13,
+          "meshes": 2861,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 173
+      },
+      "all-ashore": {
+        "pose": {
+          "time": 188.2,
+          "preset": "lcac-east",
+          "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+          "target": [5450, 3.640845913585453, -2860],
+          "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["7e7a518c", "289858d0"],
+        "submitted": [230, 405758, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "nodes": 4041,
+          "lights": 13,
+          "meshes": 2861,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 173
+      },
+      "late-observation": {
+        "pose": {
+          "time": 7200,
+          "preset": "lcac-east",
+          "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+          "target": [5450, 3.640845913585453, -2860],
+          "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+          "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0]
+        },
+        "canvas": ["23be556", "f5f14c"],
+        "submitted": [120, 392654, 0, 0],
+        "shadow": [10, 2882, 0, 0],
+        "scene": {
+          "nodes": 4041,
+          "lights": 13,
+          "meshes": 2861,
+          "casters": 1176,
+          "instanceSlots": 9963,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 391
+        },
+        "guidedCue": 173
+      }
+    }
+  },
+  "pacing": {
+    "wasp": {
+      "before": {
+        "rafSamples": 478,
+        "medianMs": 16.6,
+        "meanMs": 16.81,
+        "p95Ms": 17.4,
+        "maxMs": 66.7,
+        "longTasksMs": [61],
+        "windowReached": [2, 10.033333333333305],
+        "visibleFocused": true
+      },
+      "after": {
+        "rafSamples": 484,
+        "medianMs": 16.6,
+        "meanMs": 16.6,
+        "p95Ms": 16.7,
+        "maxMs": 17.7,
+        "longTasksMs": [],
+        "windowReached": [2, 10.033333333333305],
+        "visibleFocused": true
+      }
+    },
+    "fuel": {
+      "before": {
+        "rafSamples": 664,
+        "medianMs": 16.6,
+        "meanMs": 16.63,
+        "p95Ms": 16.9,
+        "maxMs": 33.3,
+        "longTasksMs": [],
+        "windowReached": [90, 101.0333333333327],
+        "visibleFocused": true
+      },
+      "after": {
+        "rafSamples": 662,
+        "medianMs": 16.6,
+        "meanMs": 16.68,
+        "p95Ms": 16.8,
+        "maxMs": 49.7,
+        "longTasksMs": [],
+        "windowReached": [90, 101.0333333333327],
+        "visibleFocused": true
+      }
+    }
+  },
+  "preservation": {
+    "eventCount": 51,
+    "eventHash": "a335a1d385306a713839f43230ff4f7535ffa4bb8883f98aa6c4580aaff5e84e",
+    "scriptedEnd": 180,
+    "manualCameraGroups": [
+      [
+        "Regional overview",
+        [
+          ["overview", "Overview"],
+          ["harbor", "Harbor"],
+          ["industrial", "Industrial"],
+          ["radar-hill", "Radar Hill"],
+          ["corridor", "Convoy corridor"],
+          ["beachhead", "Beach inland"],
+          ["beach-offshore", "Beach offshore"]
+        ]
+      ],
+      [
+        "Naval focus",
+        [
+          ["wasp", "Wasp"],
+          ["talwar", "Talwar"],
+          ["molniya", "Molniya"]
+        ]
+      ],
+      [
+        "Sites and ground vehicles",
+        [
+          ["fuel-storage", "Fuel storage"],
+          ["ammunition", "Ammunition"],
+          ["search-radar", "Search radar"],
+          ["btr", "BTR focus"],
+          ["t72", "T-72 focus"],
+          ["support-convoy", "Support convoy"],
+          ["secondary-pantsir", "Pantsir 02"]
+        ]
+      ],
+      [
+        "Landing focus",
+        [
+          ["lcac-west", "LCAC 01"],
+          ["lcac-east", "LCAC 02"],
+          ["lav-west", "LAV west"],
+          ["lav-east", "LAV east"]
+        ]
+      ],
+      [
+        "Aircraft",
+        [
+          ["f35-01", "F-35B 01"],
+          ["f35-02", "F-35B 02"],
+          ["su30", "Air reinforcement"]
+        ]
+      ],
+      [
+        "Environment details",
+        [
+          ["inspection-bay", "Inspection bay"],
+          ["shore-break", "Shore break"],
+          ["fuel-shock", "Fuel shock (T+92)"]
+        ]
+      ]
+    ],
+    "manualFrameCount": 1053,
+    "manualFramesHash": "9c85d9bd108dccc33f3145349ad2cfb51a889c58bd539c6c6633c54f1721c9cb",
+    "runtimeSamples": 13,
+    "runtimeHash": "e9fc65ffc0ff078324af0b26d145ff34ffacd9af6cf57b6ec1832c773ba59624",
+    "shorePhaseSamples": 78,
+    "shorePhaseHash": "ed8423d9e484f7e9f8887a60fbd5260ac12cb3807e932e84c1bbe53d0d84133a",
+    "fuelMarker": {
+      "id": "fuel_shock_environment_response",
+      "atSeconds": 94,
+      "localTime": "05:28:34",
+      "event": "nearby_environment_bends_rebounds_and_ignites"
+    },
+    "rendered": [
+      {
+        "time": 155,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [8, 0, 0],
+        "eastRamp": [-7.170049851291437, 0.3500048925209062, 3.9633170079123197, 0, -0.049620394497721244, 0.05467421340070087, -0.09459675913531676, 0, -1.5231741974341955, -5.33490751355468, -2.2844478952448277, 0, 5434.858101825375, 5.908503194264457, -2887.635410950189, 1],
+        "waterGPU": 155,
+        "hash": "b6cc27615674ac8a22d1e2e3da06e6987a393df2da8a66e3209f23c9f7868f58"
+      },
+      {
+        "time": 162,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [8, 0, 0],
+        "eastRamp": [-7.173122330397527, 0.23046210786930818, 3.966510210498491, 0, -0.05091238657168353, 0.05253098221087121, -0.09512320853260045, 0, -1.4041888564185985, -5.391920197815157, -2.226084058588709, 0, 5455.59805066019, 8.36937132434255, -2850.150387090311, 1],
+        "waterGPU": 162,
+        "hash": "75ff4ede90c7a0d6353e0eabd7ab2b22cd67bc7bab1d2f619c1879b4da725cb2"
+      },
+      {
+        "time": 170,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [5, 2, 1],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 170,
+        "hash": "fdd6dc2c8610b549c7e723de2bcc429745dab1a495acc7066873438a1e438964"
+      },
+      {
+        "time": 176,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [3, 2, 3],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 176,
+        "hash": "c57397fbc8fa5353d781518e7e9c60ef7f43538c9f3f0b01f075ed183fe48984"
+      },
+      {
+        "time": 180,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [1, 2, 5],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 180,
+        "hash": "b4061383694b373e527256bca3fb3e08eca9055733b5a9ada2df1058d4928bc4"
+      },
+      {
+        "time": 187.6,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [0, 0, 8],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 187.60000610351562,
+        "hash": "82d43315fd74797082d58fc56187a51d63f7a8f7440b742dee63f975433e5164"
+      }
+    ]
+  },
+  "fixtures": {
+    "src/simulation/fixtures/stage7cConstructionPreservation.json": {
+      "bytes": [49102, 53062],
+      "referenceSha256": "a2fe892ff096d476eee5874f4123d2b32bc868b4f1d9fb2c7e5a241898d28df1",
+      "restoredSha256": "8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8",
+      "workingTreeGitBlob": "dd61d75cd65770a47d5541618d6105e95d0820ae",
+      "status": "working tree, pending commit"
+    },
+    "src/simulation/fixtures/stage7cPresentationPreservation.json": {
+      "bytes": [53891, 58811],
+      "referenceSha256": "4cb1c7c880ccd6132907e22c8ff1183e0607157a18367fa48c77e5c41e50d2d6",
+      "restoredSha256": "b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3",
+      "workingTreeGitBlob": "d8ac0cffaaf01d0773105c2c764c96df7f5dd5c2",
+      "status": "working tree, pending commit"
+    }
+  },
+  "media": {
+    "tracked": false,
+    "sha256": {
+      "stage9a-evidence/guided-review.mp4": "753331c069a7ffb3da56c0d9feb367ce54697c2acedecd6e2f6f12c91c8b318f",
+      "stage9a-evidence/stills/ammunition-peak.png": "bdd676bb752f67106e32b669b7818add3793d429f32022633e2d7a67d9123b0d",
+      "stage9a-evidence/stills/ashore.png": "2088d8132272c7474c99a2ee6f1998f776883ec74a0b2f984c4bb352fd10339e",
+      "stage9a-evidence/stills/bay-pass.png": "dd1e30472a17ee6dedf8cc3f6e1dd7b10ff58ba3960dd9a090299132f072d6ca",
+      "stage9a-evidence/stills/context-restored.png": "b74660ad325164a90d5acab2359795a636a2129b95ef0c31bf80876f69193220",
+      "stage9a-evidence/stills/convoy-follow.png": "dd5feaa3db0acf2ef996edd193008a5117ff831bd3e9fd4fe47a774456aa3fc7",
+      "stage9a-evidence/stills/final-ramp.png": "e04d177ba648e60c0736ec6c9491ad7e004fc40ec847d26649c46459b8df1d9f",
+      "stage9a-evidence/stills/first-launch.png": "ec7b605a5291cfe99414b772c6e55113d2679b940ab4311f0dc0e981cfc59b97",
+      "stage9a-evidence/stills/fuel-far.png": "7199e02a05347d7bf1b54804e18d60ecca108ebbf098862b63bc6572ab91d1aa",
+      "stage9a-evidence/stills/fuel-near.png": "4a97653cd42394b66c43e1a4a90a32b24e8f61118f571e3288513b5c2d2c4120",
+      "stage9a-evidence/stills/guided-ready.png": "7db9bb2a201d3054fabe84b9efc364031d03ffcd0b41ad940b2484576a995e5e",
+      "stage9a-evidence/stills/lav-deployment.png": "07af06dab6127c5a142f1c97fcebe1fa15e3d94c1f911e6d4ff15e904877987d",
+      "stage9a-evidence/stills/radar-engagement.png": "abc8db53a6baa936d2a339856b96f6e7b3b2363b7053770725f40a40d64c9658",
+      "stage9a-evidence/stills/second-launch.png": "96785a016740d15eaba1596a9633e64fc741afd80e7a73724c465f2165bddba3",
+      "stage9a-evidence/stills/shore-crest.png": "28b9e6c2fb06bf28a8e3ad7ed8db21d434a14cd8db722ecbc43977fadd53cad2",
+      "stage9a-evidence/stills/shore-landing.png": "6139f2e2c74b8717ef4f35e7807bf7842a2cf40f324cb9d2c028b09348dd32eb",
+      "stage9a-evidence/stills/short-highlights.png": "8223cfb7fe2d9954a295af1a9f05e3bb19787b80cc692d2ce25f9067f3391c7d"
+    },
+    "video": {
+      "stream": {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "30/1",
+        "duration": "23.100000",
+        "nb_frames": "693"
+      },
+      "windows": {
+        "fuel": {
+          "window": [88.8, 99],
+          "nativeFrames": 314,
+          "usedNativeFrames": 303,
+          "maxFrameSnapMs": 23.48,
+          "outputFrames": 306
+        },
+        "shore": {
+          "window": [150.8, 163.7],
+          "nativeFrames": 397,
+          "usedNativeFrames": 386,
+          "maxFrameSnapMs": 16.89,
+          "outputFrames": 387
+        }
+      }
+    }
+  }
+}

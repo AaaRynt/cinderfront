@@ -22,6 +22,8 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
+**Stage 9A, Guided Observation and Highlights, is COMPLETE.** The optional ten-shot guide follows Ash Harbor from the offshore opening through the final ramp transfers. Four paused previews and manual camera takeover are available from the existing viewer. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
+
 **Stage 8D, Scenery Continuity and Detail Views, is COMPLETE.** The rescue-branch approach and east landing frontage read in the original presets. Inspection bay, Shore break and Fuel shock are available through the Environment details group. [Stage 8D acceptance and evidence](STAGE8D_ACCEPTANCE.md)
 
 **Stage 8C, Blast Response in Vegetation, is COMPLETE.** Two gravel verges carry rooted trees, grass and scrub that respond in sequence to the T+92 shock front. Matched 1× viewer captures show the bend, rebound and return to ambient wind. [Stage 8C acceptance and evidence](STAGE8C_ACCEPTANCE.md)
@@ -30,7 +32,7 @@ The scenario and map specifications should not be casually rewritten during impl
 
 **Stage 8A, Ground Detail and Roadside Storytelling, is COMPLETE.** The rescue-branch inspection bay and eastern beach-track marker pass the matched viewer, clearance, rendering cost and preservation checks. [Stage 8A acceptance](STAGE8A_ACCEPTANCE.md).
 
-**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed. Stage 8D verified both original fixture captures and restored their pinned bytes in the working Git diff against `e439bdd`. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed. Stage 8D verified the restored fixture bytes in its working diff. The blobs in `94df448` still have the earlier serialization. Stage 9A restores both pinned originals in the working Git diff. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06)
 
 Original post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
 
@@ -65,6 +67,7 @@ The intended sequence is:
 9. reproduce and correct live-playback regressions or measurement faults in post-core Stage 7D, with controlled evidence and exact startup/runtime/render preservation.
 10. develop two ground and roadside samples in Stage 8A, then evaluate shore waves and wind in Stage 8B and local blast response in Stage 8C.
 11. integrate the Stage 8 samples into normal viewing in Stage 8D, with limited roadside and coastal extension and three accessible detail views.
+12. connect the existing scenes in Stage 9A through an optional guide and a compact Highlights control.
 
 This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
 
@@ -677,7 +680,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A/8B/8C prompts are preserved in `81f5c10` / `f98e1fc` / `e439bdd`, and the current `prompt.md` targets Stage 8D.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A–8D prompts are preserved in `81f5c10` / `f98e1fc` / `e439bdd` / `94df448`, and the current `prompt.md` targets Stage 9A.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1217,6 +1220,12 @@ The full deformation envelope clears the nearest berm by 0.80 m. Twelve matched 
 **Complete, 2026-11-07.** Three roadside groups and a fitted gravel shoulder carry the convoy view into and out of the existing inspection bay. The new east frontage adds 165 m of moving crest and a wash that follows the shallow seam and bank. The existing camera selector includes Inspection bay, Shore break and Fuel shock (T+92).
 
 Five matched 1× sequences, 22 cost checkpoints and keyboard, playback and short-viewport checks pass. The largest cost increases are eight draws and 4.58% triangles. The original 24 choices match across 936 sampled camera frames, and the two pinned Stage 7C fixtures are restored in the working Git diff. Both TypeScript checks, lint and all 798 tests across 76 files passed. [Stage 8D acceptance and evidence](STAGE8D_ACCEPTANCE.md)
+
+# Stage 9A — Guided Observation and Highlights
+
+**Complete, 2026-11-07.** Manual view remains the default. Guided view reads the existing observation clock and uses ten of the 27 presets. Highlights pauses and selects a manual shot at the inspection bay, fuel front, shore break or first east LAV transfer.
+
+A continuous 1× run held the final camera through T+189.07. Keyboard and mouse input, nonadjacent seeks, short viewport and WebGL recovery passed. All 24 matched canvas comparisons and 1,053 manual frame samples match Stage 8D. Both pinned fixture repairs are present in the working Git diff. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
 
 # Out of Current Core Plan
 

@@ -1,9 +1,11 @@
 import { useEffect, useMemo } from 'react'
 
+import type { ObservationCue } from '@/scene/camera/observationCues'
 import type { Btr80GroundVehicleGroupState, SimulationEvent, SimulationSpeed, T72GroundVehicleGroupState } from '@/simulation'
 import type { LavGroupState } from '@/simulation/landingCraftTypes'
 
 import { BattlefieldScene } from '@/scene/BattlefieldScene'
+import { useCameraStore } from '@/scene/camera/cameraStore'
 import { playbackReady, useReadiness } from '@/scene/readiness/readinessStore'
 import { deriveRuntimeWorldState, simulationStore, SIMULATION_DURATION_SECONDS, useSimulationStore } from '@/simulation'
 import { SimulationHud } from '@/ui/SimulationHud'
@@ -86,6 +88,23 @@ function landingGroupStatus(group: LavGroupState) {
   return `${phaseLabel(group.activity)} · ${group.embarkedCount} aboard / ${group.transferringCount} transfer / ${group.ashoreCount} ashore`
 }
 
+function toggleGuide() {
+  const camera = useCameraStore.getState()
+  if (camera.guidedCue) camera.leaveGuide()
+  else camera.enableGuide(simulationStore.getState().timeSeconds)
+}
+
+function previewHighlight(cue: ObservationCue) {
+  if (!playbackReady()) return false
+  const camera = useCameraStore.getState()
+  const { pause, seek } = simulationStore.getState()
+  camera.leaveGuide()
+  pause()
+  seek(cue.atSeconds)
+  camera.requestPreset(cue.preset)
+  return true
+}
+
 function SimulationInterface() {
   const time = useSimulationStore((state) => state.timeSeconds)
   const playing = useSimulationStore((state) => state.isPlaying)
@@ -96,6 +115,14 @@ function SimulationInterface() {
   const seek = useSimulationStore((state) => state.seek)
   const setSpeed = useSimulationStore((state) => state.setSpeed)
   const world = useMemo(() => deriveRuntimeWorldState(time), [time])
+  useEffect(
+    () =>
+      simulationStore.subscribe((state, previous) => {
+        const camera = useCameraStore.getState()
+        if (camera.guidedCue && state.timeSeconds !== previous.timeSeconds) camera.syncGuide(state.timeSeconds)
+      }),
+    [],
+  )
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
       const target = event.target
@@ -154,11 +181,13 @@ function SimulationInterface() {
         time: latestEvent.atSeconds,
       }}
       localTime={world.localTimeLabel}
+      onPreviewHighlight={previewHighlight}
       onRestart={restart}
       onSeek={(time) => {
         if (playbackReady()) seek(time)
       }}
       onSpeedChange={(nextSpeed: SimulationSpeed) => setSpeed(nextSpeed)}
+      onToggleGuide={toggleGuide}
       onTogglePlayback={() => {
         if (playing) pause()
         else if (playbackReady()) simulationStore.getState().play()

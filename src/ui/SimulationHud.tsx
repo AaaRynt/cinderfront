@@ -1,12 +1,14 @@
-import { Camera, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship, Warehouse, Waves } from 'lucide-react'
-import { memo, useState } from 'react'
+import { Camera, ChevronDown, Factory, Map, Pause, Plane, Play, Radar, Route, RotateCcw, Ship, Warehouse, Waves } from 'lucide-react'
+import { memo, useRef, useState } from 'react'
 
 import type { CameraPreset } from '@/scene/camera/cameraStore'
+import type { ObservationCue } from '@/scene/camera/observationCues'
 import type { ReadinessState } from '@/scene/readiness/readinessStore'
 import type { SimulationEvent, SimulationSpeed } from '@/simulation'
 
 import { useCameraStore } from '@/scene/camera/cameraStore'
 import { ENVIRONMENT_DETAILS } from '@/scene/camera/environmentDetails'
+import { HIGHLIGHT_CUES } from '@/scene/camera/observationCues'
 import { formatRuntimeTime, quantizeRuntimeTime, SIMULATION_EVENTS } from '@/simulation'
 
 interface TimelineEventView {
@@ -42,9 +44,11 @@ interface SimulationHudProps {
   duration: number
   latestEvent: TimelineEventView
   localTime: string
+  onPreviewHighlight: (cue: ObservationCue) => boolean
   onRestart: () => void
   onSeek: (time: number) => void
   onSpeedChange: (speed: SimulationSpeed) => void
+  onToggleGuide: () => void
   onTogglePlayback: () => void
   playing: boolean
   relativeTime: string
@@ -97,6 +101,7 @@ function StatusRow({ label, value }: { label: string; value: string }) {
 const CameraMenu = memo(function CameraMenu() {
   const activePreset = useCameraStore((state) => state.preset)
   const requestPreset = useCameraStore((state) => state.requestPreset)
+  const recenter = useCameraStore((state) => state.recenter)
   return (
     <nav className="ml-auto flex items-center gap-2" aria-label="Camera presets">
       <label className="font-mono text-[10px] text-(--muted) max-[760px]:sr-only" htmlFor="camera-select">
@@ -135,16 +140,66 @@ const CameraMenu = memo(function CameraMenu() {
           ))}
         </optgroup>
       </select>
-      <button type="button" aria-label="Recenter selected camera" title="Recenter selected camera" className="grid size-9 place-items-center border border-(--hud-edge) text-(--muted) hover:text-(--amber-bright)" onClick={() => requestPreset(activePreset)}>
+      <button type="button" aria-label="Recenter selected camera" title="Recenter selected camera" className="grid size-9 place-items-center border border-(--hud-edge) text-(--muted) hover:text-(--amber-bright)" onClick={recenter}>
         <RotateCcw size={15} aria-hidden="true" />
       </button>
     </nav>
   )
 })
 
+const ObservationControls = memo(function ObservationControls({ guided, ready, onToggleGuide, onPreviewHighlight }: Pick<SimulationHudProps, 'onToggleGuide' | 'onPreviewHighlight'> & { guided: boolean; ready: boolean }) {
+  const highlights = useRef<HTMLDetailsElement>(null)
+  const summary = useRef<HTMLElement>(null)
+  function closeHighlights() {
+    if (highlights.current) highlights.current.open = false
+    summary.current?.focus()
+  }
+  return (
+    <div className="relative flex shrink-0 items-center gap-2 max-[900px]:order-last max-[900px]:basis-full">
+      <button type="button" aria-pressed={guided} className="min-h-9 border border-(--hud-edge) px-3 text-[11px] whitespace-nowrap text-(--ink) hover:bg-(--hud-soft) aria-pressed:border-[#e9a94d70] aria-pressed:bg-[#e9a94d20] aria-pressed:text-(--amber-bright)" onClick={onToggleGuide}>
+        Guided view
+      </button>
+      <details
+        ref={highlights}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape' && highlights.current?.open) {
+            event.preventDefault()
+            closeHighlights()
+          }
+        }}
+      >
+        <summary ref={summary} className="flex min-h-9 cursor-pointer list-none items-center gap-1.5 border border-(--hud-edge) px-3 text-[11px] text-(--ink) hover:bg-(--hud-soft) [&::-webkit-details-marker]:hidden">
+          Highlights <ChevronDown aria-hidden="true" size={13} />
+        </summary>
+        <div className="hud-panel absolute top-full left-0 z-10 mt-2 max-h-[min(16rem,calc(100dvh-12rem))] w-[min(19rem,calc(100vw-3rem))] overflow-y-auto overscroll-contain px-2 py-1.5" data-hud-scroll>
+          <p className="m-0 px-2 py-1.5 text-[10px] text-(--muted)">Previews pause playback. Press Play to continue.</p>
+          <ul className="m-0 list-none p-0">
+            {HIGHLIGHT_CUES.map((cue) => (
+              <li key={cue.atSeconds}>
+                <button
+                  type="button"
+                  disabled={!ready}
+                  className="grid w-full grid-cols-[auto_1fr] items-baseline gap-x-2 border-t border-(--hud-edge) px-2 py-1 text-left hover:bg-(--hud-soft) disabled:opacity-50"
+                  onClick={() => {
+                    if (onPreviewHighlight(cue)) closeHighlights()
+                  }}
+                >
+                  <span className="font-mono text-[10px] text-(--amber-bright)">{formatTimelineBound(cue.atSeconds)}</span>
+                  <span className="text-[12px] font-medium">{cue.title}</span>
+                  <span className="col-start-2 text-[10px] leading-4 text-(--muted)">{cue.subject}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    </div>
+  )
+})
+
 const OperationalStatus = memo(function OperationalStatus(battlefieldStatus: BattlefieldStatus) {
   return (
-    <aside className="absolute top-[82px] right-3 w-[300px] max-[760px]:w-[260px]" aria-label="Operational status">
+    <aside className="absolute top-[82px] right-3 w-[300px] max-[900px]:top-[126px] max-[760px]:w-[260px]" aria-label="Operational status">
       <p className="hud-panel m-0 mb-2 px-3 py-2 font-mono text-[11px] leading-4 text-(--ink)" aria-label="Deployment summary">
         {battlefieldStatus.embarkedPayload}
       </p>
@@ -212,21 +267,23 @@ function formatTimelineBound(timeSeconds: number) {
   return `T+${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 }
 
-export function SimulationHud({ readiness, battlefieldStatus, duration, latestEvent, localTime, onRestart, onSeek, onSpeedChange, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
+export function SimulationHud({ readiness, battlefieldStatus, duration, latestEvent, localTime, onPreviewHighlight, onRestart, onSeek, onSpeedChange, onToggleGuide, onTogglePlayback, playing, relativeTime, speed, time }: SimulationHudProps) {
   const [observationDraft, setObservationDraft] = useState<string | null>(null)
+  const guidedCue = useCameraStore((state) => state.guidedCue)
 
   return (
     <div className="hud-shell">
-      <header className="hud-panel absolute top-3 right-3 left-3 flex min-h-[58px] items-center justify-between gap-4 px-3 py-2">
+      <header className="hud-panel absolute top-3 right-3 left-3 z-20 flex min-h-[58px] items-center justify-between gap-4 px-3 py-2 max-[900px]:flex-wrap max-[900px]:gap-2">
         <div className="flex shrink-0 items-center gap-3">
-          <div aria-hidden="true" className="grid size-9 place-items-center border border-[#e9a94d70] bg-[#e9a94d12] font-mono text-[11px] font-bold text-(--amber-bright)">
+          <div aria-hidden="true" className="grid size-9 place-items-center border border-[#e9a94d70] bg-[#e9a94d12] font-mono text-[11px] font-bold text-(--amber-bright) max-[380px]:hidden">
             CF
           </div>
           <div>
-            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront / Stage 6C</p>
+            <p className="m-0 font-mono text-[9px] leading-[1.2] font-semibold tracking-[0.17em] text-(--muted) uppercase">Cinderfront</p>
             <h1 className="m-0 mt-1 text-[15px] leading-none font-semibold tracking-wider uppercase">Ash Harbor</h1>
           </div>
         </div>
+        <ObservationControls guided={guidedCue !== null} ready={readiness.phase === 'ready'} onToggleGuide={onToggleGuide} onPreviewHighlight={onPreviewHighlight} />
         <CameraMenu />
         <div className="flex shrink-0 flex-col border-l border-(--hud-edge) pl-4 text-right font-mono max-[760px]:hidden" data-testid="mission-clock">
           <span className="text-[17px] text-(--amber-bright)">{relativeTime}</span>
@@ -336,9 +393,12 @@ export function SimulationHud({ readiness, battlefieldStatus, duration, latestEv
         </div>
       </section>
 
-      <div className="pointer-events-none absolute top-[82px] left-3 max-w-[calc(100%-340px)] font-mono text-[10px] leading-4 text-[#c2d1c0] max-[760px]:max-w-[calc(100%-290px)]">
+      <div className="pointer-events-none absolute top-[82px] left-3 max-w-[calc(100%-340px)] font-mono text-[10px] leading-4 text-[#c2d1c0] max-[900px]:top-[126px] max-[760px]:max-w-[calc(100%-290px)]">
         <p className="m-0 text-(--amber-bright)">{time >= duration ? 'AFTERMATH OBSERVATION' : 'SCRIPTED OPERATION'}</p>
         <p className="m-0">{time >= duration ? `Elapsed ${formatRuntimeTime(time - duration).slice(2)} · 51 events complete` : '51 events · 0–180 s'}</p>
+        <p aria-live="polite" aria-atomic="true" className="m-0 mt-1 text-(--amber-bright)" data-testid="observation-mode">
+          {guidedCue ? `Guided view · ${guidedCue.title}` : 'Manual view'}
+        </p>
         <p className="m-0 mt-1 text-[#9daea9]">Orbit · right-drag pan · scroll zoom</p>
       </div>
     </div>

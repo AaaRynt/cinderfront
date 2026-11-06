@@ -2,7 +2,7 @@ import type { ComponentRef } from 'react'
 
 import { OrbitControls } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { PerspectiveCamera, Vector3 } from 'three'
 
 import { simulationStore } from '@/simulation'
@@ -15,6 +15,7 @@ const UP = new Vector3(0, 1, 0)
  * direct seeks. Every heading comes from runtime pose, including reverse/stops. */
 export function CameraRig() {
   const get = useThree((state) => state.get)
+  const connected = useThree((state) => state.events?.connected)
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
   const preset = useCameraStore((state) => state.preset)
   const requestId = useCameraStore((state) => state.requestId)
@@ -24,6 +25,38 @@ export function CameraRig() {
   const settle = useRef(0)
   const cameraOffset = useRef(new Vector3())
   const targetOffset = useRef(new Vector3())
+
+  useEffect(() => {
+    const orbit = controls.current
+    const element = connected ?? orbit?.domElement
+    if (!orbit || !element) return
+    const document = element.ownerDocument
+    const pointers = new Map<number, PointerEvent>()
+    const start = (event: PointerEvent) => {
+      if (orbit.enabled && (event.pointerType === 'touch' || (event.button >= 0 && event.button <= 2))) pointers.set(event.pointerId, event)
+    }
+    const move = (event: PointerEvent) => {
+      const down = pointers.get(event.pointerId)
+      if (orbit.enabled && down && (event.buttons !== 0 || event.pointerType === 'touch') && (event.clientX !== down.clientX || event.clientY !== down.clientY)) useCameraStore.getState().leaveGuide()
+    }
+    const end = (event: PointerEvent) => pointers.delete(event.pointerId)
+    // The controls consume accepted wheel input before this listener runs.
+    const zoom = (event: WheelEvent) => {
+      if (event.defaultPrevented && event.deltaY !== 0) useCameraStore.getState().leaveGuide()
+    }
+    element.addEventListener('pointerdown', start)
+    document.addEventListener('pointermove', move, true)
+    document.addEventListener('pointerup', end, true)
+    document.addEventListener('pointercancel', end, true)
+    element.addEventListener('wheel', zoom, { passive: true })
+    return () => {
+      element.removeEventListener('pointerdown', start)
+      document.removeEventListener('pointermove', move, true)
+      document.removeEventListener('pointerup', end, true)
+      document.removeEventListener('pointercancel', end, true)
+      element.removeEventListener('wheel', zoom)
+    }
+  }, [connected])
 
   useLayoutEffect(() => {
     const { camera, size } = get()

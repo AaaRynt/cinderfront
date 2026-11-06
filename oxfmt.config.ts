@@ -1,6 +1,8 @@
 import { defineConfig } from 'oxfmt'
 
 export default defineConfig({
+  // Historical fixture guards hash the original serialization.
+  ignorePatterns: ['/src/simulation/fixtures/stage7cConstructionPreservation.json', '/src/simulation/fixtures/stage7cPresentationPreservation.json'],
   printWidth: 320,
   semi: false,
   singleQuote: true,

@@ -17,8 +17,28 @@ export const STAGE7C_SOURCE_CHANGES: Readonly<Record<string, string>> = {
   'src/ui/SimulationHud.tsx': 'show actual graphics completion as an accessible progress bar instead of implementation counters; retain the complete ready-state DOM and controls',
   'src/test/stage7bSourceAudit.ts': 'chain exact Stage7C path exceptions to fixed completed Stage7B bytes, preserving all older exception sets and every unrelated live source check',
 }
+
+// These viewer paths now read cues and handle user input. Use the Stage 8D
+// bytes for their historical hash, with the existing camera ID projection below.
+const stage9aViewerChanges: Readonly<Record<string, string>> = {
+  'src/App.tsx': 'read the clock for guided camera cuts and route explicit highlight previews through playback controls',
+  'src/scene/camera/CameraRig.tsx': 'leave the guide on actual orbit, pan or zoom input and retain existing framing',
+  'src/scene/camera/cameraStore.ts': 'hold the active cue and issue requests only for cuts or explicit camera actions',
+}
 const bytes = new Map<string, Buffer>()
+
+function sourceAt(revision: string, path: string): Buffer {
+  const key = `${revision}:${path}`
+  let source = bytes.get(key)
+  if (!source) {
+    source = execFileSync('git', ['show', key], { maxBuffer: 32 * 1024 * 1024 })
+    bytes.set(key, source)
+  }
+  return source
+}
+
 export function stage7cHistoricalSource(path: string): Buffer {
+  const viewerReference = Object.hasOwn(stage9aViewerChanges, path) ? sourceAt('94df448', path) : undefined
   if (path === 'src/scene/world/WorldShell.tsx') {
     // Stage 8B replaces the Stage 8A mount with the local presentation group.
     return Buffer.from(readFileSync(path, 'utf8').replace("import { LocalEnvironmentMotion } from './stage8b/LocalEnvironmentMotion'\n", '').replace('        <LocalEnvironmentMotion />\n', ''))
@@ -28,8 +48,8 @@ export function stage7cHistoricalSource(path: string): Buffer {
     return Buffer.from(readFileSync(path, 'utf8').replace("import { FUEL_SHOCK_DURATION_SECONDS, FUEL_SHOCK_MAX_RADIUS_M } from '../stage3/effectMath.ts'\n", '').replace('durationSeconds={FUEL_SHOCK_DURATION_SECONDS} maximumRadiusM={FUEL_SHOCK_MAX_RADIUS_M}', 'durationSeconds={1.8} maximumRadiusM={620}'))
   }
   // Stage 8D adds three fixed detail choices ahead of the existing framing.
-  if (path === 'src/scene/camera/cameraStore.ts') {
-    return Buffer.from(readFileSync(path, 'utf8').replace("import type { EnvironmentDetailPreset } from './environmentDetails'\n\n", '').replace('  | EnvironmentDetailPreset\n', ''))
+  if (path === 'src/scene/camera/cameraStore.ts' && viewerReference) {
+    return Buffer.from(viewerReference.toString('utf8').replace("import type { EnvironmentDetailPreset } from './environmentDetails'\n\n", '').replace('  | EnvironmentDetailPreset\n', ''))
   }
   if (path === 'src/scene/camera/cameraFraming.ts') {
     return Buffer.from(
@@ -50,11 +70,16 @@ export function stage7cHistoricalSource(path: string): Buffer {
   if (path === 'src/App.test.tsx') {
     return Buffer.from(
       readFileSync(path, 'utf8')
+        .replace("screen.getByText('Cinderfront')", "screen.getByText('Cinderfront / Stage 6C')")
         .replace('retains all 24 existing cameras and groups the three environment detail views', 'retains all 22 existing cameras and adds two LAV group presets')
         .replace("    const environment = cameras.getByRole('group', { name: 'Environment details' })\n", '')
         .replace('        .filter((option) => option.parentElement !== environment)\n', '')
         .replace(
-          `    expect(within(environment).getAllByRole('option').map((option) => [option.getAttribute('value'), option.textContent])).toEqual([
+          `    expect(
+      within(environment)
+        .getAllByRole('option')
+        .map((option) => [option.getAttribute('value'), option.textContent]),
+    ).toEqual([
       ['inspection-bay', 'Inspection bay'],
       ['shore-break', 'Shore break'],
       ['fuel-shock', 'Fuel shock (T+92)'],
@@ -64,12 +89,8 @@ export function stage7cHistoricalSource(path: string): Buffer {
         ),
     )
   }
-  if (!(path in STAGE7C_SOURCE_CHANGES)) return readFileSync(path)
-  let source = bytes.get(path)
-  if (!source) {
-    source = execFileSync('git', ['show', `9c0208b:${path}`], { maxBuffer: 32 * 1024 * 1024 })
-    bytes.set(path, source)
-  }
-  return source
+  if (viewerReference) return viewerReference
+  if (Object.hasOwn(STAGE7C_SOURCE_CHANGES, path)) return sourceAt('9c0208b', path)
+  return readFileSync(path)
 }
 export const stage7cAuditedSourceHash = (path: string) => createHash('sha256').update(stage7cHistoricalSource(path)).digest('hex')

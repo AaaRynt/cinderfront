@@ -1,0 +1,254 @@
+{
+  "reference": "94df448",
+  "frozenBeforeGuideEdits": true,
+  "cues": [
+    {
+      "atSeconds": 0,
+      "preset": "wasp",
+      "title": "Offshore opening",
+      "subject": "Wasp and the first F-35B launch",
+      "reason": "Establish the carrier and keep the deck in frame for the T+5 launch.",
+      "look": [0, 5, 7.2, 9.8]
+    },
+    {
+      "atSeconds": 11,
+      "preset": "f35-02",
+      "title": "Second aircraft departs",
+      "subject": "F-35B 02 lifting from the deck",
+      "reason": "Give the second aircraft a two-second lead before its T+13 launch and follow its climb.",
+      "look": [11, 14.7, 19]
+    },
+    {
+      "atSeconds": 21.5,
+      "preset": "radar-hill",
+      "title": "Radar Hill engagement",
+      "subject": "Air-defense sites and missile launch",
+      "reason": "Set up the radar and SAM sites before the T+24 shot and hold the hill through the strikes.",
+      "look": [21.5, 24.8, 29.5, 42.7]
+    },
+    {
+      "atSeconds": 53,
+      "preset": "inspection-bay",
+      "title": "Inspection bay pass",
+      "subject": "Six convoy trucks pass the roadside bay",
+      "reason": "Cut low as the lead truck approaches, then hold the sign, shed and passing silhouettes.",
+      "look": [53, 58, 63],
+      "highlight": true
+    },
+    {
+      "atSeconds": 64,
+      "preset": "support-convoy",
+      "title": "Convoy continues inland",
+      "subject": "The support convoy leaves the bay",
+      "reason": "Follow the six trucks after they leave the fixed low view and through the T+75 redirect.",
+      "look": [64, 66, 76]
+    },
+    {
+      "atSeconds": 90,
+      "preset": "fuel-shock",
+      "title": "Fuel shock",
+      "subject": "The T+92 front reaches two groups of trees",
+      "reason": "Allow two seconds to locate the near and far groups before the front arrives.",
+      "look": [90, 92.65, 92.95, 93.44, 96.6],
+      "highlight": true
+    },
+    {
+      "atSeconds": 115,
+      "preset": "ammunition",
+      "title": "Ammunition cook-off",
+      "subject": "Magazine fires and the T+132 main detonation",
+      "reason": "See the first cook-off pulses build toward the main bunker blast.",
+      "look": [115, 118, 132.65]
+    },
+    {
+      "atSeconds": 152,
+      "preset": "shore-break",
+      "title": "Shore break",
+      "subject": "The crest breaks beside the east landing craft",
+      "reason": "Begin ahead of the T+156 and T+157 crests and hold the east craft through beaching.",
+      "look": [152, 157.25, 163.5],
+      "highlight": true
+    },
+    {
+      "atSeconds": 164,
+      "preset": "lav-east",
+      "title": "LAV deployment",
+      "subject": "The lead east LAV rolls down the bow ramp",
+      "reason": "Show the vehicles on deck before T+166 and follow the first transfer closely.",
+      "look": [164, 168.75, 172.5],
+      "highlight": true
+    },
+    {
+      "atSeconds": 173,
+      "preset": "lcac-east",
+      "title": "Final ramp transfers",
+      "subject": "LCAC 02 and the remaining LAVs ashore",
+      "reason": "Hold the ramp in frame through the last T+187.56 transfer and later observation.",
+      "look": [173, 180, 186.75, 188.2, 7200]
+    }
+  ],
+  "guidedEndCheck": 189,
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1
+  },
+  "shortViewport": {
+    "width": 1024,
+    "height": 430,
+    "dpr": 1
+  },
+  "comparison": {
+    "maxAdditionalDraws": 0,
+    "maxAdditionalLights": 0,
+    "maxAdditionalSceneResources": 0,
+    "poses": [
+      {
+        "name": "opening",
+        "time": 0,
+        "preset": "wasp"
+      },
+      {
+        "name": "first-launch",
+        "time": 7.2,
+        "preset": "wasp"
+      },
+      {
+        "name": "second-lead-in",
+        "time": 11,
+        "preset": "f35-02"
+      },
+      {
+        "name": "second-launch",
+        "time": 14.7,
+        "preset": "f35-02"
+      },
+      {
+        "name": "radar-lead-in",
+        "time": 21.5,
+        "preset": "radar-hill"
+      },
+      {
+        "name": "radar-engagement",
+        "time": 24.8,
+        "preset": "radar-hill"
+      },
+      {
+        "name": "bay-lead-in",
+        "time": 53,
+        "preset": "inspection-bay"
+      },
+      {
+        "name": "bay-pass",
+        "time": 58,
+        "preset": "inspection-bay"
+      },
+      {
+        "name": "convoy-follow",
+        "time": 64,
+        "preset": "support-convoy"
+      },
+      {
+        "name": "fuel-lead-in",
+        "time": 90,
+        "preset": "fuel-shock"
+      },
+      {
+        "name": "fuel-near",
+        "time": 92.95,
+        "preset": "fuel-shock"
+      },
+      {
+        "name": "fuel-far",
+        "time": 93.44,
+        "preset": "fuel-shock"
+      },
+      {
+        "name": "ammunition-lead-in",
+        "time": 115,
+        "preset": "ammunition"
+      },
+      {
+        "name": "ammunition-peak",
+        "time": 132.65,
+        "preset": "ammunition"
+      },
+      {
+        "name": "shore-lead-in",
+        "time": 152,
+        "preset": "shore-break"
+      },
+      {
+        "name": "shore-crest",
+        "time": 157.25,
+        "preset": "shore-break"
+      },
+      {
+        "name": "shore-landing",
+        "time": 163.5,
+        "preset": "shore-break"
+      },
+      {
+        "name": "deployment-lead-in",
+        "time": 164,
+        "preset": "lav-east"
+      },
+      {
+        "name": "deployment",
+        "time": 168.75,
+        "preset": "lav-east"
+      },
+      {
+        "name": "final-cut",
+        "time": 173,
+        "preset": "lcac-east"
+      },
+      {
+        "name": "handoff",
+        "time": 180,
+        "preset": "lcac-east"
+      },
+      {
+        "name": "last-transfer",
+        "time": 186.75,
+        "preset": "lcac-east"
+      },
+      {
+        "name": "all-ashore",
+        "time": 188.2,
+        "preset": "lcac-east"
+      },
+      {
+        "name": "late-observation",
+        "time": 7200,
+        "preset": "lcac-east"
+      }
+    ]
+  },
+  "pacing": [
+    {
+      "id": "wasp-pacing",
+      "preset": "wasp",
+      "start": 2,
+      "end": 10
+    },
+    {
+      "id": "fuel-pacing",
+      "preset": "fuel-shock",
+      "start": 90,
+      "end": 101
+    }
+  ],
+  "guideReviewWindows": [
+    {
+      "id": "fuel",
+      "start": 88.8,
+      "end": 99
+    },
+    {
+      "id": "shore",
+      "start": 150.8,
+      "end": 163.7
+    }
+  ]
+}

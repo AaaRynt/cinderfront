@@ -379,3 +379,9 @@ The mounted bend envelope clears the nearest berm by 0.80 m. The twelve fuel pos
 **Complete.** Added three roadside groups and a fitted shoulder along the inspection-bay approach, plus 165 m of adjacent east landing surf. The native Environment details group makes the bay, shore break and T+92 fuel shock selectable. Five matched 1× clips cover the original presets and all three detail views.
 
 Twenty-two matched poses add at most eight draws, 4.58% triangles and two shadow draws. The full envelopes clear the convoy and landing sweeps. The 24 original camera choices and both pinned Stage 7C fixtures passed preservation checks. Both TypeScript checks, lint, 798 tests across 76 files and whitespace checks passed. [Stage 8D acceptance and evidence](STAGE8D_ACCEPTANCE.md)
+
+## Stage 9A — Guided Observation and Highlights (2026-11-07)
+
+Ash Harbor now offers an optional ten-shot Guided view and four paused Highlights. The guide follows the observation clock through the last LCAC transfer. Preset selection and orbit, pan or zoom restore manual control. The HUD shows the active shot and carries the Cinderfront product label.
+
+The native 1× run reached T+189.07. All 24 matched canvas captures and 1,053 sampled manual frames agree with Stage 8D. Both pinned Stage 7C fixtures are restored in the working Git diff. Both TypeScript checks, lint, 805 tests across 77 files and whitespace checks passed. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
