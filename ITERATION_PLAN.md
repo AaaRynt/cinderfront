@@ -22,6 +22,8 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
+**Stage 8A, Ground Detail and Roadside Storytelling, is COMPLETE.** The rescue-branch inspection bay and eastern beach-track marker pass the matched viewer, clearance, rendering cost and preservation checks. [Stage 8A acceptance](STAGE8A_ACCEPTANCE.md).
+
 **Stage 7D remains PARTIAL after the November 6 follow-up.** Both fixture byte guards and the written startup criteria pass. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
 
 Original post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
@@ -55,6 +57,7 @@ The intended sequence is:
 7. reduce the remaining measured busy-scene reconciliation and moving-vehicle CPU work in post-core Stage 7B, with exact state and visual preservation.
 8. make initial terrain/scene construction visibly responsive in post-core Stage 7C, preserving exact completed resources, runtime, graphics preparation and recovery.
 9. reproduce and correct live-playback regressions or measurement faults in post-core Stage 7D, with controlled evidence and exact startup/runtime/render preservation.
+10. develop two ground and roadside samples in Stage 8A, then evaluate shore waves and wind in Stage 8B and local blast response in Stage 8C.
 
 This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
 
@@ -667,7 +670,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the current `prompt.md` targets post-core Stage 7D.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the current `prompt.md` targets Stage 8A.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1058,7 +1061,7 @@ Delivered 2026-10-28: preparing/ready/failed/cancelled renderer generations, nin
 
 Three fresh complete first plays per side reduce compile/link calls about 90% and first-play P95 from 33–50 ms to 17–18 ms, with 0.748–0.934 s added post-scene preparation. The matched aftermath world-miss mean falls 3.449→0.252 ms. All 4,963 full-world states through 7200 and 25 complete RGB images remain exact; 227 rendered checkpoints retain 35 roots/64 wheels. Five warmed all-camera resource cycles stay flat, and a separate 600.0144 real-second 2× run retains all 936 world upload records. Both no-emit checks, zero-warning lint, 707 tests / 62 files and whitespace checks pass. No build ran.
 
-The Stage 7A English contract is preserved in commit `62edc66`; [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) records every fresh/warm/sustained run, actual causes, recovery, source exceptions and remaining limits. Short busy-window P95 aspirations and one 283.4 ms raw first-play interval remain explicit; actual GPU timings are mixed. `STAGE6C_ACCEPTANCE.md` stays byte-identical as dated core acceptance. The 2026-10-25 preparation itself was documentation only; these are separate fresh delivery results. Audio, production builds/deployment and new gameplay/content remain outside that round. The Stage 7B/7C contracts are preserved in `9c0208b` / `e817b1c`; the current `prompt.md` targets Stage 7D.
+The Stage 7A English contract is preserved in commit `62edc66`; [STAGE7A_ACCEPTANCE.md](STAGE7A_ACCEPTANCE.md) records every fresh/warm/sustained run, actual causes, recovery, source exceptions and remaining limits. Short busy-window P95 aspirations and one 283.4 ms raw first-play interval remain explicit; actual GPU timings are mixed. `STAGE6C_ACCEPTANCE.md` stays byte-identical as dated core acceptance. The 2026-10-25 preparation itself was documentation only; these are separate fresh delivery results. Audio, production builds/deployment and new gameplay/content remain outside that round. The Stage 7B/7C contracts are preserved in `9c0208b` / `e817b1c`; the Stage 7D follow-up prompt is preserved in `ba0abfd`.
 
 # Post-Core Stage 7B — Busy-Scene CPU Cost and Moving-Vehicle Frame Pacing
 
@@ -1168,7 +1171,7 @@ The original contract and its outstanding criteria are recorded in [STAGE7D_ACCE
 
 ## Stage 7D follow-up prepared 2026-11-06
 
-The current English `prompt.md` continues Stage 7D from the corrected recorder and the November 6 acceptance report. A read-only check found that both original Stage 7C captures match the pinned SHA-256 values and differ from the tracked fixtures only in JSON whitespace outside strings. The next implementation can restore those exact bytes and rerun the existing guards.
+The follow-up prompt preserved in `ba0abfd` continued Stage 7D from the corrected recorder and the November 6 acceptance report. A read-only check found that both original Stage 7C captures match the pinned SHA-256 values and differ from the tracked fixtures only in JSON whitespace outside strings. The follow-up verified those exact bytes and reran the existing guards.
 
 The follow-up then isolates paused capture variation with unchanged-source controls and investigates cadence before WebGL separately from the historical severe slow state. It carries forward the 33.3 ms goal, exact 25-pair RGB criterion, warm non-regression and startup evidence. Keep Stage 7D PARTIAL while required criteria remain open. The existing November evidence stays dated and each new result is recorded in a separate follow-up section.
 
@@ -1179,6 +1182,24 @@ Restored both Stage 7C captures to their pinned bytes. The tracked fixtures diff
 Eight natural playback windows meet 33.3 ms P95 and the two matched windows stay within the CPU non-regression bound. A disposable Chrome profile reproduces 16.7→33.3→16.7 ms cadence with an Energy Saver reversal before WebGL and at ready idle. Live diagnostics reproduce the slower cadence with zero Long Tasks in the enabled windows. None of the eight natural windows triggers the severe-state profile. The original profile settings, severe cause, 17 primary cadence misses and all-window CPU non-regression remain open.
 
 Both native capture methods still vary with exact paused state and matching canvas readbacks. The frozen A/A sequence stopped before any replacement pairs. The original 21/25 exact RGB pairs and the separate 613 exact rendered checkpoints per side remain the primary results. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+
+# Stage 8 — Environment Detail and Motion
+
+**Stage 8A is complete.** Stages 8B and 8C are planned.
+
+## Stage 8A — Ground Detail and Roadside Storytelling
+
+Delivered 2026-11-06. The rescue branch has a weathered inspection bay, worn gravel entrance, service equipment and dryland cover. The inland eastern beach track has loose sand, sheltered dune plants, a faded E-2 marker and a buried footing. Existing follow presets, matched low views and two native 1× sequences show both sites during their actual vehicle passes.
+
+Full placement envelopes clear authored reservations and scripted and aftermath routes. Across eight measured poses, the largest additions are 21 submitted draws, 8.83% submitted triangles and four shadow draws. Both ten-second 1× checks stay near 60 Hz. The original Stage 7C fixture bytes were restored and both guards pass. All 780 tests, both no-emit checks and lint pass. [Stage 8A acceptance and evidence](STAGE8A_ACCEPTANCE.md).
+
+## Stage 8B — Shore Waves and Wind
+
+Start with a representative beach segment and show swell approach, breaking foam, run-up and retreat. Use a shared visual wind direction for grass, tree crowns and dust. Review motion at the normal presets and in a low shoreline view.
+
+## Stage 8C — Blast Response in Vegetation
+
+Use one existing fuel-area blast and its arrival timing. Extend the local response from grass and scrub to nearby trees with rooted bending, distance falloff and rebound. Verify the sequence before impact, on arrival and during recovery.
 
 # Out of Current Core Plan
 

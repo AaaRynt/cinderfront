@@ -355,3 +355,9 @@ Five warmed resource cycles, native CPU and graphics cancellation/retry, both ac
 Restored the original Stage 7C construction and presentation fixture bytes. Both pinned SHA-256 guards, all 777 tests across 71 files with optional evidence absent, both TypeScript no-emit checks and lint pass. The written startup slice and ready-time criteria pass, with the historical measured slice maxima recorded separately.
 
 Both calibrated full-viewport methods still vary on the unchanged reference with exact canvas readbacks. A disposable Chrome profile reproduces and reverses 30 Hz cadence through Energy Saver, including before WebGL. The eight natural playback windows have zero Long Tasks and never trigger the historical severe-state capture. Stage 7D remains **PARTIAL** with exact RGB, original playback causality, warm cadence and full non-regression open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+
+## Stage 8A — Ground Detail and Roadside Storytelling (2026-11-06)
+
+**Complete.** Added a disused inspection bay on the rescue branch, with a weathered shelter, drums, tires, a WASH RD board, gravel and dryland cover. The eastern beach track has a quieter E-2 marker, buried footing and pockets of dune plants. Both samples have matched preset and low-angle captures and native 1× viewer sequences.
+
+Across eight fixed poses, the largest increases are 21 submitted draws, 8.83% submitted triangles and four shadow draws. The nearest padded vehicle clearances are 6.38 m at the bay and 4.95 m on the dune. Restored both pinned Stage 7C fixture serializations as a separate baseline repair. Both TypeScript no-emit checks, lint, 780 tests across 72 files and whitespace checks pass. [Stage 8A acceptance and evidence](STAGE8A_ACCEPTANCE.md).

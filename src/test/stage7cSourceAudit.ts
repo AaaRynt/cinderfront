@@ -19,6 +19,10 @@ export const STAGE7C_SOURCE_CHANGES: Readonly<Record<string, string>> = {
 }
 const bytes = new Map<string, Buffer>()
 export function stage7cHistoricalSource(path: string): Buffer {
+  if (path === 'src/scene/world/WorldShell.tsx') {
+    // Stage 8A adds only the mount for the two local presentation samples.
+    return Buffer.from(readFileSync(path, 'utf8').replace("import { RoadsideDetail } from './stage8a/RoadsideDetail'\n", '').replace('        <RoadsideDetail />\n', ''))
+  }
   if (!(path in STAGE7C_SOURCE_CHANGES)) return readFileSync(path)
   let source = bytes.get(path)
   if (!source) {

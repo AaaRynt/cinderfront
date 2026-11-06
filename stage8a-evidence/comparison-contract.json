@@ -1,0 +1,67 @@
+{
+  "reference": "ba0abfd",
+  "frozenBeforeVisualEdits": true,
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1
+  },
+  "quality": "Installed headed Chrome, foreground and focused, ACES exposure 1.12, original antialias and percentage shadows, native HUD.",
+  "warmup": "One identical visit to the entry, normal checkpoint, exit and low pose at each site, then measure each on the second visit.",
+  "measurements": "WebGLRenderer total calls and triangles including shadows, separate measured shadowMap submissions, renderer memory and scene census. Separate 1x playback cadence and native screencast runs.",
+  "limits": {
+    "additionalSubmittedDraws": 40,
+    "additionalSubmittedTrianglesPercent": 10,
+    "additionalShadowDraws": 6,
+    "additionalShadowTriangles": 6000,
+    "additionalLights": 0
+  },
+  "sites": [
+    {
+      "id": "corridor",
+      "road": "road_rescue_branch",
+      "preset": "support-convoy",
+      "time": 58,
+      "start": 53,
+      "end": 63,
+      "origin": [4370, 212],
+      "along": [1000, 350],
+      "bounds": [-51, 52, 5.5, 49],
+      "corners": [
+        [4320.046296489329, 200.34334929887967],
+        [4417.2637071950285, 234.3694430458746],
+        [4402.893463719356, 275.4272815477964],
+        [4305.676053013656, 241.40118780080144]
+      ],
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      },
+      "actor": "defender_support_recovery_01",
+      "closest": [58.09999999999914, 0.28408026299287953, [4370.123611851176, 46.43054002781592, 212.25577667225713], 17]
+    },
+    {
+      "id": "beach",
+      "road": "road_beach_access_east",
+      "preset": "lav-east",
+      "time": 225,
+      "start": 220,
+      "end": 230,
+      "origin": [5574, -2648],
+      "along": [3, 4],
+      "bounds": [-24, 20, 5, 31],
+      "corners": [
+        [5555.6, -2664.2],
+        [5582, -2629],
+        [5561.2, -2613.4],
+        [5534.8, -2648.6]
+      ],
+      "low": {
+        "position": [5567.400000000001, 17.002431072987385, -2666.7999999999997],
+        "target": [5562.8, 14.435739370300281, -2639.6]
+      },
+      "actor": "attacker_lav_05",
+      "closest": [225.8500000000036, 1.8024313571616506, [5575.383846932222, 14.046082240102805, -2649.1548707570373], 4.5]
+    }
+  ]
+}

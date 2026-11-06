@@ -14,7 +14,7 @@ Five warmed cycles preserve 35 actor roots, 936 world records, 910 fixed rows, 2
 
 ### Follow-up prepared 2026-11-06
 
-The current English `prompt.md` continues Stage 7D. Both retained Stage 7C reference captures match the hashes pinned by the fixture guard, and their tracked counterparts differ only in JSON whitespace. The follow-up starts with exact fixture restoration, then addresses paused capture repeatability and the separate cadence observations. The November verification remains the starting evidence and Stage 7D is **PARTIAL**.
+The follow-up prompt preserved in `ba0abfd` continued Stage 7D. Both retained Stage 7C reference captures match the hashes pinned by the fixture guard, and their tracked counterparts differ only in JSON whitespace. The follow-up starts with exact fixture restoration, then addresses paused capture repeatability and the separate cadence observations. The November verification remains the starting evidence and Stage 7D is **PARTIAL**.
 
 ### Follow-up verification — 2026-11-06
 
@@ -295,7 +295,7 @@ Extend the existing -12…90 m carrier-forward support coverage before admitting
 
 The human selected: nearer offshore staging, revised terminal routes and local shoreline slopes, preserving the key event times. This supersedes the pending choice among cinematic compression, nearer staging and longer transit. Do not request that same decision again.
 
-The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C/6A/6B/6C/7A/7B/7C prompts are preserved in `b49db45` / `75bf46a` / `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the current `prompt.md` targets post-core Stage 7D.
+The Stage 5B implementation prompt, preserved in commit `2a3fffc`, defined the authorized package below. The Stage 5C/6A/6B/6C/7A/7B/7C prompts are preserved in `b49db45` / `75bf46a` / `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 7D follow-up prompt is preserved in `ba0abfd`.
 
 - replace the LCAC staging descriptions/feature references and approach paths with nearshore holding positions in `region_e_remote_beachhead`;
 - preserve departure at T+110, final-nearshore gates at T+140/T+148 and beaching at T+155/T+162, along with all official event IDs and other timestamps;

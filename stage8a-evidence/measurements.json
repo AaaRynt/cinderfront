@@ -1,0 +1,815 @@
+{
+  "contractSha256": "d3913e04ad045eb06d1e6032b56d93b97f003095691fb44c4c463fa111cff0b6",
+  "browserVersion": "156.0.8078.80",
+  "quality": {
+    "viewport": [1280, 720],
+    "buffer": [1280, 720],
+    "dpr": 1,
+    "documentDpr": 1,
+    "antialias": true,
+    "shadows": [true, 1],
+    "toneMapping": [4, 1.12],
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "visible": "visible",
+    "focused": true,
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+  },
+  "source": {
+    "baseline": "ba0abfd",
+    "applicationHash": {
+      "before": "138db72cf2785d7dcf4a1b7eb224c948db3db84b753833ea9d7fad41024a174a",
+      "after": "83342063967e9270c26cde05d7e6e59ea3416072717cabbd92915b54d74ff5b3"
+    },
+    "cssSha256": "ba459a7721405e767bf667265babd424c4fc0cffdf237495255a41ea343fd4a2",
+    "changed": ["src/scene/world/WorldShell.tsx"],
+    "added": ["src/scene/world/stage8a/RoadsideDetail.tsx", "src/scene/world/stage8a/detailGeometry.ts", "src/scene/world/stage8a/detailGround.ts", "src/scene/world/stage8a/detailLayout.ts", "src/scene/world/stage8a/signAtlas.ts"]
+  },
+  "poses": {
+    "corridor-entry": {
+      "camera": {
+        "time": 53,
+        "position": [4544.99171316145, 181.24323761704454, 495.7392455803165],
+        "target": [4468.067729030557, 46.24323761704449, 246.3245293636703],
+        "quaternion": [-0.2337675192527568, 0.1447994626016444, 0.035230290996806045, 0.9608041887757189],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [16, 34026],
+      "triangleDeltaPercent": 8.806994657721456,
+      "shadowDrawAndTriangleDelta": [4, 4566],
+      "before": {
+        "submitted": [459, 386352],
+        "shadow": [128, 3480],
+        "main": [331, 382872],
+        "scene": {
+          "nodes": 4059,
+          "meshes": 2883,
+          "casters": 1240,
+          "lights": 10,
+          "instanceSlots": 8441,
+          "geometries": 1180,
+          "materials": 330
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [475, 420378],
+        "shadow": [132, 8046],
+        "main": [343, 412332],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "corridor-preset": {
+      "camera": {
+        "time": 58,
+        "position": [4464.7638059996525, 181.24945804734728, 467.6593076806068],
+        "target": [4387.8398218688535, 46.24945804734729, 218.2445914639319],
+        "quaternion": [-0.23376751925276368, 0.14479946260146248, 0.03523029099676181, 0.9608041887757462],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [16, 34026],
+      "triangleDeltaPercent": 8.809959039101864,
+      "shadowDrawAndTriangleDelta": [4, 4566],
+      "before": {
+        "submitted": [458, 386222],
+        "shadow": [128, 3480],
+        "main": [330, 382742],
+        "scene": {
+          "nodes": 4059,
+          "meshes": 2883,
+          "casters": 1240,
+          "lights": 10,
+          "instanceSlots": 8441,
+          "geometries": 1180,
+          "materials": 330
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [474, 420248],
+        "shadow": [132, 8046],
+        "main": [342, 412202],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "corridor-exit": {
+      "camera": {
+        "time": 63,
+        "position": [4384.535898837942, 180.83265028117506, 439.57936978087105],
+        "target": [4307.61191470715, 45.83265028117507, 190.16465356419346],
+        "quaternion": [-0.23376751925276384, 0.14479946260144821, 0.03523029099675829, 0.9608041887757485],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [16, 34026],
+      "triangleDeltaPercent": 8.82833702629353,
+      "shadowDrawAndTriangleDelta": [4, 4566],
+      "before": {
+        "submitted": [457, 385418],
+        "shadow": [128, 3480],
+        "main": [329, 381938],
+        "scene": {
+          "nodes": 4059,
+          "meshes": 2883,
+          "casters": 1240,
+          "lights": 10,
+          "instanceSlots": 8441,
+          "geometries": 1180,
+          "materials": 330
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [473, 419444],
+        "shadow": [132, 8046],
+        "main": [341, 411398],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "corridor-low": {
+      "camera": {
+        "time": 58,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [16, 34026],
+      "triangleDeltaPercent": 6.630590041838232,
+      "shadowDrawAndTriangleDelta": [4, 4566],
+      "before": {
+        "submitted": [1526, 513167],
+        "shadow": [128, 3480],
+        "main": [1398, 509687],
+        "scene": {
+          "nodes": 4059,
+          "meshes": 2883,
+          "casters": 1240,
+          "lights": 10,
+          "instanceSlots": 8441,
+          "geometries": 1180,
+          "materials": 330
+        },
+        "gpu": {
+          "geometries": 1144,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [1542, 547193],
+        "shadow": [132, 8046],
+        "main": [1410, 539147],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 1160,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "beach-entry": {
+      "camera": {
+        "time": 220,
+        "position": [5587.588461532276, 26.94149423645647, -2666.2121027095072],
+        "target": [5559.588858329136, 13.941494236456474, -2670.2148793041633],
+        "quaternion": [-0.1614853805475563, 0.6400223564168984, 0.14004149901067525, 0.7380259031435243],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [5, 9776],
+      "triangleDeltaPercent": 2.461513669760345,
+      "shadowDrawAndTriangleDelta": [2, 208],
+      "before": {
+        "submitted": [272, 397154],
+        "shadow": [48, 5410],
+        "main": [224, 391744],
+        "scene": {
+          "nodes": 4000,
+          "meshes": 2827,
+          "casters": 1164,
+          "lights": 13,
+          "instanceSlots": 9528,
+          "geometries": 1024,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [277, 406930],
+        "shadow": [50, 5618],
+        "main": [227, 401312],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "beach-preset": {
+      "camera": {
+        "time": 225,
+        "position": [5601.088846932213, 27.023168086119426, -2648.214870757059],
+        "target": [5573.088846932212, 14.023168086119428, -2652.214870757051],
+        "quaternion": [-0.1614784367555993, 0.6400589487248618, 0.1400495056710803, 0.7379941683925956],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [9, 10706],
+      "triangleDeltaPercent": 2.705489318042829,
+      "shadowDrawAndTriangleDelta": [2, 208],
+      "before": {
+        "submitted": [271, 395714],
+        "shadow": [48, 5410],
+        "main": [223, 390304],
+        "scene": {
+          "nodes": 4000,
+          "meshes": 2827,
+          "casters": 1164,
+          "lights": 13,
+          "instanceSlots": 9528,
+          "geometries": 1024,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [280, 406420],
+        "shadow": [50, 5618],
+        "main": [230, 400802],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "beach-exit": {
+      "camera": {
+        "time": 230,
+        "position": [5614.588846932215, 27.20372622376795, -2630.2148707570645],
+        "target": [5586.588846932213, 14.203726223767953, -2634.214870757051],
+        "quaternion": [-0.1614784367555802, 0.6400589487249366, 0.14004950567109203, 0.7379941683925325],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [9, 10706],
+      "triangleDeltaPercent": 2.705489318042829,
+      "shadowDrawAndTriangleDelta": [2, 208],
+      "before": {
+        "submitted": [271, 395714],
+        "shadow": [48, 5410],
+        "main": [223, 390304],
+        "scene": {
+          "nodes": 4000,
+          "meshes": 2827,
+          "casters": 1164,
+          "lights": 13,
+          "instanceSlots": 9528,
+          "geometries": 1024,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [280, 406420],
+        "shadow": [50, 5618],
+        "main": [230, 400802],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    },
+    "beach-low": {
+      "camera": {
+        "time": 225,
+        "position": [5567.400000000001, 17.002431072987385, -2666.7999999999997],
+        "target": [5562.8, 14.435739370300281, -2639.6],
+        "quaternion": [-0.0038797884514490664, 0.9954217155831546, 0.04620847313739573, 0.08357830099596321],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [21, 40166],
+      "triangleDeltaPercent": 7.215250358373362,
+      "shadowDrawAndTriangleDelta": [2, 208],
+      "before": {
+        "submitted": [1174, 556682],
+        "shadow": [48, 5410],
+        "main": [1126, 551272],
+        "scene": {
+          "nodes": 4000,
+          "meshes": 2827,
+          "casters": 1164,
+          "lights": 13,
+          "instanceSlots": 9528,
+          "geometries": 1024,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 971,
+          "textures": 3,
+          "programs": 309
+        }
+      },
+      "after": {
+        "submitted": [1195, 596848],
+        "shadow": [50, 5618],
+        "main": [1145, 591230],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 987,
+          "textures": 4,
+          "programs": 327
+        }
+      }
+    }
+  },
+  "native1x": {
+    "corridor": {
+      "screencast": {
+        "before": {
+          "nativeFrames": 303,
+          "usedNativeFrames": 300,
+          "maximumFrameSnapMs": 9.40847396850586,
+          "startedAtSimulationSecond": 53,
+          "reachedSimulationSecond": 63.03333333333276
+        },
+        "after": {
+          "nativeFrames": 304,
+          "usedNativeFrames": 300,
+          "maximumFrameSnapMs": 11.880874633789062,
+          "startedAtSimulationSecond": 53,
+          "reachedSimulationSecond": 63.03333333333276
+        }
+      },
+      "before": {
+        "rafSamples": 603,
+        "actualSeconds": 10.0335,
+        "simStart": 53,
+        "simEnd": 63.03333333333276,
+        "renderFrames": 602,
+        "meanMs": 16.666943521594686,
+        "medianMs": 16.69999999999891,
+        "p95Ms": 17.5,
+        "maxMs": 17.700000000000728,
+        "longTasks": []
+      },
+      "after": {
+        "rafSamples": 602,
+        "actualSeconds": 10.016599999999999,
+        "simStart": 53,
+        "simEnd": 63.03333333333276,
+        "renderFrames": 601,
+        "meanMs": 16.66655574043261,
+        "medianMs": 16.700000000000728,
+        "p95Ms": 16.799999999999272,
+        "maxMs": 17.700000000000728,
+        "longTasks": []
+      }
+    },
+    "beach": {
+      "screencast": {
+        "before": {
+          "nativeFrames": 303,
+          "usedNativeFrames": 300,
+          "maximumFrameSnapMs": 8.953094482421875,
+          "startedAtSimulationSecond": 220,
+          "reachedSimulationSecond": 230.03333333333276
+        },
+        "after": {
+          "nativeFrames": 304,
+          "usedNativeFrames": 300,
+          "maximumFrameSnapMs": 12.811422348022461,
+          "startedAtSimulationSecond": 220,
+          "reachedSimulationSecond": 230.03333333333276
+        }
+      },
+      "before": {
+        "rafSamples": 602,
+        "actualSeconds": 10.033299999999995,
+        "simStart": 220,
+        "simEnd": 230.03333333333276,
+        "renderFrames": 601,
+        "meanMs": 16.694342762063222,
+        "medianMs": 16.69999999999709,
+        "p95Ms": 17.30000000000291,
+        "maxMs": 34.299999999995634,
+        "longTasks": []
+      },
+      "after": {
+        "rafSamples": 602,
+        "actualSeconds": 10.033400000000002,
+        "simStart": 220,
+        "simEnd": 230.03333333333276,
+        "renderFrames": 601,
+        "meanMs": 16.694509151414312,
+        "medianMs": 16.69999999999709,
+        "p95Ms": 16.799999999995634,
+        "maxMs": 33.30000000000291,
+        "longTasks": []
+      }
+    }
+  },
+  "mountedSurfacesAndClearance": {
+    "corridor": {
+      "road": "road_rescue_branch",
+      "mountedGround": "continuous-mainland-terrain",
+      "detailCounts": {
+        "8a-corridor-shelter": 1,
+        "8a-corridor-wash-sign": 1,
+        "8a-corridor-drum": 3,
+        "8a-corridor-tire": 3,
+        "8a-corridor-upright": 1,
+        "8a-corridor-wind": 2,
+        "8a-corridor-grass": 105,
+        "8a-corridor-scrub": 45,
+        "8a-corridor-stone": 25,
+        "8a-corridor-gravel": 26
+      },
+      "meshCheck": {
+        "n": 42,
+        "min": 0.029635585424749422,
+        "max": 0.03577328748133368,
+        "roadSamples": [
+          {
+            "x": 4358.673699723608,
+            "z": 208.03579490326274,
+            "top": 44.6428272418878,
+            "ground": 44.16282690645066
+          },
+          {
+            "x": 4370,
+            "z": 212,
+            "top": 44.80130733427313,
+            "ground": 44.321306508382165
+          },
+          {
+            "x": 4381.326300276392,
+            "z": 215.96420509673726,
+            "top": 44.906506266889814,
+            "ground": 44.426507627699564
+          }
+        ]
+      },
+      "rootFit": {
+        "checked": 41,
+        "min": -0.03608810590542788,
+        "max": -0.007999174044783786
+      },
+      "roadClearance": {
+        "id": "8a:corridor:wash-crossing",
+        "gap": 7.662154315563554
+      },
+      "closest": {
+        "gap": 6.37660064609333,
+        "actor": "defender_support_recovery_01",
+        "t": 57.4,
+        "detail": "8a:corridor:wash-crossing",
+        "center": 14.502492044289824,
+        "actorRadius": 6.588027898781784,
+        "detailRadius": 1.5378634994147093
+      },
+      "rayChecks": 918,
+      "blockers": []
+    },
+    "beach": {
+      "road": "road_beach_access_east",
+      "mountedGround": "beach_dune_east",
+      "detailCounts": {
+        "8a-beach-route-sign": 1,
+        "8a-beach-remnant": 1,
+        "8a-beach-scrub": 31,
+        "8a-beach-grass": 63,
+        "8a-beach-gravel": 36
+      },
+      "meshCheck": {
+        "n": 42,
+        "min": 0.034499582352065516,
+        "max": 0.03536573785117447,
+        "roadSamples": [
+          {
+            "x": 5566.8,
+            "z": -2657.6,
+            "top": 13.973221972659289,
+            "ground": 13.713221504211427
+          },
+          {
+            "x": 5574,
+            "z": -2648,
+            "top": 14.036133303573441,
+            "ground": 13.776133079528808
+          },
+          {
+            "x": 5581.2,
+            "z": -2638.4,
+            "top": 14.134042672108539,
+            "ground": 13.874042304992674
+          }
+        ]
+      },
+      "rootFit": {
+        "checked": 22,
+        "min": -0.03545833382487196,
+        "max": -0.007998826315866125
+      },
+      "roadClearance": {
+        "id": "8a:beach:marker-gravel:4",
+        "gap": 7.946603063071863
+      },
+      "closest": {
+        "gap": 4.947114483391626,
+        "actor": "attacker_lav_06",
+        "t": 228.9,
+        "detail": "8a:beach:marker-gravel:4",
+        "center": 11.307054389069762,
+        "actorRadius": 6.2,
+        "detailRadius": 0.159939905678136
+      },
+      "rayChecks": 612,
+      "blockers": []
+    }
+  },
+  "staticOwners": {
+    "meshCount": 19,
+    "placementBufferAndGeometrySha256": "f9f375f0eeae34a17fce8bccb330c2cfcaa59672a713f84b811d3adedb5858fd",
+    "stableAcrossAllMeasuredPoses": true,
+    "controlRevisits": [
+      {
+        "site": "corridor",
+        "pausedAt": 59.066666666666606,
+        "seekAgain": 58,
+        "gpuAfterRevisit": {
+          "geometries": 951,
+          "textures": 4,
+          "programs": 328
+        }
+      },
+      {
+        "site": "beach",
+        "pausedAt": 226.0666666666666,
+        "seekAgain": 225,
+        "gpuAfterRevisit": {
+          "geometries": 951,
+          "textures": 4,
+          "programs": 329
+        }
+      }
+    ]
+  },
+  "startup": {
+    "captures": {
+      "before": {
+        "readyMs": 4027.699999988079,
+        "firstDrawMs": 3145.399999976158,
+        "graphicsJobCount": 9,
+        "graphicsJobSpanMs": 874.1000000238419,
+        "constructionSlices": 233,
+        "constructionP95Ms": 8.599999994039536,
+        "constructionMaxMs": 32.70000001788139
+      },
+      "after": {
+        "readyMs": 4830.200000017881,
+        "firstDrawMs": 3850,
+        "graphicsJobCount": 9,
+        "graphicsJobSpanMs": 969.2000000178814,
+        "constructionSlices": 230,
+        "constructionP95Ms": 8.699999988079071,
+        "constructionMaxMs": 32.099999994039536
+      }
+    },
+    "directViewer": [
+      {
+        "side": "before",
+        "readyMs": 3934.5,
+        "firstDrawMs": 3152.4000000059605,
+        "graphicsJobCount": 9,
+        "graphicsJobSpanMs": 771.9000000059605,
+        "constructionSlices": 230,
+        "constructionP95Ms": 8.600000023841858,
+        "constructionMaxMs": 36
+      },
+      {
+        "side": "after",
+        "readyMs": 3877.4000000059605,
+        "firstDrawMs": 3113.5,
+        "graphicsJobCount": 9,
+        "graphicsJobSpanMs": 753.8000000119209,
+        "constructionSlices": 231,
+        "constructionP95Ms": 8.599999994039536,
+        "constructionMaxMs": 32.599999994039536
+      },
+      {
+        "side": "after",
+        "readyMs": 3886.0999999940395,
+        "firstDrawMs": 3065.199999988079,
+        "graphicsJobCount": 9,
+        "graphicsJobSpanMs": 811.5999999940395,
+        "constructionSlices": 230,
+        "constructionP95Ms": 8.5,
+        "constructionMaxMs": 31.900000005960464
+      },
+      {
+        "side": "before",
+        "readyMs": 3917.800000011921,
+        "firstDrawMs": 2996,
+        "graphicsJobCount": 9,
+        "graphicsJobSpanMs": 912.4000000059605,
+        "constructionSlices": 230,
+        "constructionP95Ms": 8.599999994039536,
+        "constructionMaxMs": 31.5
+      }
+    ]
+  },
+  "baselineFixtureRepair": {
+    "src/simulation/fixtures/stage7cConstructionPreservation.json": {
+      "referenceBytes": 49102,
+      "referenceSha256": "a2fe892ff096d476eee5874f4123d2b32bc868b4f1d9fb2c7e5a241898d28df1",
+      "restoredBytes": 53062,
+      "pinnedSha256": "8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8"
+    },
+    "src/simulation/fixtures/stage7cPresentationPreservation.json": {
+      "referenceBytes": 53891,
+      "referenceSha256": "4cb1c7c880ccd6132907e22c8ff1183e0607157a18367fa48c77e5c41e50d2d6",
+      "restoredBytes": 58811,
+      "pinnedSha256": "b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3"
+    }
+  },
+  "media": {
+    "beach-before-after.mp4": {
+      "sha256": "1c28882a09b0cbcea4436368ed9112d0c336ca1470de5b8aeac38f4b7cb1f744",
+      "bytes": 6311596,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "300"
+    },
+    "beach-low-after.png": {
+      "sha256": "2113ce1cb060a0929cda54bf8a5648943e272076a02d7387fcc380e94b56b683",
+      "bytes": 461109,
+      "viewport": [1280, 720]
+    },
+    "beach-low-before.png": {
+      "sha256": "a604cc0964a79b57476d8dcf398d6cfe479a581cd4cd96fbdf6f14da51281ed3",
+      "bytes": 420803,
+      "viewport": [1280, 720]
+    },
+    "beach-preset-after.png": {
+      "sha256": "751074b9134f31467d7b987245a3a9de091f634fccc1d4925de42666c0361b23",
+      "bytes": 496456,
+      "viewport": [1280, 720]
+    },
+    "beach-preset-before.png": {
+      "sha256": "54ef4e04e2103b70a90509c77b77198a814802f1c50daeca688c277ab401f286",
+      "bytes": 453934,
+      "viewport": [1280, 720]
+    },
+    "comparison-contract.json": {
+      "sha256": "d3913e04ad045eb06d1e6032b56d93b97f003095691fb44c4c463fa111cff0b6",
+      "bytes": 3102
+    },
+    "convoy-before-after.mp4": {
+      "sha256": "54f4b84e45503572916b22a08dba99d6fe748e1b9d861857c7635442da93e854",
+      "bytes": 4667228,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "300"
+    },
+    "corridor-low-after.png": {
+      "sha256": "94ee30c123bd0af9dee89af2050679be9dda3d0648c5190faa31dac2f0035c10",
+      "bytes": 446154,
+      "viewport": [1280, 720]
+    },
+    "corridor-low-before.png": {
+      "sha256": "dc11f4c9694b314565728b2b94ac49d7a448e6b5a95b986abb0c38633f229914",
+      "bytes": 367583,
+      "viewport": [1280, 720]
+    },
+    "corridor-preset-after.png": {
+      "sha256": "77411ed829b780735b8e181b6d7048f6795c41c22916b9f391f0df01f532f0e4",
+      "bytes": 577714,
+      "viewport": [1280, 720]
+    },
+    "corridor-preset-before.png": {
+      "sha256": "b449499fe970da452d524cf18f50ae1a54c4b80602627d6580ff9e789e417638",
+      "bytes": 563331,
+      "viewport": [1280, 720]
+    },
+    "site-map.svg": {
+      "sha256": "1439ca61b16822125ba2d8014388dabaf66808038bd5852b96de131a1dd51da6",
+      "bytes": 22298
+    }
+  }
+}

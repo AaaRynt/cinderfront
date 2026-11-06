@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 todo.md
+*.png
+*.mp4

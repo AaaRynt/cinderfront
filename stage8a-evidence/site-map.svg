@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 918" role="img" aria-labelledby="title description">
+<title id="title">Ash Harbor Stage 8A site map</title>
+<desc id="description">The rescue branch inspection bay and eastern beach dune marker, with site boundaries, actor travel and the low inspection cameras in Ash Harbor map meters.</desc>
+<style>
+text{font:15px system-ui,sans-serif;fill:#e6e7dc}
+.eyebrow{font:600 13px system-ui,sans-serif;letter-spacing:3px;fill:#e8bc75}
+.title{font:650 38px system-ui,sans-serif}
+.deck{font:17px system-ui,sans-serif;fill:#abbfb8}
+.section{font:650 22px system-ui,sans-serif}
+.note{font:13px system-ui,sans-serif;fill:#adbfba}
+.map-label{font:600 13px system-ui,sans-serif;paint-order:stroke;stroke:#192a2b;stroke-width:3px;stroke-linejoin:round}
+.grid{stroke:#62736a;opacity:.23}
+</style>
+<defs>
+<marker id="arrow" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto" markerUnits="strokeWidth"><path d="M0 0L7 3.5L0 7Z" fill="#e8bc75"/></marker>
+</defs>
+<rect width="1440" height="918" fill="#101a1c"/>
+<text x="44.00" y="39.00" class="eyebrow" >ASH HARBOR   /   STAGE 8A</text>
+<text x="44.00" y="85.00" class="title" >Two roadside samples</text>
+<text x="45.00" y="115.00" class="deck" >World XZ in meters. Insets show the placement boundaries, passage marks and inspection sight lines.</text>
+<text x="44.00" y="155.00" class="section" >A   Rescue branch</text>
+<text x="44.00" y="177.00" class="note" >Road maintenance and dryland cover</text>
+<clipPath id="corridor-overview"><rect x="44" y="191" width="658" height="266" rx="7"/></clipPath><g clip-path="url(#corridor-overview)">
+<rect x="44" y="191" width="658" height="266" rx="0" fill="#29352f" stroke="none"/>
+<polyline points="359.330,35.555 295.535,126.691 222.626,217.827 158.831,318.076 95.036,400.098 40.355,500.348 -14.327,609.711 -69.008,728.187 -132.803,846.663" fill="none" stroke="#7d755d" stroke-opacity=".58" stroke-width="20.4" stroke-linecap="round"/>
+<polygon points="107.248,405.749 103.603,410.488 82.824,394.448 86.469,389.709" fill="#b8a998"/>
+<polygon points="518.817,267.040 637.294,267.040 637.294,332.658 518.817,332.658" fill="#627067" stroke="#87948d"/>
+<polygon points="301.914,590.572 380.291,590.572 380.291,617.913 301.914,617.913" fill="#627067" stroke="#87948d"/>
+<polygon points="477.806,648.899 568.942,648.899 568.942,679.885 477.806,679.885" fill="#627067" stroke="#87948d"/>
+<line x1="-14.327" y1="191.000" x2="-14.327" y2="457.000" class="grid"/>
+<line x1="76.809" y1="191.000" x2="76.809" y2="457.000" class="grid"/>
+<text x="76.81" y="448.00" class="note" text-anchor="middle">3,000</text>
+<line x1="167.945" y1="191.000" x2="167.945" y2="457.000" class="grid"/>
+<text x="167.94" y="448.00" class="note" text-anchor="middle">3,500</text>
+<line x1="259.080" y1="191.000" x2="259.080" y2="457.000" class="grid"/>
+<text x="259.08" y="448.00" class="note" text-anchor="middle">4,000</text>
+<line x1="350.216" y1="191.000" x2="350.216" y2="457.000" class="grid"/>
+<text x="350.22" y="448.00" class="note" text-anchor="middle">4,500</text>
+<line x1="441.352" y1="191.000" x2="441.352" y2="457.000" class="grid"/>
+<text x="441.35" y="448.00" class="note" text-anchor="middle">5,000</text>
+<line x1="532.488" y1="191.000" x2="532.488" y2="457.000" class="grid"/>
+<text x="532.49" y="448.00" class="note" text-anchor="middle">5,500</text>
+<line x1="623.623" y1="191.000" x2="623.623" y2="457.000" class="grid"/>
+<text x="623.62" y="448.00" class="note" text-anchor="middle">6,000</text>
+<line x1="714.759" y1="191.000" x2="714.759" y2="457.000" class="grid"/>
+<line x1="44.000" y1="454.780" x2="702.000" y2="454.780" class="grid"/>
+<line x1="44.000" y1="418.325" x2="702.000" y2="418.325" class="grid"/>
+<text x="52.00" y="414.33" class="note" >-400</text>
+<line x1="44.000" y1="381.871" x2="702.000" y2="381.871" class="grid"/>
+<text x="52.00" y="377.87" class="note" >-200</text>
+<line x1="44.000" y1="345.417" x2="702.000" y2="345.417" class="grid"/>
+<text x="52.00" y="341.42" class="note" >0</text>
+<line x1="44.000" y1="308.963" x2="702.000" y2="308.963" class="grid"/>
+<text x="52.00" y="304.96" class="note" >200</text>
+<line x1="44.000" y1="272.508" x2="702.000" y2="272.508" class="grid"/>
+<text x="52.00" y="268.51" class="note" >400</text>
+<line x1="44.000" y1="236.054" x2="702.000" y2="236.054" class="grid"/>
+<text x="52.00" y="232.05" class="note" >600</text>
+<line x1="44.000" y1="199.600" x2="702.000" y2="199.600" class="grid"/>
+<polyline points="-360.643,90.237 -233.053,163.145 -69.008,272.508 95.036,400.098 259.080,545.916 441.352,691.733 632.737,637.051" fill="none" stroke="#152224" stroke-width="5.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-360.643,90.237 -233.053,163.145 -69.008,272.508 95.036,400.098 259.080,545.916 441.352,691.733 632.737,637.051" fill="none" stroke="#adb5a6" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="95.036,400.098 268.194,327.190 450.465,263.395 678.305,272.508" fill="none" stroke="#152224" stroke-width="5.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="95.036,400.098 268.194,327.190 450.465,263.395 678.305,272.508" fill="none" stroke="#adb5a6" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="317.416,308.900 335.136,302.698 332.516,295.214 314.796,301.416" fill="#e8bc75" fill-opacity=".14" stroke="#e8bc75" stroke-width="1.7" stroke-dasharray="6 3"/>
+<circle cx="326.521" cy="306.775" r="7" fill="none" stroke="#e8bc75" stroke-width="2"/>
+<text x="336.52" y="295.78" class="map-label" >Sample A</text>
+<text x="105.04" y="390.10" class="map-label" >Dry-wash bridge</text>
+<text x="553.52" y="319.85" class="map-label" >Service yard</text>
+<text x="313.33" y="271.15" class="map-label" >Rescue branch</text>
+<line x1="658.000" y1="233.000" x2="658.000" y2="214.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<line x1="658.000" y1="233.000" x2="677.000" y2="233.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<text x="650.00" y="210.00" class="note" >+Z</text>
+<text x="674.00" y="249.00" class="note" >+X</text>
+</g>
+<text x="44.00" y="485.00" class="section" >103 × 43.5 m  ·  11 m paved road</text>
+<text x="44.00" y="507.00" class="note" >T+58.10 s  ·  support recovery truck</text>
+<clipPath id="corridor-detail"><rect x="44" y="522" width="658" height="309" rx="7"/></clipPath><g clip-path="url(#corridor-detail)">
+<rect x="44" y="522" width="658" height="309" rx="0" fill="#29352f" stroke="none"/>
+<line x1="126.894" y1="522.000" x2="126.894" y2="831.000" class="grid"/>
+<text x="126.89" y="822.00" class="note" text-anchor="middle">4,275</text>
+<line x1="195.257" y1="522.000" x2="195.257" y2="831.000" class="grid"/>
+<text x="195.26" y="822.00" class="note" text-anchor="middle">4,300</text>
+<line x1="263.619" y1="522.000" x2="263.619" y2="831.000" class="grid"/>
+<text x="263.62" y="822.00" class="note" text-anchor="middle">4,325</text>
+<line x1="331.982" y1="522.000" x2="331.982" y2="831.000" class="grid"/>
+<text x="331.98" y="822.00" class="note" text-anchor="middle">4,350</text>
+<line x1="400.345" y1="522.000" x2="400.345" y2="831.000" class="grid"/>
+<text x="400.35" y="822.00" class="note" text-anchor="middle">4,375</text>
+<line x1="468.708" y1="522.000" x2="468.708" y2="831.000" class="grid"/>
+<text x="468.71" y="822.00" class="note" text-anchor="middle">4,400</text>
+<line x1="537.071" y1="522.000" x2="537.071" y2="831.000" class="grid"/>
+<text x="537.07" y="822.00" class="note" text-anchor="middle">4,425</text>
+<line x1="605.434" y1="522.000" x2="605.434" y2="831.000" class="grid"/>
+<text x="605.43" y="822.00" class="note" text-anchor="middle">4,450</text>
+<line x1="44.000" y1="831.000" x2="702.000" y2="831.000" class="grid"/>
+<line x1="44.000" y1="776.310" x2="702.000" y2="776.310" class="grid"/>
+<text x="52.00" y="772.31" class="note" >200</text>
+<line x1="44.000" y1="721.619" x2="702.000" y2="721.619" class="grid"/>
+<text x="52.00" y="717.62" class="note" >220</text>
+<line x1="44.000" y1="666.929" x2="702.000" y2="666.929" class="grid"/>
+<text x="52.00" y="662.93" class="note" >240</text>
+<line x1="44.000" y1="612.239" x2="702.000" y2="612.239" class="grid"/>
+<text x="52.00" y="608.24" class="note" >260</text>
+<line x1="44.000" y1="557.549" x2="702.000" y2="557.549" class="grid"/>
+<text x="52.00" y="553.55" class="note" >280</text>
+<line x1="44.000" y1="502.858" x2="702.000" y2="502.858" class="grid"/>
+<polyline points="-9922.442,-2505.106 -8008.283,-1411.301 -5547.221,229.407 -3086.159,2143.566 -625.097,4331.177 2109.416,6518.788 4980.655,5698.434" fill="none" stroke="#152224" stroke-width="40.28" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-9922.442,-2505.106 -8008.283,-1411.301 -5547.221,229.407 -3086.159,2143.566 -625.097,4331.177 2109.416,6518.788 4980.655,5698.434" fill="none" stroke="#adb5a6" stroke-width="38.28" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-3086.159,2143.566 -488.372,1049.761 2246.142,92.681 5664.283,229.407" fill="none" stroke="#152224" stroke-width="32.08" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-3086.159,2143.566 -488.372,1049.761 2246.142,92.681 5664.283,229.407" fill="none" stroke="#adb5a6" stroke-width="30.08" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="250.074,775.371 515.916,682.326 476.620,570.053 210.778,663.098" fill="#e8bc75" fill-opacity=".14" stroke="#e8bc75" stroke-width="1.7" stroke-dasharray="6 3"/>
+<polyline points="500.056,703.232 275.509,781.823" fill="none" stroke="#e8bc75" stroke-width="2.2" marker-end="url(#arrow)"/>
+<line x1="461.134" y1="749.303" x2="354.797" y2="693.811" stroke="#7bc3bd" stroke-width="2" stroke-dasharray="4 3"/>
+<circle cx="461.134" cy="749.303" r="5.5" fill="#7bc3bd" stroke="#101a1c" stroke-width="2"/>
+<circle cx="359.701" cy="686.301" r="4.4" fill="#e8bc75"/>
+<text x="367.70" y="677.30" class="map-label" >Inspection bay</text>
+<circle cx="405.398" cy="694.353" r="4.4" fill="#e8bc75"/>
+<text x="412.40" y="714.35" class="map-label" >Wash Rd sign</text>
+<circle cx="387.011" cy="742.796" r="4.6" fill="#101a1c" stroke="#e8bc75" stroke-width="2"/>
+<line x1="658.000" y1="564.000" x2="658.000" y2="545.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<line x1="658.000" y1="564.000" x2="677.000" y2="564.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<text x="650.00" y="541.00" class="note" >+Z</text>
+<text x="674.00" y="580.00" class="note" >+X</text>
+</g>
+<text x="738.00" y="155.00" class="section" >B   Eastern beach track</text>
+<text x="738.00" y="177.00" class="note" >Inland route marker and dune cover</text>
+<clipPath id="beach-overview"><rect x="738" y="191" width="658" height="266" rx="7"/></clipPath><g clip-path="url(#beach-overview)">
+<rect x="738" y="191" width="658" height="266" rx="0" fill="#203237" stroke="none"/>
+<polygon points="-1477.290,-1729.520 1555.110,-1729.520 1555.110,558.080 1475.310,512.860 1395.510,478.280 1283.790,414.440 1156.110,371.880 996.510,401.140 836.910,425.080 637.410,414.440 491.110,398.480 331.510,374.540 171.910,345.280 20.290,313.360 -120.690,265.480 -280.290,233.560 -439.890,185.680 -578.210,145.780 -705.890,79.280 -841.550,28.740 -971.890,-27.120 -1110.210,-109.580 -1237.890,-213.320 -1330.990,-298.440 -1424.090,-399.520 -1511.870,-511.240 -1583.690,-612.320 -1620.930,-726.700 -1636.890,-851.720 -1589.010,-990.040 -1557.090,-1091.120 -1495.910,-1154.960 -1424.090,-1197.520 -1330.990,-1176.240 -1251.190,-1181.560 -1158.090,-1170.920 -1072.970,-1256.040 -1025.090,-1330.520 -1054.350,-1442.240 -1104.890,-1516.720 -1197.990,-1492.780 -1291.090,-1476.820 -1384.190,-1450.220 -1463.990,-1436.920 -1535.810,-1476.820 -1583.690,-1503.420 -1573.050,-1575.240 -1557.090,-1636.420 -1525.170,-1671.000" fill="#333e33" stroke="#72908a" stroke-width="1.5"/>
+<polygon points="1129.510,252.180 1222.610,270.800 1315.710,331.980 1289.110,366.560 1182.710,326.660 1129.510,292.080" fill="#747b58" fill-opacity=".4" stroke="#9b9b67" stroke-opacity=".55"/>
+<line x1="757.110" y1="191.000" x2="757.110" y2="457.000" class="grid"/>
+<text x="757.11" y="448.00" class="note" text-anchor="middle">4,000</text>
+<line x1="863.510" y1="191.000" x2="863.510" y2="457.000" class="grid"/>
+<text x="863.51" y="448.00" class="note" text-anchor="middle">4,400</text>
+<line x1="969.910" y1="191.000" x2="969.910" y2="457.000" class="grid"/>
+<text x="969.91" y="448.00" class="note" text-anchor="middle">4,800</text>
+<line x1="1076.310" y1="191.000" x2="1076.310" y2="457.000" class="grid"/>
+<text x="1076.31" y="448.00" class="note" text-anchor="middle">5,200</text>
+<line x1="1182.710" y1="191.000" x2="1182.710" y2="457.000" class="grid"/>
+<text x="1182.71" y="448.00" class="note" text-anchor="middle">5,600</text>
+<line x1="1289.110" y1="191.000" x2="1289.110" y2="457.000" class="grid"/>
+<text x="1289.11" y="448.00" class="note" text-anchor="middle">6,000</text>
+<line x1="1395.510" y1="191.000" x2="1395.510" y2="457.000" class="grid"/>
+<line x1="738.000" y1="504.880" x2="1396.000" y2="504.880" class="grid"/>
+<line x1="738.000" y1="451.680" x2="1396.000" y2="451.680" class="grid"/>
+<line x1="738.000" y1="398.480" x2="1396.000" y2="398.480" class="grid"/>
+<text x="746.00" y="394.48" class="note" >-3,000</text>
+<line x1="738.000" y1="345.280" x2="1396.000" y2="345.280" class="grid"/>
+<text x="746.00" y="341.28" class="note" >-2,800</text>
+<line x1="738.000" y1="292.080" x2="1396.000" y2="292.080" class="grid"/>
+<text x="746.00" y="288.08" class="note" >-2,600</text>
+<line x1="738.000" y1="238.880" x2="1396.000" y2="238.880" class="grid"/>
+<text x="746.00" y="234.88" class="note" >-2,400</text>
+<line x1="738.000" y1="185.680" x2="1396.000" y2="185.680" class="grid"/>
+<polyline points="836.910,377.200 823.610,318.680 810.310,260.160 810.310,206.960 783.710,153.760" fill="none" stroke="#152224" stroke-width="5.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="836.910,377.200 823.610,318.680 810.310,260.160 810.310,206.960 783.710,153.760" fill="none" stroke="#adb5a6" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1142.810,361.240 1169.410,313.360 1209.310,260.160 1222.610,206.960 1289.110,145.780" fill="none" stroke="#152224" stroke-width="5.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1142.810,361.240 1169.410,313.360 1209.310,260.160 1222.610,206.960 1289.110,145.780" fill="none" stroke="#adb5a6" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1289.110,145.780 1342.310,87.260 1302.410,26.080" fill="none" stroke="#152224" stroke-width="5.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1289.110,145.780 1342.310,87.260 1302.410,26.080" fill="none" stroke="#adb5a6" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1170.900,309.157 1177.922,299.794 1172.389,295.644 1165.367,305.008" fill="#e8bc75" fill-opacity=".14" stroke="#e8bc75" stroke-width="1.7" stroke-dasharray="6 3"/>
+<circle cx="1175.794" cy="304.848" r="7" fill="none" stroke="#e8bc75" stroke-width="2"/>
+<text x="1185.79" y="293.85" class="map-label" >Sample B</text>
+<text x="1045.11" y="393.88" class="map-label" >East landing ramp</text>
+<text x="801.91" y="399.20" class="map-label" >West access</text>
+<text x="1218.99" y="269.76" class="map-label" >Eastern dune</text>
+<line x1="1352.000" y1="233.000" x2="1352.000" y2="214.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<line x1="1352.000" y1="233.000" x2="1371.000" y2="233.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<text x="1344.00" y="210.00" class="note" >+Z</text>
+<text x="1368.00" y="249.00" class="note" >+X</text>
+</g>
+<text x="738.00" y="485.00" class="section" >44 × 26 m  ·  10 m compacted track</text>
+<text x="738.00" y="507.00" class="note" >T+225.85 s  ·  LAV east lead</text>
+<clipPath id="beach-detail"><rect x="738" y="522" width="658" height="309" rx="7"/></clipPath><g clip-path="url(#beach-detail)">
+<rect x="738" y="522" width="658" height="309" rx="0" fill="#203237" stroke="none"/>
+<polygon points="-33509.753,-25861.045 6070.022,-25861.045 6070.022,3997.382 5028.449,3407.157 3986.876,2955.809 2528.674,2122.551 862.157,1567.045 -1220.989,1948.955 -3304.135,2261.427 -5908.067,2122.551 -7817.618,1914.236 -9900.764,1601.764 -11983.910,1219.854 -13962.899,803.225 -15803.011,178.281 -17886.157,-238.348 -19969.303,-863.292 -21774.697,-1384.079 -23441.213,-2252.056 -25211.888,-2911.719 -26913.124,-3640.820 -28718.517,-4717.112 -30385.034,-6071.157 -31600.202,-7182.169 -32815.371,-8501.494 -33961.101,-9959.697 -34898.517,-11279.022 -35384.584,-12771.944 -35592.899,-14403.742 -34967.955,-16209.135 -34551.326,-17528.461 -33752.787,-18361.719 -32815.371,-18917.225 -31600.202,-18639.472 -30558.629,-18708.910 -29343.461,-18570.034 -28232.449,-19681.045 -27607.506,-20653.180 -27989.416,-22111.382 -28649.079,-23083.517 -29864.247,-22771.045 -31079.416,-22562.730 -32294.584,-22215.539 -33336.157,-22041.944 -34273.573,-22562.730 -34898.517,-22909.921 -34759.640,-23847.337 -34551.326,-24645.876 -34134.697,-25097.225" fill="#333e33" stroke="#72908a" stroke-width="1.5"/>
+<polygon points="514.966,4.685 1730.135,247.719 2945.303,1046.258 2598.112,1497.607 1209.348,976.820 514.966,525.472" fill="#747b58" fill-opacity=".4" stroke="#9b9b67" stroke-opacity=".55"/>
+<line x1="862.157" y1="522.000" x2="862.157" y2="831.000" class="grid"/>
+<text x="862.16" y="822.00" class="note" text-anchor="middle">5,500</text>
+<line x1="931.596" y1="522.000" x2="931.596" y2="831.000" class="grid"/>
+<text x="931.60" y="822.00" class="note" text-anchor="middle">5,520</text>
+<line x1="1001.034" y1="522.000" x2="1001.034" y2="831.000" class="grid"/>
+<text x="1001.03" y="822.00" class="note" text-anchor="middle">5,540</text>
+<line x1="1070.472" y1="522.000" x2="1070.472" y2="831.000" class="grid"/>
+<text x="1070.47" y="822.00" class="note" text-anchor="middle">5,560</text>
+<line x1="1139.910" y1="522.000" x2="1139.910" y2="831.000" class="grid"/>
+<text x="1139.91" y="822.00" class="note" text-anchor="middle">5,580</text>
+<line x1="1209.348" y1="522.000" x2="1209.348" y2="831.000" class="grid"/>
+<text x="1209.35" y="822.00" class="note" text-anchor="middle">5,600</text>
+<line x1="1278.787" y1="522.000" x2="1278.787" y2="831.000" class="grid"/>
+<text x="1278.79" y="822.00" class="note" text-anchor="middle">5,620</text>
+<line x1="738.000" y1="872.663" x2="1396.000" y2="872.663" class="grid"/>
+<line x1="738.000" y1="803.225" x2="1396.000" y2="803.225" class="grid"/>
+<text x="746.00" y="799.22" class="note" >-2,680</text>
+<line x1="738.000" y1="733.787" x2="1396.000" y2="733.787" class="grid"/>
+<text x="746.00" y="729.79" class="note" >-2,660</text>
+<line x1="738.000" y1="664.348" x2="1396.000" y2="664.348" class="grid"/>
+<text x="746.00" y="660.35" class="note" >-2,640</text>
+<line x1="738.000" y1="594.910" x2="1396.000" y2="594.910" class="grid"/>
+<text x="746.00" y="590.91" class="note" >-2,620</text>
+<line x1="738.000" y1="525.472" x2="1396.000" y2="525.472" class="grid"/>
+<line x1="738.000" y1="456.034" x2="1396.000" y2="456.034" class="grid"/>
+<polyline points="-3304.135,1636.483 -3477.730,872.663 -3651.326,108.843 -3651.326,-585.539 -3998.517,-1279.921" fill="none" stroke="#152224" stroke-width="36.72" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-3304.135,1636.483 -3477.730,872.663 -3651.326,108.843 -3651.326,-585.539 -3998.517,-1279.921" fill="none" stroke="#adb5a6" stroke-width="34.72" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="688.562,1428.169 1035.753,803.225 1556.539,108.843 1730.135,-585.539 2598.112,-1384.079" fill="none" stroke="#152224" stroke-width="36.72" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="688.562,1428.169 1035.753,803.225 1556.539,108.843 1730.135,-585.539 2598.112,-1384.079" fill="none" stroke="#adb5a6" stroke-width="34.72" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="2598.112,-1384.079 3292.494,-2147.899 2771.708,-2946.438" fill="none" stroke="#152224" stroke-width="33.25" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="2598.112,-1384.079 3292.494,-2147.899 2771.708,-2946.438" fill="none" stroke="#adb5a6" stroke-width="31.25" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1055.196,748.369 1146.854,626.157 1074.638,571.996 982.980,694.207" fill="#e8bc75" fill-opacity=".14" stroke="#e8bc75" stroke-width="1.7" stroke-dasharray="6 3"/>
+<polyline points="1084.498,748.646 1171.991,631.990" fill="none" stroke="#e8bc75" stroke-width="2.2" marker-end="url(#arrow)"/>
+<line x1="1096.164" y1="757.396" x2="1080.193" y2="662.960" stroke="#7bc3bd" stroke-width="2" stroke-dasharray="4 3"/>
+<circle cx="1096.164" cy="757.396" r="5.5" fill="#7bc3bd" stroke="#101a1c" stroke-width="2"/>
+<circle cx="1075.124" cy="667.404" r="4.4" fill="#e8bc75"/>
+<text x="1083.12" y="682.40" class="map-label" >E-2 marker</text>
+<circle cx="1070.333" cy="639.073" r="4.4" fill="#e8bc75"/>
+<text x="972.33" y="624.07" class="map-label" >Service footing</text>
+<circle cx="1123.883" cy="696.133" r="4.6" fill="#101a1c" stroke="#e8bc75" stroke-width="2"/>
+<line x1="1352.000" y1="564.000" x2="1352.000" y2="545.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<line x1="1352.000" y1="564.000" x2="1371.000" y2="564.000" stroke="#bdd1c9" stroke-width="1.5"/>
+<text x="1344.00" y="541.00" class="note" >+Z</text>
+<text x="1368.00" y="580.00" class="note" >+X</text>
+</g>
+<line x1="45.000" y1="865.000" x2="82.000" y2="865.000" stroke="#e8bc75" stroke-width="1.7" stroke-dasharray="6 3"/>
+<text x="91.00" y="870.00" class="note" >Sample boundary</text>
+<line x1="280.000" y1="865.000" x2="314.000" y2="865.000" stroke="#e8bc75" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="325.00" y="870.00" class="note" >Actor direction and passage mark</text>
+<line x1="615.000" y1="865.000" x2="651.000" y2="865.000" stroke="#7bc3bd" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="662.00" y="870.00" class="note" >Low camera and aim</text>
+<text x="44.00" y="900.00" class="note" >Reference ba0abfd  ·  roads, coast, routes and support geometry from the mounted viewer</text>
+</svg>
