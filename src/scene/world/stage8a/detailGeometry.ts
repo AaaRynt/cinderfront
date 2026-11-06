@@ -176,15 +176,21 @@ function footing() {
   ])
 }
 
+export function createDetailPlantGeometry(kind: 'grass' | 'scrub' | TreeForm) {
+  if (kind === 'grass') return join([createGrassGeometry(0), createGrassGeometry(1).rotateY(1.4).scale(0.76, 0.73, 0.76)])
+  if (kind === 'scrub') return join([createScrubGeometry(1), createScrubGeometry(0).scale(0.76, 0.74, 0.76).rotateY(0.84)])
+  return fullerTree(kind, kind === 'upright' ? 0 : 1)
+}
+
 export function createDetailGeometries(): Record<DetailKind, BufferGeometry> {
   const tire = new TorusGeometry(0.37, 0.102, 7, 20).rotateX(Math.PI * 0.5).scale(1, 1.24, 1)
   return {
-    grass: join([createGrassGeometry(0), createGrassGeometry(1).rotateY(1.4).scale(0.76, 0.73, 0.76)]),
-    scrub: join([createScrubGeometry(1), createScrubGeometry(0).scale(0.76, 0.74, 0.76).rotateY(0.84)]),
+    grass: createDetailPlantGeometry('grass'),
+    scrub: createDetailPlantGeometry('scrub'),
     stone: createRockGeometry(1),
     gravel: colored(new IcosahedronGeometry(0.47).scale(1, 0.78, 0.81), '#d3cdbd'),
-    upright: fullerTree('upright', 0),
-    wind: fullerTree('wind', 1),
+    upright: createDetailPlantGeometry('upright'),
+    wind: createDetailPlantGeometry('wind'),
     shelter: shelter(),
     drum: oilDrum(),
     tire: colored(tire, (x, y, z) => new Color('#353531').multiplyScalar(0.79 + 0.19 * Math.cos(20 * Math.atan2(z, x)) ** 2 + y * 0.65)),

@@ -367,3 +367,9 @@ Across eight fixed poses, the largest increases are 21 submitted draws, 8.83% su
 **Complete.** The east landing flank now has a local swell, broken crest, shallow run-up and damp retreat. Both Stage 8A samples share rooted wind, with moving crown shadows and a restrained dust cue at the inspection bay. Matched preset and low viewer evidence covers three surf cycles, the rescue branch and the eastern LAV pass.
 
 The full surf envelope clears the padded approach by 4.25 m. Eighteen matched poses add at most three draws and 3.59% triangles, with equal shadow submissions. Six rendered landing checkpoints match Stage 8A. Pause, backward seek, restart, playback speed and late observation checks pass. The original Stage 7C fixture bytes were restored separately. Both no-emit checks, lint, 786 tests across 73 files and whitespace checks pass. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)
+
+## Stage 8C — Blast Response in Vegetation (2026-11-06)
+
+**Complete.** Four trees and ten grass and scrub plants in two fuel verges bend outward as the existing T+92 front reaches them. The crowns rebound and settle into ambient wind. Matched preset and low 1× clips show the order of arrival and recovery.
+
+The mounted bend envelope clears the nearest berm by 0.80 m. The twelve fuel pose pairs add eight submitted draws, at most 2.19% triangles and four shadow draws. The original Stage 7C fixture bytes were verified and restored in the working diff. Both TypeScript checks, lint and 791 tests across 74 files passed, with a longer timeout for the full test invocation. [Stage 8C acceptance and evidence](STAGE8C_ACCEPTANCE.md)

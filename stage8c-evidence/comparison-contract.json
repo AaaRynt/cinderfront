@@ -1,0 +1,308 @@
+{
+  "reference": "f98e1fc",
+  "fixedBeforeVisualEdits": true,
+  "front": {
+    "id": "central-bund-hero-cascade",
+    "timeSeconds": 92,
+    "positionXZ": [-545, 2050],
+    "radiusM": 620,
+    "durationSeconds": 1.8,
+    "environmentMarkerSeconds": 94
+  },
+  "pockets": [
+    {
+      "name": "near",
+      "boundsXZ": [-504, -462, 1797, 1813]
+    },
+    {
+      "name": "far",
+      "boundsXZ": [-227, -186, 1797, 1813]
+    }
+  ],
+  "surface": "Loose inter-bund gravel and soil fines outside the concrete cell floors. Mounted gravel offset 0.30 m.",
+  "proposedPlants": [
+    {
+      "id": "near-upright",
+      "kind": "upright",
+      "x": -494,
+      "z": 1805.7,
+      "scale": 9.2,
+      "yaw": 0.35,
+      "distanceM": 249.5666043363975,
+      "arrivalSeconds": 92.72454820613792
+    },
+    {
+      "id": "near-wind",
+      "kind": "wind",
+      "x": -473,
+      "z": 1806.6,
+      "scale": 8.5,
+      "yaw": -0.75,
+      "distanceM": 253.82584580771132,
+      "arrivalSeconds": 92.73691374589336
+    },
+    {
+      "id": "near-grass-west",
+      "kind": "grass",
+      "x": -501.5,
+      "z": 1805.6,
+      "scale": 1.45,
+      "yaw": 0.3,
+      "distanceM": 248.2410320635975,
+      "arrivalSeconds": 92.72069977050722
+    },
+    {
+      "id": "near-grass-east",
+      "kind": "grass",
+      "x": -478.5,
+      "z": 1803.8,
+      "scale": 1.25,
+      "yaw": 1.5,
+      "distanceM": 255.0229205385273,
+      "arrivalSeconds": 92.74038912414412
+    },
+    {
+      "id": "near-grass-low",
+      "kind": "grass",
+      "x": -489.7,
+      "z": 1802.2,
+      "scale": 1.25,
+      "yaw": -0.6,
+      "distanceM": 253.89551000362331,
+      "arrivalSeconds": 92.73711599678471
+    },
+    {
+      "id": "near-scrub-west",
+      "kind": "scrub",
+      "x": -497,
+      "z": 1807.3,
+      "scale": 1.85,
+      "yaw": 0.7,
+      "distanceM": 247.40107113753572,
+      "arrivalSeconds": 92.71826117427027
+    },
+    {
+      "id": "near-scrub-east",
+      "kind": "scrub",
+      "x": -465.3,
+      "z": 1805,
+      "scale": 1.55,
+      "yaw": -0.9,
+      "distanceM": 257.637516677987,
+      "arrivalSeconds": 92.74797988712965
+    },
+    {
+      "id": "far-upright",
+      "kind": "upright",
+      "x": -217,
+      "z": 1806.6,
+      "scale": 9,
+      "yaw": 0.85,
+      "distanceM": 408.4452962148053,
+      "arrivalSeconds": 93.1858089244946
+    },
+    {
+      "id": "far-wind",
+      "kind": "wind",
+      "x": -196,
+      "z": 1806.4,
+      "scale": 8.8,
+      "yaw": -0.5,
+      "distanceM": 425.60775368876915,
+      "arrivalSeconds": 93.23563541393514
+    },
+    {
+      "id": "far-grass-west",
+      "kind": "grass",
+      "x": -223.2,
+      "z": 1805,
+      "scale": 1.45,
+      "yaw": 1.3,
+      "distanceM": 404.45054085759364,
+      "arrivalSeconds": 93.17421124765107
+    },
+    {
+      "id": "far-grass-east",
+      "kind": "grass",
+      "x": -202,
+      "z": 1804.2,
+      "scale": 1.35,
+      "yaw": 1.8,
+      "distanceM": 421.97943077832593,
+      "arrivalSeconds": 93.22510157322739
+    },
+    {
+      "id": "far-grass-low",
+      "kind": "grass",
+      "x": -210.5,
+      "z": 1803.6,
+      "scale": 1.3,
+      "yaw": -0.2,
+      "distanceM": 415.4554248051168,
+      "arrivalSeconds": 93.20616091072453
+    },
+    {
+      "id": "far-scrub-west",
+      "kind": "scrub",
+      "x": -214,
+      "z": 1808.8,
+      "scale": 1.7,
+      "yaw": 0.7,
+      "distanceM": 409.55883582215637,
+      "arrivalSeconds": 93.18904178141916
+    },
+    {
+      "id": "far-scrub-east",
+      "kind": "scrub",
+      "x": -189.5,
+      "z": 1805,
+      "scale": 1.75,
+      "yaw": -1.2,
+      "distanceM": 431.74674289448905,
+      "arrivalSeconds": 93.25345828582272
+    }
+  ],
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1
+  },
+  "quality": "Headed installed Chrome foreground and focused. DPR 1, original antialiasing, percentage shadows, ACES exposure 1.12, native HUD. Preserve observed display cadence and report RAF.",
+  "presetPose": {
+    "position": [-2000, 900, 900],
+    "target": [-550, 120, 1950],
+    "verticalFov": 43
+  },
+  "warmup": "Visit each checkpoint before measuring, then capture on the second visit. Use separate warmed runs for pacing and the native 1\u00d7 screencasts.",
+  "limits": {
+    "additionalSubmittedDraws": 40,
+    "additionalSubmittedTrianglesPercent": 10,
+    "additionalShadowDraws": 6,
+    "additionalShadowTriangles": 6000,
+    "additionalLights": 0
+  },
+  "checkpoints": [
+    {
+      "name": "fuel-preset-before-arrival",
+      "preset": "fuel-storage",
+      "time": 92.65
+    },
+    {
+      "name": "fuel-preset-near-bend",
+      "preset": "fuel-storage",
+      "time": 92.95
+    },
+    {
+      "name": "fuel-preset-far-bend",
+      "preset": "fuel-storage",
+      "time": 93.44
+    },
+    {
+      "name": "fuel-preset-near-rebound",
+      "preset": "fuel-storage",
+      "time": 93.61
+    },
+    {
+      "name": "fuel-preset-far-rebound",
+      "preset": "fuel-storage",
+      "time": 94.13
+    },
+    {
+      "name": "fuel-preset-recovery",
+      "preset": "fuel-storage",
+      "time": 98.6
+    },
+    {
+      "name": "fuel-low-before-arrival",
+      "preset": "fuel-storage",
+      "time": 92.65,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-low-near-bend",
+      "preset": "fuel-storage",
+      "time": 92.95,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-low-far-bend",
+      "preset": "fuel-storage",
+      "time": 93.44,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-low-near-rebound",
+      "preset": "fuel-storage",
+      "time": 93.61,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-low-far-rebound",
+      "preset": "fuel-storage",
+      "time": 94.13,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-low-recovery",
+      "preset": "fuel-storage",
+      "time": 98.6,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "shore-low-break",
+      "preset": "beach-offshore",
+      "time": 156,
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      }
+    },
+    {
+      "name": "corridor-quiet",
+      "preset": "support-convoy",
+      "time": 245,
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      }
+    }
+  ],
+  "playback": [
+    {
+      "id": "fuel-preset",
+      "preset": "fuel-storage",
+      "start": 90,
+      "end": 101,
+      "paceEnd": 101
+    },
+    {
+      "id": "fuel-low",
+      "preset": "fuel-storage",
+      "start": 90,
+      "end": 101,
+      "paceEnd": 101,
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    }
+  ]
+}

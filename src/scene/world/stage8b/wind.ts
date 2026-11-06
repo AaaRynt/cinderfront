@@ -56,18 +56,27 @@ const BEND_GLSL = `
   float weight = clamp((position.y - uWindProfile.x) / (uWindProfile.y - uWindProfile.x), 0.0, 1.0);
   float flutter = 0.9 + 0.1 * sin(localWindTau * uLocalMotionTime / ${FLUTTER_PERIOD_SECONDS.toFixed(1)} + windStation * 0.93 + position.y * 4.2);
   vec2 drift = localWindDirection * (uWindProfile.z * weight * weight * localWindGust(windOrigin) * flutter);
-  transformed += inverse(mat3(windWorld)) * vec3(drift.x, 0.0, drift.y);
 `
 
-export function applyLocalWind<T extends MeshStandardMaterial | MeshDepthMaterial>(material: T, kind: WindKind, clock: MotionClock) {
+interface WindDisplacement {
+  readonly programKey: string
+  readonly uniforms: Readonly<Record<string, MotionClock>>
+  readonly declarations: string
+  readonly worldXZ: string
+}
+
+export function applyLocalWind<T extends MeshStandardMaterial | MeshDepthMaterial>(material: T, kind: WindKind, clock: MotionClock, displacement?: WindDisplacement) {
   const { anchor, tip, bend } = WIND_PROFILES[kind]
   const profile = { value: new Vector3(anchor, tip, bend) }
+  const declarations = displacement ? `\n${displacement.declarations}` : ''
+  const extraDrift = displacement ? `  drift += (${displacement.worldXZ}) * weight * weight;\n` : ''
   material.onBeforeCompile = (shader) => {
     shader.uniforms.uLocalMotionTime = clock
     shader.uniforms.uWindProfile = profile
-    shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>\n${WIND_GLSL}\nuniform vec3 uWindProfile;`).replace('#include <begin_vertex>', `#include <begin_vertex>\n${BEND_GLSL}`)
+    Object.assign(shader.uniforms, displacement?.uniforms)
+    shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>\n${WIND_GLSL}\nuniform vec3 uWindProfile;${declarations}`).replace('#include <begin_vertex>', `#include <begin_vertex>\n${BEND_GLSL}${extraDrift}  transformed += inverse(mat3(windWorld)) * vec3(drift.x, 0.0, drift.y);\n`)
   }
-  material.customProgramCacheKey = () => '8b-local-wind-v1'
+  material.customProgramCacheKey = () => displacement?.programKey ?? '8b-local-wind-v1'
   return material
 }
 

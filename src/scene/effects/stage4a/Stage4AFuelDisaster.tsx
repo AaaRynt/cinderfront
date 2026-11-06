@@ -5,6 +5,7 @@ import type { Stage3Vec3 } from '../stage3/types.ts'
 import { periodicAngle } from '../aftermath/effectClocks'
 import { AnalyticalDebris } from '../stage3/AnalyticalDebris.tsx'
 import { DustShockFront } from '../stage3/BlastLayers.tsx'
+import { FUEL_SHOCK_DURATION_SECONDS, FUEL_SHOCK_MAX_RADIUS_M } from '../stage3/effectMath.ts'
 import { CinematicFuelSmokeField, type CinematicFuelSmokeSource } from './CinematicFuelSmokeField.tsx'
 import { FuelDamageAftermath } from './FuelDamageAftermath.tsx'
 import { STAGE4A_FUEL_ESCALATION_SCHEDULE, STAGE4A_FUEL_HERO_TIME_SECONDS, STAGE4A_FUEL_POOL_FIRE_SCHEDULE, createStage4AFuelDebris, resolveStage4AFuelEventPosition, sampleStage4AFuelFireIntensity } from './fuelDisasterMath.ts'
@@ -93,7 +94,7 @@ export function Stage4AFuelDisaster({ surfaceHeightAt, timeSeconds }: Stage4AFue
         <FuelEscalationBurst key={descriptor.id} descriptor={descriptor} position={position} timeSeconds={timeSeconds} />
       ))}
 
-      <DustShockFront ageSeconds={timeSeconds - STAGE4A_FUEL_HERO_TIME_SECONDS} durationSeconds={1.8} maximumRadiusM={620} origin={hero.groundPosition} profile="fuel" />
+      <DustShockFront ageSeconds={timeSeconds - STAGE4A_FUEL_HERO_TIME_SECONDS} durationSeconds={FUEL_SHOCK_DURATION_SECONDS} maximumRadiusM={FUEL_SHOCK_MAX_RADIUS_M} origin={hero.groundPosition} profile="fuel" />
 
       {DEBRIS_LAYOUTS.map((layout) => {
         const eventAge = timeSeconds - layout.event.atSeconds

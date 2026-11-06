@@ -22,11 +22,13 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
+**Stage 8C, Blast Response in Vegetation, is COMPLETE.** Two gravel verges carry rooted trees, grass and scrub that respond in sequence to the T+92 shock front. Matched 1× viewer captures show the bend, rebound and return to ambient wind. [Stage 8C acceptance and evidence](STAGE8C_ACCEPTANCE.md)
+
 **Stage 8B, Shore Waves and Wind, is COMPLETE.** The eastern surf strip and shared Stage 8A wind pass the matched viewer, clearance, timing and rendering checks. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)
 
 **Stage 8A, Ground Detail and Roadside Storytelling, is COMPLETE.** The rescue-branch inspection bay and eastern beach-track marker pass the matched viewer, clearance, rendering cost and preservation checks. [Stage 8A acceptance](STAGE8A_ACCEPTANCE.md).
 
-**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed, and both fixture guards passed in the working tree with the restored bytes. Stage 8B restored both original fixture files from the pinned captures and verified the working diff. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed, and both fixture guards passed in the working tree with the restored bytes. Stage 8C restored both fixture blobs from their verified original captures and checked their entries in the working Git diff. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
 
 Original post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
 
@@ -672,7 +674,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A prompt is preserved in `81f5c10`, and the current `prompt.md` targets Stage 8B.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A/8B prompts are preserved in `81f5c10` / `f98e1fc`, and the current `prompt.md` targets Stage 8C.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1187,7 +1189,7 @@ Both native capture methods still vary with exact paused state and matching canv
 
 # Stage 8 — Environment Detail and Motion
 
-**Stages 8A and 8B are complete.** Stage 8C is planned.
+**Stages 8A, 8B and 8C are complete for the agreed environment samples.**
 
 ## Stage 8A — Ground Detail and Roadside Storytelling
 
@@ -1199,11 +1201,13 @@ Full placement envelopes clear authored reservations and scripted and aftermath 
 
 **Complete, 2026-11-06.** Added a fitted eight-second surf cycle beside the east landing lane. Both Stage 8A sites use one wind direction for grass and scrub, with three animated crowns and shadows at the rescue branch and a small gust-driven dust cue. Matched 1× clips and low stills show the swell, break, wash and damp retreat.
 
-The complete surf envelope clears the padded LCAC approach by at least 4.25 m. Across 18 matched poses, the largest increases are three draws and 3.59% triangles, with equal shadow submissions. Repeated seeks and restart preserve phase and resource identity. Both pinned Stage 7C files were restored separately. All 786 tests, both no-emit checks and lint pass. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)
+The complete surf envelope clears the padded LCAC approach by at least 4.25 m. Across 18 matched poses, the largest increases are three draws and 3.59% triangles, with equal shadow submissions. Repeated seeks and restart preserve phase and resource identity. With both pinned Stage 7C files restored in the working tree, all 786 tests, both no-emit checks and lint passed. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)
 
 ## Stage 8C — Blast Response in Vegetation
 
-Use one existing fuel-area blast and its arrival timing. Extend the local response from grass and scrub to nearby trees with rooted bending, distance falloff and rebound. Verify the sequence before impact, on arrival and during recovery.
+**Complete, 2026-11-06.** The existing T+92 central fuel cascade reaches four trees and ten grass and scrub plants in two inspected gravel verges. The trees bend from their anchored bases and rebound into ambient wind. The low 1× comparison shows the near crowns moving first and the far crowns following about half a second later.
+
+The full deformation envelope clears the nearest berm by 0.80 m. Twelve matched fuel poses add eight draws and at most 2.19% submitted triangles, with aligned directional shadows and zero added lights. Both pinned Stage 7C fixtures are restored in the working Git diff. Both TypeScript checks, lint and 791 tests across 74 files passed, with a longer timeout for the full test invocation. [Stage 8C acceptance and evidence](STAGE8C_ACCEPTANCE.md)
 
 # Out of Current Core Plan
 

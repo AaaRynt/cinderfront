@@ -1,0 +1,2860 @@
+{
+  "reference": "f98e1fc",
+  "comparisonContractSha256": "a10d0c60acfc22b43584597a3a9fc51469c4ef4481344d0275c84d2d0dfb56f0",
+  "quality": {
+    "viewport": [1280, 720],
+    "buffer": [1280, 720],
+    "dpr": 1,
+    "documentDpr": 1,
+    "antialias": true,
+    "shadows": [true, 1],
+    "toneMapping": [4, 1.12],
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "visible": "visible",
+    "focused": true,
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+  },
+  "browserVersion": "156.0.8078.80",
+  "source": {
+    "changedPresentationFiles": ["src/scene/effects/stage4a/Stage4AFuelDisaster.tsx", "src/scene/world/stage8a/detailGeometry.ts", "src/scene/world/stage8b/LocalEnvironmentMotion.tsx", "src/scene/world/stage8b/wind.ts"],
+    "addedPresentationFiles": ["src/scene/world/stage8c/FuelResponseVegetation.tsx", "src/scene/world/stage8c/fuelBlast.ts", "src/scene/world/stage8c/fuelPlantLayout.ts"],
+    "cssSha256": "ba459a7721405e767bf667265babd424c4fc0cffdf237495255a41ea343fd4a2",
+    "applicationHash": {
+      "before": "da1b462e25f309b92b41dfa8f4fde6506ac7b5c193630c8e1cdc6acda811ff6c",
+      "after": "0be8af8493f1c5de94981451d57e146b8001b0015e4e54c28aa3832c9a046688"
+    }
+  },
+  "poses": {
+    "fuel-preset-before-arrival": {
+      "pose": {
+        "time": 92.65,
+        "position": [-2000.0000000000002, 899.9999999999999, 900.0000000000002],
+        "target": [-550, 120, 1950],
+        "quaternion": [0.09275912426705211, 0.8719182656577279, 0.18169602111312527, -0.445130136914238],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 1.9584042933677772,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1742, 539623],
+        "shadow": [518, 26132],
+        "main": [1224, 513491],
+        "scene": {
+          "nodes": 4136,
+          "meshes": 2939,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9687,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1750, 550191],
+        "shadow": [522, 31416],
+        "main": [1228, 518775],
+        "scene": {
+          "nodes": 4141,
+          "meshes": 2943,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9701,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-preset-near-bend": {
+      "pose": {
+        "time": 92.95,
+        "position": [-2000.0000000000002, 899.9999999999999, 900.0000000000002],
+        "target": [-550, 120, 1950],
+        "quaternion": [0.09275912426705211, 0.8719182656577279, 0.18169602111312527, -0.445130136914238],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 1.9583897766420137,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1742, 539627],
+        "shadow": [518, 26132],
+        "main": [1224, 513495],
+        "scene": {
+          "nodes": 4136,
+          "meshes": 2939,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9687,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1750, 550195],
+        "shadow": [522, 31416],
+        "main": [1228, 518779],
+        "scene": {
+          "nodes": 4141,
+          "meshes": 2943,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9701,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-preset-far-bend": {
+      "pose": {
+        "time": 93.44,
+        "position": [-2000.0000000000002, 899.9999999999999, 900.0000000000002],
+        "target": [-550, 120, 1950],
+        "quaternion": [0.09275912426705211, 0.8719182656577279, 0.18169602111312527, -0.445130136914238],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 1.9588253720526332,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1739, 539507],
+        "shadow": [518, 26132],
+        "main": [1221, 513375],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2936,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9663,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1747, 550075],
+        "shadow": [522, 31416],
+        "main": [1225, 518659],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-preset-near-rebound": {
+      "pose": {
+        "time": 93.61,
+        "position": [-2000.0000000000002, 899.9999999999999, 900.0000000000002],
+        "target": [-550, 120, 1950],
+        "quaternion": [0.09275912426705211, 0.8719182656577279, 0.18169602111312527, -0.445130136914238],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 1.9588035876800003,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1739, 539513],
+        "shadow": [518, 26132],
+        "main": [1221, 513381],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2936,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9663,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1747, 550081],
+        "shadow": [522, 31416],
+        "main": [1225, 518665],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-preset-far-rebound": {
+      "pose": {
+        "time": 94.13,
+        "position": [-2000.0000000000002, 899.9999999999999, 900.0000000000002],
+        "target": [-550, 120, 1950],
+        "quaternion": [0.09275912426705211, 0.8719182656577279, 0.18169602111312527, -0.445130136914238],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 1.9682084423626696,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1740, 536935],
+        "shadow": [518, 26132],
+        "main": [1222, 510803],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2936,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9663,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1748, 547503],
+        "shadow": [522, 31416],
+        "main": [1226, 516087],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-preset-recovery": {
+      "pose": {
+        "time": 98.6,
+        "position": [-2000.0000000000002, 899.9999999999999, 900.0000000000002],
+        "target": [-550, 120, 1950],
+        "quaternion": [0.09275912426705211, 0.8719182656577279, 0.18169602111312527, -0.445130136914238],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 1.9791707634078144,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1638, 533961],
+        "shadow": [485, 25504],
+        "main": [1153, 508457],
+        "scene": {
+          "nodes": 4078,
+          "meshes": 2893,
+          "casters": 1204,
+          "lights": 12,
+          "instanceSlots": 9670,
+          "geometries": 1114,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1081,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1646, 544529],
+        "shadow": [489, 30788],
+        "main": [1157, 513741],
+        "scene": {
+          "nodes": 4083,
+          "meshes": 2897,
+          "casters": 1208,
+          "lights": 12,
+          "instanceSlots": 9684,
+          "geometries": 1118,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1085,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-low-before-arrival": {
+      "pose": {
+        "time": 92.65,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 2.182501574713712,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [602, 484215],
+        "shadow": [74, 3756],
+        "main": [528, 480459],
+        "scene": {
+          "nodes": 4136,
+          "meshes": 2939,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9687,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [610, 494783],
+        "shadow": [78, 9040],
+        "main": [532, 485743],
+        "scene": {
+          "nodes": 4141,
+          "meshes": 2943,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9701,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-low-near-bend": {
+      "pose": {
+        "time": 92.95,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 2.182501574713712,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [602, 484215],
+        "shadow": [74, 3756],
+        "main": [528, 480459],
+        "scene": {
+          "nodes": 4136,
+          "meshes": 2939,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9687,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [610, 494783],
+        "shadow": [78, 9040],
+        "main": [532, 485743],
+        "scene": {
+          "nodes": 4141,
+          "meshes": 2943,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9701,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-low-far-bend": {
+      "pose": {
+        "time": 93.44,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 2.1830606228994136,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [599, 484091],
+        "shadow": [74, 3756],
+        "main": [525, 480335],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2936,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9663,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [607, 494659],
+        "shadow": [78, 9040],
+        "main": [529, 485619],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-low-near-rebound": {
+      "pose": {
+        "time": 93.61,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 2.182871235796775,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [602, 484133],
+        "shadow": [74, 3756],
+        "main": [528, 480377],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2936,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9663,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [610, 494701],
+        "shadow": [78, 9040],
+        "main": [532, 485661],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-low-far-rebound": {
+      "pose": {
+        "time": 94.13,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 2.1945845594113993,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [602, 481549],
+        "shadow": [74, 3756],
+        "main": [528, 477793],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2936,
+          "casters": 1237,
+          "lights": 13,
+          "instanceSlots": 9663,
+          "geometries": 1168,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1135,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [610, 492117],
+        "shadow": [78, 9040],
+        "main": [532, 483077],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "fuel-low-recovery": {
+      "pose": {
+        "time": 98.6,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 10568,
+      "triangleDeltaPercent": 2.1896917896917896,
+      "shadowDrawDelta": 4,
+      "shadowTriangleDelta": 5284,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [602, 482625],
+        "shadow": [74, 3756],
+        "main": [528, 478869],
+        "scene": {
+          "nodes": 4078,
+          "meshes": 2893,
+          "casters": 1204,
+          "lights": 12,
+          "instanceSlots": 9670,
+          "geometries": 1114,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1081,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [610, 493193],
+        "shadow": [78, 9040],
+        "main": [532, 484153],
+        "scene": {
+          "nodes": 4083,
+          "meshes": 2897,
+          "casters": 1208,
+          "lights": 12,
+          "instanceSlots": 9684,
+          "geometries": 1118,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1085,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "shore-low-break": {
+      "pose": {
+        "time": 156,
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925],
+        "quaternion": [-0.022333305767619337, 0.9414780248874097, 0.06366736507518474, 0.33025265893248285],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 4,
+      "triangleDelta": 5284,
+      "triangleDeltaPercent": 0.8081871005140645,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2044, 653809],
+        "shadow": [51, 6314],
+        "main": [1993, 647495],
+        "scene": {
+          "nodes": 4103,
+          "meshes": 2922,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 365
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [2048, 659093],
+        "shadow": [51, 6314],
+        "main": [1997, 652779],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    },
+    "corridor-quiet": {
+      "pose": {
+        "time": 245,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 4,
+      "triangleDelta": 5284,
+      "triangleDeltaPercent": 0.9889741732501577,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1233, 534291],
+        "shadow": [4, 4566],
+        "main": [1229, 529725],
+        "scene": {
+          "nodes": 4026,
+          "meshes": 2849,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 350
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 363
+        }
+      },
+      "after": {
+        "submitted": [1237, 539575],
+        "shadow": [4, 4566],
+        "main": [1233, 535009],
+        "scene": {
+          "nodes": 4031,
+          "meshes": 2853,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1047,
+          "materials": 354
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 372
+        }
+      }
+    }
+  },
+  "playback": {
+    "fuel-preset": {
+      "before": {
+        "nativeFrames": 333,
+        "usedNativeFrames": 328,
+        "maxFrameSnapMs": 24.74212646484375,
+        "start": 90,
+        "end": 101.0333333333327,
+        "pace": {
+          "samples": 660,
+          "realSeconds": 11.022699999999997,
+          "start": 90,
+          "end": 101.0333333333327,
+          "meanMs": 16.726403641881635,
+          "medianMs": 16.599999999998545,
+          "p95Ms": 16.700000000004366,
+          "maxMs": 49.89999999999782,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 335,
+        "usedNativeFrames": 330,
+        "maxFrameSnapMs": 16.744375228881836,
+        "start": 90,
+        "end": 101.0333333333327,
+        "pace": {
+          "samples": 662,
+          "realSeconds": 11.0227,
+          "start": 90,
+          "end": 101.0333333333327,
+          "meanMs": 16.675794251134647,
+          "medianMs": 16.599999999998545,
+          "p95Ms": 17.30000000000291,
+          "maxMs": 33.79999999999927,
+          "longTasks": []
+        }
+      }
+    },
+    "fuel-low": {
+      "before": {
+        "nativeFrames": 334,
+        "usedNativeFrames": 329,
+        "maxFrameSnapMs": 17.595291137695312,
+        "start": 90,
+        "end": 101.0333333333327,
+        "pace": {
+          "samples": 663,
+          "realSeconds": 11.022599999999999,
+          "start": 90,
+          "end": 101.0333333333327,
+          "meanMs": 16.650453172205435,
+          "medianMs": 16.599999999998545,
+          "p95Ms": 16.700000000004366,
+          "maxMs": 33.299999999995634,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 334,
+        "usedNativeFrames": 329,
+        "maxFrameSnapMs": 17.242431640625,
+        "start": 90,
+        "end": 101.0333333333327,
+        "pace": {
+          "samples": 663,
+          "realSeconds": 11.022600000000006,
+          "start": 90,
+          "end": 101.0333333333327,
+          "meanMs": 16.650453172205445,
+          "medianMs": 16.599999999998545,
+          "p95Ms": 17.5,
+          "maxMs": 33.60000000000582,
+          "longTasks": []
+        }
+      }
+    }
+  },
+  "mountedClearance": {
+    "plants": [
+      {
+        "id": "near-grass-west",
+        "kind": "grass",
+        "root": [-501.5, 36.1558648834781, 1805.5999755859375],
+        "height": 1.3283746817595201,
+        "box": {
+          "min": [-501.9165367790077, 36.05179377406861, 1804.697014401008],
+          "max": [-500.3037302947741, 37.486239565237625, 1806.99047653253]
+        },
+        "vertices": 198,
+        "minimumPocketGapM": 2.0834632209923143,
+        "buriedRootCount": 33,
+        "rootDepthRangeM": [0.09999855902730559, 0.09999860264468197],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1303.083407693008],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 499.2657034986735]
+      },
+      {
+        "id": "near-grass-east",
+        "kind": "grass",
+        "root": [-478.5, 36.206505917863296, 1803.800048828125],
+        "height": 1.1296163623511006,
+        "box": {
+          "min": [-478.9399856606552, 36.101108312939864, 1802.6158555085215],
+          "max": [-477.41788309644215, 37.3381222802144, 1804.8735383587123]
+        },
+        "vertices": 198,
+        "minimumPocketGapM": 5.615855508521463,
+        "buriedRootCount": 33,
+        "rootDepthRangeM": [0.10000108320132028, 0.10000110724393352],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1281.238668626685],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 497.695900826487]
+      },
+      {
+        "id": "near-grass-low",
+        "kind": "grass",
+        "root": [-489.70001220703125, 36.15447702612727, 1803.199951171875],
+        "height": 1.1289126444457835,
+        "box": {
+          "min": [-490.06304894942895, 36.04908532913517, 1802.412176201709],
+          "max": [-488.77239349555254, 37.28538967057305, 1804.3860298671536]
+        },
+        "vertices": 198,
+        "minimumPocketGapM": 5.412176201708917,
+        "buriedRootCount": 33,
+        "rootDepthRangeM": [0.1000008502761105, 0.10000087421305892],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1291.5449287181043],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 497.1942091138587]
+      },
+      {
+        "id": "far-grass-west",
+        "kind": "grass",
+        "root": [-197.60000610351562, 36.65567671457927, 1804.0999755859375],
+        "height": 1.323780453343744,
+        "box": {
+          "min": [-198.1170794050271, 36.54706186205316, 1803.2797881163222],
+          "max": [-196.3589556215, 37.98145716792302, 1804.844993862634]
+        },
+        "vertices": 198,
+        "minimumPocketGapM": 6.279788116322152,
+        "buriedRootCount": 33,
+        "rootDepthRangeM": [0.10000113599848248, 0.10000116427382011],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1025.3177093046486],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 498.1123890223301]
+      },
+      {
+        "id": "far-grass-east",
+        "kind": "grass",
+        "root": [-187.89999389648438, 36.64956433099849, 1804.5],
+        "height": 1.2268357792850466,
+        "box": {
+          "min": [-188.41419641914516, 36.54117931586046, 1803.6816488639904],
+          "max": [-186.73331734123408, 37.878400110283536, 1805.1274915558583]
+        },
+        "vertices": 198,
+        "minimumPocketGapM": 0.7333173412340841,
+        "buriedRootCount": 33,
+        "rootDepthRangeM": [0.10000069752221918, 0.10003328459917782],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1016.9516002962863],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 498.5749271013808]
+      },
+      {
+        "id": "far-grass-low",
+        "kind": "grass",
+        "root": [-193.8000030517578, 36.67989546457926, 1802.5999755859375],
+        "height": 1.177512638751459,
+        "box": {
+          "min": [-194.17883671806533, 36.5727979780919, 1802.1300618194402],
+          "max": [-192.63768098284555, 37.85940810333072, 1803.5164586960236]
+        },
+        "vertices": 198,
+        "minimumPocketGapM": 5.130061819440243,
+        "buriedRootCount": 33,
+        "rootDepthRangeM": [0.10000659065403994, 0.10016033817669978],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1021.2601561079377],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 496.61979523106396]
+      },
+      {
+        "id": "near-scrub-west",
+        "kind": "scrub",
+        "root": [-499.5, 36.157154955435544, 1807.300048828125],
+        "height": 1.4381032440301595,
+        "box": {
+          "min": [-500.4267291861199, 36.0552430947436, 1805.8542569163374],
+          "max": [-498.1588949725281, 37.5979134705515, 1808.5795411732654]
+        },
+        "vertices": 372,
+        "minimumPocketGapM": 3.5732708138800717,
+        "buriedRootCount": 9,
+        "rootDepthRangeM": [0.09041367865911809, 0.10000043134524361],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central"],
+        "nearestActor": ["defender_btr_01", 1301.698645645615],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 500.82802526160737]
+      },
+      {
+        "id": "near-scrub-east",
+        "kind": "scrub",
+        "root": [-465.29998779296875, 36.26323229648793, 1805],
+        "height": 1.1840651726966058,
+        "box": {
+          "min": [-465.9459231529613, 36.16058330287116, 1803.623251959439],
+          "max": [-464.3069788828699, 37.45557189855939, 1806.4485190672447]
+        },
+        "vertices": 372,
+        "minimumPocketGapM": 2.3069788828698847,
+        "buriedRootCount": 9,
+        "rootDepthRangeM": [0.09196964807162544, 0.1000017928483814],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1269.2603922458954],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 498.7437898235954]
+      },
+      {
+        "id": "far-scrub-west",
+        "kind": "scrub",
+        "root": [-192, 36.57010300954184, 1809.4000244140625],
+        "height": 1.314020937381251,
+        "box": {
+          "min": [-192.9344736477474, 36.46773410706204, 1808.6200181023855],
+          "max": [-190.60124870572363, 37.88612394692309, 1810.1956966419007]
+        },
+        "vertices": 372,
+        "minimumPocketGapM": 2.8043033580993324,
+        "buriedRootCount": 9,
+        "rootDepthRangeM": [0.0911881778273056, 0.09999762595207784],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central"],
+        "nearestActor": ["defender_btr_01", 1022.6707128876653],
+        "nearestRoadCenterline": ["road_fuel_transfer_spur", 499.9907523331249]
+      },
+      {
+        "id": "far-scrub-east",
+        "kind": "scrub",
+        "root": [-189.5, 36.64114507039389, 1805],
+        "height": 1.346058240308274,
+        "box": {
+          "min": [-190.31676099525632, 36.53827631648842, 1804.0245986295781],
+          "max": [-188.30122296867734, 38.001804626348076, 1806.080496663589]
+        },
+        "vertices": 372,
+        "minimumPocketGapM": 2.3012229686773367,
+        "buriedRootCount": 9,
+        "rootDepthRangeM": [0.09093078181864911, 0.0999993267338013],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1018.4128315197129],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 498.8861414526503]
+      },
+      {
+        "id": "near-upright",
+        "kind": "upright",
+        "root": [-495.5, 36.151491564543306, 1805.699951171875],
+        "height": 11.814200065466316,
+        "box": {
+          "min": [-499.39635088965787, 36.046660897660594, 1798.6196801024364],
+          "max": [-489.9251485833298, 47.967691630009625, 1812.1976648499015]
+        },
+        "vertices": 3294,
+        "minimumPocketGapM": 0.8023351500985427,
+        "buriedRootCount": 45,
+        "rootDepthRangeM": [0.022169764366495315, 0.09999926385305002],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1290.3510385723434],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 492.18833607053614]
+      },
+      {
+        "id": "far-upright",
+        "kind": "upright",
+        "root": [-217, 36.70781655629477, 1806.5999755859375],
+        "height": 11.523212947335502,
+        "box": {
+          "min": [-220.77793084108717, 36.60672375415328, 1801.2864744743556],
+          "max": [-211.29122384364035, 48.23302950363028, 1810.983748770731]
+        },
+        "vertices": 3294,
+        "minimumPocketGapM": 2.0162512292690735,
+        "buriedRootCount": 45,
+        "rootDepthRangeM": [0.02386188614865148, 0.09999944685431927],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1037.4184415899526],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 494.30103852591435]
+      },
+      {
+        "id": "near-wind",
+        "kind": "wind",
+        "root": [-473, 36.22454812494726, 1804.9000244140625],
+        "height": 10.356726929613174,
+        "box": {
+          "min": [-476.27332587008846, 36.128292059079484, 1798.9961635771951],
+          "max": [-466.6492251958152, 46.58327505456044, 1811.994520224807]
+        },
+        "vertices": 3294,
+        "minimumPocketGapM": 1.0054797751929527,
+        "buriedRootCount": 45,
+        "rootDepthRangeM": [0.028091986018495163, 0.09999962581123611],
+        "overlap": ["fuel-response-and-cascade", "fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1268.6113179345666],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 490.8782487696703]
+      },
+      {
+        "id": "far-wind",
+        "kind": "wind",
+        "root": [-196, 36.618540509541816, 1806.4000244140625],
+        "height": 10.72701518209847,
+        "box": {
+          "min": [-199.66709239982015, 36.517695922028544, 1802.3667758316806],
+          "max": [-188.96637729523263, 47.34755569164029, 1811.476849256044]
+        },
+        "vertices": 3294,
+        "minimumPocketGapM": 1.5231507439559664,
+        "buriedRootCount": 45,
+        "rootDepthRangeM": [0.025552404354243663, 0.09999797457881954],
+        "overlap": ["fuel-disaster"],
+        "bundCoarse": ["fuel_bund_cell_central", "fuel_bund_cell_south"],
+        "nearestActor": ["defender_btr_01", 1017.7655514593051],
+        "nearestRoadCenterline": ["road_fuel_service_loop", 493.22557925433154]
+      }
+    ],
+    "sampledTimes": [77, 79, 82, 87, 89, 92.65, 92.95, 93.44, 93.61, 94.13, 95.5, 97.2, 98.6, 102, 104, 106, 110, 113, 180, 7200],
+    "minima": {
+      "berms": {
+        "gap": 0.8023351500985427,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage2-world/region-b-storage-district",
+        "instance": null,
+        "material": "6d644f",
+        "box": {
+          "min": [-490.2307683504545, 35.93750003814697, 1813],
+          "max": [-376.6923085726225, 38.01749996185303, 1847]
+        },
+        "time": 77
+      },
+      "cascade-solid": {
+        "gap": 6.45588216168168,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage3-effects/ash-harbor-stage4a-fuel-disaster/stage3-analytical-ballistic-debris",
+        "instance": 3,
+        "material": "2b302e",
+        "box": {
+          "min": [-502.31624852120876, 80.49242577701807, 1787.067315645516],
+          "max": [-500.23367823660374, 86.06413855403662, 1792.218328885734]
+        },
+        "time": 97.2
+      },
+      "catwalk": {
+        "gap": 76.92206920659655,
+        "plant": "far-upright",
+        "path": "ash-harbor-stage2-world/region-b-storage-district/fuel-elevated-service-walk-grid/fuel-service-walk-decks",
+        "instance": 45,
+        "material": "343b3c",
+        "box": {
+          "min": [-302.2999999523163, 43.084143206477165, 1799.6971745470073],
+          "max": [-297.7000000476837, 44.51086564362049, 1882.1209406873677]
+        },
+        "time": 77
+      },
+      "concrete": {
+        "gap": 17.802335150098543,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage2-world/region-b-storage-district",
+        "instance": null,
+        "material": "656860",
+        "box": {
+          "min": [-1270, 36.09749984741211, 1830],
+          "max": [180, 36.09749984741211, 2270]
+        },
+        "time": 77
+      },
+      "damage": {
+        "gap": 121.5456482851271,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage3-effects/ash-harbor-stage4a-fuel-disaster/stage4a-persistent-fuel-damage-aftermath/stage4a-damaged-fuel_tank_05",
+        "instance": null,
+        "material": "5b6258",
+        "box": {
+          "min": [-561.4889157191403, 31.238910080253564, 1930.6075387160795],
+          "max": [-526.8271071323798, 44.83608991974644, 1978.6521019522002]
+        },
+        "time": 92.65
+      },
+      "legacy-flame": {
+        "gap": 7.263405083334192,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage3-effects/stage3-local-blast-response-field/stage3-blast-response-persistent-ignitions",
+        "instance": 9,
+        "material": "e74b16",
+        "box": {
+          "min": [-493.8009043545551, 35.9285774230957, 1787.730878853401],
+          "max": [-490.16120405937085, 46.683226585388184, 1791.3562750191022]
+        },
+        "time": 110
+      },
+      "legacy-response": {
+        "gap": 7.497989299410847,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage3-effects/stage3-local-blast-response-field/stage3-blast-response-scrub",
+        "instance": 2,
+        "material": "61613d",
+        "box": {
+          "min": [-493.7274508182987, 35.56752884663719, 1787.5878606603142],
+          "max": [-490.02730327658844, 38.22496985215726, 1791.1216908030256]
+        },
+        "time": 93.61
+      },
+      "legacy-smoke": {
+        "gap": 0.745124037830692,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage3-effects/stage3-local-blast-response-field/stage3-blast-response-persistent-ignitions",
+        "instance": 9,
+        "box": {
+          "min": [-490.7098408937454, 39.8861026763916, 1786.3344283103943],
+          "max": [-488.0573710203171, 55.887502670288086, 1797.8745560646057]
+        },
+        "time": 97.2
+      },
+      "pipes": {
+        "gap": 29.000552877840626,
+        "plant": "far-upright",
+        "path": "ash-harbor-stage2-world/region-b-storage-district/fuel_pipe_lateral_east/fuel_pipe_lateral_east:pipe",
+        "instance": 2,
+        "material": "7a7d70",
+        "box": {
+          "min": [-250.25, 38.68750441074371, 1669.9985453198897],
+          "max": [-249.75, 39.94394242763519, 1800.0014546801103]
+        },
+        "time": 77
+      },
+      "road-rail": {
+        "gap": 494.1196801024364,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage2-world/stage2-road-rail-utility-network/road_fuel_service_loop",
+        "instance": null,
+        "material": "746e60",
+        "box": {
+          "min": [-500, 37.54962921142578, 1300],
+          "max": [-484.4827575683594, 37.72373962402344, 1304.5]
+        },
+        "time": 77
+      },
+      "scorch": {
+        "gap": 166.8108243212197,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage3-effects/ash-harbor-stage4a-fuel-disaster/stage4a-persistent-fuel-damage-aftermath",
+        "instance": 38,
+        "material": "15110e",
+        "box": {
+          "min": [-613.2278924718611, 36.31750106811523, 1976.541605519852],
+          "max": [-527.9781681131408, 36.31750106811524, 2051.812853590248]
+        },
+        "time": 92.65
+      },
+      "surface-history": {
+        "gap": 639.0688952534298,
+        "plant": "far-grass-east",
+        "path": "ash-harbor-stage2-world/stage4c-surface-history/4c-runoff",
+        "instance": null,
+        "material": "42483d",
+        "box": {
+          "min": [439, 34.98125076293945, 1935],
+          "max": [451, 34.98125076293945, 1950]
+        },
+        "time": 77
+      },
+      "tanks": {
+        "gap": 117.20233667597745,
+        "plant": "near-upright",
+        "path": "ash-harbor-stage2-world/region-b-storage-district/fuel_tank_05",
+        "instance": null,
+        "material": "626b67",
+        "box": {
+          "min": [-670.5999984741211, 40.797500013112995, 1929.400001525879],
+          "max": [-429.4000015258789, 41.63749998688701, 2170.599998474121]
+        },
+        "time": 77
+      },
+      "utilities": {
+        "gap": 382.8451047667474,
+        "plant": "far-grass-east",
+        "path": "ash-harbor-stage2-world/region-b-storage-district/fuel_utility_east",
+        "instance": null,
+        "material": "4e534e",
+        "box": {
+          "min": [100, 34.81624984741211, 1420],
+          "max": [240, 40.81624984741211, 1550]
+        },
+        "time": 77
+      }
+    },
+    "sightLines": {
+      "sampleCount": 1596,
+      "blocked": [
+        {
+          "plant": "near-grass-low",
+          "sample": 18,
+          "path": "ash-harbor-stage2-world/region-b-storage-district",
+          "material": "6d644f",
+          "distanceAhead": 7.613133241368814,
+          "time": 92.65
+        },
+        {
+          "plant": "near-grass-low",
+          "sample": 18,
+          "path": "ash-harbor-stage2-world/region-b-storage-district",
+          "material": "6d644f",
+          "distanceAhead": 7.613133241368814,
+          "time": 92.95
+        },
+        {
+          "plant": "near-grass-low",
+          "sample": 18,
+          "path": "ash-harbor-stage2-world/region-b-storage-district",
+          "material": "6d644f",
+          "distanceAhead": 7.613133241368814,
+          "time": 93.44
+        },
+        {
+          "plant": "near-grass-low",
+          "sample": 18,
+          "path": "ash-harbor-stage2-world/region-b-storage-district",
+          "material": "6d644f",
+          "distanceAhead": 7.613133241368814,
+          "time": 93.61
+        },
+        {
+          "plant": "near-grass-low",
+          "sample": 18,
+          "path": "ash-harbor-stage2-world/region-b-storage-district",
+          "material": "6d644f",
+          "distanceAhead": 7.613133241368814,
+          "time": 94.13
+        },
+        {
+          "plant": "near-grass-low",
+          "sample": 18,
+          "path": "ash-harbor-stage2-world/region-b-storage-district",
+          "material": "6d644f",
+          "distanceAhead": 7.613133241368814,
+          "time": 98.6
+        }
+      ]
+    },
+    "obstacleOverlaps": 0
+  },
+  "gpuMotion": {
+    "feedback": {
+      "compiler": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "inputCount": 14
+    },
+    "peak": [
+      {
+        "id": "near-grass-west",
+        "kind": "grass",
+        "x": -501.5,
+        "z": 1805.5999755859375,
+        "arrival": 92.72069978713989,
+        "peakM": 0.9970208406448364,
+        "held": 66,
+        "vertices": 198,
+        "top": 0.9293019771575928,
+        "tip": [-501.0711975097656, 37.48423767089844, 1805.11572265625],
+        "tipRadial": 0.9952590568600499,
+        "maxDisplacement": 0.9952590703659011,
+        "maxPixels": 6.355709279383435,
+        "maxVertexError": 0.00011333715833796778,
+        "maxPerpendicular": 5.222462641540915e-5,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "56adc5b6"
+      },
+      {
+        "id": "near-grass-east",
+        "kind": "grass",
+        "x": -478.5,
+        "z": 1803.800048828125,
+        "arrival": 92.74038910865784,
+        "peakM": 0.8445608615875244,
+        "held": 66,
+        "vertices": 198,
+        "top": 0.9293019771575928,
+        "tip": [-477.7718811035156, 37.33612060546875, 1803.420654296875],
+        "tipRadial": 0.8432581846855101,
+        "maxDisplacement": 0.8432581718692725,
+        "maxPixels": 5.54579073036668,
+        "maxVertexError": 0.00011899856570356438,
+        "maxPerpendicular": 4.8441517719766125e-5,
+        "maxY": 3.814697265625e-6,
+        "maxRootError": 0,
+        "hash": "5f2ba239"
+      },
+      {
+        "id": "near-grass-low",
+        "kind": "grass",
+        "x": -489.70001220703125,
+        "z": 1803.199951171875,
+        "arrival": 92.73428273200989,
+        "peakM": 0.8492617011070251,
+        "held": 66,
+        "vertices": 198,
+        "top": 0.9293019771575928,
+        "tip": [-489.2344055175781, 37.28339385986328, 1802.78125],
+        "tipRadial": 0.8479089311417738,
+        "maxDisplacement": 0.8479089102192096,
+        "maxPixels": 5.630209236295461,
+        "maxVertexError": 0.00011206761552393688,
+        "maxPerpendicular": 5.2224419050617144e-5,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "9844e8e3"
+      },
+      {
+        "id": "far-grass-west",
+        "kind": "grass",
+        "x": -197.60000610351562,
+        "z": 1804.0999755859375,
+        "arrival": 93.23567497730255,
+        "peakM": 0.4114066958427429,
+        "held": 66,
+        "vertices": 198,
+        "top": 0.9293019771575928,
+        "tip": [-197.03480529785156, 37.97945785522461, 1804.1561279296875],
+        "tipRadial": 0.4108096812997246,
+        "maxDisplacement": 0.41080968922738104,
+        "maxPixels": 0.9140197236586162,
+        "maxVertexError": 0.00011963867646749768,
+        "maxPerpendicular": 0.0001336864661425352,
+        "maxY": 3.814697265625e-6,
+        "maxRootError": 0,
+        "hash": "f910b273"
+      },
+      {
+        "id": "far-grass-east",
+        "kind": "grass",
+        "x": -187.89999389648438,
+        "z": 1804.5,
+        "arrival": 93.25810766220093,
+        "peakM": 0.3583788275718689,
+        "held": 66,
+        "vertices": 198,
+        "top": 0.9293019771575928,
+        "tip": [-187.18011474609375, 37.876399993896484, 1804.587890625],
+        "tipRadial": 0.3577520813305455,
+        "maxDisplacement": 0.35775209113717127,
+        "maxPixels": 0.7661903200585811,
+        "maxVertexError": 0.00010368304829996978,
+        "maxPerpendicular": 0.0001809409623092506,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "a4d31c51"
+      },
+      {
+        "id": "far-grass-low",
+        "kind": "grass",
+        "x": -193.8000030517578,
+        "z": 1802.5999755859375,
+        "arrival": 93.24719893932343,
+        "peakM": 0.3566097915172577,
+        "held": 66,
+        "vertices": 198,
+        "top": 0.9293019771575928,
+        "tip": [-193.54510498046875, 37.85740661621094, 1802.6300048828125],
+        "tipRadial": 0.35606552952958737,
+        "maxDisplacement": 0.35606552689249865,
+        "maxPixels": 0.7839203814979283,
+        "maxVertexError": 0.00011755384473900522,
+        "maxPerpendicular": 0.00015745100972708315,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "ae3dfc3c"
+      },
+      {
+        "id": "near-scrub-west",
+        "kind": "scrub",
+        "x": -499.5,
+        "z": 1807.300048828125,
+        "arrival": 92.71688836812973,
+        "peakM": 1.0177544355392456,
+        "held": 18,
+        "vertices": 372,
+        "top": 0.7689738273620605,
+        "tip": [-498.39691162109375, 37.59526062011719, 1806.4925537109375],
+        "tipRadial": 1.0177918559315913,
+        "maxDisplacement": 1.0177974739084072,
+        "maxPixels": 6.493832478674654,
+        "maxVertexError": 0.0001144387815151545,
+        "maxPerpendicular": 5.990350473439321e-5,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "a6e30200"
+      },
+      {
+        "id": "near-scrub-east",
+        "kind": "scrub",
+        "x": -465.29998779296875,
+        "z": 1805,
+        "arrival": 92.74797987937927,
+        "peakM": 0.8292931318283081,
+        "held": 18,
+        "vertices": 372,
+        "top": 0.7689738273620605,
+        "tip": [-464.8621520996094, 37.44729995727539, 1804.8504638671875],
+        "tipRadial": 0.829376601794138,
+        "maxDisplacement": 0.8293765890205774,
+        "maxPixels": 5.333066135936803,
+        "maxVertexError": 0.00011337652892978787,
+        "maxPerpendicular": 6.886777555337176e-5,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "ad62c451"
+      },
+      {
+        "id": "far-scrub-west",
+        "kind": "scrub",
+        "x": -192,
+        "z": 1809.4000244140625,
+        "arrival": 93.24024963378906,
+        "peakM": 0.3795735239982605,
+        "held": 18,
+        "vertices": 372,
+        "top": 0.7689738273620605,
+        "tip": [-190.9811553955078, 37.884124755859375, 1809.2613525390625],
+        "tipRadial": 0.3795647003062186,
+        "maxDisplacement": 0.3795647012457357,
+        "maxPixels": 0.819127933885134,
+        "maxVertexError": 0.00010931983879445841,
+        "maxPerpendicular": 0.00014925934010534547,
+        "maxY": 3.814697265625e-6,
+        "maxRootError": 0,
+        "hash": "b3c23113"
+      },
+      {
+        "id": "far-scrub-east",
+        "kind": "scrub",
+        "x": -189.5,
+        "z": 1805,
+        "arrival": 93.25345826148987,
+        "peakM": 0.3757289946079254,
+        "held": 18,
+        "vertices": 372,
+        "top": 0.7689738273620605,
+        "tip": [-189.21871948242188, 37.987205505371094, 1805.441650390625],
+        "tipRadial": 0.37575188567916484,
+        "maxDisplacement": 0.37575188679930877,
+        "maxPixels": 0.8097297696689552,
+        "maxVertexError": 0.00011303555169110937,
+        "maxPerpendicular": 0.00016816742208902724,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "8cae6f10"
+      },
+      {
+        "id": "near-upright",
+        "kind": "upright",
+        "x": -495.5,
+        "z": 1805.699951171875,
+        "arrival": 92.72367084026337,
+        "peakM": 3.913569927215576,
+        "held": 87,
+        "vertices": 3294,
+        "top": 1.224565863609314,
+        "tip": [-493.7195739746094, 47.96569061279297, 1804.1749267578125],
+        "tipRadial": 3.913513289851835,
+        "maxDisplacement": 3.913758566019322,
+        "maxPixels": 25.911104141138605,
+        "maxVertexError": 0.00012033946217662104,
+        "maxPerpendicular": 6.486027996288612e-5,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "d20bd7e3"
+      },
+      {
+        "id": "far-upright",
+        "kind": "upright",
+        "x": -217,
+        "z": 1806.5999755859375,
+        "arrival": 93.18580889701843,
+        "peakM": 1.814823865890503,
+        "held": 87,
+        "vertices": 3294,
+        "top": 1.224565863609314,
+        "tip": [-214.5462188720703, 48.23102951049805, 1806.9935302734375],
+        "tipRadial": 1.8147820640469945,
+        "maxDisplacement": 1.8149398380875197,
+        "maxPixels": 4.335717253247213,
+        "maxVertexError": 0.00012015767839895692,
+        "maxPerpendicular": 0.00017141055195679655,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "a48e5559"
+      },
+      {
+        "id": "near-wind",
+        "kind": "wind",
+        "x": -473,
+        "z": 1804.9000244140625,
+        "arrival": 92.7416478395462,
+        "peakM": 3.55800461769104,
+        "held": 87,
+        "vertices": 3294,
+        "top": 1.160685658454895,
+        "tip": [-471.94281005859375, 46.581275939941406, 1801.94189453125],
+        "tipRadial": 3.5579497720782456,
+        "maxDisplacement": 3.558184028685851,
+        "maxPixels": 23.732668121749885,
+        "maxVertexError": 0.000119545989378958,
+        "maxPerpendicular": 7.394921340164728e-5,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "8e230c7f"
+      },
+      {
+        "id": "far-wind",
+        "kind": "wind",
+        "x": -196,
+        "z": 1806.4000244140625,
+        "arrival": 93.23563539981842,
+        "peakM": 1.5488332509994507,
+        "held": 87,
+        "vertices": 3294,
+        "top": 1.160685658454895,
+        "tip": [-195.07958984375, 47.34555435180664, 1805.8463134765625],
+        "tipRadial": 1.548744416611953,
+        "maxDisplacement": 1.5489091509980955,
+        "maxPixels": 3.4372965566656215,
+        "maxVertexError": 0.00011394700936463121,
+        "maxPerpendicular": 0.00015812001402082387,
+        "maxY": 7.62939453125e-6,
+        "maxRootError": 0,
+        "hash": "f9b8a8df"
+      }
+    ],
+    "checkpoints": [
+      {
+        "time": 92.65,
+        "windTime": 12.649999618530273,
+        "blastAge": 0.6499999761581421,
+        "front": {
+          "visible": true,
+          "position": [-545, 36.2375, 2050],
+          "radius": 223.88888888889085
+        },
+        "canvas": {
+          "near": "2cd010e1",
+          "far": "d2bd5ff2"
+        },
+        "ambientCanvas": {
+          "near": "2cd010e1",
+          "far": "d2bd5ff2"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 92.95,
+        "windTime": 12.949999809265137,
+        "blastAge": 0.949999988079071,
+        "front": {
+          "visible": true,
+          "position": [-545, 36.2375, 2050],
+          "radius": 327.2222222222232
+        },
+        "canvas": {
+          "near": "6f7f538",
+          "far": "aad65aca"
+        },
+        "ambientCanvas": {
+          "near": "5895ea35",
+          "far": "aad65aca"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0.9839749392867816,
+          "near-grass-east": 0.8376988961699681,
+          "near-grass-low": 0.8469159620240134,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 1.0009009897489705,
+          "near-scrub-east": 0.8135973904136335,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 3.8836241959797917,
+          "far-upright": 0,
+          "near-wind": 3.5291837683162157,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 93.44,
+        "windTime": 13.4399995803833,
+        "blastAge": 1.440000057220459,
+        "front": {
+          "visible": true,
+          "position": [-545, 36.2375, 2050],
+          "radius": 495.9999999999992
+        },
+        "canvas": {
+          "near": "70e54ddf",
+          "far": "e00f1414"
+        },
+        "ambientCanvas": {
+          "near": "ff7f3618",
+          "far": "80baddc6"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": -0.3285667540021677,
+          "near-grass-east": -0.2494783359397843,
+          "near-grass-low": -0.2602004297405074,
+          "far-grass-west": 0.4047914598486386,
+          "far-grass-east": 0.3292156579118455,
+          "far-grass-low": 0.3411275915314036,
+          "near-scrub-west": -0.3419228717693841,
+          "near-scrub-east": -0.23362561617977917,
+          "far-scrub-west": 0.37048635204882885,
+          "far-scrub-east": 0.3523204290022477,
+          "near-upright": -1.2724128267145716,
+          "far-upright": 1.725168722383387,
+          "near-wind": -1.0446612910172917,
+          "far-wind": 1.5265333014594944
+        }
+      },
+      {
+        "time": 93.61,
+        "windTime": 13.609999656677246,
+        "blastAge": 1.6100000143051147,
+        "front": {
+          "visible": true,
+          "position": [-545, 36.2375, 2050],
+          "radius": 554.5555555555554
+        },
+        "canvas": {
+          "near": "67ec536d",
+          "far": "cead88dc"
+        },
+        "ambientCanvas": {
+          "near": "ac782c19",
+          "far": "70698d20"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": -0.4520697489833765,
+          "near-grass-east": -0.38339008404636843,
+          "near-grass-low": -0.3857989207663195,
+          "far-grass-west": 0.2676667314808583,
+          "far-grass-east": 0.25709187147913326,
+          "far-grass-low": 0.24439560790051473,
+          "near-scrub-west": -0.46176366237523325,
+          "near-scrub-east": -0.376746550497046,
+          "far-scrub-west": 0.2526614683392836,
+          "far-scrub-east": 0.2648752273480568,
+          "near-upright": -1.7788342936619301,
+          "far-upright": 0.8937616778111988,
+          "near-wind": -1.6180889301467687,
+          "far-wind": 1.0091426791605045
+        }
+      },
+      {
+        "time": 94.13,
+        "windTime": 14.130000114440918,
+        "blastAge": 2.130000114440918,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "43d99962",
+          "far": "b3929b8c"
+        },
+        "ambientCanvas": {
+          "near": "eeb693cb",
+          "far": "82df6e75"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0.1260963267450279,
+          "near-grass-east": 0.09242492617249809,
+          "near-grass-low": 0.09757516115269027,
+          "far-grass-west": -0.18627511311206035,
+          "far-grass-east": -0.16276261171151418,
+          "far-grass-low": -0.16185426328956964,
+          "near-scrub-west": 0.13214618836991576,
+          "near-scrub-east": 0.0849750172073982,
+          "far-scrub-west": -0.17235801619790436,
+          "far-scrub-east": -0.17098606763647695,
+          "near-upright": 0.48612032611708855,
+          "far-upright": -0.7882916550297523,
+          "near-wind": 0.38562446383639326,
+          "far-wind": -0.7024329270461749
+        }
+      },
+      {
+        "time": 96.6,
+        "windTime": 16.600000381469727,
+        "blastAge": 4.599999904632568,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "a4442b2f",
+          "far": "18efc25c"
+        },
+        "ambientCanvas": {
+          "near": "a4442b2f",
+          "far": "18efc25c"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 98.6,
+        "windTime": 18.600000381469727,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "6b8a227c",
+          "far": "9d66749"
+        },
+        "ambientCanvas": {
+          "near": "6b8a227c",
+          "far": "9d66749"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 119.9,
+        "windTime": 39.900001525878906,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "27adcf70",
+          "far": "fd81315"
+        },
+        "ambientCanvas": {
+          "near": "27adcf70",
+          "far": "fd81315"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 120,
+        "windTime": 0,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "9c6aab8a",
+          "far": "762bbf4c"
+        },
+        "ambientCanvas": {
+          "near": "9c6aab8a",
+          "far": "762bbf4c"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 120.1,
+        "windTime": 0.10000000149011612,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "7090d74e",
+          "far": "d45bfcb0"
+        },
+        "ambientCanvas": {
+          "near": "7090d74e",
+          "far": "d45bfcb0"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 132.95,
+        "windTime": 12.949999809265137,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "99080dce",
+          "far": "5eb7a4d"
+        },
+        "ambientCanvas": {
+          "near": "99080dce",
+          "far": "5eb7a4d"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 180,
+        "windTime": 20,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "21e92b2b",
+          "far": "762bbf4c"
+        },
+        "ambientCanvas": {
+          "near": "21e92b2b",
+          "far": "762bbf4c"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 7199.9,
+        "windTime": 39.900001525878906,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "ee9c72ec",
+          "far": "fd81315"
+        },
+        "ambientCanvas": {
+          "near": "ee9c72ec",
+          "far": "fd81315"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 7200,
+        "windTime": 0,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "9f9c422f",
+          "far": "762bbf4c"
+        },
+        "ambientCanvas": {
+          "near": "9f9c422f",
+          "far": "762bbf4c"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      },
+      {
+        "time": 7200.1,
+        "windTime": 0.10000000149011612,
+        "blastAge": 5.050000190734863,
+        "front": {
+          "visible": false,
+          "position": [-545, 36.2375, 2050],
+          "radius": 620
+        },
+        "canvas": {
+          "near": "be9c79e1",
+          "far": "d45bfcb0"
+        },
+        "ambientCanvas": {
+          "near": "be9c79e1",
+          "far": "d45bfcb0"
+        },
+        "matchedDirectionalShadow": true,
+        "radialTipM": {
+          "near-grass-west": 0,
+          "near-grass-east": 0,
+          "near-grass-low": 0,
+          "far-grass-west": 0,
+          "far-grass-east": 0,
+          "far-grass-low": 0,
+          "near-scrub-west": 0,
+          "near-scrub-east": 0,
+          "far-scrub-west": 0,
+          "far-scrub-east": 0,
+          "near-upright": 0,
+          "far-upright": 0,
+          "near-wind": 0,
+          "far-wind": 0
+        }
+      }
+    ],
+    "backwardSeek": {
+      "time": 92.95,
+      "canvas": {
+        "near": "6f7f538",
+        "far": "aad65aca"
+      },
+      "held": true
+    },
+    "pausedOrbit": {
+      "time": 92.95,
+      "before": [-549, 58.000000000000014, 1709],
+      "after": [-528.9874382111058, 74.41702217997972, 1689.7909395903025],
+      "canvas": {
+        "near": "d343ffb8",
+        "far": "2efbe030"
+      },
+      "identicalDeformedVertices": true
+    },
+    "restartCycles": [
+      {
+        "gpu": {
+          "geometries": 1051,
+          "textures": 4,
+          "programs": 369
+        },
+        "canvas": {
+          "near": "ebf5a2e3",
+          "far": "7d6306e7"
+        },
+        "owners": 4
+      },
+      {
+        "gpu": {
+          "geometries": 1051,
+          "textures": 4,
+          "programs": 369
+        },
+        "canvas": {
+          "near": "7ab70e0c",
+          "far": "9b9f62bd"
+        },
+        "owners": 4
+      },
+      {
+        "gpu": {
+          "geometries": 1051,
+          "textures": 4,
+          "programs": 369
+        },
+        "canvas": {
+          "near": "7ab70e0c",
+          "far": "9b9f62bd"
+        },
+        "owners": 4
+      },
+      {
+        "gpu": {
+          "geometries": 1051,
+          "textures": 4,
+          "programs": 369
+        },
+        "canvas": {
+          "near": "7ab70e0c",
+          "far": "9b9f62bd"
+        },
+        "owners": 4
+      },
+      {
+        "gpu": {
+          "geometries": 1051,
+          "textures": 4,
+          "programs": 369
+        },
+        "canvas": {
+          "near": "7ab70e0c",
+          "far": "9b9f62bd"
+        },
+        "owners": 4
+      }
+    ],
+    "disposal": {
+      "owners": [
+        {
+          "name": "8c-fuel-grass",
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-grass",
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-grass",
+          "type": "visible material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-grass",
+          "type": "depth material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-scrub",
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-scrub",
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-scrub",
+          "type": "visible material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-scrub",
+          "type": "depth material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-upright",
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-upright",
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-upright",
+          "type": "visible material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-upright",
+          "type": "depth material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-wind",
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-wind",
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-wind",
+          "type": "visible material",
+          "count": 1
+        },
+        {
+          "name": "8c-fuel-wind",
+          "type": "depth material",
+          "count": 1
+        }
+      ],
+      "activeRoot": false
+    },
+    "logs": [
+      ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+      ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."]
+    ],
+    "sampledVertexCount": 15852,
+    "anchoredVertexCount": 816,
+    "maxGpuCpuVertexErrorM": 0.00012300590379536023
+  },
+  "preservation": {
+    "legacy": [
+      {
+        "time": 91,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 0.01,
+          "visible": false,
+          "puffs": 0
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 46,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 699
+        }
+      },
+      {
+        "time": 92,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 0.01,
+          "visible": true,
+          "puffs": 30
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 54,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 92.65,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 223.88888888889085,
+          "visible": true,
+          "puffs": 30
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 54,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 92.95,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 327.2222222222232,
+          "visible": true,
+          "puffs": 30
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 54,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 93.44,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 495.9999999999992,
+          "visible": true,
+          "puffs": 30
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 51,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 93.8,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 619.9999999999991,
+          "visible": true,
+          "puffs": 30
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 51,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 94,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 620,
+          "visible": false,
+          "puffs": 0
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 51,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 94.13,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 620,
+          "visible": false,
+          "puffs": 0
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 51,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 697
+        }
+      },
+      {
+        "time": 98.6,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 620,
+          "visible": false,
+          "puffs": 0
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 63,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 641
+        }
+      },
+      {
+        "time": 180,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 620,
+          "visible": false,
+          "puffs": 0
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 58,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 559
+        }
+      },
+      {
+        "time": 7200,
+        "front": {
+          "center": [-545, 36.2375, 2050],
+          "radius": 620,
+          "visible": false,
+          "puffs": 0
+        },
+        "exactMountedMeshesAndLights": {
+          "ash-harbor-stage4a-fuel-disaster": 58,
+          "stage3-local-blast-response-field": 13,
+          "region-b-storage-district": 559
+        }
+      }
+    ],
+    "targetSightLines": [
+      {
+        "view": "fuel-preset",
+        "targets": [
+          {
+            "target": "fuel_tank_01",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_02",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_03",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_04",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_05",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_06",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_07",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_08",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "hero-fireball",
+            "inFrame": true,
+            "block": []
+          }
+        ]
+      },
+      {
+        "view": "fuel-low",
+        "targets": [
+          {
+            "target": "fuel_tank_01",
+            "inFrame": false,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_02",
+            "inFrame": false,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_03",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_04",
+            "inFrame": false,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_05",
+            "inFrame": false,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_06",
+            "inFrame": true,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_07",
+            "inFrame": false,
+            "block": []
+          },
+          {
+            "target": "fuel_tank_08",
+            "inFrame": false,
+            "block": []
+          },
+          {
+            "target": "hero-fireball",
+            "inFrame": false,
+            "block": []
+          }
+        ]
+      }
+    ],
+    "eventCount": 51,
+    "cameraIds": ["overview", "harbor", "industrial", "radar-hill", "corridor", "beachhead", "beach-offshore", "wasp", "talwar", "molniya", "fuel-storage", "ammunition", "search-radar", "btr", "t72", "support-convoy", "secondary-pantsir", "lcac-west", "lcac-east", "lav-west", "lav-east", "f35-01", "f35-02", "su30"],
+    "environmentMarker": {
+      "id": "fuel_shock_environment_response",
+      "atSeconds": 94,
+      "localTime": "05:28:34",
+      "event": "nearby_environment_bends_rebounds_and_ignites"
+    },
+    "stage8bExactRgb": {
+      "shore-low-break": "b4c756968277d7d7352d44b48425b7476d7e9ab23b3689aae2f6579e827cb6ed",
+      "corridor-quiet": "c957d72e96b6d2d5cdfcc1ea3839d61d9cb129e87be771ce2d49ee9a14c39a1a"
+    }
+  },
+  "startup": {
+    "capture": {
+      "before": {
+        "readyMs": 4423,
+        "firstDrawMs": 3380.4000000059605,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 1032.0999999940395,
+        "cpuSliceCount": 233,
+        "cpuSliceP95Ms": 8.799999982118607,
+        "cpuSliceMaxMs": 32.5
+      },
+      "after": {
+        "readyMs": 4366.200000017881,
+        "firstDrawMs": 3425.4000000059605,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 932.6999999880791,
+        "cpuSliceCount": 243,
+        "cpuSliceP95Ms": 8.700000017881393,
+        "cpuSliceMaxMs": 36.20000001788139
+      }
+    },
+    "direct": [
+      {
+        "side": "before",
+        "readyMs": 4339.300000011921,
+        "firstDrawMs": 3326.9000000059605,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 1003.8000000119209,
+        "cpuSliceCount": 236,
+        "cpuSliceP95Ms": 8.800000011920929,
+        "cpuSliceMaxMs": 32.900000005960464
+      },
+      {
+        "side": "after",
+        "readyMs": 4170.799999982119,
+        "firstDrawMs": 3289.9000000059605,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 873.1000000238419,
+        "cpuSliceCount": 235,
+        "cpuSliceP95Ms": 8.800000011920929,
+        "cpuSliceMaxMs": 34.400000005960464
+      },
+      {
+        "side": "after",
+        "readyMs": 4276.299999982119,
+        "firstDrawMs": 3343.4000000059605,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 924.0999999940395,
+        "cpuSliceCount": 234,
+        "cpuSliceP95Ms": 9.199999988079071,
+        "cpuSliceMaxMs": 42
+      },
+      {
+        "side": "before",
+        "readyMs": 4112.0999999940395,
+        "firstDrawMs": 3151.5,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 950.5,
+        "cpuSliceCount": 232,
+        "cpuSliceP95Ms": 8.400000005960464,
+        "cpuSliceMaxMs": 32.10000002384186
+      }
+    ]
+  },
+  "fixtureRepair": {
+    "src/simulation/fixtures/stage7cConstructionPreservation.json": {
+      "referenceBytes": 49102,
+      "referenceSha256": "a2fe892ff096d476eee5874f4123d2b32bc868b4f1d9fb2c7e5a241898d28df1",
+      "restoredBytes": 53062,
+      "restoredSha256": "8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8",
+      "restoredGitBlob": "dd61d75cd65770a47d5541618d6105e95d0820ae",
+      "changedInWorkingDiff": true
+    },
+    "src/simulation/fixtures/stage7cPresentationPreservation.json": {
+      "referenceBytes": 53891,
+      "referenceSha256": "4cb1c7c880ccd6132907e22c8ff1183e0607157a18367fa48c77e5c41e50d2d6",
+      "restoredBytes": 58811,
+      "restoredSha256": "b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3",
+      "restoredGitBlob": "d8ac0cffaaf01d0773105c2c764c96df7f5dd5c2",
+      "changedInWorkingDiff": true
+    }
+  },
+  "evidence": {
+    "comparison-contract.json": {
+      "sha256": "a10d0c60acfc22b43584597a3a9fc51469c4ef4481344d0275c84d2d0dfb56f0",
+      "bytes": 7993
+    },
+    "fuel-low-before-after.mp4": {
+      "sha256": "d4782a21a42bc8d6672c36e7f90e6af821e34da903422eb9741945d7cb27e1a6",
+      "bytes": 1363293,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "330",
+      "duration": 11
+    },
+    "fuel-low-detail-replay.mp4": {
+      "sha256": "0ebbaec129f01725ef602c987610f425fc7d7dd72e7c62f5bee41612b34bf2e6",
+      "bytes": 260912,
+      "codec_name": "h264",
+      "width": 1160,
+      "height": 356,
+      "r_frame_rate": "30/1",
+      "nb_frames": "252",
+      "duration": 8.4
+    },
+    "fuel-preset-before-after.mp4": {
+      "sha256": "51e8143e3f375a58849620b699652eef0daecbfd60f54ed8c21cb4a87db6a869",
+      "bytes": 1181258,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "330",
+      "duration": 11
+    },
+    "stills/corridor-quiet-after.png": {
+      "sha256": "1bf9a7b3205c507edaf0540c5653f5384efccbeee1b224e91e58fc7529126dd7",
+      "bytes": 444755,
+      "size": [1280, 720]
+    },
+    "stills/corridor-quiet-before.png": {
+      "sha256": "1bf9a7b3205c507edaf0540c5653f5384efccbeee1b224e91e58fc7529126dd7",
+      "bytes": 444755,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-before-arrival-after.png": {
+      "sha256": "13e42b46bef31eec5ff09fdb75e81b53571d6dcdc903b086ceb050b810b2bb94",
+      "bytes": 423432,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-before-arrival-before.png": {
+      "sha256": "79c0db984202ce8dc050ec9e2ef7a4d133e491164308cb857254dcdc6b41f8ca",
+      "bytes": 404909,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-far-bend-after.png": {
+      "sha256": "5d8a67d747ef9fe541272ac262657e679bde0b994a334c69256c1a46a9102d52",
+      "bytes": 421866,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-far-bend-before.png": {
+      "sha256": "5046e55207150ccb80dd256bd76e2d17f59506f0af1d1c12fa1a381df0a3b402",
+      "bytes": 403221,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-far-rebound-after.png": {
+      "sha256": "01e241fa4c61a592e48454515e26d0f1a1e08b722ed04d5e3be8cb463c4a26f9",
+      "bytes": 426554,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-far-rebound-before.png": {
+      "sha256": "452e742cc494ed91f1e50ac7d552702fe995498966057eec53bfca36898654bf",
+      "bytes": 407121,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-near-bend-after.png": {
+      "sha256": "19432ebad70f169dfb64fe30ec0a295363f97bbcdc20188d701e3f8b327f902d",
+      "bytes": 424333,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-near-bend-before.png": {
+      "sha256": "8351f6d3fd50d459eac70245dcc694ec5e3698f2d05b79059e25da79d9d72361",
+      "bytes": 406618,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-near-rebound-after.png": {
+      "sha256": "c0d147c51aaff061dcd7852d2a34b01574db1622c9e17052eff6f10f9bd8fe4d",
+      "bytes": 422744,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-near-rebound-before.png": {
+      "sha256": "4ef45852f928d80c67de4d05ed62ead71591d1be506b27dfec4c78e8c6a02bf4",
+      "bytes": 402979,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-recovery-after.png": {
+      "sha256": "c013a02c4f812bc456325caf0c0b2c427960ffbd72e8d5808ff2b7c4a57e6706",
+      "bytes": 449050,
+      "size": [1280, 720]
+    },
+    "stills/fuel-low-recovery-before.png": {
+      "sha256": "d1f263237da2febe20f7b2033d1f998b8670bf1be6aa31accb69476f6b3afbde",
+      "bytes": 434557,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-before-arrival-after.png": {
+      "sha256": "8dd7ad29e3978eeee7496112eb20284b73a736ffa6d5c1d829f8f69e004c579d",
+      "bytes": 859524,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-before-arrival-before.png": {
+      "sha256": "1216e18d9a929fe9d60cf9246bfe26a36ff6967cd4f81cad1e6849f72e362553",
+      "bytes": 859404,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-far-bend-after.png": {
+      "sha256": "c82527d7403fb39e38450c603592dc6d2ea1784a8881bcfaf022ade9a154e0e5",
+      "bytes": 862819,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-far-bend-before.png": {
+      "sha256": "bbbb56c11a63b9b9d0fe8326f75559b7a5b4b7968576f4c79035b0b7f34eae93",
+      "bytes": 862826,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-far-rebound-after.png": {
+      "sha256": "ac89cd39148473faae6fae4a75ac8dcc49b792f35f75946ca3097fade8ed35ff",
+      "bytes": 861254,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-far-rebound-before.png": {
+      "sha256": "2559eaf031844ad29b8629f35652f7439684e543840bcb3bfb85636897681070",
+      "bytes": 861133,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-near-bend-after.png": {
+      "sha256": "79f6d02a5b1dc0c2b7b978944472e97f8a3a50eac98a0bfe280d07c080569576",
+      "bytes": 860608,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-near-bend-before.png": {
+      "sha256": "f3f200244c72ffeb237affd9bd496ea47727101624d9f33afdcd88da47e02fdd",
+      "bytes": 860457,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-near-rebound-after.png": {
+      "sha256": "e4ca0f42ecf4866d9368217a48bcf342a7b5fdfeaaa377d66a90e3082cc88d04",
+      "bytes": 863354,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-near-rebound-before.png": {
+      "sha256": "f985bbf8498851773b7fa49201813250c3e4d1248e4e7db9ba84ff6e7b92abcb",
+      "bytes": 862983,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-recovery-after.png": {
+      "sha256": "97ee39791fb7c9220dbb00fdd844662922e2164475d1ad3ead76612abfef7352",
+      "bytes": 858113,
+      "size": [1280, 720]
+    },
+    "stills/fuel-preset-recovery-before.png": {
+      "sha256": "e7fec5d3e188588f93dc0c17941a9d7cfc97e6b8a3d992628777b18898a8a51c",
+      "bytes": 858006,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-break-after.png": {
+      "sha256": "795b34184249353de91fe06144e992fe04c1f5bf18313a94b812d4f6c8d44a51",
+      "bytes": 310813,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-break-before.png": {
+      "sha256": "795b34184249353de91fe06144e992fe04c1f5bf18313a94b812d4f6c8d44a51",
+      "bytes": 310813,
+      "size": [1280, 720]
+    }
+  }
+}

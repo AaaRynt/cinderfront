@@ -23,6 +23,10 @@ export function stage7cHistoricalSource(path: string): Buffer {
     // Stage 8B replaces the Stage 8A mount with the local presentation group.
     return Buffer.from(readFileSync(path, 'utf8').replace("import { LocalEnvironmentMotion } from './stage8b/LocalEnvironmentMotion'\n", '').replace('        <LocalEnvironmentMotion />\n', ''))
   }
+  if (path === 'src/scene/effects/stage4a/Stage4AFuelDisaster.tsx') {
+    // Stage 8C shares the two live front constants with the plants.
+    return Buffer.from(readFileSync(path, 'utf8').replace("import { FUEL_SHOCK_DURATION_SECONDS, FUEL_SHOCK_MAX_RADIUS_M } from '../stage3/effectMath.ts'\n", '').replace('durationSeconds={FUEL_SHOCK_DURATION_SECONDS} maximumRadiusM={FUEL_SHOCK_MAX_RADIUS_M}', 'durationSeconds={1.8} maximumRadiusM={620}'))
+  }
   if (!(path in STAGE7C_SOURCE_CHANGES)) return readFileSync(path)
   let source = bytes.get(path)
   if (!source) {
