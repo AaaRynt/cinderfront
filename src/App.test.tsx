@@ -64,12 +64,14 @@ describe('Stage 6C spectator interface', () => {
     fireEvent.click(screen.getByText('Operational details'))
     expect(details.open).toBe(false)
   })
-  it('retains all 22 existing cameras and adds two LAV group presets', () => {
+  it('retains all 24 existing cameras and groups the three environment detail views', () => {
     renderWithStatus()
     const cameras = within(screen.getByRole('navigation', { name: 'Camera presets' }))
+    const environment = cameras.getByRole('group', { name: 'Environment details' })
     expect(
       cameras
         .getAllByRole('option')
+        .filter((option) => option.parentElement !== environment)
         .map((option) => option.textContent)
         .sort(),
     ).toEqual(
@@ -100,6 +102,15 @@ describe('Stage 6C spectator interface', () => {
         'LAV east',
       ].sort(),
     )
+    expect(
+      within(environment)
+        .getAllByRole('option')
+        .map((option) => [option.getAttribute('value'), option.textContent]),
+    ).toEqual([
+      ['inspection-bay', 'Inspection bay'],
+      ['shore-break', 'Shore break'],
+      ['fuel-shock', 'Fuel shock (T+92)'],
+    ])
     fireEvent.change(cameras.getByRole('combobox'), { target: { value: 'su30' } })
     expect(cameras.getByRole('combobox')).toHaveValue('su30')
     expect(screen.getByText('Cinderfront / Stage 6C')).toBeInTheDocument()

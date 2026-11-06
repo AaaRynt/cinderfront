@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 
+import type { EnvironmentDetailPreset } from './environmentDetails'
+
 export type CameraPreset =
+  | EnvironmentDetailPreset
   | 'overview'
   | 'wasp'
   | 'harbor'

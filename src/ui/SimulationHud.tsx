@@ -6,6 +6,7 @@ import type { ReadinessState } from '@/scene/readiness/readinessStore'
 import type { SimulationEvent, SimulationSpeed } from '@/simulation'
 
 import { useCameraStore } from '@/scene/camera/cameraStore'
+import { ENVIRONMENT_DETAILS } from '@/scene/camera/environmentDetails'
 import { formatRuntimeTime, quantizeRuntimeTime, SIMULATION_EVENTS } from '@/simulation'
 
 interface TimelineEventView {
@@ -126,6 +127,13 @@ const CameraMenu = memo(function CameraMenu() {
             })}
           </optgroup>
         ))}
+        <optgroup label="Environment details">
+          {Object.entries(ENVIRONMENT_DETAILS).map(([id, { label }]) => (
+            <option key={id} value={id}>
+              {label}
+            </option>
+          ))}
+        </optgroup>
       </select>
       <button type="button" aria-label="Recenter selected camera" title="Recenter selected camera" className="grid size-9 place-items-center border border-(--hud-edge) text-(--muted) hover:text-(--amber-bright)" onClick={() => requestPreset(activePreset)}>
         <RotateCcw size={15} aria-hidden="true" />

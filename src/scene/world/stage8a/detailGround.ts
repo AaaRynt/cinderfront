@@ -3,12 +3,12 @@ import { BufferGeometry, Color, Float32BufferAttribute, MathUtils } from 'three'
 import { getLandingGroundHeight } from '../landing/landingTerrain'
 import { DETAIL_SITES, detailXZ, type DetailSite } from './detailLayout'
 
-type Mark = readonly [along: number, out: number, halfLength: number, halfWidth: number, color: string, opacity: number, heading?: number]
+export type GroundMark = readonly [along: number, out: number, halfLength: number, halfWidth: number, color: string, opacity: number, heading?: number]
 
 // Laid over the existing surface. The entrance flares into the old hardpack;
 // wheel scuffs run in from the upstream end. Beyond it, the open plain shows
 // between the wash growth and the scrub behind the bay.
-const GROUND_MARKS: Record<DetailSite, readonly Mark[]> = {
+const GROUND_MARKS: Record<DetailSite, readonly GroundMark[]> = {
   corridor: [
     [-2, 29, 18.2, 6.8, '#6f654c', 0.47, -0.12],
     [-31, 23, 16, 7.5, '#746955', 0.62, -0.13],
@@ -34,12 +34,9 @@ const GROUND_MARKS: Record<DetailSite, readonly Mark[]> = {
   ],
 }
 
-export function createDetailGround(site: DetailSite) {
-  const {
-    bounds: [loU, hiU, loV, hiV],
-    surfaceOffset,
-  } = DETAIL_SITES[site]
-  const marks = GROUND_MARKS[site].map(([u, v, length, width, tint, opacity, heading = 0]) => ({
+export function createDetailGround(site: DetailSite, [loU, hiU, loV, hiV]: readonly [number, number, number, number] = DETAIL_SITES[site].bounds, groundMarks = GROUND_MARKS[site]) {
+  const { surfaceOffset } = DETAIL_SITES[site]
+  const marks = groundMarks.map(([u, v, length, width, tint, opacity, heading = 0]) => ({
     u,
     v,
     length,

@@ -373,3 +373,9 @@ The full surf envelope clears the padded approach by 4.25 m. Eighteen matched po
 **Complete.** Four trees and ten grass and scrub plants in two fuel verges bend outward as the existing T+92 front reaches them. The crowns rebound and settle into ambient wind. Matched preset and low 1× clips show the order of arrival and recovery.
 
 The mounted bend envelope clears the nearest berm by 0.80 m. The twelve fuel pose pairs add eight submitted draws, at most 2.19% triangles and four shadow draws. The original Stage 7C fixture bytes were verified and restored in the working diff. Both TypeScript checks, lint and 791 tests across 74 files passed, with a longer timeout for the full test invocation. [Stage 8C acceptance and evidence](STAGE8C_ACCEPTANCE.md)
+
+## Stage 8D — Scenery Continuity and Detail Views (2026-11-07)
+
+**Complete.** Added three roadside groups and a fitted shoulder along the inspection-bay approach, plus 165 m of adjacent east landing surf. The native Environment details group makes the bay, shore break and T+92 fuel shock selectable. Five matched 1× clips cover the original presets and all three detail views.
+
+Twenty-two matched poses add at most eight draws, 4.58% triangles and two shadow draws. The full envelopes clear the convoy and landing sweeps. The 24 original camera choices and both pinned Stage 7C fixtures passed preservation checks. Both TypeScript checks, lint, 798 tests across 76 files and whitespace checks passed. [Stage 8D acceptance and evidence](STAGE8D_ACCEPTANCE.md)

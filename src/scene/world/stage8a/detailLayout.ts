@@ -65,8 +65,8 @@ const PROPS: Record<DetailSite, readonly FixedDetail[]> = {
   ],
 }
 
-type Pocket = readonly [id: string, kind: 'grass' | 'scrub' | 'stone' | 'gravel', along: number, out: number, halfLength: number, halfWidth: number, count: number, minScale: number, maxScale: number]
-const POCKETS: Record<DetailSite, readonly Pocket[]> = {
+export type DetailPocket = readonly [id: string, kind: 'grass' | 'scrub' | 'stone' | 'gravel', along: number, out: number, halfLength: number, halfWidth: number, count: number, minScale: number, maxScale: number]
+const POCKETS: Record<DetailSite, readonly DetailPocket[]> = {
   corridor: [
     ['wash-grass', 'grass', -31, 20.5, 13, 5.2, 29, 0.75, 1.52],
     ['wash-scrub', 'scrub', -30, 27, 12, 5.1, 16, 0.92, 2.35],
@@ -98,27 +98,28 @@ const TINTS = {
   beach: { grass: ['#e9d9ab', '#d1c89b', '#d9c68e'], scrub: ['#a0ac99', '#9cae9e', '#bec7a8'], stone: ['#d9ccb3', '#beb2a0', '#d0c3a7'] },
 } as const
 
+export function createDetailPocketPlacements(site: DetailSite, prefix: string, pockets: readonly DetailPocket[]): DetailPlacement[] {
+  return pockets.flatMap(([id, kind, u, v, halfLength, halfWidth, count, minScale, maxScale]) => {
+    const random = createDeterministicRandom(`${prefix}:${id}`)
+    const palette = TINTS[site][kind === 'gravel' ? 'stone' : kind]
+    const heightScale = kind === 'gravel' ? 0.54 : kind === 'stone' ? 0.43 : site === 'beach' ? 0.69 : 1
+    return Array.from({ length: count }, (_, index): DetailPlacement => {
+      const angle = random() * Math.PI * 2
+      const radius = Math.sqrt(random())
+      const scale = minScale + random() * (maxScale - minScale)
+      return {
+        id: `${prefix}:${id}:${index}`,
+        kind,
+        local: [u + Math.cos(angle) * radius * halfLength, v + Math.sin(angle) * radius * halfWidth],
+        yaw: random() * Math.PI * 2,
+        scale: [scale * (0.88 + random() * 0.44), scale * heightScale, scale],
+        tint: palette[Math.floor(random() * palette.length)]!,
+      }
+    })
+  })
+}
+
 export function createDetailLayout(site: DetailSite): readonly DetailPlacement[] {
   const props: DetailPlacement[] = PROPS[site].map(([id, kind, u, v, yaw, scale = [1, 1, 1], tint = '#ffffff']) => ({ id: `8a:${site}:${id}`, kind, local: [u, v], yaw, scale, tint }))
-  return [
-    ...props,
-    ...POCKETS[site].flatMap(([id, kind, u, v, halfLength, halfWidth, count, minScale, maxScale]) => {
-      const random = createDeterministicRandom(`8a:${site}:${id}`)
-      const palette = TINTS[site][kind === 'gravel' ? 'stone' : kind]
-      const heightScale = kind === 'gravel' ? 0.54 : kind === 'stone' ? 0.43 : site === 'beach' ? 0.69 : 1
-      return Array.from({ length: count }, (_, index): DetailPlacement => {
-        const angle = random() * Math.PI * 2
-        const radius = Math.sqrt(random())
-        const scale = minScale + random() * (maxScale - minScale)
-        return {
-          id: `8a:${site}:${id}:${index}`,
-          kind,
-          local: [u + Math.cos(angle) * radius * halfLength, v + Math.sin(angle) * radius * halfWidth],
-          yaw: random() * Math.PI * 2,
-          scale: [scale * (0.88 + random() * 0.44), scale * heightScale, scale],
-          tint: palette[Math.floor(random() * palette.length)]!,
-        }
-      })
-    }),
-  ]
+  return [...props, ...createDetailPocketPlacements(site, `8a:${site}`, POCKETS[site])]
 }

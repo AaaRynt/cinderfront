@@ -1,0 +1,3924 @@
+{
+  "reference": "e439bdd",
+  "contractSha256": "dfb6286f1c1c4d4b3bd1fc95defa0f4c35fc129c198a3deda4525ca4b330c960",
+  "quality": {
+    "viewport": [1280, 720],
+    "buffer": [1280, 720],
+    "dpr": 1,
+    "documentDpr": 1,
+    "antialias": true,
+    "shadows": [true, 1],
+    "toneMapping": [4, 1.12],
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "visible": "visible",
+    "focused": true,
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+  },
+  "source": {
+    "changed": [
+      "src/scene/camera/cameraFraming.ts",
+      "src/scene/camera/cameraStore.ts",
+      "src/scene/world/stage8a/RoadsideDetail.tsx",
+      "src/scene/world/stage8a/detailGround.ts",
+      "src/scene/world/stage8a/detailLayout.ts",
+      "src/scene/world/stage8b/EasternSurf.tsx",
+      "src/scene/world/stage8b/surf.ts",
+      "src/ui/SimulationHud.tsx"
+    ],
+    "added": ["src/scene/camera/environmentDetails.ts", "src/scene/world/stage8d/rescueApproach.ts"],
+    "cssSha256": "ba459a7721405e767bf667265babd424c4fc0cffdf237495255a41ea343fd4a2",
+    "applicationHash": {
+      "before": "e4de08342ffdf02f8d23f91a1bfa074de763e23a7a9cffef88c457c68e617797",
+      "after": "1c9791b80b7c7be4c6364b9e2d42e2c9d9e244e1031d0da0c525c16687df8ca2"
+    }
+  },
+  "poses": {
+    "convoy-approach-entry": {
+      "camera": {
+        "time": 49,
+        "position": [4609.174038890718, 180.83308138519433, 518.203195900136],
+        "target": [4532.250054759919, 45.83308138519433, 268.78847968346105],
+        "quaternion": [-0.23376751925276357, 0.1447994626014624, 0.03523029099676178, 0.9608041887757465],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 19234,
+      "triangleDeltaPercent": 4.575275339565642,
+      "shadowDrawDelta": 2,
+      "shadowTriangleDelta": 2196,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [476, 420390],
+        "shadow": [132, 8046],
+        "main": [344, 412344],
+        "scene": {
+          "nodes": 4104,
+          "meshes": 2920,
+          "casters": 1250,
+          "lights": 10,
+          "instanceSlots": 8801,
+          "geometries": 1214,
+          "materials": 355
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [484, 439624],
+        "shadow": [134, 10242],
+        "main": [350, 429382],
+        "scene": {
+          "nodes": 4114,
+          "meshes": 2928,
+          "casters": 1252,
+          "lights": 10,
+          "instanceSlots": 8876,
+          "geometries": 1217,
+          "materials": 357
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "convoy-approach-bay": {
+      "camera": {
+        "time": 58,
+        "position": [4464.7638059996525, 181.24945804734728, 467.6593076806068],
+        "target": [4387.8398218688535, 46.24945804734729, 218.2445914639319],
+        "quaternion": [-0.23376751925276368, 0.14479946260146248, 0.03523029099676181, 0.9608041887757462],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 19234,
+      "triangleDeltaPercent": 4.576690620092323,
+      "shadowDrawDelta": 2,
+      "shadowTriangleDelta": 2196,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [475, 420260],
+        "shadow": [132, 8046],
+        "main": [343, 412214],
+        "scene": {
+          "nodes": 4090,
+          "meshes": 2909,
+          "casters": 1250,
+          "lights": 10,
+          "instanceSlots": 8801,
+          "geometries": 1203,
+          "materials": 344
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [483, 439494],
+        "shadow": [134, 10242],
+        "main": [349, 429252],
+        "scene": {
+          "nodes": 4100,
+          "meshes": 2917,
+          "casters": 1252,
+          "lights": 10,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 346
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "convoy-approach-exit": {
+      "camera": {
+        "time": 67,
+        "position": [4320.353573108596, 180.49991134993166, 417.11541946107513],
+        "target": [4243.429588977789, 45.49991134993168, 167.70070324440275],
+        "quaternion": [-0.23376751925276307, 0.1447994626014782, 0.03523029099676564, 0.960804188775744],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 7,
+      "triangleDelta": 18136,
+      "triangleDeltaPercent": 4.3236954531583764,
+      "shadowDrawDelta": 2,
+      "shadowTriangleDelta": 2196,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [474, 419456],
+        "shadow": [132, 8046],
+        "main": [342, 411410],
+        "scene": {
+          "nodes": 4090,
+          "meshes": 2909,
+          "casters": 1250,
+          "lights": 10,
+          "instanceSlots": 8801,
+          "geometries": 1203,
+          "materials": 344
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [481, 437592],
+        "shadow": [134, 10242],
+        "main": [347, 427350],
+        "scene": {
+          "nodes": 4100,
+          "meshes": 2917,
+          "casters": 1252,
+          "lights": 10,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 346
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "beach-frontage-approach": {
+      "camera": {
+        "time": 154.25,
+        "position": [4833.233739144392, 662.5831391861366, -3830.501807979795],
+        "target": [4862.564150096171, 8.514974961451239, -2845],
+        "quaternion": [0.004294689788092562, 0.9573139710983497, 0.2886670486881133, -0.014242590397342145],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 2,
+      "triangleDelta": 11736,
+      "triangleDeltaPercent": 2.087684157721905,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [754, 562154],
+        "shadow": [127, 11820],
+        "main": [627, 550334],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [756, 573890],
+        "shadow": [127, 11820],
+        "main": [629, 562070],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "beach-frontage-old-break": {
+      "camera": {
+        "time": 156,
+        "position": [4838.549283861279, 668.753658581825, -3839.391085816915],
+        "target": [4868.144256653449, 8.78576531643195, -2845],
+        "quaternion": [0.0042946897880925435, 0.9573139710983497, 0.2886670486881133, -0.014242590397342084],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 2,
+      "triangleDelta": 11736,
+      "triangleDeltaPercent": 2.087684157721905,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [754, 562154],
+        "shadow": [127, 11820],
+        "main": [627, 550334],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [756, 573890],
+        "shadow": [127, 11820],
+        "main": [629, 562070],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "beach-frontage-east-break": {
+      "camera": {
+        "time": 157.25,
+        "position": [4841.6192066196545, 672.5014403721029, -3844.4487482674626],
+        "target": [4871.3647050799955, 9.17682470649527, -2845],
+        "quaternion": [0.004294689788092565, 0.9573139710983497, 0.2886670486881133, -0.014242590397342159],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 2,
+      "triangleDelta": 11736,
+      "triangleDeltaPercent": 2.0868823016875013,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [758, 562370],
+        "shadow": [127, 11820],
+        "main": [631, 550550],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [760, 574106],
+        "shadow": [127, 11820],
+        "main": [633, 562286],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "beach-frontage-wash": {
+      "camera": {
+        "time": 159,
+        "position": [4844.376931464751, 675.9042513933259, -3848.931941987634],
+        "target": [4874.255858309621, 9.60418275272338, -2845],
+        "quaternion": [0.004294689788092576, 0.9573139710983497, 0.2886670486881133, -0.014242590397342197],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 2,
+      "triangleDelta": 11736,
+      "triangleDeltaPercent": 2.087550472260268,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [755, 562190],
+        "shadow": [127, 11820],
+        "main": [628, 550370],
+        "scene": {
+          "nodes": 4122,
+          "meshes": 2939,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1050,
+          "materials": 377
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [757, 573926],
+        "shadow": [127, 11820],
+        "main": [630, 562106],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2947,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1053,
+          "materials": 379
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "beach-frontage-exit": {
+      "camera": {
+        "time": 175.5,
+        "position": [4846.14579425128, 685.3289102355576, -3862.831467472152],
+        "target": [4876.438397449856, 9.803858907313902, -2845],
+        "quaternion": [0.00429468978809263, 0.9573139710983497, 0.2886670486881133, -0.014242590397342372],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 2,
+      "triangleDelta": 11736,
+      "triangleDeltaPercent": 2.090748757415424,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [754, 561330],
+        "shadow": [127, 11820],
+        "main": [627, 549510],
+        "scene": {
+          "nodes": 4092,
+          "meshes": 2904,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1050,
+          "materials": 376
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [756, 573066],
+        "shadow": [127, 11820],
+        "main": [629, 561246],
+        "scene": {
+          "nodes": 4102,
+          "meshes": 2912,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1053,
+          "materials": 378
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "inspection-bay-entry": {
+      "camera": {
+        "time": 53,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 7,
+      "triangleDelta": 18136,
+      "triangleDeltaPercent": 3.2906160470150216,
+      "shadowDrawDelta": 2,
+      "shadowTriangleDelta": 2196,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1529, 551143],
+        "shadow": [132, 8046],
+        "main": [1397, 543097],
+        "scene": {
+          "nodes": 4090,
+          "meshes": 2909,
+          "casters": 1250,
+          "lights": 10,
+          "instanceSlots": 8801,
+          "geometries": 1203,
+          "materials": 344
+        },
+        "gpu": {
+          "geometries": 1172,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [1536, 569279],
+        "shadow": [134, 10242],
+        "main": [1402, 559037],
+        "scene": {
+          "nodes": 4100,
+          "meshes": 2917,
+          "casters": 1252,
+          "lights": 10,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 346
+        },
+        "gpu": {
+          "geometries": 1175,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "inspection-bay-bay": {
+      "camera": {
+        "time": 58,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 7,
+      "triangleDelta": 18136,
+      "triangleDeltaPercent": 3.282599291569606,
+      "shadowDrawDelta": 2,
+      "shadowTriangleDelta": 2196,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1547, 552489],
+        "shadow": [132, 8046],
+        "main": [1415, 544443],
+        "scene": {
+          "nodes": 4090,
+          "meshes": 2909,
+          "casters": 1250,
+          "lights": 10,
+          "instanceSlots": 8801,
+          "geometries": 1203,
+          "materials": 344
+        },
+        "gpu": {
+          "geometries": 1172,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [1554, 570625],
+        "shadow": [134, 10242],
+        "main": [1420, 560383],
+        "scene": {
+          "nodes": 4100,
+          "meshes": 2917,
+          "casters": 1252,
+          "lights": 10,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 346
+        },
+        "gpu": {
+          "geometries": 1175,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "inspection-bay-exit": {
+      "camera": {
+        "time": 63,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 7,
+      "triangleDelta": 18136,
+      "triangleDeltaPercent": 3.280366816492272,
+      "shadowDrawDelta": 2,
+      "shadowTriangleDelta": 2196,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [1573, 552865],
+        "shadow": [132, 8046],
+        "main": [1441, 544819],
+        "scene": {
+          "nodes": 4090,
+          "meshes": 2909,
+          "casters": 1250,
+          "lights": 10,
+          "instanceSlots": 8801,
+          "geometries": 1203,
+          "materials": 344
+        },
+        "gpu": {
+          "geometries": 1172,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [1580, 571001],
+        "shadow": [134, 10242],
+        "main": [1446, 560759],
+        "scene": {
+          "nodes": 4100,
+          "meshes": 2917,
+          "casters": 1252,
+          "lights": 10,
+          "instanceSlots": 8876,
+          "geometries": 1206,
+          "materials": 346
+        },
+        "gpu": {
+          "geometries": 1175,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "shore-break-approach": {
+      "camera": {
+        "time": 154.25,
+        "position": [5540, 12.499999999999995, -2987],
+        "target": [5501, 0.3, -2925],
+        "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 28774,
+      "triangleDeltaPercent": 4.286393152258274,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2059, 671287],
+        "shadow": [51, 6314],
+        "main": [2008, 664973],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [2067, 700061],
+        "shadow": [51, 6314],
+        "main": [2016, 693747],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1011,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "shore-break-old-break": {
+      "camera": {
+        "time": 156,
+        "position": [5540, 12.499999999999995, -2987],
+        "target": [5501, 0.3, -2925],
+        "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 28774,
+      "triangleDeltaPercent": 4.287287285795809,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2057, 671147],
+        "shadow": [51, 6314],
+        "main": [2006, 664833],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [2065, 699921],
+        "shadow": [51, 6314],
+        "main": [2014, 693607],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1011,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "shore-break-east-break": {
+      "camera": {
+        "time": 157.25,
+        "position": [5540, 12.499999999999995, -2987],
+        "target": [5501, 0.3, -2925],
+        "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 28774,
+      "triangleDeltaPercent": 4.285895153902869,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2061, 671365],
+        "shadow": [51, 6314],
+        "main": [2010, 665051],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [2069, 700139],
+        "shadow": [51, 6314],
+        "main": [2018, 693825],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1011,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "shore-break-wash": {
+      "camera": {
+        "time": 159,
+        "position": [5540, 12.499999999999995, -2987],
+        "target": [5501, 0.3, -2925],
+        "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 28774,
+      "triangleDeltaPercent": 4.28704455552493,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2058, 671185],
+        "shadow": [51, 6314],
+        "main": [2007, 664871],
+        "scene": {
+          "nodes": 4122,
+          "meshes": 2939,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1050,
+          "materials": 377
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [2066, 699959],
+        "shadow": [51, 6314],
+        "main": [2015, 693645],
+        "scene": {
+          "nodes": 4132,
+          "meshes": 2947,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1053,
+          "materials": 379
+        },
+        "gpu": {
+          "geometries": 1011,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "shore-break-exit": {
+      "camera": {
+        "time": 175.5,
+        "position": [5540, 12.499999999999995, -2987],
+        "target": [5501, 0.3, -2925],
+        "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 28774,
+      "triangleDeltaPercent": 4.286252679466535,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2076, 671309],
+        "shadow": [51, 6314],
+        "main": [2025, 664995],
+        "scene": {
+          "nodes": 4092,
+          "meshes": 2904,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1050,
+          "materials": 376
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [2084, 700083],
+        "shadow": [51, 6314],
+        "main": [2033, 693769],
+        "scene": {
+          "nodes": 4102,
+          "meshes": 2912,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1053,
+          "materials": 378
+        },
+        "gpu": {
+          "geometries": 1011,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "fuel-shock-pre-arrival": {
+      "camera": {
+        "time": 92.65,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 0,
+      "triangleDelta": 0,
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [610, 494783],
+        "shadow": [78, 9040],
+        "main": [532, 485743],
+        "scene": {
+          "nodes": 4141,
+          "meshes": 2943,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9701,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [610, 494783],
+        "shadow": [78, 9040],
+        "main": [532, 485743],
+        "scene": {
+          "nodes": 4151,
+          "meshes": 2951,
+          "casters": 1243,
+          "lights": 13,
+          "instanceSlots": 9776,
+          "geometries": 1175,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1064,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "fuel-shock-near-bend": {
+      "camera": {
+        "time": 92.95,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 0,
+      "triangleDelta": 0,
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [610, 494783],
+        "shadow": [78, 9040],
+        "main": [532, 485743],
+        "scene": {
+          "nodes": 4141,
+          "meshes": 2943,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9701,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [610, 494783],
+        "shadow": [78, 9040],
+        "main": [532, 485743],
+        "scene": {
+          "nodes": 4151,
+          "meshes": 2951,
+          "casters": 1243,
+          "lights": 13,
+          "instanceSlots": 9776,
+          "geometries": 1175,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1064,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "fuel-shock-far-bend": {
+      "camera": {
+        "time": 93.44,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 0,
+      "triangleDelta": 0,
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [607, 494659],
+        "shadow": [78, 9040],
+        "main": [529, 485619],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [607, 494659],
+        "shadow": [78, 9040],
+        "main": [529, 485619],
+        "scene": {
+          "nodes": 4147,
+          "meshes": 2948,
+          "casters": 1243,
+          "lights": 13,
+          "instanceSlots": 9752,
+          "geometries": 1175,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1064,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "fuel-shock-rebound": {
+      "camera": {
+        "time": 93.61,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 0,
+      "triangleDelta": 0,
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [610, 494701],
+        "shadow": [78, 9040],
+        "main": [532, 485661],
+        "scene": {
+          "nodes": 4137,
+          "meshes": 2940,
+          "casters": 1241,
+          "lights": 13,
+          "instanceSlots": 9677,
+          "geometries": 1172,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1139,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [610, 494701],
+        "shadow": [78, 9040],
+        "main": [532, 485661],
+        "scene": {
+          "nodes": 4147,
+          "meshes": 2948,
+          "casters": 1243,
+          "lights": 13,
+          "instanceSlots": 9752,
+          "geometries": 1175,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1064,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "fuel-shock-recovery": {
+      "camera": {
+        "time": 98.6,
+        "position": [-549, 58.000000000000014, 1709],
+        "target": [-399, 35.5, 1819],
+        "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 0,
+      "triangleDelta": 0,
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [610, 493193],
+        "shadow": [78, 9040],
+        "main": [532, 484153],
+        "scene": {
+          "nodes": 4083,
+          "meshes": 2897,
+          "casters": 1208,
+          "lights": 12,
+          "instanceSlots": 9684,
+          "geometries": 1118,
+          "materials": 361
+        },
+        "gpu": {
+          "geometries": 1085,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [610, 493193],
+        "shadow": [78, 9040],
+        "main": [532, 484153],
+        "scene": {
+          "nodes": 4093,
+          "meshes": 2905,
+          "casters": 1210,
+          "lights": 12,
+          "instanceSlots": 9759,
+          "geometries": 1121,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1049,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    },
+    "legacy-shore-pose": {
+      "camera": {
+        "time": 156,
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925],
+        "quaternion": [-0.022333305767619337, 0.9414780248874097, 0.06366736507518474, 0.33025265893248285],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawDelta": 8,
+      "triangleDelta": 28774,
+      "triangleDeltaPercent": 4.365696495031809,
+      "shadowDrawDelta": 0,
+      "shadowTriangleDelta": 0,
+      "lightDelta": 0,
+      "before": {
+        "submitted": [2048, 659093],
+        "shadow": [51, 6314],
+        "main": [1997, 652779],
+        "scene": {
+          "nodes": 4108,
+          "meshes": 2926,
+          "casters": 1174,
+          "lights": 13,
+          "instanceSlots": 9888,
+          "geometries": 1048,
+          "materials": 369
+        },
+        "gpu": {
+          "geometries": 1008,
+          "textures": 4,
+          "programs": 373
+        }
+      },
+      "after": {
+        "submitted": [2056, 687867],
+        "shadow": [51, 6314],
+        "main": [2005, 681553],
+        "scene": {
+          "nodes": 4118,
+          "meshes": 2934,
+          "casters": 1176,
+          "lights": 13,
+          "instanceSlots": 9963,
+          "geometries": 1051,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1011,
+          "textures": 4,
+          "programs": 388
+        }
+      }
+    }
+  },
+  "playback": {
+    "convoy-approach": {
+      "before": {
+        "nativeFrames": 843,
+        "usedNativeFrames": 840,
+        "maxFrameSnapMs": 9.32455062866211,
+        "start": 45,
+        "end": 73.03333333333174,
+        "pacing": {
+          "samples": 718,
+          "start": 45,
+          "end": 57.03333333333265,
+          "meanMs": 16.87670850767085,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.80000000000291,
+          "maxMs": 166.59999999999854,
+          "longTasks": [[34494.40000000596, 173]]
+        }
+      },
+      "after": {
+        "nativeFrames": 844,
+        "usedNativeFrames": 840,
+        "maxFrameSnapMs": 11.149168014526367,
+        "start": 45,
+        "end": 73.03333333333174,
+        "pacing": {
+          "samples": 722,
+          "start": 45.03333333333333,
+          "end": 57.03333333333265,
+          "meanMs": 16.689875173370314,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.799999999999272,
+          "maxMs": 33.29999999999927,
+          "longTasks": []
+        }
+      }
+    },
+    "beach-frontage": {
+      "before": {
+        "nativeFrames": 723,
+        "usedNativeFrames": 720,
+        "maxFrameSnapMs": 9.002208709716797,
+        "start": 152,
+        "end": 176.03333333333197,
+        "pacing": {
+          "samples": 722,
+          "start": 152,
+          "end": 164.03333333333265,
+          "meanMs": 16.689736477115122,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.79999999998836,
+          "maxMs": 33.30000000000291,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 723,
+        "usedNativeFrames": 719,
+        "maxFrameSnapMs": 23.9408016204834,
+        "start": 152,
+        "end": 176.03333333333197,
+        "pacing": {
+          "samples": 717,
+          "start": 152,
+          "end": 164.03333333333265,
+          "meanMs": 16.85293296089385,
+          "medianMs": 16.69999999999709,
+          "p95Ms": 16.80000000000291,
+          "maxMs": 150.0,
+          "longTasks": [[76699.29999998212, 143]]
+        }
+      }
+    },
+    "inspection-bay": {
+      "before": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 300,
+        "maxFrameSnapMs": 8.435726165771484,
+        "start": 53,
+        "end": 63.03333333333276
+      },
+      "after": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 300,
+        "maxFrameSnapMs": 7.847309112548828,
+        "start": 53,
+        "end": 63.03333333333276
+      }
+    },
+    "shore-break": {
+      "before": {
+        "nativeFrames": 722,
+        "usedNativeFrames": 719,
+        "maxFrameSnapMs": 23.718595504760742,
+        "start": 152,
+        "end": 176.03333333333197
+      },
+      "after": {
+        "nativeFrames": 723,
+        "usedNativeFrames": 719,
+        "maxFrameSnapMs": 24.727821350097656,
+        "start": 152,
+        "end": 176.03333333333197
+      }
+    },
+    "fuel-shock": {
+      "before": {
+        "nativeFrames": 334,
+        "usedNativeFrames": 330,
+        "maxFrameSnapMs": 8.297204971313477,
+        "start": 90,
+        "end": 101.0333333333327
+      },
+      "after": {
+        "nativeFrames": 332,
+        "usedNativeFrames": 329,
+        "maxFrameSnapMs": 22.913694381713867,
+        "start": 90,
+        "end": 101.0333333333327
+      }
+    }
+  },
+  "startup": {
+    "before": {
+      "readyMs": 4023.800000011921,
+      "firstDrawMs": 3107.300000011921,
+      "graphicsJobs": 9,
+      "graphicsSpanMs": 907.4000000059605,
+      "logs": [
+        ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+        ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."]
+      ]
+    },
+    "after": {
+      "readyMs": 4051.9000000059605,
+      "firstDrawMs": 3149.2999999821186,
+      "graphicsJobs": 9,
+      "graphicsSpanMs": 893.0999999940395,
+      "logs": [
+        ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+        ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."]
+      ]
+    }
+  },
+  "clearance": {
+    "roadside": {
+      "count": 75,
+      "byKind": {
+        "wind": 1,
+        "upright": 1,
+        "grass": 44,
+        "scrub": 13,
+        "stone": 16
+      },
+      "contactSpacing": 0.8223336646402347,
+      "nearestSpacing": ["8d:rescue:high-bank-grass:5", "8d:rescue:high-bank-grass:14"],
+      "oldBayGap": 15.371383484255631,
+      "otherSceneryGap": 23.783489763631607,
+      "minWindEnvelopeRoadGap": 9.310350445682381,
+      "minSiteEnvelopeGap": 4.597151266125472,
+      "geometry": [
+        {
+          "id": "8d:rescue:outbound-tree",
+          "kind": "wind",
+          "x": 4257.2138671875,
+          "z": 199.75343322753906,
+          "radius": 6.131004043815437,
+          "rootRadius": 0.7955255297540239,
+          "roadGap": 14.895339838325494,
+          "margin": 9.081818258399242,
+          "maxHeight": 8.48968544002814,
+          "min": [4255.023159361894, 43.029998908802504, 195.36079235492213],
+          "max": [4263.10721467902, 51.519684348830644, 203.1257286554463]
+        },
+        {
+          "id": "8d:rescue:inbound-tree",
+          "kind": "upright",
+          "x": 4468.29833984375,
+          "z": 273.209228515625,
+          "radius": 5.114734352855228,
+          "rootRadius": 0.769698478858412,
+          "roadGap": 16.469466426269108,
+          "margin": 9.080811721008217,
+          "maxHeight": 9.344658934628377,
+          "min": [4464.971444597866, 44.21935767196286, 270.2195670981608],
+          "max": [4473.40779216266, 53.56401660659124, 277.4501684532439]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:0",
+          "kind": "grass",
+          "x": 4262.98046875,
+          "z": 202.334228515625,
+          "radius": 0.9496178826926331,
+          "rootRadius": 0.42874693075013404,
+          "roadGap": 20.357388278840194,
+          "margin": 11.015703859968838,
+          "maxHeight": 1.3588440249873628,
+          "min": [4262.471639724484, 43.0823105118597, 201.9689562743123],
+          "max": [4263.620267226416, 44.441154536847066, 203.23633115619964]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:1",
+          "kind": "grass",
+          "x": 4243.79248046875,
+          "z": 192.6143035888672,
+          "radius": 0.6013189815431672,
+          "rootRadius": 0.28315742145181705,
+          "roadGap": 17.659288779344767,
+          "margin": 14.081748775034058,
+          "maxHeight": 0.9079308604660383,
+          "min": [4243.389771070177, 43.01036071476769, 192.38740993650984],
+          "max": [4244.30090226417, 43.91829157523373, 193.20593222862277]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:2",
+          "kind": "grass",
+          "x": 4264.73779296875,
+          "z": 200.9163055419922,
+          "radius": 1.1138919712135733,
+          "rootRadius": 0.5875161852614036,
+          "roadGap": 18.307650590295268,
+          "margin": 12.663477962915678,
+          "maxHeight": 1.6051314773291523,
+          "min": [4264.104708757692, 43.11888972073399, 200.40017215371],
+          "max": [4265.454746194466, 44.72402119806314, 202.02772949016082]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:3",
+          "kind": "grass",
+          "x": 4254.6298828125,
+          "z": 191.78823852539062,
+          "radius": 1.3333364978815399,
+          "rootRadius": 0.5912637700041483,
+          "roadGap": 13.066160907443951,
+          "margin": 13.01616090744395,
+          "maxHeight": 1.5941808947287512,
+          "min": [4254.128086658795, 43.081539868407376, 191.343878374537],
+          "max": [4255.596964348319, 44.67572076313613, 192.7916631579274]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:5",
+          "kind": "grass",
+          "x": 4258.15625,
+          "z": 193.60272216796875,
+          "radius": 1.1392899263320047,
+          "rootRadius": 0.6132000841566936,
+          "roadGap": 13.552253300361219,
+          "margin": 13.502253300361218,
+          "maxHeight": 1.6259210320856141,
+          "min": [4257.491359892129, 43.109309607350994, 193.06621606542134],
+          "max": [4258.878446693501, 44.73523063943661, 194.74147869569515]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:7",
+          "kind": "grass",
+          "x": 4256.0927734375,
+          "z": 193.5829620361328,
+          "radius": 0.6582078492004746,
+          "rootRadius": 0.2870149051041127,
+          "roadGap": 14.438917596130747,
+          "margin": 14.388917596130746,
+          "maxHeight": 0.86856746975986,
+          "min": [4255.665627626744, 43.08612189714331, 193.2557320102304],
+          "max": [4256.694526181052, 43.95468936690317, 194.0256120237501]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:10",
+          "kind": "grass",
+          "x": 4243.98095703125,
+          "z": 188.92015075683594,
+          "radius": 0.9675786834165283,
+          "rootRadius": 0.5808689550025611,
+          "roadGap": 13.839491567482419,
+          "margin": 13.789491567482418,
+          "maxHeight": 1.339940701219696,
+          "min": [4243.261093424203, 43.04672824895879, 188.4697513051336],
+          "max": [4244.595550399834, 44.38666895017849, 189.86584957838448]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:11",
+          "kind": "grass",
+          "x": 4238.8173828125,
+          "z": 190.6889190673828,
+          "radius": 0.8024747139887976,
+          "rootRadius": 0.32811430339810727,
+          "roadGap": 17.24287726611416,
+          "margin": 10.798254586987184,
+          "maxHeight": 0.9491276211513409,
+          "min": [4238.4651169411545, 43.02499018072615, 190.1914438612218],
+          "max": [4239.588514535597, 43.97411780187749, 191.14909882268074]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:13",
+          "kind": "grass",
+          "x": 4263.24755859375,
+          "z": 198.80699157714844,
+          "radius": 0.9589462282977589,
+          "rootRadius": 0.4046055660247296,
+          "roadGap": 16.783310160710386,
+          "margin": 14.812514052045557,
+          "maxHeight": 1.1312795182260373,
+          "min": [4262.93660958603, 43.12350519400619, 198.37880065888916],
+          "max": [4264.067996479396, 44.25478471223223, 199.38760094101417]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:14",
+          "kind": "grass",
+          "x": 4248.802734375,
+          "z": 192.51950073242188,
+          "radius": 0.9708981445912294,
+          "rootRadius": 0.3735198965111115,
+          "roadGap": 15.857372731558861,
+          "margin": 15.716299523590525,
+          "maxHeight": 1.0805901718906767,
+          "min": [4248.451501627763, 43.01653694424289, 192.1973780557291],
+          "max": [4249.365546259317, 44.097127116133564, 193.31063029832262]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:15",
+          "kind": "grass",
+          "x": 4245.91650390625,
+          "z": 196.22933959960938,
+          "radius": 0.6576499162681883,
+          "rootRadius": 0.3958877269674768,
+          "roadGap": 20.251088570407283,
+          "margin": 11.474777518045116,
+          "maxHeight": 1.0763015320245515,
+          "min": [4245.3159159450015, 42.97480290698265, 195.82852031047983],
+          "max": [4246.536306150268, 44.051104439007204, 196.72192372727892]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:16",
+          "kind": "grass",
+          "x": 4245.02734375,
+          "z": 197.69140625,
+          "radius": 0.6986432938601742,
+          "rootRadius": 0.3086549033500319,
+          "roadGap": 21.91576515970105,
+          "margin": 9.85340150877196,
+          "maxHeight": 0.9647731073274741,
+          "min": [4244.609880615619, 42.95845631290581, 197.2830602405457],
+          "max": [4245.66365158855, 43.923229420233284, 198.15853650786426]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:17",
+          "kind": "grass",
+          "x": 4265.03857421875,
+          "z": 196.01617431640625,
+          "radius": 0.8443994460736605,
+          "rootRadius": 0.4992703944131199,
+          "roadGap": 13.396275673948708,
+          "margin": 13.346275673948707,
+          "maxHeight": 1.4266722092967115,
+          "min": [4264.544930819379, 43.17771704530807, 195.28411072093252],
+          "max": [4265.856771922225, 44.60438925460478, 196.51236809993296]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:18",
+          "kind": "grass",
+          "x": 4247.185546875,
+          "z": 190.3931427001953,
+          "radius": 0.7045252881690436,
+          "rootRadius": 0.305696544511117,
+          "roadGap": 14.310622532755595,
+          "margin": 14.260622532755594,
+          "maxHeight": 0.9708601687794101,
+          "min": [4246.801559406779, 43.03823854194204, 189.97037297558768],
+          "max": [4247.8242428141775, 44.00909871072145, 190.85711235228396]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:19",
+          "kind": "grass",
+          "x": 4265.90087890625,
+          "z": 198.9964599609375,
+          "radius": 1.2733188004402938,
+          "rootRadius": 0.5501727909064814,
+          "roadGap": 16.160873259828854,
+          "margin": 15.152276496317441,
+          "maxHeight": 1.484371593101514,
+          "min": [4265.442804650204, 43.154429653315276, 198.580919759535],
+          "max": [4266.856604551706, 44.63880124641679, 199.9321876978672]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:20",
+          "kind": "grass",
+          "x": 4260.67919921875,
+          "z": 194.8137969970703,
+          "radius": 0.7792403187399215,
+          "rootRadius": 0.5121043852690433,
+          "roadGap": 13.798357802900053,
+          "margin": 13.748357802900053,
+          "maxHeight": 1.6293630083486264,
+          "min": [4259.952272662849, 43.13062833561806, 194.19315337747418],
+          "max": [4261.378597991665, 44.75999134396669, 195.46802585975843]
+        },
+        {
+          "id": "8d:rescue:outer-wash-grass:22",
+          "kind": "grass",
+          "x": 4241.6220703125,
+          "z": 189.8280487060547,
+          "radius": 1.1549385484709616,
+          "rootRadius": 0.47990733117161694,
+          "roadGap": 15.637897674271294,
+          "margin": 13.117172899464293,
+          "maxHeight": 1.2138898352123064,
+          "min": [4241.214644304574, 43.03649676255697, 189.45092836945489],
+          "max": [4242.394639924811, 44.25038659776928, 190.68654695583643]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:0",
+          "kind": "grass",
+          "x": 4425.2763671875,
+          "z": 248.52511596679688,
+          "radius": 0.964594041659044,
+          "rootRadius": 0.3562284058086427,
+          "roadGap": 10.46600097660912,
+          "margin": 10.41600097660912,
+          "maxHeight": 0.858062665830019,
+          "min": [4424.980834278387, 44.4736361131956, 248.24176981225685],
+          "max": [4425.918027242428, 45.33169877902562, 249.24533401649683]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:1",
+          "kind": "grass",
+          "x": 4427.96533203125,
+          "z": 256.30767822265625,
+          "radius": 0.6926929871854642,
+          "rootRadius": 0.372106517996613,
+          "roadGap": 16.736474601278058,
+          "margin": 14.877966797884046,
+          "maxHeight": 1.1758686028729102,
+          "min": [4427.441547145668, 44.47039142724079, 255.8539420660842],
+          "max": [4428.612744316223, 45.6462600301137, 256.8381734045265]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:2",
+          "kind": "grass",
+          "x": 4432.24951171875,
+          "z": 251.51171875,
+          "radius": 0.8356715715967425,
+          "rootRadius": 0.38196624938514157,
+          "roadGap": 10.90317891234682,
+          "margin": 10.85317891234682,
+          "maxHeight": 1.209346791866487,
+          "min": [4431.790975555164, 44.43026712055018, 251.18279341319302],
+          "max": [4432.856870673098, 45.639613912416664, 252.32334416202846]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:4",
+          "kind": "grass",
+          "x": 4432.25341796875,
+          "z": 253.69203186035156,
+          "radius": 1.1154757497477714,
+          "rootRadius": 0.5281532311240247,
+          "roadGap": 12.756885533601789,
+          "margin": 12.706885533601788,
+          "maxHeight": 1.3571412137229828,
+          "min": [4431.801759736173, 44.43393060833113, 253.18130105668567],
+          "max": [4433.3687136235485, 45.791071822054114, 254.45980843960857]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:6",
+          "kind": "grass",
+          "x": 4429.1328125,
+          "z": 250.94921875,
+          "radius": 0.7317724337445134,
+          "rootRadius": 0.37371251934056565,
+          "roadGap": 11.27999737525339,
+          "margin": 11.22999737525339,
+          "maxHeight": 1.1813719511696164,
+          "min": [4428.666797823973, 44.44854195723497, 250.42653343752332],
+          "max": [4429.8064128959995, 45.62991390840459, 251.46846283213608]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:8",
+          "kind": "grass",
+          "x": 4437.5341796875,
+          "z": 253.80332946777344,
+          "radius": 0.6370624402014718,
+          "rootRadius": 0.41998195932294885,
+          "roadGap": 11.285619489773282,
+          "margin": 11.235619489773281,
+          "maxHeight": 1.0894682843357728,
+          "min": [4436.9251406291905, 44.40783489228776, 253.4398874959863],
+          "max": [4438.10751854035, 45.49730317662353, 254.2944014106703]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:9",
+          "kind": "grass",
+          "x": 4431.85791015625,
+          "z": 257.16864013671875,
+          "radius": 0.9211401034431579,
+          "rootRadius": 0.5440732015819775,
+          "roadGap": 16.22205490659041,
+          "margin": 14.891958318225573,
+          "maxHeight": 1.3606367470978284,
+          "min": [4431.156772915564, 44.4447537668378, 256.74210753262],
+          "max": [4432.479946213558, 45.80539051393563, 258.0746986372796]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:10",
+          "kind": "grass",
+          "x": 4417.158203125,
+          "z": 249.973388671875,
+          "radius": 1.233852269235601,
+          "rootRadius": 0.5223802584408279,
+          "roadGap": 14.260405982888415,
+          "margin": 4.597151266125472,
+          "maxHeight": 1.530165566419086,
+          "min": [4416.726719070361, 44.516406304395176, 249.55289695217687],
+          "max": [4418.128360864386, 46.04657187081426, 250.88247185782961]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:11",
+          "kind": "grass",
+          "x": 4427.564453125,
+          "z": 253.84149169921875,
+          "radius": 0.7534657307811733,
+          "rootRadius": 0.29362059856865097,
+          "roadGap": 14.718871869925287,
+          "margin": 14.668871869925287,
+          "maxHeight": 0.8895749385172493,
+          "min": [4427.227728160273, 44.46859671617745, 253.58309050027208],
+          "max": [4428.08131653798, 45.3581716546947, 254.54453838446457]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:12",
+          "kind": "grass",
+          "x": 4420.9990234375,
+          "z": 247.5054473876953,
+          "radius": 1.068563370514674,
+          "rootRadius": 0.423304184573246,
+          "roadGap": 10.70278425907168,
+          "margin": 7.5015517860583145,
+          "maxHeight": 1.341818313049707,
+          "min": [4420.65697787828, 44.49615523899814, 247.12831670941176],
+          "max": [4421.868249986459, 45.83797355204785, 248.29715277937777]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:15",
+          "kind": "grass",
+          "x": 4430.65869140625,
+          "z": 254.8506622314453,
+          "radius": 1.1972468872441977,
+          "rootRadius": 0.5930446292676879,
+          "roadGap": 14.397839468644516,
+          "margin": 14.347839468644516,
+          "maxHeight": 1.5113975703068974,
+          "min": [4430.090746078818, 44.44598941582513, 254.33127571126246],
+          "max": [4431.341373867108, 45.95738698613203, 256.012202365307]
+        },
+        {
+          "id": "8d:rescue:inner-swale-grass:17",
+          "kind": "grass",
+          "x": 4438.44970703125,
+          "z": 257.6559753417969,
+          "radius": 0.8556998993876904,
+          "rootRadius": 0.5296950693011415,
+          "roadGap": 14.27904119104484,
+          "margin": 14.229041191044839,
+          "maxHeight": 1.3624109643718825,
+          "min": [4437.958095341625, 44.41175657553918, 256.9097686931101],
+          "max": [4439.263382607325, 45.77416753991106, 258.13443744126363]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:1",
+          "kind": "grass",
+          "x": 4472.330078125,
+          "z": 280.8998107910156,
+          "radius": 0.7004862460068775,
+          "rootRadius": 0.38728159485669966,
+          "roadGap": 25.314206029061403,
+          "margin": 6.339682434130928,
+          "maxHeight": 1.120011786674496,
+          "min": [4471.769794842708, 44.22854878060466, 280.4664474628105],
+          "max": [4472.983414163734, 45.34856056727916, 281.4152801724717]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:3",
+          "kind": "grass",
+          "x": 4477.41845703125,
+          "z": 279.8091125488281,
+          "radius": 1.192275891488426,
+          "rootRadius": 0.5047457989799533,
+          "roadGap": 22.449740657086224,
+          "margin": 8.719201593675734,
+          "maxHeight": 1.5988083862247677,
+          "min": [4476.995745994376, 44.18567132681777, 279.3274099378343],
+          "max": [4478.429244458592, 45.784479713042536, 280.7088067962342]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:4",
+          "kind": "grass",
+          "x": 4483.33935546875,
+          "z": 280.27996826171875,
+          "radius": 0.8389748833218839,
+          "rootRadius": 0.4961601734102321,
+          "roadGap": 20.812778334105694,
+          "margin": 10.502584155253011,
+          "maxHeight": 1.485654524063662,
+          "min": [4482.839188909233, 44.14813306728328, 279.53668986571074],
+          "max": [4484.150225102742, 45.633787591346945, 280.8054947473512]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:5",
+          "kind": "grass",
+          "x": 4469.72119140625,
+          "z": 279.9075622558594,
+          "radius": 0.9138702434811523,
+          "rootRadius": 0.4478303630597372,
+          "roadGap": 24.999963920276443,
+          "margin": 6.463105298644997,
+          "maxHeight": 1.2872737722764356,
+          "min": [4469.242866463167, 44.240713668492944, 279.2287379617636],
+          "max": [4470.615769590873, 45.52798744076938, 280.4000548007899]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:7",
+          "kind": "grass",
+          "x": 4470.74072265625,
+          "z": 267.6567077636719,
+          "radius": 1.2450911527703032,
+          "rootRadius": 0.5443446425454664,
+          "roadGap": 13.367659580719277,
+          "margin": 13.317659580719276,
+          "maxHeight": 1.3362366444681442,
+          "min": [4470.283265652438, 44.17772432931321, 267.21934992103786],
+          "max": [4471.5226986176285, 45.51396097378135, 268.6256069196902]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:8",
+          "kind": "grass",
+          "x": 4476.64404296875,
+          "z": 269.3112487792969,
+          "radius": 1.450714209309078,
+          "rootRadius": 0.6943685426427325,
+          "roadGap": 12.732171882466638,
+          "margin": 12.682171882466637,
+          "maxHeight": 1.6568073122572002,
+          "min": [4476.03145221147, 44.13807533537272, 268.72277617138235],
+          "max": [4478.041220327435, 45.79488264762992, 270.25466012783454]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:9",
+          "kind": "grass",
+          "x": 4460.0927734375,
+          "z": 270.16717529296875,
+          "radius": 1.0316194505624274,
+          "rootRadius": 0.6454283042944842,
+          "roadGap": 18.73309129598938,
+          "margin": 12.32160499767187,
+          "maxHeight": 1.6547995714763175,
+          "min": [4459.469695155037, 44.28658139978845, 269.19396816421795],
+          "max": [4461.116174850142, 45.94138097126477, 270.7196541505655]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:12",
+          "kind": "grass",
+          "x": 4478.9443359375,
+          "z": 271.80279541015625,
+          "radius": 1.0218497340945576,
+          "rootRadius": 0.47050706266003245,
+          "roadGap": 14.55010244256583,
+          "margin": 14.50010244256583,
+          "maxHeight": 1.2467725313625735,
+          "min": [4478.475948778219, 44.13728955113363, 271.39126677454334],
+          "max": [4479.554773278226, 45.3840620824962, 272.7791347477364]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:14",
+          "kind": "grass",
+          "x": 4471.296875,
+          "z": 279.6852722167969,
+          "radius": 0.8761434675516366,
+          "rootRadius": 0.3211221342078484,
+          "roadGap": 24.560512538807536,
+          "margin": 7.101022871822202,
+          "maxHeight": 1.0113412057451896,
+          "min": [4471.019254949564, 44.22974932984153, 279.3130905664897],
+          "max": [4472.137247765093, 45.24109053558672, 280.3736680455127]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:15",
+          "kind": "grass",
+          "x": 4473.99365234375,
+          "z": 279.9525451660156,
+          "radius": 1.0486113812828337,
+          "rootRadius": 0.683729086184235,
+          "roadGap": 23.28771136997699,
+          "margin": 7.637446401731168,
+          "maxHeight": 1.5862038314690565,
+          "min": [4473.416134636075, 44.21035567308746, 278.9181582792044],
+          "max": [4475.014318564675, 45.79655950455652, 280.5561144032056]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:16",
+          "kind": "grass",
+          "x": 4478.884765625,
+          "z": 276.90283203125,
+          "radius": 0.6672801281112503,
+          "rootRadius": 0.33987418347609294,
+          "roadGap": 19.484328230949053,
+          "margin": 12.360452196580184,
+          "maxHeight": 0.8766826834298698,
+          "min": [4478.373045656447, 44.16278887617169, 276.57121367182975],
+          "max": [4479.499956255578, 45.03947155960156, 277.34753259797606]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:18",
+          "kind": "grass",
+          "x": 4465.87890625,
+          "z": 277.9454650878906,
+          "radius": 1.0060151739175756,
+          "rootRadius": 0.4547734251187322,
+          "roadGap": 24.676624961646134,
+          "margin": 6.635950608629972,
+          "maxHeight": 1.2445427387371524,
+          "min": [4465.413750102871, 44.27150296853541, 277.54978851988005],
+          "max": [4466.48621882596, 45.51604570727256, 278.89923059889986]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:20",
+          "kind": "grass",
+          "x": 4481.1455078125,
+          "z": 278.6781311035156,
+          "radius": 0.8874681003881125,
+          "rootRadius": 0.4171616998193789,
+          "roadGap": 20.09322062297352,
+          "margin": 11.413434255123576,
+          "maxHeight": 0.9746714929513942,
+          "min": [4480.869676157998, 44.15599342392327, 278.12097913052884],
+          "max": [4481.922200117504, 45.130664916874665, 279.2339428858316]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:22",
+          "kind": "grass",
+          "x": 4479.16259765625,
+          "z": 281.05474853515625,
+          "radius": 0.7236545232340912,
+          "rootRadius": 0.4067487273527893,
+          "roadGap": 23.128071146944606,
+          "margin": 8.40211999677151,
+          "maxHeight": 1.2919132247310117,
+          "min": [4478.6312395807745, 44.180077982064375, 280.5149803086907],
+          "max": [4479.839109888159, 45.47199120679539, 281.61203027335034]
+        },
+        {
+          "id": "8d:rescue:high-bank-grass:23",
+          "kind": "grass",
+          "x": 4466.056640625,
+          "z": 268.15570068359375,
+          "radius": 1.2607020681979382,
+          "rootRadius": 0.6214858592614082,
+          "roadGap": 15.242399265417582,
+          "margin": 15.192399265417581,
+          "maxHeight": 1.5866321985642386,
+          "min": [4465.469278260442, 44.223366130645104, 267.6193074693442],
+          "max": [4466.75009465745, 45.80999832920934, 269.36245113951696]
+        },
+        {
+          "id": "8d:rescue:outer-wash-scrub:2",
+          "kind": "scrub",
+          "x": 4252.15185546875,
+          "z": 197.75628662109375,
+          "radius": 0.9754713178421908,
+          "rootRadius": 0.05469466228361744,
+          "roadGap": 19.340013724640244,
+          "margin": 11.681136618689163,
+          "maxHeight": 1.0935441838289677,
+          "min": [4251.681512364962, 42.994836973204876, 197.21402252288752],
+          "max": [4252.918796718085, 44.088381157033844, 198.70969223040018]
+        },
+        {
+          "id": "8d:rescue:outer-wash-scrub:4",
+          "kind": "scrub",
+          "x": 4250.59033203125,
+          "z": 194.76979064941406,
+          "radius": 1.1615258812378262,
+          "rootRadius": 0.06897507166691155,
+          "roadGap": 16.948954027418825,
+          "margin": 13.991912925839756,
+          "maxHeight": 1.3693313892089733,
+          "min": [4249.799859409305, 43.00423912687476, 193.96315320405762],
+          "max": [4251.559337992995, 44.37357051608373, 195.81792395497058]
+        },
+        {
+          "id": "8d:rescue:outer-wash-scrub:6",
+          "kind": "scrub",
+          "x": 4262.74169921875,
+          "z": 205.74388122558594,
+          "radius": 1.0032609993818875,
+          "rootRadius": 0.06422991610856947,
+          "roadGap": 23.273926444311865,
+          "margin": 7.5936489779207434,
+          "maxHeight": 1.2832365545823237,
+          "min": [4262.132749064606, 43.04812614249682, 204.93230892402372],
+          "max": [4263.564907291736, 44.33136269707914, 206.73142660087117]
+        },
+        {
+          "id": "8d:rescue:outer-wash-scrub:7",
+          "kind": "scrub",
+          "x": 4260.97119140625,
+          "z": 206.97178649902344,
+          "radius": 1.1286270364495752,
+          "rootRadius": 0.08826297106752885,
+          "roadGap": 24.794406070241713,
+          "margin": 5.6162853936627855,
+          "maxHeight": 1.9051378361925018,
+          "min": [4260.039637754771, 43.011210532679186, 205.99843601558848],
+          "max": [4262.011533755744, 44.91634836887169, 208.0851937211516]
+        },
+        {
+          "id": "8d:rescue:outer-wash-scrub:8",
+          "kind": "scrub",
+          "x": 4267.7470703125,
+          "z": 206.08392333984375,
+          "radius": 1.3098860191645638,
+          "rootRadius": 0.08787443484392253,
+          "roadGap": 21.507129261626034,
+          "margin": 8.86587563158944,
+          "maxHeight": 1.7905546545188216,
+          "min": [4266.759861731769, 43.11033329375921, 205.02028254388046],
+          "max": [4269.056955739894, 44.90088794827803, 207.18047564292092]
+        },
+        {
+          "id": "8d:rescue:outer-wash-scrub:11",
+          "kind": "scrub",
+          "x": 4244.02392578125,
+          "z": 195.35861206054688,
+          "radius": 1.1319003093622586,
+          "rootRadius": 0.07503559579526108,
+          "roadGap": 19.540096483400834,
+          "margin": 11.141290306279323,
+          "maxHeight": 1.6098594457384934,
+          "min": [4243.340832234992, 42.98499026225031, 194.56794865774862],
+          "max": [4244.969782317439, 44.5948497079888, 196.3911271729801]
+        },
+        {
+          "id": "8d:rescue:inner-swale-scrub:1",
+          "kind": "scrub",
+          "x": 4433.7998046875,
+          "z": 260.5463562011719,
+          "radius": 0.733976856654812,
+          "rootRadius": 0.04459550137955469,
+          "roadGap": 18.775395438607816,
+          "margin": 12.65595928470481,
+          "maxHeight": 0.9611534205618142,
+          "min": [4433.314818805615, 44.44513285665336, 260.0431160608364],
+          "max": [4434.522576011856, 45.40628627721517, 261.1958312710224]
+        },
+        {
+          "id": "8d:rescue:inner-swale-scrub:2",
+          "kind": "scrub",
+          "x": 4429.86572265625,
+          "z": 258.5267333984375,
+          "radius": 0.9257389544511783,
+          "rootRadius": 0.04552744818226845,
+          "roadGap": 18.23997558744149,
+          "margin": 13.322916630998282,
+          "maxHeight": 0.94085265525419,
+          "min": [4429.29858262114, 44.46335585079644, 258.03583769037584],
+          "max": [4430.5265076802, 45.40420850605063, 259.24561604072227]
+        },
+        {
+          "id": "8d:rescue:inner-swale-scrub:5",
+          "kind": "scrub",
+          "x": 4428.515625,
+          "z": 252.6945343017578,
+          "radius": 0.9022111007254751,
+          "rootRadius": 0.05920825027820005,
+          "roadGap": 12.792622953209971,
+          "margin": 12.74262295320997,
+          "maxHeight": 1.2082586671955013,
+          "min": [4427.9165449918455, 44.46062918253255, 251.8989542979336],
+          "max": [4429.406584110447, 45.66888784972805, 253.4221715313505]
+        },
+        {
+          "id": "8d:rescue:high-bank-scrub:2",
+          "kind": "scrub",
+          "x": 4480.40966796875,
+          "z": 273.4928283691406,
+          "radius": 1.1336956035987604,
+          "rootRadius": 0.06890490361159989,
+          "roadGap": 15.334688590228367,
+          "margin": 15.284688590228367,
+          "maxHeight": 1.43781242634131,
+          "min": [4479.681611271317, 44.13866895105311, 272.6959415870355],
+          "max": [4481.326260035634, 45.57648137739442, 274.52098855592385]
+        },
+        {
+          "id": "8d:rescue:high-bank-scrub:4",
+          "kind": "scrub",
+          "x": 4480.44873046875,
+          "z": 282.5223693847656,
+          "radius": 0.84412221161089,
+          "rootRadius": 0.05479114549531485,
+          "roadGap": 23.852696310445026,
+          "margin": 7.19093126513814,
+          "maxHeight": 1.103793218769212,
+          "min": [4479.888289413798, 44.18240141683826, 281.7566979278449],
+          "max": [4481.249180414368, 45.28619463560747, 283.245847527621]
+        },
+        {
+          "id": "8d:rescue:high-bank-scrub:5",
+          "kind": "scrub",
+          "x": 4476.841796875,
+          "z": 282.41632080078125,
+          "radius": 1.3052929217148839,
+          "rootRadius": 0.0843838929036527,
+          "roadGap": 24.712422873347165,
+          "margin": 5.781646199128772,
+          "maxHeight": 1.659339970340504,
+          "min": [4475.994878658547, 44.20596355759467, 281.4240732658188],
+          "max": [4477.958704745077, 45.865303527935176, 283.66381014027036]
+        },
+        {
+          "id": "8d:rescue:high-bank-scrub:12",
+          "kind": "scrub",
+          "x": 4462.65087890625,
+          "z": 270.8691101074219,
+          "radius": 0.8926103244852859,
+          "rootRadius": 0.053337740633526365,
+          "roadGap": 18.847990903908148,
+          "margin": 12.31402451115213,
+          "maxHeight": 1.1524796570160376,
+          "min": [4462.126294258815, 44.27448132919926, 270.2672017956207],
+          "max": [4463.316833794023, 45.4269609862153, 271.67305136139]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:0",
+          "kind": "stone",
+          "x": 4254.5771484375,
+          "z": 189.74276733398438,
+          "radius": 0.46740253941278886,
+          "rootRadius": 0.46740253941278886,
+          "roadGap": 11.316409913519244,
+          "margin": 11.266409913519244,
+          "maxHeight": 0.19864733191604955,
+          "min": [4254.290294915561, 43.10873824383402, 189.34587540467692],
+          "max": [4254.778003499912, 43.30738557575007, 189.89198170019148]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:1",
+          "kind": "stone",
+          "x": 4239.0478515625,
+          "z": 185.84378051757812,
+          "radius": 0.602030401999338,
+          "rootRadius": 0.602030401999338,
+          "roadGap": 12.788598401890237,
+          "margin": 9.516181666718353,
+          "maxHeight": 0.2529836978092206,
+          "min": [4238.728033601382, 43.073514618141715, 185.54500537262828],
+          "max": [4239.203523443295, 43.326498315950936, 186.41364022219264]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:3",
+          "kind": "stone",
+          "x": 4263.884765625,
+          "z": 192.37867736816406,
+          "radius": 1.0348046920294123,
+          "rootRadius": 1.0348046920294123,
+          "roadGap": 10.54347410855694,
+          "margin": 10.493474108556939,
+          "maxHeight": 0.5951231651888733,
+          "min": [4263.11779531973, 43.1897219436366, 191.87195962855867],
+          "max": [4264.238404214248, 43.78484510882547, 193.28137712702863]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:5",
+          "kind": "stone",
+          "x": 4246.59765625,
+          "z": 185.89181518554688,
+          "radius": 0.5293230162593843,
+          "rootRadius": 0.5293230162593843,
+          "roadGap": 10.432582907592401,
+          "margin": 10.3825829075924,
+          "maxHeight": 0.2803285650125531,
+          "min": [4246.3370121976795, 43.08418606134125, 185.7139876580085],
+          "max": [4247.09222861092, 43.3645146263538, 186.2364585955121]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:6",
+          "kind": "stone",
+          "x": 4257.958984375,
+          "z": 188.92710876464844,
+          "radius": 1.1866636193176647,
+          "rootRadius": 1.1866636193176647,
+          "roadGap": 9.310350445682381,
+          "margin": 9.26035044568238,
+          "maxHeight": 0.6648300895915469,
+          "min": [4257.331112356092, 43.148775415339465, 188.39387264089208],
+          "max": [4258.427635428994, 43.81360550493101, 190.11377215456986]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:8",
+          "kind": "stone",
+          "x": 4247.50927734375,
+          "z": 188.33050537109375,
+          "radius": 0.6299946555939858,
+          "rootRadius": 0.6299946555939858,
+          "roadGap": 12.29263546628836,
+          "margin": 12.242635466288359,
+          "maxHeight": 0.35278845516589996,
+          "min": [4246.881334705675, 43.05932915632235, 187.99110713812473],
+          "max": [4247.780792426972, 43.41211761148825, 188.61192340724463]
+        },
+        {
+          "id": "8d:rescue:outer-wash-stone:11",
+          "kind": "stone",
+          "x": 4243.22216796875,
+          "z": 186.31625366210938,
+          "radius": 1.1179627587400065,
+          "rootRadius": 1.1179627587400065,
+          "roadGap": 11.14060737916827,
+          "margin": 11.090607379168269,
+          "maxHeight": 0.6245219247070182,
+          "min": [4242.689122381397, 43.07489084944911, 185.20764772906517],
+          "max": [4243.829256549365, 43.69941277415613, 186.78387051851107]
+        },
+        {
+          "id": "8d:rescue:inner-swale-stone:0",
+          "kind": "stone",
+          "x": 4424.2314453125,
+          "z": 250.93858337402344,
+          "radius": 0.5802485226354778,
+          "rootRadius": 0.5802485226354778,
+          "roadGap": 13.054175312342085,
+          "margin": 11.567543697091445,
+          "maxHeight": 0.3444702317589545,
+          "min": [4423.701530860404, 44.48667318003031, 250.6197509736753],
+          "max": [4424.414354367117, 44.83114341178926, 251.30764504475695]
+        },
+        {
+          "id": "8d:rescue:inner-swale-stone:1",
+          "kind": "stone",
+          "x": 4429.64697265625,
+          "z": 248.97874450683594,
+          "radius": 0.6305037707347707,
+          "rootRadius": 0.6305037707347707,
+          "roadGap": 9.408985812150373,
+          "margin": 9.358985812150372,
+          "maxHeight": 0.2754660056750211,
+          "min": [4429.0734263477225, 44.44061152259093, 248.6955783708155],
+          "max": [4429.873956552285, 44.71607752826595, 249.33534124001227]
+        },
+        {
+          "id": "8d:rescue:inner-swale-stone:5",
+          "kind": "stone",
+          "x": 4427.27587890625,
+          "z": 251.32763671875,
+          "radius": 0.580607481080265,
+          "rootRadius": 0.580607481080265,
+          "roadGap": 12.230210120883946,
+          "margin": 12.180210120883945,
+          "maxHeight": 0.3224579222168984,
+          "min": [4427.126711494039, 44.46207504817732, 250.93143192925137],
+          "max": [4427.754439934621, 44.78453297039422, 251.6141409129672]
+        },
+        {
+          "id": "8d:rescue:high-bank-stone:0",
+          "kind": "stone",
+          "x": 4471.02587890625,
+          "z": 269.7283630371094,
+          "radius": 0.467131735731999,
+          "rootRadius": 0.467131735731999,
+          "roadGap": 15.46981857089255,
+          "margin": 15.419818570892549,
+          "maxHeight": 0.22592297267729577,
+          "min": [4470.8023486478605, 44.185790664374, 269.61044096308024],
+          "max": [4471.39374266869, 44.41171363705129, 270.05846994881637]
+        },
+        {
+          "id": "8d:rescue:high-bank-stone:2",
+          "kind": "stone",
+          "x": 4487.0224609375,
+          "z": 274.7622985839844,
+          "radius": 1.3578465808004367,
+          "rootRadius": 1.3578465808004367,
+          "roadGap": 14.621180571181945,
+          "margin": 9.456297657555893,
+          "maxHeight": 0.6681724513972114,
+          "min": [4486.3516619509155, 44.092947396235374, 274.34268705756557],
+          "max": [4488.293973493851, 44.761119847632585, 275.5950928463083]
+        },
+        {
+          "id": "8d:rescue:high-bank-stone:3",
+          "kind": "stone",
+          "x": 4484.54248046875,
+          "z": 270.8228759765625,
+          "radius": 1.1858505294762987,
+          "rootRadius": 1.1858505294762987,
+          "roadGap": 11.852647393069354,
+          "margin": 11.802647393069353,
+          "maxHeight": 0.5401834303183861,
+          "min": [4483.986403443538, 44.093393899182445, 270.5672282325617],
+          "max": [4485.414580058945, 44.63357732950083, 271.6504282616564]
+        },
+        {
+          "id": "8d:rescue:high-bank-stone:6",
+          "kind": "stone",
+          "x": 4477.2890625,
+          "z": 266.5260925292969,
+          "radius": 0.7995678514879232,
+          "rootRadius": 0.7995678514879232,
+          "roadGap": 10.284275797869071,
+          "margin": 10.23427579786907,
+          "maxHeight": 0.4210530027771213,
+          "min": [4476.874899314968, 44.12314166518434, 266.1979693332939],
+          "max": [4477.681212848899, 44.54419466796146, 267.3114974628715]
+        },
+        {
+          "id": "8d:rescue:high-bank-stone:9",
+          "kind": "stone",
+          "x": 4474.216796875,
+          "z": 269.2886047363281,
+          "radius": 0.7722695391557667,
+          "rootRadius": 0.7722695391557667,
+          "roadGap": 13.383166429507305,
+          "margin": 13.333166429507305,
+          "maxHeight": 0.4495517057213405,
+          "min": [4473.916937047608, 44.15490907935523, 268.52699987957794],
+          "max": [4474.679318561823, 44.60446078507657, 269.65354230461736]
+        },
+        {
+          "id": "8d:rescue:high-bank-stone:10",
+          "kind": "stone",
+          "x": 4476.64404296875,
+          "z": 272.63018798828125,
+          "radius": 0.30840556912805017,
+          "rootRadius": 0.30840556912805017,
+          "roadGap": 16.34474171147223,
+          "margin": 15.855724409028909,
+          "maxHeight": 0.15162195860883543,
+          "min": [4476.338337259019, 44.15808084070901, 272.4743425791052],
+          "max": [4476.79200851495, 44.30970279931785, 272.73238644561195]
+        }
+      ],
+      "rootDepths": [0.03320162391663217, 0.03500316553734706],
+      "rootRays": 33,
+      "shoulderFit": [0.033371217460079095, 0.04211494835482199],
+      "shoulderRays": 96,
+      "actualDrapeRoadGap": 0.04992342881384815,
+      "vehicle": {
+        "closest": {
+          "t": 64.8,
+          "gap": 7.263728679010568,
+          "actor": "defender_support_recovery_01",
+          "detail": "8d:rescue:outer-wash-stone:6"
+        },
+        "rayChecks": 2538,
+        "blocked": []
+      }
+    },
+    "shore": {
+      "shoreline": [
+        [5515, -2959],
+        [5515.5, -2959.166748046875],
+        [5516, -2959.333251953125],
+        [5516.5, -2959.5],
+        [5517, -2959.666748046875],
+        [5517.5, -2959.833251953125],
+        [5518, -2960],
+        [5518.5, -2960.166748046875],
+        [5519, -2960.333251953125],
+        [5519.5, -2960.5],
+        [5520, -2960.666748046875],
+        [5520.5, -2960.833251953125],
+        [5521, -2961],
+        [5521.5, -2961.166748046875],
+        [5522, -2961.333251953125],
+        [5522.5, -2961.5],
+        [5523, -2961.666748046875],
+        [5523.5, -2961.833251953125],
+        [5524, -2962],
+        [5526.16650390625, -2962.72216796875],
+        [5528.33349609375, -2963.4443359375],
+        [5530.5, -2964.166748046875],
+        [5532.66650390625, -2964.888916015625],
+        [5534.83349609375, -2965.611083984375],
+        [5537, -2966.333251953125],
+        [5539.16650390625, -2967.0556640625],
+        [5541.33349609375, -2967.77783203125],
+        [5543.5, -2968.5],
+        [5545.66650390625, -2969.22216796875],
+        [5547.83349609375, -2969.9443359375],
+        [5550, -2970.666748046875],
+        [5552.16650390625, -2971.388916015625],
+        [5554.33349609375, -2972.111083984375],
+        [5556.5, -2972.833251953125],
+        [5558.66650390625, -2973.5556640625],
+        [5560.83349609375, -2974.27783203125],
+        [5563, -2975],
+        [5565.16650390625, -2975.72216796875],
+        [5567.33349609375, -2976.4443359375],
+        [5569.5, -2977.166748046875],
+        [5571.66650390625, -2977.888916015625],
+        [5573.83349609375, -2978.611083984375],
+        [5576, -2979.333251953125],
+        [5578.16650390625, -2980.0556640625],
+        [5580.33349609375, -2980.77783203125],
+        [5582.5, -2981.5],
+        [5584.66650390625, -2982.22216796875],
+        [5586.83349609375, -2982.9443359375],
+        [5589, -2983.666748046875],
+        [5591.16650390625, -2984.388916015625],
+        [5593.33349609375, -2985.111083984375],
+        [5595.5, -2985.833251953125],
+        [5597.66650390625, -2986.5556640625],
+        [5599.83349609375, -2987.27783203125],
+        [5602, -2988],
+        [5604.16650390625, -2988.72216796875],
+        [5606.33349609375, -2989.4443359375],
+        [5608.5, -2990.166748046875],
+        [5610.66650390625, -2990.888916015625],
+        [5612.83349609375, -2991.611083984375],
+        [5615, -2992.333251953125],
+        [5617.16650390625, -2993.0556640625],
+        [5619.33349609375, -2993.77783203125],
+        [5621.5, -2994.5],
+        [5623.66650390625, -2995.22216796875],
+        [5625.83349609375, -2995.9443359375],
+        [5628, -2996.666748046875],
+        [5630.16650390625, -2997.388916015625],
+        [5632.33349609375, -2998.111083984375],
+        [5634.5, -2998.833251953125],
+        [5636.66650390625, -2999.5556640625],
+        [5638.83349609375, -3000.27783203125],
+        [5641, -3001],
+        [5643.16650390625, -3001.72216796875],
+        [5645.33349609375, -3002.4443359375],
+        [5647.5, -3003.166748046875],
+        [5649.66650390625, -3003.888916015625],
+        [5651.83349609375, -3004.611083984375],
+        [5654, -3005.333251953125],
+        [5656.16650390625, -3006.0556640625],
+        [5658.33349609375, -3006.77783203125],
+        [5660.5, -3007.5],
+        [5662.66650390625, -3008.22216796875],
+        [5664.83349609375, -3008.9443359375],
+        [5667, -3009.666748046875],
+        [5669.16650390625, -3010.388916015625],
+        [5671.33349609375, -3011.111083984375],
+        [5673.5, -3011.833251953125],
+        [5675.66650390625, -3012.5556640625],
+        [5677.83349609375, -3013.27783203125],
+        [5680, -3014],
+        [5680, -2960],
+        [5677.83349609375, -2959.27783203125],
+        [5675.66650390625, -2958.5556640625],
+        [5673.5, -2957.833251953125],
+        [5671.33349609375, -2957.111083984375],
+        [5669.16650390625, -2956.388916015625],
+        [5667, -2955.666748046875],
+        [5664.83349609375, -2954.9443359375],
+        [5662.66650390625, -2954.22216796875],
+        [5660.5, -2953.5],
+        [5658.33349609375, -2952.77783203125],
+        [5656.16650390625, -2952.0556640625],
+        [5654, -2951.333251953125],
+        [5651.83349609375, -2950.611083984375],
+        [5649.66650390625, -2949.888916015625],
+        [5647.5, -2949.166748046875],
+        [5645.33349609375, -2948.4443359375],
+        [5643.16650390625, -2947.72216796875],
+        [5641, -2947],
+        [5638.83349609375, -2946.27783203125],
+        [5636.66650390625, -2945.5556640625],
+        [5634.5, -2944.833251953125],
+        [5632.33349609375, -2944.111083984375],
+        [5630.16650390625, -2943.388916015625],
+        [5628, -2942.666748046875],
+        [5625.83349609375, -2941.9443359375],
+        [5623.66650390625, -2941.22216796875],
+        [5621.5, -2940.5],
+        [5619.33349609375, -2939.77783203125],
+        [5617.16650390625, -2939.0556640625],
+        [5615, -2938.333251953125],
+        [5612.83349609375, -2937.611083984375],
+        [5610.66650390625, -2936.888916015625],
+        [5608.5, -2936.166748046875],
+        [5606.33349609375, -2935.4443359375],
+        [5604.16650390625, -2934.72216796875],
+        [5602, -2934],
+        [5599.83349609375, -2933.27783203125],
+        [5597.66650390625, -2932.5556640625],
+        [5595.5, -2931.833251953125],
+        [5593.33349609375, -2931.111083984375],
+        [5591.16650390625, -2930.388916015625],
+        [5589, -2929.666748046875],
+        [5586.83349609375, -2928.9443359375],
+        [5584.66650390625, -2928.22216796875],
+        [5582.5, -2927.5],
+        [5580.33349609375, -2926.77783203125],
+        [5578.16650390625, -2926.0556640625],
+        [5576, -2925.333251953125],
+        [5573.83349609375, -2924.611083984375],
+        [5571.66650390625, -2923.888916015625],
+        [5569.5, -2923.166748046875],
+        [5567.33349609375, -2922.4443359375],
+        [5565.16650390625, -2921.72216796875],
+        [5563, -2921],
+        [5560.83349609375, -2920.27783203125],
+        [5558.66650390625, -2919.5556640625],
+        [5556.5, -2918.833251953125],
+        [5554.33349609375, -2918.111083984375],
+        [5552.16650390625, -2917.388916015625],
+        [5550, -2916.666748046875],
+        [5547.83349609375, -2915.9443359375],
+        [5545.66650390625, -2915.22216796875],
+        [5543.5, -2914.5],
+        [5541.33349609375, -2913.77783203125],
+        [5539.16650390625, -2913.0556640625],
+        [5537, -2912.333251953125],
+        [5534.83349609375, -2911.611083984375],
+        [5532.66650390625, -2910.888916015625],
+        [5530.5, -2910.166748046875],
+        [5528.33349609375, -2909.4443359375],
+        [5526.16650390625, -2908.72216796875],
+        [5524, -2908],
+        [5523.5, -2907.629150390625],
+        [5523, -2906.89111328125],
+        [5522.5, -2905.846923828125],
+        [5522, -2904.557861328125],
+        [5521.5, -2903.0849609375],
+        [5521, -2901.48974609375],
+        [5520.5, -2899.833251953125],
+        [5520, -2898.1767578125],
+        [5519.5, -2896.58154296875],
+        [5519, -2895.10888671875],
+        [5518.5, -2893.81982421875],
+        [5518, -2892.775390625],
+        [5517.5, -2892.037353515625],
+        [5517, -2891.666748046875],
+        [5516.5, -2891.5],
+        [5516, -2891.333251953125],
+        [5515.5, -2891.166748046875],
+        [5515, -2891]
+      ],
+      "nearest": {
+        "approach": {
+          "id": "LCAC 2",
+          "t": null,
+          "x": 5450,
+          "z": -2860,
+          "gap": 48.88888754955532
+        },
+        "carrier": {
+          "id": "attacker_lcac_02",
+          "t": 162,
+          "x": 5450,
+          "z": -2860,
+          "gap": 49.01388754955532
+        },
+        "ramp": {
+          "id": "attacker_lcac_02",
+          "t": 158.3,
+          "x": 5452.278757791386,
+          "z": -2856.732345814119,
+          "gap": 67.18185703194476
+        },
+        "LAV": {
+          "id": "attacker_lav_05",
+          "t": 160.6,
+          "x": 5453.238140142525,
+          "z": -2858.012302662854,
+          "gap": 63.81939380387114
+        },
+        "scenery": {
+          "id": "remote-beach-coastal-cover:scrub:131",
+          "t": null,
+          "x": 5685.4785127565265,
+          "z": -2977.3665209067985,
+          "gap": 4.295476939248648
+        }
+      },
+      "landingRays": {
+        "total": 12360,
+        "blocked": []
+      },
+      "runupSamples": [
+        {
+          "u": 0,
+          "rim": 14,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.12851756243591872,
+              "runup": 12,
+              "front": -35.750451301249335,
+              "swell": 0.9995057689697713,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.7467100259804381
+            },
+            {
+              "t": 156,
+              "phase": 0.3472675624359187,
+              "runup": 12,
+              "front": -13.198367967915996,
+              "swell": 1,
+              "breaking": 0.47073875275105415,
+              "wash": 0,
+              "damp": 0.00020454548121162652
+            },
+            {
+              "t": 157.25,
+              "phase": 0.5035175624359187,
+              "runup": 12,
+              "front": 2.5748707786930174,
+              "swell": 0.8529123758287126,
+              "breaking": 1,
+              "wash": 0.9952085574927065,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.7222675624359187,
+              "runup": 12,
+              "front": 10.482359061798068,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            },
+            {
+              "t": 175.5,
+              "phase": 0.7847675624359185,
+              "runup": 12,
+              "front": 5.877723991122799,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            }
+          ]
+        },
+        {
+          "u": 0.03,
+          "rim": 8.63641836734694,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.12674726685258442,
+              "runup": 6.6364183673469395,
+              "front": -35.93296034591213,
+              "swell": 0.9976451946732393,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.7537840257486568
+            },
+            {
+              "t": 156,
+              "phase": 0.3454972668525844,
+              "runup": 6.6364183673469395,
+              "front": -13.380877012578797,
+              "swell": 1,
+              "breaking": 0.45182296929487104,
+              "wash": 0,
+              "damp": 0.0005534484642490956
+            },
+            {
+              "t": 157.25,
+              "phase": 0.5017472668525844,
+              "runup": 6.6364183673469395,
+              "front": -0.041227350515580685,
+              "swell": 0.8635779526618199,
+              "breaking": 1,
+              "wash": 0.9922930902479759,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.7204972668525844,
+              "runup": 6.6364183673469395,
+              "front": 5.644535776183835,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            },
+            {
+              "t": 175.5,
+              "phase": 0.7829972668525849,
+              "runup": 6.6364183673469395,
+              "front": 2.4771156745418867,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            }
+          ]
+        },
+        {
+          "u": 0.055,
+          "rim": 0,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.1252061824446118,
+              "runup": -2,
+              "front": -36.091838809876926,
+              "swell": 0.9949318606124407,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.7598925439511989
+            },
+            {
+              "t": 156,
+              "phase": 0.3439561824446118,
+              "runup": -2,
+              "front": -13.53975547654359,
+              "swell": 1,
+              "breaking": 0.4354057207547455,
+              "wash": 0,
+              "damp": 0.000993987240363814
+            },
+            {
+              "t": 157.25,
+              "phase": 0.5002061824446118,
+              "runup": -2,
+              "front": -4.031297872266147,
+              "swell": 0.8726096594703414,
+              "breaking": 1,
+              "wash": 0.9892182055095664,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.7189561824446118,
+              "runup": -2,
+              "front": -2.2807303821773317,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            },
+            {
+              "t": 175.5,
+              "phase": 0.7814561824446118,
+              "runup": -2,
+              "front": -3.219492570783105,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            }
+          ]
+        },
+        {
+          "u": 0.22,
+          "rim": 0,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.11012666393648107,
+              "runup": -2,
+              "front": -37.64646536083421,
+              "swell": 0.9207300764146779,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.8169735130424804
+            },
+            {
+              "t": 156,
+              "phase": 0.3288766639364811,
+              "runup": -2,
+              "front": -15.094382027500881,
+              "swell": 1,
+              "breaking": 0.28054817324846676,
+              "wash": 0,
+              "damp": 0.011767345786420247
+            },
+            {
+              "t": 157.25,
+              "phase": 0.4851266639364811,
+              "runup": -2,
+              "front": -4.317660621121427,
+              "swell": 0.9469819633877832,
+              "breaking": 1,
+              "wash": 0.9350121206569791,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.7038766639364811,
+              "runup": -2,
+              "front": -2.139674435983953,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            },
+            {
+              "t": 175.5,
+              "phase": 0.7663766639364811,
+              "runup": -2,
+              "front": -2.9543295869512654,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            }
+          ]
+        },
+        {
+          "u": 0.54,
+          "rim": 0,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.04524029226103288,
+              "runup": -2,
+              "front": -44.33594129785066,
+              "swell": 0.17107649938741978,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.9833446908449641
+            },
+            {
+              "t": 156,
+              "phase": 0.2639902922610329,
+              "runup": -2,
+              "front": -21.78385796451732,
+              "swell": 1,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.16838217680482326
+            },
+            {
+              "t": 157.25,
+              "phase": 0.4202402922610329,
+              "runup": -2,
+              "front": -5.69448915276256,
+              "swell": 1,
+              "breaking": 1,
+              "wash": 0.4089566611670306,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.6389902922610329,
+              "runup": -2,
+              "front": -2.14561834939141,
+              "swell": 9.40460277923938e-5,
+              "breaking": 0.017580424580454057,
+              "wash": 1,
+              "damp": 0.6984758049181551
+            },
+            {
+              "t": 175.5,
+              "phase": 0.7014902922610331,
+              "runup": -2,
+              "front": -2.1214073825787483,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 1,
+              "damp": 1
+            }
+          ]
+        },
+        {
+          "u": 0.86,
+          "rim": 0,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.986602923059821,
+              "runup": -2,
+              "front": -5.7,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 1
+            },
+            {
+              "t": 156,
+              "phase": 0.205352923059821,
+              "runup": -2,
+              "front": -27.829091503594643,
+              "swell": 1,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.4079559247572303
+            },
+            {
+              "t": 157.25,
+              "phase": 0.361602923059821,
+              "runup": -2,
+              "front": -11.72046055121369,
+              "swell": 1,
+              "breaking": 0.6231784932224593,
+              "wash": 0.015013965512478475,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.580352923059821,
+              "runup": -2,
+              "front": -2.754789269525354,
+              "swell": 0.256648873726969,
+              "breaking": 0.49621871354143765,
+              "wash": 1,
+              "damp": 0.12063326595943524
+            },
+            {
+              "t": 175.5,
+              "phase": 0.6428529230598206,
+              "runup": -2,
+              "front": -2.118485573513968,
+              "swell": 0,
+              "breaking": 0.007552384176227944,
+              "wash": 1,
+              "damp": 0.7361537104101484
+            }
+          ]
+        },
+        {
+          "u": 0.99,
+          "rim": 0,
+          "samples": [
+            {
+              "t": 154.25,
+              "phase": 0.9763910742289097,
+              "runup": -2,
+              "front": -5.7,
+              "swell": 0,
+              "breaking": 0,
+              "wash": 0.0059215528571415765,
+              "damp": 1
+            },
+            {
+              "t": 156,
+              "phase": 0.1951410742289097,
+              "runup": -2,
+              "front": -28.881884490210023,
+              "swell": 1,
+              "breaking": 0,
+              "wash": 0,
+              "damp": 0.453962249741952
+            },
+            {
+              "t": 157.25,
+              "phase": 0.3513910742289097,
+              "runup": -2,
+              "front": -12.77325353782907,
+              "swell": 1,
+              "breaking": 0.5149024047482552,
+              "wash": 0.00022545368755591227,
+              "damp": 0
+            },
+            {
+              "t": 159,
+              "phase": 0.5701410742289097,
+              "runup": -2,
+              "front": -2.892163373383663,
+              "swell": 0.3349596646900278,
+              "breaking": 0.6049328985810564,
+              "wash": 1,
+              "damp": 0.056136091057732096
+            },
+            {
+              "t": 175.5,
+              "phase": 0.6326410742289095,
+              "runup": -2,
+              "front": -2.1943596012957762,
+              "swell": 0.004877575166792325,
+              "breaking": 0.04230975125963665,
+              "wash": 1,
+              "damp": 0.6339677758672304
+            }
+          ]
+        }
+      ],
+      "shoreFitSummary": {
+        "stations": 107,
+        "drapeOffsetM": [0.025819372509332084, 0.026821757818225933]
+      }
+    }
+  },
+  "controls": {
+    "selectors": [
+      {
+        "site": "inspection-bay",
+        "selected": {
+          "timeSeconds": 58,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 2,
+          "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+          "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+          "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+          "preset": "inspection-bay",
+          "requestId": 5,
+          "fov": 43
+        },
+        "atArrival": {
+          "linked": true,
+          "wind": 18,
+          "blast": null,
+          "response": null,
+          "program": "8b-local-wind-v1",
+          "time": 58
+        },
+        "orbitPanZoomRecenter": true,
+        "late": {
+          "timeSeconds": 7200,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 3,
+          "position": [4397.230313581212, 49.3696354772194, 209.87631869843986],
+          "target": [4358.343349298989, 45.76729691910245, 230.16927336074312],
+          "quaternion": [-0.021231211868423604, 0.8544547021779723, 0.03502761662436226, 0.5179087406504813],
+          "preset": "inspection-bay",
+          "requestId": 6,
+          "fov": 43
+        },
+        "lateGPU": {
+          "linked": true,
+          "wind": 0,
+          "blast": null,
+          "response": null,
+          "program": "8b-local-wind-v1",
+          "time": 7200
+        },
+        "playingSelection": {
+          "before": {
+            "timeSeconds": 58,
+            "isPlaying": true,
+            "speed": 1,
+            "transientResetVersion": 4,
+            "position": [4466.97978191111, 185.13844990635727, 474.84428398344767],
+            "target": [4387.8398218688535, 46.24945804734842, 218.2445914639333],
+            "quaternion": [-0.23376751925276623, 0.14479946260145798, 0.0352302909967611, 0.9608041887757465],
+            "preset": "support-convoy",
+            "requestId": 7,
+            "fov": 43
+          },
+          "after": {
+            "timeSeconds": 58.46666666666664,
+            "isPlaying": true,
+            "speed": 1,
+            "transientResetVersion": 4,
+            "position": [4397.230313581159, 49.36963547701074, 209.87631869817776],
+            "target": [4358.34334929888, 45.76729691854092, 230.1692733600506],
+            "quaternion": [-0.02123121187072747, 0.8544547021754206, 0.035027616627796, 0.5179087406543643],
+            "preset": "inspection-bay",
+            "requestId": 8,
+            "fov": 43
+          }
+        },
+        "restart": {
+          "timeSeconds": 0,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 5,
+          "position": [4397.230313581159, 49.369635477011144, 209.87631869817812],
+          "target": [4358.34334929888, 45.7672969185413, 230.16927336005097],
+          "quaternion": [-0.021231211870727636, 0.8544547021754205, 0.03502761662779627, 0.5179087406543643],
+          "preset": "inspection-bay",
+          "requestId": 8,
+          "fov": 43
+        }
+      },
+      {
+        "site": "shore-break",
+        "selected": {
+          "timeSeconds": 157.25,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 6,
+          "position": [5540, 12.499999999999996, -2987],
+          "target": [5501, 0.30000000000000304, -2925],
+          "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+          "preset": "shore-break",
+          "requestId": 11,
+          "fov": 43
+        },
+        "atArrival": {
+          "linked": true,
+          "wind": 37.25,
+          "blast": null,
+          "response": null,
+          "program": "8d-east-frontage-v1",
+          "time": 157.25
+        },
+        "orbitPanZoomRecenter": true,
+        "late": {
+          "timeSeconds": 7200,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 7,
+          "position": [5540.000000000284, 12.500000000344624, -2986.9999999996453],
+          "target": [5501.000000000701, 0.30000000093261947, -2924.9999999990214],
+          "quaternion": [-0.02283904464169135, 0.9575789044938486, 0.07920238699915554, 0.27613040687662715],
+          "preset": "shore-break",
+          "requestId": 12,
+          "fov": 43
+        },
+        "lateGPU": {
+          "linked": true,
+          "wind": 0,
+          "blast": null,
+          "response": null,
+          "program": "8d-east-frontage-v1",
+          "time": 7200
+        },
+        "playingSelection": {
+          "before": {
+            "timeSeconds": 157.2,
+            "isPlaying": true,
+            "speed": 1,
+            "transientResetVersion": 8,
+            "position": [4840.657173562702, 691.4563921936052, -3873.029763780911],
+            "target": [4871.2532974847445, 9.162828731860689, -2844.9999999999977],
+            "quaternion": [0.004294689788091417, 0.957313971098349, 0.2886670486881158, -0.014242590397338216],
+            "preset": "beach-offshore",
+            "requestId": 13,
+            "fov": 43
+          },
+          "after": {
+            "timeSeconds": 157.69999999999996,
+            "isPlaying": true,
+            "speed": 1,
+            "transientResetVersion": 8,
+            "position": [5540, 12.500000000002716, -2986.9999999999995],
+            "target": [5501, 0.300000000006949, -2924.999999999994],
+            "quaternion": [-0.022839044643223113, 0.9575789044922283, 0.0792023870030811, 0.2761304068809934],
+            "preset": "shore-break",
+            "requestId": 14,
+            "fov": 43
+          }
+        },
+        "restart": {
+          "timeSeconds": 0,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 9,
+          "position": [5540, 12.500000000003485, -2986.9999999999995],
+          "target": [5501, 0.30000000000765237, -2924.999999999994],
+          "quaternion": [-0.02283904464322324, 0.9575789044922283, 0.07920238700308152, 0.2761304068809934],
+          "preset": "shore-break",
+          "requestId": 14,
+          "fov": 43
+        }
+      },
+      {
+        "site": "fuel-shock",
+        "selected": {
+          "timeSeconds": 92.95,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 10,
+          "position": [-549, 58.000000000000014, 1709],
+          "target": [-399, 35.5, 1819],
+          "quaternion": [0.027189480267125976, 0.8903947893218636, 0.05365585673747974, -0.45119718566170697],
+          "preset": "fuel-shock",
+          "requestId": 17,
+          "fov": 43
+        },
+        "atArrival": {
+          "linked": true,
+          "wind": 12.949999809265137,
+          "blast": 0.949999988079071,
+          "response": [0.19858431816101074, -0.9800838232040405, 0.7236708402633667, 3.913569927215576, 0.8030450940132141, -0.5959182381629944, 1.1858088970184326, 1.814823865890503],
+          "program": "8c-fuel-blast-v1",
+          "time": 92.95
+        },
+        "orbitPanZoomRecenter": true,
+        "late": {
+          "timeSeconds": 7200,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 11,
+          "position": [-548.9999999990813, 58.000000000879, 1708.999999999326],
+          "target": [-398.9999999974864, 35.50000000238069, 1818.9999999983381],
+          "quaternion": [0.02718948026548038, 0.8903947893199788, 0.053655856733609966, -0.45119718566598543],
+          "preset": "fuel-shock",
+          "requestId": 18,
+          "fov": 43
+        },
+        "lateGPU": {
+          "linked": true,
+          "wind": 0,
+          "blast": 5.050000190734863,
+          "response": [0.19858431816101074, -0.9800838232040405, 0.7236708402633667, 3.913569927215576, 0.8030450940132141, -0.5959182381629944, 1.1858088970184326, 1.814823865890503],
+          "program": "8c-fuel-blast-v1",
+          "time": 7200
+        },
+        "playingSelection": {
+          "before": {
+            "timeSeconds": 92.9,
+            "isPlaying": true,
+            "speed": 1,
+            "transientResetVersion": 12,
+            "position": [-2041.7706533004327, 922.469730740948, 869.7522855410391],
+            "target": [-549.9999999999941, 120.0000000000056, 1949.9999999999961],
+            "quaternion": [0.09275912426705257, 0.8719182656577292, 0.18169602111312808, -0.44513013691423403],
+            "preset": "fuel-storage",
+            "requestId": 19,
+            "fov": 43
+          },
+          "after": {
+            "timeSeconds": 93.36666666666665,
+            "isPlaying": true,
+            "speed": 1,
+            "transientResetVersion": 12,
+            "position": [-548.9999999999939, 58.000000000005954, 1708.9999999999952],
+            "target": [-398.99999999997965, 35.50000000001917, 1818.999999999986],
+            "quaternion": [0.0271894802671116, 0.8903947893218462, 0.053655856737445676, -0.4511971856617461],
+            "preset": "fuel-shock",
+            "requestId": 20,
+            "fov": 43
+          }
+        },
+        "restart": {
+          "timeSeconds": 0,
+          "isPlaying": false,
+          "speed": 1,
+          "transientResetVersion": 13,
+          "position": [-548.9999999999918, 58.000000000008086, 1708.9999999999952],
+          "target": [-398.9999999999777, 35.50000000002111, 1818.999999999986],
+          "quaternion": [0.027189480267111828, 0.8903947893218462, 0.05365585673744615, -0.45119718566174594],
+          "preset": "fuel-shock",
+          "requestId": 20,
+          "fov": 43
+        }
+      }
+    ],
+    "shortViewport": [
+      {
+        "site": "inspection-bay",
+        "buffer": [1024, 430],
+        "viewport": [1024, 430],
+        "aimY": 215.00000000000063,
+        "headerBottom": 70.5,
+        "timelineTop": 316,
+        "menu": [645.453125, 23.25, 190, 36],
+        "position": [4416.899882723939, 51.19174858507407, 199.611859072696],
+        "expected": [4416.899882723939, 51.19174858507408, 199.611859072696],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      },
+      {
+        "site": "shore-break",
+        "buffer": [1024, 430],
+        "viewport": [1024, 430],
+        "aimY": 214.99999999999926,
+        "headerBottom": 70.5,
+        "timelineTop": 316,
+        "menu": [633.09375, 23.25, 190, 36],
+        "position": [5559.726744186047, 18.670930232558128, -3018.360465116279],
+        "expected": [5559.726744186047, 18.67093023255814, -3018.360465116279],
+        "target": [5501, 0.3, -2925]
+      },
+      {
+        "site": "fuel-shock",
+        "buffer": [1024, 430],
+        "viewport": [1024, 430],
+        "aimY": 215,
+        "headerBottom": 70.5,
+        "timelineTop": 316,
+        "menu": [645.453125, 23.25, 190, 36],
+        "position": [-624.8720930232558, 69.3808139534884, 1653.360465116279],
+        "expected": [-624.8720930232558, 69.38081395348837, 1653.360465116279],
+        "target": [-399, 35.5, 1819]
+      }
+    ],
+    "entries": [
+      ["inspection-bay", "Inspection bay"],
+      ["shore-break", "Shore break"],
+      ["fuel-shock", "Fuel shock (T+92)"]
+    ],
+    "keyboard": {
+      "focused": true,
+      "lastOption": "fuel-storage",
+      "usedKey": "End",
+      "changedCamera": false,
+      "time": 92.9
+    },
+    "repeatedSelectionAndRestart": [
+      {
+        "gpu": {
+          "geometries": 1063,
+          "textures": 4,
+          "programs": 386
+        },
+        "ownerCount": 34,
+        "stage8dMeshes": 8
+      },
+      {
+        "gpu": {
+          "geometries": 1063,
+          "textures": 4,
+          "programs": 386
+        },
+        "ownerCount": 34,
+        "stage8dMeshes": 8
+      },
+      {
+        "gpu": {
+          "geometries": 1063,
+          "textures": 4,
+          "programs": 386
+        },
+        "ownerCount": 34,
+        "stage8dMeshes": 8
+      },
+      {
+        "gpu": {
+          "geometries": 1063,
+          "textures": 4,
+          "programs": 386
+        },
+        "ownerCount": 34,
+        "stage8dMeshes": 8
+      },
+      {
+        "gpu": {
+          "geometries": 1063,
+          "textures": 4,
+          "programs": 386
+        },
+        "ownerCount": 34,
+        "stage8dMeshes": 8
+      }
+    ],
+    "disposal": {
+      "owners": [
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "depth",
+          "count": 1
+        },
+        {
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "depth",
+          "count": 1
+        },
+        {
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "instance",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        },
+        {
+          "type": "geometry",
+          "count": 1
+        },
+        {
+          "type": "material",
+          "count": 1
+        }
+      ],
+      "activeRoot": false
+    },
+    "logs": [
+      ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+      ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."]
+    ],
+    "nativeKeyboardTypeahead": [
+      {
+        "text": "inspection",
+        "selected": "inspection-bay",
+        "time": 92.9,
+        "focused": true
+      },
+      {
+        "text": "shore",
+        "selected": "shore-break",
+        "time": 92.9,
+        "focused": true
+      },
+      {
+        "text": "fuel shock",
+        "selected": "fuel-shock",
+        "time": 92.9,
+        "focused": true
+      }
+    ]
+  },
+  "preservation": {
+    "eventCount": 51,
+    "legacyCameraGroups": [
+      [
+        "Regional overview",
+        [
+          ["overview", "Overview"],
+          ["harbor", "Harbor"],
+          ["industrial", "Industrial"],
+          ["radar-hill", "Radar Hill"],
+          ["corridor", "Convoy corridor"],
+          ["beachhead", "Beach inland"],
+          ["beach-offshore", "Beach offshore"]
+        ]
+      ],
+      [
+        "Naval focus",
+        [
+          ["wasp", "Wasp"],
+          ["talwar", "Talwar"],
+          ["molniya", "Molniya"]
+        ]
+      ],
+      [
+        "Sites and ground vehicles",
+        [
+          ["fuel-storage", "Fuel storage"],
+          ["ammunition", "Ammunition"],
+          ["search-radar", "Search radar"],
+          ["btr", "BTR focus"],
+          ["t72", "T-72 focus"],
+          ["support-convoy", "Support convoy"],
+          ["secondary-pantsir", "Pantsir 02"]
+        ]
+      ],
+      [
+        "Landing focus",
+        [
+          ["lcac-west", "LCAC 01"],
+          ["lcac-east", "LCAC 02"],
+          ["lav-west", "LAV west"],
+          ["lav-east", "LAV east"]
+        ]
+      ],
+      [
+        "Aircraft",
+        [
+          ["f35-01", "F-35B 01"],
+          ["f35-02", "F-35B 02"],
+          ["su30", "Air reinforcement"]
+        ]
+      ]
+    ],
+    "legacyFrameCount": 936,
+    "legacyFramesHash": "efb9d1c521112381dac176bd2c5c2db74ef7694599134ff371165fbba2e1af06",
+    "runtimeSamples": 13,
+    "runtimeHash": "e9fc65ffc0ff078324af0b26d145ff34ffacd9af6cf57b6ec1832c773ba59624",
+    "legacyShorePhaseSamples": 78,
+    "fuelMarker": {
+      "id": "fuel_shock_environment_response",
+      "atSeconds": 94,
+      "localTime": "05:28:34",
+      "event": "nearby_environment_bends_rebounds_and_ignites"
+    },
+    "rendered": [
+      {
+        "time": 155,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [8, 0, 0],
+        "eastRamp": [-7.170049851291437, 0.3500048925209062, 3.9633170079123197, 0, -0.049620394497721244, 0.05467421340070087, -0.09459675913531676, 0, -1.5231741974341955, -5.33490751355468, -2.2844478952448277, 0, 5434.858101825375, 5.908503194264457, -2887.635410950189, 1],
+        "waterGPU": 155,
+        "hash": "b6cc27615674ac8a22d1e2e3da06e6987a393df2da8a66e3209f23c9f7868f58"
+      },
+      {
+        "time": 162,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [8, 0, 0],
+        "eastRamp": [-7.173122330397527, 0.23046210786930818, 3.966510210498491, 0, -0.05091238657168353, 0.05253098221087121, -0.09512320853260045, 0, -1.4041888564185985, -5.391920197815157, -2.226084058588709, 0, 5455.59805066019, 8.36937132434255, -2850.150387090311, 1],
+        "waterGPU": 162,
+        "hash": "75ff4ede90c7a0d6353e0eabd7ab2b22cd67bc7bab1d2f619c1879b4da725cb2"
+      },
+      {
+        "time": 170,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [5, 2, 1],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 170,
+        "hash": "fdd6dc2c8610b549c7e723de2bcc429745dab1a495acc7066873438a1e438964"
+      },
+      {
+        "time": 176,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [3, 2, 3],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 176,
+        "hash": "c57397fbc8fa5353d781518e7e9c60ef7f43538c9f3f0b01f075ed183fe48984"
+      },
+      {
+        "time": 180,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [1, 2, 5],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 180,
+        "hash": "b4061383694b373e527256bca3fb3e08eca9055733b5a9ada2df1058d4928bc4"
+      },
+      {
+        "time": 187.6,
+        "roots": 35,
+        "wheels": 64,
+        "occupancy": [0, 0, 8],
+        "eastRamp": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1],
+        "waterGPU": 187.60000610351562,
+        "hash": "82d43315fd74797082d58fc56187a51d63f7a8f7440b742dee63f975433e5164"
+      }
+    ],
+    "fuelExactRGB": {
+      "fuel-shock-pre-arrival": {
+        "crop": "1280x420+0+174",
+        "sha256": "3c2bc23ac3d32966c6f1622f7f44f061c1f2065e89675cb51cf2e204558e9766"
+      },
+      "fuel-shock-near-bend": {
+        "crop": "1280x420+0+174",
+        "sha256": "1525b4d1fc1cccc1a1860dc1a4f2cff38e232fb99d45721c9037a32f281ddc19"
+      },
+      "fuel-shock-far-bend": {
+        "crop": "1280x420+0+174",
+        "sha256": "0137b6b0d8e38997ce7675a921268c2229b3a11959684503ead91ecc4d5e834e"
+      },
+      "fuel-shock-rebound": {
+        "crop": "1280x420+0+174",
+        "sha256": "4d1b38e02293679c774c5b40513ee81fde67247f64a439cca0b1285b85cf317a"
+      },
+      "fuel-shock-recovery": {
+        "crop": "1280x420+0+174",
+        "sha256": "740687721896ed10544bfb506e6cdb3fc266644ebffa6bb5e0f8dd532eda9950"
+      }
+    }
+  },
+  "fixtureRepair": {
+    "src/simulation/fixtures/stage7cConstructionPreservation.json": {
+      "referenceBytes": 49102,
+      "referenceSha256": "a2fe892ff096d476eee5874f4123d2b32bc868b4f1d9fb2c7e5a241898d28df1",
+      "restoredBytes": 53062,
+      "restoredSha256": "8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8",
+      "workingGitBlob": "dd61d75cd65770a47d5541618d6105e95d0820ae",
+      "pendingCommit": true
+    },
+    "src/simulation/fixtures/stage7cPresentationPreservation.json": {
+      "referenceBytes": 53891,
+      "referenceSha256": "4cb1c7c880ccd6132907e22c8ff1183e0607157a18367fa48c77e5c41e50d2d6",
+      "restoredBytes": 58811,
+      "restoredSha256": "b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3",
+      "workingGitBlob": "d8ac0cffaaf01d0773105c2c764c96df7f5dd5c2",
+      "pendingCommit": true
+    }
+  },
+  "media": {
+    "beach-frontage-before-after.mp4": {
+      "sha256": "c6bff18481ce4022195d7006707f955fdd288e95178b3aaadebbb92a42d7e1e7",
+      "bytes": 4118256,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "720",
+      "duration": 24
+    },
+    "comparison-contract.json": {
+      "sha256": "dfb6286f1c1c4d4b3bd1fc95defa0f4c35fc129c198a3deda4525ca4b330c960",
+      "bytes": 8305
+    },
+    "convoy-approach-before-after.mp4": {
+      "sha256": "b86d1de6d55308a297db0626c5c80288069e1bfea1b79fc3d9c21da3f2b23f97",
+      "bytes": 9421388,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "840",
+      "duration": 28
+    },
+    "fuel-shock-before-after.mp4": {
+      "sha256": "d3012b2aa4fa650bf13f89cd1784e0b51f08bc14c88894a90ea0f690dc4a4965",
+      "bytes": 1436300,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "330",
+      "duration": 11
+    },
+    "inspection-bay-before-after.mp4": {
+      "sha256": "869b706fe75c5025fcf43c2d1da45157f5a15d4873962370d74cec5213877af9",
+      "bytes": 3080254,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "300",
+      "duration": 10
+    },
+    "shore-break-before-after.mp4": {
+      "sha256": "c316850efede70c09ce4dfe72df4cd88cffaf2c0b2c9c2e53f8e346a894e9924",
+      "bytes": 4894406,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "720",
+      "duration": 24
+    },
+    "stills/beach-frontage-approach-after.png": {
+      "sha256": "b4357bd35e3f09379533ecddcdf7d9a3243a7a13198692be8c7b75566170fc6c",
+      "bytes": 601421,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-approach-before.png": {
+      "sha256": "ea0e96e4fbe7f4e4d494c1b91369603978daaba51aeab3019254c44b9cb4a02a",
+      "bytes": 600986,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-east-break-after.png": {
+      "sha256": "d16322d4c3bbab7991627d42ce3c6b3c076151e87a8e7a5f50f3fbfe88154e87",
+      "bytes": 600776,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-east-break-before.png": {
+      "sha256": "9b7f524c17171f97754ab1c8095af113bb6efb55f5e3089c5f40df7d8431e82f",
+      "bytes": 599955,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-exit-after.png": {
+      "sha256": "8fcb5d1b6b1c773e1f858c5a6220b30ba5015cf2280363d148f32d79df76616f",
+      "bytes": 606851,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-exit-before.png": {
+      "sha256": "2f097ae954bd292013f21ac5350910de951fab140046509d3ceca952586daf3c",
+      "bytes": 606142,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-old-break-after.png": {
+      "sha256": "580c616deb78f2ac0966ad4707e691af8a57ff6c9f39739d8ef79a5b38d875b0",
+      "bytes": 601863,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-old-break-before.png": {
+      "sha256": "be5b309b470f9357d6256f430e20b6dd190373f50c1d258408a0733ac29608e5",
+      "bytes": 601078,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-wash-after.png": {
+      "sha256": "24ec57cafbdfcbbc3732216a354b67100ecc4c6caa3beab0c5c4c7d0550780f8",
+      "bytes": 601920,
+      "size": [1280, 720]
+    },
+    "stills/beach-frontage-wash-before.png": {
+      "sha256": "7c0ccf86b74fae5ca018ff589a49448ede5c165b156f209d4fa2bd05940a2d10",
+      "bytes": 600966,
+      "size": [1280, 720]
+    },
+    "stills/convoy-approach-bay-after.png": {
+      "sha256": "1ff5b23c812feba04dd13d187d4dd209e261f5c8a14917ecede4fe42a7f494ba",
+      "bytes": 589835,
+      "size": [1280, 720]
+    },
+    "stills/convoy-approach-bay-before.png": {
+      "sha256": "0e37a04e868640c84c4c1ded47bbc9fa026a4386b248ac516cc121716bda6fce",
+      "bytes": 576702,
+      "size": [1280, 720]
+    },
+    "stills/convoy-approach-entry-after.png": {
+      "sha256": "3a406cc59379fc3eddd19e885d334d448b91246bb503005696891e6765355a69",
+      "bytes": 571872,
+      "size": [1280, 720]
+    },
+    "stills/convoy-approach-entry-before.png": {
+      "sha256": "c63561a5b6cb7dcaee995371a26df54531e5927f6d539aa06bb0b62a14754f79",
+      "bytes": 564212,
+      "size": [1280, 720]
+    },
+    "stills/convoy-approach-exit-after.png": {
+      "sha256": "7274145632325b1f8fc32180305bc2eb616454d18d1f20b88afc05eaa3f45034",
+      "bytes": 586533,
+      "size": [1280, 720]
+    },
+    "stills/convoy-approach-exit-before.png": {
+      "sha256": "ac4cbbd12f0b99197345cc13269cc8bb82433b7f3230ed38e09161598d94c4a3",
+      "bytes": 580559,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-far-bend-after.png": {
+      "sha256": "0ac2c5ea4927621837d7eebc8001a437e62a1c3f1a3286472f3089ab38ffcf89",
+      "bytes": 422704,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-far-bend-before.png": {
+      "sha256": "5d8a67d747ef9fe541272ac262657e679bde0b994a334c69256c1a46a9102d52",
+      "bytes": 421866,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-near-bend-after.png": {
+      "sha256": "156e053b949263bfbc0cc6d4b98b3e5fdac45ad95d9c7cb17e3d6b124bab1e40",
+      "bytes": 425273,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-near-bend-before.png": {
+      "sha256": "19432ebad70f169dfb64fe30ec0a295363f97bbcdc20188d701e3f8b327f902d",
+      "bytes": 424333,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-pre-arrival-after.png": {
+      "sha256": "dc4fb0e57f127749c3ea45d7bd344ea0d331579a88a282a3c9e46acc65433611",
+      "bytes": 424228,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-pre-arrival-before.png": {
+      "sha256": "c67f254b71fef14cc1dbddd10cd808329005008797436c7bf45a6dfed6eb6985",
+      "bytes": 423387,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-rebound-after.png": {
+      "sha256": "10ce101227a2e5bcae1b75b5b8ec4315f0fbd05299f8e5c5233876d94ed7f644",
+      "bytes": 423678,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-rebound-before.png": {
+      "sha256": "c0d147c51aaff061dcd7852d2a34b01574db1622c9e17052eff6f10f9bd8fe4d",
+      "bytes": 422744,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-recovery-after.png": {
+      "sha256": "f635609f1bdc850f3c0b957f305af9fb1549ed2a84c1ffd4a2256c5d8b31165a",
+      "bytes": 449939,
+      "size": [1280, 720]
+    },
+    "stills/fuel-shock-recovery-before.png": {
+      "sha256": "c013a02c4f812bc456325caf0c0b2c427960ffbd72e8d5808ff2b7c4a57e6706",
+      "bytes": 449050,
+      "size": [1280, 720]
+    },
+    "stills/inspection-bay-bay-after.png": {
+      "sha256": "3469e36f5fc56fac858d20b7eb1ea43519886ea8eb011a19b32624cd9b80d966",
+      "bytes": 451647,
+      "size": [1280, 720]
+    },
+    "stills/inspection-bay-bay-before.png": {
+      "sha256": "0c3e4be760e143f148dedc66250facc36a6d25b73116c8be266f81bb57d8aa52",
+      "bytes": 446893,
+      "size": [1280, 720]
+    },
+    "stills/inspection-bay-entry-after.png": {
+      "sha256": "eef6fcac2f8052e648e01696cebdb3344ab526dcb3ee855359295ebcbbd0f1dd",
+      "bytes": 418881,
+      "size": [1280, 720]
+    },
+    "stills/inspection-bay-entry-before.png": {
+      "sha256": "4b0cb43a4a08ffcae5b972dcbfb0ce43543616eb78e8ec0638f21e4e16033455",
+      "bytes": 414116,
+      "size": [1280, 720]
+    },
+    "stills/inspection-bay-exit-after.png": {
+      "sha256": "319c6d5dbdc93a25a96809277a19e8a3b062461fc1c50274ca0d861a0fcd3a25",
+      "bytes": 415552,
+      "size": [1280, 720]
+    },
+    "stills/inspection-bay-exit-before.png": {
+      "sha256": "81eea06fbb37a8d37788963956b7a4a157cd62e16158424d0ab074d568878256",
+      "bytes": 412006,
+      "size": [1280, 720]
+    },
+    "stills/legacy-shore-pose-after.png": {
+      "sha256": "54e70b42ad2c16e0322bb53242c790b77bcc3b554ecf0e380302c7c5a0eec3fd",
+      "bytes": 315240,
+      "size": [1280, 720]
+    },
+    "stills/legacy-shore-pose-before.png": {
+      "sha256": "795b34184249353de91fe06144e992fe04c1f5bf18313a94b812d4f6c8d44a51",
+      "bytes": 310813,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-approach-after.png": {
+      "sha256": "d636d35cb7886fbfc35b38515d3862b08a0f79897b1502230e70acfe94f69f78",
+      "bytes": 334029,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-approach-before.png": {
+      "sha256": "50345cf4d729615bae37eacc1eec77fd4a35ef5e010a344e2a5edff31109d687",
+      "bytes": 311810,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-east-break-after.png": {
+      "sha256": "3104f6e91a33551a81005e6dacb23a13fb5c57b7fe6cb2b7cf47fa60a61a2da4",
+      "bytes": 328946,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-east-break-before.png": {
+      "sha256": "77a26dbde76143a244f58ff167a012a1d849f5258906a9ce63626ca2fe8bd243",
+      "bytes": 310795,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-exit-after.png": {
+      "sha256": "d311edc838d7f658870ebcdbbb8987f7e0b205b90672603c64b91616861ef217",
+      "bytes": 322075,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-exit-before.png": {
+      "sha256": "3f6343877793124ea359a5d54adcdbe3180b12ae276c906c91c96b5e0c5e20b2",
+      "bytes": 307149,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-old-break-after.png": {
+      "sha256": "9cea5c17a73d79de06188135af5fad8009863ed1cc5a89e170dece7f20d3a227",
+      "bytes": 323125,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-old-break-before.png": {
+      "sha256": "0566110ad8d0da149052ecd3c853f47e0b9c474ae96857b59ababf37f91733cd",
+      "bytes": 311908,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-wash-after.png": {
+      "sha256": "4fe1d94f9f16f3975cd1aa4fd38086dac8eed9d7fa25df54fb4011051481382a",
+      "bytes": 321139,
+      "size": [1280, 720]
+    },
+    "stills/shore-break-wash-before.png": {
+      "sha256": "158b6e0c4bf376203d060f2789612c4afcd388903c0db8d31971a611ee9af5d0",
+      "bytes": 306134,
+      "size": [1280, 720]
+    },
+    "stills/short-fuel-shock.png": {
+      "sha256": "9f100c5b90c0fe77425df6d6fb7fbe2ed379aa6e025fb7514b3d64a1454be95b",
+      "bytes": 238471,
+      "size": [1024, 430]
+    },
+    "stills/short-inspection-bay.png": {
+      "sha256": "3f8275ee94d36a8645dce7887abe0ba6ef7d29356fa092f8ae9dfe10dded829c",
+      "bytes": 245435,
+      "size": [1024, 430]
+    },
+    "stills/short-shore-break.png": {
+      "sha256": "96c37710403cbbfc1b837d337adc7524c0485ece822d152622992e5658b90c20",
+      "bytes": 196752,
+      "size": [1024, 430]
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react'
-import { Color, DoubleSide, InstancedMesh, MeshDepthMaterial, MeshStandardMaterial, StaticDrawUsage } from 'three'
+import { Color, DoubleSide, InstancedMesh, MeshDepthMaterial, MeshStandardMaterial, StaticDrawUsage, type BufferGeometry } from 'three'
 
 import type { MotionClock } from '../stage8b/motionClock'
 
 import { applyLandscapeSurface } from '../landscape/landscapeMaterial'
 import { applyLocalWind, expandWindBounds, isWindKind, WIND_PROFILES, type WindKind } from '../stage8b/wind'
+import { createRescueApproachLayout, createRescueShoulder } from '../stage8d/rescueApproach'
 import { createDetailGeometries, createSignFace } from './detailGeometry'
 import { createDetailGround } from './detailGround'
 import { createDetailLayout, fitDetailPlacement, type DetailKind, type DetailPlacement, type DetailSite } from './detailLayout'
@@ -24,25 +25,23 @@ function createResources(clock: MotionClock) {
   }
   const signs = new MeshStandardMaterial({ roughness: 0.9, map: texture })
   const ground = applyLandscapeSurface(new MeshStandardMaterial({ roughness: 0.98, vertexColors: true, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1 }), 0.55)
-  const sites = SITES.map((site) => {
+  function createBatches(site: DetailSite, prefix: string, layout: readonly DetailPlacement[], plate?: BufferGeometry) {
     const groups = new Map<DetailKind, DetailPlacement[]>()
-    for (const placement of createDetailLayout(site)) {
+    for (const placement of layout) {
       const group = groups.get(placement.kind)
       if (group) group.push(placement)
       else groups.set(placement.kind, [placement])
     }
-    const plate = createSignFace(site)
-    const drape = createDetailGround(site)
-    const batches = [...groups].flatMap(([kind, placements]) => {
+    return [...groups].flatMap(([kind, placements]) => {
       const geometry = geometries[kind]
       const sign = kind === 'wash-sign' || kind === 'route-sign'
       const mesh = new InstancedMesh(geometry, isWindKind(kind) ? plants.get(kind)! : solid, placements.length)
-      const face = sign ? new InstancedMesh(plate, signs, placements.length) : null
-      mesh.name = `8a-${site}-${kind}`
+      const face = sign && plate ? new InstancedMesh(plate, signs, placements.length) : null
+      mesh.name = `${prefix}-${kind}`
       mesh.castShadow = CASTERS.has(kind)
       if (kind === 'upright' || kind === 'wind') mesh.customDepthMaterial = treeDepth[kind]
       mesh.userData.detailIds = placements.map((p) => p.id)
-      if (face) face.name = `8a-${site}-sign-face`
+      if (face) face.name = `${prefix}-sign-face`
       placements.forEach((placement, i) => {
         const matrix = fitDetailPlacement(geometry, site, placement)
         mesh.setMatrixAt(i, matrix)
@@ -61,17 +60,23 @@ function createResources(clock: MotionClock) {
       if (isWindKind(kind)) expandWindBounds(mesh, kind)
       return pools
     })
-    return { site, drape, plate, batches }
+  }
+  const sites = SITES.map((site) => {
+    const plate = createSignFace(site)
+    const prefix = `8a-${site}`
+    return { name: `stage8a-${site}`, prefix, drape: createDetailGround(site), plate, batches: createBatches(site, prefix, createDetailLayout(site), plate) }
   })
+  const approach = { name: 'stage8d-rescue-approach', prefix: '8d-rescue', drape: createRescueShoulder(), plate: null, batches: createBatches('corridor', '8d-rescue', createRescueApproachLayout()) }
+  const sections = [...sites, approach]
 
   return {
     ground,
-    sites,
+    sections,
     dispose() {
-      for (const { drape, plate, batches } of sites) {
+      for (const { drape, plate, batches } of sections) {
         batches.forEach((batch) => batch.dispose())
         drape.dispose()
-        plate.dispose()
+        plate?.dispose()
       }
       Object.values(geometries).forEach((geometry) => geometry.dispose())
       plants.forEach((material) => material.dispose())
@@ -89,9 +94,9 @@ export function RoadsideDetail({ clock }: { clock: MotionClock }) {
   useEffect(() => () => resources.dispose(), [resources])
   return (
     <group name="stage8a-roadside-detail" dispose={null}>
-      {resources.sites.map(({ site, drape, batches }) => (
-        <group key={site} name={`stage8a-${site}`}>
-          <mesh name={`8a-${site}-surface`} geometry={drape} material={resources.ground} receiveShadow renderOrder={2} />
+      {resources.sections.map(({ name, prefix, drape, batches }) => (
+        <group key={name} name={name}>
+          <mesh name={`${prefix}-surface`} geometry={drape} material={resources.ground} receiveShadow renderOrder={2} />
           {batches.map((batch) => (
             <primitive key={batch.name} object={batch} />
           ))}

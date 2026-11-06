@@ -1,0 +1,268 @@
+{
+  "reference": "e439bdd",
+  "fixedBeforeVisualEdits": true,
+  "rescueBranch": {
+    "roadId": "road_rescue_branch",
+    "localOriginXZ": [4370, 212],
+    "localHeading": "atan2(350,1000)",
+    "existingBayAlong": [-51, 52],
+    "extensionsAlong": [
+      [-142, -51],
+      [52, 142]
+    ],
+    "surfaceOut": [5.55, 38],
+    "reason": "Full lead-to-tail passage in the existing support convoy view. Leave the bay and road surface in place."
+  },
+  "eastFrontage": {
+    "x": [5515, 5680],
+    "existingStripX": [5458, 5515],
+    "offshoreM": 54,
+    "maximumInlandM": 14,
+    "seaLevelM": -0.12,
+    "widthNote": "Landward wash tapers from the fitted shallow seam to the foot of the bank by X 5524. Preserve the existing strip."
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1
+  },
+  "quality": "Headed installed Chrome foreground and focused. DPR 1, original antialiasing, percentage shadows, ACES exposure 1.12, native HUD. Preserve observed display cadence and report RAF.",
+  "warmup": "Visit each checkpoint before measuring, then capture on the second visit. Use separate warmed runs for pacing and the native 1\u00d7 screencasts.",
+  "limits": {
+    "additionalSubmittedDraws": 40,
+    "additionalSubmittedTrianglesPercent": 10,
+    "additionalShadowDraws": 6,
+    "additionalShadowTriangles": 6000,
+    "additionalLights": 0
+  },
+  "playback": [
+    {
+      "id": "convoy-approach",
+      "preset": "support-convoy",
+      "start": 45,
+      "end": 73,
+      "paceEnd": 57
+    },
+    {
+      "id": "beach-frontage",
+      "preset": "beach-offshore",
+      "start": 152,
+      "end": 176,
+      "paceEnd": 164
+    },
+    {
+      "id": "inspection-bay",
+      "preset": "support-convoy",
+      "detail": "inspection-bay",
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      },
+      "start": 53,
+      "end": 63
+    },
+    {
+      "id": "shore-break",
+      "preset": "beach-offshore",
+      "detail": "shore-break",
+      "low": {
+        "position": [5540, 12.5, -2987],
+        "target": [5501, 0.3, -2925]
+      },
+      "start": 152,
+      "end": 176
+    },
+    {
+      "id": "fuel-shock",
+      "preset": "fuel-storage",
+      "detail": "fuel-shock",
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      },
+      "start": 90,
+      "end": 101
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "convoy-approach-entry",
+      "time": 49,
+      "preset": "support-convoy"
+    },
+    {
+      "name": "convoy-approach-bay",
+      "time": 58,
+      "preset": "support-convoy"
+    },
+    {
+      "name": "convoy-approach-exit",
+      "time": 67,
+      "preset": "support-convoy"
+    },
+    {
+      "name": "beach-frontage-approach",
+      "time": 154.25,
+      "preset": "beach-offshore"
+    },
+    {
+      "name": "beach-frontage-old-break",
+      "time": 156,
+      "preset": "beach-offshore"
+    },
+    {
+      "name": "beach-frontage-east-break",
+      "time": 157.25,
+      "preset": "beach-offshore"
+    },
+    {
+      "name": "beach-frontage-wash",
+      "time": 159,
+      "preset": "beach-offshore"
+    },
+    {
+      "name": "beach-frontage-exit",
+      "time": 175.5,
+      "preset": "beach-offshore"
+    },
+    {
+      "name": "inspection-bay-entry",
+      "time": 53,
+      "preset": "support-convoy",
+      "detail": "inspection-bay",
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      }
+    },
+    {
+      "name": "inspection-bay-bay",
+      "time": 58,
+      "preset": "support-convoy",
+      "detail": "inspection-bay",
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      }
+    },
+    {
+      "name": "inspection-bay-exit",
+      "time": 63,
+      "preset": "support-convoy",
+      "detail": "inspection-bay",
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      }
+    },
+    {
+      "name": "shore-break-approach",
+      "time": 154.25,
+      "preset": "beach-offshore",
+      "detail": "shore-break",
+      "low": {
+        "position": [5540, 12.5, -2987],
+        "target": [5501, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-break-old-break",
+      "time": 156,
+      "preset": "beach-offshore",
+      "detail": "shore-break",
+      "low": {
+        "position": [5540, 12.5, -2987],
+        "target": [5501, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-break-east-break",
+      "time": 157.25,
+      "preset": "beach-offshore",
+      "detail": "shore-break",
+      "low": {
+        "position": [5540, 12.5, -2987],
+        "target": [5501, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-break-wash",
+      "time": 159,
+      "preset": "beach-offshore",
+      "detail": "shore-break",
+      "low": {
+        "position": [5540, 12.5, -2987],
+        "target": [5501, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-break-exit",
+      "time": 175.5,
+      "preset": "beach-offshore",
+      "detail": "shore-break",
+      "low": {
+        "position": [5540, 12.5, -2987],
+        "target": [5501, 0.3, -2925]
+      }
+    },
+    {
+      "name": "fuel-shock-pre-arrival",
+      "time": 92.65,
+      "preset": "fuel-storage",
+      "detail": "fuel-shock",
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-shock-near-bend",
+      "time": 92.95,
+      "preset": "fuel-storage",
+      "detail": "fuel-shock",
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-shock-far-bend",
+      "time": 93.44,
+      "preset": "fuel-storage",
+      "detail": "fuel-shock",
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-shock-rebound",
+      "time": 93.61,
+      "preset": "fuel-storage",
+      "detail": "fuel-shock",
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "fuel-shock-recovery",
+      "time": 98.6,
+      "preset": "fuel-storage",
+      "detail": "fuel-shock",
+      "low": {
+        "position": [-549, 58, 1709],
+        "target": [-399, 35.5, 1819]
+      }
+    },
+    {
+      "name": "legacy-shore-pose",
+      "preset": "beach-offshore",
+      "time": 156,
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      }
+    }
+  ]
+}

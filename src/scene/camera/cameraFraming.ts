@@ -5,6 +5,8 @@ import { deriveRuntimeWorldState } from '@/simulation'
 import type { Vec3 } from '../effects/BattleEffects'
 import type { CameraPreset } from './cameraStore'
 
+import { ENVIRONMENT_DETAILS } from './environmentDetails'
+
 /** Presentation only. IDs, actors and their observation clocks stay authoritative. */
 export const REGIONAL_FRAMES = {
   overview: { position: [500, 9500, -10500], target: [0, 80, -1200], subject: 'Entire coast and all five land regions', times: '0–7200+' },
@@ -95,6 +97,12 @@ function landingRegionFrame(preset: 'beachhead' | 'beach-offshore', w: ReturnTyp
 export function cameraFrame(preset: CameraPreset, time: number, aspect = 16 / 9, viewportHeight = 720): CameraFrame {
   const fov = viewportFov(aspect)
   const viewportScale = Math.max(1, 1 + (720 / Math.max(240, viewportHeight) - 1) * 0.75)
+  if (preset in ENVIRONMENT_DETAILS) {
+    const detail = ENVIRONMENT_DETAILS[preset as keyof typeof ENVIRONMENT_DETAILS]
+    const target = new Vector3(...detail.target)
+    const position = new Vector3(...detail.position).sub(target).multiplyScalar(viewportScale).add(target)
+    return { position, target, anchor: target.clone(), yaw: 0, scale: viewportScale, fov, follows: true }
+  }
   const w = deriveRuntimeWorldState(time)
   if (preset === 'beachhead' || preset === 'beach-offshore') return landingRegionFrame(preset, w, fov, aspect, viewportHeight)
   if (preset in REGIONAL_FRAMES) {
