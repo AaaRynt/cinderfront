@@ -22,9 +22,11 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
+**Stage 8B, Shore Waves and Wind, is COMPLETE.** The eastern surf strip and shared Stage 8A wind pass the matched viewer, clearance, timing and rendering checks. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)
+
 **Stage 8A, Ground Detail and Roadside Storytelling, is COMPLETE.** The rescue-branch inspection bay and eastern beach-track marker pass the matched viewer, clearance, rendering cost and preservation checks. [Stage 8A acceptance](STAGE8A_ACCEPTANCE.md).
 
-**Stage 7D remains PARTIAL after the November 6 follow-up.** Both fixture byte guards and the written startup criteria pass. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
+**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed, and both fixture guards passed in the working tree with the restored bytes. Stage 8B restored both original fixture files from the pinned captures and verified the working diff. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06).
 
 Original post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
 
@@ -670,7 +672,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the current `prompt.md` targets Stage 8A.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A prompt is preserved in `81f5c10`, and the current `prompt.md` targets Stage 8B.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1185,17 +1187,19 @@ Both native capture methods still vary with exact paused state and matching canv
 
 # Stage 8 — Environment Detail and Motion
 
-**Stage 8A is complete.** Stages 8B and 8C are planned.
+**Stages 8A and 8B are complete.** Stage 8C is planned.
 
 ## Stage 8A — Ground Detail and Roadside Storytelling
 
 Delivered 2026-11-06. The rescue branch has a weathered inspection bay, worn gravel entrance, service equipment and dryland cover. The inland eastern beach track has loose sand, sheltered dune plants, a faded E-2 marker and a buried footing. Existing follow presets, matched low views and two native 1× sequences show both sites during their actual vehicle passes.
 
-Full placement envelopes clear authored reservations and scripted and aftermath routes. Across eight measured poses, the largest additions are 21 submitted draws, 8.83% submitted triangles and four shadow draws. Both ten-second 1× checks stay near 60 Hz. The original Stage 7C fixture bytes were restored and both guards pass. All 780 tests, both no-emit checks and lint pass. [Stage 8A acceptance and evidence](STAGE8A_ACCEPTANCE.md).
+Full placement envelopes clear authored reservations and scripted and aftermath routes. Across eight measured poses, the largest additions are 21 submitted draws, 8.83% submitted triangles and four shadow draws. Both ten-second 1× checks stay near 60 Hz. With both original Stage 7C fixture files restored in the working tree, all 780 tests, both no-emit checks and lint passed. [Stage 8A acceptance and evidence](STAGE8A_ACCEPTANCE.md).
 
 ## Stage 8B — Shore Waves and Wind
 
-Start with a representative beach segment and show swell approach, breaking foam, run-up and retreat. Use a shared visual wind direction for grass, tree crowns and dust. Review motion at the normal presets and in a low shoreline view.
+**Complete, 2026-11-06.** Added a fitted eight-second surf cycle beside the east landing lane. Both Stage 8A sites use one wind direction for grass and scrub, with three animated crowns and shadows at the rescue branch and a small gust-driven dust cue. Matched 1× clips and low stills show the swell, break, wash and damp retreat.
+
+The complete surf envelope clears the padded LCAC approach by at least 4.25 m. Across 18 matched poses, the largest increases are three draws and 3.59% triangles, with equal shadow submissions. Repeated seeks and restart preserve phase and resource identity. Both pinned Stage 7C files were restored separately. All 786 tests, both no-emit checks and lint pass. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)
 
 ## Stage 8C — Blast Response in Vegetation
 

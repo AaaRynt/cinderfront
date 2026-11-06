@@ -1,0 +1,3338 @@
+{
+  "reference": "81f5c10",
+  "contractSha256": "2a56e8304ec27b95b061f722bcc89254d281b83cb0ada295961ee7324b0b90d0",
+  "browserVersion": "156.0.8078.80",
+  "quality": {
+    "viewport": [1280, 720],
+    "buffer": [1280, 720],
+    "dpr": 1,
+    "documentDpr": 1,
+    "antialias": true,
+    "shadows": [true, 1],
+    "toneMapping": [4, 1.12],
+    "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "visible": "visible",
+    "focused": true,
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+  },
+  "source": {
+    "changed": ["src/scene/world/WorldShell.tsx", "src/scene/world/stage8a/RoadsideDetail.tsx"],
+    "added": ["src/scene/world/stage8b/EasternSurf.tsx", "src/scene/world/stage8b/LocalEnvironmentMotion.tsx", "src/scene/world/stage8b/RoadsideDust.tsx", "src/scene/world/stage8b/dust.ts", "src/scene/world/stage8b/motionClock.ts", "src/scene/world/stage8b/surf.ts", "src/scene/world/stage8b/wind.ts"],
+    "cssSha256": "ba459a7721405e767bf667265babd424c4fc0cffdf237495255a41ea343fd4a2",
+    "applicationHash": {
+      "before": "83342063967e9270c26cde05d7e6e59ea3416072717cabbd92915b54d74ff5b3",
+      "after": "da1b462e25f309b92b41dfa8f4fde6506ac7b5c193630c8e1cdc6acda811ff6c"
+    }
+  },
+  "poses": {
+    "shore-preset-approach": {
+      "pose": {
+        "time": 154.25,
+        "position": [4833.233739144392, 662.5831391861366, -3830.501807979795],
+        "target": [4862.564150096171, 8.514974961451239, -2845],
+        "quaternion": [0.004294689788092562, 0.9573139710983497, 0.2886670486881133, -0.014242590397342145],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [2, 14112],
+      "triangleDeltaPercent": 2.574985128876984,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [752, 548042],
+        "shadow": [127, 11820],
+        "main": [625, 536222],
+        "scene": {
+          "nodes": 4099,
+          "meshes": 2919,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1041,
+          "materials": 358
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [754, 562154],
+        "shadow": [127, 11820],
+        "main": [627, 550334],
+        "scene": {
+          "nodes": 4103,
+          "meshes": 2922,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 365
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-low-approach": {
+      "pose": {
+        "time": 154.25,
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925],
+        "quaternion": [-0.022333305767619337, 0.9414780248874097, 0.06366736507518474, 0.33025265893248285],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [3, 14124],
+      "triangleDeltaPercent": 2.2079617311645574,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [2041, 639685],
+        "shadow": [51, 6314],
+        "main": [1990, 633371],
+        "scene": {
+          "nodes": 4099,
+          "meshes": 2919,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1041,
+          "materials": 358
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [2044, 653809],
+        "shadow": [51, 6314],
+        "main": [1993, 647495],
+        "scene": {
+          "nodes": 4103,
+          "meshes": 2922,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 365
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-preset-break": {
+      "pose": {
+        "time": 156,
+        "position": [4838.549283861279, 668.753658581825, -3839.391085816915],
+        "target": [4868.144256653449, 8.78576531643195, -2845],
+        "quaternion": [0.0042946897880925435, 0.9573139710983497, 0.2886670486881133, -0.014242590397342084],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [2, 14112],
+      "triangleDeltaPercent": 2.574985128876984,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [752, 548042],
+        "shadow": [127, 11820],
+        "main": [625, 536222],
+        "scene": {
+          "nodes": 4099,
+          "meshes": 2919,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1041,
+          "materials": 358
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [754, 562154],
+        "shadow": [127, 11820],
+        "main": [627, 550334],
+        "scene": {
+          "nodes": 4103,
+          "meshes": 2922,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 365
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-low-break": {
+      "pose": {
+        "time": 156,
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925],
+        "quaternion": [-0.022333305767619337, 0.9414780248874097, 0.06366736507518474, 0.33025265893248285],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [3, 14124],
+      "triangleDeltaPercent": 2.2079617311645574,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [2041, 639685],
+        "shadow": [51, 6314],
+        "main": [1990, 633371],
+        "scene": {
+          "nodes": 4099,
+          "meshes": 2919,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1041,
+          "materials": 358
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [2044, 653809],
+        "shadow": [51, 6314],
+        "main": [1993, 647495],
+        "scene": {
+          "nodes": 4103,
+          "meshes": 2922,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 365
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-preset-runup": {
+      "pose": {
+        "time": 158,
+        "position": [4843.031888203329, 674.2388358537959, -3846.7548218513934],
+        "target": [4872.846019806049, 9.38370111313898, -2845],
+        "quaternion": [0.004294689788092644, 0.9573139710983497, 0.2886670486881133, -0.014242590397342419],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [2, 14112],
+      "triangleDeltaPercent": 2.574815993344013,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [753, 548078],
+        "shadow": [127, 11820],
+        "main": [626, 536258],
+        "scene": {
+          "nodes": 4098,
+          "meshes": 2917,
+          "casters": 1170,
+          "lights": 14,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [755, 562190],
+        "shadow": [127, 11820],
+        "main": [628, 550370],
+        "scene": {
+          "nodes": 4102,
+          "meshes": 2920,
+          "casters": 1170,
+          "lights": 14,
+          "instanceSlots": 9874,
+          "geometries": 1047,
+          "materials": 370
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-low-runup": {
+      "pose": {
+        "time": 158,
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925],
+        "quaternion": [-0.022333305767619337, 0.9414780248874097, 0.06366736507518474, 0.33025265893248285],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [3, 14124],
+      "triangleDeltaPercent": 2.2078305766714656,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [2042, 639723],
+        "shadow": [51, 6314],
+        "main": [1991, 633409],
+        "scene": {
+          "nodes": 4098,
+          "meshes": 2917,
+          "casters": 1170,
+          "lights": 14,
+          "instanceSlots": 9874,
+          "geometries": 1044,
+          "materials": 363
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [2045, 653847],
+        "shadow": [51, 6314],
+        "main": [1994, 647533],
+        "scene": {
+          "nodes": 4102,
+          "meshes": 2920,
+          "casters": 1170,
+          "lights": 14,
+          "instanceSlots": 9874,
+          "geometries": 1047,
+          "materials": 370
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-preset-retreat": {
+      "pose": {
+        "time": 159.5,
+        "position": [4844.827706329411, 676.468887879882, -3849.6511268043273],
+        "target": [4874.728037484301, 9.691503125819551, -2845],
+        "quaternion": [0.004294689788092551, 0.9573139710983497, 0.2886670486881134, -0.01424259039734211],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [2, 14112],
+      "triangleDeltaPercent": 2.575097898244218,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [749, 548018],
+        "shadow": [127, 11820],
+        "main": [622, 536198],
+        "scene": {
+          "nodes": 4115,
+          "meshes": 2934,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 366
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [751, 562130],
+        "shadow": [127, 11820],
+        "main": [624, 550310],
+        "scene": {
+          "nodes": 4119,
+          "meshes": 2937,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1046,
+          "materials": 373
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "shore-low-retreat": {
+      "pose": {
+        "time": 159.5,
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925],
+        "quaternion": [-0.022333305767619337, 0.9414780248874097, 0.06366736507518474, 0.33025265893248285],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [3, 14124],
+      "triangleDeltaPercent": 2.207954827908024,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [2040, 639687],
+        "shadow": [51, 6314],
+        "main": [1989, 633373],
+        "scene": {
+          "nodes": 4115,
+          "meshes": 2934,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 366
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [2043, 653811],
+        "shadow": [51, 6314],
+        "main": [1992, 647497],
+        "scene": {
+          "nodes": 4119,
+          "meshes": 2937,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1046,
+          "materials": 373
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "landing-ramp": {
+      "pose": {
+        "time": 170,
+        "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+        "target": [5450, 3.640845913585453, -2860],
+        "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [2, 14112],
+      "triangleDeltaPercent": 3.5883014051129227,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [311, 393278],
+        "shadow": [50, 5618],
+        "main": [261, 387660],
+        "scene": {
+          "nodes": 4106,
+          "meshes": 2925,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1042,
+          "materials": 364
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [313, 407390],
+        "shadow": [50, 5618],
+        "main": [263, 401772],
+        "scene": {
+          "nodes": 4110,
+          "meshes": 2928,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1045,
+          "materials": 371
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "corridor-entry": {
+      "pose": {
+        "time": 53,
+        "position": [4544.99171316145, 181.24323761704454, 495.7392455803165],
+        "target": [4468.067729030557, 46.24323761704449, 246.3245293636703],
+        "quaternion": [-0.2337675192527568, 0.1447994626016444, 0.035230290996806045, 0.9608041887757189],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [1, 12],
+      "triangleDeltaPercent": 0.0028545737407761587,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [475, 420378],
+        "shadow": [132, 8046],
+        "main": [343, 412332],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [476, 420390],
+        "shadow": [132, 8046],
+        "main": [344, 412344],
+        "scene": {
+          "nodes": 4085,
+          "meshes": 2905,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1199,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "corridor-preset": {
+      "pose": {
+        "time": 58,
+        "position": [4464.7638059996525, 181.24945804734728, 467.6593076806068],
+        "target": [4387.8398218688535, 46.24945804734729, 218.2445914639319],
+        "quaternion": [-0.23376751925276368, 0.14479946260146248, 0.03523029099676181, 0.9608041887757462],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [1, 12],
+      "triangleDeltaPercent": 0.002855456777902572,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [474, 420248],
+        "shadow": [132, 8046],
+        "main": [342, 412202],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [475, 420260],
+        "shadow": [132, 8046],
+        "main": [343, 412214],
+        "scene": {
+          "nodes": 4085,
+          "meshes": 2905,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1199,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "corridor-low": {
+      "pose": {
+        "time": 58,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [1, 12],
+      "triangleDeltaPercent": 0.0021930105100028694,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [1542, 547193],
+        "shadow": [132, 8046],
+        "main": [1410, 539147],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 1172,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [1543, 547205],
+        "shadow": [132, 8046],
+        "main": [1411, 539159],
+        "scene": {
+          "nodes": 4085,
+          "meshes": 2905,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1199,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 1175,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "corridor-exit": {
+      "pose": {
+        "time": 63,
+        "position": [4384.535898837942, 180.83265028117506, 439.57936978087105],
+        "target": [4307.61191470715, 45.83265028117507, 190.16465356419346],
+        "quaternion": [-0.23376751925276384, 0.14479946260144821, 0.03523029099675829, 0.9608041887757485],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [1, 12],
+      "triangleDeltaPercent": 0.002860930183767082,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [473, 419444],
+        "shadow": [132, 8046],
+        "main": [341, 411398],
+        "scene": {
+          "nodes": 4081,
+          "meshes": 2902,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1196,
+          "materials": 333
+        },
+        "gpu": {
+          "geometries": 1172,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [474, 419456],
+        "shadow": [132, 8046],
+        "main": [342, 411410],
+        "scene": {
+          "nodes": 4085,
+          "meshes": 2905,
+          "casters": 1246,
+          "lights": 10,
+          "instanceSlots": 8787,
+          "geometries": 1199,
+          "materials": 340
+        },
+        "gpu": {
+          "geometries": 1175,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "beach-entry": {
+      "pose": {
+        "time": 220,
+        "position": [5587.588461532276, 26.94149423645647, -2666.2121027095072],
+        "target": [5559.588858329136, 13.941494236456474, -2670.2148793041633],
+        "quaternion": [-0.1614853805475563, 0.6400223564168984, 0.14004149901067525, 0.7380259031435243],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [0, 0],
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [277, 406930],
+        "shadow": [50, 5618],
+        "main": [227, 401312],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [277, 406930],
+        "shadow": [50, 5618],
+        "main": [227, 401312],
+        "scene": {
+          "nodes": 4026,
+          "meshes": 2849,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 350
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "beach-preset": {
+      "pose": {
+        "time": 225,
+        "position": [5601.088846932213, 27.023168086119426, -2648.214870757059],
+        "target": [5573.088846932212, 14.023168086119428, -2652.214870757051],
+        "quaternion": [-0.1614784367555993, 0.6400589487248618, 0.1400495056710803, 0.7379941683925956],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [0, 0],
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [280, 406420],
+        "shadow": [50, 5618],
+        "main": [230, 400802],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [280, 406420],
+        "shadow": [50, 5618],
+        "main": [230, 400802],
+        "scene": {
+          "nodes": 4026,
+          "meshes": 2849,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 350
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "beach-low": {
+      "pose": {
+        "time": 225,
+        "position": [5567.400000000001, 17.002431072987385, -2666.7999999999997],
+        "target": [5562.8, 14.435739370300281, -2639.6],
+        "quaternion": [-0.0038797884514490664, 0.9954217155831546, 0.04620847313739573, 0.08357830099596321],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [1, 12],
+      "triangleDeltaPercent": 0.0020105621531780284,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [1195, 596848],
+        "shadow": [50, 5618],
+        "main": [1145, 591230],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [1196, 596860],
+        "shadow": [50, 5618],
+        "main": [1146, 591242],
+        "scene": {
+          "nodes": 4026,
+          "meshes": 2849,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 350
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "beach-exit": {
+      "pose": {
+        "time": 230,
+        "position": [5614.588846932215, 27.20372622376795, -2630.2148707570645],
+        "target": [5586.588846932213, 14.203726223767953, -2634.214870757051],
+        "quaternion": [-0.1614784367555802, 0.6400589487249366, 0.14004950567109203, 0.7379941683925325],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [0, 0],
+      "triangleDeltaPercent": 0.0,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [280, 406420],
+        "shadow": [50, 5618],
+        "main": [230, 400802],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 999,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [280, 406420],
+        "shadow": [50, 5618],
+        "main": [230, 400802],
+        "scene": {
+          "nodes": 4026,
+          "meshes": 2849,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 350
+        },
+        "gpu": {
+          "geometries": 1002,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    },
+    "corridor-quiet": {
+      "pose": {
+        "time": 245,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "quaternion": [-0.021231211870745014, 0.8544547021754015, 0.035027616627822174, 0.5179087406543935],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "drawAndTriangleDelta": [1, 12],
+      "triangleDeltaPercent": 0.002246017530166823,
+      "shadowDrawAndTriangleDelta": [0, 0],
+      "before": {
+        "submitted": [1232, 534279],
+        "shadow": [4, 4566],
+        "main": [1228, 529713],
+        "scene": {
+          "nodes": 4022,
+          "meshes": 2846,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1040,
+          "materials": 343
+        },
+        "gpu": {
+          "geometries": 1001,
+          "textures": 4,
+          "programs": 332
+        }
+      },
+      "after": {
+        "submitted": [1233, 534291],
+        "shadow": [4, 4566],
+        "main": [1229, 529725],
+        "scene": {
+          "nodes": 4026,
+          "meshes": 2849,
+          "casters": 1170,
+          "lights": 13,
+          "instanceSlots": 9874,
+          "geometries": 1043,
+          "materials": 350
+        },
+        "gpu": {
+          "geometries": 1004,
+          "textures": 4,
+          "programs": 365
+        }
+      }
+    }
+  },
+  "playback": {
+    "shore-preset": {
+      "before": {
+        "nativeFrames": 718,
+        "usedNativeFrames": 711,
+        "maxFrameSnapMs": 25.881290435791016,
+        "start": 152,
+        "end": 176.03333333333197,
+        "pace": {
+          "samples": 698,
+          "realSeconds": 12.0186,
+          "start": 152,
+          "end": 164.03333333333265,
+          "meanMs": 17.243328550932567,
+          "medianMs": 16.599999999998545,
+          "p95Ms": 17.400000000001455,
+          "maxMs": 49.599999999998545,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 719,
+        "usedNativeFrames": 712,
+        "maxFrameSnapMs": 30.287504196166992,
+        "start": 152,
+        "end": 176.03333333333197,
+        "pace": {
+          "samples": 706,
+          "realSeconds": 12.0186,
+          "start": 152,
+          "end": 164.03333333333265,
+          "meanMs": 17.04765957446808,
+          "medianMs": 16.599999999998545,
+          "p95Ms": 17.19999999999709,
+          "maxMs": 34.0,
+          "longTasks": []
+        }
+      }
+    },
+    "shore-low": {
+      "before": {
+        "nativeFrames": 724,
+        "usedNativeFrames": 717,
+        "maxFrameSnapMs": 32.44423866271973,
+        "start": 360,
+        "end": 384.0000000000191,
+        "pace": {
+          "samples": 720,
+          "realSeconds": 11.9855,
+          "start": 360,
+          "end": 372.00000000000955,
+          "meanMs": 16.669680111265645,
+          "medianMs": 16.60000000000582,
+          "p95Ms": 17.19999999999709,
+          "maxMs": 49.69999999999709,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 725,
+        "usedNativeFrames": 718,
+        "maxFrameSnapMs": 18.213748931884766,
+        "start": 360,
+        "end": 384.0000000000191,
+        "pace": {
+          "samples": 723,
+          "realSeconds": 11.9855,
+          "start": 360,
+          "end": 372.00000000000955,
+          "meanMs": 16.600415512465375,
+          "medianMs": 16.60000000000582,
+          "p95Ms": 16.90000000000873,
+          "maxMs": 17.69999999999709,
+          "longTasks": []
+        }
+      }
+    },
+    "corridor-pass": {
+      "before": {
+        "nativeFrames": 305,
+        "usedNativeFrames": 300,
+        "maxFrameSnapMs": 16.7238712310791,
+        "start": 53,
+        "end": 63.03333333333276,
+        "pace": {
+          "samples": 605,
+          "realSeconds": 10.026600000000006,
+          "start": 53,
+          "end": 63.03333333333276,
+          "meanMs": 16.600331125827825,
+          "medianMs": 16.60000000000582,
+          "p95Ms": 17.09999999999127,
+          "maxMs": 17.60000000000582,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 300,
+        "maxFrameSnapMs": 16.590595245361328,
+        "start": 53,
+        "end": 63.03333333333276,
+        "pace": {
+          "samples": 605,
+          "realSeconds": 10.026599999999991,
+          "start": 53,
+          "end": 63.03333333333276,
+          "meanMs": 16.6003311258278,
+          "medianMs": 16.60000000000582,
+          "p95Ms": 16.89999999999418,
+          "maxMs": 17.60000000000582,
+          "longTasks": []
+        }
+      }
+    },
+    "corridor-quiet": {
+      "before": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 299,
+        "maxFrameSnapMs": 19.344329833984375,
+        "start": 240,
+        "end": 250.03333333333276
+      },
+      "after": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 300,
+        "maxFrameSnapMs": 16.579866409301758,
+        "start": 240,
+        "end": 250.03333333333276
+      }
+    },
+    "beach-pass": {
+      "before": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 300,
+        "maxFrameSnapMs": 16.492605209350586,
+        "start": 220,
+        "end": 230.03333333333276,
+        "pace": {
+          "samples": 603,
+          "realSeconds": 10.0265,
+          "start": 220,
+          "end": 230.03333333333276,
+          "meanMs": 16.65531561461794,
+          "medianMs": 16.60000000000582,
+          "p95Ms": 17.20000000001164,
+          "maxMs": 33.29999999998836,
+          "longTasks": []
+        }
+      },
+      "after": {
+        "nativeFrames": 304,
+        "usedNativeFrames": 299,
+        "maxFrameSnapMs": 19.701242446899414,
+        "start": 220,
+        "end": 230.03333333333276,
+        "pace": {
+          "samples": 605,
+          "realSeconds": 10.026600000000006,
+          "start": 220,
+          "end": 230.03333333333276,
+          "meanMs": 16.600331125827825,
+          "medianMs": 16.60000000000582,
+          "p95Ms": 16.89999999999418,
+          "maxMs": 17.60000000000582,
+          "longTasks": []
+        }
+      }
+    }
+  },
+  "mountedClearance": {
+    "hull": [
+      [5458, -2961.7],
+      [5500, -2954],
+      [5515, -2959],
+      [5515, -2883],
+      [5500, -2878],
+      [5467.9, -2883.885],
+      [5458, -2907.7]
+    ],
+    "nearest": {
+      "carrier": {
+        "id": "attacker_lcac_02",
+        "t": 157.8,
+        "point": {
+          "x": 5444.063244954329,
+          "y": 2.730997815249895,
+          "z": -2870.6861590822073
+        },
+        "radius": 23,
+        "gap": 4.24702355635392
+      },
+      "ramp": {
+        "id": "attacker_lcac_02",
+        "t": 156.45,
+        "point": {
+          "x": 5444.4153182589125,
+          "y": 9.715998482283034,
+          "z": -2870.911091837696
+        },
+        "radius": 4.1,
+        "gap": 22.73006838388706
+      },
+      "LAV": {
+        "id": "attacker_lav_05",
+        "t": 157.35,
+        "point": {
+          "x": 5445.802527710758,
+          "y": 4.388111305114997,
+          "z": -2871.477037747198
+        },
+        "radius": 6.2,
+        "gap": 19.142766400706066
+      },
+      "scenery": {
+        "id": "remote-beach-coastal-cover:dry_grass:195",
+        "t": null,
+        "point": {
+          "x": 5504.165699519217,
+          "z": -2859.796710847877
+        },
+        "radius": 0.6992306910541044,
+        "gap": 17.974622377881747
+      }
+    },
+    "routeGap": 4.247323382383147,
+    "wind": {
+      "corridor": {
+        "minimum": 6.376600646093331,
+        "windMinimum": 6.5865110518056325,
+        "rayChecks": 918,
+        "blocked": [],
+        "closest": {
+          "t": 57.4,
+          "actor": "defender_support_recovery_01",
+          "detail": "8a:corridor:wash-crossing"
+        },
+        "windClosest": {
+          "t": 56.45,
+          "actor": "defender_support_recovery_01",
+          "detail": "8a:corridor:east-shoulder:8"
+        }
+      },
+      "beach": {
+        "minimum": 4.947114483391625,
+        "windMinimum": 7.149454507277837,
+        "rayChecks": 612,
+        "blocked": [],
+        "closest": {
+          "t": 228.9,
+          "actor": "attacker_lav_06",
+          "detail": "8a:beach:marker-gravel:4"
+        },
+        "windClosest": {
+          "t": 225.85,
+          "actor": "attacker_lav_06",
+          "detail": "8a:beach:lower-lee-grass:13"
+        }
+      }
+    },
+    "phases": [
+      {
+        "t": 154.25,
+        "phase": 0.20279396008768913,
+        "runup": 17.27869853122642,
+        "front": -28.092908400483477,
+        "swell": 1,
+        "breaking": 0,
+        "wash": 0,
+        "damp": 0.4194319126654076
+      },
+      {
+        "t": 156,
+        "phase": 0.42154396008768913,
+        "runup": 17.27869853122642,
+        "front": -5.48040912633349,
+        "swell": 1,
+        "breaking": 1,
+        "wash": 0.4210198630508544,
+        "damp": 0
+      },
+      {
+        "t": 158,
+        "phase": 0.6715439600876891,
+        "runup": 17.27869853122642,
+        "front": 17.27675147439936,
+        "swell": 0,
+        "breaking": 0,
+        "wash": 1,
+        "damp": 0.9524455249320403
+      },
+      {
+        "t": 159.5,
+        "phase": 0.8590439600876891,
+        "runup": 17.27869853122642,
+        "front": 0.715487547405302,
+        "swell": 0,
+        "breaking": 0,
+        "wash": 1,
+        "damp": 1
+      }
+    ],
+    "shoreFitSummary": {
+      "stations": 77,
+      "rangeMeters": [0.02534409364672019, 0.0313276789326844]
+    }
+  },
+  "gpuMotion": {
+    "startup": {
+      "ready": 4509,
+      "firstDraw": 3476.199999988079,
+      "graphics": [
+        {
+          "count": 0,
+          "fading": false,
+          "start": 3481.9000000059605,
+          "end": 3532.800000011921
+        },
+        {
+          "count": 1,
+          "fading": false,
+          "start": 3545.0999999940395,
+          "end": 3658.699999988079
+        },
+        {
+          "count": 2,
+          "fading": false,
+          "start": 3668.699999988079,
+          "end": 3776.4000000059605
+        },
+        {
+          "count": 3,
+          "fading": false,
+          "start": 3794.0999999940395,
+          "end": 3911.4000000059605
+        },
+        {
+          "count": 4,
+          "fading": false,
+          "start": 3920.699999988079,
+          "end": 4037.5999999940395
+        },
+        {
+          "count": 5,
+          "fading": false,
+          "start": 4052.5999999940395,
+          "end": 4160.800000011921
+        },
+        {
+          "count": 6,
+          "fading": false,
+          "start": 4176,
+          "end": 4299
+        },
+        {
+          "count": 7,
+          "fading": false,
+          "start": 4313.800000011921,
+          "end": 4434.0999999940395
+        },
+        {
+          "count": 6,
+          "fading": true,
+          "start": 4444.800000011921,
+          "end": 4505.9000000059605
+        }
+      ]
+    },
+    "revisits": [
+      {
+        "name": "shore-low-runup",
+        "first": {
+          "hash": 2666805944,
+          "time": 158,
+          "expected": 38,
+          "speed": 1,
+          "playing": false,
+          "position": [5527, 9, -2975],
+          "aim": [5487, 0.3, -2925],
+          "visible": {
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-grass": {
+              "time": 38,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 38,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 38,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 38,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-east-damp-sand": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "8b-east-damp-v1"
+            },
+            "8b-east-swell-and-wash": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "8b-east-surf-v1"
+            },
+            "8b-verge-dust": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {}
+        },
+        "replay": {
+          "hash": 2666805944,
+          "time": 158,
+          "expected": 38,
+          "speed": 1,
+          "playing": false,
+          "position": [5527, 9, -2975],
+          "aim": [5487, 0.3, -2925],
+          "visible": {
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-grass": {
+              "time": 38,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 38,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 38,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 38,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-east-damp-sand": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "8b-east-damp-v1"
+            },
+            "8b-east-swell-and-wash": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "8b-east-surf-v1"
+            },
+            "8b-verge-dust": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {}
+        },
+        "orbit": {
+          "hash": 2546850945,
+          "time": 158,
+          "expected": 38,
+          "speed": 1,
+          "playing": false,
+          "position": [5531.132653940574, 6.89578122383087, -2971.7385764247165],
+          "aim": [5487, 0.3, -2925],
+          "visible": {
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-grass": {
+              "time": 38,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 38,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 38,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 38,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-east-damp-sand": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "8b-east-damp-v1"
+            },
+            "8b-east-swell-and-wash": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "8b-east-surf-v1"
+            },
+            "8b-verge-dust": {
+              "time": 38,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {}
+        }
+      },
+      {
+        "name": "corridor-quiet",
+        "first": {
+          "hash": 2989942390,
+          "time": 245,
+          "expected": 5,
+          "speed": 1,
+          "playing": false,
+          "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+          "aim": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+          "visible": {
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-grass": {
+              "time": 5,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 5,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-verge-dust": {
+              "time": 5,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {
+            "8a-corridor-upright": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            }
+          }
+        },
+        "replay": {
+          "hash": 2989942390,
+          "time": 245,
+          "expected": 5,
+          "speed": 1,
+          "playing": false,
+          "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+          "aim": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+          "visible": {
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-grass": {
+              "time": 5,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 5,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-verge-dust": {
+              "time": 5,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {
+            "8a-corridor-upright": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            }
+          }
+        },
+        "orbit": {
+          "hash": 2515223682,
+          "time": 245,
+          "expected": 5,
+          "speed": 1,
+          "playing": false,
+          "position": [4398.848709633904, 47.929446749515265, 213.09245470644555],
+          "aim": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+          "visible": {
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-grass": {
+              "time": 5,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 5,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-verge-dust": {
+              "time": 5,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {
+            "8a-corridor-upright": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 5,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            }
+          }
+        }
+      },
+      {
+        "name": "beach-low",
+        "first": {
+          "hash": 3945558250,
+          "time": 225,
+          "expected": 25,
+          "speed": 1,
+          "playing": false,
+          "position": [5567.400000000001, 17.002431072987385, -2666.7999999999997],
+          "aim": [5562.8, 14.435739370300281, -2639.6],
+          "visible": {
+            "8a-beach-route-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-beach-remnant": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-beach-grass": {
+              "time": 25,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-grass": {
+              "time": 25,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-beach-scrub": {
+              "time": 25,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 25,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 25,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 25,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-verge-dust": {
+              "time": 25,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {}
+        },
+        "replay": {
+          "hash": 3945558250,
+          "time": 225,
+          "expected": 25,
+          "speed": 1,
+          "playing": false,
+          "position": [5567.400000000001, 17.002431072987385, -2666.7999999999997],
+          "aim": [5562.8, 14.435739370300281, -2639.6],
+          "visible": {
+            "8a-beach-route-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-beach-remnant": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-beach-grass": {
+              "time": 25,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-grass": {
+              "time": 25,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-beach-scrub": {
+              "time": 25,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 25,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 25,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 25,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-verge-dust": {
+              "time": 25,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {}
+        },
+        "orbit": {
+          "hash": 1202983453,
+          "time": 225,
+          "expected": 25,
+          "speed": 1,
+          "playing": false,
+          "position": [5569.629243118532, 16.09651735486264, -2666.3990888130647],
+          "aim": [5562.8, 14.435739370300281, -2639.6],
+          "visible": {
+            "8a-beach-route-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-beach-remnant": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-wash-sign": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-drum": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-tire": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-corridor-shelter": {
+              "time": null,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            },
+            "8a-beach-grass": {
+              "time": 25,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-grass": {
+              "time": 25,
+              "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-beach-scrub": {
+              "time": 25,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-scrub": {
+              "time": 25,
+              "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-upright": {
+              "time": 25,
+              "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8a-corridor-wind": {
+              "time": 25,
+              "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+              "linked": true,
+              "key": "8b-local-wind-v1"
+            },
+            "8b-verge-dust": {
+              "time": 25,
+              "profile": null,
+              "linked": true,
+              "key": "onBeforeCompile() {}"
+            }
+          },
+          "shadow": {}
+        }
+      }
+    ],
+    "boundaries": [
+      {
+        "hash": 791677162,
+        "time": 179.9,
+        "expected": 19.899999618530273,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 19.899999618530273,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 19.899999618530273,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 19.899999618530273,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 19.899999618530273,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 19.899999618530273,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 19.899999618530273,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 19.899999618530273,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 793442099,
+        "time": 180,
+        "expected": 20,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 20,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 20,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 20,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 20,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 20,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 20,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 20,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 2895978960,
+        "time": 180.1,
+        "expected": 20.100000381469727,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 20.100000381469727,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 20.100000381469727,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 20.100000381469727,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 20.100000381469727,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 20.100000381469727,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 20.100000381469727,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 20.100000381469727,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 2197785914,
+        "time": 7199.9,
+        "expected": 39.900001525878906,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 39.900001525878906,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 39.900001525878906,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 39.900001525878906,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 39.900001525878906,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 39.900001525878906,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 39.900001525878906,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 39.900001525878906,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 3770931151,
+        "time": 7200,
+        "expected": 0,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 0,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 0,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 0,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 0,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 0,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 0,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 0,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 2419073984,
+        "time": 7200.1,
+        "expected": 0.10000000149011612,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 0.10000000149011612,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 0.10000000149011612,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 0.10000000149011612,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 0.10000000149011612,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 0.10000000149011612,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 0.10000000149011612,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 0.10000000149011612,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 3985363663,
+        "time": 0,
+        "expected": 0,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 0,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 0,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 0,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 0,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 0,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 0,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 0,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      },
+      {
+        "hash": 2666805944,
+        "time": 158,
+        "expected": 38,
+        "speed": 1,
+        "playing": false,
+        "position": [5527, 9, -2975],
+        "aim": [5487, 0.3, -2925],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 38,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 38,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 38,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 38,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-east-damp-sand": {
+            "time": 38,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-damp-v1"
+          },
+          "8b-east-swell-and-wash": {
+            "time": 38,
+            "profile": null,
+            "linked": true,
+            "key": "8b-east-surf-v1"
+          },
+          "8b-verge-dust": {
+            "time": 38,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {}
+      }
+    ],
+    "speed": [
+      {
+        "speed": 0.5,
+        "played": {
+          "wall": 1.1185999999940395,
+          "sim": 0.5500000000004377
+        },
+        "hash": 2666805944
+      },
+      {
+        "speed": 1,
+        "played": {
+          "wall": 1.1255,
+          "sim": 1.0999999999999375
+        },
+        "hash": 2666805944
+      },
+      {
+        "speed": 2,
+        "played": {
+          "wall": 1.1227999999821185,
+          "sim": 2.199999999999875
+        },
+        "hash": 2666805944
+      }
+    ],
+    "windAndDust": {
+      "gust": {
+        "hash": 3271266057,
+        "time": 241,
+        "expected": 1,
+        "speed": 1,
+        "playing": false,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "aim": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 1,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 1,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-verge-dust": {
+            "time": 1,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {
+          "8a-corridor-upright": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          }
+        }
+      },
+      "lull": {
+        "hash": 2989942390,
+        "time": 245,
+        "expected": 5,
+        "speed": 1,
+        "playing": false,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "aim": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 5,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 5,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 5,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 5,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8b-verge-dust": {
+            "time": 5,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          }
+        },
+        "shadow": {
+          "8a-corridor-upright": {
+            "time": 5,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 5,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          }
+        }
+      },
+      "dustMasked": {
+        "hash": 1594134763,
+        "time": 241,
+        "expected": 1,
+        "speed": 1,
+        "playing": false,
+        "position": [4397.230313581159, 49.36963547700951, 209.87631869817645],
+        "aim": [4358.34334929888, 45.76729691853704, 230.16927336004582],
+        "visible": {
+          "8a-corridor-wash-sign": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-tire": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-shelter": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-drum": {
+            "time": null,
+            "profile": null,
+            "linked": true,
+            "key": "onBeforeCompile() {}"
+          },
+          "8a-corridor-grass": {
+            "time": 1,
+            "profile": [0.08500000089406967, 0.9300000071525574, 0.6200000047683716],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-scrub": {
+            "time": 1,
+            "profile": [0.1599999964237213, 0.7200000286102295, 0.4399999976158142],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-upright": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          }
+        },
+        "shadow": {
+          "8a-corridor-upright": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0399999618530273, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          },
+          "8a-corridor-wind": {
+            "time": 1,
+            "profile": [0.23999999463558197, 1.0199999809265137, 1.3799999952316284],
+            "linked": true,
+            "key": "8b-local-wind-v1"
+          }
+        }
+      }
+    },
+    "resources": {
+      "gpu": [
+        {
+          "geometries": 1005,
+          "textures": 4,
+          "programs": 364
+        },
+        {
+          "geometries": 1007,
+          "textures": 4,
+          "programs": 364
+        },
+        {
+          "geometries": 1007,
+          "textures": 4,
+          "programs": 364
+        }
+      ]
+    },
+    "finalWarmCycles": [
+      {
+        "geometries": 1004,
+        "textures": 4,
+        "programs": 363
+      },
+      {
+        "geometries": 1004,
+        "textures": 4,
+        "programs": 363
+      },
+      {
+        "geometries": 1004,
+        "textures": 4,
+        "programs": 363
+      },
+      {
+        "geometries": 1004,
+        "textures": 4,
+        "programs": 363
+      },
+      {
+        "geometries": 1004,
+        "textures": 4,
+        "programs": 363
+      }
+    ],
+    "nativeDisposal": {
+      "total": 49,
+      "types": {
+        "geometry": 19,
+        "instance": 17,
+        "material": 10,
+        "texture": 1,
+        "tree depth": 2
+      }
+    }
+  },
+  "landing": [
+    {
+      "time": 155,
+      "roots": 35,
+      "wheels": 64,
+      "rampWheelSupports": 0,
+      "occupancy": [8, 0, 0],
+      "ramp": {
+        "angle": 1.0471975511965976,
+        "center": [5434.858101825375, 5.908503194264457, -2887.635410950189],
+        "matrix": [-7.170049851291437, 0.3500048925209062, 3.9633170079123197, 0, -0.049620394497721244, 0.05467421340070087, -0.09459675913531676, 0, -1.5231741974341955, -5.33490751355468, -2.2844478952448277, 0, 5434.858101825375, 5.908503194264457, -2887.635410950189, 1]
+      }
+    },
+    {
+      "time": 162,
+      "roots": 35,
+      "wheels": 64,
+      "rampWheelSupports": 0,
+      "occupancy": [8, 0, 0],
+      "ramp": {
+        "angle": 1.0471975511965976,
+        "center": [5455.59805066019, 8.36937132434255, -2850.150387090311],
+        "matrix": [-7.173122330397527, 0.23046210786930818, 3.966510210498491, 0, -0.05091238657168353, 0.05253098221087121, -0.09512320853260045, 0, -1.4041888564185985, -5.391920197815157, -2.226084058588709, 0, 5455.59805066019, 8.36937132434255, -2850.150387090311, 1]
+      }
+    },
+    {
+      "time": 170,
+      "roots": 35,
+      "wheels": 64,
+      "rampWheelSupports": 8,
+      "occupancy": [5, 2, 1],
+      "ramp": {
+        "angle": -0.2285231336348943,
+        "center": [5456.2871133428125, 5.013493071519115, -2848.7083957341056],
+        "matrix": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1]
+      }
+    },
+    {
+      "time": 176,
+      "roots": 35,
+      "wheels": 64,
+      "rampWheelSupports": 12,
+      "occupancy": [3, 2, 3],
+      "ramp": {
+        "angle": -0.2285231336348943,
+        "center": [5456.2871133428125, 5.013493071519115, -2848.7083957341056],
+        "matrix": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1]
+      }
+    },
+    {
+      "time": 180,
+      "roots": 35,
+      "wheels": 64,
+      "rampWheelSupports": 8,
+      "occupancy": [1, 2, 5],
+      "ramp": {
+        "angle": -0.2285231336348943,
+        "center": [5456.2871133428125, 5.013493071519115, -2848.7083957341056],
+        "matrix": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1]
+      }
+    },
+    {
+      "time": 187.6,
+      "roots": 35,
+      "wheels": 64,
+      "rampWheelSupports": 0,
+      "occupancy": [0, 0, 8],
+      "ramp": {
+        "angle": -0.2285231336348943,
+        "center": [5456.2871133428125, 5.013493071519115, -2848.7083957341056],
+        "matrix": [-7.172981682566119, 0.2167037722604332, 3.9675399502284705, 0, 0.011892020200111427, 0.11845965811912164, 0.015029612565231209, 0, -2.8459539776800193, 0.9450561028008252, -5.196865874686987, 0, 5456.2871133428125, 5.013493071519115, -2848.7083957341056, 1]
+      }
+    }
+  ],
+  "startup": {
+    "capture": {
+      "before": {
+        "readyMs": 4315.5999999940395,
+        "firstDrawMs": 3332.4000000059605,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 974.3000000119209,
+        "constructionSlices": 234,
+        "constructionP95Ms": 8.900000005960464,
+        "constructionMaxMs": 32.5
+      },
+      "after": {
+        "readyMs": 5823.5999999940395,
+        "firstDrawMs": 4753.800000011921,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 1059.0999999940395,
+        "constructionSlices": 256,
+        "constructionP95Ms": 8.900000005960464,
+        "constructionMaxMs": 36.5
+      }
+    },
+    "direct": [
+      {
+        "side": "before",
+        "readyMs": 4222.699999988079,
+        "firstDrawMs": 3366.199999988079,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 845.9000000059605,
+        "constructionSlices": 239,
+        "constructionP95Ms": 9,
+        "constructionMaxMs": 40.5
+      },
+      {
+        "side": "after",
+        "readyMs": 4105.199999988079,
+        "firstDrawMs": 3204.5999999940395,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 890.9000000059605,
+        "constructionSlices": 231,
+        "constructionP95Ms": 9.199999988079071,
+        "constructionMaxMs": 33.5
+      },
+      {
+        "side": "after",
+        "readyMs": 4269.700000017881,
+        "firstDrawMs": 3339.0999999940395,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 922.5,
+        "constructionSlices": 250,
+        "constructionP95Ms": 9,
+        "constructionMaxMs": 33
+      },
+      {
+        "side": "before",
+        "readyMs": 4548.299999982119,
+        "firstDrawMs": 3643.199999988079,
+        "graphicsJobCount": 9,
+        "graphicsSpanMs": 895.6999999880791,
+        "constructionSlices": 276,
+        "constructionP95Ms": 8.600000023841858,
+        "constructionMaxMs": 36
+      }
+    ]
+  },
+  "fixtureRepair": {
+    "src/simulation/fixtures/stage7cConstructionPreservation.json": {
+      "referenceSha256": "a2fe892ff096d476eee5874f4123d2b32bc868b4f1d9fb2c7e5a241898d28df1",
+      "referenceBytes": 49102,
+      "restoredSha256": "8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8",
+      "restoredBytes": 53062,
+      "wouldStoreAsGitBlob": "dd61d75cd65770a47d5541618d6105e95d0820ae"
+    },
+    "src/simulation/fixtures/stage7cPresentationPreservation.json": {
+      "referenceSha256": "4cb1c7c880ccd6132907e22c8ff1183e0607157a18367fa48c77e5c41e50d2d6",
+      "referenceBytes": 53891,
+      "restoredSha256": "b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3",
+      "restoredBytes": 58811,
+      "wouldStoreAsGitBlob": "d8ac0cffaaf01d0773105c2c764c96df7f5dd5c2"
+    }
+  },
+  "evidence": {
+    "beach-pass-before-after.mp4": {
+      "sha256": "7164028701c8deec88dfb463558f25f47fbe879f2b6140518ba5922d10917424",
+      "bytes": 4944579,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "300"
+    },
+    "comparison-contract.json": {
+      "sha256": "2a56e8304ec27b95b061f722bcc89254d281b83cb0ada295961ee7324b0b90d0",
+      "bytes": 5332
+    },
+    "corridor-pass-before-after.mp4": {
+      "sha256": "61795f17528d07c0bdd86857b07e3be8c8404c67d92c989646d99eac9d1f4e67",
+      "bytes": 3346936,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "300"
+    },
+    "corridor-quiet-before-after.mp4": {
+      "sha256": "003be56361717343fcc0142ca672002a61ca82d0282f04a91f60bc89c07dff36",
+      "bytes": 959067,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "300"
+    },
+    "shore-low-before-after.mp4": {
+      "sha256": "08136debc9202b2f19b2253dc70a65ca4c212f43225e7da787eb2992d075b18b",
+      "bytes": 3993167,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "720"
+    },
+    "shore-preset-before-after.mp4": {
+      "sha256": "398b6b4bbf6e3eba3c69a795b450fe5c94add36a50e972496d843a60f831994b",
+      "bytes": 4050304,
+      "codec_name": "h264",
+      "width": 2560,
+      "height": 776,
+      "r_frame_rate": "30/1",
+      "nb_frames": "720"
+    },
+    "site-map.svg": {
+      "sha256": "c025883d7a4f9e9a059063a3bf2671b6682ba5f52a1b6775ff475abc8137fd36",
+      "bytes": 13380
+    },
+    "stills/beach-low-after.png": {
+      "sha256": "9d0c19c99fcbee1c47db4e322323a571ddc2d17839ed3735226deb6618e736c6",
+      "bytes": 462424,
+      "size": [1280, 720]
+    },
+    "stills/beach-low-before.png": {
+      "sha256": "c6bbc76356600e67b540bb83c20b38e25bf02ff190182b8fd58d04290311caf1",
+      "bytes": 461108,
+      "size": [1280, 720]
+    },
+    "stills/corridor-low-after.png": {
+      "sha256": "d7f6f027213a1e9181d0dbec3c0224512753a04971e2d237e65b745391697205",
+      "bytes": 446920,
+      "size": [1280, 720]
+    },
+    "stills/corridor-low-before.png": {
+      "sha256": "912eace24319b7d1f51d6db668c9d504ecb65a1053f2d004d176b5a51d288e7e",
+      "bytes": 446150,
+      "size": [1280, 720]
+    },
+    "stills/corridor-quiet-after.png": {
+      "sha256": "148b6f9cad5dfc77b8f61b4a0175f0af428b4644f44bdd9b070f2aa41aa0fbc4",
+      "bytes": 444834,
+      "size": [1280, 720]
+    },
+    "stills/corridor-quiet-before.png": {
+      "sha256": "323427a47fd8adb8ef3559aa7030232cd441149aafe35c917db41e4ae0323f50",
+      "bytes": 443362,
+      "size": [1280, 720]
+    },
+    "stills/landing-ramp-after.png": {
+      "sha256": "0e3adb13b2d19a07f62aa1412a2470fbcce398b45eeb7a0b0010de08dbc283ce",
+      "bytes": 538750,
+      "size": [1280, 720]
+    },
+    "stills/landing-ramp-before.png": {
+      "sha256": "0e3adb13b2d19a07f62aa1412a2470fbcce398b45eeb7a0b0010de08dbc283ce",
+      "bytes": 538750,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-approach-after.png": {
+      "sha256": "a474500954c4b358f6836e56fde66194c0d84e6c5a729f6de3ccd8dec83af5cd",
+      "bytes": 313299,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-approach-before.png": {
+      "sha256": "78f23ef9a1c2207fc4fec15e09d03d1c0bf1070aa0430ec20f6bf147662426ba",
+      "bytes": 299059,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-break-after.png": {
+      "sha256": "82a6185a2d34e1eb5ca48d1454af5c878f7287092ef7de84af35c34694c3539f",
+      "bytes": 310854,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-break-before.png": {
+      "sha256": "0435f91eca2b30b67b9c0d81320fe7ca8797f4c019474f2cbee95e189bfd076f",
+      "bytes": 300877,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-retreat-after.png": {
+      "sha256": "fdb63149a7d2adad1e5e7264fdedb93608fb3b4ec3efe28d18c779a9f4dc606d",
+      "bytes": 305067,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-retreat-before.png": {
+      "sha256": "3d388ec25fab9071ee5690d39d89ef248afc1bb9c36ec63a5f8ba1bd22695eca",
+      "bytes": 296064,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-runup-after.png": {
+      "sha256": "d2e64ef2afc2493bb274dbb4071b84f85ec698a16df1d9afed59c9511f0ca127",
+      "bytes": 306306,
+      "size": [1280, 720]
+    },
+    "stills/shore-low-runup-before.png": {
+      "sha256": "4f01036f43ffa6f9fda26f0b124776c2c9528964afab1ac085a5863a6a71d3e3",
+      "bytes": 298132,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-approach-after.png": {
+      "sha256": "7c62d65c0527ec449e7ce7732e9283a294eeae595fe8a87d227e86cc310cd357",
+      "bytes": 601004,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-approach-before.png": {
+      "sha256": "05e022cddccbc6effdca1dd92320dc2ba86151e5e65d57c2aabc5670dd1ccd2b",
+      "bytes": 600671,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-break-after.png": {
+      "sha256": "9ec81265a018c7dd238c12671bc4c69c5ed59b10568e704488a0a8e1b031c8da",
+      "bytes": 601087,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-break-before.png": {
+      "sha256": "8e40809c01b12828d5864c03554058dfeab61d31b73f7d7c9c4bec750754f996",
+      "bytes": 600696,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-retreat-after.png": {
+      "sha256": "c1e131dac11566a2888dafae7b57c937bb3a9c62a0862ecf716bc8218b4e861a",
+      "bytes": 601934,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-retreat-before.png": {
+      "sha256": "2522fb650d4034387673bce5109ca0ee68d51c5a5f8cc18f9cbd112b87faaa4f",
+      "bytes": 601681,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-runup-after.png": {
+      "sha256": "a6d06dfd713fbad30c493cc82893f75bb5ecae55588763bea288fa66bc1726ee",
+      "bytes": 600909,
+      "size": [1280, 720]
+    },
+    "stills/shore-preset-runup-before.png": {
+      "sha256": "58d04923329702ca2c319a4ea1e8d2861f7ab7a1680191fa04bd577c862831f7",
+      "bytes": 600505,
+      "size": [1280, 720]
+    }
+  }
+}

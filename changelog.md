@@ -361,3 +361,9 @@ Both calibrated full-viewport methods still vary on the unchanged reference with
 **Complete.** Added a disused inspection bay on the rescue branch, with a weathered shelter, drums, tires, a WASH RD board, gravel and dryland cover. The eastern beach track has a quieter E-2 marker, buried footing and pockets of dune plants. Both samples have matched preset and low-angle captures and native 1× viewer sequences.
 
 Across eight fixed poses, the largest increases are 21 submitted draws, 8.83% submitted triangles and four shadow draws. The nearest padded vehicle clearances are 6.38 m at the bay and 4.95 m on the dune. Restored both pinned Stage 7C fixture serializations as a separate baseline repair. Both TypeScript no-emit checks, lint, 780 tests across 72 files and whitespace checks pass. [Stage 8A acceptance and evidence](STAGE8A_ACCEPTANCE.md).
+
+## Stage 8B — Shore Waves and Wind (2026-11-06)
+
+**Complete.** The east landing flank now has a local swell, broken crest, shallow run-up and damp retreat. Both Stage 8A samples share rooted wind, with moving crown shadows and a restrained dust cue at the inspection bay. Matched preset and low viewer evidence covers three surf cycles, the rescue branch and the eastern LAV pass.
+
+The full surf envelope clears the padded approach by 4.25 m. Eighteen matched poses add at most three draws and 3.59% triangles, with equal shadow submissions. Six rendered landing checkpoints match Stage 8A. Pause, backward seek, restart, playback speed and late observation checks pass. The original Stage 7C fixture bytes were restored separately. Both no-emit checks, lint, 786 tests across 73 files and whitespace checks pass. [Stage 8B acceptance and evidence](STAGE8B_ACCEPTANCE.md)

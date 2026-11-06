@@ -1,7 +1,10 @@
 import { useEffect, useMemo } from 'react'
-import { Color, DoubleSide, InstancedMesh, MeshStandardMaterial, StaticDrawUsage } from 'three'
+import { Color, DoubleSide, InstancedMesh, MeshDepthMaterial, MeshStandardMaterial, StaticDrawUsage } from 'three'
+
+import type { MotionClock } from '../stage8b/motionClock'
 
 import { applyLandscapeSurface } from '../landscape/landscapeMaterial'
+import { applyLocalWind, expandWindBounds, isWindKind, WIND_PROFILES, type WindKind } from '../stage8b/wind'
 import { createDetailGeometries, createSignFace } from './detailGeometry'
 import { createDetailGround } from './detailGround'
 import { createDetailLayout, fitDetailPlacement, type DetailKind, type DetailPlacement, type DetailSite } from './detailLayout'
@@ -10,10 +13,15 @@ import { createSignAtlas } from './signAtlas'
 const CASTERS = new Set<DetailKind>(['shelter', 'upright', 'wind', 'wash-sign', 'route-sign', 'remnant'])
 const SITES: readonly DetailSite[] = ['corridor', 'beach']
 
-function createResources() {
+function createResources(clock: MotionClock) {
   const geometries = createDetailGeometries()
   const texture = createSignAtlas()
   const solid = new MeshStandardMaterial({ roughness: 0.94, vertexColors: true, flatShading: true, side: DoubleSide })
+  const plants = new Map((Object.keys(WIND_PROFILES) as WindKind[]).map((kind) => [kind, applyLocalWind(solid.clone(), kind, clock)]))
+  const treeDepth = {
+    upright: applyLocalWind(new MeshDepthMaterial(), 'upright', clock),
+    wind: applyLocalWind(new MeshDepthMaterial(), 'wind', clock),
+  }
   const signs = new MeshStandardMaterial({ roughness: 0.9, map: texture })
   const ground = applyLandscapeSurface(new MeshStandardMaterial({ roughness: 0.98, vertexColors: true, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1 }), 0.55)
   const sites = SITES.map((site) => {
@@ -28,10 +36,11 @@ function createResources() {
     const batches = [...groups].flatMap(([kind, placements]) => {
       const geometry = geometries[kind]
       const sign = kind === 'wash-sign' || kind === 'route-sign'
-      const mesh = new InstancedMesh(geometry, solid, placements.length)
+      const mesh = new InstancedMesh(geometry, isWindKind(kind) ? plants.get(kind)! : solid, placements.length)
       const face = sign ? new InstancedMesh(plate, signs, placements.length) : null
       mesh.name = `8a-${site}-${kind}`
       mesh.castShadow = CASTERS.has(kind)
+      if (kind === 'upright' || kind === 'wind') mesh.customDepthMaterial = treeDepth[kind]
       mesh.userData.detailIds = placements.map((p) => p.id)
       if (face) face.name = `8a-${site}-sign-face`
       placements.forEach((placement, i) => {
@@ -49,6 +58,7 @@ function createResources() {
         pool.computeBoundingBox()
         pool.computeBoundingSphere()
       }
+      if (isWindKind(kind)) expandWindBounds(mesh, kind)
       return pools
     })
     return { site, drape, plate, batches }
@@ -64,6 +74,8 @@ function createResources() {
         plate.dispose()
       }
       Object.values(geometries).forEach((geometry) => geometry.dispose())
+      plants.forEach((material) => material.dispose())
+      Object.values(treeDepth).forEach((material) => material.dispose())
       solid.dispose()
       signs.dispose()
       ground.dispose()
@@ -72,8 +84,8 @@ function createResources() {
   }
 }
 
-export function RoadsideDetail() {
-  const resources = useMemo(() => createResources(), [])
+export function RoadsideDetail({ clock }: { clock: MotionClock }) {
+  const resources = useMemo(() => createResources(clock), [clock])
   useEffect(() => () => resources.dispose(), [resources])
   return (
     <group name="stage8a-roadside-detail" dispose={null}>

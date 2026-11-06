@@ -15,7 +15,7 @@ import { TerrainAndWater } from './stage2/TerrainAndWater.tsx'
 import { RegionalCover } from './stage4c/RegionalCover.tsx'
 import { ServiceEquipment } from './stage4c/ServiceEquipment.tsx'
 import { SurfaceHistory } from './stage4c/SurfaceHistory.tsx'
-import { RoadsideDetail } from './stage8a/RoadsideDetail'
+import { LocalEnvironmentMotion } from './stage8b/LocalEnvironmentMotion'
 
 export type WorldShellProps = Pick<ThreeElements['group'], 'visible'>
 
@@ -46,7 +46,7 @@ export function WorldShell({ visible = true }: WorldShellProps) {
         <SparseTrees />
         <ServiceEquipment />
         <SurfaceHistory />
-        <RoadsideDetail />
+        <LocalEnvironmentMotion />
       </group>
     </LegacyRockResourcesContext.Provider>
   )

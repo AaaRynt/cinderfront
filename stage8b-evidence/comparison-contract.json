@@ -1,0 +1,195 @@
+{
+  "reference": "81f5c10",
+  "fixedBeforeVisualEdits": true,
+  "surfSite": {
+    "shoreline": "actual rendered east landing coast",
+    "minXAtCoast": 5458,
+    "maxX": 5515,
+    "offshoreDepth": 54,
+    "inlandLimit": 22,
+    "inlandWestTaper": 0.45,
+    "nominalCycleSeconds": 8
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1
+  },
+  "quality": "Headed installed Chrome foreground and focused. DPR 1, original antialiasing, percentage shadows, ACES exposure 1.12, native HUD. Preserve observed display cadence and report RAF.",
+  "warmup": "Visit each checkpoint before measuring, then capture on the second visit. Use separate warmed runs for pacing and the native 1× screencasts.",
+  "limits": {
+    "additionalSubmittedDraws": 40,
+    "additionalSubmittedTrianglesPercent": 10,
+    "additionalShadowDraws": 6,
+    "additionalShadowTriangles": 6000,
+    "additionalLights": 0
+  },
+  "checkpoints": [
+    {
+      "name": "shore-preset-approach",
+      "preset": "beach-offshore",
+      "time": 154.25
+    },
+    {
+      "name": "shore-low-approach",
+      "preset": "beach-offshore",
+      "time": 154.25,
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-preset-break",
+      "preset": "beach-offshore",
+      "time": 156
+    },
+    {
+      "name": "shore-low-break",
+      "preset": "beach-offshore",
+      "time": 156,
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-preset-runup",
+      "preset": "beach-offshore",
+      "time": 158
+    },
+    {
+      "name": "shore-low-runup",
+      "preset": "beach-offshore",
+      "time": 158,
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      }
+    },
+    {
+      "name": "shore-preset-retreat",
+      "preset": "beach-offshore",
+      "time": 159.5
+    },
+    {
+      "name": "shore-low-retreat",
+      "preset": "beach-offshore",
+      "time": 159.5,
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      }
+    },
+    {
+      "name": "landing-ramp",
+      "preset": "lcac-east",
+      "time": 170
+    },
+    {
+      "name": "corridor-entry",
+      "preset": "support-convoy",
+      "time": 53,
+      "photo": false
+    },
+    {
+      "name": "corridor-preset",
+      "preset": "support-convoy",
+      "time": 58
+    },
+    {
+      "name": "corridor-low",
+      "preset": "support-convoy",
+      "time": 58,
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      }
+    },
+    {
+      "name": "corridor-exit",
+      "preset": "support-convoy",
+      "time": 63,
+      "photo": false
+    },
+    {
+      "name": "beach-entry",
+      "preset": "lav-east",
+      "time": 220,
+      "photo": false
+    },
+    {
+      "name": "beach-preset",
+      "preset": "lav-east",
+      "time": 225
+    },
+    {
+      "name": "beach-low",
+      "preset": "lav-east",
+      "time": 225,
+      "low": {
+        "position": [5567.400000000001, 17.002431072987385, -2666.7999999999997],
+        "target": [5562.8, 14.435739370300281, -2639.6]
+      }
+    },
+    {
+      "name": "beach-exit",
+      "preset": "lav-east",
+      "time": 230,
+      "photo": false
+    },
+    {
+      "name": "corridor-quiet",
+      "preset": "support-convoy",
+      "time": 245,
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      }
+    }
+  ],
+  "playback": [
+    {
+      "id": "shore-preset",
+      "preset": "beach-offshore",
+      "start": 152,
+      "end": 176,
+      "paceEnd": 164
+    },
+    {
+      "id": "shore-low",
+      "preset": "beach-offshore",
+      "low": {
+        "position": [5527, 9, -2975],
+        "target": [5487, 0.3, -2925]
+      },
+      "start": 360,
+      "end": 384,
+      "paceEnd": 372
+    },
+    {
+      "id": "corridor-pass",
+      "preset": "support-convoy",
+      "start": 53,
+      "end": 63,
+      "paceEnd": 63
+    },
+    {
+      "id": "corridor-quiet",
+      "preset": "support-convoy",
+      "low": {
+        "position": [4397.230313581159, 49.36963547700952, 209.87631869817645],
+        "target": [4358.34334929888, 45.76729691853704, 230.16927336004582]
+      },
+      "start": 240,
+      "end": 250
+    },
+    {
+      "id": "beach-pass",
+      "preset": "lav-east",
+      "start": 220,
+      "end": 230,
+      "paceEnd": 230
+    }
+  ]
+}
