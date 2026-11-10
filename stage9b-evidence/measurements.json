@@ -1,0 +1,1842 @@
+{
+  "referenceCommit": "b7ad822",
+  "frozenContract": "stage9b-evidence/comparison-contract.json",
+  "applicationHashes": {
+    "before": "1fe4ef0746c802af18a35ec55b548f8b42a75068316d8bbd127dc5d87ac30a95",
+    "after": "8cc80080cc84349091508f3d2dde5277f674f632f2bd6161a3f1c9c068b48d78"
+  },
+  "changedRuntimeFiles": ["src/scene/vehicles/LandingModels.tsx", "src/scene/vehicles/landingModelGeometry.ts", "src/scene/vehicles/landingModelResources.ts", "src/scene/vehicles/landingSurfaceFinish.ts"],
+  "startup": {
+    "before": {
+      "meta": {
+        "viewport": [1280, 720],
+        "buffer": [1280, 720],
+        "dpr": 1,
+        "aa": true,
+        "shadows": [true, 1],
+        "tone": [4, 1.12],
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "visible": "visible",
+        "focus": true,
+        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+      },
+      "readyAt": 12329.399999976158,
+      "jobs": 9,
+      "lifecycle": {
+        "disposed": false,
+        "scheduledFrames": 0,
+        "timers": 0,
+        "observers": 1,
+        "listeners": 0,
+        "attachments": 1,
+        "channels": 0,
+        "peakChannels": 1
+      },
+      "paused": true,
+      "t": 0,
+      "preset": "overview",
+      "guide": null
+    },
+    "after": {
+      "meta": {
+        "viewport": [1280, 720],
+        "buffer": [1280, 720],
+        "dpr": 1,
+        "aa": true,
+        "shadows": [true, 1],
+        "tone": [4, 1.12],
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "visible": "visible",
+        "focus": true,
+        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36"
+      },
+      "readyAt": 5051.300000011921,
+      "jobs": 9,
+      "lifecycle": {
+        "disposed": false,
+        "scheduledFrames": 0,
+        "timers": 0,
+        "observers": 1,
+        "listeners": 0,
+        "attachments": 1,
+        "channels": 0,
+        "peakChannels": 1
+      },
+      "paused": true,
+      "t": 0,
+      "preset": "overview",
+      "guide": null
+    }
+  },
+  "checkpoints": [
+    {
+      "id": "east-loaded",
+      "pose": {
+        "time": 110,
+        "preset": "lcac-east",
+        "cue": null,
+        "position": [5411.360823440765, 26.080000000000002, -3706.3919837967605],
+        "target": [5380, 0.08000000000000002, -3740],
+        "quaternion": [-0.23681807158558757, 0.35457814862681686, 0.0933304778783542, 0.8997115978944924],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 3.3023,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [283, 299189, 0, 0],
+        "shadow": [47, 4828, 0, 0],
+        "scene": {
+          "lights": 12,
+          "meshes": 2838,
+          "geometries": 1044,
+          "materials": 378
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [216, 309069, 0, 0],
+        "shadow": [47, 5952, 0, 0],
+        "scene": {
+          "lights": 12,
+          "meshes": 2704,
+          "geometries": 1049,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-shallows",
+      "pose": {
+        "time": 152.6,
+        "preset": "lcac-east",
+        "cue": null,
+        "position": [5456.2751990204815, 26.11126869393758, -2909.3582337298812],
+        "target": [5413.937311676765, 0.1112686939375761, -2927.2608395533575],
+        "quaternion": [-0.21216505058135746, 0.5343117056200722, 0.14063914263933966, 0.8060506337115868],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.633,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [309, 375240, 0, 0],
+        "shadow": [51, 6314, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2934,
+          "geometries": 1051,
+          "materials": 377
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [242, 385120, 0, 0],
+        "shadow": [51, 7438, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2800,
+          "geometries": 1056,
+          "materials": 382
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-shore-break",
+      "pose": {
+        "time": 157.25,
+        "preset": "shore-break",
+        "cue": 152,
+        "position": [5540, 12.499999999999995, -2987],
+        "target": [5501, 0.3, -2925],
+        "quaternion": [-0.022839044643233847, 0.9575789044922202, 0.07920238700311241, 0.2761304068810116],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 1.4111,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [2069, 700139, 0, 0],
+        "shadow": [51, 6314, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2934,
+          "geometries": 1051,
+          "materials": 377
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [2002, 710019, 0, 0],
+        "shadow": [51, 7438, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2800,
+          "geometries": 1056,
+          "materials": 382
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-deck-ready",
+      "pose": {
+        "time": 165.2,
+        "preset": "lav-east",
+        "cue": 164,
+        "position": [5480.6952224905235, 18.070762628417697, -2849.70170812369],
+        "target": [5453.499218344519, 5.070762628417699, -2857.471995022548],
+        "quaternion": [-0.17064718614712446, 0.5882777818475755, 0.1287194135933334, 0.779897494423949],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.4302,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [314, 406546, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2941,
+          "geometries": 1052,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [247, 416426, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2807,
+          "geometries": 1057,
+          "materials": 388
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-ramp-first",
+      "pose": {
+        "time": 168.75,
+        "preset": "lav-east",
+        "cue": 164,
+        "position": [5482.3907773276815, 18.316522037936533, -2846.6497094168058],
+        "target": [5455.194773181677, 5.316522037936536, -2854.419996315664],
+        "quaternion": [-0.17064718614712446, 0.5882777818475755, 0.1287194135933334, 0.779897494423949],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.3926,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [315, 412946, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2940,
+          "geometries": 1052,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [248, 422826, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2806,
+          "geometries": 1057,
+          "materials": 388
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-guide-final",
+      "pose": {
+        "time": 173.1,
+        "preset": "lcac-east",
+        "cue": 173,
+        "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+        "target": [5450, 3.640845913585453, -2860],
+        "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.4252,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [313, 407390, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2940,
+          "geometries": 1052,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [246, 417270, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2806,
+          "geometries": 1057,
+          "materials": 388
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-busy",
+      "pose": {
+        "time": 176,
+        "preset": "lcac-east",
+        "cue": 173,
+        "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+        "target": [5450, 3.640845913585453, -2860],
+        "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.4253,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [311, 407366, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2912,
+          "geometries": 1053,
+          "materials": 384
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [244, 417246, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2778,
+          "geometries": 1058,
+          "materials": 389
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-scripted-end",
+      "pose": {
+        "time": 180,
+        "preset": "lcac-east",
+        "cue": 173,
+        "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+        "target": [5450, 3.640845913585453, -2860],
+        "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -53,
+        "submittedTriangleIncreasePercent": 1.9508,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [275, 405990, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2912,
+          "geometries": 1053,
+          "materials": 384
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [222, 413910, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2778,
+          "geometries": 1058,
+          "materials": 389
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-last-transfer",
+      "pose": {
+        "time": 186.75,
+        "preset": "lcac-east",
+        "cue": 173,
+        "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+        "target": [5450, 3.640845913585453, -2860],
+        "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -39,
+        "submittedTriangleIncreasePercent": 1.4661,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [239, 406510, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [200, 412470, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-all-ashore",
+      "pose": {
+        "time": 188.2,
+        "preset": "lcac-east",
+        "cue": 173,
+        "position": [5494.387763909727, 29.64084591358545, -2848.0531838930056],
+        "target": [5450, 3.640845913585453, -2860],
+        "quaternion": [-0.2020309711326738, 0.5882807900385958, 0.15484464418799618, 0.7675495651363807],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -35,
+        "submittedTriangleIncreasePercent": 1.39,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [230, 405758, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [195, 411398, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "east-road",
+      "pose": {
+        "time": 207,
+        "preset": "lav-east",
+        "cue": null,
+        "position": [5556.819601120408, 21.634444788757982, -2712.613665397959],
+        "target": [5529.623596974407, 8.634444788757984, -2720.383952296823],
+        "quaternion": [-0.1706471861471444, 0.5882777818474859, 0.12871941359331793, 0.7798974944240146],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -56,
+        "submittedTriangleIncreasePercent": 2.4339,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [268, 393606, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1024,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [212, 403186, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1029,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "west-loaded",
+      "pose": {
+        "time": 110,
+        "preset": "lcac-west",
+        "cue": null,
+        "position": [4284.636271027901, 26.08, -3689.7786709544107],
+        "target": [4250, 0.08000000000000002, -3720],
+        "quaternion": [-0.2317238539457425, 0.4002208752509151, 0.1053443526870409, 0.8803578101447571],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 3.2897,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [286, 300327, 0, 0],
+        "shadow": [48, 5410, 0, 0],
+        "scene": {
+          "lights": 12,
+          "meshes": 2838,
+          "geometries": 1044,
+          "materials": 378
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [219, 310207, 0, 0],
+        "shadow": [48, 6534, 0, 0],
+        "scene": {
+          "lights": 12,
+          "meshes": 2704,
+          "geometries": 1049,
+          "materials": 383
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "west-shallows",
+      "pose": {
+        "time": 142.6,
+        "preset": "lcac-west",
+        "cue": null,
+        "position": [4348.33951247715, 26.112869706784274, -3085.0132719294743],
+        "target": [4309.01798488432, 0.1128697067842785, -3108.8212006038957],
+        "quaternion": [-0.22175647964176742, 0.47478109054737144, 0.12496975981176207, 0.8424900823915553],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.9083,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [295, 339723, 0, 0],
+        "shadow": [48, 5410, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2918,
+          "geometries": 1051,
+          "materials": 384
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [228, 349603, 0, 0],
+        "shadow": [48, 6534, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2784,
+          "geometries": 1056,
+          "materials": 389
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "west-ramp-first",
+      "pose": {
+        "time": 162.75,
+        "preset": "lav-west",
+        "cue": null,
+        "position": [4315.168228805213, 18.966470207967337, -2888.3652939634617],
+        "target": [4300.097993761163, 5.966470207967341, -2912.3003731510703],
+        "quaternion": [-0.20536894651152934, 0.27087051255284683, 0.05926841810347766, 0.938584048369465],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -67,
+        "submittedTriangleIncreasePercent": 2.8799,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [292, 343066, 0, 0],
+        "shadow": [48, 5410, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2924,
+          "geometries": 1051,
+          "materials": 382
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [225, 352946, 0, 0],
+        "shadow": [48, 6534, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2790,
+          "geometries": 1056,
+          "materials": 387
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "west-last-transfer",
+      "pose": {
+        "time": 180.75,
+        "preset": "lcac-west",
+        "cue": null,
+        "position": [4325.087508926271, 30.687351913979477, -2881.4822521962374],
+        "target": [4300, 4.687351913979475, -2920],
+        "quaternion": [-0.24401446302100124, 0.27528422350754705, 0.07245908477956374, 0.927051896690432],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -39,
+        "submittedTriangleIncreasePercent": 1.7516,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [218, 340266, 0, 0],
+        "shadow": [48, 5410, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [179, 346226, 0, 0],
+        "shadow": [48, 6534, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "west-road",
+      "pose": {
+        "time": 207,
+        "preset": "lav-west",
+        "cue": null,
+        "position": [4275.265543108067, 17.737419702403873, -2712.8023060898045],
+        "target": [4260.195308064036, 4.73741970240387, -2736.7373852774253],
+        "quaternion": [-0.2053689465115558, 0.2708705125524573, 0.05926841810339297, 0.9385840483695768],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -57,
+        "submittedTriangleIncreasePercent": 2.5808,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [246, 346868, 0, 0],
+        "shadow": [48, 5410, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [189, 355820, 0, 0],
+        "shadow": [48, 6534, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "deck-close",
+      "pose": {
+        "time": 187.9,
+        "preset": "lcac-east",
+        "cue": null,
+        "position": [5445.500321597406, 14.275795330099935, -2837.7143376768513],
+        "target": [5452.409105628998, 5.188548723306034, -2855.7290719883013],
+        "quaternion": [-0.2146622149253901, -0.17769069434813406, -0.039750779303380376, 0.959565540320294],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -15,
+        "submittedTriangleIncreasePercent": 0.8509,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [156, 351171, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [141, 354159, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "stern-close",
+      "pose": {
+        "time": 185.6,
+        "preset": "lcac-east",
+        "cue": null,
+        "position": [5429.09409999443, 10.592622605124717, -2871.307791375333],
+        "target": [5444.903177044383, 5.482993653273903, -2866.835121612982],
+        "quaternion": [-0.09059823621796168, -0.7885223538037086, -0.11978615769073994, 0.5963855578162023],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -42,
+        "submittedTriangleIncreasePercent": 2.1825,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [243, 355919, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [201, 363687, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    },
+    {
+      "id": "lav-close",
+      "pose": {
+        "time": 207,
+        "preset": "lav-east",
+        "cue": null,
+        "position": [5526.859017728707, 12.688662340153796, -2711.4693338731213],
+        "target": [5529.543905153062, 9.890280404231786, -2720.344886704311],
+        "quaternion": [-0.14445072529185055, -0.1447798890989816, -0.02137024867413657, 0.9786296971514559],
+        "projection": [1.427989441311173, 0, 0, 0, 0, 2.5386478956643073, 0, 0, 0, 0, -1.000080003200128, -1, 0, 0, -2.000080003200128, 0],
+        "fov": 43
+      },
+      "maxCameraMatrixValueDelta": 0.0,
+      "deltas": {
+        "submittedDraws": -24,
+        "submittedTriangleIncreasePercent": 1.3577,
+        "shadowDraws": 0,
+        "shadowTriangles": 1124,
+        "addedLights": 0
+      },
+      "reference": {
+        "submitted": [161, 351171, 0, 0],
+        "shadow": [50, 5618, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2861,
+          "geometries": 1050,
+          "materials": 362
+        },
+        "gpu": {
+          "geometries": 1023,
+          "textures": 4,
+          "programs": 385
+        }
+      },
+      "candidate": {
+        "submitted": [137, 355939, 0, 0],
+        "shadow": [50, 6742, 0, 0],
+        "scene": {
+          "lights": 13,
+          "meshes": 2727,
+          "geometries": 1055,
+          "materials": 367
+        },
+        "gpu": {
+          "geometries": 1028,
+          "textures": 7,
+          "programs": 401
+        }
+      }
+    }
+  ],
+  "separate1xPacing": {
+    "ramp-pacing": {
+      "before": {
+        "frames": 607,
+        "medianMs": 16.6,
+        "meanMs": 17.04,
+        "p95Ms": 16.7,
+        "maxMs": 33.3,
+        "longTasksMs": [],
+        "endSeconds": 176.03333333333273,
+        "visibleAndFocused": true
+      },
+      "after": {
+        "frames": 606,
+        "medianMs": 16.6,
+        "meanMs": 17.07,
+        "p95Ms": 17.1,
+        "maxMs": 33.7,
+        "longTasksMs": [],
+        "endSeconds": 176.03333333333273,
+        "visibleAndFocused": true
+      }
+    },
+    "last-transfer-pacing": {
+      "before": {
+        "frames": 600,
+        "medianMs": 16.6,
+        "meanMs": 16.74,
+        "p95Ms": 16.7,
+        "maxMs": 33.2,
+        "longTasksMs": [],
+        "endSeconds": 189.53333333333276,
+        "visibleAndFocused": true
+      },
+      "after": {
+        "frames": 596,
+        "medianMs": 16.6,
+        "meanMs": 16.85,
+        "p95Ms": 17.3,
+        "maxMs": 34.2,
+        "longTasksMs": [],
+        "endSeconds": 189.53333333333276,
+        "visibleAndFocused": true
+      }
+    }
+  },
+  "clearances": {
+    "times": 355,
+    "results": [
+      {
+        "id": "attacker_lcac_01",
+        "minMachinery": 0.8595000475615961,
+        "minNeighbor": 0.6545678536403416,
+        "minRampSide": 0.8293971146524739,
+        "minSkirtRamp": 0.19069420037973794,
+        "minNonTirePanel": 0.022375432120258835,
+        "minNonTireGround": 0.08407060529465227,
+        "minRoadShoulder": 0.6612552893542389,
+        "maxSteering": 0.09538664020422716,
+        "maxSuspension": 0.14245668121854885,
+        "roadSamples": 669,
+        "rampSamples": 80
+      },
+      {
+        "id": "attacker_lcac_02",
+        "minMachinery": 0.8594904925366107,
+        "minNeighbor": 0.6463683263500961,
+        "minRampSide": 0.8227553986005685,
+        "minSkirtRamp": 0.03503211577592494,
+        "minNonTirePanel": 0.0036443280414652527,
+        "minNonTireGround": 0.07874832682860777,
+        "minRoadShoulder": 0.4232759962545245,
+        "maxSteering": 0.1229842591100834,
+        "maxSuspension": 0.15678994455654485,
+        "roadSamples": 614,
+        "rampSamples": 80
+      }
+    ]
+  },
+  "preservation": {
+    "events": 51,
+    "eventDigest": "a335a1d385306a713839f43230ff4f7535ffa4bb8883f98aa6c4580aaff5e84e",
+    "scriptedEnd": 180,
+    "cameras": 27,
+    "cameraDigest": "6698643872c2467270cfbd176ac9277a1ffec3f93367fe94a40350c1668209db",
+    "cues": 10,
+    "cueDigest": "f35de507ab151a259c973e0c742bba3efa03a9d60a673ffbcf47c942076149a6",
+    "sampledWorlds": 31,
+    "worldDigest": "9bab4457d16ee7080aeae97361b727a56c46ada8f97460d20af3b53469301981",
+    "mountedDigest": "1f17c3920774e2cb40a926905e4376f794675c10045c0df4d1cce091f06dead2",
+    "craftPerSample": 2,
+    "lavsPerSample": 8,
+    "wheelsPerSample": 64,
+    "maxWheelCenterError": 9.094947017729282e-13,
+    "sampledTimes": [0, 110, 125, 141, 142.6, 148, 152.6, 155, 157.25, 158.8, 160, 162, 162.75, 164, 165.2, 166, 168.75, 170, 173.1, 176, 180, 180.75, 184.56, 186.75, 187.6, 188.2, 207, 225, 250, 344.1, 7200],
+    "environmentSamples": [
+      {
+        "t": 58,
+        "preset": "inspection-bay",
+        "meshes": 34,
+        "digest": "7afd3e1bfff0e0f93d213fbd82aa253fd326f4c9933151ed5ca12334fe7db14e"
+      },
+      {
+        "t": 92.95,
+        "preset": "fuel-shock",
+        "meshes": 34,
+        "digest": "2a71971f592bc98839c0f95ef88786576c6421343fdebb6dad06d6fd430f8c0f"
+      },
+      {
+        "t": 93.44,
+        "preset": "fuel-shock",
+        "meshes": 34,
+        "digest": "e30dd46b0c9bb458782f580064702d3e2271b766fdbc3a13b2d2d4df75f6d4d0"
+      },
+      {
+        "t": 157.25,
+        "preset": "shore-break",
+        "meshes": 34,
+        "digest": "200197d5180f627236ab5503f088e316b9482d75f41ed44ee056bfd33f41d82c"
+      },
+      {
+        "t": 188.2,
+        "preset": "shore-break",
+        "meshes": 34,
+        "digest": "611dd4d7354c2705fd335056cfda2422abc5813a8ad4722c113a5e109ae18e15"
+      },
+      {
+        "t": 7200,
+        "preset": "shore-break",
+        "meshes": 34,
+        "digest": "82f7b1ee4de3bdba4cc55b84efa6d0117a919954312f4970205cb5a3f069073b"
+      }
+    ],
+    "surfDigest": "fac9231492ff229afd1461f8bfcc2df9460c448f60597b99a6077d3db2bc2443",
+    "cycles": {
+      "before": {
+        "end": {
+          "t": 168.75,
+          "preset": "lav-east"
+        },
+        "modelCounts": {
+          "meshes": 402,
+          "geometries": 9,
+          "materials": 11,
+          "textures": 0
+        },
+        "repeated": [
+          {
+            "geometries": 1032,
+            "textures": 4,
+            "programs": 389
+          },
+          {
+            "geometries": 1032,
+            "textures": 4,
+            "programs": 389
+          },
+          {
+            "geometries": 1032,
+            "textures": 4,
+            "programs": 389
+          },
+          {
+            "geometries": 1032,
+            "textures": 4,
+            "programs": 389
+          },
+          {
+            "geometries": 1032,
+            "textures": 4,
+            "programs": 389
+          }
+        ],
+        "recovery": null,
+        "disposal": {
+          "owners": [
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            }
+          ],
+          "activeRoot": false
+        },
+        "logs": [
+          ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+          ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."]
+        ]
+      },
+      "after": {
+        "end": {
+          "t": 168.75,
+          "preset": "lav-east"
+        },
+        "modelCounts": {
+          "meshes": 268,
+          "geometries": 14,
+          "materials": 16,
+          "textures": 3
+        },
+        "repeated": [
+          {
+            "geometries": 1037,
+            "textures": 7,
+            "programs": 405
+          },
+          {
+            "geometries": 1037,
+            "textures": 7,
+            "programs": 405
+          },
+          {
+            "geometries": 1037,
+            "textures": 7,
+            "programs": 405
+          },
+          {
+            "geometries": 1037,
+            "textures": 7,
+            "programs": 405
+          },
+          {
+            "geometries": 1037,
+            "textures": 7,
+            "programs": 405
+          }
+        ],
+        "recovery": {
+          "lost": {
+            "timeSeconds": 169.04999999999998,
+            "isPlaying": false,
+            "speed": 1,
+            "preset": "lav-east",
+            "cue": 164,
+            "requestId": 55
+          },
+          "restored": {
+            "timeSeconds": 169.04999999999998,
+            "isPlaying": false,
+            "speed": 1,
+            "preset": "lav-east",
+            "cue": 164,
+            "requestId": 55
+          },
+          "jobs": 9
+        },
+        "disposal": {
+          "owners": [
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "texture",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "texture",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "texture",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            },
+            {
+              "type": "geometry",
+              "count": 1
+            },
+            {
+              "type": "material",
+              "count": 1
+            }
+          ],
+          "activeRoot": false
+        },
+        "logs": [
+          ["error", "Failed to load resource: the server responded with a status of 404 (Not Found)"],
+          ["warning", "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: delete: object does not belong to this context"],
+          ["warning", "WebGL: INVALID_OPERATION: deleteVertexArray: object does not belong to this context"],
+          ["warning", "WebGL: too many errors, no more errors will be reported to the console for this context."]
+        ]
+      }
+    }
+  },
+  "fixtures": {
+    "src/simulation/fixtures/stage7cConstructionPreservation.json": {
+      "sha256": "8fd42db977266f73474c3b5170e7eac8a4d1343cf043de1e9702631d42aef7f8",
+      "bytes": 53062,
+      "exactCommittedBlob": true,
+      "formatterExcluded": true
+    },
+    "src/simulation/fixtures/stage7cPresentationPreservation.json": {
+      "sha256": "b9b2edaa99a7a2ad8cea44e9e643be0e478c8edeb7d034cadc7aa2caed1e0df3",
+      "bytes": 58811,
+      "exactCommittedBlob": true,
+      "formatterExcluded": true
+    }
+  },
+  "media": {
+    "tracked": false,
+    "paired1x": {
+      "east-approach": {
+        "windowSeconds": [151.8, 166.3],
+        "stream": {
+          "codec_name": "h264",
+          "width": 2560,
+          "height": 762,
+          "avg_frame_rate": "30/1",
+          "duration": "14.500000",
+          "nb_frames": "435"
+        },
+        "outputFrames": 435,
+        "nativeFrames": {
+          "before": 441,
+          "after": 437
+        },
+        "sharedSourceTicksUsed": 326,
+        "maxOffsetFromOutputTimeMs": 100.0,
+        "matchedVisibleClockEventAndPresetMasks": true,
+        "cuts": [
+          [152, "shore-break", 152],
+          [164.03333333333265, "lav-east", 164]
+        ]
+      },
+      "east-unloading": {
+        "windowSeconds": [165.7, 188.4],
+        "stream": {
+          "codec_name": "h264",
+          "width": 2560,
+          "height": 762,
+          "avg_frame_rate": "30/1",
+          "duration": "22.700000",
+          "nb_frames": "681"
+        },
+        "outputFrames": 681,
+        "nativeFrames": {
+          "before": 689,
+          "after": 689
+        },
+        "sharedSourceTicksUsed": 617,
+        "maxOffsetFromOutputTimeMs": 100.0,
+        "matchedVisibleClockEventAndPresetMasks": true,
+        "cuts": [[173.0333333333329, "lcac-east", 173]]
+      }
+    },
+    "sha256": {
+      "stage9b-evidence/stills/east-loaded.png": "2eb9d6608019b1fb92240b948061b4d7d8cfed5b41319f62d201024f425c2e7b",
+      "stage9b-evidence/stills/east-shallows.png": "19344a874ebb71948ed2b1c8b08ee434ba6a55704629d0ca8b41bf4545ed7a23",
+      "stage9b-evidence/stills/east-shore-break.png": "7d82382a141c7d36c0cea84be91cfd77373f87ecebb0ce990a31a75da35509d4",
+      "stage9b-evidence/stills/east-deck-ready.png": "0299baa69acb5dd434b0a8d9289f07bb270a5338598d1f400f8602a4718bef50",
+      "stage9b-evidence/stills/east-ramp-first.png": "34f41586e35649a295893bb3267565888c8468a55334fbf7bf1351b670aaba3c",
+      "stage9b-evidence/stills/east-last-transfer.png": "472530c3bc00215cc0e10f24e20b158bdc4f387605f2f40275b9f956e64b5a10",
+      "stage9b-evidence/stills/east-road.png": "32f8f64326ab3f8f8ebdf052134cec2b3cef2b631d07a0d84e6b7305d9f31462",
+      "stage9b-evidence/stills/deck-close.png": "36fb96cf24fc797eb37fcef9b1082761bb8735d10537b352c9789059db5fb9a4",
+      "stage9b-evidence/stills/stern-close.png": "43ef9fc4b09fce5d058c6c2810d4f43e8f7a7f0c73f0f372a379706dc923814d",
+      "stage9b-evidence/stills/lav-close.png": "7e7f89fb9f6d41675bd6f865b97a278afe81b87a577e0df54101c9261f988273",
+      "stage9b-evidence/stills/west-ramp-first.png": "b3be68544eb9c8b3bb67f4eb2889f30b9a04735b0aba338643ae132ab6aab4c9",
+      "stage9b-evidence/stills/west-road.png": "6d7d2cc84fbe8926d3daf6a27e6d57e4282491cc78ae98143fdce8c0252b761d",
+      "stage9b-evidence/east-approach-paired.mp4": "c4e83823303d498781d799c81f27b23319d4e6763a0ba7d39b1660da7a2723fa",
+      "stage9b-evidence/east-unloading-paired.mp4": "9f8f91223fa8ed0b244bfef5f81603c70221fbfa558ae5cac56b27ac94bcba43"
+    }
+  }
+}

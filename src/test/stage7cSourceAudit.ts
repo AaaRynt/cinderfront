@@ -25,6 +25,10 @@ const stage9aViewerChanges: Readonly<Record<string, string>> = {
   'src/scene/camera/CameraRig.tsx': 'leave the guide on actual orbit, pan or zoom input and retain existing framing',
   'src/scene/camera/cameraStore.ts': 'hold the active cue and issue requests only for cuts or explicit camera actions',
 }
+const stage9bVehicleChanges: Readonly<Record<string, string>> = {
+  'src/scene/vehicles/LandingModels.tsx': 'mount the revised shared presentation meshes under the existing landing and wheel transforms',
+  'src/scene/vehicles/landingModelResources.ts': 'own the revised geometry and flush finish textures alongside the exact support geometry',
+}
 const bytes = new Map<string, Buffer>()
 
 function sourceAt(revision: string, path: string): Buffer {
@@ -38,6 +42,7 @@ function sourceAt(revision: string, path: string): Buffer {
 }
 
 export function stage7cHistoricalSource(path: string): Buffer {
+  if (Object.hasOwn(stage9bVehicleChanges, path)) return sourceAt('b7ad822', path)
   const viewerReference = Object.hasOwn(stage9aViewerChanges, path) ? sourceAt('94df448', path) : undefined
   if (path === 'src/scene/world/WorldShell.tsx') {
     // Stage 8B replaces the Stage 8A mount with the local presentation group.

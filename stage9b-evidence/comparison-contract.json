@@ -1,0 +1,43 @@
+{
+  "reference": "b7ad822",
+  "frozenBeforeModelEdits": true,
+  "viewport": [1280, 720],
+  "dpr": 1,
+  "budgetPerPose": {
+    "submittedDraws": 40,
+    "submittedTriangleIncreasePercent": 10,
+    "shadowDraws": 6,
+    "shadowTriangles": 6000,
+    "addedLights": 0
+  },
+  "poses": [
+    { "id": "east-loaded", "t": 110, "preset": "lcac-east" },
+    { "id": "east-shallows", "t": 152.6, "preset": "lcac-east" },
+    { "id": "east-shore-break", "t": 157.25, "preset": "shore-break", "guided": true },
+    { "id": "east-deck-ready", "t": 165.2, "preset": "lav-east", "guided": true },
+    { "id": "east-ramp-first", "t": 168.75, "preset": "lav-east", "guided": true },
+    { "id": "east-guide-final", "t": 173.1, "preset": "lcac-east", "guided": true },
+    { "id": "east-busy", "t": 176, "preset": "lcac-east", "guided": true },
+    { "id": "east-scripted-end", "t": 180, "preset": "lcac-east", "guided": true },
+    { "id": "east-last-transfer", "t": 186.75, "preset": "lcac-east", "guided": true },
+    { "id": "east-all-ashore", "t": 188.2, "preset": "lcac-east", "guided": true },
+    { "id": "east-road", "t": 207, "preset": "lav-east" },
+    { "id": "west-loaded", "t": 110, "preset": "lcac-west" },
+    { "id": "west-shallows", "t": 142.6, "preset": "lcac-west" },
+    { "id": "west-ramp-first", "t": 162.75, "preset": "lav-west" },
+    { "id": "west-last-transfer", "t": 180.75, "preset": "lcac-west" },
+    { "id": "west-road", "t": 207, "preset": "lav-west" },
+    { "id": "deck-close", "t": 187.9, "preset": "lcac-east", "close": { "actor": "attacker_lcac_02", "eye": [15, 9, -18], "aim": [0, 1.2, -5] } },
+    { "id": "stern-close", "t": 185.6, "preset": "lcac-east", "close": { "actor": "attacker_lcac_02", "eye": [13, 8, 19.5], "aim": [1.2, 2.4, 8.3] } },
+    { "id": "lav-close", "t": 207, "preset": "lav-east", "close": { "actor": "attacker_lav_05", "eye": [6.5, 3.7, -6.9], "aim": [0, 1.25, -0.15] } }
+  ],
+  "clips": [
+    { "id": "east-approach", "start": 151.8, "end": 166.3, "presets": ["ammunition", "shore-break", "lav-east"] },
+    { "id": "east-unloading", "start": 165.7, "end": 188.4, "presets": ["lav-east", "lcac-east"] }
+  ],
+  "pacing": [
+    { "id": "ramp-pacing", "start": 165.7, "end": 176, "presets": ["lav-east", "lcac-east"] },
+    { "id": "last-transfer-pacing", "start": 179.5, "end": 189.5, "presets": ["lcac-east"] }
+  ],
+  "mountedSampleTimes": [0, 110, 125, 141, 142.6, 148, 152.6, 155, 157.25, 158.8, 160, 162, 162.75, 164, 165.2, 166, 168.75, 170, 173.1, 176, 180, 180.75, 184.56, 186.75, 187.6, 188.2, 207, 225, 250, 344.1, 7200]
+}

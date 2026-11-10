@@ -385,3 +385,9 @@ Twenty-two matched poses add at most eight draws, 4.58% triangles and two shadow
 Ash Harbor now offers an optional ten-shot Guided view and four paused Highlights. The guide follows the observation clock through the last LCAC transfer. Preset selection and orbit, pan or zoom restore manual control. The HUD shows the active shot and carries the Cinderfront product label.
 
 The native 1× run reached T+189.07. All 24 matched canvas captures and 1,053 sampled manual frames agree with Stage 8D. Both pinned Stage 7C fixtures are restored in the working Git diff. Both TypeScript checks, lint, 805 tests across 77 files and whitespace checks passed. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
+
+## Stage 9B — Landing Craft and LAV Visual Finish (2026-11-10)
+
+Refined both shared landing vehicle models. Rounded rubber skirts, plated deck edges, ducted fans and inset machinery distinguish the LCAC assemblies. The LAV-25s have faceted armor, scalloped wheel arches and layered hubs. Flush finish textures leave the original support geometry intact.
+
+Two paired 1× clips show the existing guided approach and unloading. Both groups pass full mounted clearance checks, and the 31 mounted comparisons match the original contact and motion. Draw submissions fell by 15–67 across 19 matched poses, with a 3.30% maximum triangle increase and zero added lights. Both TypeScript checks, lint, 810 tests across 78 files and whitespace checks passed. [Stage 9B acceptance and evidence](STAGE9B_ACCEPTANCE.md)

@@ -22,6 +22,8 @@ The scenario and map specifications should not be casually rewritten during impl
 
 ## Current Sequencing Decision
 
+**Stage 9B, Landing Craft and LAV Visual Finish, is COMPLETE.** The shared LCAC and LAV-25 models read more clearly through the original guided approach and unloading. Both landing groups pass mounted clearance checks, and all 19 matched poses meet the rendering ceilings. [Stage 9B acceptance and evidence](STAGE9B_ACCEPTANCE.md)
+
 **Stage 9A, Guided Observation and Highlights, is COMPLETE.** The optional ten-shot guide follows Ash Harbor from the offshore opening through the final ramp transfers. Four paused previews and manual camera takeover are available from the existing viewer. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
 
 **Stage 8D, Scenery Continuity and Detail Views, is COMPLETE.** The rescue-branch approach and east landing frontage read in the original presets. Inspection bay, Shore break and Fuel shock are available through the Environment details group. [Stage 8D acceptance and evidence](STAGE8D_ACCEPTANCE.md)
@@ -32,7 +34,7 @@ The scenario and map specifications should not be casually rewritten during impl
 
 **Stage 8A, Ground Detail and Roadside Storytelling, is COMPLETE.** The rescue-branch inspection bay and eastern beach-track marker pass the matched viewer, clearance, rendering cost and preservation checks. [Stage 8A acceptance](STAGE8A_ACCEPTANCE.md).
 
-**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed. Stage 8D verified the restored fixture bytes in its working diff. The blobs in `94df448` still have the earlier serialization. Stage 9A restores both pinned originals in the working Git diff. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06)
+**Stage 7D remains PARTIAL after the November 6 follow-up.** The written startup criteria passed. Stage 8D verified the restored fixture bytes in its working diff. The blobs in `94df448` still have the earlier serialization. Both restored fixture blobs match their pins in the committed Stage 9A reference `b7ad822`. Exact full-viewport RGB, historical playback causality, warm cadence and warm CPU non-regression remain open. [Stage 7D follow-up](STAGE7D_ACCEPTANCE.md#stage-7d-follow-up--2026-11-06)
 
 Original post-core delivery — 2026-11-06: **Stage 7D is PARTIAL.** The optional recorder now owns installation, attachment, callbacks and snapshots; eleven focused tests pass. Application source remains `e817b1c`. The six-context cohort retains all 30 warm windows and 17 cadence misses; the uninterrupted 600.016-second run records 16.8 ms RAF P95 and zero Long Tasks. Both sides pass 613 rendered checkpoints and native recovery/resource checks pass. Exact RGB matches 21 of 25 pairs; unchanged-reference repeats also vary. The original slow-state cause, historical slice bounds and one inherited fixture-byte assertion remain unresolved. [STAGE7D_ACCEPTANCE.md](STAGE7D_ACCEPTANCE.md) records the full evidence.
 
@@ -68,6 +70,7 @@ The intended sequence is:
 10. develop two ground and roadside samples in Stage 8A, then evaluate shore waves and wind in Stage 8B and local blast response in Stage 8C.
 11. integrate the Stage 8 samples into normal viewing in Stage 8D, with limited roadside and coastal extension and three accessible detail views.
 12. connect the existing scenes in Stage 9A through an optional guide and a compact Highlights control.
+13. refine the two shared landing vehicle models in Stage 9B and validate them through the existing guided unloading sequence.
 
 This sequencing does not authorize generalized vehicle AI, pathfinding, emergent combat simulation, or nondeterministic outcomes. Movement and reactions remain authored and derived from absolute simulation time.
 
@@ -680,7 +683,7 @@ Turn the complete functional battlefield into the final visual experience.
 
 ## Execution Rounds
 
-The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A–8D prompts are preserved in `81f5c10` / `f98e1fc` / `e439bdd` / `94df448`, and the current `prompt.md` targets Stage 9A.
+The Stage 6A contract was prepared on 2026-10-17 against completed Stage 5C commit `b49db45`: 421 recorded passing tests across 37 files, 51 events, 24 cameras and a finite T+180 endpoint. Those are inherited baseline results. Stage 6A/6B delivery and verification remain dated below. Current Stage 6C results are in `STAGE6C_ACCEPTANCE.md`; Stage 6C and parent Stage 6 are COMPLETE for the agreed scope. The Stage 6B/6C/7A/7B/7C prompts are preserved in `5f940b5` / `1bc6bdc` / `62edc66` / `9c0208b` / `e817b1c`; the Stage 8A–8D prompts are preserved in `81f5c10` / `f98e1fc` / `e439bdd` / `94df448`, the Stage 9A prompt is preserved in `b7ad822`, and the current `prompt.md` targets Stage 9B.
 
 ### Stage 6A — Ground Landscape, Vegetation, Rocks, and Sparse Trees
 
@@ -1225,7 +1228,13 @@ Five matched 1× sequences, 22 cost checkpoints and keyboard, playback and short
 
 **Complete, 2026-11-07.** Manual view remains the default. Guided view reads the existing observation clock and uses ten of the 27 presets. Highlights pauses and selects a manual shot at the inspection bay, fuel front, shore break or first east LAV transfer.
 
-A continuous 1× run held the final camera through T+189.07. Keyboard and mouse input, nonadjacent seeks, short viewport and WebGL recovery passed. All 24 matched canvas comparisons and 1,053 manual frame samples match Stage 8D. Both pinned fixture repairs are present in the working Git diff. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
+A continuous 1× run held the final camera through T+189.07. Keyboard and mouse input, nonadjacent seeks, short viewport and WebGL recovery passed. All 24 matched canvas comparisons and 1,053 manual frame samples match Stage 8D. Both fixture blobs in the delivered commit `b7ad822` match their pinned hashes. [Stage 9A acceptance and evidence](STAGE9A_ACCEPTANCE.md)
+
+# Stage 9B — Landing Craft and LAV Visual Finish
+
+**Complete, 2026-11-10.** The LCACs have rounded segmented skirts, separate machinery, ducted fans and flush deck and ramp markings. The LAV-25s retain the sloped hull, compact turret and eight wheels, with faceted armor, distinct arches and layered hubs.
+
+Native paired 1× clips cover Shore break, LAV east and LCAC 02 through the last transfer. The original contact and mechanics match at 31 mounted checkpoints, and both groups clear their full swept bounds. Draw submissions fell by 15–67 in the 19 matched poses. Both fixture pins and all 810 tests pass. [Stage 9B acceptance and evidence](STAGE9B_ACCEPTANCE.md)
 
 # Out of Current Core Plan
 
